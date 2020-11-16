@@ -8,6 +8,8 @@ import {
   OperationVariables,
   ApolloQueryResult,
   QueryOptions,
+  MutationOptions,
+  FetchResult,
 } from '@apollo/client/core'
 
 import { withScalars } from 'apollo-link-scalars'
@@ -65,4 +67,11 @@ export function useQuery(
 ): Promise<ApolloQueryResult<schema.QueryRoot>> {
   const client = injectClient()
   return client.query<QueryRoot>(options)
+}
+
+export function useMutate(
+  options: MutationOptions<MutationRoot, OperationVariables>
+): Promise<FetchResult<MutationRoot>> {
+  const client = injectClient()
+  return client.mutate<MutationRoot>(options)
 }
