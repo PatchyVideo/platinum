@@ -1664,6 +1664,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/typed.js@npm:^2":
+  version: 2.0.0
+  resolution: "@types/typed.js@npm:2.0.0"
+  checksum: 14b3d39a998d183284d2b5bf41791677774285cea11ff377d64f435734893e5c178f245255744811f08102865f2017e59e13951fb62eed54640358944e942055
+  languageName: node
+  linkType: hard
+
 "@types/websocket@npm:1.0.1":
   version: 1.0.1
   resolution: "@types/websocket@npm:1.0.1"
@@ -6613,6 +6620,7 @@ fsevents@~2.1.2:
     "@graphql-codegen/cli": ^1.17.8
     "@graphql-codegen/introspection": ^1.17.8
     "@graphql-codegen/typescript": ^1.17.9
+    "@types/typed.js": ^2
     "@typescript-eslint/eslint-plugin": ^4.0.1
     "@typescript-eslint/parser": ^4.0.1
     apollo-link-scalars: ^2.0.2
@@ -6628,6 +6636,7 @@ fsevents@~2.1.2:
     postcss-nested: ^4.2.3
     prettier: ^2.1.2
     tailwindcss: 2.0.0-alpha.20
+    typed.js: ^2.0.11
     typescript: ^4.0.5
     vite: ^1.0.0-rc.9
     vue: next
@@ -8242,6 +8251,13 @@ resolve@^1.18.1:
   version: 2.1.0
   resolution: "type@npm:2.1.0"
   checksum: c58a014169b047408ada691db7965506661ed81d47386b23b533696d943dde596ee4708f955cdd7246230a5cd01b4bc11b20875c1ddee5d2fe2fb9dda7968b7a
+  languageName: node
+  linkType: hard
+
+"typed.js@npm:^2.0.11":
+  version: 2.0.11
+  resolution: "typed.js@npm:2.0.11"
+  checksum: c270ed1a04e8093a591fd15c3c44927d54b5942c60373a7e9fd7151038ed3cf858488409bd7d04a53b69f8dac2167d548dcc10276b8bd57db9ecf5cb4417599e
   languageName: node
   linkType: hard
 

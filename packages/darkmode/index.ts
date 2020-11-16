@@ -9,3 +9,7 @@ export function light(): void {
   if (!htmlRoot) return
   htmlRoot.classList.contains('dark') && htmlRoot.classList.remove('dark')
 }
+
+export function currentColorMode(): string {
+  return htmlRoot?.classList.contains('dark') ? 'dark' : 'light'
+}

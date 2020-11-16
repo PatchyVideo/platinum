@@ -17,6 +17,7 @@
     "apollo-link-scalars": "^2.0.2",
     "graphql": "^15.4.0",
     "tailwindcss": "2.0.0-alpha.20",
+    "typed.js": "^2.0.11",
     "vue": "next",
     "vue-i18n": "next",
     "vue-router": "next"
@@ -26,6 +27,7 @@
     "@graphql-codegen/cli": "^1.17.8",
     "@graphql-codegen/introspection": "^1.17.8",
     "@graphql-codegen/typescript": "^1.17.9",
+    "@types/typed.js": "^2",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "autoprefixer": "^9.8.6",

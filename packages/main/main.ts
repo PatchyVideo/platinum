@@ -30,8 +30,8 @@ const router = createRouter({
   strict: true,
   routes: [
     // Routers
-    { path: '/', component: () => import('/@/home/home.vue') },
-    { path: '/video/:vid', component: () => import('/@/video/video.vue') },
+    { path: '/', component: () => import('/@/home/Home.vue') },
+    { path: '/video/:vid', component: () => import('/@/video/Video.vue') },
   ],
 })
 app.use(router)

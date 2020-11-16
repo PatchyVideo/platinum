@@ -11,19 +11,22 @@
       <div class="grid grid-cols-12">
         <!-- Video Player -->
         <div class="col-span-9">
-          <player :url="url"></player>
+          <Player :url="url"></Player>
         </div>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import player from './player/player.vue'
+import Player from './player/Player.vue'
+import Footer from '/@/bar/components/Footer.vue'
 export default defineComponent({
   components: {
-    player,
+    Player,
+    Footer,
   },
 })
 </script>

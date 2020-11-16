@@ -22,15 +22,17 @@
       <input v-model="addCompName" class="border rounded border-black mr-2" />
       <button type="button" class="border rounded border-black px-2" @click="addComp">add</button>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent } from 'vue'
-
+import Footer from '/@/bar/components/Footer.vue'
 export default defineComponent({
   components: {
-    comp_list: defineAsyncComponent(() => import('./components/list.vue')),
+    Footer,
+    comp_list: defineAsyncComponent(() => import('./components/List.vue')),
   },
 })
 </script>
