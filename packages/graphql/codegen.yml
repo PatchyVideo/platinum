@@ -1,0 +1,16 @@
+overwrite: true
+generates:
+  packages/graphql/__generated__/graphql.ts:
+    schema:
+      - 'http://localhost:8080/graphql'
+    plugins:
+      - 'typescript'
+    config:
+      scalars:
+        DateTimeUtc: Date
+        Date: Date
+  packages/graphql/__generated__/graphql.schema.json:
+    schema:
+      - 'http://localhost:8080/graphql'
+    plugins:
+      - 'introspection'
