@@ -2,5 +2,11 @@
   "i18n-ally.localesPaths": "./packages/locales",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "zh-CN",
-  "conventionalCommits.scopes": ["deps", "user", "home", "nav"]
+  "conventionalCommits.scopes": [
+    "deps",
+    "user",
+    "home",
+    "nav",
+    "common"
+  ]
 }

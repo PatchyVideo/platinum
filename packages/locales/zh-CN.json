@@ -1,5 +1,21 @@
 {
   "home": {
     "hello": "你好世界！"
+  },
+  "common": {
+    "footer": {
+      "wiki": "网站维基",
+      "status": "网站状态",
+      "bl-account": "B站官方帐户",
+      "joinus": "招募祈愿",
+      "code": "代码相关",
+      "repositories": "项目仓库",
+      "feedback-issue": "反馈BUG",
+      "contact": "联系我们"
+    }
+  },
+  "darkmode": {
+    "light": "浅色",
+    "dark": "深色"
   }
 }

@@ -1,5 +1,21 @@
 {
   "home": {
     "hello": "Hello World!"
+  },
+  "common": {
+    "footer": {
+      "bl-account": "BiliBili Account",
+      "code": "Development",
+      "contact": "Contact",
+      "feedback-issue": "Report issues",
+      "joinus": "Join us",
+      "repositories": "Repositories",
+      "status": "Status",
+      "wiki": "Wiki"
+    }
+  },
+  "darkmode": {
+    "dark": "Dark",
+    "light": "Light"
   }
 }

@@ -22,7 +22,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Player from './player/Player.vue'
-import Footer from '/@/bar/components/Footer.vue'
+import Footer from '/@/common/components/Footer.vue'
 export default defineComponent({
   components: {
     Player,

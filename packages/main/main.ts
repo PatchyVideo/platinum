@@ -1,6 +1,5 @@
 import { createApp, defineComponent, h } from 'vue'
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
-import { createI18n } from 'vue-i18n'
 
 import '/@/tailwindcss'
 
@@ -36,18 +35,7 @@ const router = createRouter({
 })
 app.use(router)
 
-/* Vue i18n */
-import i18n_zh_CN from '/@/locales/zh-CN.json'
-import i18n_en_US from '/@/locales/en-US.json'
-const i18n = createI18n({
-  locale: 'zh-CN',
-  availableLocales: ['zh-CN', 'en-US'],
-  fallbackLocale: 'zh-CN',
-  messages: {
-    'zh-CN': i18n_zh_CN,
-    'en-US': i18n_en_US,
-  },
-})
+import i18n from '/@/locales'
 app.use(i18n)
 
 app.mount('#app')

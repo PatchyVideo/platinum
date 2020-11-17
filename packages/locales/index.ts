@@ -1,0 +1,59 @@
+import { createI18n } from 'vue-i18n'
+
+import i18n_zh_CN from '/@/locales/zh-CN.json'
+import i18n_en_US from '/@/locales/en-US.json'
+import { computed } from 'vue'
+const messages = {
+  'zh-CN': i18n_zh_CN,
+  'en-US': i18n_en_US,
+}
+
+const langs = Object.keys(messages)
+
+const i18n = createI18n({
+  locale: getBrowserLang() || 'zh-CN',
+  availableLocales: langs,
+  fallbackLocale: 'zh-CN',
+  messages,
+})
+
+export default i18n
+
+function getBrowserLang(): string | undefined {
+  if ('lang' in localStorage) {
+    const lang = localStorage.getItem('lang')
+    if (lang)
+      if (langs.includes(lang)) {
+        return lang // return lang in localStorage
+      } else {
+        localStorage.removeItem('lang') // reset invalid lang
+      }
+  }
+  if (langs.includes(navigator.language)) return navigator.language // return browser lang
+  if (navigator.languages) {
+    for (const lang of navigator.languages) {
+      if (langs.includes(lang)) return lang // return lang in browser langs
+    }
+    // for (const ilang of langs) {
+    //   for (const lang in navigator.languages) {
+    //     if (ilang.indexOf(lang + '-') > -1) return lang // return lang that is similar
+    //   }
+    // }
+  }
+}
+
+function setBrowserLang(lang: string) {
+  if (lang == navigator.language) localStorage.removeItem('lang')
+  if (langs.includes(lang)) localStorage.setItem('lang', lang)
+}
+
+export const locale = computed({
+  get: () => {
+    return i18n.global.locale.value
+  },
+  set: (x: string) => {
+    setBrowserLang(x)
+    i18n.global.locale.value = x
+    location.reload()
+  },
+})

@@ -1,6 +1,6 @@
 <template>
   <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
-    <div class="w-full py-3 px-4">
+    <div v-if="!small" class="w-full py-3 px-4">
       <div class="flex flex-row content-center justify-start">
         <div class="px-5">
           <img src="https://thvideo.tv/img/footImg.c955b6a7.png" />
@@ -22,22 +22,22 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full">
+    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full">
       <div class="text-center font-thin"><span id="footer-typed"></span></div>
     </div>
     <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full">
       <div class="flex flex-row items-center content-center justify-around">
         <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
           <select v-model="colorMode" class="bg-transparent focus:outline-none">
-            <option value="light">浅色</option>
-            <option value="dark">深色</option>
+            <option value="light" v-text="t('darkmode.light')"></option>
+            <option value="dark" v-text="t('darkmode.dark')"></option>
           </select>
         </div>
         <div class="text-center">© 2020 PatchyVideo</div>
         <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-          <select class="bg-transparent focus:outline-none">
-            <option>简体中文</option>
-            <option>English</option>
+          <select v-model="locale" class="bg-transparent focus:outline-none">
+            <option value="zh-CN">简体中文</option>
+            <option value="en-US">English</option>
           </select>
         </div>
       </div>
@@ -45,12 +45,23 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup="props" lang="ts">
 import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '/@/yiyan'
 import { currentColorMode, dark, light } from '/@/darkmode'
+import { useI18n } from 'vue-i18n'
 
+export const { t } = useI18n()
+
+declare const props: {
+  small?: boolean
+}
+
+/* small bar */
+export const small = ref(!!props.small)
+
+/* links */
 export const links: {
   key: string
   links: {
@@ -62,21 +73,21 @@ export const links: {
   {
     key: 'PatchyVideo',
     links: [
-      { key: '网站维基', href: 'https://patchyvideo.wiki/' },
-      { key: '网站状态', href: 'https://status.patchyvideo.com/' },
-      { key: 'B站官方帐户', href: 'https://space.bilibili.com/515657675' },
-      { key: '招募祈愿', href: 'https://patchyvideo.wiki/zh/JoinUs' },
+      { key: t('common.footer.wiki'), href: 'https://patchyvideo.wiki/' },
+      { key: t('common.footer.status'), href: 'https://status.patchyvideo.com/' },
+      { key: t('common.footer.bl-account'), href: 'https://space.bilibili.com/515657675' },
+      { key: t('common.footer.joinus'), href: 'https://patchyvideo.wiki/zh/JoinUs' },
     ],
   },
   {
-    key: '代码相关',
+    key: t('common.footer.code'),
     links: [
-      { key: '项目仓库', href: 'https://patchyvideo.wiki/zh/Repositories' },
-      { key: '反馈BUG', href: 'https://github.com/PatchyVideo/PatchyVideo/issues' },
+      { key: t('common.footer.repositories'), href: 'https://patchyvideo.wiki/zh/Repositories' },
+      { key: t('common.footer.feedback-issue'), href: 'https://github.com/PatchyVideo/PatchyVideo/issues' },
     ],
   },
   {
-    key: '联系我们',
+    key: t('common.footer.contact'),
     links: [
       { key: 'QQ', href: 'https://jq.qq.com/?k=fOJYEJt1' },
       { key: 'Telegram', href: 'https://t.me/PatchyVideo' },
@@ -86,8 +97,8 @@ export const links: {
   },
 ])
 
+/* typed.js */
 let typed: Typed
-
 onMounted(() => {
   typed = new Typed('#footer-typed', {
     strings: getYiyanArray(true, true),
@@ -101,6 +112,7 @@ onUnmounted(() => {
   typed.destroy()
 })
 
+/* color mode */
 export const colorMode = ref(currentColorMode())
 watch(colorMode, (value: string): void => {
   if (value == 'dark') {
@@ -109,6 +121,9 @@ watch(colorMode, (value: string): void => {
     light()
   }
 })
+
+/* language */
+export { locale } from '/@/locales'
 </script>
 
 <style lang="postcss" scoped>
