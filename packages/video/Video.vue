@@ -3,29 +3,34 @@
     <div class="w-full leading-8 align-middle p-1 border-b border-gray-200">PatchyVideo</div>
     <!-- Main Object -->
     <div class="mx-2">
-      <!-- Video Title -->
-      <div>
-        <h1 class="mt-1" v-text="title"></h1>
-        <div class="text-sm text-gray-500">{{ repostType }} {{ uploadTime.toLocaleString() }}</div>
-      </div>
       <div class="grid grid-cols-12">
-        <!-- Video Player -->
         <div class="col-span-9">
-          <Player :url="url"></Player>
+          <!-- Video Title -->
+          <div>
+            <h1 class="mt-1" v-text="videoItem.title"></h1>
+            <div class="text-sm text-gray-500">
+              {{ videoItem.repostType }} {{ videoItem.uploadTime.toLocaleString() }}
+            </div>
+          </div>
+          <!-- Video Player -->
+          <Player :url="videoItem.url"></Player>
+          <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
         </div>
       </div>
     </div>
-    <Footer></Footer>
+    <Footer :small="true"></Footer>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, reactive } from 'vue'
 import Player from './player/Player.vue'
+import MarkdownBlock from '/@/markdown/components/MarkdownBlock.vue'
 import Footer from '/@/common/components/Footer.vue'
 export default defineComponent({
   components: {
     Player,
+    MarkdownBlock,
     Footer,
   },
 })
@@ -39,10 +44,19 @@ import { gql, useQuery } from '/@/graphql'
 const route = useRoute()
 const vid = route.params.vid as string
 
-export const title = ref('少女祈祷中……')
-export const uploadTime = ref(new Date())
-export const url = ref('')
-export const repostType = ref('')
+export const videoItem: {
+  title: string
+  desc: string
+  repostType: string
+  uploadTime: Date
+  url: string
+} = reactive({
+  title: '',
+  desc: '',
+  repostType: '',
+  uploadTime: new Date(),
+  url: '',
+})
 
 useQuery({
   query: gql`
@@ -64,10 +78,11 @@ useQuery({
   `,
 }).then((result) => {
   document.title = result.data.getVideo.item.title
-  title.value = result.data.getVideo.item.title
-  uploadTime.value = result.data.getVideo.item.uploadTime
-  url.value = result.data.getVideo.item.url
-  repostType.value = result.data.getVideo.item.repostType
+  videoItem.title = result.data.getVideo.item.title
+  videoItem.desc = result.data.getVideo.item.desc
+  videoItem.repostType = result.data.getVideo.item.repostType
+  videoItem.uploadTime = result.data.getVideo.item.uploadTime
+  videoItem.url = result.data.getVideo.item.url
 })
 </script>
 

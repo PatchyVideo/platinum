@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n'
 
-import i18n_zh_CN from '/@/locales/zh-CN.json'
-import i18n_en_US from '/@/locales/en-US.json'
+import i18n_zh_CN from './zh-CN.json'
+import i18n_en_US from './en-US.json'
 import { computed } from 'vue'
 const messages = {
   'zh-CN': i18n_zh_CN,
@@ -49,11 +49,11 @@ function setBrowserLang(lang: string) {
 
 export const locale = computed({
   get: () => {
-    return i18n.global.locale.value
+    return i18n.global.locale
   },
   set: (x: string) => {
     setBrowserLang(x)
-    i18n.global.locale.value = x
-    location.reload()
+    i18n.global.locale = x
+    if (confirm(i18n.global.t('locales.change-lang-reload-hint'))) location.reload()
   },
 })

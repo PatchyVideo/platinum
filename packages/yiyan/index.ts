@@ -13,27 +13,26 @@ function getByteLen(val: string): number {
   return len
 }
 
+let shortYiyan: string[] = []
+function getShortYiyan(): string[] {
+  if (shortYiyan.length > 0) return shortYiyan
+  const yy = [...yiyan]
+  shortYiyan = yy.filter((v) => getByteLen(v) <= 80)
+  return shortYiyan
+}
+
 export function getYiyan(short = false): string {
-  let yy = [...yiyan]
-  if (short) {
-    yy = yy.filter((v) => getByteLen(v) <= 80)
-  }
+  const yy = [...(short ? getShortYiyan() : yiyan)]
   const random = Math.floor(Math.random() * yy.length + 1)
   return yy[random]
 }
 
 export function getYiyanArray(short = false, rand = false): string[] {
-  let yy = [...yiyan]
-  if (short) {
-    yy = yy.filter((v) => getByteLen(v) <= 80)
-  }
-  if (rand) {
+  const yy = [...(short ? getShortYiyan() : yiyan)]
+  if (rand)
     for (let i = 1; i < yy.length; i++) {
       const random = Math.floor(Math.random() * (i + 1))
-      const tmp = yy[random]
-      yy[random] = yy[i]
-      yy[i] = tmp
+      ;[yy[i], yy[random]] = [yy[random], yy[i]]
     }
-  }
   return yy
 }

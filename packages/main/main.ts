@@ -4,13 +4,7 @@ import { createRouter, createWebHistory, RouterView } from 'vue-router'
 import '/@/tailwindcss'
 
 /* Dark Mode */
-import { dark } from '/@/darkmode'
-if ('themePreference' in localStorage && localStorage.themePreference === 'dark') {
-  dark()
-} else if (!('themePreference' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  dark()
-}
-document.querySelector('body')?.classList.add('dark:bg-gray-700')
+import '/@/darkmode'
 
 /* Vue App */
 import { createApollo } from '/@/graphql'

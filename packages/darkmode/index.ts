@@ -13,3 +13,10 @@ export function light(): void {
 export function currentColorMode(): string {
   return htmlRoot?.classList.contains('dark') ? 'dark' : 'light'
 }
+
+if ('themePreference' in localStorage && localStorage.themePreference === 'dark') {
+  dark()
+} else if (!('themePreference' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  dark()
+}
+document.querySelector('body')?.classList.add('dark:bg-gray-700')

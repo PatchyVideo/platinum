@@ -17,5 +17,8 @@
   "darkmode": {
     "dark": "Dark",
     "light": "Light"
+  },
+  "locales": {
+    "change-lang-reload-hint": "Some language changes may need a refresh in order to fully apply.\nRefresh the page now?"
   }
 }

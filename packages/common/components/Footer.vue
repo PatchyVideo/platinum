@@ -22,24 +22,22 @@
         </div>
       </div>
     </div>
-    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full">
-      <div class="text-center font-thin"><span id="footer-typed"></span></div>
-    </div>
-    <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full">
-      <div class="flex flex-row items-center content-center justify-around">
-        <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-          <select v-model="colorMode" class="bg-transparent focus:outline-none">
-            <option value="light" v-text="t('darkmode.light')"></option>
-            <option value="dark" v-text="t('darkmode.dark')"></option>
-          </select>
-        </div>
-        <div class="text-center">© 2020 PatchyVideo</div>
-        <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-          <select v-model="locale" class="bg-transparent focus:outline-none">
-            <option value="zh-CN">简体中文</option>
-            <option value="en-US">English</option>
-          </select>
-        </div>
+    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
+    <div class="text-center font-thin"><span id="footer-typed"></span></div>
+    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
+    <div class="flex flex-row items-center content-center justify-around">
+      <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
+        <select v-model="colorMode" class="bg-transparent focus:outline-none">
+          <option value="light" v-text="t('darkmode.light')"></option>
+          <option value="dark" v-text="t('darkmode.dark')"></option>
+        </select>
+      </div>
+      <div class="text-center">© 2020 PatchyVideo</div>
+      <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
+        <select v-model="locale" class="bg-transparent focus:outline-none">
+          <option value="zh-CN">简体中文</option>
+          <option value="en-US">English</option>
+        </select>
       </div>
     </div>
   </div>
