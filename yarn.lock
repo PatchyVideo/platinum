@@ -4496,10 +4496,10 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.3.2":
-  version: 10.3.2
-  resolution: "highlight.js@npm:10.3.2"
-  checksum: 8dab959070ff2e20190cbe7ea9bc03ce0163f0a6a09d88cfec8f7e21ca12111c0553515b4c5b273748da531fb26de8f34a361f6f0f03c1348175d2424e265599
+"highlight.js@npm:^10.4.0":
+  version: 10.4.0
+  resolution: "highlight.js@npm:10.4.0"
+  checksum: df3778043137b223a02fd00878803527154d396b15dce49ee4509e37a21b27d436a812e038b9399ad2ac9dff473828ab74c7a7a84402284bdc635f29a9c8fc3a
   languageName: node
   linkType: hard
 
@@ -6760,7 +6760,7 @@ fsevents@~2.1.2:
     eslint-plugin-prettier: ^3.1.4
     eslint-plugin-vue: next
     graphql: ^15.4.0
-    highlight.js: ^10.3.2
+    highlight.js: ^10.4.0
     husky: ^4.3.0
     lint-staged: ^10.5.1
     markdown-it: ^12.0.2
@@ -7389,7 +7389,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-resolve@^1.18.1:
+resolve@^1.19.0:
   version: 1.19.0
   resolution: "resolve@npm:1.19.0"
   dependencies:
@@ -7408,7 +7408,7 @@ resolve@^1.18.1:
   languageName: node
   linkType: hard
 
-"resolve@patch:resolve@^1.18.1#builtin<compat/resolve>":
+"resolve@patch:resolve@^1.19.0#builtin<compat/resolve>":
   version: 1.19.0
   resolution: "resolve@patch:resolve@npm%3A1.19.0#builtin<compat/resolve>::version=1.19.0&hash=3388aa"
   dependencies:
@@ -8106,8 +8106,8 @@ resolve@^1.18.1:
   linkType: hard
 
 "tailwindcss@npm:compat":
-  version: 2.0.0-alpha.25-compat
-  resolution: "tailwindcss@npm:2.0.0-alpha.25-compat"
+  version: 2.0.1-compat
+  resolution: "tailwindcss@npm:2.0.1-compat"
   dependencies:
     "@fullhuman/postcss-purgecss": ^3.0.0
     autoprefixer: ^9
@@ -8130,11 +8130,11 @@ resolve@^1.18.1:
     postcss-value-parser: ^4.1.0
     pretty-hrtime: ^1.0.3
     reduce-css-calc: ^2.1.6
-    resolve: ^1.18.1
+    resolve: ^1.19.0
   bin:
     tailwind: lib/cli.js
     tailwindcss: lib/cli.js
-  checksum: ded6c8e4c9586835ab56c0f9b439a79d5ce64d6ec0aa45e71067da1f47aeecb50857402993cd423cb98d84845734921ed60d9b0f9e0845132f66a78ed95587c9
+  checksum: f985e78bc5b37a56d9268ee4cd7aa98156a4649bf9b813f581ff3577883f81c4a9374f814cf797cdfffef6a25b06530604cca128afdc0fd8f72a202bffc251e3
   languageName: node
   linkType: hard
 
@@ -8648,13 +8648,13 @@ typescript@^4.0.5:
   linkType: hard
 
 "vue-i18n@npm:next":
-  version: 9.0.0-beta.7
-  resolution: "vue-i18n@npm:9.0.0-beta.7"
+  version: 9.0.0-beta.8
+  resolution: "vue-i18n@npm:9.0.0-beta.8"
   dependencies:
     source-map: 0.6.1
   peerDependencies:
     vue: ^3.0.0
-  checksum: 306f1cc73d3b8a6cbfe75f0cf65644e6a78c506397961f486d9144cba84f6dd55e835c077fe05232f8031c715dab90acb78d5da4bab2a82888cb17817a0ac53d
+  checksum: cb479615fbf5a33f314f8eb5a2c6938a5a1b7919b7516543d520dca8f3cc844fd8352c6b24bd889bdd4ee7c9b4507dbf1d98c4c57539aaeacd8950fc22a85533
   languageName: node
   linkType: hard
 

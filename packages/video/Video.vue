@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent } from 'vue'
 import Player from './player/Player.vue'
 import MarkdownBlock from '/@/markdown/components/MarkdownBlock.vue'
 import Footer from '/@/common/components/Footer.vue'
@@ -37,7 +37,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { gql, useQuery } from '/@/graphql'
 
