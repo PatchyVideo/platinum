@@ -15,11 +15,10 @@ import {
 import { withScalars } from 'apollo-link-scalars'
 import { buildClientSchema, IntrospectionQuery } from 'graphql'
 import jsonSchema from './__generated__/graphql.schema.json'
+import generatedIntrospection from './__generated__/graphql.fragment'
 
 import * as schema from './__generated__/graphql'
 export { schema }
-
-import { QueryRoot, MutationRoot } from './__generated__/graphql'
 
 export { gql } from '@apollo/client/core'
 
@@ -39,7 +38,9 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
     withScalars({ schema: buildClientSchema((jsonSchema as unknown) as IntrospectionQuery), typesMap }),
     new HttpLink({ uri: 'http://localhost:8080/graphql' }),
   ])
-  const cache = new InMemoryCache()
+  const cache = new InMemoryCache({
+    possibleTypes: generatedIntrospection.possibleTypes,
+  })
   const client = new ApolloClient({
     link,
     cache,
@@ -63,15 +64,15 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
 }
 
 export function useQuery(
-  options: QueryOptions<QueryRoot, OperationVariables>
+  options: QueryOptions<schema.QueryRoot, OperationVariables>
 ): Promise<ApolloQueryResult<schema.QueryRoot>> {
   const client = injectClient()
-  return client.query<QueryRoot>(options)
+  return client.query<schema.QueryRoot>(options)
 }
 
 export function useMutate(
-  options: MutationOptions<MutationRoot, OperationVariables>
-): Promise<FetchResult<MutationRoot>> {
+  options: MutationOptions<schema.MutationRoot, OperationVariables>
+): Promise<FetchResult<schema.MutationRoot>> {
   const client = injectClient()
-  return client.mutate<MutationRoot>(options)
+  return client.mutate<schema.MutationRoot>(options)
 }

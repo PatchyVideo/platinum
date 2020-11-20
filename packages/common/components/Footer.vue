@@ -23,7 +23,7 @@
       </div>
     </div>
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div class="text-center font-thin"><span id="footer-typed"></span></div>
+    <div v-if="!small" class="text-center font-thin"><span id="footer-typed"></span></div>
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
     <div class="flex flex-row items-center content-center justify-around">
       <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
@@ -98,16 +98,17 @@ export const links: {
 /* typed.js */
 let typed: Typed
 onMounted(() => {
-  typed = new Typed('#footer-typed', {
-    strings: getYiyanArray(true, true),
-    typeSpeed: 50,
-    backSpeed: 15,
-    backDelay: 4000,
-    loop: true,
-  })
+  if (!small.value)
+    typed = new Typed('#footer-typed', {
+      strings: getYiyanArray(true, true),
+      typeSpeed: 50,
+      backSpeed: 15,
+      backDelay: 4000,
+      loop: true,
+    })
 })
 onUnmounted(() => {
-  typed.destroy()
+  if (typed?.destroy) typed.destroy()
 })
 
 /* color mode */
