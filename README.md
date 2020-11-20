@@ -3,7 +3,7 @@
 > A always-experimental frontend for [PatchyVideo/PatchyVideo](https://github.com/PatchyVideo/PatchyVideo).
 > (Currently using [PatchyVideo/pvgql](https://github.com/PatchyVideo/pvgql) as backend.)
 
-This is a **completely** rewrite of [PatchyVideo/patchyvideo-vue](https://github.com/PatchyVideo/patchyvideo-vue).
+This is a **complete** rewrite of [PatchyVideo/patchyvideo-vue](https://github.com/PatchyVideo/patchyvideo-vue).
 
 ## What's New?
 

@@ -12,7 +12,6 @@ module.exports = {
   optimizeDeps: {
     include: [
       '@apollo/client/core',
-      'vue',
       'highlight.js/lib/core',
       'highlight.js/lib/languages/properties',
       'highlight.js/lib/languages/apache',

@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import Player from './player/Player.vue'
+import Player from './components/Player.vue'
 import MarkdownBlock from '/@/markdown/components/MarkdownBlock.vue'
 import Footer from '/@/common/components/Footer.vue'
 export default defineComponent({
