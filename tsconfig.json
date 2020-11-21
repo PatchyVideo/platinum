@@ -1,5 +1,5 @@
 {
-  "include": ["packages", "node_modules/**/types"],
+  "include": ["packages"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",

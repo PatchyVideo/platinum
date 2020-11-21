@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it'
-import hljs from './hljs'
+import hljs from 'highlight.js'
 import tlds from 'tlds'
 
 const markdownIt = new MarkdownIt({

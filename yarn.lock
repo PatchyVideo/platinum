@@ -1307,15 +1307,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/css-next@npm:^0.0.0-6d181f9":
-  version: 0.0.0-fedb8bd
-  resolution: "@primer/css-next@npm:0.0.0-fedb8bd"
+"@primer/css-next@npm:canary":
+  version: 0.0.0-5c39e22
+  resolution: "@primer/css-next@npm:0.0.0-5c39e22"
   dependencies:
     "@primer/octicons": ^9.1.1
-    "@primer/primitives": 0.0.0-9ef25e1
+    "@primer/primitives": 0.0.0-20201019154814
   bin:
     primer-migrate: bin/primer-migrate
-  checksum: b32f9ce00a0de633440e1af1e16cb34c2cc57d911633ca4cec2f46b9a2e85e97500bda4adc7c99a0c06b4b209c763eed4fa79a4cbdee458d498028a04c50d34f
+  checksum: e2b2b4806f026fbdc46937d378b0cb98d3198821060bfc5e8c9ca9ba011f931fbe25cdf103393029ed8149a5e04e9fe5ce616e390980313ef69412f1ce4249fb
   languageName: node
   linkType: hard
 
@@ -1328,10 +1328,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/primitives@npm:0.0.0-9ef25e1":
-  version: 0.0.0-9ef25e1
-  resolution: "@primer/primitives@npm:0.0.0-9ef25e1"
-  checksum: bcd9a4cd380fe601e19377679c31f04dce819070fc8901384692d022574076fc392d77be3a5cb8204de0f06eccb8e964278aa9e9b46ae5033fb3d632876e4358
+"@primer/primitives@npm:0.0.0-20201019154814":
+  version: 0.0.0-20201019154814
+  resolution: "@primer/primitives@npm:0.0.0-20201019154814"
+  checksum: a6d3e678e4e4b683cdb2cfb5e40d8029d4bf9ee47e6ebfb746d8dc6ebd62319c06ca9814760f6eb216a7c0a84b1aba08f5ac48e885269b7120b9f1b742d27ad2
   languageName: node
   linkType: hard
 
@@ -3684,9 +3684,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^7.13.0":
-  version: 7.13.0
-  resolution: "eslint@npm:7.13.0"
+"eslint@npm:^7.14.0":
+  version: 7.14.0
+  resolution: "eslint@npm:7.14.0"
   dependencies:
     "@babel/code-frame": ^7.0.0
     "@eslint/eslintrc": ^0.2.1
@@ -3727,7 +3727,7 @@ __metadata:
     v8-compile-cache: ^2.0.3
   bin:
     eslint: bin/eslint.js
-  checksum: 6ea6c763f1b1e484ec5da67e10125cc9b6ccef5c355470cb71a2e29c70b24c0ef325dd45e775800dd78dbcfba2a9c85b9096f438cdb468b32b6680c2ddebb459
+  checksum: 6c1c9ae3cd1ec1c9238a92380049509e9c18fecfb4c9982d4f4d49ec681ec7a2cbc04bbd354ddf10588727f143a158c7a0a82b2fd662197f554bd435cfdb250f
   languageName: node
   linkType: hard
 
@@ -4496,7 +4496,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^10.4.0":
+highlight.js@^10.4.0:
   version: 10.4.0
   resolution: "highlight.js@npm:10.4.0"
   checksum: df3778043137b223a02fd00878803527154d396b15dce49ee4509e37a21b27d436a812e038b9399ad2ac9dff473828ab74c7a7a84402284bdc635f29a9c8fc3a
@@ -4507,6 +4507,13 @@ fsevents@~2.1.2:
   version: 9.18.3
   resolution: "highlight.js@npm:9.18.3"
   checksum: b6b518f937ce65779cbebb219f94ed685cdbad142f222a183afa5d0dd24dfb6b1aeaef40087ff74a2ea978c3ae9b814452bfdef685c98971e4b840f306ccdb82
+  languageName: node
+  linkType: hard
+
+"highlight.js@patch:highlight.js@^10.4.0#./.yarn/diffs/highlight.js.diff::locator=plactirume%40workspace%3A.":
+  version: 10.4.0
+  resolution: "highlight.js@patch:highlight.js@npm%3A10.4.0#./.yarn/diffs/highlight.js.diff::version=10.4.0&hash=e1f1b2&locator=plactirume%40workspace%3A."
+  checksum: eabaf2739f252fbecf52f4091f4d6685a6d97139e4c032b462d6e6e52a09405bf5ac343eac33f546b97c1a8f93f258a5b0c2be2bba37dd7475955d75da3efadd
   languageName: node
   linkType: hard
 
@@ -6747,7 +6754,7 @@ fsevents@~2.1.2:
     "@graphql-codegen/cli": ^1.17.8
     "@graphql-codegen/introspection": ^1.17.8
     "@graphql-codegen/typescript": ^1.17.9
-    "@primer/css-next": ^0.0.0-6d181f9
+    "@primer/css-next": canary
     "@types/markdown-it": ^10.0.3
     "@types/tlds": ^1
     "@types/typed.js": ^2
@@ -6755,12 +6762,12 @@ fsevents@~2.1.2:
     "@typescript-eslint/parser": ^4.0.1
     apollo-link-scalars: ^2.0.2
     autoprefixer: ^9.8.6
-    eslint: ^7.13.0
+    eslint: ^7.14.0
     eslint-config-prettier: ^6.15.0
     eslint-plugin-prettier: ^3.1.4
     eslint-plugin-vue: next
     graphql: ^15.4.0
-    highlight.js: ^10.4.0
+    highlight.js: "patch:highlight.js@^10.4.0#./.yarn/diffs/highlight.js.diff"
     husky: ^4.3.0
     lint-staged: ^10.5.1
     markdown-it: ^12.0.2
@@ -8659,11 +8666,11 @@ typescript@^4.0.5:
   linkType: hard
 
 "vue-router@npm:next":
-  version: 4.0.0-rc.3
-  resolution: "vue-router@npm:4.0.0-rc.3"
+  version: 4.0.0-rc.4
+  resolution: "vue-router@npm:4.0.0-rc.4"
   peerDependencies:
     vue: ^3.0.0
-  checksum: 75e335427eed24c7c026b73af2d7672d47863cd2539a6d5fede23d3e3b6170e39b1232c5d283cc7d1e14c7543e01174985a47aed39f8f5324a3d28b11c958ce4
+  checksum: 565d604a5f57c3aca6ee9cd1a74a5c15d0000423720aa23fa67054e31b35f15c61dbaab20ef0d4dfff100ca6599a68609e1570ba55a8e9d37a4a1c4ec8fa7b84
   languageName: node
   linkType: hard
 
