@@ -2,20 +2,20 @@
   <div ref="root" class="w-full bg-gray-200" :style="{ height: height + 'px' }">Player {{ url }}</div>
 </template>
 
-<script setup="props" lang="ts">
-import { computed, onMounted, onUnmounted, Ref, ref } from 'vue'
+<script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref, defineProps } from 'vue'
 
-declare const props: {
+const props = defineProps<{
   url: string
-}
+}>()
 
-export const url = ref(props.url)
+const url = ref(props.url)
 
-export const root = (ref(null) as unknown) as Ref<HTMLHtmlElement>
-export const width = ref(0)
-export const height = computed(() => (width.value / 16) * 9)
+const root = ref(HTMLHtmlElement.prototype)
+const width = ref(0)
+const height = computed(() => (width.value / 16) * 9)
 
-export const onResize = (): void => {
+const onResize = (): void => {
   width.value = root.value.clientWidth
 }
 

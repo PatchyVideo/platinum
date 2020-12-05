@@ -44,7 +44,7 @@ import { gql, useQuery } from '/@/graphql'
 const route = useRoute()
 const vid = route.params.vid as string
 
-export const videoItem: {
+const videoItem: {
   title: string
   desc: string
   repostType: string

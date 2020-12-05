@@ -40,18 +40,18 @@ export default defineComponent({
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 
-export { dark, light } from '/@/darkmode'
+import { dark, light } from '/@/darkmode'
 
 interface HomeCompData {
   name: string
   data?: string
 }
 
-export const ucompList: HomeCompData[] = reactive([])
+const ucompList: HomeCompData[] = reactive([])
 
-export const addCompName = ref('')
+const addCompName = ref('')
 
-export const addComp = (): void => {
+const addComp = (): void => {
   ucompList.push({
     name: addCompName.value,
     data: '{"listID":"5e057a1b31929c83a76d18a4"}',

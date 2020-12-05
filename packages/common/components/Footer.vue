@@ -43,24 +43,24 @@
   </div>
 </template>
 
-<script setup="props" lang="ts">
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue'
+<script setup lang="ts">
+import { onMounted, onUnmounted, reactive, ref, watch, defineProps } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '/@/yiyan'
 import { currentColorMode, dark, light } from '/@/darkmode'
 import { useI18n } from 'vue-i18n'
 
-export const { t } = useI18n()
+const { t } = useI18n()
 
-declare const props: {
+const props = defineProps<{
   small?: boolean
-}
+}>()
 
 /* small bar */
-export const small = ref(!!props.small)
+const small = ref(!!props.small)
 
 /* links */
-export const links: {
+const links: {
   key: string
   links: {
     key: string
@@ -112,7 +112,7 @@ onUnmounted(() => {
 })
 
 /* color mode */
-export const colorMode = ref(currentColorMode())
+const colorMode = ref(currentColorMode())
 watch(colorMode, (value: string): void => {
   if (value == 'dark') {
     dark()
@@ -122,7 +122,7 @@ watch(colorMode, (value: string): void => {
 })
 
 /* language */
-export { locale } from '/@/locales'
+import { locale } from '/@/locales'
 </script>
 
 <style lang="postcss" scoped>

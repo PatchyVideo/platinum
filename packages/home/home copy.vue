@@ -35,29 +35,29 @@ useApollo()
     console.log(data.data)
   })
 
-export const ids = ref(['1', '2'])
+const ids = ref(['1', '2'])
 
-export const transferingID = ref(0)
+const transferingID = ref(0)
 
-export const dragstart = (id: number, e: DragEvent): void => {
+const dragstart = (id: number, e: DragEvent): void => {
   transferingID.value = id
   if (e.target) {
     ;(e.target as HTMLElement).style.opacity = '0.5'
   }
 }
 
-export const dragenter = (index: number, e: DragEvent): void => {
+const dragenter = (index: number, e: DragEvent): void => {
   e.preventDefault()
   console.log(transferingID)
 }
 
-export const dragend = (e: DragEvent): void => {
+const dragend = (e: DragEvent): void => {
   if (e.target) {
     ;(e.target as HTMLElement).style.opacity = ''
   }
 }
 
-export const drop = (id: number): void => {
+const drop = (id: number): void => {
   const index = transferingID.value
   ;[ids.value[index], ids.value[id]] = [ids.value[id], ids.value[index]]
 }

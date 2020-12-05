@@ -5,21 +5,20 @@
   </div>
 </template>
 
-<script setup="props" lang="ts">
-import { reactive } from 'vue'
+<script setup lang="ts">
+import { reactive, defineProps } from 'vue'
 
-declare const props: {
+const props = defineProps<{
   data?: string
-}
+}>()
 
 interface HomeCompDataList {
   listID: string
 }
 
-export const data: HomeCompDataList = reactive(JSON.parse(props.data || '{}'))
+const data: HomeCompDataList = reactive(JSON.parse(props.data || '{}'))
 
 console.log(data.listID)
-
 </script>
 
 <style lang="postcss" scoped>
