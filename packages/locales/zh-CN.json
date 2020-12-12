@@ -20,5 +20,10 @@
   },
   "locales": {
     "change-lang-reload-hint": "部分语言修改需要刷新页面才能生效\n现在刷新页面吗？"
+  },
+  "error-pages": {
+    "N404": {
+      "title": "巴瓦鲁魔法服务器并没有这个界面"
+    }
   }
 }

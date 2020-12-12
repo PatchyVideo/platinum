@@ -5,20 +5,26 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { reactive, defineProps } from 'vue'
+<script lang="ts">
+import { reactive, defineComponent } from 'vue'
 
-const props = defineProps<{
-  data?: string
-}>()
+export default defineComponent({
+  props: {
+    data: {
+      type: String,
+      default: '{}',
+    },
+  },
+  setup(props) {
+    interface HomeCompDataList {
+      listID: string
+    }
 
-interface HomeCompDataList {
-  listID: string
-}
+    const data: HomeCompDataList = reactive(JSON.parse(props.data))
 
-const data: HomeCompDataList = reactive(JSON.parse(props.data || '{}'))
-
-console.log(data.listID)
+    console.log(data.listID)
+  },
+})
 </script>
 
 <style lang="postcss" scoped>

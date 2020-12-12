@@ -3,15 +3,24 @@
   <article class="markdown-body" v-html="html"></article>
 </template>
 
-<script setup lang="ts">
-import { computed, defineProps } from 'vue'
+<script lang="ts">
+import { computed, defineComponent } from 'vue'
 import parser from '../parser'
 
-const props = defineProps<{
-  text: string
-}>()
-
-const html = computed(() => parser.render(props.text))
+export default defineComponent({
+  props: {
+    text: {
+      type: String,
+      default: '',
+    },
+  },
+  setup(props) {
+    const html = computed(() => parser.render(props.text))
+    return {
+      html,
+    }
+  },
+})
 </script>
 
 <style lang="postcss" scoped>

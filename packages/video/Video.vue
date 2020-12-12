@@ -23,43 +23,39 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import Player from './components/Player.vue'
 import MarkdownBlock from '/@/markdown/components/MarkdownBlock.vue'
 import Footer from '/@/common/components/Footer.vue'
+import { reactive, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
+import { gql, useQuery } from '/@/graphql'
+
 export default defineComponent({
   components: {
     Player,
     MarkdownBlock,
     Footer,
   },
-})
-</script>
+  setup() {
+    const route = useRoute()
+    const vid = route.params.vid as string
 
-<script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { useRoute } from 'vue-router'
-import { gql, useQuery } from '/@/graphql'
+    const videoItem: {
+      title: string
+      desc: string
+      repostType: string
+      uploadTime: Date
+      url: string
+    } = reactive({
+      title: '',
+      desc: '',
+      repostType: '',
+      uploadTime: new Date(),
+      url: '',
+    })
 
-const route = useRoute()
-const vid = route.params.vid as string
-
-const videoItem: {
-  title: string
-  desc: string
-  repostType: string
-  uploadTime: Date
-  url: string
-} = reactive({
-  title: '',
-  desc: '',
-  repostType: '',
-  uploadTime: new Date(),
-  url: '',
-})
-
-useQuery({
-  query: gql`
+    useQuery({
+      query: gql`
     {
       getVideo(para: { vid: "${vid}", lang: "CHS" }) {
         item {
@@ -76,13 +72,21 @@ useQuery({
       }
     }
   `,
-}).then((result) => {
-  document.title = result.data.getVideo.item.title
-  videoItem.title = result.data.getVideo.item.title
-  videoItem.desc = result.data.getVideo.item.desc
-  videoItem.repostType = result.data.getVideo.item.repostType
-  videoItem.uploadTime = result.data.getVideo.item.uploadTime
-  videoItem.url = result.data.getVideo.item.url
+    }).then((result) => {
+      document.title = result.data.getVideo.item.title
+      videoItem.title = result.data.getVideo.item.title
+      videoItem.desc = result.data.getVideo.item.desc
+      videoItem.repostType = result.data.getVideo.item.repostType
+      videoItem.uploadTime = result.data.getVideo.item.uploadTime
+      videoItem.url = result.data.getVideo.item.url
+    })
+
+    return {
+      route,
+      vid,
+      videoItem,
+    }
+  },
 })
 </script>
 

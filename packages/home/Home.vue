@@ -27,36 +27,41 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent } from 'vue'
+import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
 import Footer from '/@/common/components/Footer.vue'
+import { dark, light } from '/@/darkmode'
+
 export default defineComponent({
   components: {
     Footer,
     comp_list: defineAsyncComponent(() => import('./components/List.vue')),
   },
+  setup() {
+    interface HomeCompData {
+      name: string
+      data?: string
+    }
+
+    const ucompList: HomeCompData[] = reactive([])
+
+    const addCompName = ref('')
+
+    const addComp = (): void => {
+      ucompList.push({
+        name: addCompName.value,
+        data: '{"listID":"5e057a1b31929c83a76d18a4"}',
+      })
+    }
+
+    return {
+      ucompList,
+      addCompName,
+      addComp,
+      dark,
+      light,
+    }
+  },
 })
-</script>
-
-<script setup lang="ts">
-import { reactive, ref } from 'vue'
-
-import { dark, light } from '/@/darkmode'
-
-interface HomeCompData {
-  name: string
-  data?: string
-}
-
-const ucompList: HomeCompData[] = reactive([])
-
-const addCompName = ref('')
-
-const addComp = (): void => {
-  ucompList.push({
-    name: addCompName.value,
-    data: '{"listID":"5e057a1b31929c83a76d18a4"}',
-  })
-}
 </script>
 
 <style lang="postcss" scoped>

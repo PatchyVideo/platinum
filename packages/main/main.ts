@@ -25,6 +25,8 @@ const router = createRouter({
     // Routers
     { path: '/', component: () => import('/@/home/Home.vue') },
     { path: '/video/:vid', component: () => import('/@/video/Video.vue') },
+    { path: '/debug/error-pages/404', component: () => import('/@/error-pages/components/404.vue') },
+    { path: '/:url+', component: () => import('/@/error-pages/components/404.vue') },
   ],
 })
 app.use(router)
