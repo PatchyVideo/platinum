@@ -56,7 +56,7 @@ export default defineComponent({
 
     useQuery({
       query: gql`
-    {
+    query pvgql {
       getVideo(para: { vid: "${vid}", lang: "CHS" }) {
         item {
           title

@@ -26,7 +26,7 @@ import { gql, schema, useApollo } from '/@/graphql'
 useApollo()
   .mutate<schema.MutationRoot>({
     mutation: gql`
-      mutation {
+      mutation check {
         serverDate
       }
     `,

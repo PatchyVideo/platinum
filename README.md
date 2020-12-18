@@ -1,4 +1,4 @@
-# Plactirume
+# Platinum
 
 > A always-experimental frontend for [PatchyVideo/PatchyVideo](https://github.com/PatchyVideo/PatchyVideo).
 > (Currently using [PatchyVideo/pvgql](https://github.com/PatchyVideo/pvgql) as backend.)
@@ -27,8 +27,8 @@ and we built an entire new website with:
 ## Getting Started
 
 ```bash
-$ git clone https://PatchyVideo/plactirume
-$ cd plactirume
+$ git clone https://PatchyVideo/platinum
+$ cd platinum
 $ yarn
 $ yarn codegen # generate code schema
 $ yarn dev # launch vite dev server

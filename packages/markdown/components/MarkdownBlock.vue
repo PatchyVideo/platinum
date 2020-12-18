@@ -24,6 +24,6 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-@import '@primer/css-next/dist/markdown.css';
+@import '@primer/css/dist/markdown.css';
 @import 'highlight.js/styles/atom-one-light.css';
 </style>

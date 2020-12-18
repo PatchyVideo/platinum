@@ -1,18 +1,26 @@
 import { createApp, defineComponent, h } from 'vue'
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
+import { BuildedFragment, createApollo, createGraphQLRoot, provideClient } from '/@/graphql'
 
 import '/@/tailwindcss'
 
 /* Dark Mode */
 import '/@/darkmode'
 
+/* GraphQL */
+const client = createApollo()
+const onRouterImport = (value: unknown) => {
+  if ((value as { gqlFrag: BuildedFragment }).gqlFrag)
+    createGraphQLRoot(client)((value as { gqlFrag: BuildedFragment }).gqlFrag)
+  return value
+}
+
 /* Vue App */
-import { createApollo } from '/@/graphql'
 const app = createApp(
   defineComponent({
     render: () => h(RouterView),
     setup() {
-      createApollo()
+      provideClient(client)
     },
   })
 )
@@ -23,7 +31,7 @@ const router = createRouter({
   strict: true,
   routes: [
     // Routers
-    { path: '/', component: () => import('/@/home/Home.vue') },
+    { path: '/', component: () => import('/@/home/Home.vue').then(onRouterImport) },
     { path: '/video/:vid', component: () => import('/@/video/Video.vue') },
     { path: '/debug/error-pages/404', component: () => import('/@/error-pages/components/404.vue') },
     { path: '/:url+', component: () => import('/@/error-pages/components/404.vue') },

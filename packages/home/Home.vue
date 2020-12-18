@@ -28,8 +28,20 @@
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
+import { defineFragment, gql, schema } from '/@/graphql'
 import Footer from '/@/common/components/Footer.vue'
 import { dark, light } from '/@/darkmode'
+
+export const gqlFrag = defineFragment<schema.QueryRoot>({
+  query: gql`
+    fragment RootFrag on QueryRoot {
+      apiVersion
+    }
+  `,
+  onQueryResult(data) {
+    console.log(data.apiVersion)
+  },
+})
 
 export default defineComponent({
   components: {
