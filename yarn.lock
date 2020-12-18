@@ -1336,6 +1336,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@kwsites/file-exists@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/file-exists@npm:1.1.1"
+  dependencies:
+    debug: ^4.1.1
+  checksum: 8e13130fb3bf4cb4889f9a594531260ea8e5892caa4b7989b22b1250ab10e6ccccabef88f69b59a6059a22e3a742763ee4f3af7037dad7d98b48095baf14a58f
+  languageName: node
+  linkType: hard
+
+"@kwsites/promise-deferred@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@kwsites/promise-deferred@npm:1.1.1"
+  checksum: 1f0c17684c88b5e17868058c781e6170d929e6c27a22bb7c84e384e92582afeb67ebe1f42db5a58177cc0aa567c7052bbed884c67e243587b0560f9e9e8d31a1
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.3":
   version: 2.1.3
   resolution: "@nodelib/fs.scandir@npm:2.1.3"
@@ -2386,6 +2402,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"array-find-index@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "array-find-index@npm:1.0.2"
+  checksum: 5320b3bd4680eadee5191b8d8a4f01788f8761e11ae5d8d8f67e836308760d453c38300cdef41315e8adf24979083f73c353f651f1dc029ab3c712c1ef5ebf17
+  languageName: node
+  linkType: hard
+
 "array-ify@npm:^1.0.0":
   version: 1.0.0
   resolution: "array-ify@npm:1.0.0"
@@ -3033,6 +3056,13 @@ __metadata:
   version: 6.2.0
   resolution: "commander@npm:6.2.0"
   checksum: c78501cd98e6ad66839004adc27940f5fc1a0102b306fbbc177965101d586cf6dd2e01bdffd64f99f2d4862101f24e602e3e4baa641b6f6a11c01ec5c900e412
+  languageName: node
+  linkType: hard
+
+"commenting@npm:1.1.0":
+  version: 1.1.0
+  resolution: "commenting@npm:1.1.0"
+  checksum: 2b4cfc892daf16d008fa24c29a12b7ea526799abca8da275185fac9d2dc6158ac6552568dc77c388a3c3d6ff3fb633e6dd288667e2f8b2ee2a3a0cb79eafe121
   languageName: node
   linkType: hard
 
@@ -4485,7 +4515,7 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
+"glob@npm:7.1.6, glob@npm:^7.0.0, glob@npm:^7.1.1, glob@npm:^7.1.2, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
   version: 7.1.6
   resolution: "glob@npm:7.1.6"
   dependencies:
@@ -6028,6 +6058,13 @@ highlight.js@^10.4.1:
   languageName: node
   linkType: hard
 
+"lodash@npm:4.17.19":
+  version: 4.17.19
+  resolution: "lodash@npm:4.17.19"
+  checksum: ff2b7a95f0129dba9101e346d44e0eda0f159d76bbbf23721eec1969b87a32bde3de0cfef0733218c64620e9be08040a973278d46a686540233b356115f3527c
+  languageName: node
+  linkType: hard
+
 "lodash@npm:^4.17.14, lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:~4.17.15":
   version: 4.17.20
   resolution: "lodash@npm:4.17.20"
@@ -6114,7 +6151,7 @@ highlight.js@^10.4.1:
   languageName: node
   linkType: hard
 
-"magic-string@npm:^0.25.7":
+"magic-string@npm:0.25.7, magic-string@npm:^0.25.7":
   version: 0.25.7
   resolution: "magic-string@npm:0.25.7"
   dependencies:
@@ -6308,7 +6345,7 @@ highlight.js@^10.4.1:
   languageName: node
   linkType: hard
 
-"mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
+"mkdirp@npm:1.0.4, mkdirp@npm:^1.0.3, mkdirp@npm:^1.0.4":
   version: 1.0.4
   resolution: "mkdirp@npm:1.0.4"
   bin:
@@ -6321,6 +6358,13 @@ highlight.js@^10.4.1:
   version: 1.0.0
   resolution: "modern-normalize@npm:1.0.0"
   checksum: 013c442ba2a58ce79cf790ffa8ac461ac67b1f3904ba7bf4ff0a83a5e443500730c1dd1d1af66d2066f8f1500ba8e150aa32518c6a294e0ab0c93692a59b77ee
+  languageName: node
+  linkType: hard
+
+"moment@npm:2.27.0":
+  version: 2.27.0
+  resolution: "moment@npm:2.27.0"
+  checksum: 72d9a7d8dba59e3d538440cdc0b59fa895b123361e370be231896478aaf157a484355ce32bd8daf6f731d6d1636d3a67ecb67531e536e093ca18b43e0cbae194
   languageName: node
   linkType: hard
 
@@ -6772,6 +6816,13 @@ highlight.js@^10.4.1:
   languageName: node
   linkType: hard
 
+"package-name-regex@npm:1.0.8":
+  version: 1.0.8
+  resolution: "package-name-regex@npm:1.0.8"
+  checksum: ab1b3059b1843350d0dffeb5e2bcc07368a841d2ee731cff063e64c9fd2678d27717f75b366a881b08c7c292e22682d1566f06940aac177f1ed9877c57acf5b6
+  languageName: node
+  linkType: hard
+
 "param-case@npm:3.0.3":
   version: 3.0.3
   resolution: "param-case@npm:3.0.3"
@@ -6962,6 +7013,8 @@ highlight.js@^10.4.1:
     postcss-import: ^12.0.1
     postcss-nested: ^4.2.3
     prettier: ^2.2.1
+    rollup-plugin-license: ^2.2.0
+    simple-git: ^2.31.0
     tailwindcss: compat
     tlds: ^1.216.0
     typed.js: ^2.0.11
@@ -7674,6 +7727,25 @@ resolve@^1.19.0:
   languageName: node
   linkType: hard
 
+"rollup-plugin-license@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "rollup-plugin-license@npm:2.2.0"
+  dependencies:
+    commenting: 1.1.0
+    glob: 7.1.6
+    lodash: 4.17.19
+    magic-string: 0.25.7
+    mkdirp: 1.0.4
+    moment: 2.27.0
+    package-name-regex: 1.0.8
+    spdx-expression-validate: 2.0.0
+    spdx-satisfies: 5.0.0
+  peerDependencies:
+    rollup: ^1.0.0 || ^2.0.0
+  checksum: 1516ec93d32c3de33676c5596a6fc3aae716372b8ee26c0b96d69b3636acbc5d71c2a81810465a94af0550ca6114d70e8c2b3729558d9c7b67d5b68ce3c8a97c
+  languageName: node
+  linkType: hard
+
 "rollup-plugin-terser@npm:^7.0.2":
   version: 7.0.2
   resolution: "rollup-plugin-terser@npm:7.0.2"
@@ -7899,6 +7971,17 @@ resolve@^1.19.0:
   languageName: node
   linkType: hard
 
+"simple-git@npm:^2.31.0":
+  version: 2.31.0
+  resolution: "simple-git@npm:2.31.0"
+  dependencies:
+    "@kwsites/file-exists": ^1.1.1
+    "@kwsites/promise-deferred": ^1.1.1
+    debug: ^4.3.1
+  checksum: 1ec74c9890d1e324f95364fcb0383aa30c9a0bdbd75cf65013c66d5311272b9145e770f7358f43b5b4860c9cf7dd7370ff05381199282d7a531016b15cbbac05
+  languageName: node
+  linkType: hard
+
 "simple-swizzle@npm:^0.2.2":
   version: 0.2.2
   resolution: "simple-swizzle@npm:0.2.2"
@@ -7993,6 +8076,17 @@ resolve@^1.19.0:
   languageName: node
   linkType: hard
 
+"spdx-compare@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "spdx-compare@npm:1.0.0"
+  dependencies:
+    array-find-index: ^1.0.2
+    spdx-expression-parse: ^3.0.0
+    spdx-ranges: ^2.0.0
+  checksum: f72639fe0d19eee146068fbe30d52f82173ce18e573581b30a43e72863751401e5734cd8ab7e028490ac040752b1ff05b60e84a4ed8b5f2156ed14fea5bc012f
+  languageName: node
+  linkType: hard
+
 "spdx-correct@npm:^3.0.0":
   version: 3.1.1
   resolution: "spdx-correct@npm:3.1.1"
@@ -8020,10 +8114,37 @@ resolve@^1.19.0:
   languageName: node
   linkType: hard
 
+"spdx-expression-validate@npm:2.0.0":
+  version: 2.0.0
+  resolution: "spdx-expression-validate@npm:2.0.0"
+  dependencies:
+    spdx-expression-parse: ^3.0.0
+  checksum: 0e5a0bcb65321e60798847090b25df8364323337a9d45841525edb7c3f660c445451869ebeb27e31ffa99868d9f34f2ec270510280a982b880cba9583c9aa229
+  languageName: node
+  linkType: hard
+
 "spdx-license-ids@npm:^3.0.0":
   version: 3.0.6
   resolution: "spdx-license-ids@npm:3.0.6"
   checksum: 90f9f7db7f049e5b2b315d45858368ba0451036f5e3536acad5c9771d7506543be0e1ee641441d813c7cddf9d06337a14ceae21e18e2622bbf3dbcc9d396c193
+  languageName: node
+  linkType: hard
+
+"spdx-ranges@npm:^2.0.0":
+  version: 2.1.1
+  resolution: "spdx-ranges@npm:2.1.1"
+  checksum: da86cbb8a93ed0e929910f1df831d346986dd8c85bd83330b3b36a224ae35057daa8a8026904a46454a77328d0b4a29e73ee699209accd1ccb9b9d7a06f9febe
+  languageName: node
+  linkType: hard
+
+"spdx-satisfies@npm:5.0.0":
+  version: 5.0.0
+  resolution: "spdx-satisfies@npm:5.0.0"
+  dependencies:
+    spdx-compare: ^1.0.0
+    spdx-expression-parse: ^3.0.0
+    spdx-ranges: ^2.0.0
+  checksum: 1eda45b44cec54b6b4c72be6ba030719f0fb154252ac4143aac6f5755a2ec957f515c09fc07e7bb3dcf884d80b2850e5589b6e99457343c03c5848fccdec1814
   languageName: node
   linkType: hard
 

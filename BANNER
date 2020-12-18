@@ -1,0 +1,4 @@
+Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
+MIT License, Copyright (c) 2020 PatchyVideo
+Generated: <%= new Date().toISOString() %>
+Licenses of dependencies has been generated into NOTICE.txt
