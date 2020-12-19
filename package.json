@@ -2,7 +2,13 @@
   "name": "platinum",
   "version": "0.0.0",
   "description": "A always-experimental frontend for PatchyVideo/PatchyVideo",
-  "author": "QiroNT",
+  "author": "PatchyVideo",
+  "contributors": [
+    {
+      "name": "QiroNT",
+      "email": "i@ntz.im"
+    }
+  ],
   "license": "MIT",
   "repository": "https://github.com/PatchyVideo/platinum",
   "private": true,

@@ -1,43 +1,47 @@
 <template>
   <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
-    <div v-if="!small" class="w-full py-3 px-4">
-      <div class="flex flex-row content-center justify-start">
-        <div class="px-5">
-          <img src="https://thvideo.tv/img/footImg.c955b6a7.png" />
-        </div>
-        <div v-for="linkGroup in links" :key="linkGroup.key">
-          <ul class="px-5">
-            <h3 class="font-semibold py-1" v-text="linkGroup.key"></h3>
-            <li v-for="link in linkGroup.links" :key="link.key">
-              <a
-                v-if="link.href"
-                class="inline-block"
-                :href="link.href"
-                target="_blank"
-                rel="noopener noreferrer"
-                v-text="link.key"
-              ></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
     <div v-if="!small" class="text-center font-thin"><span id="footer-typed"></span></div>
-    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div class="flex flex-row items-center content-center justify-around">
-      <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-        <select v-model="colorMode" class="bg-transparent focus:outline-none">
-          <option value="light" v-text="t('darkmode.light')"></option>
-          <option value="dark" v-text="t('darkmode.dark')"></option>
-        </select>
-      </div>
-      <div class="text-center">© 2020 PatchyVideo</div>
-      <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-        <select v-model="locale" class="bg-transparent focus:outline-none">
-          <option value="zh-CN">简体中文</option>
-          <option value="en-US">English</option>
-        </select>
+    <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
+    <div class="w-full">
+      <div class="flex flex-col justify-around lg:flex-row-reverse">
+        <div class="my-auto hidden lg:block">
+          <img src="https://thvideo.tv/img/footImg.c955b6a7.png" />
+        </div>
+        <div class="my-auto flex flex-row justify-evenly text-sm">
+          <div v-for="linkGroup in links" :key="linkGroup.key">
+            <ul class="px-8">
+              <h3 class="font-semibold tracking-wide text-gray-900 py-1" v-text="linkGroup.key"></h3>
+              <li v-for="link in linkGroup.links" :key="link.key">
+                <a
+                  v-if="link.href"
+                  class="inline-block mt-1 text-gray-900"
+                  :href="link.href"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  v-text="link.key"
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="my-auto">
+          <div class="flex flex-row items-center content-center justify-around">
+            <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
+              <select v-model="colorMode" class="bg-transparent focus:outline-none">
+                <option value="light" v-text="t('darkmode.light')"></option>
+                <option value="dark" v-text="t('darkmode.dark')"></option>
+              </select>
+            </div>
+            <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
+              <select v-model="locale" class="bg-transparent focus:outline-none">
+                <option value="zh-CN">简体中文</option>
+                <option value="en-US">English</option>
+              </select>
+            </div>
+          </div>
+          <div class="text-center text-sm">Platinum V{{ version }}, © 2020 PatchyVideo</div>
+        </div>
       </div>
     </div>
   </div>
@@ -50,6 +54,7 @@ import { getYiyanArray } from '/@/yiyan'
 import { currentColorMode, dark, light } from '/@/darkmode'
 import { useI18n } from 'vue-i18n'
 import { locale } from '/@/locales'
+import { version as pkgversion } from '/@@/package.json'
 
 export default defineComponent({
   props: {
@@ -84,6 +89,7 @@ export default defineComponent({
         links: [
           { key: t('common.footer.repositories'), href: 'https://patchyvideo.wiki/zh/Repositories' },
           { key: t('common.footer.feedback-issue'), href: 'https://github.com/PatchyVideo/PatchyVideo/issues' },
+          { key: t('common.footer.opensource-licenses'), href: '/NOTICE.txt' },
         ],
       },
       {
@@ -123,11 +129,14 @@ export default defineComponent({
       }
     })
 
+    const version = ref(pkgversion)
+
     return {
       t,
       links,
       colorMode,
       locale,
+      version,
     }
   },
 })

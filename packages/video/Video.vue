@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <Footer :small="true"></Footer>
+    <Footer></Footer>
   </div>
 </template>
 

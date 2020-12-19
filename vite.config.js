@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 
-const data = require('./.cache/buildData.json')
+const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
 
 /**
  * Vite Configuration File

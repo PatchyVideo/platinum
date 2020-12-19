@@ -11,7 +11,8 @@
       "code": "代码相关",
       "repositories": "项目仓库",
       "feedback-issue": "反馈BUG",
-      "contact": "联系我们"
+      "contact": "联系我们",
+      "opensource-licenses": "开源组件许可"
     }
   },
   "darkmode": {
