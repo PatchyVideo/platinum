@@ -1,0 +1,13 @@
+diff --git a/dist/index.js b/dist/index.js
+index 77aa32f7b4ef126a99681ecd7cd0c4daf01a736c..f2c1c79347a99cf6c609ec2a509f9044c1035edd 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1315,7 +1315,7 @@ function rollupPluginLicense(options = {}) {
+      *
+      * @return {void}
+      */
+-    generateBundle() {
++    writeBundle() {
+       plugin.scanThirdParties();
+     },
+   };

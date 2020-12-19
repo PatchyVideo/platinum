@@ -37,24 +37,10 @@ module.exports = {
           },
         },
       }),
+      require('rollup-plugin-copy')({
+        targets: [{ src: 'LICENSE', dest: 'dist' }],
+        hook: 'writeBundle',
+      }),
     ],
-  },
-  configureBuild() {
-    return (result) => {
-      result.assets = result.assets.concat([
-        {
-          fileName: '../NOTICE.txt',
-          name: 'NOTICE.txt',
-          source: fs.readFileSync('./dist/NOTICE.txt').toString(),
-          type: 'asset',
-        },
-        {
-          fileName: '../LICENSE',
-          name: 'LICENSE',
-          source: fs.readFileSync('./LICENSE').toString(),
-          type: 'asset',
-        },
-      ])
-    }
   },
 }
