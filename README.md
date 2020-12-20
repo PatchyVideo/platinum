@@ -1,6 +1,6 @@
 # Platinum
 
-> A always-experimental frontend for [PatchyVideo/PatchyVideo](https://github.com/PatchyVideo/PatchyVideo).
+> An always-experimental frontend for [PatchyVideo/PatchyVideo](https://github.com/PatchyVideo/PatchyVideo).
 > (Currently using [PatchyVideo/pvgql](https://github.com/PatchyVideo/pvgql) as backend.)
 
 This is a **complete** rewrite of [PatchyVideo/patchyvideo-vue](https://github.com/PatchyVideo/patchyvideo-vue).
