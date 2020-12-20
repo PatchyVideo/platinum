@@ -32,15 +32,42 @@ import { defineFragment, gql, schema } from '/@/graphql'
 import Footer from '/@/common/components/Footer.vue'
 import { dark, light } from '/@/darkmode'
 
-export const gqlFrag = defineFragment<schema.QueryRoot>({
-  query: gql`
-    fragment RootFrag on QueryRoot {
-      apiVersion
+const childFrag = defineFragment({
+  query: () => gql`
+    fragment testListVideo on ListVideoResult {
+      pageCount
     }
   `,
-  onQueryResult(data) {
-    console.log(data.apiVersion)
+})
+childFrag.onQueryResult<schema.ListVideoResult>((data) => {
+  console.log(data)
+})
+
+export const gqlFrag = defineFragment({
+  query({ childFrag }) {
+    return gql`
+      fragment RootFrag on Query {
+        apiVersion
+        listVideo(
+          para: {
+            page: 1
+            pageSize: 1
+            humanReadableTag: true
+            query: "https://www.bilibili.com/video/av287017839?p=1"
+          }
+        ) {
+          ...testListVideo
+        }
+      }
+      ${childFrag.query}
+    `
   },
+  queryChildren: {
+    childFrag,
+  },
+})
+gqlFrag.onQueryResult<schema.QueryRoot>((data) => {
+  console.log(data)
 })
 
 export default defineComponent({

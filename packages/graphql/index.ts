@@ -16,7 +16,15 @@ import {
 import { filter } from 'graphql-anywhere'
 
 import { withScalars } from 'apollo-link-scalars'
-import { buildClientSchema, IntrospectionQuery } from 'graphql'
+import {
+  buildClientSchema,
+  DefinitionNode,
+  ExecutableDefinitionNode,
+  FieldNode,
+  FragmentDefinitionNode,
+  IntrospectionQuery,
+  OperationDefinitionNode,
+} from 'graphql'
 import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
 
@@ -79,71 +87,147 @@ export function useMutate(
   return client.mutate<schema.MutationRoot>(options)
 }
 
-export type GQLFragment<T = unknown> = {
-  query: DocumentNode
+type QueryChildren = Record<string, BuiltFragment>
+
+export type GQLFragment<QueryChildrenOptions> = {
+  query: (children: QueryChildrenOptions) => DocumentNode
   queryVariables?: Record<string, never>
-  queryChildren?: BuildedFragment[]
-  onQueryResult?(data: T): void
+  queryChildren?: QueryChildrenOptions
 }
 
-export type BuildedFragment<T = unknown> = {
+export type BuiltFragment = {
   query: DocumentNode
   queryVariables?: Record<string, never>
-  onQueryResult(callback: (data: T) => void): void
-  handleQueryResult(data: T): void
+  onQueryResult<T = unknown>(callback: (data: T) => void): void
+  handleQueryResult(data: unknown): void
 }
 
-export function defineFragment<T = unknown>(frag: GQLFragment<T>): BuildedFragment<T> {
+export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildren> = QueryChildren>(
+  frag: GQLFragment<QueryChildrenOptions>
+): BuiltFragment {
   let _data: unknown
-  const onQueryResultArray: ((data: T) => void)[] = []
-  if (frag.onQueryResult) onQueryResultArray.push(frag.onQueryResult)
-  return {
-    query: frag.query,
+  const onQueryResultArray: ((data: unknown) => void)[] = []
+  const builtFrag = {
+    query: frag.query(frag.queryChildren || ({} as QueryChildrenOptions)),
     queryVariables: (() => {
       const queryVariables = {}
       if (frag.queryChildren)
-        frag.queryChildren.forEach((child) => {
+        for (const childName in frag.queryChildren) {
+          const child = frag.queryChildren[childName]
           if (child.queryVariables) Object.assign(queryVariables, child.queryVariables)
-        })
+        }
       Object.assign(queryVariables, frag.queryVariables)
       return queryVariables == {} ? queryVariables : undefined
     })(),
-    handleQueryResult(data) {
+    handleQueryResult(data: unknown) {
       _data = data
       if (onQueryResultArray.length > 0)
         onQueryResultArray.forEach((callback) => {
           if (callback) callback(data)
         })
-      if (frag.queryChildren)
-        frag.queryChildren.forEach((child) => {
-          child.handleQueryResult(filter(child.query, data))
-        })
+      const childf: Record<string, string[]> = {}
+      // get fragments that children defined
+      // { child: ['childFrag'] }
+      for (const child in frag.queryChildren) {
+        childf[child] = getDefFrags(frag.queryChildren[child].query)
+      }
+      // get fragments that frag defineds
+      // ['frag']
+      const defs = getDefFrags(builtFrag.query).filter(
+        (v) =>
+          !Object.values(childf)
+            .map((m) => m.includes(v))
+            .reduce((m, i) => i || m, false)
+      )
+      // get fragment link that frag uses
+      // { childFrag: 'foo.bar' }
+      const ufs = getUsedFrags(nodeFilter(builtFrag.query, defs))
+      const cd: Record<string, string> = {}
+      // link children to fragment link
+      // { child: 'foo.bar' }
+      for (const c in childf) {
+        cd[c] = ufs[childf[c][0]]
+      }
+      // call children with data
+      // data['foo.bar']
+      for (const child in frag.queryChildren) {
+        frag.queryChildren[child].handleQueryResult(
+          cd[child] != '' && (data as Record<string, unknown>)[cd[child]]
+            ? (data as Record<string, unknown>)[cd[child]]
+            : data
+        )
+      }
     },
-    onQueryResult(callback) {
+    onQueryResult<T>(callback: (data: T) => void) {
       if (!_data) {
-        onQueryResultArray.push(callback)
+        onQueryResultArray.push(callback as (data: unknown) => void)
       } else {
         callback(_data as T)
       }
     },
   }
+  return builtFrag
+}
+
+function nodeFilter(q: DocumentNode, names: string[]) {
+  const defs: FragmentDefinitionNode | ExecutableDefinitionNode[] = []
+  for (const i of q.definitions) {
+    if ((i.kind == 'FragmentDefinition' || i.kind == 'OperationDefinition') && i.name && names.includes(i.name.value))
+      defs.push(i)
+  }
+  return defs
+}
+
+function getUsedFrags(defs: readonly DefinitionNode[]) {
+  const frags: Record<string, string> = {}
+  for (const def of defs) {
+    if (def.kind == 'FragmentDefinition' || def.kind == 'OperationDefinition') {
+      const filter = (def: FragmentDefinitionNode | OperationDefinitionNode | FieldNode, path: string) => {
+        if (def.selectionSet)
+          for (const sel of def.selectionSet.selections) {
+            switch (sel.kind) {
+              case 'Field':
+                filter(sel, (path ? path + '.' : '') + sel.name.value)
+                break
+              case 'FragmentSpread':
+                frags[sel.name.value] = path
+                break
+            }
+          }
+      }
+      filter(def, '')
+    }
+  }
+  return frags
+}
+
+function getDefFrags(doc: DocumentNode) {
+  const frags: string[] = []
+  for (const def of doc.definitions) {
+    if ((def.kind == 'FragmentDefinition' || def.kind == 'OperationDefinition') && def.name) {
+      frags.push(def.name.value)
+    }
+  }
+  return frags
 }
 
 export function createGraphQLRoot(client: ApolloClient<NormalizedCacheObject>) {
-  return async (frag: BuildedFragment): Promise<void> => {
+  return async (frag: BuiltFragment): Promise<void> => {
     const rootQueryFrag = defineFragment({
-      query: gql`
-        query rootQuery {
-          ...RootFrag
-        }
-        ${frag.query}
-      `,
-      queryChildren: [frag],
+      query({ frag }) {
+        return gql`
+          query rootQuery {
+            ...RootFrag
+          }
+          ${frag.query}
+        `
+      },
+      queryChildren: { frag },
     })
     const result = await client.query<schema.QueryRoot>({
       query: rootQueryFrag.query,
       variables: rootQueryFrag.queryVariables,
     })
-    rootQueryFrag.handleQueryResult(result.data)
+    rootQueryFrag.handleQueryResult(filter(rootQueryFrag.query, result.data))
   }
 }
