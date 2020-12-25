@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * Lint-staged Configuration File
  *

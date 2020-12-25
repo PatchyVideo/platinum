@@ -27,12 +27,12 @@ and we built an entire new website with:
 ## Getting Started
 
 ```bash
-$ git clone https://PatchyVideo/platinum
-$ cd platinum
-$ yarn
-$ yarn codegen # generate code schema
-$ yarn dev # launch vite dev server
-$ yarn build # pack the website
+git clone https://github.com/PatchyVideo/platinum
+cd platinum
+yarn
+yarn codegen # generate code schema
+yarn dev # launch vite dev server
+yarn build # pack the website
 ```
 
 ## License

@@ -43,7 +43,7 @@ function getBrowserLang(): string | undefined {
 }
 
 function setBrowserLang(lang: string) {
-  if (lang == navigator.language) localStorage.removeItem('lang')
+  if (lang === navigator.language) localStorage.removeItem('lang')
   if (langs.includes(lang)) localStorage.setItem('lang', lang)
 }
 

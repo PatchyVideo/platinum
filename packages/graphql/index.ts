@@ -12,6 +12,7 @@ import {
   FetchResult,
   DocumentNode,
   gql,
+  disableFragmentWarnings,
 } from '@apollo/client/core'
 import { filter } from 'graphql-anywhere'
 
@@ -33,20 +34,26 @@ export { schema }
 
 export { gql } from '@apollo/client/core'
 
-const clientSymbol = Symbol('ApolloClient Symbol')
+const clientSymbol = Symbol('GraphQL Client Symbol')
+disableFragmentWarnings()
 
 export function createApollo(): ApolloClient<NormalizedCacheObject> {
   const typesMap = {
     DateTimeUtc: {
       serialize: (parsed: Date) => parsed.toISOString(),
-      parseValue: (raw: string | null): Date | null => {
-        return raw ? new Date(raw) : null
-      },
+      parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
+    },
+    ObjectId: {
+      serialize: (parsed: string) => parsed,
+      parseValue: (raw: string | null): string | null => raw,
     },
   }
   const link = from([
     // Backend Server
-    withScalars({ schema: buildClientSchema((jsonSchema as unknown) as IntrospectionQuery), typesMap }),
+    withScalars({
+      schema: buildClientSchema((jsonSchema as unknown) as IntrospectionQuery),
+      typesMap,
+    }),
     new HttpLink({ uri: 'http://localhost:8080/graphql' }),
   ])
   const cache = new InMemoryCache({
@@ -74,17 +81,17 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
 }
 
 export function useQuery(
-  options: QueryOptions<schema.QueryRoot, OperationVariables>
-): Promise<ApolloQueryResult<schema.QueryRoot>> {
+  options: QueryOptions<schema.Query, OperationVariables>
+): Promise<ApolloQueryResult<schema.Query>> {
   const client = injectClient()
-  return client.query<schema.QueryRoot>(options)
+  return client.query<schema.Query>(options)
 }
 
 export function useMutate(
-  options: MutationOptions<schema.MutationRoot, OperationVariables>
-): Promise<FetchResult<schema.MutationRoot>> {
+  options: MutationOptions<schema.Mutation, OperationVariables>
+): Promise<FetchResult<schema.Mutation>> {
   const client = injectClient()
-  return client.mutate<schema.MutationRoot>(options)
+  return client.mutate<schema.Mutation>(options)
 }
 
 type QueryChildren = Record<string, BuiltFragment>
@@ -117,7 +124,7 @@ export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildr
           if (child.queryVariables) Object.assign(queryVariables, child.queryVariables)
         }
       Object.assign(queryVariables, frag.queryVariables)
-      return queryVariables == {} ? queryVariables : undefined
+      return queryVariables === {} ? queryVariables : undefined
     })(),
     handleQueryResult(data: unknown) {
       _data = data
@@ -152,7 +159,7 @@ export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildr
       // data['foo.bar']
       for (const child in frag.queryChildren) {
         frag.queryChildren[child].handleQueryResult(
-          cd[child] != '' && (data as Record<string, unknown>)[cd[child]]
+          cd[child] !== '' && (data as Record<string, unknown>)[cd[child]]
             ? (data as Record<string, unknown>)[cd[child]]
             : data
         )
@@ -172,7 +179,7 @@ export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildr
 function nodeFilter(q: DocumentNode, names: string[]) {
   const defs: FragmentDefinitionNode | ExecutableDefinitionNode[] = []
   for (const i of q.definitions) {
-    if ((i.kind == 'FragmentDefinition' || i.kind == 'OperationDefinition') && i.name && names.includes(i.name.value))
+    if ((i.kind === 'FragmentDefinition' || i.kind === 'OperationDefinition') && i.name && names.includes(i.name.value))
       defs.push(i)
   }
   return defs
@@ -181,7 +188,7 @@ function nodeFilter(q: DocumentNode, names: string[]) {
 function getUsedFrags(defs: readonly DefinitionNode[]) {
   const frags: Record<string, string> = {}
   for (const def of defs) {
-    if (def.kind == 'FragmentDefinition' || def.kind == 'OperationDefinition') {
+    if (def.kind === 'FragmentDefinition' || def.kind === 'OperationDefinition') {
       const filter = (def: FragmentDefinitionNode | OperationDefinitionNode | FieldNode, path: string) => {
         if (def.selectionSet)
           for (const sel of def.selectionSet.selections) {
@@ -204,7 +211,7 @@ function getUsedFrags(defs: readonly DefinitionNode[]) {
 function getDefFrags(doc: DocumentNode) {
   const frags: string[] = []
   for (const def of doc.definitions) {
-    if ((def.kind == 'FragmentDefinition' || def.kind == 'OperationDefinition') && def.name) {
+    if ((def.kind === 'FragmentDefinition' || def.kind === 'OperationDefinition') && def.name) {
       frags.push(def.name.value)
     }
   }
@@ -224,7 +231,7 @@ export function createGraphQLRoot(client: ApolloClient<NormalizedCacheObject>) {
       },
       queryChildren: { frag },
     })
-    const result = await client.query<schema.QueryRoot>({
+    const result = await client.query<schema.Query>({
       query: rootQueryFrag.query,
       variables: rootQueryFrag.queryVariables,
     })

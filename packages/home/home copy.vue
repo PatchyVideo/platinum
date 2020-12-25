@@ -24,7 +24,7 @@ import { ref } from 'vue'
 import { gql, schema, useApollo } from '/@/graphql'
 
 useApollo()
-  .mutate<schema.MutationRoot>({
+  .mutate<schema.Mutation>({
     mutation: gql`
       mutation check {
         serverDate

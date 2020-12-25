@@ -1,3 +1,5 @@
+// @ts-check
+
 /**
  * PostCSS Configuration File
  *

@@ -1,7 +1,10 @@
+// @ts-check
+
 /**
  * Eslint Configuration File
  *
  * Docs: https://eslint.org/docs/user-guide/configuring
+ * @type {import('eslint').Linter.Config}
  */
 module.exports = {
   /**

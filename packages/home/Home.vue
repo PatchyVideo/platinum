@@ -6,11 +6,7 @@
       <div class="shadow rounded-full max-w-2xl mx-auto h-11 text-center overflow-hidden bg-white dark:bg-gray-800">
         <input class="w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white" value="search!" />
       </div>
-      <div class="pt-2">
-        <button type="button" class="border border-black bg-white rounded mr-2" @click="light">Light!</button>
-        <button type="button" class="border border-black bg-gray-600 text-white rounded" @click="dark">Dark!</button>
       </div>
-    </div>
 
     <!-- Main Components -->
     <div>
@@ -30,7 +26,6 @@
 import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
 import { defineFragment, gql, schema } from '/@/graphql'
 import Footer from '/@/common/components/Footer.vue'
-import { dark, light } from '/@/darkmode'
 
 const childFrag = defineFragment({
   query: () => gql`
@@ -66,7 +61,7 @@ export const gqlFrag = defineFragment({
     childFrag,
   },
 })
-gqlFrag.onQueryResult<schema.QueryRoot>((data) => {
+gqlFrag.onQueryResult<schema.Query>((data) => {
   console.log(data)
 })
 
@@ -96,8 +91,6 @@ export default defineComponent({
       ucompList,
       addCompName,
       addComp,
-      dark,
-      light,
     }
   },
 })

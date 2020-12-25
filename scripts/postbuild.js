@@ -10,7 +10,9 @@
         '%version%',
         require('../package.json').version +
           '(' +
-          require('../.cache/buildData.json')['rollup-plugin-license'].data.gitLatest.hash.slice(0, 7) +
+          require('../.cache/buildData.json')[
+            'rollup-plugin-license'
+          ].data.gitLatest.hash.slice(0, 7) +
           ')'
       )
       .replace('%date%', new Date().toISOString())

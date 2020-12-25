@@ -8,7 +8,7 @@ generates:
     config:
       scalars:
         DateTimeUtc: Date
-        Date: Date
+        ObjectId: string
   packages/graphql/__generated__/graphql.schema.json:
     schema:
       - http://localhost:8080/graphql

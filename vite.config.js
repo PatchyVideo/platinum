@@ -1,10 +1,13 @@
+// @ts-check
 const path = require('path')
 const fs = require('fs')
 
+// @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
 
 /**
  * Vite Configuration File
+ * @type {import('vite').UserConfig}
  */
 module.exports = {
   alias: {
@@ -14,7 +17,7 @@ module.exports = {
   sourcemap: true,
   optimizeDeps: {
     include: ['@apollo/client/core'],
-    exclude: ['@apollo/client'],
+    exclude: ['@apollo/client', '@primer/css'],
   },
   rollupInputOptions: {
     pluginsPostBuild: [
@@ -37,6 +40,7 @@ module.exports = {
           },
         },
       }),
+      // @ts-ignore
       require('rollup-plugin-copy')({
         targets: [{ src: 'LICENSE', dest: 'dist' }],
         hook: 'writeBundle',

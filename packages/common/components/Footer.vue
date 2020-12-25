@@ -1,7 +1,9 @@
 <template>
   <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div v-if="!small" class="text-center font-thin"><span id="footer-typed"></span></div>
+    <div v-if="!small" class="text-center font-thin">
+      <span id="footer-typed"></span>
+    </div>
     <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
     <div class="w-full">
       <div class="flex flex-col justify-around lg:flex-row-reverse">
@@ -28,9 +30,9 @@
         <div class="my-auto">
           <div class="flex flex-row items-center content-center justify-around">
             <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-              <select v-model="colorMode" class="bg-transparent focus:outline-none">
-                <option value="light" v-text="t('darkmode.light')"></option>
-                <option value="dark" v-text="t('darkmode.dark')"></option>
+              <select v-model="isDark" class="bg-transparent focus:outline-none">
+                <option :value="false" v-text="t('darkmode.light')"></option>
+                <option :value="true" v-text="t('darkmode.dark')"></option>
               </select>
             </div>
             <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
@@ -48,10 +50,10 @@
 </template>
 
 <script lang="ts">
-import { onMounted, onUnmounted, reactive, ref, watch, defineComponent } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, defineComponent } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '/@/yiyan'
-import { currentColorMode, dark, light } from '/@/darkmode'
+import { isDark } from '/@/darkmode'
 import { useI18n } from 'vue-i18n'
 import { locale } from '/@/locales'
 import { version as pkgversion } from '/@@/package.json'
@@ -119,22 +121,12 @@ export default defineComponent({
       if (typed?.destroy) typed.destroy()
     })
 
-    /* color mode */
-    const colorMode = ref(currentColorMode())
-    watch(colorMode, (value: string): void => {
-      if (value == 'dark') {
-        dark()
-      } else {
-        light()
-      }
-    })
-
     const version = ref(pkgversion)
 
     return {
       t,
       links,
-      colorMode,
+      isDark,
       locale,
       version,
     }
