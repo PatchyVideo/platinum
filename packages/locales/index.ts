@@ -1,8 +1,9 @@
+import { computed } from 'vue'
 import { createI18n } from 'vue-i18n'
 
 import i18n_zh_CN from './zh-CN.json'
 import i18n_en_US from './en-US.json'
-import { computed } from 'vue'
+
 const messages = {
   'zh-CN': i18n_zh_CN,
   'en-US': i18n_en_US,

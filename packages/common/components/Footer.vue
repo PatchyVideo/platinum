@@ -52,11 +52,11 @@
 <script lang="ts">
 import { onMounted, onUnmounted, reactive, ref, defineComponent } from 'vue'
 import Typed from 'typed.js'
-import { getYiyanArray } from '/@/yiyan'
-import { isDark } from '/@/darkmode'
+import { getYiyanArray } from '@/yiyan'
+import { isDark } from '@/darkmode'
 import { useI18n } from 'vue-i18n'
-import { locale } from '/@/locales'
-import { version as pkgversion } from '/@@/package.json'
+import { locale } from '@/locales'
+import { version as pkgversion } from '@@/package.json'
 
 export default defineComponent({
   props: {
@@ -113,8 +113,9 @@ export default defineComponent({
           strings: getYiyanArray(true, true),
           typeSpeed: 50,
           backSpeed: 15,
-          backDelay: 4000,
+          backDelay: 2000,
           loop: true,
+          smartBackspace: false,
         })
     })
     onUnmounted(() => {

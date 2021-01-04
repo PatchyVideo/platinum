@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { gql, schema, useApollo } from '/@/graphql'
+import { gql, schema, useApollo } from '@/graphql'
 
 useApollo()
   .mutate<schema.Mutation>({

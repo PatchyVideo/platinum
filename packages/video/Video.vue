@@ -24,11 +24,11 @@
 
 <script lang="ts">
 import Player from './components/Player.vue'
-import MarkdownBlock from '/@/markdown/components/MarkdownBlock.vue'
-import Footer from '/@/common/components/Footer.vue'
+import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
+import Footer from '@/common/components/Footer.vue'
 import { reactive, defineComponent } from 'vue'
 import { useRoute } from 'vue-router'
-import { gql, useQuery } from '/@/graphql'
+import { gql, useQuery } from '@/graphql'
 
 export default defineComponent({
   components: {

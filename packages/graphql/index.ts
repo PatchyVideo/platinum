@@ -96,15 +96,17 @@ export function useMutate(
 
 type QueryChildren = Record<string, BuiltFragment>
 
+type GQLVariables = Record<string, unknown>
+
 export type GQLFragment<QueryChildrenOptions> = {
   query: (children: QueryChildrenOptions) => DocumentNode
-  queryVariables?: Record<string, never>
+  queryVariables?: GQLVariables | (() => Promise<GQLVariables>)
   queryChildren?: QueryChildrenOptions
 }
 
 export type BuiltFragment = {
   query: DocumentNode
-  queryVariables?: Record<string, never>
+  queryVariables: () => Promise<GQLVariables>
   onQueryResult<T = unknown>(callback: (data: T) => void): void
   handleQueryResult(data: unknown): void
 }
@@ -116,16 +118,19 @@ export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildr
   const onQueryResultArray: ((data: unknown) => void)[] = []
   const builtFrag = {
     query: frag.query(frag.queryChildren || ({} as QueryChildrenOptions)),
-    queryVariables: (() => {
+    queryVariables: async () => {
       const queryVariables = {}
       if (frag.queryChildren)
         for (const childName in frag.queryChildren) {
           const child = frag.queryChildren[childName]
-          if (child.queryVariables) Object.assign(queryVariables, child.queryVariables)
+          Object.assign(queryVariables, await child.queryVariables())
         }
-      Object.assign(queryVariables, frag.queryVariables)
-      return queryVariables === {} ? queryVariables : undefined
-    })(),
+      Object.assign(
+        queryVariables,
+        (typeof frag.queryVariables === 'function' ? await frag.queryVariables() : frag.queryVariables) || {}
+      )
+      return queryVariables
+    },
     handleQueryResult(data: unknown) {
       _data = data
       if (onQueryResultArray.length > 0)

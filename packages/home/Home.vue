@@ -6,7 +6,7 @@
       <div class="shadow rounded-full max-w-2xl mx-auto h-11 text-center overflow-hidden bg-white dark:bg-gray-800">
         <input class="w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white" value="search!" />
       </div>
-      </div>
+    </div>
 
     <!-- Main Components -->
     <div>
@@ -24,8 +24,8 @@
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
-import { defineFragment, gql, schema } from '/@/graphql'
-import Footer from '/@/common/components/Footer.vue'
+import { defineFragment, gql, schema } from '@/graphql'
+import Footer from '@/common/components/Footer.vue'
 
 const childFrag = defineFragment({
   query: () => gql`
@@ -44,12 +44,7 @@ export const gqlFrag = defineFragment({
       fragment RootFrag on Query {
         apiVersion
         listVideo(
-          para: {
-            page: 1
-            pageSize: 1
-            humanReadableTag: true
-            query: "https://www.bilibili.com/video/av287017839?p=1"
-          }
+          para: { offset: 0, limit: 1, humanReadableTag: true, query: "https://www.bilibili.com/video/av287017839?p=1" }
         ) {
           ...testListVideo
         }

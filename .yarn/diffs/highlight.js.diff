@@ -1,8 +1,8 @@
 diff --git a/lib/index.js b/lib/index.js
-index a233719d994356209fc1001c99b387859306b2c0..6812ded5a1fd4f6a31e58ff1141e3572e05db7b2 100644
+index 052d07325d6146ecb81f69dd42abbea222ba60e3..51e1b2c781cf92a6cd2d3ccace11ee935d5d86d1 100644
 --- a/lib/index.js
 +++ b/lib/index.js
-@@ -1,194 +1,42 @@
+@@ -1,195 +1,42 @@
  var hljs = require('./core');
  
 -hljs.registerLanguage('1c', require('./languages/1c'));
@@ -169,6 +169,7 @@ index a233719d994356209fc1001c99b387859306b2c0..6812ded5a1fd4f6a31e58ff1141e3572
 -hljs.registerLanguage('smalltalk', require('./languages/smalltalk'));
 -hljs.registerLanguage('sml', require('./languages/sml'));
 -hljs.registerLanguage('sqf', require('./languages/sqf'));
+-hljs.registerLanguage('sql_more', require('./languages/sql_more'));
  hljs.registerLanguage('sql', require('./languages/sql'));
 -hljs.registerLanguage('stan', require('./languages/stan'));
 -hljs.registerLanguage('stata', require('./languages/stata'));
@@ -197,3 +198,4 @@ index a233719d994356209fc1001c99b387859306b2c0..6812ded5a1fd4f6a31e58ff1141e3572
 -hljs.registerLanguage('zephir', require('./languages/zephir'));
  
  module.exports = hljs;
+\ No newline at end of file
