@@ -24,41 +24,80 @@
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
-import { defineFragment, gql, schema } from '@/graphql'
+import { gql, parseGraph, schema } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
 
-const childFrag = defineFragment({
-  query: () => gql`
-    fragment testListVideo on ListVideoResult {
-      pageCount
-    }
-  `,
-})
-childFrag.onQueryResult<schema.ListVideoResult>((data) => {
-  console.log(data)
-})
+// const childFrag = defineFragment({
+//   query: () => gql`
+//     fragment testListVideo on ListVideoResult {
+//       pageCount
+//     }
+//   `,
+// })
+// childFrag.onQueryResult<schema.ListVideoResult>((data) => {
+//   console.log(data)
+// })
 
-export const gqlFrag = defineFragment({
-  query({ childFrag }) {
-    return gql`
-      fragment RootFrag on Query {
-        apiVersion
+// export const gqlFrag = defineFragment({
+//   query({ childFrag }) {
+//     return gql`
+//       fragment RootFrag on Query {
+//         apiVersion
+//         listVideo(
+//           para: { offset: 0, limit: 1, humanReadableTag: true, query: "https://www.bilibili.com/video/av287017839?p=1" }
+//         ) {
+//           ...testListVideo
+//         }
+//       }
+//       ${childFrag.query}
+//     `
+//   },
+//   queryChildren: {
+//     childFrag,
+//   },
+// })
+// gqlFrag.onQueryResult<schema.Query>((data) => {
+//   console.log(data)
+// })
+
+console.log(
+  parseGraph(
+    gql`
+      # @import child from 'childFrag'
+
+      fragment default on Query @export @param(offset: string, limit: string) {
         listVideo(
-          para: { offset: 0, limit: 1, humanReadableTag: true, query: "https://www.bilibili.com/video/av287017839?p=1" }
+          para: {
+            offset: $offset
+            limit: $limit
+            humanReadableTag: true
+            query: "https://www.bilibili.com/video/av287017839?p=1"
+          }
         ) {
-          ...testListVideo
+          count
+          ...child @apply(limit: $limit)
+          ... on Video {
+            bar
+          }
         }
       }
-      ${childFrag.query}
-    `
-  },
-  queryChildren: {
-    childFrag,
-  },
-})
-gqlFrag.onQueryResult<schema.Query>((data) => {
-  console.log(data)
-})
+    `,
+    {
+      childFrag: {
+        graphRaw: gql`
+          fragment llfwafsaf on ListVideoResult {
+            maxCount
+          }
+        `,
+        exportMap: {
+          default: {
+            fragName: 'llfwafsaf',
+          },
+        },
+      },
+    }
+  )
+)
 
 export default defineComponent({
   components: {

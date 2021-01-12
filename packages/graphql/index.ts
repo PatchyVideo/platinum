@@ -11,7 +11,6 @@ import {
   MutationOptions,
   FetchResult,
   DocumentNode,
-  gql,
   disableFragmentWarnings,
 } from '@apollo/client/core'
 import { filter } from 'graphql-anywhere'
@@ -25,6 +24,8 @@ import {
   FragmentDefinitionNode,
   IntrospectionQuery,
   OperationDefinitionNode,
+  parse,
+  SelectionNode,
 } from 'graphql'
 import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
@@ -32,10 +33,18 @@ import generatedIntrospection from './__generated__/graphql.fragment'
 import * as schema from './__generated__/graphql'
 export { schema }
 
-export { gql } from '@apollo/client/core'
+// export { gql } from '@apollo/client/core'
+export function gql(strings: TemplateStringsArray, ...content: unknown[]): string {
+  return strings.reduce((accumulator, string, index) => {
+    accumulator += string
+    if (index in content) accumulator += content[index]
+    return accumulator
+  }, '')
+}
 
 const clientSymbol = Symbol('GraphQL Client Symbol')
 disableFragmentWarnings()
+window.parse = parse
 
 export function createApollo(): ApolloClient<NormalizedCacheObject> {
   const typesMap = {
@@ -94,26 +103,26 @@ export function useMutate(
   return client.mutate<schema.Mutation>(options)
 }
 
-type QueryChildren = Record<string, BuiltFragment>
+type QueryChildren = Record<string, BuiltGraph>
 
 type GQLVariables = Record<string, unknown>
 
-export type GQLFragment<QueryChildrenOptions> = {
+export type GQLGraph<QueryChildrenOptions> = {
   query: (children: QueryChildrenOptions) => DocumentNode
   queryVariables?: GQLVariables | (() => Promise<GQLVariables>)
   queryChildren?: QueryChildrenOptions
 }
 
-export type BuiltFragment = {
+export type BuiltGraph = {
   query: DocumentNode
   queryVariables: () => Promise<GQLVariables>
   onQueryResult<T = unknown>(callback: (data: T) => void): void
   handleQueryResult(data: unknown): void
 }
 
-export function defineFragment<QueryChildrenOptions extends Readonly<QueryChildren> = QueryChildren>(
-  frag: GQLFragment<QueryChildrenOptions>
-): BuiltFragment {
+export function defineGraph<QueryChildrenOptions extends Readonly<QueryChildren> = QueryChildren>(
+  frag: GQLGraph<QueryChildrenOptions>
+): BuiltGraph {
   let _data: unknown
   const onQueryResultArray: ((data: unknown) => void)[] = []
   const builtFrag = {
@@ -223,9 +232,183 @@ function getDefFrags(doc: DocumentNode) {
   return frags
 }
 
+type FragmentData = {
+  doc: FragmentDefinitionNode
+  export: boolean
+  args: Record<string, string>
+}
+
+function parseFragment(doc: FragmentDefinitionNode) {
+  const frag: FragmentData = {
+    doc,
+    export: false,
+    args: {},
+  }
+  if (doc.directives)
+    for (const dire of doc.directives) {
+      switch (dire.name.value) {
+        case 'export': {
+          frag.export = true
+          break
+        }
+        case 'param': {
+          if (!dire.arguments) break
+          for (const arg of dire.arguments) {
+            if (arg.value.kind === 'EnumValue') frag.args[arg.name.value] = arg.value.value
+          }
+          break
+        }
+      }
+    }
+  return frag
+}
+
+type ChildImportMap = Record<string, string>
+
+type ChildrenImportMap = Record<string, ChildImportMap>
+
+type BuiltChild = {
+  graphRaw: string
+  exportMap: Record<string, ChildExportInfo>
+}
+
+type ChildExportInfo = {
+  fragName: string
+  args?: string[]
+}
+
+// type VarProcData = {
+//   name: string
+//   compileVar(newName: string): string
+// }
+
+export function parseGraph(graphRaw: string, children: Record<string, BuiltChild> = {}): BuiltChild {
+  const childrenImportMap: ChildrenImportMap = {}
+  let rpGraphRaw = graphRaw
+    .split(/\r?\n/)
+    .map((line) => {
+      line = line.trim()
+      let clearLine = false
+      if (line[0] === '#') {
+        const com = line.replace(/^#[\s]*/, '')
+        if (com[0] === '@') {
+          const operation = com.slice(1)
+          const opnMatch = operation.match(/^\w+/)
+          if (opnMatch)
+            switch (opnMatch[0]) {
+              case 'import': {
+                const impMatched = operation.match(
+                  /^import\s+?(\w+)(?:,\s*?({\s*?\w+\s*?(?::\s*?\w+\s*?)?(?:,\s*?\w+\s*?(?::\s*?\w+\s*?))*?}))?\s+?from\s+?["'](\w+)["']/
+                )
+                if (!impMatched) break
+                const importMap: ChildImportMap = {
+                  default: impMatched[1],
+                }
+                if (impMatched[2])
+                  for (const child of impMatched[2].matchAll(/(\w+)\s*?:\s*?(\w+)/g)) {
+                    importMap[child[1]] = child[2]
+                  }
+                childrenImportMap[impMatched[3]] = importMap
+                clearLine = true
+                break
+              }
+            }
+        }
+      }
+      return clearLine ? '' : line
+    })
+    .join('\n')
+  let depGraph = ''
+  const importRename: Record<string, string> = {}
+  for (const child in childrenImportMap) {
+    if (!children[child]) throw new Error('Child "' + child + '" is undefined.')
+    for (const impName in childrenImportMap[child]) {
+      importRename[childrenImportMap[child][impName]] = children[child].exportMap[impName].fragName
+    }
+    depGraph += children[child].graphRaw + '\n'
+  }
+
+  const doc = parse(graphRaw)
+  const exportMap: Record<string, ChildExportInfo> = {}
+  for (const def of doc.definitions) {
+    switch (def.kind) {
+      case 'FragmentDefinition': {
+        let isExport = false
+        const args: string[] = []
+        if (def.directives) {
+          for (const dire of def.directives) {
+            switch (dire.name.value) {
+              case 'param': {
+                if (dire.arguments)
+                  for (const arg of dire.arguments) {
+                    args.push(arg.name.value)
+                  }
+                break
+              }
+              case 'export': {
+                isExport = true
+                break
+              }
+            }
+          }
+        }
+        const sels = def.selectionSet.selections
+        const pSels = (sels: readonly SelectionNode[]) => {
+          for (const sel of sels) {
+            switch (sel.kind) {
+              case 'Field': {
+                if (sel.selectionSet) pSels(sel.selectionSet.selections)
+                break
+              }
+              case 'FragmentSpread': {
+                if (importRename[sel.name.value])
+                  rpGraphRaw = rpGraphRaw.replace('...' + sel.name.value, '...' + importRename[sel.name.value])
+                // if (sel.directives) {
+                //   for (const dire of sel.directives) {
+                //     switch (dire.name.value) {
+                //       case 'apply': {
+                //         if (dire.arguments)
+                //           for (const arg of dire.arguments) {
+                //             usedVarMap.push({
+                //               name: arg.name.value,
+                //               compileVar(newName) {
+                //               },
+                //             })
+                //           }
+                //         break
+                //       }
+                //     }
+                //   }
+                // }
+                break
+              }
+            }
+          }
+        }
+        pSels(sels)
+        const cpName = btoa(Math.random().toString().substr(2)).replace(/=/g, '')
+        rpGraphRaw = rpGraphRaw.replace('fragment ' + def.name.value + ' on', 'fragment ' + cpName + ' on')
+        rpGraphRaw = rpGraphRaw.replace('...' + def.name.value, '...' + cpName)
+        if (isExport) {
+          exportMap[def.name.value] = {
+            fragName: cpName,
+            args: args,
+          }
+        }
+        break
+      }
+    }
+  }
+
+  return {
+    graphRaw: rpGraphRaw + '\n' + depGraph,
+    exportMap,
+  }
+}
+
 export function createGraphQLRoot(client: ApolloClient<NormalizedCacheObject>) {
-  return async (frag: BuiltFragment): Promise<void> => {
-    const rootQueryFrag = defineFragment({
+  return async (frag: BuiltGraph): Promise<void> => {
+    const rootQueryFrag = defineGraph({
       query({ frag }) {
         return gql`
           query rootQuery {
