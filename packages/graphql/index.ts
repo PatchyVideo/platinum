@@ -17,6 +17,7 @@ import { filter } from 'graphql-anywhere'
 
 import { withScalars } from 'apollo-link-scalars'
 import {
+  ArgumentNode,
   buildClientSchema,
   DefinitionNode,
   ExecutableDefinitionNode,
@@ -24,6 +25,7 @@ import {
   FragmentDefinitionNode,
   IntrospectionQuery,
   Location,
+  ObjectFieldNode,
   OperationDefinitionNode,
   parse,
   SelectionNode,
@@ -271,6 +273,9 @@ type ChildrenImportMap = Record<string, ChildImportMap>
 type BuiltChild = {
   graphRaw: string
   exportMap: Record<string, ChildExportInfo>
+  varMap: Record<string, string>
+  children: Record<string, BuiltChild>
+  buildVars(vars: Record<string, unknown>): Record<string, unknown>
 }
 
 type ChildExportInfo = {
@@ -283,9 +288,17 @@ type ChildExportInfo = {
 //   compileVar(newName: string): string
 // }
 
-export function parseGraph(graphRaw: string, children: Record<string, BuiltChild> = {}): BuiltChild {
+type GraphData = {
+  graphRaw: string
+  children?: Record<string, BuiltChild>
+  variables?: ((vars: Record<string, unknown>) => Record<string, unknown>) | Record<string, unknown>
+}
+
+export function parseGraph(graphData: GraphData): BuiltChild {
   const childrenImportMap: ChildrenImportMap = {}
-  let rpGraphRaw = graphRaw
+  const children = graphData.children || {}
+  const variables = graphData.variables || {}
+  let rpGraphRaw = graphData.graphRaw
     .split(/\r?\n/)
     .map((line) => {
       line = line.trim()
@@ -321,10 +334,12 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
     .join('\n')
   let depGraph = ''
   const importRename: Record<string, string> = {}
+  const fragBelongTo: Record<string, string> = {}
   for (const child in childrenImportMap) {
     if (!children[child]) throw new Error('Child "' + child + '" is undefined.')
     for (const impName in childrenImportMap[child]) {
       importRename[childrenImportMap[child][impName]] = children[child].exportMap[impName].fragName
+      fragBelongTo[children[child].exportMap[impName].fragName] = child
     }
     depGraph += children[child].graphRaw + '\n'
   }
@@ -356,7 +371,7 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
             }
           }
         }
-        const cpName = btoa(Math.random().toString().substr(2)).replace(/=/g, '')
+        const cpName = createRandomString()
         if (def.name.loc) {
           cutlocs.push({
             loc: def.name.loc,
@@ -375,6 +390,11 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
       }
     }
   }
+
+  const spVars: Record<string, string> = {}
+  const varMap: Record<string, string> = {}
+  const childrenVarMap: Record<string, Record<string, string>> = {}
+
   for (const def of doc.definitions) {
     switch (def.kind) {
       case 'FragmentDefinition': {
@@ -384,26 +404,67 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
             switch (sel.kind) {
               case 'Field': {
                 if (sel.selectionSet) pSels(sel.selectionSet.selections)
+                if (sel.arguments)
+                  for (const arg of sel.arguments) {
+                    const pArgs = (arg: ArgumentNode | ObjectFieldNode) => {
+                      switch (arg.value.kind) {
+                        case 'Variable': {
+                          if (!(arg.value.name.value in varMap)) {
+                            varMap[arg.value.name.value] = createRandomString()
+                          }
+                          if (arg.value.loc)
+                            cutlocs.push({
+                              loc: arg.value.loc,
+                              rep: '$' + varMap[arg.value.name.value],
+                            })
+                          break
+                        }
+                        case 'ObjectValue': {
+                          for (const oarg of arg.value.fields) pArgs(oarg)
+                          break
+                        }
+                      }
+                    }
+                    pArgs(arg)
+                  }
                 break
               }
               case 'FragmentSpread': {
-                // if (sel.directives) {
-                //   for (const dire of sel.directives) {
-                //     switch (dire.name.value) {
-                //       case 'apply': {
-                //         if (dire.arguments)
-                //           for (const arg of dire.arguments) {
-                //             usedVarMap.push({
-                //               name: arg.name.value,
-                //               compileVar(newName) {
-                //               },
-                //             })
-                //           }
-                //         break
-                //       }
-                //     }
-                //   }
-                // }
+                if (sel.directives) {
+                  for (const dire of sel.directives) {
+                    switch (dire.name.value) {
+                      case 'apply': {
+                        if (dire.arguments) {
+                          if (importRename[sel.name.value]) {
+                            const childName = fragBelongTo[importRename[sel.name.value]]
+                            childrenVarMap[childName] = childrenVarMap[childName] || {}
+                            for (const arg of dire.arguments) {
+                              if (arg.name.value in variables) {
+                                if (!(arg.name.value in spVars)) spVars[arg.name.value] = createRandomString()
+                                childrenVarMap[childName][arg.name.value] = spVars[arg.name.value]
+                                const child = children[childName]
+                                const em =
+                                  (() => {
+                                    for (const name in child.exportMap)
+                                      if (child.exportMap[name].fragName === importRename[sel.name.value])
+                                        return child.exportMap[name]
+                                  })() ||
+                                  (() => {
+                                    throw new Error()
+                                  })()
+                                if (em.args)
+                                  em.args.forEach((emArg) => {
+                                    depGraph.replace(child.varMap[emArg], spVars[arg.name.value])
+                                  })
+                              }
+                            }
+                          }
+                        }
+                        break
+                      }
+                    }
+                  }
+                }
                 if (importRename[sel.name.value])
                   if (sel.loc)
                     cutlocs.push({
@@ -421,27 +482,79 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
     }
   }
 
+  rpGraphRaw = cutByLocation(
+    rpGraphRaw,
+    cutlocs.map((v) => ({ start: v.loc.start, end: v.loc.end, rep: v.rep }))
+  )
+
+  return {
+    graphRaw: rpGraphRaw + '\n' + depGraph,
+    exportMap,
+    varMap,
+    children,
+    buildVars(vars) {
+      return {
+        ...(() => {
+          let nVars: Record<string, unknown> = {}
+          const nVarMap: Record<string, string> = { ...varMap }
+          const deVarMap: Record<string, string> = {}
+          for (const key in nVarMap) deVarMap[nVarMap[key]] = key
+          for (const varName in vars) nVars[deVarMap[varName] || varName] = vars[varName]
+          if (graphData.variables)
+            if (typeof graphData.variables === 'function') {
+              nVars = { ...nVars, ...graphData.variables(nVars) }
+            } else {
+              nVars = { ...nVars, ...graphData.variables }
+            }
+          for (const childName in children) {
+            const child = children[childName]
+            const deChildVarMap: Record<string, string> = {}
+            for (const key in childrenVarMap[childName]) deChildVarMap[childrenVarMap[childName][key]] = key
+            let nVarsTemp: Record<string, unknown> = {}
+            for (const varName in nVars) nVarsTemp[deChildVarMap[varName] || varName] = nVars[varName]
+            nVarsTemp = child.buildVars(nVarsTemp)
+            for (const varName in nVarsTemp) {
+              nVars[varName] = nVarsTemp[varName]
+              nVarMap[varName] = varName
+            }
+          }
+          const rVars: Record<string, unknown> = {}
+          for (const varName in nVars) if (nVarMap[varName]) rVars[nVarMap[varName]] = nVars[varName]
+          return rVars
+        })(),
+      }
+    },
+  }
+}
+
+type CutLocation = {
+  start: number
+  end: number
+  rep?: string
+}
+
+function cutByLocation(str: string, cutLocations: CutLocation[]): string {
   let totalcutloc: { start: number; end: number; rep?: string }[] = []
-  for (const cutloc of cutlocs) {
+  for (const cutloc of cutLocations) {
     let isIncluded = false
     totalcutloc = totalcutloc.map((tcl) => {
-      if (tcl.start <= cutloc.loc.start && tcl.end >= cutloc.loc.end) {
+      if (tcl.start <= cutloc.start && tcl.end >= cutloc.end) {
         isIncluded = true
       }
-      if (tcl.start <= cutloc.loc.start && tcl.end <= cutloc.loc.end && tcl.end >= cutloc.loc.start) {
+      if (tcl.start <= cutloc.start && tcl.end <= cutloc.end && tcl.end >= cutloc.start) {
         if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
-        tcl.end = cutloc.loc.end
+        tcl.end = cutloc.end
         isIncluded = true
       }
-      if (tcl.start >= cutloc.loc.start && tcl.end >= cutloc.loc.end && tcl.start <= cutloc.loc.end) {
+      if (tcl.start >= cutloc.start && tcl.end >= cutloc.end && tcl.start <= cutloc.end) {
         if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
-        tcl.start = cutloc.loc.start
+        tcl.start = cutloc.start
         isIncluded = true
       }
-      if (tcl.start >= cutloc.loc.start && tcl.end <= cutloc.loc.end) {
+      if (tcl.start >= cutloc.start && tcl.end <= cutloc.end) {
         if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
-        tcl.start = cutloc.loc.start
-        tcl.end = cutloc.loc.end
+        tcl.start = cutloc.start
+        tcl.end = cutloc.end
         isIncluded = true
       }
       return tcl
@@ -449,29 +562,46 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
     if (!isIncluded) {
       if (cutloc.rep) {
         totalcutloc.push({
-          start: cutloc.loc.start,
-          end: cutloc.loc.end,
+          start: cutloc.start,
+          end: cutloc.end,
           rep: cutloc.rep,
         })
       } else {
         totalcutloc.push({
-          start: cutloc.loc.start,
-          end: cutloc.loc.end,
+          start: cutloc.start,
+          end: cutloc.end,
         })
       }
     }
     totalcutloc = totalcutloc.sort((a, b) => a.start - b.start)
   }
-  console.log(cutlocs, totalcutloc)
   let cut = 0
+  let ns = str
   for (const cutloc of totalcutloc) {
-    rpGraphRaw = rpGraphRaw.slice(0, cutloc.start - cut) + (cutloc.rep || '') + rpGraphRaw.slice(cutloc.end - cut)
+    ns = ns.slice(0, cutloc.start - cut) + (cutloc.rep || '') + ns.slice(cutloc.end - cut)
     cut += cutloc.end - cutloc.start - (cutloc.rep || '').length
   }
+  return ns
+}
 
-  return {
-    graphRaw: rpGraphRaw + '\n' + depGraph,
-    exportMap,
+function createRandomString() {
+  return 'N' + btoa(Math.random().toString().substr(2)).replace(/=/g, '')
+}
+
+function buildGraph(graph: BuiltChild, variables: Record<string, never>, client: ApolloClient<NormalizedCacheObject>) {
+  if (!graph.exportMap.default) throw new Error('A Graph must contain a default export.')
+
+  const doc = parse(graph.graphRaw)
+  const cutlocs: { loc: Location; rep?: string }[] = []
+  for (const def of doc.definitions) {
+    switch (def.kind) {
+      case 'FragmentDefinition': {
+        if (def.name.value === graph.exportMap.default.fragName) {
+          //TODO
+        }
+        break
+      }
+    }
   }
 }
 

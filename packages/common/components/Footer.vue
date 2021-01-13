@@ -42,7 +42,7 @@
               </select>
             </div>
           </div>
-          <div class="text-center text-sm">Platinum V{{ version }}, © 2020 PatchyVideo</div>
+          <div class="text-center text-sm">Platinum V{{ version }}, © 2020-2021 PatchyVideo</div>
         </div>
       </div>
     </div>

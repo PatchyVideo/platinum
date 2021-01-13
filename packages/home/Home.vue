@@ -60,44 +60,52 @@ import Footer from '@/common/components/Footer.vue'
 //   console.log(data)
 // })
 
-console.log(
-  parseGraph(
-    gql`
-      # @import child from 'childFrag'
+const pdg = parseGraph({
+  graphRaw: gql`
+    # @import child from 'childFrag'
 
-      fragment default on Query @export @param(offset: string, limit: string) {
-        listVideo(
-          para: {
-            offset: $offset
-            limit: $limit
-            humanReadableTag: true
-            query: "https://www.bilibili.com/video/av287017839?p=1"
-          }
-        ) {
-          count
-          ...child @apply(limit: $limit)
-          ... on Video {
-            bar
-          }
+    fragment default on Query @export @param(offset: number, limit: number) {
+      listVideo(
+        para: {
+          offset: $offset
+          limit: $limit
+          humanReadableTag: true
+          query: "https://www.bilibili.com/video/av287017839?p=1"
+        }
+      ) {
+        count
+        ...child @apply(limit: $limit)
+        ... on Video {
+          bar
         }
       }
-    `,
-    {
-      childFrag: {
-        graphRaw: gql`
-          fragment llfwafsaf on ListVideoResult {
-            maxCount
-          }
-        `,
-        exportMap: {
-          default: {
-            fragName: 'llfwafsaf',
-          },
-        },
-      },
     }
-  )
-)
+  `,
+  variables: {
+    offset: 0,
+    limit: 1,
+  },
+  children: {
+    childFrag: parseGraph({
+      graphRaw: gql`
+        fragment default on ListVideoResult @export @param(limit: number) {
+          maxCount
+          foo(limit: $limitP1) {
+            count
+          }
+        }
+      `,
+      variables(vars) {
+        return {
+          limitP1: (vars.limit as number) + 1,
+        }
+      },
+    }),
+  },
+})
+
+console.log(pdg)
+console.log(pdg.buildVars({}))
 
 export default defineComponent({
   components: {
