@@ -23,6 +23,7 @@ import {
   FieldNode,
   FragmentDefinitionNode,
   IntrospectionQuery,
+  Location,
   OperationDefinitionNode,
   parse,
   SelectionNode,
@@ -328,8 +329,9 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
     depGraph += children[child].graphRaw + '\n'
   }
 
-  const doc = parse(graphRaw)
+  const doc = parse(rpGraphRaw)
   const exportMap: Record<string, ChildExportInfo> = {}
+  const cutlocs: { loc: Location; rep?: string }[] = []
   for (const def of doc.definitions) {
     switch (def.kind) {
       case 'FragmentDefinition': {
@@ -343,15 +345,39 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
                   for (const arg of dire.arguments) {
                     args.push(arg.name.value)
                   }
+                if (dire.loc) cutlocs.push({ loc: dire.loc })
                 break
               }
               case 'export': {
                 isExport = true
+                if (dire.loc) cutlocs.push({ loc: dire.loc })
                 break
               }
             }
           }
         }
+        const cpName = btoa(Math.random().toString().substr(2)).replace(/=/g, '')
+        if (def.name.loc) {
+          cutlocs.push({
+            loc: def.name.loc,
+            rep: cpName,
+          })
+          importRename[def.name.value] = cpName
+        }
+
+        if (isExport) {
+          exportMap[def.name.value] = {
+            fragName: cpName,
+            args: args,
+          }
+        }
+        break
+      }
+    }
+  }
+  for (const def of doc.definitions) {
+    switch (def.kind) {
+      case 'FragmentDefinition': {
         const sels = def.selectionSet.selections
         const pSels = (sels: readonly SelectionNode[]) => {
           for (const sel of sels) {
@@ -361,8 +387,6 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
                 break
               }
               case 'FragmentSpread': {
-                if (importRename[sel.name.value])
-                  rpGraphRaw = rpGraphRaw.replace('...' + sel.name.value, '...' + importRename[sel.name.value])
                 // if (sel.directives) {
                 //   for (const dire of sel.directives) {
                 //     switch (dire.name.value) {
@@ -380,24 +404,69 @@ export function parseGraph(graphRaw: string, children: Record<string, BuiltChild
                 //     }
                 //   }
                 // }
+                if (importRename[sel.name.value])
+                  if (sel.loc)
+                    cutlocs.push({
+                      loc: sel.loc,
+                      rep: '...' + importRename[sel.name.value],
+                    })
                 break
               }
             }
           }
         }
         pSels(sels)
-        const cpName = btoa(Math.random().toString().substr(2)).replace(/=/g, '')
-        rpGraphRaw = rpGraphRaw.replace('fragment ' + def.name.value + ' on', 'fragment ' + cpName + ' on')
-        rpGraphRaw = rpGraphRaw.replace('...' + def.name.value, '...' + cpName)
-        if (isExport) {
-          exportMap[def.name.value] = {
-            fragName: cpName,
-            args: args,
-          }
-        }
         break
       }
     }
+  }
+
+  let totalcutloc: { start: number; end: number; rep?: string }[] = []
+  for (const cutloc of cutlocs) {
+    let isIncluded = false
+    totalcutloc = totalcutloc.map((tcl) => {
+      if (tcl.start <= cutloc.loc.start && tcl.end >= cutloc.loc.end) {
+        isIncluded = true
+      }
+      if (tcl.start <= cutloc.loc.start && tcl.end <= cutloc.loc.end && tcl.end >= cutloc.loc.start) {
+        if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
+        tcl.end = cutloc.loc.end
+        isIncluded = true
+      }
+      if (tcl.start >= cutloc.loc.start && tcl.end >= cutloc.loc.end && tcl.start <= cutloc.loc.end) {
+        if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
+        tcl.start = cutloc.loc.start
+        isIncluded = true
+      }
+      if (tcl.start >= cutloc.loc.start && tcl.end <= cutloc.loc.end) {
+        if (tcl.rep && cutloc.rep) throw new Error('A string was required to replace twice.')
+        tcl.start = cutloc.loc.start
+        tcl.end = cutloc.loc.end
+        isIncluded = true
+      }
+      return tcl
+    })
+    if (!isIncluded) {
+      if (cutloc.rep) {
+        totalcutloc.push({
+          start: cutloc.loc.start,
+          end: cutloc.loc.end,
+          rep: cutloc.rep,
+        })
+      } else {
+        totalcutloc.push({
+          start: cutloc.loc.start,
+          end: cutloc.loc.end,
+        })
+      }
+    }
+    totalcutloc = totalcutloc.sort((a, b) => a.start - b.start)
+  }
+  console.log(cutlocs, totalcutloc)
+  let cut = 0
+  for (const cutloc of totalcutloc) {
+    rpGraphRaw = rpGraphRaw.slice(0, cutloc.start - cut) + (cutloc.rep || '') + rpGraphRaw.slice(cutloc.end - cut)
+    cut += cutloc.end - cutloc.start - (cutloc.rep || '').length
   }
 
   return {
