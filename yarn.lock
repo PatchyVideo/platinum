@@ -876,15 +876,15 @@ __metadata:
   linkType: hard
 
 "@graphql-tools/git-loader@npm:^6":
-  version: 6.2.5
-  resolution: "@graphql-tools/git-loader@npm:6.2.5"
+  version: 6.2.6
+  resolution: "@graphql-tools/git-loader@npm:6.2.6"
   dependencies:
     "@graphql-tools/graphql-tag-pluck": ^6.2.6
     "@graphql-tools/utils": ^7.0.0
-    tslib: ~2.0.1
+    tslib: ~2.1.0
   peerDependencies:
     graphql: ^14.0.0 || ^15.0.0
-  checksum: a64f8653b274356db2ecec1e20d27e5d4e4c257e84640027b4246ff9db6ed2baacc9d5672d57cb2632158559ee103bb3510b19296ba759393696a7432133ec96
+  checksum: 4866eee0c5c974c39a0023ac771794b202b3d5eec7f601ebea84f47c7213f631b0fe44e52a1a537d55c550d4034040d210395c3b031a3c6bf3b5f499fb7f19f2
   languageName: node
   linkType: hard
 
@@ -2313,9 +2313,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001173":
-  version: 1.0.30001176
-  resolution: "caniuse-lite@npm:1.0.30001176"
-  checksum: 77c8e220535910114e4b4f8c65af69c9fc7ee208a104cda7252d4f6c89b7c537723094409291840b4144f4ce325fd1aa35f7812bc590b6175759d7fbd9f6b3bd
+  version: 1.0.30001177
+  resolution: "caniuse-lite@npm:1.0.30001177"
+  checksum: a43eafb57339093bf3343bc6f57cc21ff6779af44c9a26cc078c3b335db12598179d1333a1cbdd6fd25a2c08cfc550c78538b48fbb3e9c383f46460a1c32a1c0
   languageName: node
   linkType: hard
 
@@ -2929,9 +2929,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.634":
-  version: 1.3.637
-  resolution: "electron-to-chromium@npm:1.3.637"
-  checksum: 551f2355563607ad724260d54cf9c7d286347c29136dccf7c3fa881e81d81fca1a0fe7fc0486f953952171e30c4fb8d56c72369b38e2e89828d905990c899a7d
+  version: 1.3.639
+  resolution: "electron-to-chromium@npm:1.3.639"
+  checksum: bf8b79e55d50ddcd55b029feb161a56250f3a8980b5c11b47055fd983b9306ad8c69c0501eef9317e0e03f8c5d69fecb97338c08df8c9456953f5741646794c1
   languageName: node
   linkType: hard
 
@@ -3029,11 +3029,11 @@ __metadata:
   linkType: hard
 
 "esbuild@npm:^0.8.26":
-  version: 0.8.31
-  resolution: "esbuild@npm:0.8.31"
+  version: 0.8.32
+  resolution: "esbuild@npm:0.8.32"
   bin:
     esbuild: bin/esbuild
-  checksum: 0c74f60258705bddce6192fc833b37b00efdb47b4e6754726f6ab225d5ba46356e39bcc08ae9e866338c73e65b1c7b9518a50cf9792fbc7da3631c988f0d22ef
+  checksum: fb543146c63ca07a3b777a76d107c454eb33757c0696c21a8d8d3bf5f893259df56fad5366f55b5793693716ae2f57a6e2641921b5515807e00f21132a568a2a
   languageName: node
   linkType: hard
 
@@ -5690,7 +5690,7 @@ highlight.js@^10.5.0:
     tlds: ^1.216.0
     typed.js: ^2.0.11
     typescript: ^4.1.3
-    vite: ^2.0.0-beta.26
+    vite: ^2.0.0-beta.27
     vue: next
     vue-i18n: next
     vue-router: next
@@ -7270,9 +7270,9 @@ typescript@^4.1.3:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.0.0-beta.26":
-  version: 2.0.0-beta.26
-  resolution: "vite@npm:2.0.0-beta.26"
+"vite@npm:^2.0.0-beta.27":
+  version: 2.0.0-beta.27
+  resolution: "vite@npm:2.0.0-beta.27"
   dependencies:
     esbuild: ^0.8.26
     fsevents: ~2.1.2
@@ -7284,7 +7284,7 @@ typescript@^4.1.3:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 37c770e3118a7c7b21e23d4b77e044d285dad552bea3b0d9eb1eece55e2c54ac10c68eac1ee593ee96b0f9c6950076376ee66b235d8cd68bf8b31ab7c6cc8994
+  checksum: 1d040cc75b61768503d2d3eceffc586bc53e26fdfc1ec155a9a991c2ee721dc88bb0f02a62619baf22907779f70847f449e1ae648c63a9b4b17a1869f9416813
   languageName: node
   linkType: hard
 

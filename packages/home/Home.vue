@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
+import { defineAsyncComponent, defineComponent, reactive, ref, watch, watchEffect } from 'vue'
 import { gql, parseGraph, schema } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
 
@@ -60,6 +60,8 @@ import Footer from '@/common/components/Footer.vue'
 //   console.log(data)
 // })
 
+const limit = ref(1)
+
 const pdg = parseGraph({
   graphRaw: gql`
     # @import child from 'childFrag'
@@ -83,7 +85,7 @@ const pdg = parseGraph({
   `,
   variables: {
     offset: 0,
-    limit: 1,
+    limit: limit,
   },
   children: {
     childFrag: parseGraph({
@@ -97,7 +99,7 @@ const pdg = parseGraph({
       `,
       variables(vars) {
         return {
-          limitP1: (vars.limit as number) + 1,
+          limitP1: (vars.limit.value as number) + 1,
         }
       },
     }),
@@ -105,7 +107,10 @@ const pdg = parseGraph({
 })
 
 console.log(pdg)
-console.log(pdg.buildVars({}))
+const vars = pdg.buildVars({})
+console.log(vars)
+watch(vars, (vars) => console.log('variables changed.', vars))
+limit.value++
 
 export default defineComponent({
   components: {

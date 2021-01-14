@@ -1,4 +1,4 @@
-import { provide, inject } from 'vue'
+import { provide, inject, ComputedRef, Ref, computed, reactive, toRefs, isReactive } from 'vue'
 import {
   ApolloClient,
   InMemoryCache,
@@ -275,7 +275,7 @@ type BuiltChild = {
   exportMap: Record<string, ChildExportInfo>
   varMap: Record<string, string>
   children: Record<string, BuiltChild>
-  buildVars(vars: Record<string, unknown>): Record<string, unknown>
+  buildVars(vars: Record<string, Ref<unknown>>): ComputedRef<Record<string, Ref<unknown>>>
 }
 
 type ChildExportInfo = {
@@ -291,7 +291,7 @@ type ChildExportInfo = {
 type GraphData = {
   graphRaw: string
   children?: Record<string, BuiltChild>
-  variables?: ((vars: Record<string, unknown>) => Record<string, unknown>) | Record<string, unknown>
+  variables?: ((vars: Record<string, Ref<unknown>>) => Record<string, unknown>) | Record<string, unknown>
 }
 
 export function parseGraph(graphData: GraphData): BuiltChild {
@@ -493,36 +493,36 @@ export function parseGraph(graphData: GraphData): BuiltChild {
     varMap,
     children,
     buildVars(vars) {
-      return {
-        ...(() => {
-          let nVars: Record<string, unknown> = {}
-          const nVarMap: Record<string, string> = { ...varMap }
-          const deVarMap: Record<string, string> = {}
-          for (const key in nVarMap) deVarMap[nVarMap[key]] = key
-          for (const varName in vars) nVars[deVarMap[varName] || varName] = vars[varName]
-          if (graphData.variables)
-            if (typeof graphData.variables === 'function') {
-              nVars = { ...nVars, ...graphData.variables(nVars) }
-            } else {
-              nVars = { ...nVars, ...graphData.variables }
-            }
-          for (const childName in children) {
-            const child = children[childName]
-            const deChildVarMap: Record<string, string> = {}
-            for (const key in childrenVarMap[childName]) deChildVarMap[childrenVarMap[childName][key]] = key
-            let nVarsTemp: Record<string, unknown> = {}
-            for (const varName in nVars) nVarsTemp[deChildVarMap[varName] || varName] = nVars[varName]
-            nVarsTemp = child.buildVars(nVarsTemp)
-            for (const varName in nVarsTemp) {
-              nVars[varName] = nVarsTemp[varName]
-              nVarMap[varName] = varName
-            }
+      return computed(() => {
+        let nVars: Record<string, Ref<unknown>> = {}
+        const nVarMap: Record<string, string> = { ...varMap }
+        const deVarMap: Record<string, string> = {}
+        for (const key in nVarMap) deVarMap[nVarMap[key]] = key
+        for (const varName in vars) nVars[deVarMap[varName] || varName] = vars[varName]
+        if (graphData.variables)
+          if (typeof graphData.variables === 'function') {
+            let nret = graphData.variables(nVars)
+            if (!isReactive(nret)) nret = reactive(graphData.variables(nVars))
+            nVars = { ...nVars, ...toRefs(nret) }
+          } else {
+            nVars = { ...nVars, ...toRefs(reactive(graphData.variables)) }
           }
-          const rVars: Record<string, unknown> = {}
-          for (const varName in nVars) if (nVarMap[varName]) rVars[nVarMap[varName]] = nVars[varName]
-          return rVars
-        })(),
-      }
+        for (const childName in children) {
+          const child = children[childName]
+          const deChildVarMap: Record<string, string> = {}
+          for (const key in childrenVarMap[childName]) deChildVarMap[childrenVarMap[childName][key]] = key
+          const nVarsTemp: Record<string, Ref<unknown>> = {}
+          for (const varName in nVars) nVarsTemp[deChildVarMap[varName] || varName] = nVars[varName]
+          const nVarsTempC = child.buildVars(nVarsTemp)
+          for (const varName in nVarsTempC.value) {
+            nVars[varName] = nVarsTempC.value[varName]
+            nVarMap[varName] = varName
+          }
+        }
+        const rVars: Record<string, Ref<unknown>> = {}
+        for (const varName in nVars) if (nVarMap[varName]) rVars[nVarMap[varName]] = nVars[varName]
+        return rVars
+      })
     },
   }
 }
@@ -588,7 +588,7 @@ function createRandomString() {
   return 'N' + btoa(Math.random().toString().substr(2)).replace(/=/g, '')
 }
 
-function buildGraph(graph: BuiltChild, variables: Record<string, never>, client: ApolloClient<NormalizedCacheObject>) {
+function buildGraph(graph: BuiltChild, client: ApolloClient<NormalizedCacheObject>) {
   if (!graph.exportMap.default) throw new Error('A Graph must contain a default export.')
 
   const doc = parse(graph.graphRaw)
