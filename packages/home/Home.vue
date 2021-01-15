@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import { defineAsyncComponent, defineComponent, reactive, ref, watch, watchEffect } from 'vue'
-import { gql, parseGraph, schema } from '@/graphql'
+import { buildGraph, gql, parseGraph, schema } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
 
 // const childFrag = defineFragment({
@@ -66,7 +66,7 @@ const pdg = parseGraph({
   graphRaw: gql`
     # @import child from 'childFrag'
 
-    fragment default on Query @export @param(offset: number, limit: number) {
+    fragment default on Query @export @param(offset: Int, limit: Int) {
       listVideo(
         para: {
           offset: $offset
@@ -77,9 +77,6 @@ const pdg = parseGraph({
       ) {
         count
         ...child @apply(limit: $limit)
-        ... on Video {
-          bar
-        }
       }
     }
   `,
@@ -90,11 +87,8 @@ const pdg = parseGraph({
   children: {
     childFrag: parseGraph({
       graphRaw: gql`
-        fragment default on ListVideoResult @export @param(limit: number) {
-          maxCount
-          foo(limit: $limitP1) {
-            count
-          }
+        fragment default on ListVideoResult @export @param(limit: Int) @vari(limitP1: Int) {
+          count
         }
       `,
       variables(vars) {
@@ -107,10 +101,7 @@ const pdg = parseGraph({
 })
 
 console.log(pdg)
-const vars = pdg.buildVars({})
-console.log(vars)
-watch(vars, (vars) => console.log('variables changed.', vars))
-limit.value++
+buildGraph(pdg)
 
 export default defineComponent({
   components: {

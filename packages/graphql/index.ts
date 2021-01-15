@@ -1,4 +1,4 @@
-import { provide, inject, ComputedRef, Ref, computed, reactive, toRefs, isReactive } from 'vue'
+import { provide, inject, ComputedRef, Ref, computed, reactive, toRefs, isReactive, unref } from 'vue'
 import {
   ApolloClient,
   InMemoryCache,
@@ -34,6 +34,7 @@ import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
 
 import * as schema from './__generated__/graphql'
+import { stringifyQuery } from 'vue-router'
 export { schema }
 
 // export { gql } from '@apollo/client/core'
@@ -274,6 +275,7 @@ type BuiltChild = {
   graphRaw: string
   exportMap: Record<string, ChildExportInfo>
   varMap: Record<string, string>
+  varTypeMap: Record<string, string>
   children: Record<string, BuiltChild>
   buildVars(vars: Record<string, Ref<unknown>>): ComputedRef<Record<string, Ref<unknown>>>
 }
@@ -347,11 +349,13 @@ export function parseGraph(graphData: GraphData): BuiltChild {
   const doc = parse(rpGraphRaw)
   const exportMap: Record<string, ChildExportInfo> = {}
   const cutlocs: { loc: Location; rep?: string }[] = []
+  const varTypeMapUnc: Record<string, Record<string, string>> = {}
   for (const def of doc.definitions) {
     switch (def.kind) {
       case 'FragmentDefinition': {
         let isExport = false
         const args: string[] = []
+        const argTypeMap: Record<string, string> = {}
         if (def.directives) {
           for (const dire of def.directives) {
             switch (dire.name.value) {
@@ -359,6 +363,15 @@ export function parseGraph(graphData: GraphData): BuiltChild {
                 if (dire.arguments)
                   for (const arg of dire.arguments) {
                     args.push(arg.name.value)
+                    if (arg.value.kind === 'EnumValue') argTypeMap[arg.name.value] = arg.value.value
+                  }
+                if (dire.loc) cutlocs.push({ loc: dire.loc })
+                break
+              }
+              case 'vari': {
+                if (dire.arguments)
+                  for (const arg of dire.arguments) {
+                    if (arg.value.kind === 'EnumValue') argTypeMap[arg.name.value] = arg.value.value
                   }
                 if (dire.loc) cutlocs.push({ loc: dire.loc })
                 break
@@ -380,6 +393,8 @@ export function parseGraph(graphData: GraphData): BuiltChild {
           importRename[def.name.value] = cpName
         }
 
+        varTypeMapUnc[cpName] = argTypeMap
+
         if (isExport) {
           exportMap[def.name.value] = {
             fragName: cpName,
@@ -393,6 +408,7 @@ export function parseGraph(graphData: GraphData): BuiltChild {
 
   const spVars: Record<string, string> = {}
   const varMap: Record<string, string> = {}
+  const varTypeMap: Record<string, string> = {}
   const childrenVarMap: Record<string, Record<string, string>> = {}
 
   for (const def of doc.definitions) {
@@ -411,6 +427,8 @@ export function parseGraph(graphData: GraphData): BuiltChild {
                         case 'Variable': {
                           if (!(arg.value.name.value in varMap)) {
                             varMap[arg.value.name.value] = createRandomString()
+                            varTypeMap[varMap[arg.value.name.value]] =
+                              varTypeMapUnc[importRename[def.name.value]][arg.value.name.value]
                           }
                           if (arg.value.loc)
                             cutlocs.push({
@@ -491,6 +509,15 @@ export function parseGraph(graphData: GraphData): BuiltChild {
     graphRaw: rpGraphRaw + '\n' + depGraph,
     exportMap,
     varMap,
+    varTypeMap: (() => {
+      for (const childName in children) {
+        const child = children[childName]
+        for (const key in child.varTypeMap) {
+          varTypeMap[key] = child.varTypeMap[key]
+        }
+      }
+      return varTypeMap
+    })(),
     children,
     buildVars(vars) {
       return computed(() => {
@@ -588,21 +615,41 @@ function createRandomString() {
   return 'N' + btoa(Math.random().toString().substr(2)).replace(/=/g, '')
 }
 
-function buildGraph(graph: BuiltChild, client: ApolloClient<NormalizedCacheObject>) {
+export function buildGraph(graph: BuiltChild, client: ApolloClient<NormalizedCacheObject>): void {
   if (!graph.exportMap.default) throw new Error('A Graph must contain a default export.')
 
-  const doc = parse(graph.graphRaw)
-  const cutlocs: { loc: Location; rep?: string }[] = []
-  for (const def of doc.definitions) {
-    switch (def.kind) {
-      case 'FragmentDefinition': {
-        if (def.name.value === graph.exportMap.default.fragName) {
-          //TODO
-        }
-        break
-      }
-    }
+  console.log(graph.varTypeMap)
+
+  const variRef = graph.buildVars({})
+
+  const variables: Record<string, unknown> = {}
+  const variun = unref(variRef)
+  for (const vari in variun) variables[vari] = unref(variun[vari])
+
+  let variString = ''
+  if (Object.keys(variables).length > 0) {
+    variString = '('
+    for (const vari in variables)
+      variString +=
+        '$' +
+        vari +
+        ':' +
+        (graph.varTypeMap[vari] ||
+          (() => {
+            throw new Error()
+          })()) +
+        '!,'
+    variString = variString.slice(0, variString.length - 1) + ')'
   }
+
+  const query = parse(
+    `
+    query rootQuery ${variString} {
+      ...${graph.exportMap.default.fragName}
+    }
+  ` + graph.graphRaw
+  )
+  console.log(query, createApollo().query({ query: query, variables: variables }))
 }
 
 export function createGraphQLRoot(client: ApolloClient<NormalizedCacheObject>) {
