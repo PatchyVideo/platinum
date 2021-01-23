@@ -23,46 +23,26 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent, reactive, ref, watch, watchEffect } from 'vue'
-import { buildGraph, gql, parseGraph, schema } from '@/graphql'
+import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
+import { gql, parseGraph } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
-
-// const childFrag = defineFragment({
-//   query: () => gql`
-//     fragment testListVideo on ListVideoResult {
-//       pageCount
-//     }
-//   `,
-// })
-// childFrag.onQueryResult<schema.ListVideoResult>((data) => {
-//   console.log(data)
-// })
-
-// export const gqlFrag = defineFragment({
-//   query({ childFrag }) {
-//     return gql`
-//       fragment RootFrag on Query {
-//         apiVersion
-//         listVideo(
-//           para: { offset: 0, limit: 1, humanReadableTag: true, query: "https://www.bilibili.com/video/av287017839?p=1" }
-//         ) {
-//           ...testListVideo
-//         }
-//       }
-//       ${childFrag.query}
-//     `
-//   },
-//   queryChildren: {
-//     childFrag,
-//   },
-// })
-// gqlFrag.onQueryResult<schema.Query>((data) => {
-//   console.log(data)
-// })
 
 const limit = ref(1)
 
-const pdg = parseGraph({
+const childFrag = parseGraph({
+  graphRaw: gql`
+    fragment default on ListVideoResult @export @param(limit: Int) @vari(limitP1: Int) {
+      count
+    }
+  `,
+  variables(vars) {
+    return {
+      limitP1: (vars.limit.value as number) + 1,
+    }
+  },
+})
+
+export const graph = parseGraph({
   graphRaw: gql`
     # @import child from 'childFrag'
 
@@ -85,23 +65,13 @@ const pdg = parseGraph({
     limit: limit,
   },
   children: {
-    childFrag: parseGraph({
-      graphRaw: gql`
-        fragment default on ListVideoResult @export @param(limit: Int) @vari(limitP1: Int) {
-          count
-        }
-      `,
-      variables(vars) {
-        return {
-          limitP1: (vars.limit.value as number) + 1,
-        }
-      },
-    }),
+    childFrag,
   },
 })
 
-console.log(pdg)
-buildGraph(pdg)
+console.log(graph)
+graph.onFragmentData('default', (data) => console.log('main', data))
+childFrag.onFragmentData('default', (data) => console.log('child', data))
 
 export default defineComponent({
   components: {

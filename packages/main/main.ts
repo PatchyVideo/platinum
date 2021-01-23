@@ -1,6 +1,6 @@
 import { createApp, defineComponent, h } from 'vue'
 import { createRouter, createWebHistory, RouterView } from 'vue-router'
-import { BuiltFragment, createApollo, createGraphQLRoot, provideClient } from '@/graphql'
+import { buildGraph, BuiltChild, createApollo, provideClient } from '@/graphql'
 
 import '@/tailwindcss'
 
@@ -10,8 +10,7 @@ import '@/darkmode'
 /* GraphQL */
 const client = createApollo()
 const onRouterImport = (value: unknown) => {
-  if ((value as { gqlFrag: BuiltFragment }).gqlFrag)
-    createGraphQLRoot(client)((value as { gqlFrag: BuiltFragment }).gqlFrag)
+  if ((value as { graph: BuiltChild }).graph) buildGraph((value as { graph: BuiltChild }).graph, client)
   return value
 }
 
