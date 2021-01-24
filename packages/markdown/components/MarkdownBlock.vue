@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="markdown-body" v-html="html"></article>
+  <article class="prose" v-html="html"></article>
 </template>
 
 <script lang="ts">
@@ -24,6 +24,5 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-@import '@primer/css/dist/markdown.css';
 @import 'highlight.js/styles/atom-one-light.css';
 </style>

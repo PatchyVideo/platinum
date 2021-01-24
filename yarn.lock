@@ -1234,26 +1234,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@primer/css@npm:^15.2.0":
-  version: 15.2.0
-  resolution: "@primer/css@npm:15.2.0"
-  dependencies:
-    "@primer/octicons": ^9.1.1
-  bin:
-    primer-migrate: bin/primer-migrate
-  checksum: 4b30595c08ab5cfaaa2c3b6611a6d0e3467b31210ba82899955ff7dfff97cf88a4a3295b7ef0a3e90e9597d118c07f66cc225db4ec3c38e249a98158300d320a
-  languageName: node
-  linkType: hard
-
-"@primer/octicons@npm:^9.1.1":
-  version: 9.6.0
-  resolution: "@primer/octicons@npm:9.6.0"
-  dependencies:
-    object-assign: ^4.1.1
-  checksum: 980ccd0410926daaeba930dc05db40c584e206cecacbd1784ea535808216e17ab83f86c45dfb3e7ebee14e4f1d01282690d4807cdf153f8057db6a6b55f5861b
-  languageName: node
-  linkType: hard
-
 "@samverschueren/stream-to-observable@npm:^0.3.0":
   version: 0.3.1
   resolution: "@samverschueren/stream-to-observable@npm:0.3.1"
@@ -1281,6 +1261,20 @@ __metadata:
   dependencies:
     defer-to-connect: ^1.0.1
   checksum: a46ec854231194dd1ab924a5ea0d8f0afa2b7133754a3def099cc5749e34802d8668a7d7ee3583327048354b9dc621113843d8546387e06ff57e6763cbb558d9
+  languageName: node
+  linkType: hard
+
+"@tailwindcss/typography@npm:^0.4.0":
+  version: 0.4.0
+  resolution: "@tailwindcss/typography@npm:0.4.0"
+  dependencies:
+    lodash.castarray: ^4.4.0
+    lodash.isplainobject: ^4.0.6
+    lodash.merge: ^4.6.2
+    lodash.uniq: ^4.5.0
+  peerDependencies:
+    tailwindcss: 2.0.0-alpha.24 || ^2.0.0
+  checksum: 1d5748dbbcb376927c1c880c91560c48c7a260aeeb5507fe07df1e9f6610d9d7cc943b1e878aec9e6a480f21d28f2ec291fb4d213dfe798e08f8760051fd6ade
   languageName: node
   linkType: hard
 
@@ -1558,12 +1552,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitejs/plugin-vue@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@vitejs/plugin-vue@npm:1.1.0"
+"@vitejs/plugin-vue@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@vitejs/plugin-vue@npm:1.1.1"
   peerDependencies:
     "@vue/compiler-sfc": ^3.0.4
-  checksum: 6a4e5e022d9efd9b2667c432121acb098e8b7e73a90d45975d0eedba88a73fb89110e6ab3676b1e8a8a9672e801a43ae5c0dd37106aa20645069aee597ecaf1e
+  checksum: b6a317a71a58a2339a223410eba0d8cc0cf5d54e7ce212badb306cd9dd18036788483256a718ee7ba93c883257bd52e605b52ad75d41aa75fb1247e0eac6950d
   languageName: node
   linkType: hard
 
@@ -1670,22 +1664,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^4.0.8":
-  version: 4.0.8
-  resolution: "@vueuse/core@npm:4.0.8"
+"@vueuse/core@npm:^4.0.9":
+  version: 4.0.9
+  resolution: "@vueuse/core@npm:4.0.9"
   dependencies:
-    "@vueuse/shared": 4.0.8
+    "@vueuse/shared": 4.0.9
     vue-demi: latest
-  checksum: ddc97e0705a91faa6caa48a71b476c23f6f0b273085a715388b994451688929335a2a285ab771ea2f526899e64c042cf36b22773ea98f8eae66f18d79626e881
+  checksum: 8351f4f4c867576e153f9d11f72c213dbcd34eca78de72ebdfafc33577e98995a2e5ded8831b2bebb689f8a9f96e11033c82a515ceb6330e63e2588b39551bea
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:4.0.8":
-  version: 4.0.8
-  resolution: "@vueuse/shared@npm:4.0.8"
+"@vueuse/shared@npm:4.0.9":
+  version: 4.0.9
+  resolution: "@vueuse/shared@npm:4.0.9"
   dependencies:
     vue-demi: latest
-  checksum: ce5b340e52d7366c0d703c1a5cedfbab484e3cb57e87c100fe721b822c76c2343f3c0ad6035b43a855a364a32f343187501b7c1c13fc4084e2a056a1f3977bd9
+  checksum: 81252b321c35633fef0fefb326888e688360a33b3d8333c2ab06c46c4e9bf1ce41b3810cf5ec20b7df9a3c79f6a70e280440c9f0b8bf5a81e17d4ba957d0234b
   languageName: node
   linkType: hard
 
@@ -1695,15 +1689,6 @@ __metadata:
   dependencies:
     tslib: ^1.14.1
   checksum: 7b800a48a986f7aaa3f40d3ffd6f231df4562a15d81a18b6b035783f93ea5837289e82534d255be056ba91fafa013a3661010c8c10c8a0fc5707c7bfc95eabed
-  languageName: node
-  linkType: hard
-
-"@wry/equality@npm:^0.1.2":
-  version: 0.1.11
-  resolution: "@wry/equality@npm:0.1.11"
-  dependencies:
-    tslib: ^1.9.3
-  checksum: 3d1da5799967fc272ae53f698514c169c85a04c11c1db3e4641a21edc82af75bfb4db9221c4f87aa333f14c7b43b72311fa66dae1ae981fa6f24c2bc5863d92b
   languageName: node
   linkType: hard
 
@@ -1910,20 +1895,6 @@ __metadata:
   peerDependencies:
     graphql: 14.x || 15.x
   checksum: e42a77b56e6309d756918e710db06b3f2a3b61c53c8e61fd1422a66f645b4d50e90c91b634b952f22689d781b7fb58b307757b2dba6324f8166685be4e8067f5
-  languageName: node
-  linkType: hard
-
-"apollo-utilities@npm:^1.3.4":
-  version: 1.3.4
-  resolution: "apollo-utilities@npm:1.3.4"
-  dependencies:
-    "@wry/equality": ^0.1.2
-    fast-json-stable-stringify: ^2.0.0
-    ts-invariant: ^0.4.0
-    tslib: ^1.10.0
-  peerDependencies:
-    graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-  checksum: 5a046f8792b124a0fdc8ac37f4c50ba57cd4914dabcd652baaee08de541707c82bf2fb4d814e7d6d35b0b916f1582e5492c16809b43f0a2ce1584d9f89d4cd70
   languageName: node
   linkType: hard
 
@@ -3785,19 +3756,6 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"graphql-anywhere@npm:^4.2.7":
-  version: 4.2.7
-  resolution: "graphql-anywhere@npm:4.2.7"
-  dependencies:
-    apollo-utilities: ^1.3.4
-    ts-invariant: ^0.3.2
-    tslib: ^1.10.0
-  peerDependencies:
-    graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
-  checksum: b733c679eaef8b3f361ff1f13d7d8da88672b00213bdcef136c3bdd4e4f1a0dea50004209dd29b936be0b18fb758212f9582249eeadd89e86a56e0bc5ded700c
-  languageName: node
-  linkType: hard
-
 "graphql-config@npm:^3.2.0":
   version: 3.2.0
   resolution: "graphql-config@npm:3.2.0"
@@ -4755,6 +4713,13 @@ highlight.js@^10.5.0:
   languageName: node
   linkType: hard
 
+"lodash.castarray@npm:^4.4.0":
+  version: 4.4.0
+  resolution: "lodash.castarray@npm:4.4.0"
+  checksum: 45fb788a2e5a8550aab10ad1e057bbaf2c411734b06b249e87ad1243d39fa28543f249207fbf9c6e66f78a57cef0b187bbd3e2f84d7767593b5d944e6e6f5bcf
+  languageName: node
+  linkType: hard
+
 "lodash.clonedeep@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.clonedeep@npm:4.5.0"
@@ -4860,6 +4825,13 @@ highlight.js@^10.5.0:
   languageName: node
   linkType: hard
 
+"lodash.merge@npm:^4.6.2":
+  version: 4.6.2
+  resolution: "lodash.merge@npm:4.6.2"
+  checksum: 4e2bb42a87a148991458d7c384bc197e96f7115e9536fc8e2c86ae9e99ce1c1f693ff15eb85761952535f48d72253aed8e673d9f32dde3e671cd91e3fde220a7
+  languageName: node
+  linkType: hard
+
 "lodash.omit@npm:^4.5.0":
   version: 4.5.0
   resolution: "lodash.omit@npm:4.5.0"
@@ -4892,6 +4864,13 @@ highlight.js@^10.5.0:
   version: 4.4.0
   resolution: "lodash.toarray@npm:4.4.0"
   checksum: f2b8de1812789321335dd5f4cb60625c4b8874cb3b300367d8a22990072459b76eb893feacd243686493393cccd035115cc149563f7aa5123d06d9a3b2825bf1
+  languageName: node
+  linkType: hard
+
+"lodash.uniq@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.uniq@npm:4.5.0"
+  checksum: 47cb25b59bf40ef3bdf441b7b6cb41d0b95ae0ca576be2c206724dd66041fa8aadab55c1210792671aa0b1c9878d5c0be48927bf4d22f3ed50e5f79d3b2e90b7
   languageName: node
   linkType: hard
 
@@ -5674,14 +5653,14 @@ highlight.js@^10.5.0:
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/introspection": ^1.18.1
     "@graphql-codegen/typescript": ^1.20.0
-    "@primer/css": ^15.2.0
+    "@tailwindcss/typography": ^0.4.0
     "@types/markdown-it": ^12.0.1
     "@types/tlds": ^1.199.0
     "@typescript-eslint/eslint-plugin": ^4.14.0
     "@typescript-eslint/parser": ^4.14.0
-    "@vitejs/plugin-vue": ^1.1.0
+    "@vitejs/plugin-vue": ^1.1.1
     "@vue/compiler-sfc": ^3.0.5
-    "@vueuse/core": ^4.0.8
+    "@vueuse/core": ^4.0.9
     apollo-link-scalars: ^2.0.3
     autoprefixer: ^9.8.6
     eslint: ^7.18.0
@@ -5689,7 +5668,6 @@ highlight.js@^10.5.0:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-vue: next
     graphql: ^15.4.0
-    graphql-anywhere: ^4.2.7
     highlight.js: "patch:highlight.js@^10.5.0#./.yarn/diffs/highlight.js.diff"
     markdown-it: ^12.0.4
     postcss-import: ^12.0.1
@@ -6979,24 +6957,6 @@ rollup-plugin-license@^2.2.0:
     psl: ^1.1.28
     punycode: ^2.1.1
   checksum: bf5d6fac5ce0bebc5876cb9b9a79d3d9ea21c9e4099f3d3e64701d6ba170a052cb88cece6737ec2473bac4f0a4f6c75d46ec17985be8587c6bbdd38d91625cb4
-  languageName: node
-  linkType: hard
-
-"ts-invariant@npm:^0.3.2":
-  version: 0.3.3
-  resolution: "ts-invariant@npm:0.3.3"
-  dependencies:
-    tslib: ^1.9.3
-  checksum: 4ecb5863f55a7dad210a0aa6ce31fa051be0ffa17576e544b2b47443b4e4d72fd7a8b345f8ef602f2d45b50286db7453e3e04e1ee81794af5fbf84fb4d78c5cc
-  languageName: node
-  linkType: hard
-
-"ts-invariant@npm:^0.4.0":
-  version: 0.4.4
-  resolution: "ts-invariant@npm:0.4.4"
-  dependencies:
-    tslib: ^1.9.3
-  checksum: 0280fb0e853db923605d84d83a7587342b2fcf718af5eac858cc461fcaa95837543de5f6d0a9afd8caf84faa01ffcc2a21cf71f5f51894d3e854b8a9504786bc
   languageName: node
   linkType: hard
 

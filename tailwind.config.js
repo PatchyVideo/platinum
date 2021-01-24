@@ -24,7 +24,10 @@ module.exports = {
   variants: {
     borderWidth: ['responsive', 'hover', 'focus', 'dark'],
   },
-  plugins: [],
+  plugins: [
+    // https://github.com/tailwindlabs/tailwindcss-typography#usage
+    require('@tailwindcss/typography'),
+  ],
   purge: {
     // Learn more on https://tailwindcss.com/docs/controlling-file-size/#removing-unused-css
     enabled: process.env.NODE_ENV === 'production',

@@ -17,6 +17,7 @@ import { withScalars } from 'apollo-link-scalars'
 import {
   ArgumentNode,
   buildClientSchema,
+  DocumentNode,
   IntrospectionQuery,
   Location,
   ObjectFieldNode,
@@ -112,6 +113,8 @@ export type BuiltChild = {
   buildVars(vars: Record<string, Ref<unknown>>): ComputedRef<Record<string, Ref<unknown>>>
   onFragmentData<T = unknown>(fragmentName: string, callback: (data: T) => void): void
   handleFragmentData(fragmentName: string, data: unknown): void
+  isReady: ComputedRef<boolean>
+  ready(): void
 }
 
 type Children = Record<string, BuiltChild>
@@ -145,6 +148,7 @@ type GraphData = {
   graphRaw: string
   children?: Children
   variables?: ((vars: Record<string, Ref<unknown>>) => Record<string, unknown>) | Record<string, unknown>
+  isReady?: Ref<boolean>
 }
 
 export function parseGraph(graphData: GraphData): BuiltChild {
@@ -442,6 +446,13 @@ export function parseGraph(graphData: GraphData): BuiltChild {
         )
       }
     },
+    isReady: computed(() => {
+      const is = (v: Ref<boolean> | undefined) => (v === undefined ? true : v.value)
+      return Object.values(children).reduce((p, v) => p && is(v.isReady), is(graphData.isReady))
+    }),
+    ready() {
+      if (graphData.isReady) graphData.isReady.value = true
+    },
   }
 }
 
@@ -519,38 +530,46 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
     for (const vari in variun) variables[vari] = unref(variun[vari])
     return variables
   }
-  const variables = buildVari(variRef)
 
   watch(variRef, (variRef) => {
-    // TODO
+    submitQuery(graph, variRef)
   })
 
-  let variString = ''
-  if (Object.keys(variables).length > 0) {
-    variString = '('
-    for (const vari in variables)
-      variString +=
-        '$' +
-        vari +
-        ':' +
-        (graph.varTypeMap[vari] ||
-          (() => {
-            throw new Error()
-          })()) +
-        '!,'
-    variString = variString.slice(0, variString.length - 1) + ')'
-  }
+  const submitQuery = async (
+    graph: BuiltChild,
+    vari: Record<string, Ref<unknown>> | ComputedRef<Record<string, Ref<unknown>>>
+  ) => {
+    const variables = buildVari(vari)
 
-  const query = parse(
-    `
-    query rootQuery ${variString} {
-      ...${graph.exportMap.default.fragName}
+    let variString = ''
+    if (Object.keys(variables).length > 0) {
+      variString = '('
+      for (const vari in variables)
+        variString +=
+          '$' +
+          vari +
+          ':' +
+          (graph.varTypeMap[vari] ||
+            (() => {
+              throw new Error()
+            })()) +
+          '!,'
+      variString = variString.slice(0, variString.length - 1) + ')'
     }
-  ` + graph.graphRaw
-  )
 
-  const result = await createApollo().query({ query: query, variables: variables })
+    const query = parse(`query rootQuery ${variString} {...${graph.exportMap.default.fragName}}\n${graph.graphRaw}`)
 
-  console.log(result.data)
-  graph.handleFragmentData('default', result.data)
+    if (!graph.isReady) {
+      await new Promise<void>((resolve) => {
+        watch(graph.isReady, (v) => {
+          if (v) resolve()
+        })
+      })
+    }
+
+    const result = await createApollo().query({ query: query, variables: variables })
+
+    console.log(result.data)
+    graph.handleFragmentData('default', result.data)
+  }
 }
