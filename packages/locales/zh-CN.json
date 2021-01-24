@@ -12,7 +12,8 @@
       "repositories": "项目仓库",
       "feedback-issue": "反馈BUG",
       "contact": "联系我们",
-      "opensource-licenses": "开源组件许可"
+      "opensource-licenses": "开源组件许可",
+      "license": "项目开源许可"
     }
   },
   "darkmode": {

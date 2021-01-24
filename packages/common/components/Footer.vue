@@ -91,6 +91,7 @@ export default defineComponent({
         links: [
           { key: t('common.footer.repositories'), href: 'https://patchyvideo.wiki/zh/Repositories' },
           { key: t('common.footer.feedback-issue'), href: 'https://github.com/PatchyVideo/PatchyVideo/issues' },
+          { key: t('common.footer.license'), href: '/LICENSE' },
           { key: t('common.footer.opensource-licenses'), href: '/NOTICE.txt' },
         ],
       },

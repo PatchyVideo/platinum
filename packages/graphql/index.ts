@@ -584,7 +584,7 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
       })
     }
 
-    const result = await createApollo().query({ query: query, variables: buildVari(variRef.value) })
+    const result = await client.query({ query: query, variables: buildVari(variRef.value) })
 
     posting = false
 
