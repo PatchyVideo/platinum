@@ -3,16 +3,19 @@
 </template>
 
 <script lang="ts">
+import { gql, parseGraph, schema } from '@/graphql'
 import { computed, onMounted, onUnmounted, ref, defineComponent } from 'vue'
 
+export const graph = parseGraph({
+  graphRaw: gql`
+    fragment default on VideoItem @export {
+      url
+    }
+  `,
+})
+
 export default defineComponent({
-  props: {
-    url: {
-      type: String,
-      required: true,
-    },
-  },
-  setup() {
+  async setup() {
     const root = ref(HTMLHtmlElement.prototype)
     const width = ref(0)
     const height = computed(() => (width.value / 16) * 9)
@@ -29,7 +32,17 @@ export default defineComponent({
       window.removeEventListener('resize', onResize)
     })
 
+    const url = ref('')
+    url.value = (
+      await new Promise<schema.VideoItem>((resolve) => {
+        graph.onFragmentData<schema.VideoItem>('default', resolve)
+      })
+    ).url
+
+    console.log(url)
+
     return {
+      url,
       root,
       width,
       height,

@@ -13,7 +13,14 @@
             </div>
           </div>
           <!-- Video Player -->
-          <Player :url="videoItem.url"></Player>
+          <suspense>
+            <template #default>
+              <Player />
+            </template>
+            <template #fallback>
+              <div>Player loading...</div>
+            </template>
+          </suspense>
           <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
         </div>
       </div>
@@ -23,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import Player from './components/Player.vue'
+import Player, { graph as playerGraph } from './components/Player.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import Footer from '@/common/components/Footer.vue'
 import { reactive, defineComponent, ref } from 'vue'
@@ -34,6 +41,8 @@ const gvid = ref('')
 
 export const graph = parseGraph({
   graphRaw: gql`
+    # @import player from 'player'
+
     fragment default on Query @export @vari(vid: String) {
       getVideo(para: { vid: $vid, lang: "CHS" }) {
         item {
@@ -42,6 +51,7 @@ export const graph = parseGraph({
           uploadTime
           url
           repostType
+          ...player
         }
         tagByCategory(lang: "CHS") {
           key
@@ -50,6 +60,9 @@ export const graph = parseGraph({
       }
     }
   `,
+  children: {
+    player: playerGraph,
+  },
   variables: {
     vid: gvid,
   },

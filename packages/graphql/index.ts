@@ -1,4 +1,16 @@
-import { provide, inject, ComputedRef, Ref, computed, reactive, toRefs, isReactive, unref, watch } from 'vue'
+import {
+  provide,
+  inject,
+  ComputedRef,
+  Ref,
+  computed,
+  reactive,
+  toRefs,
+  isReactive,
+  unref,
+  watch,
+  watchEffect,
+} from 'vue'
 import {
   ApolloClient,
   InMemoryCache,
@@ -12,12 +24,12 @@ import {
   FetchResult,
   disableFragmentWarnings,
 } from '@apollo/client/core'
+import get from 'lodash.get'
 
 import { withScalars } from 'apollo-link-scalars'
 import {
   ArgumentNode,
   buildClientSchema,
-  DocumentNode,
   IntrospectionQuery,
   Location,
   ObjectFieldNode,
@@ -442,7 +454,7 @@ export function parseGraph(graphData: GraphData): BuiltChild {
       for (const impdFrag of fragmentDatas[fragmentName]?.importedFragments || []) {
         children[fragBelongTo[impdFrag.fragmentName]].handleFragmentData(
           impdFrag.fragmentNameOriginal,
-          (data as never)[impdFrag.fragImportLocation.slice(0, impdFrag.fragImportLocation.length - 1)] as unknown
+          get(data, impdFrag.fragImportLocation.slice(0, impdFrag.fragImportLocation.length - 1)) as unknown
         )
       }
     },
@@ -520,7 +532,7 @@ function createRandomString() {
 export async function buildGraph(graph: BuiltChild, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
   if (!graph.exportMap.default) throw new Error('A Graph must contain a default export.')
 
-  console.log(graph.varTypeMap)
+  let posting = false
 
   const variRef = graph.buildVars({})
 
@@ -531,45 +543,52 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
     return variables
   }
 
-  watch(variRef, (variRef) => {
-    submitQuery(graph, variRef)
-  })
+  const variables = buildVari(variRef.value)
 
-  const submitQuery = async (
-    graph: BuiltChild,
-    vari: Record<string, Ref<unknown>> | ComputedRef<Record<string, Ref<unknown>>>
-  ) => {
-    const variables = buildVari(vari)
+  let variString = ''
+  if (Object.keys(variables).length > 0) {
+    variString = '('
+    for (const vari in variables)
+      variString +=
+        '$' +
+        vari +
+        ':' +
+        (graph.varTypeMap[vari] ||
+          (() => {
+            throw new Error()
+          })()) +
+        '!,'
+    variString = variString.slice(0, variString.length - 1) + ')'
+  }
 
-    let variString = ''
-    if (Object.keys(variables).length > 0) {
-      variString = '('
-      for (const vari in variables)
-        variString +=
-          '$' +
-          vari +
-          ':' +
-          (graph.varTypeMap[vari] ||
-            (() => {
-              throw new Error()
-            })()) +
-          '!,'
-      variString = variString.slice(0, variString.length - 1) + ')'
-    }
+  watch(
+    variRef,
+    () => {
+      if (!posting) submitQuery()
+    },
+    { flush: 'post' }
+  )
 
+  const submitQuery = async () => {
+    posting = true
     const query = parse(`query rootQuery ${variString} {...${graph.exportMap.default.fragName}}\n${graph.graphRaw}`)
 
-    if (!graph.isReady) {
+    if (!graph.isReady.value) {
       await new Promise<void>((resolve) => {
-        watch(graph.isReady, (v) => {
-          if (v) resolve()
-        })
+        watchEffect(
+          () => {
+            if (graph.isReady.value) resolve()
+          },
+          { flush: 'post' }
+        )
       })
     }
 
-    const result = await createApollo().query({ query: query, variables: variables })
+    const result = await createApollo().query({ query: query, variables: buildVari(variRef.value) })
 
-    console.log(result.data)
+    posting = false
+
     graph.handleFragmentData('default', result.data)
   }
+  submitQuery()
 }

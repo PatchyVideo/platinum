@@ -1366,6 +1366,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.get@npm:^4":
+  version: 4.4.6
+  resolution: "@types/lodash.get@npm:4.4.6"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: f08237e3d45e7883cf2cfe202475db6a2bd1a53576c0e66b2e89e0ca0c6f36e700ecc9926ad28b3b9ff6d348074f8c82b393f9fc2cf523fa26a86c95304f7a02
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.168
+  resolution: "@types/lodash@npm:4.14.168"
+  checksum: 9a4e25f89fc035b9f0388f1f7be85e5eff49f9e6db0d93432c9a89fce0916f8a89db4e8290415f7ea02de6b00d3573826378dcb655b7b2d20530a6e8d6dd6fd0
+  languageName: node
+  linkType: hard
+
 "@types/markdown-it@npm:^12.0.1":
   version: 12.0.1
   resolution: "@types/markdown-it@npm:12.0.1"
@@ -4748,7 +4764,7 @@ highlight.js@^10.5.0:
   languageName: node
   linkType: hard
 
-"lodash.get@npm:^4":
+"lodash.get@npm:^4, lodash.get@npm:^4.4.2":
   version: 4.4.2
   resolution: "lodash.get@npm:4.4.2"
   checksum: 447e575e3caa5131ef44e5a0c135b1614f3c937d86b3be0568f9da7b0fd015010af3b6b4e41edf6e2698c9ce2dcc061ca71b31f274f799c991dceb018be16e4f
@@ -5654,6 +5670,7 @@ highlight.js@^10.5.0:
     "@graphql-codegen/introspection": ^1.18.1
     "@graphql-codegen/typescript": ^1.20.0
     "@tailwindcss/typography": ^0.4.0
+    "@types/lodash.get": ^4
     "@types/markdown-it": ^12.0.1
     "@types/tlds": ^1.199.0
     "@typescript-eslint/eslint-plugin": ^4.14.0
@@ -5669,6 +5686,7 @@ highlight.js@^10.5.0:
     eslint-plugin-vue: next
     graphql: ^15.4.0
     highlight.js: "patch:highlight.js@^10.5.0#./.yarn/diffs/highlight.js.diff"
+    lodash.get: ^4.4.2
     markdown-it: ^12.0.4
     postcss-import: ^12.0.1
     postcss-nested: ^4.2.3
