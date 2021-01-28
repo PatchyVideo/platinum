@@ -6,6 +6,12 @@ const vue = require('@vitejs/plugin-vue')
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
 
+const banner = `
+Bundle of Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
+MIT License, Copyright (c) 2020-2021 PatchyVideo
+Generated: <%= new Date().toISOString() %>
+`.trim()
+
 /**
  * Vite Configuration File
  * @type {import('vite').UserConfig}
@@ -15,7 +21,6 @@ module.exports = {
     { find: '@', replacement: path.resolve(__dirname, './packages/') },
     { find: '@@', replacement: path.resolve(__dirname, './') },
   ],
-  sourcemap: true,
   optimizeDeps: {
     include: ['@apollo/client/core'],
     exclude: ['@apollo/client', '@primer/css'],
@@ -23,29 +28,38 @@ module.exports = {
   plugins: [
     // @ts-ignore
     vue(),
-    require('rollup-plugin-license')({
-      sourcemap: true,
-      banner: {
-        commentStyle: 'regular',
-        content: {
-          file: path.resolve(__dirname, './BANNER'),
+    {
+      ...require('rollup-plugin-license')({
+        sourcemap: true,
+        banner: {
+          commentStyle: 'ignored',
+          content: banner,
+          data() {
+            return {
+              gitLatest: data['rollup-plugin-license'].data.gitLatest,
+            }
+          },
         },
-        data() {
-          return {
-            gitLatest: data['rollup-plugin-license'].data.gitLatest,
-          }
+        thirdParty: {
+          output: {
+            file: path.resolve(__dirname, './dist/NOTICE.txt'),
+          },
         },
-      },
-      thirdParty: {
-        output: {
-          file: path.resolve(__dirname, './dist/NOTICE.txt'),
-        },
-      },
-    }),
-    // @ts-ignore
-    require('rollup-plugin-copy')({
-      targets: [{ src: 'LICENSE', dest: 'dist' }],
-      hook: 'writeBundle',
-    }),
+      }),
+      enforce: 'post',
+      apply: 'build',
+    },
+    {
+      // @ts-ignore
+      ...require('rollup-plugin-copy')({
+        targets: [{ src: 'LICENSE', dest: 'dist' }],
+        hook: 'generateBundle',
+      }),
+      enforce: 'post',
+      apply: 'build',
+    },
   ],
+  build: {
+    sourcemap: true,
+  },
 }
