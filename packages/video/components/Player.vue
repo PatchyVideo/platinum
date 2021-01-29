@@ -33,11 +33,8 @@ export default defineComponent({
     })
 
     const url = ref('')
-    url.value = (
-      await new Promise<schema.VideoItem>((resolve) => {
-        graph.onFragmentData<schema.VideoItem>('default', resolve)
-      })
-    ).url
+    const data = await graph.onFragmentData<schema.VideoItem>('default')
+    url.value = data.url
 
     console.log(url)
 

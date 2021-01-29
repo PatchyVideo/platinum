@@ -19,6 +19,10 @@ module.exports = {
       zIndex: {
         '-1': '-1',
       },
+      rotate: {
+        24: '24deg',
+        '-24': '-24deg',
+      },
     },
   },
   variants: {

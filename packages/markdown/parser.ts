@@ -1,6 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import tlds from 'tlds'
+import Token from 'markdown-it/lib/token'
 
 const markdownIt = new MarkdownIt({
   breaks: true,
@@ -72,5 +73,28 @@ markdownIt.linkify
       match.url = 'https://www.nicovideo.jp/' + match.url
     },
   })
+
+const defaultRender =
+  markdownIt.renderer.rules.link_open ||
+  function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options)
+  }
+
+markdownIt.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+  const link = tokens[idx].attrGet('href')
+  if (link && !(tokens[idx + 1].type === 'text' && tokens[idx + 1].content.trim() === link)) {
+    const url = new URL(link)
+    let ind = idx
+    for (ind; ind < tokens.length - 1; ind++) {
+      if (tokens[ind].type === 'link_close' && tokens[ind].level === tokens[idx].level) {
+        const token = new Token('html_inline', '', 0)
+        token.content = `<span class="text-xs text-gray-600">[${url.hostname.replace(/^www./, '')}]</span>`
+        tokens.splice(ind + 1, 0, token)
+        break
+      }
+    }
+  }
+  return defaultRender(tokens, idx, options, env, self)
+}
 
 export default markdownIt

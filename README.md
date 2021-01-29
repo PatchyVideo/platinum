@@ -5,35 +5,32 @@
 
 This is a **complete** rewrite of [PatchyVideo/patchyvideo-vue](https://github.com/PatchyVideo/patchyvideo-vue).
 
-## What's New?
+## Alpha Roadmap
 
-We used:
+It's hard to tell based on what we did so far. All the things we did are basically Proof of Concepts.
+But we expect to ship following features on top of the current website:
 
-- [TypeScript 4](https://www.typescriptlang.org/) as programming language
-- [ESLint 7](https://eslint.org/) + [Prettier 2](https://prettier.io/) as linter + formatter
-- [Yarn 2](https://yarnpkg.com/) as package manager
-- [Vite](https://github.com/vitejs/vite) as web build tool
-- [Vue 3](https://v3.vuejs.org/) + Composition API as JavaScript framework
-- [PostCSS 7](https://postcss.org/) + [TailwindCSS 2](https://tailwindcss.com/) as CSS framework
-- [GraphQL](https://graphql.org/) + [Apollo Client 3](https://www.apollographql.com/) as FE<->BE communication protocol + tool
-
-and we built an entire new website with:
-
-- Brand new interface with full responsive design
-- Darkmode support
-- Full custom-able home screen
-- New Video Player from ground up
+- [ ] A brand new interface with full responsive design.
+- [ ] Full dark mode support.
+- [ ] Full custom-able home screen / user profile.
+- [ ] A new home made video player.
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/PatchyVideo/platinum
+gh repo clone PatchyVideo/platinum
 cd platinum
 yarn
 yarn codegen # generate code schema
 yarn dev # launch vite dev server
 yarn build # pack the website
 ```
+
+## Technologies
+
+The full dependencies list can be found in the generated NOTICE.txt file.
+
+We want to say thanks to all the contributors that built the softwares/components/packages we used in this project. Without you, we'll have a lot more hard time.
 
 ## License
 

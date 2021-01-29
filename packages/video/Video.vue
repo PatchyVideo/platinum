@@ -7,7 +7,7 @@
         <div class="col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1" v-text="videoItem.title"></h1>
+            <h1 class="mt-1 text-lg" v-text="videoItem.title"></h1>
             <div class="text-sm text-gray-500">
               {{ videoItem.repostType }} {{ videoItem.uploadTime.toLocaleString() }}
             </div>
@@ -23,6 +23,28 @@
           </suspense>
           <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
         </div>
+        <div class="col-span-3">
+          <!-- Author / Uploader -->
+          <div v-for="author of authors" :key="author.id.toHexString()" class="flex justify-start px-2 py-1">
+            <!-- Avatar -->
+            <div class="relative w-16">
+              <img
+                class="inline w-16 h-16 rounded-full bg-gray-500"
+                :src="'https://patchyvideo.com/be/images/userphotos/' + author.avatar"
+              />
+              <div
+                class="absolute px-0.5 -right-1.5 top-0 rounded transform rotate-24 bg-pink-400 text-sm text-white"
+                v-text="author.position"
+              ></div>
+            </div>
+            <div class="ml-3">
+              {{ author.name }}<br />
+              <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
+                {{ author.desc }}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <Footer></Footer>
@@ -36,6 +58,7 @@ import Footer from '@/common/components/Footer.vue'
 import { reactive, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { gql, parseGraph, schema } from '@/graphql'
+import { ObjectID } from 'bson'
 
 const gvid = ref('')
 
@@ -53,9 +76,23 @@ export const graph = parseGraph({
           repostType
           ...player
         }
-        tagByCategory(lang: "CHS") {
-          key
-          value
+        meta {
+          createdBy {
+            id
+            username
+            desc
+            image
+          }
+        }
+        tags {
+          ... on AuthorTagObject {
+            author {
+              id
+              tagname
+              avatar
+              desc
+            }
+          }
         }
       }
     }
@@ -78,6 +115,15 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const vid = route.params.vid as string
+    type Authors = {
+      type: 'AuthorTag' | 'User'
+      position: string
+      id: ObjectID
+      name: string
+      desc: string
+      avatar: string
+    }[]
+    const authors = ref<Authors>([])
 
     const videoItem: {
       title: string
@@ -97,18 +143,43 @@ export default defineComponent({
     graph.ready()
 
     graph.onFragmentData<schema.Query>('default', (data) => {
-      document.title = data.getVideo.item.title
-      videoItem.title = data.getVideo.item.title
-      videoItem.desc = data.getVideo.item.desc
-      videoItem.repostType = data.getVideo.item.repostType
-      videoItem.uploadTime = data.getVideo.item.uploadTime
-      videoItem.url = data.getVideo.item.url
+      const video = data.getVideo
+      document.title = video.item.title
+      videoItem.title = video.item.title
+      videoItem.desc = video.item.desc
+      videoItem.repostType = video.item.repostType
+      videoItem.uploadTime = video.item.uploadTime
+      videoItem.url = video.item.url
+      for (const tag of video.tags) {
+        if (tag.__typename === 'AuthorTagObject') {
+          if (tag.author)
+            authors.value.push({
+              type: 'AuthorTag',
+              id: tag.author.id,
+              name: tag.author.tagname,
+              desc: tag.author.desc,
+              avatar: tag.author.avatar,
+              position: '作者',
+            })
+        }
+      }
+      if (video.meta.createdBy)
+        authors.value.push({
+          type: 'User',
+          id: video.meta.createdBy.id,
+          name: video.meta.createdBy.username,
+          desc: video.meta.createdBy.desc,
+          avatar: video.meta.createdBy.image,
+          position: '上传者',
+        })
+      console.log(authors)
     })
 
     return {
       route,
       vid,
       videoItem,
+      authors,
     }
   },
 })

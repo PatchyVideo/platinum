@@ -6,9 +6,12 @@ generates:
     plugins:
       - typescript
     config:
+      useImplementingTypes: true
+      addUnderscoreToArgsType: true
+      nonOptionalTypename: true
       scalars:
         DateTimeUtc: Date
-        ObjectId: string
+        ObjectId: 'bson#ObjectID as ObjectId'
   packages/graphql/__generated__/graphql.schema.json:
     schema:
       - http://localhost:8080/graphql
