@@ -2201,6 +2201,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bson@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "bson@npm:4.2.2"
+  dependencies:
+    buffer: ^5.6.0
+  checksum: f4c15fe627328b0869ac081b9ab29860b62698de16cbb3a5d503b583b70fcf12ce598a4573ca8d0f606d755d0449ea7962c55778be9ebfc62250dde30a812412
+  languageName: node
+  linkType: hard
+
 "buffer-equal-constant-time@npm:1.0.1":
   version: 1.0.1
   resolution: "buffer-equal-constant-time@npm:1.0.1"
@@ -2215,7 +2224,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"buffer@npm:^5.7.0":
+"buffer@npm:^5.6.0, buffer@npm:^5.7.0":
   version: 5.7.1
   resolution: "buffer@npm:5.7.1"
   dependencies:
@@ -2924,9 +2933,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.634":
-  version: 1.3.646
-  resolution: "electron-to-chromium@npm:1.3.646"
-  checksum: a6d6b288e9b96d929a4872b5002a62b6e49e89e9164299daf85730b9754c99910e2c60655316fc364b16a74b4957f6237775a49fcd29a4923ee549731f0aac6c
+  version: 1.3.648
+  resolution: "electron-to-chromium@npm:1.3.648"
+  checksum: bd4f60eeed7701c8aa55466d024f487d173ca2bbe5c0874ee05f3cb49f2d7822598e454a3b74a3b562919518129fcbd1f6e0d57e4edc503ea458788d4b2081a6
   languageName: node
   linkType: hard
 
@@ -3337,11 +3346,11 @@ __metadata:
   linkType: hard
 
 "fastq@npm:^1.6.0":
-  version: 1.10.0
-  resolution: "fastq@npm:1.10.0"
+  version: 1.10.1
+  resolution: "fastq@npm:1.10.1"
   dependencies:
     reusify: ^1.0.4
-  checksum: 706546e7fb2fbb5dbc98df821abfa258e93a1162663af6f1e491207229e91a72c7391920e9567a8b02d342e01d670ffbbee2ebb5f034993080ac9fa9895e3b2f
+  checksum: 7606ad72f22fe81996006f032e7fee4d50005ac0521c39b8d2eb22c5f7a6dc880dd301cbf6755b00136bf500c857d3be9d867685fc1cd31a89e76fa9b170e9fb
   languageName: node
   linkType: hard
 
@@ -5679,6 +5688,7 @@ highlight.js@^10.5.0:
     "@vueuse/core": ^4.0.10
     apollo-link-scalars: ^2.0.3
     autoprefixer: ^9.8.6
+    bson: ^4.2.2
     eslint: ^7.18.0
     eslint-config-prettier: ^7.2.0
     eslint-plugin-prettier: ^3.3.1
@@ -5697,7 +5707,7 @@ highlight.js@^10.5.0:
     tlds: ^1.216.0
     typed.js: ^2.0.11
     typescript: ^4.1.3
-    vite: ^2.0.0-beta.51
+    vite: ^2.0.0-beta.55
     vue: next
     vue-i18n: next
     vue-router: next
@@ -6322,8 +6332,8 @@ highlight.js@^10.5.0:
   linkType: hard
 
 "rollup@npm:^2.35.1":
-  version: 2.38.0
-  resolution: "rollup@npm:2.38.0"
+  version: 2.38.1
+  resolution: "rollup@npm:2.38.1"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -6331,7 +6341,7 @@ highlight.js@^10.5.0:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 253664a16eaa741506c417e0bb801b17aae655ecb11a50bbc7d578acb7d613a196e06132ce4c38185ab1a6e72f0ca3bef81865992e9062928934eb8faeebcf18
+  checksum: 56c3fde76ed000de1ed64d8c2142c178af54e2759dd68fe0e7a0a07826b8748558c27e959f9195e529c3011b01091f43218a4c8b9e10be759a6037c0e1df8c46
   languageName: node
   linkType: hard
 
@@ -7233,9 +7243,9 @@ typescript@^4.1.3:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.0.0-beta.51":
-  version: 2.0.0-beta.51
-  resolution: "vite@npm:2.0.0-beta.51"
+"vite@npm:^2.0.0-beta.55":
+  version: 2.0.0-beta.55
+  resolution: "vite@npm:2.0.0-beta.55"
   dependencies:
     esbuild: ^0.8.34
     fsevents: ~2.1.2
@@ -7247,7 +7257,7 @@ typescript@^4.1.3:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: f1fcba1cf9f9bec298f790ab6c94c00af5addb929c6b43c6522b9e5aa9e7e9aa4d5e5756953cf4f366d96b30080fb0da32bb3bcd2ff194d95ba39682a65ed676
+  checksum: a54c3e69503504ba0be0975d1aabab43e811e4bcf68b4bbd482674f3c3d77e4c04347b3b13e2b39e1e0c90005df9cd57b8f3a521e8a6f88dd6698cae3f11e0d7
   languageName: node
   linkType: hard
 

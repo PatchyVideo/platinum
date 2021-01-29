@@ -49,7 +49,10 @@ const router = createRouter({
 })
 app.use(router)
 
+/* Vue I18n */
 import i18n from '@/locales'
 app.use(i18n)
 
 app.mount('#app')
+
+import './pvcc'

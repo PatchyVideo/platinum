@@ -25,6 +25,7 @@ import {
   disableFragmentWarnings,
 } from '@apollo/client/core'
 import get from 'lodash.get'
+import { ObjectID } from 'bson'
 
 import { withScalars } from 'apollo-link-scalars'
 import {
@@ -61,8 +62,8 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
     },
     ObjectId: {
-      serialize: (parsed: string) => parsed,
-      parseValue: (raw: string | null): string | null => raw,
+      serialize: (parsed: ObjectID) => parsed.toHexString(),
+      parseValue: (raw: string) => new ObjectID(raw),
     },
   }
   const link = from([
