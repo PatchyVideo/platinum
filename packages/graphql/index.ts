@@ -124,7 +124,7 @@ export type BuiltChild = {
   children: Children
   fragmentDatas: FragmentDatas
   buildVars(vars: Record<string, Ref<unknown>>): ComputedRef<Record<string, Ref<unknown>>>
-  onFragmentData<T = unknown>(fragmentName: string, callback: (data: T) => void): void
+  onFragmentData<T = unknown>(fragmentName: string, callback?: (data: T) => void): Promise<T>
   handleFragmentData(fragmentName: string, data: unknown): void
   isReady: ComputedRef<boolean>
   ready(): void
@@ -441,12 +441,18 @@ export function parseGraph(graphData: GraphData): BuiltChild {
         return rVars
       })
     },
-    onFragmentData<T>(fragmentName: string, callback: (data: T) => void) {
+    onFragmentData<T>(fragmentName: string, callback?: (data: T) => void): Promise<T> {
       if (resolvedData[fragmentName]) {
-        callback(resolvedData[fragmentName] as T)
+        if (callback) callback(resolvedData[fragmentName] as T)
+        return new Promise<T>((resolve) => {
+          resolve(resolvedData[fragmentName] as T)
+        })
       } else {
         pendingOnQueryData[fragmentName] = pendingOnQueryData[fragmentName] || []
-        pendingOnQueryData[fragmentName].push(callback as (data: unknown) => void)
+        if (callback) pendingOnQueryData[fragmentName].push(callback as (data: unknown) => void)
+        return new Promise<T>((resolve) => {
+          pendingOnQueryData[fragmentName].push(resolve as (data: unknown) => void)
+        })
       }
     },
     handleFragmentData(fragmentName: string, data: unknown) {
