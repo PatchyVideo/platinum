@@ -67,6 +67,18 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       serialize: (parsed: ObjectID) => parsed.toHexString(),
       parseValue: (raw: string) => new ObjectID(raw),
     },
+    FETagCategories: {
+      serialize: (parsed: string) => parsed,
+      parseValue: (raw: string | null): string | null => raw,
+    },
+    FEUserImage: {
+      serialize: (parsed: string) => parsed.replace(new RegExp('^https://patchyvideo.com/be/images/userphotos/'), ''),
+      parseValue: (raw: string | null): string | null => 'https://patchyvideo.com/be/images/userphotos/' + raw,
+    },
+    FECoverImage: {
+      serialize: (parsed: string) => parsed.replace(new RegExp('^https://patchyvideo.com/be/images/covers/'), ''),
+      parseValue: (raw: string | null): string | null => 'https://patchyvideo.com/be/images/covers/' + raw,
+    },
   }
   const link = from([
     // Backend Server

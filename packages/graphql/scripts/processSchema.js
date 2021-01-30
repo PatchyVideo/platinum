@@ -27,10 +27,17 @@ schemaComposer.merge(
 )
 
 newScalar('FETagCategories')
-
 modifyFieldType('TagObject', 'category', 'FETagCategories!')
 modifyFieldType('RegularTagObject', 'category', 'FETagCategories!')
 modifyFieldType('AuthorTagObject', 'category', 'FETagCategories!')
+
+newScalar('FEUserImage')
+modifyFieldType('User', 'image', 'FEUserImage!')
+modifyFieldType('Author', 'avatar', 'FEUserImage!')
+
+newScalar('FECoverImage')
+modifyFieldType('VideoItem', 'coverImage', 'FECoverImage!')
+modifyFieldType('PlaylistMeta', 'cover', 'FECoverImage!')
 
 fs.writeFileSync(
   path.resolve(__dirname, '../__generated__/builtSchema.graphql'),

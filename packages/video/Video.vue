@@ -30,10 +30,7 @@
           <div v-for="author of authors" :key="author.id.toHexString()" class="flex justify-start px-2 py-1">
             <!-- Avatar -->
             <div class="relative flex-shrink-0">
-              <img
-                class="inline w-16 h-16 rounded-full bg-gray-500"
-                :src="'https://patchyvideo.com/be/images/userphotos/' + author.avatar"
-              />
+              <img class="inline w-16 h-16 rounded-full bg-gray-500" :src="author.avatar" />
               <div
                 class="absolute px-0.5 -right-1.5 top-0 rounded transform rotate-24 bg-pink-400 text-sm text-white"
                 v-text="author.position"
