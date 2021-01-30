@@ -21,7 +21,9 @@
               <div>Player loading...</div>
             </template>
           </suspense>
+          <!-- Video Description -->
           <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
+          <div></div>
         </div>
         <div class="col-span-3">
           <!-- Author / Uploader -->
@@ -59,6 +61,7 @@ import { reactive, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { gql, parseGraph, schema } from '@/graphql'
 import { ObjectID } from 'bson'
+import { behMostMatch } from '@/locales'
 
 const gvid = ref('')
 
@@ -85,12 +88,21 @@ export const graph = parseGraph({
           }
         }
         tags {
+          __typename
           ... on AuthorTagObject {
             author {
               id
               tagname
               avatar
               desc
+            }
+          }
+          ... on RegularTagObject {
+            id
+            category
+            languages {
+              lang
+              value
             }
           }
         }
@@ -124,6 +136,12 @@ export default defineComponent({
       avatar: string
     }[]
     const authors = ref<Authors>([])
+    type RegularTags = {
+      id: ObjectID
+      category: schema.Scalars['FETagCategories']
+      name: string
+    }[]
+    const regularTags = ref<RegularTags>([])
 
     const videoItem: {
       title: string
@@ -161,6 +179,12 @@ export default defineComponent({
               avatar: tag.author.avatar,
               position: '作者',
             })
+        } else if (tag.__typename === 'RegularTagObject') {
+          regularTags.value.push({
+            id: tag.id,
+            category: tag.category,
+            name: behMostMatch(tag.languages),
+          })
         }
       }
       if (video.meta.createdBy)
@@ -172,7 +196,7 @@ export default defineComponent({
           avatar: video.meta.createdBy.image,
           position: '上传者',
         })
-      console.log(authors)
+      console.log(authors, regularTags)
     })
 
     return {
@@ -180,6 +204,7 @@ export default defineComponent({
       vid,
       videoItem,
       authors,
+      regularTags,
     }
   },
 })

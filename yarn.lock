@@ -783,6 +783,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@graphql-codegen/schema-ast@npm:^1.18.1":
+  version: 1.18.1
+  resolution: "@graphql-codegen/schema-ast@npm:1.18.1"
+  dependencies:
+    "@graphql-codegen/plugin-helpers": ^1.18.2
+    "@graphql-tools/utils": ^6
+    tslib: ~2.0.1
+  peerDependencies:
+    graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
+  checksum: fd2a86859061060b1a7b8cdfeec45f11ad233dc282f85d61094d7eef85c25513fc6b69342a5f59143b42e3a3532b38c2b6895c3b1a0441120657ba2822163434
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/typescript@npm:^1.20.2":
   version: 1.20.2
   resolution: "@graphql-codegen/typescript@npm:1.20.2"
@@ -3780,6 +3793,18 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"graphql-compose@npm:^7.24.4":
+  version: 7.24.4
+  resolution: "graphql-compose@npm:7.24.4"
+  dependencies:
+    graphql-type-json: 0.3.2
+    object-path: 0.11.5
+  peerDependencies:
+    graphql: ^14.2.0 || ^15.0.0
+  checksum: 0a5ae5966aa783985f84736784334940cc570472ae2755f021da2796c22076725b3adf85452142c027214b54121e1020eb7265505504a7b5aa752844241dfc38
+  languageName: node
+  linkType: hard
+
 "graphql-config@npm:^3.2.0":
   version: 3.2.0
   resolution: "graphql-config@npm:3.2.0"
@@ -3821,6 +3846,15 @@ fsevents@~2.3.1:
   peerDependencies:
     graphql: ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0
   checksum: 400355590180cce2f39df5c599cad20ee982bb7e4a63ad70857aa0fe2e82e3ef6233a4db2b80a03e6dfa84bf3ecb13dc2947936eaf31753c94876e22be45ea78
+  languageName: node
+  linkType: hard
+
+"graphql-type-json@npm:0.3.2":
+  version: 0.3.2
+  resolution: "graphql-type-json@npm:0.3.2"
+  peerDependencies:
+    graphql: ">=0.8.0"
+  checksum: dbc2ca9b003788012b278209a92d9b084ab5061da8c596d0ffd65dce2e770c29d26dded1812186293bb0bf33b476369dcda1576a10cd4e5b12d2458c878977f3
   languageName: node
   linkType: hard
 
@@ -5381,7 +5415,7 @@ highlight.js@^10.5.0:
   languageName: node
   linkType: hard
 
-"object-path@npm:^0.11.4":
+"object-path@npm:0.11.5, object-path@npm:^0.11.4":
   version: 0.11.5
   resolution: "object-path@npm:0.11.5"
   checksum: a2be57f65eb247161763280e857ddbafcfbb41ad7cfcfb0a78aca2e8adb990a7b5afe6b182c20baf0e218e541ec75c1807fd04d50e3049920c2ec65e6eb9c900
@@ -5676,6 +5710,7 @@ highlight.js@^10.5.0:
     "@graphql-codegen/cli": ^1.20.1
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/introspection": ^1.18.1
+    "@graphql-codegen/schema-ast": ^1.18.1
     "@graphql-codegen/typescript": ^1.20.2
     "@tailwindcss/typography": ^0.4.0
     "@types/lodash.get": ^4
@@ -5694,6 +5729,7 @@ highlight.js@^10.5.0:
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-vue: next
     graphql: ^15.5.0
+    graphql-compose: ^7.24.4
     highlight.js: "patch:highlight.js@^10.5.0#./.yarn/diffs/highlight.js.diff"
     lodash.get: ^4.4.2
     markdown-it: ^12.0.4

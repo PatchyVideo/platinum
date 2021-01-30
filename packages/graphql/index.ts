@@ -74,7 +74,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       schema: buildClientSchema((jsonSchema as unknown) as IntrospectionQuery),
       typesMap,
     }),
-    new HttpLink({ uri: 'http://localhost:8080/graphql' }),
+    new HttpLink({ uri: 'http://localhost:5008/graphql' }),
   ])
   const cache = new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,

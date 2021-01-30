@@ -1,0 +1,7 @@
+overwrite: true
+generates:
+  packages/graphql/__generated__/originalSchema.graphql:
+    schema:
+      - http://localhost:5008/graphql
+    plugins:
+      - schema-ast

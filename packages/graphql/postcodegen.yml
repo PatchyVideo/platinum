@@ -1,8 +1,7 @@
 overwrite: true
+schema: packages/graphql/__generated__/builtSchema.graphql
 generates:
   packages/graphql/__generated__/graphql.ts:
-    schema:
-      - http://localhost:8080/graphql
     plugins:
       - typescript
     config:
@@ -12,13 +11,10 @@ generates:
       scalars:
         DateTimeUtc: Date
         ObjectId: 'bson#ObjectID as ObjectId'
+        FETagCategories: "'Copyright' | 'Language' | 'Character' | 'Author' | 'General' | 'Meta' | 'Soundtrack'"
   packages/graphql/__generated__/graphql.schema.json:
-    schema:
-      - http://localhost:8080/graphql
     plugins:
       - introspection
   packages/graphql/__generated__/graphql.fragment.ts:
-    schema:
-      - http://localhost:8080/graphql
     plugins:
       - fragment-matcher

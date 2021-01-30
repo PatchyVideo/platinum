@@ -58,3 +58,27 @@ export const locale = computed({
     if (confirm(i18n.global.t('locales.change-lang-reload-hint'))) location.reload()
   },
 })
+
+function BCP47ToISO639(code: string): string {
+  const map: Record<string, string> = {
+    zh: 'CHS',
+    'zh-CN': 'CHS',
+    'zh-TW': 'CHT',
+    'zh-HK': 'CHT',
+    en: 'ENG',
+    'en-US': 'ENG',
+    'en-GB': 'ENG',
+    ja: 'JPN',
+  }
+  return code in map ? map[code] : 'CHS'
+}
+
+export const iso639locale = computed(() => BCP47ToISO639(locale.value))
+
+export function behMostMatch(valueWithLang: { lang: string; value: string }[]): string {
+  const lang = iso639locale.value
+  for (const value of valueWithLang) {
+    if (value.lang === lang) return value.value
+  }
+  return valueWithLang[0].value || 'undifined'
+}
