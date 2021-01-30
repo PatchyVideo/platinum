@@ -27,7 +27,7 @@
           <!-- Author / Uploader -->
           <div v-for="author of authors" :key="author.id.toHexString()" class="flex justify-start px-2 py-1">
             <!-- Avatar -->
-            <div class="relative w-16">
+            <div class="relative flex-shrink-0">
               <img
                 class="inline w-16 h-16 rounded-full bg-gray-500"
                 :src="'https://patchyvideo.com/be/images/userphotos/' + author.avatar"
@@ -37,7 +37,7 @@
                 v-text="author.position"
               ></div>
             </div>
-            <div class="ml-3">
+            <div class="ml-3 overflow-hidden">
               {{ author.name }}<br />
               <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
                 {{ author.desc }}

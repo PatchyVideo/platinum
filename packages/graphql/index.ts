@@ -23,6 +23,7 @@ import {
   MutationOptions,
   FetchResult,
   disableFragmentWarnings,
+  ApolloError,
 } from '@apollo/client/core'
 import get from 'lodash.get'
 import { ObjectID } from 'bson'
@@ -41,6 +42,7 @@ import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
 
 import * as schema from './__generated__/graphql'
+import { notify } from '@/notification'
 export { schema }
 
 // export { gql } from '@apollo/client/core'
@@ -591,7 +593,13 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
       })
     }
 
-    const result = await client.query({ query: query, variables: buildVari(variRef.value) })
+    const querying = client.query({ query: query, variables: buildVari(variRef.value) })
+
+    querying.catch((e: ApolloError) => {
+      notify('error', e.message, -1)
+    })
+
+    const result = await querying
 
     posting = false
 

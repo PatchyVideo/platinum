@@ -15,9 +15,10 @@ const onRouterImport = (value: unknown) => {
 }
 
 /* Vue App */
+import Notification from '@/notification/components/Notification.vue'
 const app = createApp(
   defineComponent({
-    render: () => h(RouterView),
+    render: () => [h(RouterView), h(Notification)],
     setup() {
       provideClient(client)
     },
