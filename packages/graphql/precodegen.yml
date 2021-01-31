@@ -2,6 +2,6 @@ overwrite: true
 generates:
   packages/graphql/__generated__/originalSchema.graphql:
     schema:
-      - http://localhost:5008/graphql
+      - https://patchyvideo.com/be/gql/graphql
     plugins:
       - schema-ast
