@@ -8,7 +8,7 @@
     <div class="w-full">
       <div class="flex flex-col justify-around lg:flex-row-reverse">
         <div class="my-auto hidden lg:block">
-          <img src="https://thvideo.tv/img/footImg.c955b6a7.png" />
+          <img src="https://patchyvideo.com/img/footImg.c955b6a7.png" />
         </div>
         <div class="my-auto flex flex-row justify-evenly text-sm">
           <div v-for="linkGroup in links" :key="linkGroup.key">

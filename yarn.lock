@@ -1649,9 +1649,9 @@ __metadata:
   linkType: hard
 
 "@vue/devtools-api@npm:^6.0.0-beta.3":
-  version: 6.0.0-beta.3
-  resolution: "@vue/devtools-api@npm:6.0.0-beta.3"
-  checksum: 78ab7395054bbc3be97ff0c5d56e12240cf17a1dce87c17e21ff5bddccde19b0150173619cad087525967119056f5432be843c7fb1e3c4d785efb218f61929db
+  version: 6.0.0-beta.5
+  resolution: "@vue/devtools-api@npm:6.0.0-beta.5"
+  checksum: 83a9f91cce80b1763dfb479f2d67320b8c166e8cb117f68a06cb12268a11aedaf3033b9fbca2488234d263e39cc4d84c4c12f4f08140daf5a770cba6c4588658
   languageName: node
   linkType: hard
 
@@ -1900,9 +1900,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"apollo-link-scalars@npm:^2.0.3":
-  version: 2.0.3
-  resolution: "apollo-link-scalars@npm:2.0.3"
+"apollo-link-scalars@npm:^2.1.1":
+  version: 2.1.1
+  resolution: "apollo-link-scalars@npm:2.1.1"
   dependencies:
     "@apollo/client": ^3.0.2
     lodash.clonedeep: ^4.5.0
@@ -1922,7 +1922,7 @@ __metadata:
     zen-observable-ts: ^0.8.21
   peerDependencies:
     graphql: 14.x || 15.x
-  checksum: e42a77b56e6309d756918e710db06b3f2a3b61c53c8e61fd1422a66f645b4d50e90c91b634b952f22689d781b7fb58b307757b2dba6324f8166685be4e8067f5
+  checksum: 608788aa89a7974ab478843797ec3fa2e4366890249545ad40c2b18df9605ed59f86fd9009ea441f98a7e310501777edc0cdd4e33a1d7c38944a19c79a6e4f5a
   languageName: node
   linkType: hard
 
@@ -2191,17 +2191,17 @@ __metadata:
   linkType: hard
 
 "browserslist@npm:^4.12.0":
-  version: 4.16.1
-  resolution: "browserslist@npm:4.16.1"
+  version: 4.16.3
+  resolution: "browserslist@npm:4.16.3"
   dependencies:
-    caniuse-lite: ^1.0.30001173
+    caniuse-lite: ^1.0.30001181
     colorette: ^1.2.1
-    electron-to-chromium: ^1.3.634
+    electron-to-chromium: ^1.3.649
     escalade: ^3.1.1
-    node-releases: ^1.1.69
+    node-releases: ^1.1.70
   bin:
     browserslist: cli.js
-  checksum: 56f51464c3a3bd9b2aeb75ded1dc3fce5ad91bd6d84187aba812a78ba66b69bc97c2de25a1b7409daac3c0049e979bf0faa6cca4aacce0abcaf3107c250ce3fb
+  checksum: dfab0d3c3d9a3517cf3f8a274bc4e8245f3a02c1a5ae2a0e01498273d363952d11ee09fdce3b0ce551f6cab9d619ed2d9facf7b6471c9190df949a5ad39665c5
   languageName: node
   linkType: hard
 
@@ -2329,7 +2329,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001173":
+"caniuse-lite@npm:^1.0.30001109, caniuse-lite@npm:^1.0.30001181":
   version: 1.0.30001181
   resolution: "caniuse-lite@npm:1.0.30001181"
   checksum: 8428500f49de802e4aa18baba05d2408840a2cdcbe595335bfafc834c9fb759dfc2e3ba9ff552efc74d862c5d1a62c243f20641a06a8eedc3d083a29dd5c7e0e
@@ -2945,7 +2945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"electron-to-chromium@npm:^1.3.634":
+"electron-to-chromium@npm:^1.3.649":
   version: 1.3.649
   resolution: "electron-to-chromium@npm:1.3.649"
   checksum: e92a5432d033804319fe93f01de5533bdf05142ccf291b89843c33cd436e994553783007cc4405bac1fe4ee39000e549c857828cb66c37dc1a4e7addb324641d
@@ -3048,11 +3048,11 @@ __metadata:
   linkType: hard
 
 "esbuild@npm:^0.8.34":
-  version: 0.8.37
-  resolution: "esbuild@npm:0.8.37"
+  version: 0.8.38
+  resolution: "esbuild@npm:0.8.38"
   bin:
     esbuild: bin/esbuild
-  checksum: 8938376f649d852070435de8b8191032891db43848b423683c2e8a3c300a14604730785dc380a32638519e635f45f284244d16d658267975e0cdc7a92c54b0e6
+  checksum: 3463a1e38698792ba6a39073a57be7c80887563aa2e48f644cf95328f9f720e45d964b49cbd2745f220c0042c21a4285e3047f5f64ccb0adb9cc225cacc51a51
   languageName: node
   linkType: hard
 
@@ -4222,9 +4222,9 @@ highlight.js@^10.5.0:
   linkType: hard
 
 "is-callable@npm:^1.1.4, is-callable@npm:^1.2.2":
-  version: 1.2.2
-  resolution: "is-callable@npm:1.2.2"
-  checksum: c35d37cc46c997d6417d7254733c8a3b1146f18121197c5600f601c56fb27abd1b372b0b9c41ea9a69d30556a2a0fd85e396da8eb8bc4af2e5ad8c5232fcd433
+  version: 1.2.3
+  resolution: "is-callable@npm:1.2.3"
+  checksum: 8180a1c4e227e204e199ff355c4f24a80f74536898e16716583aa6a09167f2cceecc188cea750a2f3ae3b163577691595ae8d22bf7bb94b4bbb9fbdfea1bc5c3
   languageName: node
   linkType: hard
 
@@ -4555,13 +4555,13 @@ highlight.js@^10.5.0:
   linkType: hard
 
 "json5@npm:^2.1.2":
-  version: 2.1.3
-  resolution: "json5@npm:2.1.3"
+  version: 2.2.0
+  resolution: "json5@npm:2.2.0"
   dependencies:
     minimist: ^1.2.5
   bin:
     json5: lib/cli.js
-  checksum: 957e4937106cf59975aa0281e68911534d65c8a25be5b4d3559aa55eba351ccab516a943a60ba33e461e4b8af749939986e311de910cbcfd197410b57d971741
+  checksum: 07b1f90c2801dc52df2b0ac8d606cc400a85cda79130e754780fa2ab9805d0fb85a0e61b6a5cdd68e88e5d0c8f9109ec415af08283175556cdccaa8563853908
   languageName: node
   linkType: hard
 
@@ -5301,7 +5301,7 @@ highlight.js@^10.5.0:
   languageName: node
   linkType: hard
 
-"node-releases@npm:^1.1.69":
+"node-releases@npm:^1.1.70":
   version: 1.1.70
   resolution: "node-releases@npm:1.1.70"
   checksum: 18e2b4b871614247633a7f246ec04f6eebcb0353c0514c38b5d814be6d067301c4b1b0e7cb53407b36034e79fbc589f77a1acafdaf292abc46a4f65b4b7af2e6
@@ -5723,7 +5723,7 @@ highlight.js@^10.5.0:
     "@vitejs/plugin-vue": ^1.1.4
     "@vue/compiler-sfc": ^3.0.5
     "@vueuse/core": ^4.0.11
-    apollo-link-scalars: ^2.0.3
+    apollo-link-scalars: ^2.1.1
     autoprefixer: ^9.8.6
     bson: ^4.2.2
     eslint: ^7.19.0
@@ -6370,8 +6370,8 @@ highlight.js@^10.5.0:
   linkType: hard
 
 "rollup@npm:^2.35.1":
-  version: 2.38.1
-  resolution: "rollup@npm:2.38.1"
+  version: 2.38.2
+  resolution: "rollup@npm:2.38.2"
   dependencies:
     fsevents: ~2.1.2
   dependenciesMeta:
@@ -6379,7 +6379,7 @@ highlight.js@^10.5.0:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 56c3fde76ed000de1ed64d8c2142c178af54e2759dd68fe0e7a0a07826b8748558c27e959f9195e529c3011b01091f43218a4c8b9e10be759a6037c0e1df8c46
+  checksum: bf0f08d7366467eb12ff0062db5ad51c839d845cd8d305d7fa87a9ee4c5708dfee7c41bc962206790e87591dff0e8a3ed500f6b5b4592a62576200eadf2c9971
   languageName: node
   linkType: hard
 

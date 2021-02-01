@@ -22,7 +22,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.7",
     "@vueuse/core": "^4.0.11",
-    "apollo-link-scalars": "^2.0.3",
+    "apollo-link-scalars": "^2.1.1",
     "bson": "^4.2.2",
     "graphql": "^15.5.0",
     "highlight.js": "patch:highlight.js@^10.5.0#./.yarn/diffs/highlight.js.diff",

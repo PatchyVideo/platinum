@@ -3,11 +3,11 @@
     <div class="w-full leading-8 align-middle p-1 border-b border-gray-200">PatchyVideo</div>
     <!-- Main Object -->
     <div class="mx-2">
-      <div class="grid grid-cols-12">
-        <div class="col-span-9">
+      <div class="grid grid-cols-12 grid-flow-row-dense">
+        <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 text-lg" v-text="videoItem.title"></h1>
+            <h1 class="mt-1 lg:text-lg" v-text="videoItem.title"></h1>
             <div class="text-sm text-gray-500">
               {{ videoItem.repostType }} {{ videoItem.uploadTime.toLocaleString() }}
             </div>
@@ -21,25 +21,34 @@
               <div>Player loading...</div>
             </template>
           </suspense>
+          <div class="w-full border-t border-gray-300 my-2"></div>
           <!-- Video Description -->
-          <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
-          <div></div>
+          <MarkdownBlock class="mx-1 md:mx-2 lg:mx-8" :text="videoItem.desc"></MarkdownBlock>
+          <div class="w-full border-t border-gray-300 my-2"></div>
+          <!-- Video Tag -->
+          <div>标签</div>
         </div>
-        <div class="col-span-3">
+        <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
-          <div v-for="author of authors" :key="author.id.toHexString()" class="flex justify-start px-2 py-1">
-            <!-- Avatar -->
-            <div class="relative flex-shrink-0">
-              <img class="inline w-16 h-16 rounded-full bg-gray-500" :src="author.avatar" />
-              <div
-                class="absolute px-0.5 -right-1.5 top-0 rounded transform rotate-24 bg-pink-400 text-sm text-white"
-                v-text="author.position"
-              ></div>
-            </div>
-            <div class="ml-3 overflow-hidden">
-              {{ author.name }}<br />
-              <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
-                {{ author.desc }}
+          <div class="flex xl:flex-col justify-start px-1 pt-2">
+            <div
+              v-for="author of authors"
+              :key="author.id.toHexString()"
+              class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
+            >
+              <!-- Avatar -->
+              <div class="relative flex-shrink-0">
+                <img class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500" :src="author.avatar" />
+                <div
+                  class="absolute px-0.5 -right-1.5 top-0 rounded lg:transform lg:rotate-24 bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                  v-text="author.position"
+                ></div>
+              </div>
+              <div class="hidden sm:block ml-3 overflow-hidden">
+                {{ author.name }}<br />
+                <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
+                  {{ author.desc || '这个人太懒啦，并没有写简介' }}
+                </div>
               </div>
             </div>
           </div>
@@ -87,6 +96,7 @@ export const graph = parseGraph({
         tags {
           __typename
           ... on AuthorTagObject {
+            authorRole
             author {
               id
               tagname
@@ -174,7 +184,7 @@ export default defineComponent({
               name: tag.author.tagname,
               desc: tag.author.desc,
               avatar: tag.author.avatar,
-              position: '作者',
+              position: tag.authorRole,
             })
         } else if (tag.__typename === 'RegularTagObject') {
           regularTags.value.push({

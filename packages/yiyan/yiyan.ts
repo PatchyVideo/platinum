@@ -36,8 +36,8 @@ const yiyan: string[] = [
    * 有点你该跑和不该跑的东西
    */
   '$ sudo rm -rf /*',
-  '$ curl https://thvideo.tv/',
-  '$ gh repo clone PatchyVideo/platinum-wiptemp',
+  '$ curl https://patchyvideo.com/',
+  '$ gh repo clone PatchyVideo/platinum',
   '$ gh repo clone PatchyVideo/PatchyVideo',
   "> console.log('TOUHOU GUICHU YINMAD');",
 
