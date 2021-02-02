@@ -44,6 +44,8 @@ export const graph = parseGraph({
   `,
 })
 
+console.log('hot17')
+
 export default defineComponent({
   setup() {
     const root = ref(HTMLHtmlElement.prototype)

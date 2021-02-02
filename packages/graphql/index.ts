@@ -171,14 +171,73 @@ type ChildExportInfo = {
 //   compileVar(newName: string): string
 // }
 
-type GraphData = {
+type PGraphData = {
   graphRaw: string
   children?: Children
   variables?: ((vars: Record<string, Ref<unknown>>) => Record<string, unknown>) | Record<string, unknown>
   isReady?: Ref<boolean>
 }
 
-export function parseGraph(graphData: GraphData): BuiltChild {
+type GraphData = {
+  graphRaw: string
+  children?: Record<string, BuiltGraph>
+  variables?: ((vars: Record<string, Ref<unknown>>) => Record<string, unknown>) | Record<string, unknown>
+  isReady?: Ref<boolean>
+}
+
+export type BuiltGraph = BuiltChild & {
+  handleHMR?: (cb: (graph: BuiltGraph) => void) => void
+  provideHot?: (hot: NonNullable<ImportMeta['hot']>) => void
+}
+
+export function parseGraph(graphData: GraphData): BuiltGraph {
+  if (import.meta.hot) {
+    const emitList: ((graph: BuiltGraph) => void)[] = []
+    const buildResult = () => {
+      const result: BuiltGraph = {
+        ...__parseGraph({
+          ...graphData,
+          children: graphData.children
+            ? (() => {
+                const children: Children = {}
+                for (const childName in graphData.children) {
+                  children[childName] = graphData.children[childName]
+                  const hhmr = graphData.children[childName].handleHMR
+                  if (hhmr)
+                    hhmr((graph) => {
+                      if (graphData.children) graphData.children[childName] = graph
+                      const result = buildResult()
+                      emit(result)
+                    })
+                }
+                return children
+              })()
+            : undefined,
+        }),
+        handleHMR(cb) {
+          emitList.push(cb)
+        },
+        provideHot(hot) {
+          hot.accept((nMod) => {
+            if ('graph' in nMod) emit(nMod.graph)
+          })
+        },
+      }
+      return result
+    }
+    const emit = (result: BuiltGraph) => {
+      for (const emcb of emitList) {
+        emcb(result)
+      }
+    }
+    const result = buildResult()
+
+    return result
+  }
+  return __parseGraph(graphData)
+}
+
+function __parseGraph(graphData: PGraphData): BuiltChild {
   const childrenImportMap: ChildrenImportMap = {}
   const children = graphData.children || {}
   const variables = graphData.variables || {}
@@ -408,7 +467,7 @@ export function parseGraph(graphData: GraphData): BuiltChild {
   const pendingOnQueryData: Record<string, ((data: unknown) => void)[]> = {}
   const resolvedData: Record<string, unknown> = {}
 
-  return {
+  const result: BuiltChild = {
     graphRaw: rpGraphRaw + '\n' + depGraph,
     exportMap,
     varMap,
@@ -487,6 +546,8 @@ export function parseGraph(graphData: GraphData): BuiltChild {
       if (graphData.isReady) graphData.isReady.value = true
     },
   }
+
+  return result
 }
 
 type CutLocation = {
@@ -550,49 +611,66 @@ function createRandomString() {
   return 'N' + btoa(Math.random().toString().substr(2)).replace(/=/g, '')
 }
 
-export async function buildGraph(graph: BuiltChild, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
+export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<NormalizedCacheObject>): Promise<void> {
+  let graph = _graph
   if (!graph.exportMap.default) throw new Error('A Graph must contain a default export.')
 
   let posting = false
 
-  const variRef = graph.buildVars({})
+  let variRef = graph.buildVars({})
 
-  const buildVari = (variRef: ComputedRef<Record<string, Ref<unknown>>> | Record<string, Ref<unknown>>) => {
+  const buildVari = (variRef: Record<string, Ref<unknown>>) => {
     const variables: Record<string, unknown> = {}
-    const variun = unref(variRef)
-    for (const vari in variun) variables[vari] = unref(variun[vari])
+    for (const vari in variRef) variables[vari] = unref(variRef[vari])
     return variables
   }
 
-  const variables = buildVari(variRef.value)
-
-  let variString = ''
-  if (Object.keys(variables).length > 0) {
-    variString = '('
-    for (const vari in variables)
-      variString +=
-        '$' +
-        vari +
-        ':' +
-        (graph.varTypeMap[vari] ||
-          (() => {
-            throw new Error()
-          })()) +
-        '!,'
-    variString = variString.slice(0, variString.length - 1) + ')'
+  const buildVariString = (variables: Record<string, unknown>) => {
+    let variString = ''
+    if (Object.keys(variables).length > 0) {
+      variString = '('
+      for (const vari in variables)
+        variString +=
+          '$' +
+          vari +
+          ':' +
+          (graph.varTypeMap[vari] ||
+            (() => {
+              throw new Error()
+            })()) +
+          '!,'
+      variString = variString.slice(0, variString.length - 1) + ')'
+    }
+    return variString
   }
 
-  watch(
-    variRef,
-    () => {
-      if (!posting) submitQuery()
-    },
-    { flush: 'post' }
-  )
+  const watchVari = () => {
+    watch(
+      variRef,
+      () => {
+        submitQuery()
+      },
+      { flush: 'post' }
+    )
+  }
+
+  if (import.meta.hot && graph.handleHMR)
+    graph.handleHMR((_graph) => {
+      console.log('[GraphQL:HMR] HMR Triggered.')
+      graph = _graph
+      variRef = graph.buildVars({})
+      watchVari()
+      submitQuery()
+    })
+
+  let requeryOnFinish = false
 
   const submitQuery = async () => {
+    if (posting) {
+      requeryOnFinish = true
+      return
+    }
     posting = true
-    const query = parse(`query rootQuery ${variString} {...${graph.exportMap.default.fragName}}\n${graph.graphRaw}`)
 
     if (!graph.isReady.value) {
       await new Promise<void>((resolve) => {
@@ -605,7 +683,13 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
       })
     }
 
-    const querying = client.query({ query: query, variables: buildVari(variRef.value) })
+    const variables = buildVari(variRef.value)
+
+    const query = parse(
+      `query rootQuery ${buildVariString(variables)} {...${graph.exportMap.default.fragName}}\n${graph.graphRaw}`
+    )
+
+    const querying = client.query({ query: query, variables: variables })
 
     querying.catch((e: ApolloError) => {
       notify('error', e.message, -1)
@@ -613,9 +697,14 @@ export async function buildGraph(graph: BuiltChild, client: ApolloClient<Normali
 
     const result = await querying
 
+    graph.handleFragmentData('default', result.data)
+
     posting = false
 
-    graph.handleFragmentData('default', result.data)
+    if (requeryOnFinish) {
+      requeryOnFinish = false
+      submitQuery()
+    }
   }
   submitQuery()
 }

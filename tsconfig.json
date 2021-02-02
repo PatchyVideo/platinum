@@ -1,5 +1,5 @@
 {
-  "include": ["packages"],
+  "include": ["packages", "node_modules/vite/client.d.ts"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
