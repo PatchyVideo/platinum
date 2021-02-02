@@ -61,8 +61,11 @@ module.exports = {
     {
       name: 'graphql-hmr-helper-plugin',
       transform(code, id) {
-        if (!/vue$/.test(id)) return
-        return code + '\nif(typeof graph!=="undefined"&&graph&&import.meta.hot)graph.provideHot(import.meta.hot);'
+        if (!/.vue/.test(id) || !/ graph\s*=/.test(code)) return
+        return (
+          code +
+          '\nif (typeof graph !== "undefined" && "provideHot" in graph && typeof graph.provideHot === "function" && import.meta.hot) graph.provideHot(import.meta.hot);'
+        )
       },
       apply: 'serve',
     },
