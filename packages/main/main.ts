@@ -10,7 +10,7 @@ import '@/darkmode'
 /* GraphQL */
 const client = createApollo()
 const onRouterImport = (value: unknown) => {
-  if ((value as { graph?: BuiltChild }).graph) buildGraph((value as { graph: BuiltChild }).graph, client)
+  if ('graph' in (value as { graph?: BuiltChild })) buildGraph((value as { graph: BuiltChild }).graph, client)
   return value
 }
 

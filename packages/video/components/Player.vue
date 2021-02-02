@@ -2,7 +2,7 @@
   <div ref="root" class="relative w-full bg-black" :style="{ height: height + 'px' }">
     <video class="w-full h-full" crossorigin="anonymous" playsinline preload="auto" :src="src"></video>
     <div v-if="!videoReady" class="absolute bottom-2 left-2 h-16 log overflow-y-scroll text-sm text-white">
-      <p ref="logEl" class="whitespace-pre">{{ log }}</p>
+      <p ref="logEl" class="whitespace-pre" v-text="log"></p>
     </div>
   </div>
 </template>
