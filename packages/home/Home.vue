@@ -1,7 +1,8 @@
 <template>
   <div class="max-w-screen-3xl mx-auto">
+    <NavTop></NavTop>
     <!-- Search / Navbar -->
-    <div class="h-96 bg-gray-200 dark:bg-gray-700 dark:border-b dark:border-gray-500 text-center">
+    <div class="h-screen bg-gray-200 dark:bg-gray-700 dark:border-b dark:border-gray-500 text-center">
       <h3 class="text-lg font-semibold p-4 px-auto pt-24 dark:text-white">PatchyVideo</h3>
       <div class="shadow rounded-full max-w-2xl mx-auto h-11 text-center overflow-hidden bg-white dark:bg-gray-800">
         <input class="w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white" value="search!" />
@@ -26,6 +27,7 @@
 import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
 import { gql, parseGraph } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
+import NavTop from '@/common/components/NavTop.vue'
 
 const limit = ref(1)
 
@@ -76,7 +78,8 @@ childFrag.onFragmentData('default', (data) => console.log('child', data))
 export default defineComponent({
   components: {
     Footer,
-    comp_list: defineAsyncComponent(() => import('./components/List.vue')),
+    // comp_list: defineAsyncComponent(() => import('./components/List.vue'), NavTop),
+    NavTop,
   },
   setup() {
     interface HomeCompData {
@@ -104,5 +107,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-</style>
+<style lang="postcss" scoped></style>
