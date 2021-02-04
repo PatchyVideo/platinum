@@ -78,7 +78,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 // import { isDark } from '@/darkmode'
 // import { useI18n } from 'vue-i18n'
 // import { locale } from '@/locales'
@@ -86,25 +86,23 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   props: {},
   setup() {
+    let isLogin = ref(false)
+    let drawerOpen = ref(false)
+    function openDrawer(): void {
+      drawerOpen.value = true
+      window.document.body.style.overflow = 'hidden'
+    }
+    function hideDrawer(): void {
+      drawerOpen.value = false
+      window.document.body.style.overflow = 'visible'
+    }
     return {
+      isLogin,
+      drawerOpen,
+      openDrawer,
+      hideDrawer,
       // isDark,
     }
-  },
-  data() {
-    return {
-      isLogin: false,
-      drawerOpen: false,
-    }
-  },
-  methods: {
-    openDrawer() {
-      this.drawerOpen = true
-      window.document.body.style.overflow = 'hidden'
-    },
-    hideDrawer() {
-      this.drawerOpen = false
-      window.document.body.style.overflow = 'visible'
-    },
   },
 })
 </script>
