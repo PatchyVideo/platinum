@@ -2,7 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto flex items-center justify-between p-2 border-b border-gray-300 bg-baseWhite dark:text-textWhite dark:bg-baseDark dark:border-gray-800"
+      class="h-auto flex items-center justify-between p-2 border-b border-gray-300 bg-gray-50 dark:text-white dark:bg-gray-700 dark:border-gray-800"
     >
       <!-- Title & Slide Button -->
       <div class="flex flex-nowrap ml-2">
@@ -58,8 +58,11 @@
     <div>
       <!-- Drawer -->
       <div
-        class="drawer absolute inset-y-0 w-2/12 z-50 overflow-auto bg-white dark:text-textWhite dark:bg-baseDark"
-        :class="{ 'drawer-open': drawerOpen }"
+        class="absolute inset-y-0 w-2/12 z-50 left-0 overflow-auto bg-white dark:text-white dark:bg-gray-700 transform -translate-x-full"
+        :class="{
+          'slide-in': drawerOpen,
+          'slide-out': drawerOpen === false,
+        }"
       >
         <!-- Title & Slide Button -->
         <div class="flex flex-nowrap ml-2 p-3">
@@ -97,7 +100,7 @@ export default defineComponent({
   props: {},
   setup() {
     let isLogin = ref(false)
-    let drawerOpen = ref(false)
+    let drawerOpen = ref<boolean | undefined>()
     function openDrawer(): void {
       drawerOpen.value = true
       window.document.body.style.overflow = 'hidden'
@@ -118,12 +121,27 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.drawer {
-  transition: left 0.2s ease;
-  @apply -left-2/12;
+.slide-in {
+  animation: slide-in 0.4s forwards;
 }
-.drawer-open {
-  @apply left-0;
+.slide-out {
+  animation: slide-out 0.4s forwards;
+}
+@keyframes slide-in {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slide-out {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 .mask-enter-active,
 .mask-leave-active {

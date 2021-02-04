@@ -13,19 +13,11 @@ module.exports = {
       },
       screens: {
         '3xl': '1920px',
-        '2xl': '1200px',
-        xs: '480px',
       },
       spacing: {
         72: '18rem',
         84: '21rem',
         96: '24rem',
-      },
-      colors: {
-        baseWhite: '#F9FAFB',
-        baseDark: '#374151',
-        textWhite: '#FFFFFF',
-        textAlert: '#EF4444',
       },
       zIndex: {
         '-1': '-1',
@@ -34,9 +26,14 @@ module.exports = {
         24: '24deg',
         '-24': '-24deg',
       },
-      inset: {
-        '-2/12': '-16.666667%;',
-      },
+      inset: (() => {
+        const inset = {}
+        for (let i = 0; i <= 12; i++) {
+          inset[i + '/12'] = (i / 12) * 100 + '%'
+          inset['-' + i + '/12'] = '-' + (i / 12) * 100 + '%'
+        }
+        return inset
+      })(),
     },
   },
   variants: {
