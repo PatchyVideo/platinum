@@ -1,7 +1,9 @@
 <template>
   <div>
     <!-- Top Nav -->
-    <div class="h-auto flex items-center justify-between p-2 border-b border-gray-300 dark:text-purple-200">
+    <div
+      class="h-auto flex items-center justify-between p-2 border-b border-gray-300 bg-baseWhite dark:text-textWhite dark:bg-baseDark dark:border-gray-800"
+    >
       <!-- Title & Slide Button -->
       <div class="flex flex-nowrap ml-2">
         <svg
@@ -9,18 +11,23 @@
           height="28"
           viewBox="0 0 28 28"
           width="28"
-          class="cursor-pointer"
+          class="fill-current cursor-pointer"
           @click="openDrawer()"
         >
           <path d="M0 0h24v24H0z" fill="none" />
           <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
         </svg>
-        <div>PatchyVideo</div>
+        <div class="text-lg font-semibold px-auto">PatchyVideo</div>
       </div>
-      <!-- Search -->
+      <!-- Search Bar -->
       <div class="dark:bg-gray-700">
-        <div class="shadow rounded-full max-w-2xl mx-auto h-9 text-center overflow-hidden bg-white dark:bg-gray-800">
-          <input class="w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white" placeholder="search!" />
+        <div
+          class="shadow rounded-full max-w-2xl min-w-2xl mx-auto h-9 text-center overflow-hidden bg-white dark:bg-gray-800"
+        >
+          <input
+            class="min-w-300 inline-block w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white"
+            placeholder="search!"
+          />
         </div>
       </div>
       <!-- User -->
@@ -50,7 +57,10 @@
     <!-- DrawerLayout -->
     <div>
       <!-- Drawer -->
-      <div class="drawer absolute inset-y-0 w-2/12 z-50 overflow-auto bg-white" :class="{ 'drawer-open': drawerOpen }">
+      <div
+        class="drawer absolute inset-y-0 w-2/12 z-50 overflow-auto bg-white dark:text-textWhite dark:bg-baseDark"
+        :class="{ 'drawer-open': drawerOpen }"
+      >
         <!-- Title & Slide Button -->
         <div class="flex flex-nowrap ml-2 p-3">
           <svg
@@ -64,7 +74,7 @@
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
           </svg>
-          <div>PatchyVideo</div>
+          <div class="text-lg font-semibold px-auto">PatchyVideo</div>
         </div>
         <!-- Main Menu -->
         <div></div>
@@ -109,11 +119,11 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 .drawer {
-  left: -16.666667%;
   transition: left 0.2s ease;
+  @apply -left-2/12;
 }
 .drawer-open {
-  left: 0%;
+  @apply left-0;
 }
 .mask-enter-active,
 .mask-leave-active {
