@@ -21,11 +21,22 @@
       </div>
       <!-- Search Bar -->
       <div class="dark:bg-gray-700">
-        <div
-          class="shadow rounded-full max-w-2xl min-w-2xl mx-auto h-9 text-center overflow-hidden bg-white dark:bg-gray-800"
-        >
+        <div class="shadow rounded-full mx-auto h-9 text-center bg-white dark:bg-gray-800">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="black"
+            width="30px"
+            height="30px"
+            class="fill-current inline ml-2"
+          >
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path
+              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            />
+          </svg>
           <input
-            class="min-w-300 inline-block w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white"
+            class="min-w-300 inline-block h-full mr-8 outline-none dark:bg-gray-800 dark:text-white"
             placeholder="search!"
           />
         </div>
@@ -43,7 +54,7 @@
           height="24"
           viewBox="0 0 24 24"
           width="24"
-          class="inline cursor-pointer"
+          class="inline fill-current cursor-pointer"
         >
           <g><path d="M0,0h24v24H0V0z" fill="none" /></g>
           <g>
@@ -59,10 +70,7 @@
       <!-- Drawer -->
       <div
         class="absolute inset-y-0 w-2/12 z-50 left-0 overflow-auto bg-white dark:text-white dark:bg-gray-700 transform -translate-x-full"
-        :class="{
-          'slide-in': drawerOpen,
-          'slide-out': drawerOpen === false,
-        }"
+        :class="[drawerOpen ? 'slide-in' : 'slide-out']"
       >
         <!-- Title & Slide Button -->
         <div class="flex flex-nowrap ml-2 p-3">
