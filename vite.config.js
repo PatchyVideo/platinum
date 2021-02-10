@@ -9,7 +9,7 @@ const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildD
 
 // @type string
 const banner = `
-Bundle of Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
+PatchyVideo/Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
 MIT License, Copyright (c) 2020-2021 PatchyVideo
 Generated: <%= new Date().toISOString() %>
 `.trim()
@@ -28,7 +28,7 @@ module.exports = {
   ],
   optimizeDeps: {
     include: ['@apollo/client/core'],
-    exclude: ['@apollo/client', '@primer/css'],
+    exclude: ['@apollo/client'],
   },
   plugins: [
     // @ts-ignore
