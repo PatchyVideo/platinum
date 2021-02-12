@@ -74,27 +74,42 @@ markdownIt.linkify
     },
   })
 
-const defaultRender =
+const DRlink_open =
   markdownIt.renderer.rules.link_open ||
   function (tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options)
   }
 
+const last: {
+  level: number
+  url: URL
+}[] = []
+
 markdownIt.renderer.rules.link_open = function (tokens, idx, options, env, self) {
   const link = tokens[idx].attrGet('href')
-  if (link && !(tokens[idx + 1].type === 'text' && tokens[idx + 1].content.trim() === link)) {
-    const url = new URL(link)
-    let ind = idx
-    for (ind; ind < tokens.length - 1; ind++) {
-      if (tokens[ind].type === 'link_close' && tokens[ind].level === tokens[idx].level) {
-        const token = new Token('html_inline', '', 0)
-        token.content = `<span class="text-xs text-gray-600">[${url.hostname.replace(/^www./, '')}]</span>`
-        tokens.splice(ind + 1, 0, token)
-        break
-      }
-    }
+  if (link && !(tokens[idx + 1].type === 'text' && tokens[idx + 1].content.trim() === link))
+    last.push({
+      level: tokens[idx].level,
+      url: new URL(link),
+    })
+  return DRlink_open(tokens, idx, options, env, self)
+}
+
+const DRlink_close =
+  markdownIt.renderer.rules.link_close ||
+  function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options)
   }
-  return defaultRender(tokens, idx, options, env, self)
+
+markdownIt.renderer.rules.link_close = function (tokens, idx, options, env, self) {
+  last.forEach((i, index) => {
+    if (tokens[idx].level === i.level) {
+      const str = `<span class="text-xs text-gray-600">[${i.url.hostname.replace(/^www./, '')}]</span>`
+      last.splice(index, 1)
+      return DRlink_close(tokens, idx, options, env, self) + str
+    }
+  })
+  return DRlink_close(tokens, idx, options, env, self)
 }
 
 export default markdownIt

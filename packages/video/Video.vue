@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-screen-3xl mx-auto">
-    <div class="w-full leading-8 align-middle p-1 border-b border-gray-200">PatchyVideo</div>
+    <NavTop></NavTop>
     <!-- Main Object -->
     <div class="mx-2">
       <div class="grid grid-cols-12 grid-flow-row-dense">
@@ -13,20 +13,19 @@
             </div>
           </div>
           <!-- Video Player -->
-          <suspense>
-            <template #default>
-              <Player />
-            </template>
-            <template #fallback>
-              <div>Player loading...</div>
-            </template>
-          </suspense>
+          <Suspense>
+            <Player />
+          </Suspense>
           <div class="w-full border-t border-gray-300 my-2"></div>
-          <!-- Video Description -->
-          <MarkdownBlock class="mx-1 md:mx-2 lg:mx-8" :text="videoItem.desc"></MarkdownBlock>
+          <div class="mx-1 md:mx-2 lg:mx-8">
+            <!-- Video Tag -->
+            <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="tag text-white text-sm pr-1 mr-1">{{
+              tag.name
+            }}</span>
+            <!-- Video Description -->
+            <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
+          </div>
           <div class="w-full border-t border-gray-300 my-2"></div>
-          <!-- Video Tag -->
-          <div>标签</div>
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
@@ -62,7 +61,9 @@
 <script lang="ts">
 import Player, { graph as playerGraph } from './components/Player.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
+import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
+import TagBorder from './TagBorder'
 import { reactive, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { gql, parseGraph, schema } from '@/graphql'
@@ -130,6 +131,7 @@ export default defineComponent({
     Player,
     MarkdownBlock,
     Footer,
+    NavTop,
   },
   setup() {
     const route = useRoute()
@@ -206,16 +208,24 @@ export default defineComponent({
       console.log(authors, regularTags)
     })
 
+    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replace('#333', '#4b5563')) + '")')
+
     return {
       route,
       vid,
       videoItem,
       authors,
       regularTags,
+      tagBorderGray,
     }
   },
 })
 </script>
 
 <style lang="postcss" scoped>
+.tag {
+  border-width: 2px 2px 2px 15px;
+  border-image-source: v-bind('tagBorderGray');
+  border-image-slice: 8 8 8 40 fill;
+}
 </style>

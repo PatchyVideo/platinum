@@ -215,7 +215,7 @@ export function parseGraph(graphData: GraphData): BuiltGraph {
             : undefined,
         }),
         handleHMR(cb) {
-          emitList.push(cb)
+          if (!emitList.includes(cb)) emitList.push(cb)
         },
         provideHot(hot) {
           hot.accept((nMod) => {
@@ -654,14 +654,15 @@ export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<Normal
     )
   }
 
-  if (import.meta.hot && graph.handleHMR)
-    graph.handleHMR((_graph) => {
-      console.log('[GraphQL:HMR] HMR Triggered.')
-      graph = _graph
-      variRef = graph.buildVars({})
-      watchVari()
-      submitQuery()
-    })
+  const hhmr = (_graph: BuiltGraph) => {
+    console.log('[GraphQL:HMR] HMR Triggered.')
+    graph = _graph
+    if (graph.handleHMR) graph.handleHMR(hhmr)
+    variRef = graph.buildVars({})
+    watchVari()
+    submitQuery()
+  }
+  if (import.meta.hot && graph.handleHMR) graph.handleHMR(hhmr)
 
   let requeryOnFinish = false
 

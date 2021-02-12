@@ -22,10 +22,12 @@ const prebuildFiles = ['/packages/tailwindcss/css/tailwind.css']
  * @type {import('vite').UserConfig}
  */
 module.exports = {
-  alias: [
-    { find: '@', replacement: path.resolve(__dirname, './packages/') },
-    { find: '@@', replacement: path.resolve(__dirname, './') },
-  ],
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './packages/') },
+      { find: '@@', replacement: path.resolve(__dirname, './') },
+    ],
+  },
   optimizeDeps: {
     include: ['@apollo/client/core'],
     exclude: ['@apollo/client'],
