@@ -1,5 +1,5 @@
 import { createApp, defineComponent, h } from 'vue'
-import { createRouter, createWebHistory, RouterView } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import { buildGraph, BuiltGraph, createApollo, provideClient } from '@/graphql'
 
 import '@/tailwindcss'
@@ -16,9 +16,10 @@ const onRouterImport = (value: unknown) => {
 
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
+import AppRouterView from './components/AppRouterView.vue'
 const app = createApp(
   defineComponent({
-    render: () => [h(RouterView), h(Notification)],
+    render: () => [h(AppRouterView), h(Notification)],
     setup() {
       provideClient(client)
     },

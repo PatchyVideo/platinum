@@ -1,7 +1,7 @@
 <template>
   <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div v-if="!small" class="text-center font-thin">
+    <div v-if="!small" class="text-center font-thin text-sm md:text-base whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
     <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
@@ -12,12 +12,12 @@
         </div>
         <div class="my-auto flex flex-row justify-evenly text-sm">
           <div v-for="linkGroup in links" :key="linkGroup.key">
-            <ul class="px-8">
+            <ul class="px-2 md:px-4 lg:px-8">
               <h3 class="font-semibold tracking-wide text-gray-900 py-1" v-text="linkGroup.key"></h3>
               <li v-for="link in linkGroup.links" :key="link.key">
                 <a
                   v-if="link.href"
-                  class="inline-block mt-1 text-gray-900"
+                  class="inline-block mt-1 text-gray-900 whitespace-nowrap"
                   :href="link.href"
                   target="_blank"
                   rel="noopener noreferrer"

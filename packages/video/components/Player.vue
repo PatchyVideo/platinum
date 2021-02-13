@@ -44,8 +44,6 @@ export const graph = parseGraph({
   `,
 })
 
-console.log('hot17')
-
 export default defineComponent({
   setup() {
     const root = ref(HTMLHtmlElement.prototype)
@@ -81,7 +79,7 @@ export default defineComponent({
         url.value = data.url
         log.value += `视频URL：${url.value}\n`
         log.value += '正在解析视频地址……\n'
-        fetch('http://localhost:4005/be/helper/get_video_stream', {
+        fetch('https://patchyvideo.com/be/helper/get_video_stream', {
           method: 'POST',
           credentials: 'include',
           headers: new Headers({
@@ -109,7 +107,7 @@ export default defineComponent({
             }
           })
           .catch((e: Error) => {
-            notify('error', e.message, -1)
+            notify('error', e.message)
           })
       })
     })

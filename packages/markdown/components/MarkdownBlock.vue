@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="prose prose-sm" v-html="html"></article>
+  <article class="prose prose-sm max-w-none" v-html="html"></article>
 </template>
 
 <script lang="ts">

@@ -2,28 +2,35 @@
 const path = require('path')
 const fs = require('fs')
 const vue = require('@vitejs/plugin-vue')
+require('cross-fetch/polyfill')
 
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
 
+// @type string
 const banner = `
-Bundle of Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
+PatchyVideo/Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
 MIT License, Copyright (c) 2020-2021 PatchyVideo
 Generated: <%= new Date().toISOString() %>
 `.trim()
+
+// @type string[]
+const prebuildFiles = ['/packages/tailwindcss/css/tailwind.css']
 
 /**
  * Vite Configuration File
  * @type {import('vite').UserConfig}
  */
 module.exports = {
-  alias: [
-    { find: '@', replacement: path.resolve(__dirname, './packages/') },
-    { find: '@@', replacement: path.resolve(__dirname, './') },
-  ],
+  resolve: {
+    alias: [
+      { find: '@', replacement: path.resolve(__dirname, './packages/') },
+      { find: '@@', replacement: path.resolve(__dirname, './') },
+    ],
+  },
   optimizeDeps: {
     include: ['@apollo/client/core'],
-    exclude: ['@apollo/client', '@primer/css'],
+    exclude: ['@apollo/client'],
   },
   plugins: [
     // @ts-ignore
@@ -66,6 +73,23 @@ module.exports = {
           code +
           '\nif (typeof graph !== "undefined" && "provideHot" in graph && typeof graph.provideHot === "function" && import.meta.hot) graph.provideHot(import.meta.hot);'
         )
+      },
+      apply: 'serve',
+    },
+    {
+      name: 'plugin-prebuild',
+      configureServer(server) {
+        server.httpServer.once('listening', () => {
+          const address = server.httpServer.address()
+          if (typeof address !== 'string') {
+            const serverBase =
+              'http://' +
+              (address.family === 'IPv6' ? '[' + address.address + ']' : address.address) +
+              ':' +
+              address.port
+            prebuildFiles.forEach((file) => fetch(serverBase + file).catch(() => {}))
+          }
+        })
       },
       apply: 'serve',
     },
