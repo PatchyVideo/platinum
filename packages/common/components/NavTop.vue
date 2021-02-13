@@ -2,49 +2,65 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto flex items-center justify-between p-2 border-b border-gray-300 bg-gray-50 dark:text-white dark:bg-gray-700 dark:border-gray-800"
+      class="h-auto flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:text-white dark:bg-gray-700 dark:border-gray-800 md:p-2"
     >
-      <!-- Title & Slide Button -->
-      <div class="flex flex-nowrap ml-2">
+      <!-- Logo & Slide Button -->
+      <div class="flex items-center flex-nowrap ml-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          height="28"
-          viewBox="0 0 28 28"
-          width="28"
-          class="fill-current cursor-pointer"
+          height="38"
+          viewBox="0 0 24 24"
+          class="fill-current cursor-pointer rounded-full transition-colors hover:bg-gray-200"
           @click="openDrawer()"
         >
           <path d="M0 0h24v24H0z" fill="none" />
           <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
         </svg>
-        <div class="text-lg font-semibold px-auto">PatchyVideo</div>
+        <logo class="hidden md:inline-block"></logo>
       </div>
       <!-- Search Bar -->
-      <div class="dark:bg-gray-700">
-        <div class="shadow rounded-full mx-auto h-9 text-center bg-white dark:bg-gray-800">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="black"
-            width="30px"
-            height="30px"
-            class="fill-current inline ml-2"
-          >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path
-              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-            />
-          </svg>
-          <input
-            class="min-w-300 inline-block h-full mr-8 outline-none dark:bg-gray-800 dark:text-white"
-            placeholder="search!"
+      <div>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="black"
+          width="30px"
+          height="30px"
+          class="fill-current inline ml-2 md:hidden"
+        >
+          <path d="M0 0h24v24H0V0z" fill="none" />
+          <path
+            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
           />
-        </div>
+        </svg>
+      </div>
+      <div class="hidden shadow rounded-full mx-auto h-9 text-center bg-white dark:bg-gray-800 md:inline-block">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="black"
+          width="30px"
+          height="30px"
+          class="fill-current inline ml-2"
+        >
+          <path d="M0 0h24v24H0V0z" fill="none" />
+          <path
+            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+          />
+        </svg>
+        <input
+          class="inline-block h-full min-w-300 mr-8 outline-none dark:bg-gray-800 dark:text-white"
+          placeholder="search!"
+        />
       </div>
       <!-- User -->
       <div v-if="!isLogin" class="space-x-4 mr-2">
-        <button @click="isLogin = !isLogin">登录</button>
-        <button>注册</button>
+        <svg xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 24 24" class="fill-current inline ml-2">
+          <path d="M0 0h24v24H0V0z" fill="none" />
+          <path
+            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.51.88 4.93 1.78C15.57 19.36 13.86 20 12 20s-3.57-.64-4.93-1.72zm11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33C4.62 15.49 4 13.82 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.49-1.64 4.83zM12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6zm0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11z"
+          />
+        </svg>
       </div>
       <div v-else class="space-x-4 mr-2">
         <button>freesia</button>
@@ -69,30 +85,43 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 w-2/12 z-50 left-0 overflow-auto bg-white dark:text-white dark:bg-gray-700 transform -translate-x-full"
-        :class="[drawerOpen ? 'slide-in' : 'slide-out']"
+        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-4 bg-white transform -translate-x-full w-9/12 dark:text-white dark:bg-gray-700 md:w-auto md:p-2"
+        :class="{ 'slide-in': drawerOpen, 'slide-out': drawerOpen === false }"
       >
         <!-- Title & Slide Button -->
-        <div class="flex flex-nowrap ml-2 p-3">
+        <div class="flex items-center flex-nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            height="28"
-            viewBox="0 0 28 28"
-            width="28"
+            height="38"
+            viewBox="0 0 24 24"
             class="fill-current cursor-pointer"
             @click="hideDrawer()"
           >
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
           </svg>
-          <div class="text-lg font-semibold px-auto">PatchyVideo</div>
+          <logo></logo>
         </div>
         <!-- Main Menu -->
-        <div></div>
+        <div>Main Menu</div>
+        <!-- Darkmode -->
+        <label class="block space-x-2">
+          <label>深色模式</label>
+          <input
+            v-model="isDark"
+            class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
+            type="checkbox"
+          />
+        </label>
       </div>
       <!-- Mask -->
       <transition name="mask">
-        <div v-if="drawerOpen" class="absolute inset-0 bg-black bg-opacity-20" @click="hideDrawer()"></div>
+        <div
+          v-if="drawerOpen"
+          class="absolute inset-0 bg-black bg-opacity-20"
+          @click="hideDrawer()"
+          @touchmove.prevent
+        ></div>
       </transition>
     </div>
   </div>
@@ -100,11 +129,15 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-// import { isDark } from '@/darkmode'
+import { isDark } from '@/darkmode'
 // import { useI18n } from 'vue-i18n'
 // import { locale } from '@/locales'
+import Logo from '@/common/components/Logo.vue'
 
 export default defineComponent({
+  components: {
+    Logo,
+  },
   props: {},
   setup() {
     let isLogin = ref(false)
@@ -122,7 +155,7 @@ export default defineComponent({
       drawerOpen,
       openDrawer,
       hideDrawer,
-      // isDark,
+      isDark,
     }
   },
 })
@@ -153,10 +186,30 @@ export default defineComponent({
 }
 .mask-enter-active,
 .mask-leave-active {
-  transition: all 0.2s ease;
+  @apply transition-all;
+  @apply duration-200;
 }
 .mask-enter-from,
 .mask-leave-to {
   @apply bg-opacity-0;
+}
+.switch:before {
+  content: '';
+  @apply w-8;
+  @apply absolute;
+  @apply inset-y-0;
+  @apply left-0;
+  @apply rounded-full;
+  @apply bg-white;
+  @apply shadow;
+  @apply transition-all;
+  @apply duration-200;
+}
+.switch:checked {
+  @apply bg-pink-300;
+  @apply border-pink-200;
+}
+.switch:checked:before {
+  @apply left-6;
 }
 </style>
