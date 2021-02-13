@@ -1,7 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import hljs from 'highlight.js'
 import tlds from 'tlds'
-import Token from 'markdown-it/lib/token'
 
 const markdownIt = new MarkdownIt({
   breaks: true,
