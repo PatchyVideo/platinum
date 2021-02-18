@@ -1,8 +1,9 @@
 // @ts-check
-const path = require('path')
-const fs = require('fs')
-const vue = require('@vitejs/plugin-vue')
-require('cross-fetch/polyfill')
+import path from 'path'
+import fs from 'fs'
+import vue from '@vitejs/plugin-vue'
+import windicss from 'vite-plugin-windicss'
+// import 'cross-fetch/polyfill'
 
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
@@ -15,7 +16,7 @@ Generated: <%= new Date().toISOString() %>
 `.trim()
 
 // @type string[]
-const prebuildFiles = ['/packages/tailwindcss/css/tailwind.css']
+// const prebuildFiles = ['/packages/tailwindcss/css/tailwind.css']
 
 /**
  * Vite Configuration File
@@ -35,6 +36,12 @@ module.exports = {
   plugins: [
     // @ts-ignore
     vue(),
+    // @ts-ignore
+    windicss({
+      scan: {
+        dirs: ['packages'],
+      },
+    }),
     {
       ...require('rollup-plugin-license')({
         sourcemap: true,
@@ -76,23 +83,23 @@ module.exports = {
       },
       apply: 'serve',
     },
-    {
-      name: 'plugin-prebuild',
-      configureServer(server) {
-        server.httpServer.once('listening', () => {
-          const address = server.httpServer.address()
-          if (typeof address !== 'string') {
-            const serverBase =
-              'http://' +
-              (address.family === 'IPv6' ? '[' + address.address + ']' : address.address) +
-              ':' +
-              address.port
-            prebuildFiles.forEach((file) => fetch(serverBase + file).catch(() => {}))
-          }
-        })
-      },
-      apply: 'serve',
-    },
+    // {
+    //   name: 'plugin-prebuild',
+    //   configureServer(server) {
+    //     server.httpServer.once('listening', () => {
+    //       const address = server.httpServer.address()
+    //       if (typeof address !== 'string') {
+    //         const serverBase =
+    //           'http://' +
+    //           (address.family === 'IPv6' ? '[' + address.address + ']' : address.address) +
+    //           ':' +
+    //           address.port
+    //         prebuildFiles.forEach((file) => fetch(serverBase + file).catch(() => {}))
+    //       }
+    //     })
+    //   },
+    //   apply: 'serve',
+    // },
   ],
   build: {
     sourcemap: true,

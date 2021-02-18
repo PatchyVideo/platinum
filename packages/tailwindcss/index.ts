@@ -1,1 +1,1 @@
-import './css/tailwind.css'
+import 'windi.css'

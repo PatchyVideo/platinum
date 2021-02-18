@@ -522,7 +522,8 @@ function __parseGraph(graphData: PGraphData): BuiltChild {
         })
       } else {
         pendingOnQueryData[fragmentName] = pendingOnQueryData[fragmentName] || []
-        if (callback) pendingOnQueryData[fragmentName].push(callback as (data: unknown) => void)
+        if (callback && !pendingOnQueryData[fragmentName].includes(callback as (data: unknown) => void))
+          pendingOnQueryData[fragmentName].push(callback as (data: unknown) => void)
         return new Promise<T>((resolve) => {
           pendingOnQueryData[fragmentName].push(resolve as (data: unknown) => void)
         })
@@ -660,7 +661,6 @@ export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<Normal
     if (graph.handleHMR) graph.handleHMR(hhmr)
     variRef = graph.buildVars({})
     watchVari()
-    submitQuery()
   }
   if (import.meta.hot && graph.handleHMR) graph.handleHMR(hhmr)
 
