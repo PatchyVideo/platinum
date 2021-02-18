@@ -26,32 +26,14 @@
           fill="black"
           width="30px"
           height="30px"
-          class="fill-current inline ml-2 md:hidden"
+          class="fill-current inline md:hidden"
         >
           <path d="M0 0h24v24H0V0z" fill="none" />
           <path
             d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
           />
         </svg>
-      </div>
-      <div class="hidden shadow rounded-full mx-auto h-9 text-center bg-white dark:bg-gray-800 md:inline-block">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="black"
-          width="30px"
-          height="30px"
-          class="fill-current inline ml-2"
-        >
-          <path d="M0 0h24v24H0V0z" fill="none" />
-          <path
-            d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-          />
-        </svg>
-        <input
-          class="inline-block h-full min-w-300 mr-8 outline-none dark:bg-gray-800 dark:text-white"
-          placeholder="search!"
-        />
+        <AutoComplete class="hidden md:inline-block"></AutoComplete>
       </div>
       <!-- User -->
       <div v-if="!isLogin" class="space-x-4 mr-2">
@@ -130,16 +112,18 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { isDark } from '@/darkmode'
-// import { useI18n } from 'vue-i18n'
-// import { locale } from '@/locales'
+import { useI18n } from 'vue-i18n'
 import Logo from '@/common/components/Logo.vue'
+import AutoComplete from './AutoComplete.vue'
 
 export default defineComponent({
   components: {
     Logo,
+    AutoComplete,
   },
   props: {},
   setup() {
+    const { t } = ref(useI18n)
     let isLogin = ref(false)
     let drawerOpen = ref<boolean | undefined>()
     function openDrawer(): void {
