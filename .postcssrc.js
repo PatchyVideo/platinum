@@ -13,8 +13,6 @@ module.exports = {
     require('postcss-import'),
     // Docs: https://github.com/postcss/postcss-nested#readme
     require('postcss-nested'),
-    // Docs: https://tailwindcss.com/
-    require('tailwindcss'),
   ],
   preset: {
     stage: 1,
