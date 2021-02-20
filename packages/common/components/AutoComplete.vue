@@ -27,7 +27,7 @@
         class="bg-pink-300 h-full px-3 rounded-r-full transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
         @click="searchContent && search()"
       >
-        t('common.autoComplete.search')
+        {{ t('common.autoComplete.search') }}
       </button>
     </div>
     <div
@@ -70,7 +70,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { t } = ref(useI18n)
+    const { t } = useI18n()
     interface resultType {
       tag: string
       cat: number
