@@ -38,16 +38,30 @@
       <div
         v-for="item in searchResult"
         :key="item.tag"
-        class="p-2 transition-colors cursor-pointer hover:bg-gray-100"
+        class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between"
         :class="{ activeListItem: item.active }"
-        @click="clickAutocompleteKeyword(item.tag)"
+        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs, false))"
       >
-        {{ item.tag }}
+        <div>
+          <div
+            :class="{
+              'text-copyright': item.cat === 2,
+              'text-language': item.cat === 5,
+              'text-character': item.cat === 1,
+              'text-author': item.cat === 3,
+              'text-general': item.cat === 0,
+              'text-meta': item.cat === 4,
+              'text-soundtrack': item.cat === 6,
+            }"
+            v-html="item.tag || ConvertLangRes(item.langs)"
+          ></div>
+        </div>
+        <div class="text-gray-400">{{ item.cnt || '' }}</div>
       </div>
     </div>
     <div
       :class="[loading ? 'loading' : 'noloading']"
-      class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-11"
+      class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-11"
       v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
     ></div>
   </div>
@@ -57,6 +71,8 @@
 import { defineComponent, ref, reactive, onMounted, onUnmounted, watch } from 'vue'
 import { isDark } from '@/darkmode'
 import { useI18n } from 'vue-i18n'
+import { locale } from '@/locales'
+import { concat } from 'tlds'
 
 export default defineComponent({
   components: {},
@@ -72,10 +88,15 @@ export default defineComponent({
   setup(props) {
     const { t } = useI18n()
     interface resultType {
-      tag: string
+      tag?: string
       cat: number
       cnt: null | string
       active?: boolean
+      langs?: langs[]
+    }
+    interface langs {
+      l: number
+      w: string
     }
     let listHidden = ref<boolean>(true)
     let loading = ref<boolean>(false)
@@ -167,7 +188,7 @@ export default defineComponent({
       listHidden.value = true
       loading.value = true
       let listData: resultType[] = sitesAndKeywords.filter(siteOrKeywordFilter(searchKeyword))
-      await fetch(`https://patchyvideo.com/be/autocomplete/?q=${searchKeyword}`)
+      await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
         .then((data) => data.json())
         .then((res) => {
           listData = listData.concat(res)
@@ -185,8 +206,64 @@ export default defineComponent({
     }
     function siteOrKeywordFilter(query: string) {
       return (siteOrKeyword: resultType): boolean => {
-        return siteOrKeyword.tag.toLowerCase().indexOf(query.toLowerCase()) === 0
+        return siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
       }
+    }
+    function ConvertLangRes(langs: langs[], hastran = true): string | void {
+      if (!langs) return
+      const LangList = [
+        { id: 1, lang: 'CHS' },
+        { id: 2, lang: 'CHT' },
+        { id: 5, lang: 'ENG' },
+        { id: 10, lang: 'JPN' },
+      ]
+      const level = [10, 5, 1, 2]
+      let Lang = ''
+      let mainLang = ''
+      let subLang = ''
+      // Calculate the main language and the sub language
+
+      // Fetch current language's ID
+      let CurrLangIDObject = LangList.find((x) => {
+        return x.lang === locale.value
+      })
+      let CurrLangID: number = CurrLangIDObject ? CurrLangIDObject.id : 1
+
+      // Fetch content with ID
+      let CurrLangWord = langs.find((x) => {
+        return x.l == CurrLangID
+      })
+      if (!CurrLangWord) {
+        for (let i = 0; i < level.length; i++) {
+          CurrLangWord = langs.find((x) => {
+            return x.l == level[i]
+          })
+          if (CurrLangWord) break
+        }
+      }
+      mainLang = CurrLangWord?.w || ''
+
+      if (hastran) {
+        // Fetch the sub language
+        // Level: Japanese, English, Simplified Chinese, Traditional Chinese
+        // 优先级：日本語，English，简体中文，繁體中文
+        let SubLangWord = null
+        for (let i = 0; i < level.length; i++) {
+          if (level[i] == CurrLangWord?.l) continue
+          SubLangWord = langs.find((x) => {
+            return x.l == level[i]
+          })
+          if (SubLangWord) break
+        }
+        subLang = SubLangWord ? SubLangWord.w : mainLang
+
+        // Composite
+        Lang = `${mainLang.replace(/_/g, ' ')}`
+        Lang += `<span style='font-size:8px;color: gray;display: block;'>${subLang.replace(/_/g, ' ')}</span>`
+      } else {
+        Lang = mainLang
+      }
+      return Lang
     }
 
     // Click to hide the list
@@ -235,13 +312,12 @@ export default defineComponent({
     }
     // Select the keyword from the search list with mouse
     function clickAutocompleteKeyword(tag: string): void {
-      searchContent.value = cutHeadSearchContent + tag + ' ' + cutTailSearchContent // There can be multiple spaces between words, someday fix them?
-      searchResult.value = []
+      searchContent.value = formatSearchContent(cutHeadSearchContent + tag + ' ' + cutTailSearchContent)
       listHidden.value = true
       autoComplete.value?.focus()
     }
 
-    // Complete keyword or search
+    //  Select the keyword from the search list with keyboard or search
     function completeKeywordOrSearch(): void {
       let i = 0
       for (i; i < searchResult.value.length; i++) {
@@ -253,10 +329,21 @@ export default defineComponent({
         searchContent.value && props.search()
         return
       } else {
-        searchContent.value = cutHeadSearchContent + searchResult.value[i].tag + ' ' + cutTailSearchContent // There can be multiple spaces between words, someday fix them?
+        searchContent.value = formatSearchContent(
+          cutHeadSearchContent +
+            (searchResult.value[i].tag || ConvertLangRes(searchResult.value[i].langs || [], false)) +
+            ' ' +
+            cutTailSearchContent
+        )
         searchResult.value = []
         listHidden.value = true
       }
+    }
+    // Delete extra spaces
+    function formatSearchContent(content: string): string {
+      var formater = new RegExp('\\s\\s+', 'g')
+      content = content.replace(formater, ' ')
+      return content
     }
 
     return {
@@ -269,6 +356,7 @@ export default defineComponent({
       autoCompleteRoot,
       searchContent,
       autoComplete,
+      ConvertLangRes,
       selectAutocompleteKeyword,
       clickAutocompleteKeyword,
       completeKeywordOrSearch,
