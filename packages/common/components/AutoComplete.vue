@@ -72,7 +72,6 @@ import { defineComponent, ref, reactive, onMounted, onUnmounted, watch } from 'v
 import { isDark } from '@/darkmode'
 import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
-import { concat } from 'tlds'
 
 export default defineComponent({
   components: {},
