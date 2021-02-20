@@ -12,7 +12,7 @@ import { gql, parseGraph, schema } from '@/graphql'
 import { notify } from '@/notification'
 import { FetchResult } from '@apollo/client/core'
 import { templateRef, useElementSize } from '@vueuse/core'
-import { computed, ref, defineComponent, watch } from 'vue'
+import { computed, ref, defineComponent, watch, nextTick } from 'vue'
 
 type YouGetVideoData = YouGetGeneralVideoData | YouGetBilibiliVideoData
 type YouGetBaseVideoData = {
@@ -56,10 +56,12 @@ export default defineComponent({
     const log = ref('')
     const logEl = templateRef('logEl')
     watch(log, () => {
-      if (logEl.value)
-        logEl.value.scroll({
-          top: logEl.value.scrollHeight,
-        })
+      nextTick(() => {
+        if (logEl.value)
+          logEl.value.scrollIntoView({
+            block: 'end',
+          })
+      })
     })
     const videoReady = ref(false)
 

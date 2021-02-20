@@ -4,8 +4,9 @@ export interface UserAvatarMeta {
 }
 
 export function getUserAvatar(meta: UserAvatarMeta): string {
-  if (meta.image) return 'https://patchyvideo.com/be/images/userphotos/' + meta.image
-  if (meta.gravatar)
+  console.log(meta)
+  if (meta.image && meta.image !== 'default') return 'https://patchyvideo.com/be/images/userphotos/' + meta.image
+  if (meta.gravatar && meta.gravatar.length === 32)
     return (
       'https://www.gravatar.com/avatar/' +
       meta.gravatar +
@@ -19,6 +20,6 @@ export interface CoverImageMeta {
 }
 
 export function getCoverImage(meta: CoverImageMeta): string {
-  if (meta.image) return 'https://patchyvideo.com/be/images/covers/' + meta.image
+  if (meta.image && meta.image !== 'default') return 'https://patchyvideo.com/be/images/covers/' + meta.image
   return 'https://patchyvideo.com/be/images/covers/default'
 }
