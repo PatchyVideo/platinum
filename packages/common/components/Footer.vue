@@ -1,51 +1,28 @@
 <template>
-  <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
+  <div class="bg-gray-50 dark:bg-gray-700">
+    <div class="flex flex-row justify-center py-8 mt-8">
+      <div v-for="linkGroup in links" :key="linkGroup.key">
+        <ul class="px-2 md:px-4 lg:px-8">
+          <h3 class="font-semibold tracking-wide text-gray-900 dark:text-white py-1" v-text="linkGroup.key"></h3>
+          <li v-for="link in linkGroup.links" :key="link.key">
+            <a
+              v-if="link.href"
+              class="inline-block mt-1 text-gray-900 whitespace-nowrap"
+              :href="link.href"
+              target="_blank"
+              rel="noopener noreferrer"
+              v-text="link.key"
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div v-if="!small" class="text-center font-thin text-sm md:text-base whitespace-nowrap overflow-hidden">
+    <div v-if="!small" class="text-center text-sm md:text-base text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
     <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div class="w-full">
-      <div class="flex flex-col justify-around lg:flex-row-reverse">
-        <div class="my-auto hidden lg:block">
-          <img src="https://patchyvideo.com/img/footImg.c955b6a7.png" />
-        </div>
-        <div class="my-auto flex flex-row justify-evenly text-sm">
-          <div v-for="linkGroup in links" :key="linkGroup.key">
-            <ul class="px-2 md:px-4 lg:px-8">
-              <h3 class="font-semibold tracking-wide text-gray-900 py-1" v-text="linkGroup.key"></h3>
-              <li v-for="link in linkGroup.links" :key="link.key">
-                <a
-                  v-if="link.href"
-                  class="inline-block mt-1 text-gray-900 whitespace-nowrap"
-                  :href="link.href"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  v-text="link.key"
-                ></a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="my-auto">
-          <div class="flex flex-row items-center content-center justify-around">
-            <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-              <select v-model="isDark" class="bg-transparent focus:outline-none">
-                <option :value="false" v-text="t('darkmode.light')"></option>
-                <option :value="true" v-text="t('darkmode.dark')"></option>
-              </select>
-            </div>
-            <div class="border border-pink-200 dark:border-gray-800 px-4 py-1 m-1 rounded-full">
-              <select v-model="locale" class="bg-transparent focus:outline-none">
-                <option value="zh-CN">简体中文</option>
-                <option value="en-US">English</option>
-              </select>
-            </div>
-          </div>
-          <div class="text-center text-sm">Platinum V{{ version }}, © 2020-2021 PatchyVideo</div>
-        </div>
-      </div>
-    </div>
+    <div class="text-center my-2 text-gray-600 dark:text-gray-200">Platinum V{{ version }}, © 2020-2021 PatchyVideo</div>
   </div>
 </template>
 
@@ -92,7 +69,6 @@ export default defineComponent({
           { key: t('common.footer.repositories'), href: 'https://patchyvideo.wiki/zh/Repositories' },
           { key: t('common.footer.feedback-issue'), href: 'https://github.com/PatchyVideo/PatchyVideo/issues' },
           { key: t('common.footer.license'), href: '/LICENSE' },
-          { key: t('common.footer.opensource-licenses'), href: '/NOTICE.txt' },
         ],
       },
       {

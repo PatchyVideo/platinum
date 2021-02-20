@@ -71,14 +71,6 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       serialize: (parsed: string) => parsed,
       parseValue: (raw: string | null): string | null => raw,
     },
-    FEUserImage: {
-      serialize: (parsed: string) => parsed.replace(new RegExp('^https://patchyvideo.com/be/images/userphotos/'), ''),
-      parseValue: (raw: string | null): string | null => 'https://patchyvideo.com/be/images/userphotos/' + raw,
-    },
-    FECoverImage: {
-      serialize: (parsed: string) => parsed.replace(new RegExp('^https://patchyvideo.com/be/images/covers/'), ''),
-      parseValue: (raw: string | null): string | null => 'https://patchyvideo.com/be/images/covers/' + raw,
-    },
   }
   const link = from([
     // Backend Server
@@ -646,9 +638,9 @@ export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<Normal
   }
 
   const watchVari = () => {
-    watch(
-      variRef,
+    watchEffect(
       () => {
+        variRef.value
         submitQuery()
       },
       { flush: 'post' }

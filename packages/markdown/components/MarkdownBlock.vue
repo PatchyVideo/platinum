@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="prose prose-sm max-w-none" v-html="html"></article>
+  <article class="prose max-w-none" :class="{ 'prose-sm': sm }" v-html="html"></article>
 </template>
 
 <script lang="ts">
@@ -12,6 +12,10 @@ export default defineComponent({
     text: {
       type: String,
       default: '',
+    },
+    sm: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {
