@@ -3,7 +3,10 @@
     "hello": "你好世界！"
   },
   "common": {
-    "autoComplete":{
+    "navTop": {
+      "darkMode":"深色模式"
+    },
+    "autoComplete": {
       "search":"搜索",
       "loading":"加载中...",
       "loadingFailed":"加载失败了QAQ"

@@ -88,7 +88,7 @@
         <div>Main Menu</div>
         <!-- Darkmode -->
         <label class="block space-x-2">
-          <label>深色模式</label>
+          <label v-text="t('common.navTop.darkMode')"></label>
           <input
             v-model="isDark"
             class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
@@ -123,7 +123,7 @@ export default defineComponent({
   },
   props: {},
   setup() {
-    const { t } = ref(useI18n)
+    const { t } = useI18n()
     let isLogin = ref(false)
     let drawerOpen = ref<boolean | undefined>()
     function openDrawer(): void {
@@ -135,6 +135,7 @@ export default defineComponent({
       window.document.body.style.overflow = 'visible'
     }
     return {
+      t,
       isLogin,
       drawerOpen,
       openDrawer,

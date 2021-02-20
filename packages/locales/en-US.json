@@ -3,7 +3,10 @@
     "hello": "Hello World!"
   },
   "common": {
-    "autoComplete":{
+    "navTop": {
+      "darkMode":"Dark Mode"
+    },
+    "autoComplete": {
       "search":"Search",
       "loading":"Loading...",
       "loadingFailed":"Loading Failed :("
