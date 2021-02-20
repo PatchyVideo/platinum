@@ -33,12 +33,12 @@
     <div
       role="listbox"
       :class="{ listHidden: listHidden }"
-      class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 space-y-2"
+      class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 space-y-2 dark:bg-gray-800"
     >
       <div
         v-for="item in searchResult"
         :key="item.tag"
-        class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between"
+        class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
         :class="{ activeListItem: item.active }"
         @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs, false))"
       >
@@ -371,6 +371,7 @@ export default defineComponent({
 }
 .activeListItem {
   @apply bg-gray-100;
+  @apply dark:bg-gray-900;
 }
 .loading {
   @apply visible;
