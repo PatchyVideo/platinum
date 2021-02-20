@@ -3,6 +3,11 @@
     "hello": "Hello World!"
   },
   "common": {
+    "autoComplete":{
+      "search":"Search",
+      "loading":"Loading...",
+      "loadingFailed":"Loading Failed :("
+    },
     "footer": {
       "bl-account": "BiliBili Account",
       "code": "Development",

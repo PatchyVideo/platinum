@@ -27,7 +27,7 @@
         class="bg-pink-300 h-full px-3 rounded-r-full transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
         @click="searchContent && search()"
       >
-        搜索
+        t('common.autoComplete.search')
       </button>
     </div>
     <div
@@ -48,17 +48,15 @@
     <div
       :class="[loading ? 'loading' : 'noloading']"
       class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-11"
-    >
-      {{ searchSuccess ? '加载中...' : '加载失败了QAQ' }}
-    </div>
+      v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
+    ></div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, onMounted, onUnmounted, watch } from 'vue'
 import { isDark } from '@/darkmode'
-// import { useI18n } from 'vue-i18n'
-// import { locale } from '@/locales'
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   components: {},
@@ -72,6 +70,7 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = ref(useI18n)
     interface resultType {
       tag: string
       cat: number
@@ -101,17 +100,17 @@ export default defineComponent({
     ])
 
     // Send query and show the list
-    let t: ReturnType<typeof setTimeout> | null = null
+    let timer: ReturnType<typeof setTimeout> | null = null
     watch(searchContent, () => {
       const searchDelay = 500
       const searchKeyword: string = getSearchKeyword() || ''
       if (!searchContent.value || !searchKeyword) {
-        t && clearTimeout(t)
+        timer && clearTimeout(timer)
         listHidden.value = true
         return
       }
-      t && clearTimeout(t)
-      t = setTimeout(() => {
+      timer && clearTimeout(timer)
+      timer = setTimeout(() => {
         //  New search keyword should be calculated
         const newSearchKeyword = getSearchKeyword() || ''
         newSearchKeyword && getSearchList(newSearchKeyword)
@@ -261,6 +260,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       isDark,
       listHidden,
       loading,

@@ -3,6 +3,11 @@
     "hello": "你好世界！"
   },
   "common": {
+    "autoComplete":{
+      "search":"搜索",
+      "loading":"加载中...",
+      "loadingFailed":"加载失败了QAQ"
+    },
     "footer": {
       "wiki": "网站维基",
       "status": "网站状态",
