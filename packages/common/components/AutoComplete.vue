@@ -7,7 +7,7 @@
         fill="black"
         width="30px"
         height="30px"
-        class="fill-current inline align-middle ml-2"
+        class="fill-current inline ml-2"
       >
         <path d="M0 0h24v24H0V0z" fill="none" />
         <path
