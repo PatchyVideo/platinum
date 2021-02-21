@@ -91,11 +91,7 @@
         <!-- Darkmode -->
         <label class="block space-x-2">
           <label v-text="t('common.navTop.darkMode')"></label>
-          <input
-            v-model="isDark"
-            class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
-            type="checkbox"
-          />
+          <pv-check-box v-model:check="isDark"></pv-check-box>
         </label>
         <!-- Language Select -->
         <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
@@ -121,12 +117,14 @@ import { useI18n } from 'vue-i18n'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from './AutoComplete.vue'
 import PvSelect from './PvSelect.vue'
+import PvCheckBox from './PvCheckBox.vue'
 
 export default defineComponent({
   components: {
     Logo,
     AutoComplete,
     PvSelect,
+    PvCheckBox,
   },
   props: {
     showSearchBar: {
@@ -203,24 +201,5 @@ export default defineComponent({
 .mask-enter-from,
 .mask-leave-to {
   @apply bg-opacity-0;
-}
-.switch:before {
-  content: '';
-  @apply w-8;
-  @apply absolute;
-  @apply inset-y-0;
-  @apply left-0;
-  @apply rounded-full;
-  @apply bg-white;
-  @apply shadow;
-  @apply transition-all;
-  @apply duration-200;
-}
-.switch:checked {
-  @apply bg-pink-300;
-  @apply border-pink-200;
-}
-.switch:checked:before {
-  @apply left-6;
 }
 </style>
