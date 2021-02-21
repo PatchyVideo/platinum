@@ -9,6 +9,7 @@
     "nav",
     "common",
     "video",
-    "graphql"
+    "graphql",
+    "search"
   ]
 }
