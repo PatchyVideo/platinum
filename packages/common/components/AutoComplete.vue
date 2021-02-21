@@ -17,13 +17,15 @@
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block min-w-70 h-full mr-8 outline-none dark:bg-gray-800 dark:text-white"
+        class="inline-block h-full outline-none dark:bg-gray-800 dark:text-white"
+        :class="{ 'w-75': size === 'deskTop', 'mr-8': size === 'mobile' }"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
       />
       <button
+        v-if="size === 'deskTop'"
         class="bg-pink-300 h-full px-3 rounded-r-full transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
         @click="searchContent && search()"
       >
@@ -76,6 +78,13 @@ import { locale } from '@/locales'
 export default defineComponent({
   components: {},
   props: {
+    size: {
+      type: String,
+      validator: function (value: string) {
+        return ['deskTop', 'mobile'].indexOf(value) !== -1
+      },
+      default: 'deskTop',
+    },
     search: {
       type: Function,
       default: (): void => {
