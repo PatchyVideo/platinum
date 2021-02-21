@@ -8,8 +8,8 @@
           <!-- Video Title -->
           <div>
             <h1 class="mt-1 lg:text-lg" v-text="videoItem.title"></h1>
-            <div class="text-sm text-gray-500">
-              {{ videoItem.repostType }} {{ videoItem.uploadTime.toLocaleString() }}
+            <div class="text-gray-500">
+              {{ videoItem.repostType }} <Suspense><RelativeDate :date="videoItem.uploadTime" /></Suspense>
             </div>
           </div>
           <!-- Video Player -->
@@ -19,13 +19,53 @@
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div class="mx-1 md:mx-2 lg:mx-8">
             <!-- Video Tag -->
-            <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="tag text-white text-sm pr-1 mr-1">{{
-              tag.name
-            }}</span>
+            <span
+              v-for="tag in regularTags"
+              :key="tag.id.toHexString()"
+              class="tag text-sm whitespace-nowrap pr-1 mr-1"
+              >{{ tag.name }}</span
+            >
             <!-- Video Description -->
-            <MarkdownBlock :text="videoItem.desc"></MarkdownBlock>
+            <MarkdownBlock :text="videoItem.desc" :sm="true"></MarkdownBlock>
           </div>
           <div class="w-full border-t border-gray-300 my-2"></div>
+          <div>
+            <!-- Video Comments -->
+            <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
+              <div class="mx-2">
+                <img
+                  :src="comment.author.image"
+                  :alt="comment.author.username + '\'s avatar'"
+                  class="inline w-12 h-12 rounded-full object-cover"
+                />
+              </div>
+              <div>
+                <span class="font-medium" v-text="comment.author.username"></span
+                ><Suspense><RelativeDate class="text-sm text-gray-600 ml-2" :date="comment.createdAt" /></Suspense
+                ><br />
+                <MarkdownBlock class="min-h-8" :text="comment.content" :sm="true" />
+                <div
+                  v-for="child in comment.children"
+                  :key="child.id.toHexString()"
+                  class="flex flex-row flex-nowrap my-1"
+                >
+                  <div class="mt-1 mr-2">
+                    <img
+                      :src="child.author.image"
+                      :alt="child.author.username + '\'s avatar'"
+                      class="inline w-8 h-8 rounded-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <span class="font-medium" v-text="child.author.username"></span
+                    ><Suspense><RelativeDate class="text-sm text-gray-600 ml-2" :date="child.createdAt" /></Suspense
+                    ><br />
+                    <MarkdownBlock class="min-h-8" :text="child.content" :sm="true" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
@@ -37,14 +77,18 @@
             >
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
-                <img class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500" :src="author.avatar" />
+                <img
+                  class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
+                  :src="author.avatar"
+                />
                 <div
                   class="absolute px-0.5 -right-1.5 top-0 rounded lg:transform lg:rotate-24 bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                   v-text="author.position"
                 ></div>
               </div>
               <div class="hidden sm:block ml-3 overflow-hidden">
-                {{ author.name }}<br />
+                {{ author.name }}
+                <br />
                 <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
                   {{ author.desc || '这个人太懒啦，并没有写简介' }}
                 </div>
@@ -63,12 +107,14 @@ import Player, { graph as playerGraph } from './components/Player.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
+import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import TagBorder from './TagBorder'
 import { reactive, defineComponent, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { gql, parseGraph, schema } from '@/graphql'
 import { ObjectID } from 'bson'
 import { behMostMatch } from '@/locales'
+import { getUserAvatar } from '@/common/lib/imageUrl'
 
 const gvid = ref('')
 
@@ -92,6 +138,7 @@ export const graph = parseGraph({
             username
             desc
             image
+            gravatar
           }
         }
         tags {
@@ -114,6 +161,38 @@ export const graph = parseGraph({
             }
           }
         }
+        commentThread {
+          id
+          count
+          comments {
+            id
+            content
+            meta {
+              createdAt
+              createdBy {
+                id
+                username
+                image
+                gravatar
+                desc
+              }
+            }
+            children {
+              id
+              content
+              meta {
+                createdAt
+                createdBy {
+                  id
+                  username
+                  image
+                  gravatar
+                  desc
+                }
+              }
+            }
+          }
+        }
       }
     }
   `,
@@ -132,26 +211,16 @@ export default defineComponent({
     MarkdownBlock,
     Footer,
     NavTop,
+    RelativeDate,
   },
   setup() {
+    /* submit query */
     const route = useRoute()
     const vid = route.params.vid as string
-    type Authors = {
-      type: 'AuthorTag' | 'User'
-      position: string
-      id: ObjectID
-      name: string
-      desc: string
-      avatar: string
-    }[]
-    const authors = ref<Authors>([])
-    type RegularTags = {
-      id: ObjectID
-      category: schema.Scalars['FETagCategories']
-      name: string
-    }[]
-    const regularTags = ref<RegularTags>([])
+    gvid.value = vid
+    graph.ready()
 
+    /* basic info */
     const videoItem: {
       title: string
       desc: string
@@ -165,19 +234,40 @@ export default defineComponent({
       uploadTime: new Date(),
       url: '',
     })
-
-    gvid.value = vid
-    graph.ready()
-
     graph.onFragmentData<schema.Query>('default', (data) => {
       const video = data.getVideo
-      document.title = video.item.title
+
       videoItem.title = video.item.title
       videoItem.desc = video.item.desc
       videoItem.repostType = video.item.repostType
       videoItem.uploadTime = video.item.uploadTime
       videoItem.url = video.item.url
-      for (const tag of video.tags) {
+
+      // change title
+      document.title = video.item.title
+    })
+
+    /* tags */
+    type Authors = {
+      type: 'AuthorTag' | 'User'
+      position: string
+      id: ObjectID
+      name: string
+      desc: string
+      avatar: string
+    }[]
+    const authors = ref<Authors>([])
+
+    type RegularTags = {
+      id: ObjectID
+      category: schema.Scalars['FETagCategories']
+      name: string
+    }[]
+    const regularTags = ref<RegularTags>([])
+
+    graph.onFragmentData<schema.Query>('default', (data) => {
+      const video = data.getVideo
+      video.tags.forEach((tag) => {
         if (tag.__typename === 'AuthorTagObject') {
           if (tag.author)
             authors.value.push({
@@ -185,7 +275,9 @@ export default defineComponent({
               id: tag.author.id,
               name: tag.author.tagname,
               desc: tag.author.desc,
-              avatar: tag.author.avatar,
+              avatar: getUserAvatar({
+                image: tag.author.avatar,
+              }),
               position: tag.authorRole,
             })
         } else if (tag.__typename === 'RegularTagObject') {
@@ -195,20 +287,78 @@ export default defineComponent({
             name: behMostMatch(tag.languages),
           })
         }
-      }
+      })
       if (video.meta.createdBy)
         authors.value.push({
           type: 'User',
           id: video.meta.createdBy.id,
           name: video.meta.createdBy.username,
           desc: video.meta.createdBy.desc,
-          avatar: video.meta.createdBy.image,
+          avatar: getUserAvatar(video.meta.createdBy),
           position: '上传者',
         })
-      console.log(authors, regularTags)
     })
 
-    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replace('#333', '#4b5563')) + '")')
+    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', '#4b5563')) + '")')
+
+    /* comments */
+    interface Comment {
+      id: ObjectID
+      createdAt: Date
+      content: string
+      author: {
+        id: ObjectID
+        username: string
+        image: string
+        desc: string
+      }
+      hidden?: boolean
+      children?: Comment[]
+    }
+    const comments: Comment[] = []
+
+    graph.onFragmentData<schema.Query>('default', (data) => {
+      const video = data.getVideo
+      if (video.commentThread?.comments) {
+        video.commentThread.comments.forEach((comment) => {
+          if (comment.content && comment.meta.createdBy && !comment.deleted)
+            comments.push({
+              id: comment.id,
+              createdAt: comment.meta.createdAt,
+              content: comment.content,
+              author: {
+                id: comment.meta.createdBy.id,
+                username: comment.meta.createdBy.username,
+                image: getUserAvatar(comment.meta.createdBy),
+                desc: comment.meta.createdBy.desc,
+              },
+              hidden: comment.hidden,
+              children: (() => {
+                const children: Comment[] = []
+
+                if (comment.children)
+                  comment.children.forEach((comment) => {
+                    if (comment.content && comment.meta.createdBy)
+                      children.push({
+                        id: comment.id,
+                        createdAt: comment.meta.createdAt,
+                        content: comment.content,
+                        author: {
+                          id: comment.meta.createdBy.id,
+                          username: comment.meta.createdBy.username,
+                          image: getUserAvatar(comment.meta.createdBy),
+                          desc: comment.meta.createdBy.desc,
+                        },
+                        hidden: comment.hidden,
+                      })
+                  })
+
+                return children
+              })(),
+            })
+        })
+      }
+    })
 
     return {
       route,
@@ -217,6 +367,7 @@ export default defineComponent({
       authors,
       regularTags,
       tagBorderGray,
+      comments,
     }
   },
 })

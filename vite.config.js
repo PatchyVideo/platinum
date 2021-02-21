@@ -3,7 +3,6 @@ import path from 'path'
 import fs from 'fs'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
-// import 'cross-fetch/polyfill'
 
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
@@ -14,9 +13,6 @@ PatchyVideo/Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
 MIT License, Copyright (c) 2020-2021 PatchyVideo
 Generated: <%= new Date().toISOString() %>
 `.trim()
-
-// @type string[]
-// const prebuildFiles = ['/packages/tailwindcss/css/tailwind.css']
 
 /**
  * Vite Configuration File
@@ -43,27 +39,6 @@ module.exports = {
       },
     }),
     {
-      ...require('rollup-plugin-license')({
-        sourcemap: true,
-        banner: {
-          commentStyle: 'ignored',
-          content: banner,
-          data() {
-            return {
-              gitLatest: data['rollup-plugin-license'].data.gitLatest,
-            }
-          },
-        },
-        thirdParty: {
-          output: {
-            file: path.resolve(__dirname, './dist/NOTICE.txt'),
-          },
-        },
-      }),
-      enforce: 'post',
-      apply: 'build',
-    },
-    {
       // @ts-ignore
       ...require('rollup-plugin-copy')({
         targets: [{ src: 'LICENSE', dest: 'dist' }],
@@ -83,23 +58,6 @@ module.exports = {
       },
       apply: 'serve',
     },
-    // {
-    //   name: 'plugin-prebuild',
-    //   configureServer(server) {
-    //     server.httpServer.once('listening', () => {
-    //       const address = server.httpServer.address()
-    //       if (typeof address !== 'string') {
-    //         const serverBase =
-    //           'http://' +
-    //           (address.family === 'IPv6' ? '[' + address.address + ']' : address.address) +
-    //           ':' +
-    //           address.port
-    //         prebuildFiles.forEach((file) => fetch(serverBase + file).catch(() => {}))
-    //       }
-    //     })
-    //   },
-    //   apply: 'serve',
-    // },
   ],
   build: {
     sourcemap: true,
