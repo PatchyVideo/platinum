@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-50 dark:bg-gray-700">
-    <div class="flex flex-row justify-center py-8 mt-8">
+    <div class="flex flex-row flex-wrap justify-center py-8 mt-8">
       <div v-for="linkGroup in links" :key="linkGroup.key">
         <ul class="px-2 md:px-4 lg:px-8">
           <h3 class="font-semibold tracking-wide text-gray-900 dark:text-white py-1" v-text="linkGroup.key"></h3>
@@ -18,11 +18,16 @@
       </div>
     </div>
     <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div v-if="!small" class="text-center text-sm md:text-base text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden">
+    <div
+      v-if="!small"
+      class="text-center text-sm md:text-base text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden"
+    >
       <span id="footer-typed"></span>
     </div>
     <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div class="text-center my-2 text-gray-600 dark:text-gray-200">Platinum V{{ version }}, © 2020-2021 PatchyVideo</div>
+    <div class="text-center my-2 text-gray-600 dark:text-gray-200">
+      Platinum V{{ version }}, © 2020-2021 PatchyVideo
+    </div>
   </div>
 </template>
 
@@ -74,7 +79,7 @@ export default defineComponent({
       {
         key: t('common.footer.contact'),
         links: [
-          { key: 'QQ', href: 'https://jq.qq.com/?k=fOJYEJt1' },
+          { key: 'Tencent QQ', href: 'https://jq.qq.com/?k=fOJYEJt1' },
           { key: 'Telegram', href: 'https://t.me/PatchyVideo' },
           { key: 'Discord', href: 'https://discord.gg/FtPPQqz' },
           { key: 'Email', href: 'mailto:zyddnys@outlook.com' },
