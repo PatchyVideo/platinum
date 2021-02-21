@@ -4,12 +4,15 @@
   },
   "common": {
     "navTop": {
-      "darkMode":"Dark Mode"
+      "darkMode": "Dark Mode"
     },
     "autoComplete": {
-      "search":"Search",
-      "loading":"Loading...",
-      "loadingFailed":"Loading Failed :("
+      "search": "Search",
+      "loading": "Loading...",
+      "loadingFailed": "Loading Failed :("
+    },
+    "pvSelect": {
+      "select": "select"
     },
     "footer": {
       "bl-account": "BiliBili Account",

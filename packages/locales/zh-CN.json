@@ -4,12 +4,15 @@
   },
   "common": {
     "navTop": {
-      "darkMode":"深色模式"
+      "darkMode": "深色模式"
     },
     "autoComplete": {
-      "search":"搜索",
-      "loading":"加载中...",
-      "loadingFailed":"加载失败了QAQ"
+      "search": "搜索",
+      "loading": "加载中...",
+      "loadingFailed": "加载失败了QAQ"
+    },
+    "pvSelect": {
+      "select": "请选择"
     },
     "footer": {
       "wiki": "网站维基",
