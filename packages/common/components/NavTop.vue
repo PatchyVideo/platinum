@@ -10,7 +10,7 @@
           xmlns="http://www.w3.org/2000/svg"
           height="38"
           viewBox="0 0 24 24"
-          class="fill-current cursor-pointer rounded-full transition-colors hover:bg-gray-200"
+          class="fill-current cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="openDrawer()"
         >
           <path d="M0 0h24v24H0z" fill="none" />
@@ -97,6 +97,8 @@
             type="checkbox"
           />
         </label>
+        <!-- Language Select -->
+        <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
       </div>
       <!-- Mask -->
       <transition name="mask">
@@ -114,14 +116,17 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { isDark } from '@/darkmode'
+import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from './AutoComplete.vue'
+import PvSelect from './PvSelect.vue'
 
 export default defineComponent({
   components: {
     Logo,
     AutoComplete,
+    PvSelect,
   },
   props: {
     showSearchBar: {
@@ -132,6 +137,8 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     let isLogin = ref(false)
+
+    // Drawer Operation
     let drawerOpen = ref<boolean | undefined>()
     function openDrawer(): void {
       drawerOpen.value = true
@@ -141,13 +148,25 @@ export default defineComponent({
       drawerOpen.value = false
       window.document.body.style.overflow = 'visible'
     }
+    const languageList = [
+      {
+        name: '简体中文',
+        value: 'zh-CN',
+      },
+      {
+        name: 'English',
+        value: 'en-US',
+      },
+    ]
     return {
       t,
+      locale,
       isLogin,
       drawerOpen,
       openDrawer,
       hideDrawer,
       isDark,
+      languageList,
     }
   },
 })
