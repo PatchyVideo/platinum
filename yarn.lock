@@ -1427,9 +1427,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 14.14.30
-  resolution: "@types/node@npm:14.14.30"
-  checksum: 9283bf3233cb1508a06df34d078107b014bf737efd14f656769608e9b4190d118c045ff6172ab04fc1e2c61ff10712df92ac0403542886e063f5500b5f654538
+  version: 14.14.31
+  resolution: "@types/node@npm:14.14.31"
+  checksum: 635dc8a0898a923621e02ca179e17baa39fdfa44f0096fcc1b7046c9b32317e74a99956a7b45ca0e8069874f51f4e7873a418239a318a4b6e7936f6510ac5992
   languageName: node
   linkType: hard
 
@@ -1717,14 +1717,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@windicss/plugin-utils@npm:0.3.12":
-  version: 0.3.12
-  resolution: "@windicss/plugin-utils@npm:0.3.12"
+"@windicss/plugin-utils@npm:0.4.3":
+  version: 0.4.3
+  resolution: "@windicss/plugin-utils@npm:0.4.3"
   dependencies:
+    esbuild: ^0.8.49
+    esbuild-register: ^2.0.0
     fast-glob: ^3.2.5
     micromatch: ^4.0.2
-    windicss: ^2.1.12
-  checksum: 504f3ea67abb1f9345bdbcfc4b03a0d9e73592c477143f0f07f0eb794160dc65e45146b0554ebbc662853ad391a8053d7fe3ca5aa9ac07932d5b3e60c355cff6
+    windicss: ^2.1.15
+  checksum: a94be3940d9a9c03134ffb3d2ff5c23fd8328c3896f79f4addada1e9f6eb2d4d5965bbcdcda3c09d57f504925c74d5e2239a4a00c3887c15d449e66cf5cf5059
   languageName: node
   linkType: hard
 
@@ -2302,9 +2304,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001181":
-  version: 1.0.30001189
-  resolution: "caniuse-lite@npm:1.0.30001189"
-  checksum: 3ed9f449eedcd8f6ec97ea0d369c1958c363c25a89d1ad54fb0a1bcb9f3926636fd7a30078f465d7db36b39cdc40b9255b8ca684b8cbd90ef90bd37bedd213e2
+  version: 1.0.30001190
+  resolution: "caniuse-lite@npm:1.0.30001190"
+  checksum: eb8f99e65c2246645a536129966a3610786261b7b5df97f1b1303ebbc4d1944b1776e6b6dfef057b5907b713ead3a94cde5a9db87fbd6141a0219abf3daa00ed
   languageName: node
   linkType: hard
 
@@ -2857,9 +2859,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.649":
-  version: 1.3.669
-  resolution: "electron-to-chromium@npm:1.3.669"
-  checksum: 753a7fe35db37759bb7a099a74ecb820e435b7eae728ab423997e48381481fa60800e67f7900fcd768803e288023e0c0f6aae62d6a37a2f1e3ea289afae5910c
+  version: 1.3.671
+  resolution: "electron-to-chromium@npm:1.3.671"
+  checksum: aa61cb6e32d646c5185a49707082b74fe96a7da0e30cc870760c7ead8ffb8c0d015fc85f165f6c4cc9cd35a7dea900424bcbe1d1cf6b9f5c2152a820939352c5
   languageName: node
   linkType: hard
 
@@ -2958,12 +2960,26 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.8.34":
-  version: 0.8.49
-  resolution: "esbuild@npm:0.8.49"
+"esbuild-register@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "esbuild-register@npm:2.0.0"
+  dependencies:
+    joycon: ^2.2.5
+    pirates: ^4.0.1
+    source-map-support: ^0.5.19
+    strip-json-comments: ^3.1.1
+  peerDependencies:
+    esbuild: ">=0.8.31"
+  checksum: 0238fda04eaa843cf0b684250061c797b0394f1103032987cbd3612c9ce56b6ca782afa6b955f2658a5949bb71766168e319362ce3bc96067cce556e1fb881a3
+  languageName: node
+  linkType: hard
+
+"esbuild@npm:^0.8.34, esbuild@npm:^0.8.49":
+  version: 0.8.50
+  resolution: "esbuild@npm:0.8.50"
   bin:
     esbuild: bin/esbuild
-  checksum: bd7ae436f89e82adc7a9c2843ef8290640ca41f7b75b9e70ff952204f028ef59f49d5fc3df911d00e01b227728452da2425006539e38e631ff613ea3b1371ece
+  checksum: eb3cedf4819dc608912f50287d4386595305f9519c0d49a93f304c308896eddad007b43f3d8340aabdf170510d4fc4c2708ab32af9ea39a59cf34a56e82ee536
   languageName: node
   linkType: hard
 
@@ -2981,14 +2997,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^7.2.0":
-  version: 7.2.0
-  resolution: "eslint-config-prettier@npm:7.2.0"
+"eslint-config-prettier@npm:^8.0.0":
+  version: 8.0.0
+  resolution: "eslint-config-prettier@npm:8.0.0"
   peerDependencies:
     eslint: ">=7.0.0"
   bin:
     eslint-config-prettier: bin/cli.js
-  checksum: 6812150ea49703cd64035527205b4905bc1edcd34646e71f71665e1acff9ab4648f872598389bdb209964093ad73993830a2c821ba12642764a5293513b92a58
+  checksum: 4f7eb2885af2e2647bc0da210b3bed613a376e74a9f7ae4b069204a4aae335735093323d21bf95eb814d3f0f5116f76cb00a7e0f1b5895fcced184e25a560d52
   languageName: node
   linkType: hard
 
@@ -3007,17 +3023,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:next":
-  version: 7.0.0-beta.4
-  resolution: "eslint-plugin-vue@npm:7.0.0-beta.4"
+"eslint-plugin-vue@npm:^7.6.0":
+  version: 7.6.0
+  resolution: "eslint-plugin-vue@npm:7.6.0"
   dependencies:
     eslint-utils: ^2.1.0
     natural-compare: ^1.4.0
     semver: ^7.3.2
-    vue-eslint-parser: ^7.1.0
+    vue-eslint-parser: ^7.5.0
   peerDependencies:
     eslint: ^6.2.0 || ^7.0.0
-  checksum: d41461c68cfb15f4cdef65bc8ba819208d49ee99802699417e429db200e536581cf10ccb8317fe44b69ecfcc84c0445925d6ff0336b1dd361d38ce3ccf10b7e8
+  checksum: e588a651ef84ab8370da0bc30a802ae130a19b01c6a975d62c4fa0b0b5e244580edcad7c85666a458a79a10bbd1c8afce71c09fd41c144f7845e42d49067a775
   languageName: node
   linkType: hard
 
@@ -3338,11 +3354,11 @@ __metadata:
   linkType: hard
 
 "file-entry-cache@npm:^6.0.0":
-  version: 6.0.0
-  resolution: "file-entry-cache@npm:6.0.0"
+  version: 6.0.1
+  resolution: "file-entry-cache@npm:6.0.1"
   dependencies:
     flat-cache: ^3.0.4
-  checksum: aec91f60f903a61f6edd8591f574692a36e054a99f7b1e280823316fde7d487aaf9a0b59db59387c6e071c10ce0e40771f8472067ebe746fe3b7f095f0877be0
+  checksum: af83a412143100405a995bb7d9a31982ebcfabe6c545dac2e787fc5580b2da74e253ef62968057fa5bbfaf0811a8b85623aeea776e16c77e3ce4c2488b0e4821
   languageName: node
   linkType: hard
 
@@ -4292,6 +4308,13 @@ highlight.js@10.5.0:
   languageName: node
   linkType: hard
 
+"joycon@npm:^2.2.5":
+  version: 2.2.5
+  resolution: "joycon@npm:2.2.5"
+  checksum: 7908f551e05aa754d1068053ec1304c12f3abc9c812f7c5a58bef7d35d247c3b1da14e508970bd411191099949756e2190e24c24b3382f818e7cda83e8ea1899
+  languageName: node
+  linkType: hard
+
 "js-tokens@npm:^3.0.0 || ^4.0.0, js-tokens@npm:^4.0.0":
   version: 4.0.0
   resolution: "js-tokens@npm:4.0.0"
@@ -4753,9 +4776,9 @@ highlight.js@10.5.0:
   linkType: hard
 
 "lodash@npm:^4.17.15, lodash@npm:^4.17.19, lodash@npm:^4.17.20, lodash@npm:~4.17.20":
-  version: 4.17.20
-  resolution: "lodash@npm:4.17.20"
-  checksum: c62101d2500c383b5f174a7e9e6fe8098149ddd6e9ccfa85f36d4789446195f5c4afd3cfba433026bcaf3da271256566b04a2bf2618e5a39f6e67f8c12030cb6
+  version: 4.17.21
+  resolution: "lodash@npm:4.17.21"
+  checksum: 4983720b9abca930a4a46f18db163d7dad8dd00dbed6db0cc7b499b33b717cce69f80928b27bbb1ff2cbd3b19d251ee90669a8b5ea466072ca81c2ebe91e7468
   languageName: node
   linkType: hard
 
@@ -5079,6 +5102,13 @@ highlight.js@10.5.0:
   version: 0.4.0
   resolution: "node-int64@npm:0.4.0"
   checksum: 8fce4b82d4173041114150bc49fe2333a0628a1ae31ab666db816742cbce422ef28eb834a7e66d2d09a0f635d3b5fad8c7330ec792db9558f9f7a47fa4eac87f
+  languageName: node
+  linkType: hard
+
+"node-modules-regexp@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "node-modules-regexp@npm:1.0.0"
+  checksum: 90f928a1dbc3c98d39b3d133f8c910e6bd8e45416f8e15151a31c41550cffe4e3022a39c38c20ae4ceca56b6e63741def4f3a2018080d13f5be245f4b060a9b1
   languageName: node
   linkType: hard
 
@@ -5464,6 +5494,15 @@ highlight.js@10.5.0:
   languageName: node
   linkType: hard
 
+"pirates@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "pirates@npm:4.0.1"
+  dependencies:
+    node-modules-regexp: ^1.0.0
+  checksum: 21604008c36ab6e14ac458e1a267dd7322cfd36b9e1042e9e277dd064582717e30b9aba8c0a47d738bf004ee7946ed27f6b982d30968534f2c6b5b168a52b555
+  languageName: node
+  linkType: hard
+
 "platinum@workspace:.":
   version: 0.0.0-use.local
   resolution: "platinum@workspace:."
@@ -5489,9 +5528,9 @@ highlight.js@10.5.0:
     cross-fetch: ^3.0.6
     date-fns: ^2.17.0
     eslint: ^7.20.0
-    eslint-config-prettier: ^7.2.0
+    eslint-config-prettier: ^8.0.0
     eslint-plugin-prettier: ^3.3.1
-    eslint-plugin-vue: next
+    eslint-plugin-vue: ^7.6.0
     graphql: ^15.5.0
     graphql-compose: ^7.25.0
     highlight.js: "patch:highlight.js@10.5.0#./.yarn/diffs/highlight.js.diff"
@@ -5507,7 +5546,7 @@ highlight.js@10.5.0:
     typed.js: ^2.0.11
     typescript: ^4.1.5
     vite: ^2.0.1
-    vite-plugin-windicss: ^0.3.12
+    vite-plugin-windicss: ^0.4.3
     vue: next
     vue-i18n: next
     vue-router: next
@@ -6233,7 +6272,7 @@ highlight.js@10.5.0:
   languageName: node
   linkType: hard
 
-"source-map-support@npm:^0.5.17":
+"source-map-support@npm:^0.5.17, source-map-support@npm:^0.5.19":
   version: 0.5.19
   resolution: "source-map-support@npm:0.5.19"
   dependencies:
@@ -6853,15 +6892,15 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"vite-plugin-windicss@npm:^0.3.12":
-  version: 0.3.12
-  resolution: "vite-plugin-windicss@npm:0.3.12"
+"vite-plugin-windicss@npm:^0.4.3":
+  version: 0.4.3
+  resolution: "vite-plugin-windicss@npm:0.4.3"
   dependencies:
-    "@windicss/plugin-utils": 0.3.12
-    windicss: ^2.1.12
+    "@windicss/plugin-utils": 0.4.3
+    windicss: ^2.1.15
   peerDependencies:
     vite: ^2.0.1
-  checksum: 94f7a55cf19fe0ab348ed2858399644e8f23cce384c74593d57a0cb7b9d99591789e9f829975015cd0404ecf1bbdf031a1e36db21c763ffc3b0c859d444c64de
+  checksum: 0201d0f3c4b0fbb50e497ef8a7b37281cb926fd193723b722f63558fbb8cd333837c3542da24910bbb39b4bfe625b057ec5e90f02e4baa12a2dff30999e4918a
   languageName: node
   linkType: hard
 
@@ -6895,7 +6934,7 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"vue-eslint-parser@npm:^7.1.0":
+"vue-eslint-parser@npm:^7.5.0":
   version: 7.5.0
   resolution: "vue-eslint-parser@npm:7.5.0"
   dependencies:
@@ -6925,11 +6964,11 @@ typescript@^4.1.5:
   linkType: hard
 
 "vue-router@npm:next":
-  version: 4.0.3
-  resolution: "vue-router@npm:4.0.3"
+  version: 4.0.4
+  resolution: "vue-router@npm:4.0.4"
   peerDependencies:
     vue: ^3.0.0
-  checksum: 4ef0de5b18a9d76ba29dc23c68ea4ed6d02347a1dc19887f8a328ffa088dd90a62e2bc8279507a844c9dd4a70545d97325cfa9a66bc6b0cf0ddf6aa520abfe5f
+  checksum: 82b3bbef0ce573e0c440ce849ce9699678a98eb0f6960ce0e9c85111ce20a8c02ec8cff7f6233d5178c0313cce41f73e7cbb5c32517fb4fde30abc068549a7f7
   languageName: node
   linkType: hard
 
@@ -6978,12 +7017,12 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"windicss@npm:^2.1.12":
-  version: 2.1.13
-  resolution: "windicss@npm:2.1.13"
+"windicss@npm:^2.1.15":
+  version: 2.1.16
+  resolution: "windicss@npm:2.1.16"
   bin:
     windicss: cli/index.js
-  checksum: d1adcc124d55add6ab927d26297723bba0eded04b99bc0af88de823ea8cc3638a6289e3716b63f57b066ae72501b9cb660f0ad155243e00a995ab043474c8008
+  checksum: 465559c52c1c32ab9a3d8cc4f6e2d7c6238613da90dd80828defb3e12e44131e78cdee53846cd76d7e37bb1077618f568ec55c963c0595ff118d768801593fab
   languageName: node
   linkType: hard
 
