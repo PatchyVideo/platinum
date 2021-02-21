@@ -63,7 +63,7 @@
     </div>
     <div
       :class="[loading ? 'loading' : 'noloading']"
-      class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-11"
+      class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-11 dark:bg-gray-800"
       v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
     ></div>
   </div>
