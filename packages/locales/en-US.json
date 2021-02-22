@@ -9,7 +9,8 @@
         "video": "Videos",
         "list": "Play Lists",
         "discussBoard": "Forums",
-        "Leaderboard": "Leaderboard"
+        "Leaderboard": "Leaderboard",
+        "wiki": "Wiki"
       },
       "userOperation": {
         "postvideo": "Post Video",
@@ -30,6 +31,9 @@
       "search": "Search",
       "loading": "Loading...",
       "loadingFailed": "Loading Failed :("
+    },
+    "backTop": {
+      "backTop": "回到顶部"
     },
     "pvSelect": {
       "select": "select"

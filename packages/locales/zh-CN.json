@@ -9,7 +9,8 @@
         "video": "视频",
         "list": "播放列表",
         "discussBoard": "讨论板",
-        "Leaderboard": "用户排行榜"
+        "Leaderboard": "用户排行榜",
+        "wiki": "网站维基"
       },
       "userOperation": {
         "postvideo": "发布视频",
@@ -30,6 +31,9 @@
       "search": "搜索",
       "loading": "加载中...",
       "loadingFailed": "加载失败了QAQ"
+    },
+    "backTop": {
+      "backTop": "回到顶部"
     },
     "pvSelect": {
       "select": "请选择"
