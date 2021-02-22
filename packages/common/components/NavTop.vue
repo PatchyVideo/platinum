@@ -105,6 +105,12 @@
             :key="item.name"
             v-text="item.name"
           ></router-link>
+          <a
+            class="block"
+            href="https://patchyvideo.wiki/"
+            target="_Blank"
+            v-text="t('common.navTop.mainMenu.wiki')"
+          ></a>
         </div>
         <!-- Super Admin -->
         <div class="w-full space-y-2">
@@ -129,7 +135,7 @@
       <transition name="mask">
         <div
           v-if="drawerOpen"
-          class="absolute inset-0 bg-black bg-opacity-20"
+          class="absolute inset-0 bg-black bg-opacity-20 z-49"
           @click="hideDrawer()"
           @touchmove.prevent
         ></div>
