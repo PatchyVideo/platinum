@@ -1,7 +1,7 @@
 <template>
   <div
     ref="pvSelectRoot"
-    class="pv-select pl-4 pr-8 m-1 rounded-full cursor-pointer relative inline-block border border-pink-200 dark:border-gray-800"
+    class="pv-select pl-4 pr-8 m-1 rounded-full cursor-pointer relative inline-block border dark:border-gray-800"
     :class="{ active: !listHidden }"
     @click="listHidden = !listHidden"
   >
