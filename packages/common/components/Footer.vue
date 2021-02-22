@@ -3,11 +3,11 @@
     <div class="flex flex-row flex-wrap justify-center py-8 mt-8">
       <div v-for="linkGroup in links" :key="linkGroup.key">
         <ul class="px-2 md:px-4 lg:px-8">
-          <h3 class="font-semibold tracking-wide text-gray-900 py-1" v-text="linkGroup.key"></h3>
+          <h3 class="font-semibold tracking-wide text-gray-900 dark:text-white py-1" v-text="linkGroup.key"></h3>
           <li v-for="link in linkGroup.links" :key="link.key">
             <a
               v-if="link.href"
-              class="inline-block mt-1 text-gray-900 whitespace-nowrap"
+              class="inline-block mt-1 text-gray-900 dark:text-gray-100 whitespace-nowrap"
               :href="link.href"
               target="_blank"
               rel="noopener noreferrer"

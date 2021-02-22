@@ -29,4 +29,10 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 @import 'highlight.js/styles/atom-one-light.css';
+.prose {
+  @apply dark:text-white;
+  :deep() a {
+    @apply dark:text-blue-100;
+  }
+}
 </style>

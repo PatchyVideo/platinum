@@ -8,7 +8,7 @@
           <!-- Video Title -->
           <div>
             <h1 class="mt-1 lg:text-lg" v-text="videoItem.title"></h1>
-            <div class="text-gray-500">
+            <div class="text-gray-600 dark:text-gray-300">
               {{ videoItem.repostType }} <Suspense><RelativeDate :date="videoItem.uploadTime" /></Suspense>
             </div>
           </div>
@@ -89,7 +89,9 @@
               <div class="hidden sm:block ml-3 overflow-hidden">
                 {{ author.name }}
                 <br />
-                <div class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600">
+                <div
+                  class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
+                >
                   {{ author.desc || '这个人太懒啦，并没有写简介' }}
                 </div>
               </div>
