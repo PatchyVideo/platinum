@@ -4,7 +4,27 @@
   },
   "common": {
     "navTop": {
-      "darkMode": "Dark Mode"
+      "mainMenu": {
+        "home": "Home",
+        "video": "Videos",
+        "list": "Play Lists",
+        "discussBoard": "Forums",
+        "Leaderboard": "Leaderboard"
+      },
+      "userOperation": {
+        "postvideo": "Post Video",
+        "tag": "Edit Tags"
+      },
+      "admin": {
+        "admin": "Admin",
+        "whoAmI": "Identity",
+        "superAdmin": "Admin Page"
+      },
+      "settings": {
+        "settings": "Settings",
+        "darkMode": "Dark Mode",
+        "lang": "language"
+      }
     },
     "autoComplete": {
       "search": "Search",

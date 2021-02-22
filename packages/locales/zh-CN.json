@@ -4,7 +4,27 @@
   },
   "common": {
     "navTop": {
-      "darkMode": "深色模式"
+      "mainMenu": {
+        "home": "主页",
+        "video": "视频",
+        "list": "播放列表",
+        "discussBoard": "讨论板",
+        "Leaderboard": "用户排行榜"
+      },
+      "userOperation": {
+        "postvideo": "发布视频",
+        "tag": "编辑标签"
+      },
+      "admin": {
+        "admin": "管理员",
+        "whoAmI": "视角",
+        "superAdmin": "管理员页面"
+      },
+      "settings": {
+        "settings": "设置",
+        "darkMode": "深色模式",
+        "lang": "显示语言"
+      }
     },
     "autoComplete": {
       "search": "搜索",
