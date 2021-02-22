@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-pink-50 dark:bg-gray-700 dark:text-gray-400">
+  <div class="bg-pink-50 dark:bg-gray-700">
     <nav-top :show-search-bar="false"></nav-top>
     <div class="pt-26 pb-30 text-center">
-      <h3 class="text-lg font-semibold p-4 px-auto dark:text-white">
+      <h3 class="text-lg font-semibold p-4 px-auto">
         {{ 'PatchyVideo | ' + t('common.autoComplete.search') }}
       </h3>
       <auto-complete size="mobile" class="inline-block"></auto-complete>

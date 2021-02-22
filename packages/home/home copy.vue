@@ -1,6 +1,6 @@
 <template>
   <div class="text-center max-w-screen-2xl mx-auto">
-    <h3 class="text-lg font-semibold m-4 dark:text-white">PatchyVideo</h3>
+    <h3 class="text-lg font-semibold m-4">PatchyVideo</h3>
     <div class="w-96 h-32 border border-black">
       <div
         v-for="(id, index) in ids"

@@ -3,9 +3,9 @@
     <NavTop></NavTop>
     <!-- Search / Navbar -->
     <div class="h-screen bg-gray-200 dark:bg-gray-700 dark:border-b dark:border-gray-500 text-center">
-      <h3 class="text-lg font-semibold p-4 px-auto pt-24 dark:text-white">PatchyVideo</h3>
+      <h3 class="text-lg font-semibold p-4 px-auto pt-24">PatchyVideo</h3>
       <div class="shadow rounded-full max-w-2xl mx-auto h-11 text-center overflow-hidden bg-white dark:bg-gray-800">
-        <input class="w-full h-full mx-8 outline-none dark:bg-gray-800 dark:text-white" value="search!" />
+        <input class="w-full h-full mx-8 outline-none dark:bg-gray-800" value="search!" />
       </div>
     </div>
 

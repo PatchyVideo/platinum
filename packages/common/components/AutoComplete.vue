@@ -17,7 +17,7 @@
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block h-full outline-none dark:bg-gray-800 dark:text-white"
+        class="inline-block h-full outline-none dark:bg-gray-800"
         :class="{ 'w-75': size === 'deskTop', 'mr-8': size === 'mobile' }"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
