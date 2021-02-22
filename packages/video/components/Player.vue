@@ -1,19 +1,39 @@
 <template>
-  <div ref="root" class="relative w-full bg-black" :style="{ height: height + 'px' }">
+  <div ref="root" class="root relative w-full bg-black overflow-hidden" :style="{ height: height + 'px' }">
     <video
       ref="video"
       v-show="videoReady"
-      class="w-full h-full focus:outline-none"
+      class="video w-full h-full focus:outline-none"
       crossorigin="anonymous"
       playsinline
       preload="auto"
     ></video>
-    <div v-show="videoReady" class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75">
-      <div class="flex flex-row items-center mx-6 my-1 text-white">
-        <i class="fas fa-fw fa-play"></i><span class="px-1"></span>
-        <div class="flex flex-row items-center group">
+    <div
+      v-show="videoReady"
+      class="controlbar absolute transform translate-y-full bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+    >
+      <div class="h-full m-0 align-middle">
+        <div ref="progressbar" class="w-full h-1 bg-gray-600 transition-all ease-in-out">
+          <div class="relative h-full left-0 bottom-0 bg-pink-600" :style="{ width: progress * 100 + '%' }">
+            <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer"></span>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-row items-center h-6 mx-6 my-1 text-white">
+        <span @click="onPlayPause"
+          ><i v-if="playing" class="fas fa-fw fa-pause"></i><i v-else class="fas fa-fw fa-play"></i></span
+        ><span class="px-1"></span>
+        <div class="volume flex flex-row items-center">
           <i class="fas fa-fw fa-lg fa-volume-down"></i>
-          <div class="w-0 self-center overflow-hidden transition-all ease-out group-hover:w-12">wwww</div>
+          <div class="h-full m-0 align-middle">
+            <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 transition-all ease-in-out">
+              <div class="relative h-full left-0 bottom-0 bg-pink-600" :style="{ width: volume * 100 + '%' }">
+                <span
+                  class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform scale-0 cursor-pointer"
+                ></span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -27,8 +47,8 @@
 import { gql, parseGraph, schema } from '@/graphql'
 import { notify } from '@/notification'
 import { FetchResult } from '@apollo/client/core'
-import { templateRef, useElementSize } from '@vueuse/core'
-import { computed, ref, defineComponent, nextTick, onMounted } from 'vue'
+import { templateRef, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
+import { computed, ref, defineComponent, nextTick, onMounted, watch } from 'vue'
 
 type YouGetVideoData = YouGetGeneralVideoData | YouGetBilibiliVideoData
 type YouGetBaseVideoData = {
@@ -83,6 +103,76 @@ export default defineComponent({
     }
 
     const video = templateRef<HTMLVideoElement>('video')
+    const playing = ref(false)
+    const onPlayPause = () => (playing.value = !playing.value)
+    onMounted(() => {
+      watch(playing, () => {
+        try {
+          playing.value ? video.value.play() : video.value.pause()
+        } catch (_) {}
+      })
+    })
+    const progressbar = templateRef<HTMLDivElement>('progressbar')
+    const currentTime = ref(0)
+    onMounted(() => {
+      const { pause, resume } = useIntervalFn(
+        () => {
+          currentTime.value = video.value.currentTime
+        },
+        100,
+        false
+      )
+      useEventListener(video.value, 'play', () => {
+        resume()
+      })
+      useEventListener(video.value, 'pause', () => {
+        pause()
+      })
+      useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
+        currentTime.value = video.value.currentTime =
+          ((e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth) *
+          duration.value
+      })
+      useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
+        const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
+          currentTime.value = video.value.currentTime =
+            ((e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth) *
+            duration.value
+        })
+        const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+          stopMouseMove()
+          stopMouseUp()
+        })
+      })
+    })
+    const duration = ref(0)
+    onMounted(() => {
+      useEventListener(video.value, 'durationchange', () => {
+        duration.value = video.value.duration
+      })
+    })
+    const progress = computed(() => currentTime.value / duration.value)
+    const volume = ref(0.5)
+    onMounted(() => {
+      watch(volume, () => {
+        video.value.volume = volume.value
+      })
+    })
+    const volumebar = templateRef<HTMLDivElement>('volumebar')
+    onMounted(() => {
+      useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
+        volume.value = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+      })
+      useEventListener(volumebar.value, 'mousedown', (e: DragEvent) => {
+        const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
+          volume.value = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+        })
+        const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+          stopMouseMove()
+          stopMouseUp()
+        })
+      })
+    })
     const videoReady = ref(false)
 
     const url = ref('')
@@ -170,6 +260,12 @@ export default defineComponent({
       height,
       src,
       videoReady,
+      volume,
+      playing,
+      onPlayPause,
+      currentTime,
+      progress,
+      duration,
     }
   },
 })
@@ -184,5 +280,18 @@ export default defineComponent({
 .log {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+.root:hover {
+  .controlbar {
+    @apply translate-y-0;
+  }
+}
+.volume:hover {
+  .volumebar {
+    @apply w-16;
+  }
+  .volumedot {
+    @apply scale-100;
+  }
 }
 </style>
