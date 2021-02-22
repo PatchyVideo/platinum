@@ -1,7 +1,7 @@
 <template>
   <div class="inline-block">
     <input
-      :value="check"
+      :checked="check"
       class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
       type="checkbox"
       @change="updateValue()"
@@ -22,6 +22,7 @@ export default defineComponent({
   },
   emits: ['update:check'],
   setup(props, { emit }) {
+    console.log(props.check)
     function updateValue(): void {
       emit('update:check', !props.check)
     }
