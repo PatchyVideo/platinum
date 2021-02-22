@@ -4,7 +4,6 @@ export interface UserAvatarMeta {
 }
 
 export function getUserAvatar(meta: UserAvatarMeta): string {
-  console.log(meta)
   if (meta.image && meta.image !== 'default') return 'https://patchyvideo.com/be/images/userphotos/' + meta.image
   if (meta.gravatar && meta.gravatar.length === 32)
     return (

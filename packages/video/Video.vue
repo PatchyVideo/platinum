@@ -299,7 +299,7 @@ export default defineComponent({
         })
     })
 
-    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', '#4b5563')) + '")')
+    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', '#D1D5DB')) + '")')
 
     /* comments */
     interface Comment {

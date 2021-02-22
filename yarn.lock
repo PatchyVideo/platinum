@@ -691,6 +691,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/fontawesome-free@npm:^5.15.2":
+  version: 5.15.2
+  resolution: "@fortawesome/fontawesome-free@npm:5.15.2"
+  checksum: 4f189f7474f28122a4173a344cb9c527b38dc8ecabcfe2eab2af60187679782426e37937afa282cc0d29dd0bd75e0b117d303d8f3491e41b828046f9648b93f5
+  languageName: node
+  linkType: hard
+
 "@graphql-codegen/cli@npm:^1.20.1":
   version: 1.20.1
   resolution: "@graphql-codegen/cli@npm:1.20.1"
@@ -1301,6 +1308,13 @@ __metadata:
   version: 1.1.2
   resolution: "@tootallnate/once@npm:1.1.2"
   checksum: d030f3fb14e0373dbf5005d8f696ff34fda87bf56744bea611fc737449bfc0687ebcb28ee8ba4c6624877f51b18d701c0d417d793f406006a192f4721911d048
+  languageName: node
+  linkType: hard
+
+"@types/events@npm:^3":
+  version: 3.0.0
+  resolution: "@types/events@npm:3.0.0"
+  checksum: 1407d79d6d5291caa89f27ef0f180eb133bc5a12f11886bd68f9ef9cffb962a575571d1b4d02d30a7329fe9b85d29b7c10543ed6dc516ad20f9a1e89c1e9c9b8
   languageName: node
   linkType: hard
 
@@ -2960,6 +2974,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"es6-promise@npm:^4.2.5":
+  version: 4.2.8
+  resolution: "es6-promise@npm:4.2.8"
+  checksum: b85e5faab1b3785b8bf1a6c91b5f176cf3e5e4550359508ef54dd58b19ad2b831e04607e2a0a464f2a1407bf02897d5c88daf6e3d94c2ee4510e8191b44b64ef
+  languageName: node
+  linkType: hard
+
 "esbuild-register@npm:^2.0.0":
   version: 2.0.0
   resolution: "esbuild-register@npm:2.0.0"
@@ -3195,6 +3216,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"events@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "events@npm:3.2.0"
+  checksum: 6ea52b160c2dfbe060feb2388d3d6d8b76a58779c2b14d66d96fdfcb255ccecaac11464634af4e5a7ba272b5412de929ead65d24cd203f3ff8ca881d4ba3796b
+  languageName: node
+  linkType: hard
+
 "eventsource@npm:1.0.7":
   version: 1.0.7
   resolution: "eventsource@npm:1.0.7"
@@ -3395,6 +3423,16 @@ __metadata:
   version: 3.1.1
   resolution: "flatted@npm:3.1.1"
   checksum: 1065cd78294ea651b8c1b96c298a3e70893a23da655e2288e40c06d5d9b1ebce4bd977e604678e01065a92580f3de5078d60d9ee4cdcede9a9989859d7eb5057
+  languageName: node
+  linkType: hard
+
+"flv.js@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "flv.js@npm:1.5.0"
+  dependencies:
+    es6-promise: ^4.2.5
+    webworkify: ^1.5.0
+  checksum: 7b93a71539421f635dc7f6b2e1e8d6e84b152555e5e24d1f211771a107b540a7b2504db9ce53cce90822383b7b1e6490516c9eb0e1751e194126d88aebe69a3d
   languageName: node
   linkType: hard
 
@@ -5508,11 +5546,13 @@ highlight.js@10.5.0:
   resolution: "platinum@workspace:."
   dependencies:
     "@apollo/client": ^3.3.11
+    "@fortawesome/fontawesome-free": ^5.15.2
     "@graphql-codegen/cli": ^1.20.1
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/introspection": ^1.18.1
     "@graphql-codegen/schema-ast": ^1.18.1
     "@graphql-codegen/typescript": ^1.21.0
+    "@types/events": ^3
     "@types/lodash.get": ^4
     "@types/markdown-it": ^12.0.1
     "@types/tlds": ^1.199.0
@@ -5531,6 +5571,8 @@ highlight.js@10.5.0:
     eslint-config-prettier: ^8.0.0
     eslint-plugin-prettier: ^3.3.1
     eslint-plugin-vue: ^7.6.0
+    events: ^3.2.0
+    flv.js: ^1.5.0
     graphql: ^15.5.0
     graphql-compose: ^7.25.0
     highlight.js: "patch:highlight.js@10.5.0#./.yarn/diffs/highlight.js.diff"
@@ -6980,6 +7022,13 @@ typescript@^4.1.5:
     "@vue/runtime-dom": 3.0.5
     "@vue/shared": 3.0.5
   checksum: ed84a0afcfdb74d4f39efe8ef8eaba803ba94e9164bad97cd343b7a2d806f94eee6b3c471a39e80e8ef7df05fc9bc915f68e1cf964d651a8c9bef9063b4d180f
+  languageName: node
+  linkType: hard
+
+"webworkify@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "webworkify@npm:1.5.0"
+  checksum: c79a01b21be9228ee791ddec0a0c2c44625e7e4d438e48fdaa49029fcf86cb0a98afb9f34ea1cf8ccb0e5a986e9c9b2e4ff7dec8536f60351fbf90a428469f36
   languageName: node
   linkType: hard
 
