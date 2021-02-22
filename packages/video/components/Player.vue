@@ -129,17 +129,18 @@ export default defineComponent({
         pause()
       })
       useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
-        currentTime.value = video.value.currentTime =
-          ((e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth) *
-          duration.value
+        let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
+        percentage = Math.max(0, Math.min(1, percentage))
+        currentTime.value = video.value.currentTime = percentage * duration.value
       })
       useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
         const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-          currentTime.value = video.value.currentTime =
-            ((e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth) *
-            duration.value
+          let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
+          percentage = Math.max(0, Math.min(1, percentage))
+          currentTime.value = percentage * duration.value
         })
         const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+          video.value.currentTime = currentTime.value
           stopMouseMove()
           stopMouseUp()
         })
@@ -161,11 +162,15 @@ export default defineComponent({
     const volumebar = templateRef<HTMLDivElement>('volumebar')
     onMounted(() => {
       useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
-        volume.value = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+        let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+        percentage = Math.max(0, Math.min(1, percentage))
+        volume.value = percentage
       })
       useEventListener(volumebar.value, 'mousedown', (e: DragEvent) => {
         const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-          volume.value = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+          let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+          percentage = Math.max(0, Math.min(1, percentage))
+          volume.value = percentage
         })
         const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
           stopMouseMove()
