@@ -1712,35 +1712,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^4.1.1":
-  version: 4.1.1
-  resolution: "@vueuse/core@npm:4.1.1"
+"@vueuse/core@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "@vueuse/core@npm:4.2.1"
   dependencies:
-    "@vueuse/shared": 4.1.1
+    "@vueuse/shared": 4.2.1
     vue-demi: latest
-  checksum: 0bf119a42520c935325efe6d0cff6ec0fe807637eea0deb73893144cb931bdfe930d25cfb483a5d82f913ffdddf03937f5041eb2e1e9443a4f802deb0e0e4092
+  checksum: 03d59780f9f595ee5312405ef623f0dedc1dd2339f6461b3c0d81cdd8eb14534296520c281b1e851f11734598aff4e7907e843854d16281f93f96623431f6e2c
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:4.1.1":
-  version: 4.1.1
-  resolution: "@vueuse/shared@npm:4.1.1"
+"@vueuse/shared@npm:4.2.1":
+  version: 4.2.1
+  resolution: "@vueuse/shared@npm:4.2.1"
   dependencies:
     vue-demi: latest
-  checksum: 1858c1cb4a9a149ddfa5d877e7a27676beab62165bff2f232853f0578dd8b39ebfdb7bd16c60451ccccae510c70ef643ac3e836e750d838886f021eef4d8fd6e
+  checksum: fec76ea879e8a394b6bc450d1eaf51996cb7584bfadbb50b49ca7f7d6616598ce75d278f4650117d2f57e67a8f5b1bef6c91c4e97394a3574698e9ad164f5c8c
   languageName: node
   linkType: hard
 
-"@windicss/plugin-utils@npm:0.4.3":
-  version: 0.4.3
-  resolution: "@windicss/plugin-utils@npm:0.4.3"
+"@windicss/plugin-utils@npm:0.4.4":
+  version: 0.4.4
+  resolution: "@windicss/plugin-utils@npm:0.4.4"
   dependencies:
     esbuild: ^0.8.49
     esbuild-register: ^2.0.0
     fast-glob: ^3.2.5
     micromatch: ^4.0.2
     windicss: ^2.1.15
-  checksum: a94be3940d9a9c03134ffb3d2ff5c23fd8328c3896f79f4addada1e9f6eb2d4d5965bbcdcda3c09d57f504925c74d5e2239a4a00c3887c15d449e66cf5cf5059
+  checksum: c712089d223d5b1eb41a058b7000562b471572fc9472360c0db4ff3e4a9228660aa872e5cc1bc4fcd54ac52d8164f0831e1ccdbf6073f32d053de7ce2e039aad
   languageName: node
   linkType: hard
 
@@ -2318,9 +2318,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001181":
-  version: 1.0.30001190
-  resolution: "caniuse-lite@npm:1.0.30001190"
-  checksum: eb8f99e65c2246645a536129966a3610786261b7b5df97f1b1303ebbc4d1944b1776e6b6dfef057b5907b713ead3a94cde5a9db87fbd6141a0219abf3daa00ed
+  version: 1.0.30001191
+  resolution: "caniuse-lite@npm:1.0.30001191"
+  checksum: 7b9e1d0c16d285800f32bf1f5a2028987b434502f56d4f6549f0648bb240e5528452d0212c49e56ce8f44719ccf43073456291b58fc763f72ff954aa2fb107e8
   languageName: node
   linkType: hard
 
@@ -5560,7 +5560,7 @@ highlight.js@10.5.0:
     "@typescript-eslint/parser": ^4.15.1
     "@vitejs/plugin-vue": ^1.1.4
     "@vue/compiler-sfc": ^3.0.5
-    "@vueuse/core": ^4.1.1
+    "@vueuse/core": ^4.2.1
     apollo-link-scalars: ^2.1.1
     autoprefixer: ^10.2.4
     bson: ^4.2.2
@@ -5584,11 +5584,11 @@ highlight.js@10.5.0:
     prettier: ^2.2.1
     rollup-plugin-copy: ^3.4.0
     simple-git: ^2.35.1
-    tlds: ^1.217.0
+    tlds: ^1.218.0
     typed.js: ^2.0.11
     typescript: ^4.1.5
     vite: ^2.0.1
-    vite-plugin-windicss: ^0.4.3
+    vite-plugin-windicss: ^0.4.4
     vue: next
     vue-i18n: next
     vue-router: next
@@ -6608,12 +6608,12 @@ highlight.js@10.5.0:
   languageName: node
   linkType: hard
 
-"tlds@npm:^1.217.0":
-  version: 1.217.0
-  resolution: "tlds@npm:1.217.0"
+"tlds@npm:^1.218.0":
+  version: 1.218.0
+  resolution: "tlds@npm:1.218.0"
   bin:
     tlds: bin.js
-  checksum: 900365b654ed533dc6db13d5132fdcb977fbd7f4a4201603e8a1dc5cbac29a1992e1f84fb4e2a73ccf485a5d629f2c00b8a9a9d20b286109f7b58bacd4b6c9e9
+  checksum: 7914012f1cb137e694e92b5e54e9260ce284e9b3c7740764e4a47b96ede202ff9b13e5e15c5250f07989f4b945a349b1491c710284a642551e50188b06c2ce93
   languageName: node
   linkType: hard
 
@@ -6934,15 +6934,15 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"vite-plugin-windicss@npm:^0.4.3":
-  version: 0.4.3
-  resolution: "vite-plugin-windicss@npm:0.4.3"
+"vite-plugin-windicss@npm:^0.4.4":
+  version: 0.4.4
+  resolution: "vite-plugin-windicss@npm:0.4.4"
   dependencies:
-    "@windicss/plugin-utils": 0.4.3
+    "@windicss/plugin-utils": 0.4.4
     windicss: ^2.1.15
   peerDependencies:
     vite: ^2.0.1
-  checksum: 0201d0f3c4b0fbb50e497ef8a7b37281cb926fd193723b722f63558fbb8cd333837c3542da24910bbb39b4bfe625b057ec5e90f02e4baa12a2dff30999e4918a
+  checksum: 81bcc3292eec24e0b90c1178355ce5a3144e78064dd5791dec5960d8f7afcea19d79b810b9d7125ce9c4e20649ed99f68b77953150961d847451b1fda241427b
   languageName: node
   linkType: hard
 
@@ -7067,11 +7067,11 @@ typescript@^4.1.5:
   linkType: hard
 
 "windicss@npm:^2.1.15":
-  version: 2.1.16
-  resolution: "windicss@npm:2.1.16"
+  version: 2.1.18
+  resolution: "windicss@npm:2.1.18"
   bin:
     windicss: cli/index.js
-  checksum: 465559c52c1c32ab9a3d8cc4f6e2d7c6238613da90dd80828defb3e12e44131e78cdee53846cd76d7e37bb1077618f568ec55c963c0595ff118d768801593fab
+  checksum: 2fa5de979f6ab0b1b10500a2b3910badf5fd9da6df36c7503e8b648ad141a1205641332fcb2f93237dc8334c27ec2cdbdd0e0cd105b7b3075888ce9681c84f00
   languageName: node
   linkType: hard
 
@@ -7189,9 +7189,9 @@ typescript@^4.1.5:
   linkType: hard
 
 "yargs-parser@npm:^20.2.2":
-  version: 20.2.5
-  resolution: "yargs-parser@npm:20.2.5"
-  checksum: 4b558eb7d4ff5613d551a43321807562df1dd7b1289acafd3a633e29e0636029ef8bbeb50c7063318c5ee7da8e1d2c50065e54891535c401ca0164a1dc959ce8
+  version: 20.2.6
+  resolution: "yargs-parser@npm:20.2.6"
+  checksum: ed21fc0f35290dc9ce1714e6a3e656ca1901ff59432f3dd43668244879b2cca6acff0bff66df9cfbcd934d4db6e98e57cae6def2700ca823e85449f2fb664660
   languageName: node
   linkType: hard
 

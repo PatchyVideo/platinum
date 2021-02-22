@@ -3,12 +3,20 @@
     <video
       ref="video"
       v-show="videoReady"
-      controls
       class="w-full h-full focus:outline-none"
       crossorigin="anonymous"
       playsinline
       preload="auto"
     ></video>
+    <div v-show="videoReady" class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75">
+      <div class="flex flex-row items-center mx-6 my-1 text-white">
+        <i class="fas fa-fw fa-play"></i><span class="px-1"></span>
+        <div class="flex flex-row items-center group">
+          <i class="fas fa-fw fa-lg fa-volume-down"></i>
+          <div class="w-0 self-center overflow-hidden transition-all ease-out group-hover:w-12">wwww</div>
+        </div>
+      </div>
+    </div>
     <div v-if="!videoReady" class="absolute bottom-2 left-2 log overflow-y-scroll text-sm text-white">
       <p ref="logEl" class="whitespace-pre" v-text="logText"></p>
     </div>
@@ -117,7 +125,7 @@ export default defineComponent({
                             try {
                               const flvPlayer = flvjs.createPlayer({
                                 type: 'flv',
-                                url: stream.src[0],
+                                url: stream.src[0].replace(/^http:/, 'https:'),
                               })
                               flvPlayer.attachMediaElement(video.value)
                               log('正在加载视频源……\n')
