@@ -2,7 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:text-white dark:bg-gray-700 dark:border-gray-800 md:p-2"
+      class="h-auto flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-800 md:p-2"
     >
       <!-- Logo & Slide Button -->
       <div class="flex items-center flex-nowrap ml-2">
@@ -69,7 +69,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-4 bg-white transform -translate-x-full w-9/12 dark:text-white dark:bg-gray-700 md:w-auto md:p-2"
+        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform -translate-x-full w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
         :class="{ 'slide-in': drawerOpen, 'slide-out': drawerOpen === false }"
       >
         <!-- Title & Slide Button -->
@@ -84,17 +84,46 @@
             <path d="M0 0h24v24H0z" fill="none" />
             <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
           </svg>
-          <logo></logo>
+          <logo class="md:mr-15"></logo>
         </div>
-        <!-- Main Menu -->
-        <div>Main Menu</div>
-        <!-- Darkmode -->
-        <label class="block space-x-2">
-          <label v-text="t('common.navTop.darkMode')"></label>
-          <pv-check-box v-model:check="isDark"></pv-check-box>
-        </label>
-        <!-- Language Select -->
-        <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
+        <!-- Main List -->
+        <div class="space-y-3">
+          <router-link
+            class="block"
+            :to="item.href"
+            v-for="item in mainList"
+            :key="item.name"
+            v-text="item.name"
+          ></router-link>
+        </div>
+        <!-- User List -->
+        <div class="space-y-3">
+          <router-link
+            class="block"
+            :to="item.href"
+            v-for="item in userList"
+            :key="item.name"
+            v-text="item.name"
+          ></router-link>
+        </div>
+        <!-- Super Admin -->
+        <div class="w-full space-y-2">
+          <div class="text-gray-400 text-xs" v-text="t('common.navTop.admin.admin')"></div>
+          <div v-text="t('common.navTop.admin.whoAmI')"></div>
+          <router-link class="block" to="" v-text="t('common.navTop.admin.superAdmin')"></router-link>
+        </div>
+        <!-- Settings -->
+        <div class="w-full space-y-2">
+          <div class="text-gray-400 text-xs" v-text="t('common.navTop.settings.settings')"></div>
+          <div class="flex justify-between items-center">
+            <label v-text="t('common.navTop.settings.darkMode')"></label>
+            <pv-check-box v-model:check="isDark"></pv-check-box>
+          </div>
+          <div class="flex justify-between items-center">
+            <label v-text="t('common.navTop.settings.lang')"></label>
+            <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
+          </div>
+        </div>
       </div>
       <!-- Mask -->
       <transition name="mask">
@@ -146,6 +175,38 @@ export default defineComponent({
       drawerOpen.value = false
       window.document.body.style.overflow = 'visible'
     }
+    const mainList = [
+      {
+        name: t('common.navTop.mainMenu.home'),
+        href: '',
+      },
+      {
+        name: t('common.navTop.mainMenu.video'),
+        href: '',
+      },
+      {
+        name: t('common.navTop.mainMenu.list'),
+        href: '',
+      },
+      {
+        name: t('common.navTop.mainMenu.discussBoard'),
+        href: '',
+      },
+      {
+        name: t('common.navTop.mainMenu.Leaderboard'),
+        href: '',
+      },
+    ]
+    const userList = [
+      {
+        name: t('common.navTop.userOperation.postvideo'),
+        href: '',
+      },
+      {
+        name: t('common.navTop.userOperation.tag'),
+        href: '',
+      },
+    ]
     const languageList = [
       {
         name: '简体中文',
@@ -164,6 +225,8 @@ export default defineComponent({
       openDrawer,
       hideDrawer,
       isDark,
+      mainList,
+      userList,
       languageList,
     }
   },
