@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="prose max-w-none" :class="{ 'prose-sm': sm }" v-html="html"></article>
+  <article class="prose" :class="{ 'prose-sm': sm }" v-html="html"></article>
 </template>
 
 <script lang="ts">
@@ -29,10 +29,7 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 @import 'highlight.js/styles/atom-one-light.css';
-.prose {
-  @apply dark:text-white;
-  :deep() a {
-    @apply dark:text-blue-100;
-  }
+.dark .prose {
+  @apply prose-light;
 }
 </style>

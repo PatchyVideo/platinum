@@ -2,15 +2,16 @@
   <div ref="root" class="root relative w-full bg-black overflow-hidden" :style="{ height: height + 'px' }">
     <video
       ref="video"
-      v-show="videoReady"
+      v-show="videoReady && !useIframe"
       class="video w-full h-full focus:outline-none"
       crossorigin="anonymous"
       playsinline
       preload="auto"
     ></video>
+    <iframe v-if="useIframe && iframeUrl" class="block w-full h-full" :src="iframeUrl" allowfullscreen="true"></iframe>
     <div
-      v-show="videoReady"
-      class="controlbar absolute transform translate-y-full bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+      v-show="videoReady && !useIframe"
+      class="controlbar absolute transform ease-in-out translate-y-2/1 duration-300 bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
     >
       <div class="h-full m-0 align-middle">
         <div ref="progressbar" class="w-full h-1 bg-gray-600 transition-all ease-in-out">
@@ -37,7 +38,7 @@
         </div>
       </div>
     </div>
-    <div v-if="!videoReady" class="absolute bottom-2 left-2 log overflow-y-scroll text-sm text-white">
+    <div v-if="!videoReady && !useIframe" class="absolute bottom-2 left-2 log overflow-y-scroll text-sm text-white">
       <p ref="logEl" class="whitespace-pre" v-text="logText"></p>
     </div>
   </div>
@@ -47,7 +48,7 @@
 import { gql, parseGraph, schema } from '@/graphql'
 import { notify } from '@/notification'
 import { FetchResult } from '@apollo/client/core'
-import { templateRef, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
+import { templateRef, tryOnMounted, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
 import { computed, ref, defineComponent, nextTick, onMounted, watch } from 'vue'
 
 type YouGetVideoData = YouGetGeneralVideoData | YouGetBilibiliVideoData
@@ -179,14 +180,61 @@ export default defineComponent({
       })
     })
     const videoReady = ref(false)
+    const useIframe = ref(false)
+    const iframeUrl = computed(() => {
+      if (url.value) {
+        let regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
+        let regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
+        let regYtb = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
+        let regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
+        let r: RegExpExecArray | null
+        if ((r = regBili.exec(url.value))) return `//player.bilibili.com/player.html?aid=${r[2]}&page=${r[3]}`
+        if ((r = regNico.exec(url.value))) return `//embed.nicovideo.jp/watch/sm${r[2]}`
+        if ((r = regYtb.exec(url.value))) return `https://www.youtube.com/embed/${r[2]}`
+        if ((r = regAcf.exec(url.value)) !== null) return `https://www.acfun.cn/player/ac${r[2]}`
+      }
+    })
+
+    const playStream = (stream: YouGetVideoStreamData) => {
+      if (video.value) {
+        log('正在切换视频源')
+        switch (stream.container) {
+          case 'flv': {
+            log('正在载入flv.js\n')
+            import('flv.js').then((module) => {
+              const flvjs = module.default
+              log('正在创建flv解析器\n')
+              if ('createPlayer' in flvjs) {
+                try {
+                  const flvPlayer = flvjs.createPlayer({
+                    type: 'flv',
+                    url: stream.src[0].replace(/^http:/, 'https:'),
+                  })
+                  flvPlayer.attachMediaElement(video.value)
+                  log('正在加载视频源\n')
+                  flvPlayer.load()
+                  flvPlayer.on('metadata_arrived', () => {
+                    log('播放器加载完毕\n')
+                    videoReady.value = true
+                  })
+                } catch (e) {
+                  log('flv解析器创建失败\n' + e + '\n')
+                }
+              }
+            })
+            break
+          }
+        }
+      }
+    }
 
     const url = ref('')
     onMounted(() => {
-      log('正在获取视频信息……\n')
+      log('正在获取视频信息\n')
       graph.onFragmentData<schema.VideoItem>('default').then((data) => {
         url.value = data.url
         log(`视频URL：${url.value}\n`)
-        log('正在解析视频地址……\n')
+        log('正在解析视频地址\n')
         fetch('https://patchyvideo.com/be/helper/get_video_stream', {
           method: 'POST',
           credentials: 'include',
@@ -204,53 +252,21 @@ export default defineComponent({
               switch (result.data.extractor) {
                 case 'BiliBili': {
                   streams.value = result.data.streams
-                  console.log(streams)
                   const stream = streams.value[0]
-                  console.log(stream)
                   log(`视频源：BiliBili, 视频格式：${stream.container}, 视频清晰度：${stream.quality}\n`)
-
-                  if (video.value) {
-                    switch (stream.container) {
-                      case 'flv': {
-                        log('正在载入flv.js……\n')
-                        import('flv.js').then((module) => {
-                          const flvjs = module.default
-                          log('正在创建flv解析器……\n')
-                          if ('createPlayer' in flvjs) {
-                            try {
-                              const flvPlayer = flvjs.createPlayer({
-                                type: 'flv',
-                                url: stream.src[0].replace(/^http:/, 'https:'),
-                              })
-                              flvPlayer.attachMediaElement(video.value)
-                              log('正在加载视频源……\n')
-                              flvPlayer.load()
-                              flvPlayer.on('metadata_arrived', () => {
-                                log('播放器加载完毕\n')
-                                videoReady.value = true
-                              })
-                            } catch (e) {
-                              log('flv解析器创建失败\n' + e + '\n')
-                            }
-                          }
-                        })
-                        break
-                      }
-                    }
-                  }
-
-                  console.log(video.value)
+                  playStream(stream)
                   break
                 }
                 default: {
                   log('未知的视频源：' + result.data.extractor)
-                  break
+                  throw 'unknown extractor'
                 }
               }
             }
           })
-          .catch((e: Error) => {
-            notify('error', e.message)
+          .catch(() => {
+            log('切换视频播放至内嵌')
+            useIframe.value = true
           })
       })
     })
@@ -271,6 +287,8 @@ export default defineComponent({
       currentTime,
       progress,
       duration,
+      useIframe,
+      iframeUrl,
     }
   },
 })

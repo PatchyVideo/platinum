@@ -22,9 +22,10 @@
             <span
               v-for="tag in regularTags"
               :key="tag.id.toHexString()"
-              class="tag text-sm whitespace-nowrap pr-1 mr-1"
-              >{{ tag.name }}</span
-            >
+              class="tag text-sm text-white whitespace-nowrap pr-1 mr-1"
+              :class="'tag-' + tag.category.toLowerCase()"
+              v-text="tag.name"
+            ></span>
             <!-- Video Description -->
             <MarkdownBlock :text="videoItem.desc" :sm="true"></MarkdownBlock>
           </div>
@@ -301,7 +302,22 @@ export default defineComponent({
         })
     })
 
-    const tagBorderGray = ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', '#D1D5DB')) + '")')
+    const tagColors = {
+      copyright: '#a0a',
+      language: '#585455',
+      character: '#0a0',
+      author: '#a00',
+      general: '#0073ff',
+      meta: '#f80',
+      soundtrack: '#ff7792',
+    }
+    const tagBorder = reactive(
+      Object.fromEntries(
+        Object.entries(tagColors).map(([key, value]) => {
+          return [key, ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', value)) + '")')]
+        })
+      )
+    )
 
     /* comments */
     interface Comment {
@@ -368,7 +384,7 @@ export default defineComponent({
       videoItem,
       authors,
       regularTags,
-      tagBorderGray,
+      tagBorder,
       comments,
     }
   },
@@ -378,7 +394,28 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .tag {
   border-width: 2px 2px 2px 15px;
-  border-image-source: v-bind('tagBorderGray');
+  border-image-source: v-bind('tagBorder.general');
   border-image-slice: 8 8 8 40 fill;
+}
+.tag-copyright {
+  border-image-source: v-bind('tagBorder.copyright');
+}
+.tag-language {
+  border-image-source: v-bind('tagBorder.language');
+}
+.tag-character {
+  border-image-source: v-bind('tagBorder.character');
+}
+/* .tag-author {
+  border-image-source: v-bind('tagBorder.author');
+} */
+.tag-general {
+  border-image-source: v-bind('tagBorder.general');
+}
+.tag-meta {
+  border-image-source: v-bind('tagBorder.meta');
+}
+.tag-soundtrack {
+  border-image-source: v-bind('tagBorder.soundtrack');
 }
 </style>
