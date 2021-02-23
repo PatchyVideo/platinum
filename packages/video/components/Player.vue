@@ -180,6 +180,7 @@ export default defineComponent({
       })
     })
     const videoReady = ref(false)
+
     const useIframe = ref(false)
     const iframeUrl = computed(() => {
       if (url.value) {
@@ -194,36 +195,46 @@ export default defineComponent({
         if ((r = regAcf.exec(url.value)) !== null) return `https://www.acfun.cn/player/ac${r[2]}`
       }
     })
+    const enableIframe = () => {
+      log('切换视频播放至内嵌')
+      useIframe.value = true
+    }
 
     const playStream = (stream: YouGetVideoStreamData) => {
       if (video.value) {
         log('正在切换视频源')
-        switch (stream.container) {
-          case 'flv': {
-            log('正在载入flv.js\n')
-            import('flv.js').then((module) => {
-              const flvjs = module.default
-              log('正在创建flv解析器\n')
-              if ('createPlayer' in flvjs) {
-                try {
-                  const flvPlayer = flvjs.createPlayer({
-                    type: 'flv',
-                    url: stream.src[0].replace(/^http:/, 'https:'),
-                  })
-                  flvPlayer.attachMediaElement(video.value)
-                  log('正在加载视频源\n')
-                  flvPlayer.load()
-                  flvPlayer.on('metadata_arrived', () => {
-                    log('播放器加载完毕\n')
-                    videoReady.value = true
-                  })
-                } catch (e) {
-                  log('flv解析器创建失败\n' + e + '\n')
+        try {
+          switch (stream.container) {
+            case 'flv': {
+              log('正在载入flv.js\n')
+              import('flv.js').then((module) => {
+                const flvjs = module.default
+                log('正在创建flv解析器\n')
+                if ('createPlayer' in flvjs) {
+                  try {
+                    const flvPlayer = flvjs.createPlayer({
+                      type: 'flv',
+                      url: stream.src[0].replace(/^http:/, 'https:'),
+                    })
+                    flvPlayer.attachMediaElement(video.value)
+                    log('正在加载视频源\n')
+                    flvPlayer.load()
+                    flvPlayer.on('metadata_arrived', () => {
+                      log('播放器加载完毕\n')
+                      videoReady.value = true
+                    })
+                  } catch (e) {
+                    log('flv解析器创建失败\n' + e + '\n')
+                    throw 'flv fail'
+                  }
                 }
-              }
-            })
-            break
+              })
+              break
+            }
           }
+        } catch (e) {
+          log('视频源解析失败\n' + e + '\n')
+          enableIframe()
         }
       }
     }
@@ -265,8 +276,7 @@ export default defineComponent({
             }
           })
           .catch(() => {
-            log('切换视频播放至内嵌')
-            useIframe.value = true
+            enableIframe()
           })
       })
     })
