@@ -88,29 +88,19 @@
         </div>
         <!-- Main List -->
         <div class="space-y-3">
-          <router-link
-            class="block"
-            :to="item.href"
-            v-for="item in mainList"
-            :key="item.name"
-            v-text="item.name"
-          ></router-link>
+          <router-link class="block" :to="item.href" v-for="item in mainList" :key="item.name"
+            ><i class="align-middle w-7 text-lg text-center" :class="item.iconClass"></i>{{ item.name }}</router-link
+          >
         </div>
         <!-- User List -->
         <div class="space-y-3">
-          <router-link
-            class="block"
-            :to="item.href"
-            v-for="item in userList"
-            :key="item.name"
-            v-text="item.name"
-          ></router-link>
-          <a
-            class="block"
-            href="https://patchyvideo.wiki/"
-            target="_Blank"
-            v-text="t('common.navTop.mainMenu.wiki')"
-          ></a>
+          <router-link class="block" :to="item.href" v-for="item in userList" :key="item.name"
+            ><i class="align-middle w-7 text-lg text-center" :class="item.iconClass"></i>{{ item.name }}</router-link
+          >
+          <a class="block" href="https://patchyvideo.wiki/" target="_Blank"
+            ><i class="fab fa-battle-net align-middle w-7 text-lg text-center"></i
+            >{{ t('common.navTop.mainMenu.wiki') }}</a
+          >
         </div>
         <!-- Super Admin -->
         <div class="w-full space-y-2">
@@ -122,7 +112,10 @@
         <div class="w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.navTop.settings.settings')"></div>
           <div class="flex justify-between items-center">
-            <label v-text="t('common.navTop.settings.darkMode')"></label>
+            <label class="space-x-2">
+              <label v-text="t('common.navTop.settings.darkMode')"></label>
+              <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
+            </label>
             <pv-check-box v-model:check="isDark"></pv-check-box>
           </div>
           <div class="flex justify-between items-center">
@@ -183,32 +176,39 @@ export default defineComponent({
     }
     const mainList = [
       {
+        iconClass: 'fas fa-archway',
         name: t('common.navTop.mainMenu.home'),
         href: '',
       },
       {
+        iconClass: 'fas fa-caret-square-right',
         name: t('common.navTop.mainMenu.video'),
         href: '',
       },
       {
+        iconClass: 'fas fa-folder',
         name: t('common.navTop.mainMenu.list'),
         href: '',
       },
       {
+        iconClass: 'fas fa-chalkboard',
         name: t('common.navTop.mainMenu.discussBoard'),
         href: '',
       },
       {
+        iconClass: 'fas fa-crown',
         name: t('common.navTop.mainMenu.Leaderboard'),
         href: '',
       },
     ]
     const userList = [
       {
+        iconClass: 'fas fa-long-arrow-alt-up',
         name: t('common.navTop.userOperation.postvideo'),
         href: '',
       },
       {
+        iconClass: 'fas fa-bookmark',
         name: t('common.navTop.userOperation.tag'),
         href: '',
       },
