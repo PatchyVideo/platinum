@@ -23,7 +23,7 @@ module.exports = {
         soundtrack: '#ff7792',
       },
       typography: {
-        DEFAULT: { css: [{ maxWidth: 'none' }] },
+        DEFAULT: { css: [{ maxWidth: 'inherit' }] },
         light: {
           css: [
             {

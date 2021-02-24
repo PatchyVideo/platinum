@@ -1,6 +1,6 @@
 <template>
   <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="prose" :class="{ 'prose-sm': sm }" v-html="html"></article>
+  <article class="prose break-all" :class="{ 'prose-sm': sm }" v-html="html"></article>
 </template>
 
 <script lang="ts">

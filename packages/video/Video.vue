@@ -19,13 +19,13 @@
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div class="mx-1 md:mx-2 lg:mx-8">
             <!-- Video Tag -->
-            <span
+            <div
               v-for="tag in regularTags"
               :key="tag.id.toHexString()"
-              class="tag text-sm text-white whitespace-nowrap pr-1 mr-1"
+              class="inline-block tag text-sm text-white whitespace-nowrap pr-1 mr-1"
               :class="'tag-' + tag.category.toLowerCase()"
               v-text="tag.name"
-            ></span>
+            ></div>
             <!-- Video Description -->
             <MarkdownBlock :text="videoItem.desc" :sm="true"></MarkdownBlock>
           </div>
