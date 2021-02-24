@@ -46,6 +46,9 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 @import 'highlight.js/styles/atom-one-light.css';
+</style>
+
+<style lang="postcss">
 .dark .prose {
   @apply prose-light;
 }

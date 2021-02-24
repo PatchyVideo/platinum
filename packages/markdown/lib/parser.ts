@@ -104,7 +104,10 @@ markdownIt.renderer.rules.link_close = function (tokens, idx, options, env, self
   return (
     last.reduce((pv: string | undefined, cv, index) => {
       if (tokens[idx].level === cv.level) {
-        const str = `<span class="text-xs text-gray-600">[${cv.url.hostname.replace(/^www./, '')}]</span>`
+        const str = `<span class="text-xs text-gray-600 dark:text-gray-300">[${cv.url.hostname.replace(
+          /^www./,
+          ''
+        )}]</span>`
         last.splice(index, 1)
         return DRlink_close(tokens, idx, options, env, self) + str
       }

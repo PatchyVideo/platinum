@@ -36,6 +36,7 @@ module.exports = {
     windicss({
       scan: {
         dirs: ['packages'],
+        fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx'],
       },
     }),
     {

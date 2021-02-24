@@ -42,7 +42,10 @@
               </div>
               <div>
                 <span class="font-medium" v-text="comment.author.username"></span
-                ><Suspense><RelativeDate class="text-sm text-gray-600 ml-2" :date="comment.createdAt" /></Suspense
+                ><Suspense
+                  ><RelativeDate
+                    class="text-sm text-gray-600 dark:text-gray-300 ml-2"
+                    :date="comment.createdAt" /></Suspense
                 ><br />
                 <MarkdownBlock class="min-h-8" :text="comment.content" :sm="true" />
                 <div
@@ -59,7 +62,10 @@
                   </div>
                   <div>
                     <span class="font-medium" v-text="child.author.username"></span
-                    ><Suspense><RelativeDate class="text-sm text-gray-600 ml-2" :date="child.createdAt" /></Suspense
+                    ><Suspense
+                      ><RelativeDate
+                        class="text-sm text-gray-600 dark:text-gray-300 ml-2"
+                        :date="child.createdAt" /></Suspense
                     ><br />
                     <MarkdownBlock class="min-h-8" :text="child.content" :sm="true" />
                   </div>
