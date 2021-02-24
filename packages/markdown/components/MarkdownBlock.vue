@@ -4,8 +4,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import parser from '../parser'
+import { ObjectId } from 'bson'
+import { defineComponent, inject, provide, ref, watch } from 'vue'
+
+const _webworker = window.Worker
+  ? import('../lib/parser.worker?worker').then((worker) => new worker.default() as Worker)
+  : undefined
+const _parser = !window.Worker ? import('../lib/parser') : undefined
 
 export default defineComponent({
   props: {
@@ -19,7 +24,37 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const html = computed(() => parser.render(props.text))
+    const html = ref('Parsing...')
+    const id = Math.random()
+    const render = () => {
+      if (_webworker) {
+        _webworker.then((worker) => {
+          const onMessage = (e: MessageEvent) => {
+            if (e.data.id === id) {
+              worker.removeEventListener('message', onMessage)
+              html.value = e.data.text
+            }
+          }
+          worker.addEventListener('message', onMessage)
+          worker.postMessage({ id, text: props.text })
+          return worker
+        })
+      } else if (_parser) {
+        _parser.then((parser) => {
+          html.value = parser.default.render(props.text)
+          return parser
+        })
+      }
+    }
+    watch(
+      () => props.text,
+      () => {
+        render()
+      },
+      {
+        immediate: true,
+      }
+    )
     return {
       html,
     }

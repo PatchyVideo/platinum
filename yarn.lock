@@ -1750,35 +1750,35 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "@vueuse/core@npm:4.2.1"
+"@vueuse/core@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "@vueuse/core@npm:4.2.2"
   dependencies:
-    "@vueuse/shared": 4.2.1
+    "@vueuse/shared": 4.2.2
     vue-demi: latest
-  checksum: 03d59780f9f595ee5312405ef623f0dedc1dd2339f6461b3c0d81cdd8eb14534296520c281b1e851f11734598aff4e7907e843854d16281f93f96623431f6e2c
+  checksum: ea94a77255a76f8b89d9471a598d082de2aad9bf3bc646616a085abef6e3963fc99e9d1b2f45ab601ea67649fb2f066ee5577d40ace9896d31504d8e1eef33d5
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:4.2.1":
-  version: 4.2.1
-  resolution: "@vueuse/shared@npm:4.2.1"
+"@vueuse/shared@npm:4.2.2":
+  version: 4.2.2
+  resolution: "@vueuse/shared@npm:4.2.2"
   dependencies:
     vue-demi: latest
-  checksum: fec76ea879e8a394b6bc450d1eaf51996cb7584bfadbb50b49ca7f7d6616598ce75d278f4650117d2f57e67a8f5b1bef6c91c4e97394a3574698e9ad164f5c8c
+  checksum: b25e557fc6dfe8b1d59c6a82c5bc273ee31cf902c26a3cd2fff728d86cac8bf888fa6953c50203d3aee2686404895ff9b44bf3e01379a41dd527872632308465
   languageName: node
   linkType: hard
 
-"@windicss/plugin-utils@npm:0.4.7":
-  version: 0.4.7
-  resolution: "@windicss/plugin-utils@npm:0.4.7"
+"@windicss/plugin-utils@npm:0.4.11":
+  version: 0.4.11
+  resolution: "@windicss/plugin-utils@npm:0.4.11"
   dependencies:
     esbuild: ^0.8.50
     esbuild-register: ^2.0.0
     fast-glob: ^3.2.5
     micromatch: ^4.0.2
-    windicss: ^2.1.19
-  checksum: a40e8ed0073f807c11fc05e96f64b4ec82373fc4eb7a4a7c8ccbd2de17879aba5fc3108eaa03a16cdc7b22614bdbdbc0a56bd1993064abd0af47fc0136125d12
+    windicss: ^2.2.0
+  checksum: 83abba76d15cee2577d1b92a3d35f67ae3ba24413fe41018fec10b6c18d66f432992730d621d0266b2bf3c90083bf22e44ebd4583bf7fb6c08c71f7f464ae21a
   languageName: node
   linkType: hard
 
@@ -2740,7 +2740,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"debug@npm:4, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.1":
+"debug@npm:4, debug@npm:^4.0.1, debug@npm:^4.1.0, debug@npm:^4.1.1, debug@npm:^4.2.0, debug@npm:^4.3.2":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
   dependencies:
@@ -5606,7 +5606,7 @@ highlight.js@10.5.0:
     "@typescript-eslint/parser": ^4.15.2
     "@vitejs/plugin-vue": ^1.1.4
     "@vue/compiler-sfc": ^3.0.5
-    "@vueuse/core": ^4.2.1
+    "@vueuse/core": ^4.2.2
     apollo-link-scalars: ^2.1.1
     autoprefixer: ^10.2.4
     bson: ^4.2.2
@@ -5630,12 +5630,12 @@ highlight.js@10.5.0:
     postcss-nested: ^5.0.3
     prettier: ^2.2.1
     rollup-plugin-copy: ^3.4.0
-    simple-git: ^2.35.1
+    simple-git: ^2.35.2
     tlds: ^1.218.0
     typed.js: ^2.0.11
     typescript: ^4.1.5
     vite: ^2.0.2
-    vite-plugin-windicss: ^0.4.7
+    vite-plugin-windicss: ^0.4.11
     vue: next
     vue-i18n: next
     vue-router: next
@@ -6334,14 +6334,14 @@ highlight.js@10.5.0:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^2.35.1":
-  version: 2.35.1
-  resolution: "simple-git@npm:2.35.1"
+"simple-git@npm:^2.35.2":
+  version: 2.35.2
+  resolution: "simple-git@npm:2.35.2"
   dependencies:
     "@kwsites/file-exists": ^1.1.1
     "@kwsites/promise-deferred": ^1.1.1
-    debug: ^4.3.1
-  checksum: 51111820c7535d3c2af44a91078862c92025e2305dc0995d8fc35542a217442d5b0c1e336e382ee0c1124748125f43b967889e5d76093a695870ca02e62f5ea1
+    debug: ^4.3.2
+  checksum: cc433d438f0d77bb630ccf1e5b9044cf61e7f8f08fbdff6785fff6b6cfc5ff02583bfb026f24886ee92990010b8ccb2e932bc9e32c654ccbd99252b0addd967e
   languageName: node
   linkType: hard
 
@@ -6990,15 +6990,15 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"vite-plugin-windicss@npm:^0.4.7":
-  version: 0.4.7
-  resolution: "vite-plugin-windicss@npm:0.4.7"
+"vite-plugin-windicss@npm:^0.4.11":
+  version: 0.4.11
+  resolution: "vite-plugin-windicss@npm:0.4.11"
   dependencies:
-    "@windicss/plugin-utils": 0.4.7
-    windicss: ^2.1.19
+    "@windicss/plugin-utils": 0.4.11
+    windicss: ^2.2.0
   peerDependencies:
     vite: ^2.0.1
-  checksum: 50f152795dba4fcf5794f0eea72107ac7e6d7ca8724a1b9e9ef0d752cd337cc9ce0247dbf8acb30af5cc40e561acd8ec49927bfa74e0c10bd41b95452f145f85
+  checksum: cd0d7d1e4ff83032302bc99191de602b034084e1a59d6ab65726ddc176b774721b27cb0551fac9b47228a5c2b72e0aa4916197d344066ea1862da4a2c9049574
   languageName: node
   linkType: hard
 
@@ -7122,12 +7122,12 @@ typescript@^4.1.5:
   languageName: node
   linkType: hard
 
-"windicss@npm:^2.1.19":
-  version: 2.1.19
-  resolution: "windicss@npm:2.1.19"
+"windicss@npm:^2.2.0":
+  version: 2.2.0
+  resolution: "windicss@npm:2.2.0"
   bin:
     windicss: cli/index.js
-  checksum: a789fb39f6853eacc6c91e03d357a94fd4a56a0643e2845afac5bf710d051bc95fd598f20e9d04849824cb648a88e0d95420f1d71ada7ed09ee7cdd44b5a8740
+  checksum: e0ab052fbdfa89d69ec2931b716c573014f268b37ca7d83ca15fafbbc4ed9684b3765e44029e4b7c4e20a992ebd8dc6d3c639329ace53b8ecf948a567e016c28
   languageName: node
   linkType: hard
 
