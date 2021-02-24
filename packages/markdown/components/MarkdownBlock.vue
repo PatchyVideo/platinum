@@ -5,7 +5,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import ParserWorker from '../lib/parser.worker?worker'
+import ParserWorker from '../lib/parser.worker?worker&inline'
 
 const worker = new ParserWorker()
 
