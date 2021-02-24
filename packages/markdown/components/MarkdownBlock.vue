@@ -5,9 +5,32 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import ParserWorker from '../lib/parser.worker?worker&inline'
+import ParserWorker from '../lib/parser.worker?worker'
 
-const worker = new ParserWorker()
+const worker = (() => {
+  try {
+    return new ParserWorker()
+  } catch (_) {}
+})()
+const render = (text: string) =>
+  new Promise<string>((resolve) => {
+    try {
+      if (!worker) throw 'noworker'
+      const id = Math.random()
+      const onMessage = (e: MessageEvent) => {
+        if (e.data.id === id) {
+          worker.removeEventListener('message', onMessage)
+          resolve(e.data.text)
+        }
+      }
+      worker.addEventListener('message', onMessage)
+      worker.postMessage({ id, text })
+    } catch (_) {
+      import('../lib/parser').then((parser) => {
+        resolve(parser.default.render(text))
+      })
+    }
+  })
 
 export default defineComponent({
   props: {
@@ -22,18 +45,10 @@ export default defineComponent({
   },
   setup(props) {
     const html = ref('Parsing...')
-    const id = Math.random()
     watch(
       () => props.text,
       () => {
-        const onMessage = (e: MessageEvent) => {
-          if (e.data.id === id) {
-            worker.removeEventListener('message', onMessage)
-            html.value = e.data.text
-          }
-        }
-        worker.addEventListener('message', onMessage)
-        worker.postMessage({ id, text: props.text })
+        render(props.text).then((text) => (html.value = text))
       },
       { immediate: true }
     )
