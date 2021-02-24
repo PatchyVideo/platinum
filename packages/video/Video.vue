@@ -415,9 +415,9 @@ export default defineComponent({
 /* .tag-author {
   border-image-source: v-bind('tagBorder.author');
 } */
-.tag-general {
+/* .tag-general {
   border-image-source: v-bind('tagBorder.general');
-}
+} */
 .tag-meta {
   border-image-source: v-bind('tagBorder.meta');
 }

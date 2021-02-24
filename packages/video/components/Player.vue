@@ -207,28 +207,32 @@ export default defineComponent({
           switch (stream.container) {
             case 'flv': {
               log('正在载入flv.js\n')
-              import('flv.js').then((module) => {
-                const flvjs = module.default
-                log('正在创建flv解析器\n')
-                if ('createPlayer' in flvjs) {
-                  try {
-                    const flvPlayer = flvjs.createPlayer({
-                      type: 'flv',
-                      url: stream.src[0].replace(/^http:/, 'https:'),
-                    })
-                    flvPlayer.attachMediaElement(video.value)
-                    log('正在加载视频源\n')
-                    flvPlayer.load()
-                    flvPlayer.on('metadata_arrived', () => {
-                      log('播放器加载完毕\n')
-                      videoReady.value = true
-                    })
-                  } catch (e) {
-                    log('flv解析器创建失败\n' + e + '\n')
-                    throw 'flv fail'
+              import('flv.js')
+                .then((module) => {
+                  const flvjs = module.default
+                  log('正在创建flv解析器\n')
+                  if ('createPlayer' in flvjs) {
+                    try {
+                      const flvPlayer = flvjs.createPlayer({
+                        type: 'flv',
+                        url: stream.src[0].replace(/^http:/, 'https:'),
+                      })
+                      flvPlayer.attachMediaElement(video.value)
+                      log('正在加载视频源\n')
+                      flvPlayer.load()
+                      flvPlayer.on('metadata_arrived', () => {
+                        log('播放器加载完毕\n')
+                        videoReady.value = true
+                      })
+                    } catch (e) {
+                      log('flv解析器创建失败\n' + e + '\n')
+                      throw 'flv fail'
+                    }
                   }
-                }
-              })
+                })
+                .catch((e) => {
+                  throw e
+                })
               break
             }
           }
