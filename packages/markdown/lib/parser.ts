@@ -61,13 +61,13 @@ markdownIt.linkify
     },
   })
   .add('youtube-', {
-    validate: val(/[-\\w]+/),
+    validate: val(/[-\w]+/),
     normalize(match) {
       match.url = 'https://www.youtube.com/watch?v=' + match.url.replace(/^youtube-/, '')
     },
   })
-  .add('mylist', {
-    validate: val(/[-\\w]+/),
+  .add('mylist/', {
+    validate: val(/\d+/),
     normalize(match) {
       match.url = 'https://www.nicovideo.jp/' + match.url
     },
@@ -101,14 +101,16 @@ const DRlink_close =
   }
 
 markdownIt.renderer.rules.link_close = function (tokens, idx, options, env, self) {
-  last.forEach((i, index) => {
-    if (tokens[idx].level === i.level) {
-      const str = `<span class="text-xs text-gray-600">[${i.url.hostname.replace(/^www./, '')}]</span>`
-      last.splice(index, 1)
-      return DRlink_close(tokens, idx, options, env, self) + str
-    }
-  })
-  return DRlink_close(tokens, idx, options, env, self)
+  return (
+    last.reduce((pv: string | undefined, cv, index) => {
+      if (tokens[idx].level === cv.level) {
+        const str = `<span class="text-xs text-gray-600">[${cv.url.hostname.replace(/^www./, '')}]</span>`
+        last.splice(index, 1)
+        return DRlink_close(tokens, idx, options, env, self) + str
+      }
+      return pv
+    }, undefined) || DRlink_close(tokens, idx, options, env, self)
+  )
 }
 
 export default markdownIt
