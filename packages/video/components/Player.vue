@@ -212,26 +212,22 @@ export default defineComponent({
                   const flvjs = module.default
                   log('正在创建flv解析器\n')
                   if ('createPlayer' in flvjs) {
-                    try {
-                      const flvPlayer = flvjs.createPlayer({
-                        type: 'flv',
-                        url: stream.src[0].replace(/^http:/, 'https:'),
-                      })
-                      flvPlayer.attachMediaElement(video.value)
-                      log('正在加载视频源\n')
-                      flvPlayer.load()
-                      flvPlayer.on('metadata_arrived', () => {
-                        log('播放器加载完毕\n')
-                        videoReady.value = true
-                      })
-                    } catch (e) {
-                      log('flv解析器创建失败\n' + e + '\n')
-                      throw 'flv fail'
-                    }
+                    const flvPlayer = flvjs.createPlayer({
+                      type: 'flv',
+                      url: stream.src[0].replace(/^http:/, 'https:'),
+                    })
+                    flvPlayer.attachMediaElement(video.value)
+                    log('正在加载视频源\n')
+                    flvPlayer.load()
+                    flvPlayer.on('metadata_arrived', () => {
+                      log('播放器加载完毕\n')
+                      videoReady.value = true
+                    })
                   }
                 })
                 .catch((e) => {
-                  throw e
+                  log('flv解析器创建失败\n' + e + '\n')
+                  enableIframe()
                 })
               break
             }
