@@ -4,9 +4,9 @@
 </template>
 
 <script lang="ts">
-import { notify } from '@/notification'
 import { defineComponent, ref, watch } from 'vue'
 import ParserWorker from '../lib/parser.worker?worker'
+import parser from '../lib/parser'
 
 const worker = (() => {
   try {
@@ -27,13 +27,7 @@ const render = (text: string) =>
       worker.addEventListener('message', onMessage)
       worker.postMessage({ id, text })
     } catch (_) {
-      try {
-        import('../lib/parser').then((parser) => {
-          resolve(parser.default.render(text))
-        })
-      } catch (e) {
-        notify('error', e.toString())
-      }
+      resolve(parser.render(text))
     }
   })
 
