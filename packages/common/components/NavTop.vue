@@ -69,8 +69,8 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform -translate-x-full w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
-        :class="{ 'slide-in': drawerOpen, 'slide-out': drawerOpen === false }"
+        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform transition-transform duration-300 w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
+        :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
@@ -240,28 +240,6 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.slide-in {
-  animation: slide-in 0.4s forwards;
-}
-.slide-out {
-  animation: slide-out 0.4s forwards;
-}
-@keyframes slide-in {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
-}
-@keyframes slide-out {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
-}
 .mask-enter-active,
 .mask-leave-active {
   @apply transition-all;
