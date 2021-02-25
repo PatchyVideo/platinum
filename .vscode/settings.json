@@ -11,5 +11,6 @@
     "video",
     "graphql",
     "search"
-  ]
+  ],
+  "volar.tsPlugin": true
 }
