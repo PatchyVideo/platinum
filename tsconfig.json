@@ -3,7 +3,7 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": ["esnext", "esnext.asynciterable", "dom"],
+    "lib": ["ESNext", "ESNext.AsyncIterable", "WebWorker"],
     "jsx": "preserve",
     "target": "ESNext",
     "sourceMap": true,

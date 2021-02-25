@@ -10,13 +10,18 @@ import parser from '../lib/parser'
 
 const worker = (() => {
   try {
-    return new ParserWorker()
+    const worker = new ParserWorker()
+    worker.addEventListener('error', (e) => {
+      isWorkerWorking = false
+    })
+    return worker
   } catch (_) {}
 })()
+let isWorkerWorking = true
 const render = (text: string) =>
   new Promise<string>((resolve) => {
     try {
-      if (!worker) throw 'noworker'
+      if (!worker || !isWorkerWorking) throw 'noworker'
       const id = Math.random()
       const onMessage = (e: MessageEvent) => {
         if (e.data.id === id) {

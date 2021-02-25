@@ -1,6 +1,7 @@
+/// <reference lib="webworker" />
 import markdownIt from './parser'
 
-const ctx: Worker = (self as unknown) as Worker
+const ctx: DedicatedWorkerGlobalScope = (self as unknown) as DedicatedWorkerGlobalScope
 
 ctx.onmessage = (e) => {
   ctx.postMessage({ id: e.data.id, raw: e.data.text, text: markdownIt.render(e.data.text) })
