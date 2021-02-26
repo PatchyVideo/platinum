@@ -22,7 +22,6 @@ export default defineComponent({
   },
   emits: ['update:check'],
   setup(props, { emit }) {
-    console.log(props.check)
     function updateValue(): void {
       emit('update:check', !props.check)
     }
