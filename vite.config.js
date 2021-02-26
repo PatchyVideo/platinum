@@ -3,22 +3,26 @@ import path from 'path'
 import fs from 'fs'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
+import { defineConfig } from 'vite'
+import { version } from './package.json'
 
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
 
 // @type string
 const banner = `
-PatchyVideo/Platinum V<%= pkg.version %>(<%= data.gitLatest.hash.slice(0, 7) %>)
-MIT License, Copyright (c) 2020-2021 PatchyVideo
-Generated: <%= new Date().toISOString() %>
+/*!
+ * PatchyVideo/Platinum V${version}(${data.gitLatest.hash.slice(0, 7)})
+ * MIT License, Copyright (c) 2020-2021 PatchyVideo
+ * Generated: ${data.date}
+ */
 `.trim()
 
 /**
  * Vite Configuration File
  * @type {import('vite').UserConfig}
  */
-module.exports = {
+module.exports = defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './packages/') },
@@ -30,13 +34,11 @@ module.exports = {
     exclude: ['@apollo/client'],
   },
   plugins: [
-    // @ts-ignore
     vue(),
-    // @ts-ignore
     windicss({
       scan: {
         dirs: ['packages'],
-        fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx'],
+        fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx', 'css'],
       },
     }),
     {
@@ -62,5 +64,10 @@ module.exports = {
   ],
   build: {
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        banner,
+      },
+    },
   },
-}
+})

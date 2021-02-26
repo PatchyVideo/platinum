@@ -4,17 +4,11 @@
 
   require('./usecache')
 
-  const git = simpleGit()
-  const gitLatest = (await git.log({ maxCount: 1 })).latest
-
   fs.writeFileSync(
     './.cache/buildData.json',
     JSON.stringify({
-      'rollup-plugin-license': {
-        data: {
-          gitLatest,
-        },
-      },
+      gitLatest: (await simpleGit().log({ maxCount: 1 })).latest,
+      date: new Date().toISOString(),
     })
   )
 })()
