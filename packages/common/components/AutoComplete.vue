@@ -27,7 +27,7 @@
       <button
         v-if="size === 'deskTop'"
         class="bg-pink-300 h-full px-3 rounded-r-full transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
-        @click="searchContent && search()"
+        @click="searchContent && $emit('search', searchContent)"
       >
         {{ t('common.autoComplete.search') }}
       </button>
@@ -42,7 +42,7 @@
         :key="item.tag"
         class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
         :class="{ activeListItem: item.active }"
-        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs, false))"
+        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs || [], false) || '')"
       >
         <div>
           <div
@@ -55,7 +55,7 @@
               'text-meta': item.cat === 4,
               'text-soundtrack': item.cat === 6,
             }"
-            v-html="item.tag || ConvertLangRes(item.langs)"
+            v-html="item.tag || ConvertLangRes(item.langs || [])"
           ></div>
         </div>
         <div class="text-gray-400">{{ item.cnt || '' }}</div>
@@ -85,15 +85,9 @@ export default defineComponent({
       },
       default: 'deskTop',
     },
-    search: {
-      type: Function,
-      default: (): void => {
-        alert('search!')
-        return
-      },
-    },
   },
-  setup(props) {
+  emits: ['search'],
+  setup(props, { emit }) {
     const { t } = useI18n()
     interface resultType {
       tag?: string
@@ -334,7 +328,7 @@ export default defineComponent({
         }
       }
       if (i == searchResult.value.length) {
-        searchContent.value && props.search()
+        searchContent.value && emit('search', searchContent.value)
         return
       } else {
         searchContent.value = formatSearchContent(
