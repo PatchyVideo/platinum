@@ -29,16 +29,15 @@ But we expect to ship following features on top of the current website:
   - Recommended plugins:
     - ESLint (dbaeumer.vscode-eslint)
     - Prettier - Code formatter (esbenp.prettier-vscode)
-    - Vetur (octref.vetur) or Volar (johnsoncodehk.volar)
-      - Vetur doesn't support types in template, Volar doesn't support PostCSS, so it's down to you.
+    - Volar (johnsoncodehk.volar)
+      - For PostCSS support, you'll need to install language-postcss (cpylua.language-postcss)
     - PostCSS Language Support (csstools.postcss)
+    - WindiCSS IntelliSense (voorjaar.windicss-intellisense)
     - i18n Ally (lokalise.i18n-ally)
     - Conventional Commits (vivaxy.vscode-conventional-commits)
     - Apollo GraphQL (apollographql.vscode-apollo)
       - Just for types in graphql, submit query etc is not working.
-- [PatchyVideo/pvgql](https://github.com/PatchyVideo/pvgql) (optional)
-  - If you wants to test GraphQL request, we recommend you install pvgql locally caus GraphiQL isn't supported on the production server.
-  - Guide: <https://github.com/PatchyVideo/pvgql#usage>. Once you're done, you can open up `http://localhost:5008/graphiql`.
+- For testing GraphQL, head on to <https://patchyvideo.com/be/gql/graphiql>
 
 ### Build Step
 
@@ -46,7 +45,7 @@ But we expect to ship following features on top of the current website:
 gh repo clone PatchyVideo/platinum # or `git clone https://github.com/PatchyVideo/platinum`
 cd platinum
 yarn
-yarn codegen # generate code schema
+yarn codegen # generate code schema (required before dev / build)
 yarn dev # launch vite dev server
 yarn build # pack the website
 ```
