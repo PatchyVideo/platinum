@@ -5,7 +5,7 @@
       <h3 class="text-lg font-semibold p-4 px-auto">
         {{ 'PatchyVideo | ' + t('common.autoComplete.search') }}
       </h3>
-      <auto-complete size="mobile" class="inline-block"></auto-complete>
+      <auto-complete size="mobile" class="inline-block" @search="searchResult"></auto-complete>
     </div>
     <Footer></Footer>
   </div>
@@ -16,6 +16,7 @@ import AutoComplete from '@/common/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import { defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
@@ -23,7 +24,14 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    return { t }
+
+    // Search
+    const router = useRouter()
+    function searchResult(searchContent: string): void {
+      router.push({ path: '/search-result', query: { i: searchContent } })
+    }
+
+    return { t, searchResult }
   },
 })
 </script>
