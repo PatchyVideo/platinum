@@ -35,7 +35,7 @@
             />
           </svg>
         </router-link>
-        <AutoComplete class="hidden md:inline-block"></AutoComplete>
+        <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
       </div>
       <!-- User -->
       <div v-if="!isLogin" class="space-x-4 mr-2">
@@ -139,6 +139,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
@@ -174,6 +175,13 @@ export default defineComponent({
       drawerOpen.value = false
       window.document.body.style.overflow = 'visible'
     }
+
+    // Search
+    const router = useRouter()
+    function searchResult(searchContent: string): void {
+      router.push({ path: '/search-result', query: { i: searchContent } })
+    }
+
     const mainList = [
       {
         iconClass: 'fas fa-archway',
@@ -230,6 +238,7 @@ export default defineComponent({
       drawerOpen,
       openDrawer,
       hideDrawer,
+      searchResult,
       isDark,
       mainList,
       userList,

@@ -44,6 +44,10 @@ const router = createRouter({
       component: () => import('@/search/SearchPage.vue').then(onRouterImport),
     },
     {
+      path: '/search-result',
+      component: () => import('@/search/SearchResult.vue').then(onRouterImport),
+    },
+    {
       path: '/video/:vid',
       component: () => import('@/video/Video.vue').then(onRouterImport),
     },
