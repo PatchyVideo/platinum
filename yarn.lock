@@ -727,9 +727,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@graphql-codegen/cli@npm:^1.20.1":
-  version: 1.20.1
-  resolution: "@graphql-codegen/cli@npm:1.20.1"
+"@graphql-codegen/cli@npm:^1.21.1":
+  version: 1.21.1
+  resolution: "@graphql-codegen/cli@npm:1.21.1"
   dependencies:
     "@graphql-codegen/core": 1.17.9
     "@graphql-codegen/plugin-helpers": ^1.18.2
@@ -781,7 +781,7 @@ __metadata:
     gql-gen: bin.js
     graphql-code-generator: bin.js
     graphql-codegen: bin.js
-  checksum: dcd686d8c7295c1222693cdd045e6601059cb9879a84c233a6b7d8e00fb72150078047efcd5ae8d0f664ca0d2954890d5397b3000d55c2fe0ebab1a2ee41e4f1
+  checksum: 5fd2e16402cb4f2e1396834890287d4d85cc8db6be2ccd7349b4eb659a55a4e17c4e30f62da43348ef31bd478e112d83d8bfafcd52916ed4d74fb6ad0c6fc7f3
   languageName: node
   linkType: hard
 
@@ -1769,16 +1769,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@windicss/plugin-utils@npm:0.5.0":
-  version: 0.5.0
-  resolution: "@windicss/plugin-utils@npm:0.5.0"
+"@windicss/plugin-utils@npm:0.5.4":
+  version: 0.5.4
+  resolution: "@windicss/plugin-utils@npm:0.5.4"
   dependencies:
-    esbuild: ^0.8.50
+    esbuild: ^0.8.52
     esbuild-register: ^2.0.0
     fast-glob: ^3.2.5
     micromatch: ^4.0.2
     windicss: ^2.2.0
-  checksum: 3589903daf577bfc74260557e02edd7172f71888dde4e83bb392132c0196fae51828c8410ddfcb9e5c06077125a0a0c21e5a89e74d7533692d6cbd4140c571b1
+  checksum: f2d801693336e5b0d610f5f07cca6f2e90652133b71a8644e5f778a8c4f384fb6efb7ca44abaadadc8f3ba92f298515b5bf1bab667e771a2a9f84e313c4ecd39
   languageName: node
   linkType: hard
 
@@ -2356,9 +2356,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001181":
-  version: 1.0.30001191
-  resolution: "caniuse-lite@npm:1.0.30001191"
-  checksum: 7b9e1d0c16d285800f32bf1f5a2028987b434502f56d4f6549f0648bb240e5528452d0212c49e56ce8f44719ccf43073456291b58fc763f72ff954aa2fb107e8
+  version: 1.0.30001192
+  resolution: "caniuse-lite@npm:1.0.30001192"
+  checksum: d2e3bc901b0cde3cd4522fa7f813565a4559284648b5c54f1049e6f991fc55d7d93b907e739270516e0207dd09b7c2ed8b8ca4469dceeb515eb1ec09798dff16
   languageName: node
   linkType: hard
 
@@ -2542,9 +2542,9 @@ __metadata:
   linkType: hard
 
 "colorette@npm:^1.1.0, colorette@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "colorette@npm:1.2.1"
-  checksum: 1cc21ad4b84777a424794f78b6bb6a44b614ae17dcea91762199339f8047598e6d981249eeef7ea588c99eaf062be8fcdcd4866c112998922ed854db6dde96f9
+  version: 1.2.2
+  resolution: "colorette@npm:1.2.2"
+  checksum: e240f0c94b8d9f34b52bd17b50fc13a3b74f9e662edeaa2b0c65e06ec6b1fc6367fb42b834ec5a1d819d68b74a3d850f3bd3e284f9e614d6c4ffa122f83c6ec5
   languageName: node
   linkType: hard
 
@@ -2911,9 +2911,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.649":
-  version: 1.3.673
-  resolution: "electron-to-chromium@npm:1.3.673"
-  checksum: f18f4073fa008640ee63306c4ceeca5e620468a228f7ad0fcba1407470b2a58073810c9f271d3a72a3a98ebbe90f7e4834dbad9b3532e2727d95f35875ff650f
+  version: 1.3.674
+  resolution: "electron-to-chromium@npm:1.3.674"
+  checksum: d0e9342f4fc8c0f7e832c1328d7c11d7192ce1a0a50a98afaa6e0f1f965761394876c97f8d1c2bdcca0160c2cc4b3af8eace18593307ddde524d7d296bbde829
   languageName: node
   linkType: hard
 
@@ -3033,12 +3033,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.8.47, esbuild@npm:^0.8.50":
-  version: 0.8.51
-  resolution: "esbuild@npm:0.8.51"
+"esbuild@npm:^0.8.47, esbuild@npm:^0.8.52":
+  version: 0.8.52
+  resolution: "esbuild@npm:0.8.52"
   bin:
     esbuild: bin/esbuild
-  checksum: 857d40db1ddaf0a0a941131322332f7e583420b294835e2d9750644652ce3b73919a8238d18cd3fbd4cf5b53c16c764e14891e1a0703763b48335fe5d17e49ae
+  checksum: e36c92920dc6ef4f8598d211fd4fec2d9bd99b792e13113bbf813e66a2c76ae7c8b882494b35173cf20355fda5659a8d49d6bb285406b771d79748804cad0059
   languageName: node
   linkType: hard
 
@@ -5592,7 +5592,7 @@ highlight.js@10.5.0:
   dependencies:
     "@apollo/client": ^3.3.11
     "@fortawesome/fontawesome-free": ^5.15.2
-    "@graphql-codegen/cli": ^1.20.1
+    "@graphql-codegen/cli": ^1.21.1
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/introspection": ^1.18.1
     "@graphql-codegen/schema-ast": ^1.18.1
@@ -5635,7 +5635,7 @@ highlight.js@10.5.0:
     typed.js: ^2.0.11
     typescript: 4.1.5
     vite: ^2.0.3
-    vite-plugin-windicss: ^0.5.0
+    vite-plugin-windicss: ^0.5.4
     vue: next
     vue-i18n: next
     vue-router: next
@@ -6479,13 +6479,13 @@ highlight.js@10.5.0:
   linkType: hard
 
 "string-width@npm:^4.1.0, string-width@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "string-width@npm:4.2.0"
+  version: 4.2.1
+  resolution: "string-width@npm:4.2.1"
   dependencies:
     emoji-regex: ^8.0.0
     is-fullwidth-code-point: ^3.0.0
     strip-ansi: ^6.0.0
-  checksum: cf1e8acddf3d6d6e9e168628cc58cf1b33b1e7e801af2a0c18316e4e8beb62361eb9aad6eab2fc86de972ab149cb7262aedc2a5d0c2ce28873c91b171cce84d7
+  checksum: 26e340b1c28c80ba9a8dfd93bc6dba6e408f6f42728d2cf172a721031ccc93b192801d3ddb70bd38d333bf0b078d208b3c10295dc8918c3686a5345621d3d7c4
   languageName: node
   linkType: hard
 
@@ -6974,15 +6974,15 @@ typescript@4.1.5:
   languageName: node
   linkType: hard
 
-"vite-plugin-windicss@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "vite-plugin-windicss@npm:0.5.0"
+"vite-plugin-windicss@npm:^0.5.4":
+  version: 0.5.4
+  resolution: "vite-plugin-windicss@npm:0.5.4"
   dependencies:
-    "@windicss/plugin-utils": 0.5.0
+    "@windicss/plugin-utils": 0.5.4
     windicss: ^2.2.0
   peerDependencies:
     vite: ^2.0.1
-  checksum: 1bc5930b02e53244084202a90d81b19941eb2d61d865597952eed66def3c1e3436a4bfd28d7cf3389a35d506f03f6ae2bc0ef63fb9fa331e4c55c4122d9a1d15
+  checksum: fc24a94cb1bbf1a4020fbc14ef344e9254d3332f19290fa86fb9251b584bf211d838d938a02cd0ec043d0495027921dfdf1c5e6afeb3b1aea6b561d8443db1cd
   languageName: node
   linkType: hard
 
@@ -7005,14 +7005,14 @@ typescript@4.1.5:
   linkType: hard
 
 "vue-demi@npm:latest":
-  version: 0.6.0
-  resolution: "vue-demi@npm:0.6.0"
+  version: 0.6.1
+  resolution: "vue-demi@npm:0.6.1"
   peerDependencies:
     vue: ^2.6.0 || >=3.0.0-rc.1
   bin:
     vue-demi-fix: bin/vue-demi-fix.js
     vue-demi-switch: bin/vue-demi-switch.js
-  checksum: dea6799e77c50a3164239f122a36cfefefc055bd6456f0d10d9c766d625099caa0475951fd128666147f46224b0801c7a44c1bc044e8e8a2032a805b6a76734c
+  checksum: 2fc0566f5247d672b9171f4343eef0406961158f3762efd3240e192148f6fecdc4f4ea70ef2e6d04ddf525c8fb81b203e7e6e0fb3ca78c4e8d2d6de6674520f2
   languageName: node
   linkType: hard
 
