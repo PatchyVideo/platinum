@@ -20,9 +20,8 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const resultKey = computed(() => useRoute().query)
-    console.log(resultKey.value)
     // change title
-    // document.title = video.item.title
+    document.title = (t('search.title') + resultKey.value.i) as string
     return { t }
   },
 })
