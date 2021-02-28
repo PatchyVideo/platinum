@@ -1,7 +1,13 @@
 <template>
-  <div class="bg-pink-50 dark:bg-gray-700">
+  <div class="dark:bg-gray-700">
     <nav-top :show-search-bar="false"></nav-top>
-    <div class="pt-26 pb-30 text-center">搜索结果页面</div>
+    <div class="text-center">
+      <h3 class="text-lg font-semibold p-4 px-auto">
+        {{ '搜索结果 - ' + query.i }}
+      </h3>
+      <auto-complete class="md:hidden" size="mobile" :keyword="query.i"></auto-complete>
+      <auto-complete class="hidden md:inline-block" :keyword="query.i"></auto-complete>
+    </div>
     <Footer></Footer>
   </div>
 </template>
@@ -19,10 +25,10 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    const resultKey = computed(() => useRoute().query)
+    const query = computed(() => useRoute().query)
     // change title
-    document.title = (t('search.title') + resultKey.value.i) as string
-    return { t }
+    document.title = (t('search.title') + query.value.i) as string
+    return { t, query }
   },
 })
 </script>
