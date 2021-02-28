@@ -76,11 +76,14 @@ import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
 
 export default defineComponent({
-  components: {},
   props: {
+    keyword: {
+      type: String,
+      default: '',
+    },
     size: {
       type: String,
-      validator: function (value: string) {
+      validator: (value: string) => {
         return ['deskTop', 'mobile'].indexOf(value) !== -1
       },
       default: 'deskTop',
@@ -103,7 +106,7 @@ export default defineComponent({
     let listHidden = ref<boolean>(true)
     let loading = ref<boolean>(false)
     let searchSuccess = ref<boolean>(true)
-    let searchContent = ref<null | string>('')
+    let searchContent = ref<null | string>(props.keyword)
     let cutHeadSearchContent: string
     let cutTailSearchContent: string
     let searchResult = ref<resultType[]>([])
