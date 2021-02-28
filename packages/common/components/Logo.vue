@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-3">
+  <div class="md:mx-3">
     <svg
       version="1.1"
       id="图层_1"
@@ -12,6 +12,7 @@
       style="enable-background: new 0 0 2844 3778"
       xml:space="preserve"
       class="fill-current inline-block"
+      v-if="showIcon"
     >
       <g>
         <path
@@ -573,7 +574,12 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  props: {},
+  props: {
+    showIcon: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup() {
     return {}
   },
