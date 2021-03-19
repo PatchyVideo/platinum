@@ -1,6 +1,12 @@
 {
   "home": {
-    "hello": "Hello World!"
+    "hello": "Hello World!",
+    "intro": "This site is still constructing in progress.(/ω＼)",
+    "intro2": "Try to search for something using the navigation bar!",
+    "progress": "Wroking progress is seen",
+    "progress2": "HERE",
+    "join": "If you want to join us to make Touhou community better?",
+    "join2": "Click HERE NOW!"
   },
   "common": {
     "navTop": {
