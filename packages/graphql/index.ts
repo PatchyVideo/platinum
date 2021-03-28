@@ -10,6 +10,10 @@ import {
   unref,
   watch,
   watchEffect,
+  getCurrentInstance,
+  ComponentInternalInstance,
+  onMounted,
+  ref,
 } from 'vue'
 import {
   ApolloClient,
@@ -32,6 +36,7 @@ import { withScalars } from 'apollo-link-scalars'
 import {
   ArgumentNode,
   buildClientSchema,
+  DocumentNode,
   IntrospectionQuery,
   Location,
   ObjectFieldNode,
@@ -701,3 +706,136 @@ export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<Normal
   }
   submitQuery()
 }
+
+type QueryVaris = Record<string, Ref<any>>
+
+class PQLGraph {
+  private mounts: Record<string, PQLGraph[]> = {}
+  private selfReady: Ref<boolean> = ref(false)
+  private variHandler: ((variables: QueryVaris) => QueryVaris) | undefined
+  private graphRaw = ''
+  ready: ComputedRef<boolean> = computed<boolean>(() =>
+    Object.values(this.mounts).reduce(
+      (pv, cv) => cv.reduce((pv, cv) => cv.ready.value && pv, true) && pv,
+      this.selfReady.value
+    )
+  )
+  constructor() {}
+  mountTo(point: string) {
+    const instance = this.useInstance()
+    const parent = (instance.parent as unknown) as { __pql: PQLGraph } | undefined
+    if (!parent || !('__pql' in parent)) throw 'no parent'
+    parent.__pql.mountChild(point, this)
+    return this
+  }
+  mountChild(point: string, child: PQLGraph) {
+    if (!(point in this.mounts)) throw 'no point'
+    this.mounts[point] = this.mounts[point] ?? []
+    this.mounts[point].push(child)
+    return this
+  }
+  provideMountPoint() {
+    const instance = (this.useInstance() as unknown) as { __pql: PQLGraph }
+    instance.__pql = this
+    return this
+  }
+  useGraph(graph: string) {
+    this.graphRaw = graph
+    const pGraph = parse(graph)
+
+    const points = this.lookForPoints(pGraph)
+    this.mounts = {}
+    points.forEach((point) => {
+      this.mounts[point] = []
+    })
+
+    return this
+  }
+  private lookForPoints(pGraph: DocumentNode) {
+    const points: string[] = []
+    for (const def of pGraph.definitions) {
+      switch (def.kind) {
+        case 'FragmentDefinition': {
+          const sels = def.selectionSet.selections
+          const pSels = (sels: readonly SelectionNode[]) => {
+            for (const sel of sels) {
+              switch (sel.kind) {
+                case 'Field': {
+                  if (sel.selectionSet) pSels(sel.selectionSet.selections)
+                  break
+                }
+                case 'FragmentSpread': {
+                  if (!sel.directives || !sel.directives.find((v) => v.name.value === 'point')) continue
+                  if (points.includes(sel.name.value)) throw new Error('Point must be unique.')
+                  points.push(sel.name.value)
+                  break
+                }
+              }
+            }
+          }
+          pSels(sels)
+          break
+        }
+      }
+    }
+    return points
+  }
+  submitOnMounted() {
+    this.useInstance()
+    onMounted(() => {
+      this.selfReady.value = true
+    })
+  }
+  calculateVariables(variables: QueryVaris) {
+    if (this.variHandler) {
+      return this.variHandler(variables)
+    } else {
+      return variables
+    }
+  }
+  build(variables: QueryVaris) {
+    const vari = this.calculateVariables(variables)
+  }
+  private useInstance() {
+    const instance = getCurrentInstance()
+    if (!instance) throw 'no instance'
+    return instance
+  }
+}
+
+function usePQL(): PQLGraph {
+  return new PQLGraph()
+}
+
+function passMountPoint(points: string[]) {
+  const pql = new PQLGraph()
+}
+
+// console.log(parse('{v@vars(var:$v)}'))
+
+// usePQL()
+//   .useGraph(
+//     gql`
+//       fragment default on Query @param(offset: Int, limit: Int) {
+//         foo
+//         ...child @point @apply(limit: $limit)
+//       }
+//     `
+//   )
+//   .provideMountPoint()
+//   .mountTo('root')
+//   .submitOnMounted()
+
+// passMountPoint(['child'])
+
+// usePQL()
+//   .useGraph(
+//     gql`
+//       fragment default on Query @param(limit: Int) {
+//         bar
+//       }
+//     `
+//   )
+//   .provideMountPoint()
+//   .mountTo('child')
+//   .submitOnMounted()
