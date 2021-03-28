@@ -7,10 +7,14 @@ import { defineConfig } from 'vite'
 import { version } from './package.json'
 
 // @ts-ignore
-const data = fs.existsSync('./.cache/buildData.json') ? require('./.cache/buildData.json') : {}
+const data = fs.existsSync('./.cache/buildData.json')
+  ? JSON.parse(fs.readFileSync('./.cache/buildData.json').toString())
+  : undefined
 
 // @type string
-const banner = `
+const banner =
+  data &&
+  `
 /*!
  * PatchyVideo/Platinum V${version}(${data.gitLatest.hash.slice(0, 7)})
  * MIT License, Copyright (c) 2020-2021 PatchyVideo
