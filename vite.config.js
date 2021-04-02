@@ -6,6 +6,7 @@ import windicss from 'vite-plugin-windicss'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const data = fs.existsSync('./.cache/buildData.json')
   ? JSON.parse(fs.readFileSync('./.cache/buildData.json').toString())
@@ -26,7 +27,7 @@ const banner =
  * Vite Configuration File
  * @type {import('vite').UserConfig}
  */
-module.exports = defineConfig({
+export default defineConfig({
   resolve: {
     alias: [
       { find: '@', replacement: path.resolve(__dirname, './packages/') },
@@ -40,13 +41,16 @@ module.exports = defineConfig({
   plugins: [
     vue(),
     windicss({
+      transformCSS: 'pre',
       scan: {
         dirs: ['packages'],
         fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx', 'css'],
       },
     }),
     {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       ...require('rollup-plugin-copy')({
         targets: [{ src: 'LICENSE', dest: 'dist' }],
         hook: 'generateBundle',

@@ -24,7 +24,7 @@ module.exports = {
       env: {
         node: true,
       },
-      extends: ['eslint:recommended', 'prettier'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.js', '*.jsx'],
@@ -32,7 +32,7 @@ module.exports = {
         es2020: true,
         browser: true,
       },
-      extends: ['eslint:recommended', 'prettier'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.ts', '*.tsx'],
@@ -41,12 +41,7 @@ module.exports = {
         browser: true,
       },
       parser: '@typescript-eslint/parser',
-      extends: [
-        'eslint:recommended',
-        'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'prettier/@typescript-eslint',
-      ],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.vue'],
@@ -60,11 +55,9 @@ module.exports = {
       },
       extends: [
         'eslint:recommended',
-        'plugin:vue/vue3-recommended',
         'plugin:@typescript-eslint/recommended',
-        'prettier',
-        'prettier/vue',
-        'prettier/@typescript-eslint',
+        'plugin:vue/vue3-recommended',
+        'plugin:prettier/recommended',
       ],
     },
   ],

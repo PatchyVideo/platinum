@@ -8,7 +8,6 @@ import {
   toRefs,
   isReactive,
   unref,
-  watch,
   watchEffect,
   getCurrentInstance,
   ComponentInternalInstance,
@@ -707,6 +706,11 @@ export async function buildGraph(_graph: BuiltGraph, client: ApolloClient<Normal
   submitQuery()
 }
 
+type VueComponentInternalInstance = ComponentInternalInstance & {
+  __pql?: PQLGraph
+  parent?: VueComponentInternalInstance
+}
+
 type QueryVaris = Record<string, Ref<any>>
 
 class PQLGraph {
@@ -723,8 +727,8 @@ class PQLGraph {
   constructor() {}
   mountTo(point: string) {
     const instance = this.useInstance()
-    const parent = (instance.parent as unknown) as { __pql: PQLGraph } | undefined
-    if (!parent || !('__pql' in parent)) throw 'no parent'
+    const parent = instance.parent
+    if (!parent || !parent.__pql) throw 'no parent'
     parent.__pql.mountChild(point, this)
     return this
   }
@@ -735,7 +739,7 @@ class PQLGraph {
     return this
   }
   provideMountPoint() {
-    const instance = (this.useInstance() as unknown) as { __pql: PQLGraph }
+    const instance = this.useInstance()
     instance.__pql = this
     return this
   }
@@ -797,7 +801,7 @@ class PQLGraph {
     const vari = this.calculateVariables(variables)
   }
   private useInstance() {
-    const instance = getCurrentInstance()
+    const instance = <VueComponentInternalInstance>getCurrentInstance()
     if (!instance) throw 'no instance'
     return instance
   }
