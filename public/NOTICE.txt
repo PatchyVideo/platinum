@@ -1,2 +1,0 @@
-This file isn't available on dev mode and will be replaced with licenses from dependences while building.
-If you want to generate this file, just run `yarn build`.

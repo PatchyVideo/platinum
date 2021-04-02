@@ -3,6 +3,7 @@ import path from 'path'
 import fs from 'fs'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
+import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 
@@ -68,6 +69,14 @@ export default defineConfig({
         )
       },
       apply: 'serve',
+    },
+    {
+      ...visualizer({
+        filename: 'dist/stats.html',
+        gzipSize: true,
+        brotliSize: true,
+      }),
+      apply: 'build',
     },
   ],
   build: {

@@ -10,11 +10,14 @@ jobs:
         with:
           node-version: 14
 
+      - name: Install
+        run: yarn install
+
+      - name: Codegen
+        run: yarn codegen
+
       - name: Build
-        run: |
-          yarn install
-          yarn codegen
-          yarn build
+        run: yarn build
 
       - name: Deploy to Netlify
         uses: nwtgck/actions-netlify@v1.1
