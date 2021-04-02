@@ -1,17 +1,17 @@
 import { computed } from 'vue'
 import { createI18n } from 'vue-i18n'
 
-import i18n_zh_CN from './zh-CN.json'
-import i18n_en_US from './en-US.json'
-
-const messages = {
-  'zh-CN': i18n_zh_CN,
-  'en-US': i18n_en_US,
-}
+const messages = Object.fromEntries(
+  Object.entries(import.meta.globEager('./*.json')).map(([key, value]) => [
+    key.replace(/.+\/(.+)\.json/, '$1'),
+    value.default,
+  ])
+)
 
 const langs = Object.keys(messages)
 
 const i18n = createI18n({
+  legacy: false,
   locale: getBrowserLang() || 'zh-CN',
   availableLocales: langs,
   fallbackLocale: 'zh-CN',
@@ -50,11 +50,11 @@ function setBrowserLang(lang: string) {
 
 export const locale = computed({
   get: () => {
-    return i18n.global.locale
+    return i18n.global.locale.value
   },
   set: (x: string) => {
     setBrowserLang(x)
-    i18n.global.locale = x
+    i18n.global.locale.value = x
     if (confirm(i18n.global.t('locales.change-lang-reload-hint'))) location.reload()
   },
 })
