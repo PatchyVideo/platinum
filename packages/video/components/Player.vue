@@ -10,6 +10,7 @@
     ></video>
     <iframe
       v-if="useIframe && iframeUrl"
+      title="Video Player"
       class="block w-full h-full"
       :src="iframeUrl"
       allow="fullscreen"

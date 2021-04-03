@@ -14,7 +14,7 @@
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar">
-        <router-link to="/search-page">
+        <router-link to="/search-page" alt="mobile search button">
           <icon-uil-search class="inline md:hidden" />
         </router-link>
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
@@ -80,7 +80,7 @@
               t('common.navTop.userOperation.tag')
             }}</router-link
           >
-          <a class="block" href="https://patchyvideo.wiki/" target="_blank"
+          <a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
             ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
               t('common.navTop.mainMenu.wiki')
             }}</a

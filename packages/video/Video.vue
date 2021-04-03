@@ -86,6 +86,7 @@
               <div class="relative flex-shrink-0">
                 <img
                   class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
+                  :alt="author.name + '\'s avatar'"
                   :src="author.avatar"
                 />
                 <div
