@@ -6,63 +6,26 @@
     >
       <!-- Logo & Slide Button -->
       <div class="flex items-center flex-nowrap ml-2">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          height="38"
-          viewBox="0 0 24 24"
-          class="fill-current cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
+        <icon-uil-list-ul
+          class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="openDrawer()"
-        >
-          <path d="M0 0h24v24H0z" fill="none" />
-          <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
-        </svg>
+        />
         <logo class="hidden md:inline-block"></logo>
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar">
         <router-link to="/search-page">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="black"
-            width="30px"
-            height="30px"
-            class="fill-current inline md:hidden"
-          >
-            <path d="M0 0h24v24H0V0z" fill="none" />
-            <path
-              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-            />
-          </svg>
+          <icon-uil-search class="inline md:hidden" />
         </router-link>
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
       </div>
       <!-- User -->
       <div v-if="!isLogin" class="space-x-4 mr-2">
-        <svg xmlns="http://www.w3.org/2000/svg" height="28" viewBox="0 0 24 24" class="fill-current inline ml-2">
-          <path d="M0 0h24v24H0V0z" fill="none" />
-          <path
-            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM7.07 18.28c.43-.9 3.05-1.78 4.93-1.78s4.51.88 4.93 1.78C15.57 19.36 13.86 20 12 20s-3.57-.64-4.93-1.72zm11.29-1.45c-1.43-1.74-4.9-2.33-6.36-2.33s-4.93.59-6.36 2.33C4.62 15.49 4 13.82 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8c0 1.82-.62 3.49-1.64 4.83zM12 6c-1.94 0-3.5 1.56-3.5 3.5S10.06 13 12 13s3.5-1.56 3.5-3.5S13.94 6 12 6zm0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11z"
-          />
-        </svg>
+        <icon-uil-user-circle class="inline ml-2 text-2xl" />
       </div>
       <div v-else class="space-x-4 mr-2">
         <button>freesia</button>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          enable-background="new 0 0 24 24"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          class="inline fill-current cursor-pointer"
-        >
-          <g><path d="M0,0h24v24H0V0z" fill="none" /></g>
-          <g>
-            <path
-              d="M12,18.5c0.83,0,1.5-0.67,1.5-1.5h-3C10.5,17.83,11.17,18.5,12,18.5z M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10 c5.52,0,10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8c4.41,0,8,3.59,8,8S16.41,20,12,20z M16,11.39 c0-2.11-1.03-3.92-3-4.39V6.5c0-0.57-0.43-1-1-1s-1,0.43-1,1V7c-1.97,0.47-3,2.27-3,4.39V14H7v2h10v-2h-1V11.39z M14,14h-4v-3 c0-1.1,0.9-2,2-2s2,0.9,2,2V14z"
-            />
-          </g>
-        </svg>
+        <icon-uil-bell class="inline cursor-pointer text-2xl" />
       </div>
     </div>
     <!-- DrawerLayout -->
@@ -74,32 +37,53 @@
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="38"
-            viewBox="0 0 24 24"
-            class="fill-current cursor-pointer"
-            @click="hideDrawer()"
-          >
-            <path d="M0 0h24v24H0z" fill="none" />
-            <path d="M3 15h18v-2H3v2zm0 4h18v-2H3v2zm0-8h18V9H3v2zm0-6v2h18V5H3z" />
-          </svg>
+          <icon-uil-list-ul class="text-2xl cursor-pointer" @click="hideDrawer()" />
           <logo class="md:mr-15" :show-icon="false"></logo>
         </div>
         <!-- Main List -->
         <div class="space-y-3">
-          <router-link class="block" :to="item.href" v-for="item in mainList" :key="item.name"
-            ><i class="align-middle w-7 text-lg text-center" :class="item.iconClass"></i>{{ item.name }}</router-link
+          <router-link class="block" to=""
+            ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.home')
+            }}</router-link
+          >
+          <router-link class="block" to=""
+            ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.video')
+            }}</router-link
+          >
+          <router-link class="block" to=""
+            ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.list')
+            }}</router-link
+          >
+          <router-link class="block" to=""
+            ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.discussBoard')
+            }}</router-link
+          >
+          <router-link class="block" to=""
+            ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.Leaderboard')
+            }}</router-link
           >
         </div>
         <!-- User List -->
         <div class="space-y-3">
-          <router-link class="block" :to="item.href" v-for="item in userList" :key="item.name"
-            ><i class="align-middle w-7 text-lg text-center" :class="item.iconClass"></i>{{ item.name }}</router-link
+          <router-link class="block" to=""
+            ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.userOperation.postvideo')
+            }}</router-link
           >
-          <a class="block" href="https://patchyvideo.wiki/" target="_Blank"
-            ><i class="fab fa-battle-net align-middle w-7 text-lg text-center"></i
-            >{{ t('common.navTop.mainMenu.wiki') }}</a
+          <router-link class="block" to=""
+            ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.userOperation.tag')
+            }}</router-link
+          >
+          <a class="block" href="https://patchyvideo.wiki/" target="_blank"
+            ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.wiki')
+            }}</a
           >
         </div>
         <!-- Super Admin -->
@@ -182,45 +166,6 @@ export default defineComponent({
       router.push({ path: '/search-result', query: { i: searchContent } })
     }
 
-    const mainList = [
-      {
-        iconClass: 'fas fa-archway',
-        name: t('common.navTop.mainMenu.home'),
-        href: '',
-      },
-      {
-        iconClass: 'fas fa-caret-square-right',
-        name: t('common.navTop.mainMenu.video'),
-        href: '',
-      },
-      {
-        iconClass: 'fas fa-folder',
-        name: t('common.navTop.mainMenu.list'),
-        href: '',
-      },
-      {
-        iconClass: 'fas fa-chalkboard',
-        name: t('common.navTop.mainMenu.discussBoard'),
-        href: '',
-      },
-      {
-        iconClass: 'fas fa-crown',
-        name: t('common.navTop.mainMenu.Leaderboard'),
-        href: '',
-      },
-    ]
-    const userList = [
-      {
-        iconClass: 'fas fa-long-arrow-alt-up',
-        name: t('common.navTop.userOperation.postvideo'),
-        href: '',
-      },
-      {
-        iconClass: 'fas fa-bookmark',
-        name: t('common.navTop.userOperation.tag'),
-        href: '',
-      },
-    ]
     const languageList = [
       {
         name: '简体中文',
@@ -231,6 +176,7 @@ export default defineComponent({
         value: 'en-US',
       },
     ]
+
     return {
       t,
       locale,
@@ -240,8 +186,6 @@ export default defineComponent({
       hideDrawer,
       searchResult,
       isDark,
-      mainList,
-      userList,
       languageList,
     }
   },

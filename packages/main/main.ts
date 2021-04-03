@@ -5,9 +5,6 @@ import { buildGraph, BuiltGraph, createApollo, provideClient } from '@/graphql'
 /* Tailwind CSS */
 import '@/tailwindcss'
 
-/* Font Awesome */
-import '@fortawesome/fontawesome-free/css/all.css'
-
 /* Dark Mode */
 import '@/darkmode'
 

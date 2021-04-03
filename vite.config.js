@@ -3,6 +3,8 @@ import path from 'path'
 import fs from 'fs'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
+import components from 'vite-plugin-components'
+import viteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
@@ -48,6 +50,15 @@ export default defineConfig({
         fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx', 'css'],
       },
     }),
+    components({
+      dirs: [],
+      customComponentResolvers: [
+        ViteIconsResolver({
+          componentPrefix: 'icon',
+        }),
+      ],
+    }),
+    viteIcons(),
     {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

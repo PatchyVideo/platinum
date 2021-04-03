@@ -5,7 +5,7 @@
     :title="t('common.backTop.backTop')"
     @click="backUp()"
   >
-    <i class="fas fa-arrow-up text-2xl"></i>
+    <icon-uil-top-arrow-to-top class="text-2xl" />
   </div>
 </template>
 

@@ -1,14 +1,20 @@
 <template>
   <div ref="root" class="root relative w-full bg-black overflow-hidden" :style="{ height: height + 'px' }">
     <video
-      ref="video"
       v-show="videoReady && !useIframe"
+      ref="video"
       class="video w-full h-full focus:outline-none"
       crossorigin="anonymous"
       playsinline
       preload="auto"
     ></video>
-    <iframe v-if="useIframe && iframeUrl" class="block w-full h-full" :src="iframeUrl" allowfullscreen="true"></iframe>
+    <iframe
+      v-if="useIframe && iframeUrl"
+      class="block w-full h-full"
+      :src="iframeUrl"
+      allow="fullscreen"
+      sandbox="allow-scripts allow-popups-to-escape-sandbox allow-same-origin"
+    ></iframe>
     <div
       v-show="videoReady && !useIframe"
       class="controlbar absolute transform ease-in-out translate-y-2/1 duration-300 bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
@@ -21,11 +27,10 @@
         </div>
       </div>
       <div class="flex flex-row items-center h-6 mx-6 my-1 text-white">
-        <span @click="onPlayPause"
-          ><i v-if="playing" class="fas fa-fw fa-pause"></i><i v-else class="fas fa-fw fa-play"></i></span
+        <span @click="onPlayPause"><icon-uil-pause v-if="playing" /><icon-uil-play v-else /></span
         ><span class="px-1"></span>
         <div class="volume flex flex-row items-center">
-          <i class="fas fa-fw fa-lg fa-volume-down"></i>
+          <icon-uil-volume class="mr-0.5" />
           <div class="h-full m-0 align-middle">
             <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 transition-all ease-in-out">
               <div class="relative h-full left-0 bottom-0 bg-pink-600" :style="{ width: volume * 100 + '%' }">
@@ -46,9 +51,8 @@
 
 <script lang="ts">
 import { gql, parseGraph, schema } from '@/graphql'
-import { notify } from '@/notification'
 import { FetchResult } from '@apollo/client/core'
-import { templateRef, tryOnMounted, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
+import { templateRef, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
 import { computed, ref, defineComponent, nextTick, onMounted, watch } from 'vue'
 
 type YouGetVideoData = YouGetGeneralVideoData | YouGetBilibiliVideoData
@@ -110,7 +114,9 @@ export default defineComponent({
       watch(playing, () => {
         try {
           playing.value ? video.value.play() : video.value.pause()
-        } catch (_) {}
+        } catch (_) {
+          //
+        }
       })
     })
     const progressbar = templateRef<HTMLDivElement>('progressbar')
@@ -194,6 +200,7 @@ export default defineComponent({
         if ((r = regYtb.exec(url.value))) return `https://www.youtube.com/embed/${r[2]}`
         if ((r = regAcf.exec(url.value)) !== null) return `https://www.acfun.cn/player/ac${r[2]}`
       }
+      return ''
     })
     const enableIframe = () => {
       log('切换视频播放至内嵌')
