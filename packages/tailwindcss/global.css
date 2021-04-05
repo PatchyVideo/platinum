@@ -1,6 +1,9 @@
 body {
-  @apply text-gray-600 dark:text-white;
+  @apply dark:text-white;
 }
 a {
   @apply transition-colors hover:text-pink-300;
+}
+.dark a {
+  @apply hover:text-pink-600;
 }

@@ -1198,10 +1198,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/json@npm:^1.1.324":
-  version: 1.1.324
-  resolution: "@iconify/json@npm:1.1.324"
-  checksum: 1b89daf4907e89237e59b8a2f76bf4ed6c5887af3e6dcc9d1e7e245652db788e64eb16f2fe9a9c1df11c6722caf2188c3558af0f404176ea3ba155ab4778e814
+"@iconify/json@npm:^1.1.325":
+  version: 1.1.325
+  resolution: "@iconify/json@npm:1.1.325"
+  checksum: 0792c90e261e52d39aeb45d30140f6cbeff7ae90036a9380dac823654f053357655cc66fb365e5c09b529f097281a10788dc010c70e507debf8b65b17f208a1e
   languageName: node
   linkType: hard
 
@@ -1739,22 +1739,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^4.6.3":
-  version: 4.6.3
-  resolution: "@vueuse/core@npm:4.6.3"
+"@vueuse/core@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@vueuse/core@npm:4.7.0"
   dependencies:
-    "@vueuse/shared": 4.6.3
+    "@vueuse/shared": 4.7.0
     vue-demi: latest
-  checksum: 2889083f03713f19e0c14c0ed9de6e603cc9777c7daecdcc6ba3de4d3f634000cf89e199b9feb217602ec9286931d8fe00c52a65ed6137d4ca7af8613289b7e6
+  checksum: ff040cacb4d3db8dfcb51bb1a598a1257125ded3357bce4dc59e4efc3917e61049df0730a411277dc742eaded4eda7c4962b2e088ed01813458e461969724a1e
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:4.6.3":
-  version: 4.6.3
-  resolution: "@vueuse/shared@npm:4.6.3"
+"@vueuse/shared@npm:4.7.0":
+  version: 4.7.0
+  resolution: "@vueuse/shared@npm:4.7.0"
   dependencies:
     vue-demi: latest
-  checksum: f1b1a9b5109f8e950945712e18bb0a7002f907c18b0838aa099d092e388349a8c5fc2194c0d846af21a63aa65e7fe4889df580f6b375460a28f04feaf39be72f
+  checksum: 9b7a9154d0dfeee453a462d4b0e9ea3162a4e29b7a7090e03a574c157e87fb1d232620be3fafa840b9c310a5e295ecc3369fd13fe8167eed90e53880df91bd7f
   languageName: node
   linkType: hard
 
@@ -2361,9 +2361,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001181, caniuse-lite@npm:^1.0.30001196":
-  version: 1.0.30001205
-  resolution: "caniuse-lite@npm:1.0.30001205"
-  checksum: 7be985a0817531780134e698b159f4a135a95b1650703db6e0c4f6a04152e32860ad8fde748b7f91c3b343e541f8d39125b237fd7d497a4a888a6971bd8eb6fc
+  version: 1.0.30001207
+  resolution: "caniuse-lite@npm:1.0.30001207"
+  checksum: c0f1097c43be5178b56f4ae8829c57e3aa4658eaf8c8b9c06612dd7c43667e0b1122d7a61e5b0d73076e601df74917f43532b45ccf9ac5c207e4892f682b2087
   languageName: node
   linkType: hard
 
@@ -5787,7 +5787,7 @@ highlight.js@10.5.0:
     "@graphql-codegen/introspection": ^1.18.1
     "@graphql-codegen/schema-ast": ^1.18.1
     "@graphql-codegen/typescript": ^1.21.1
-    "@iconify/json": ^1.1.324
+    "@iconify/json": ^1.1.325
     "@types/events": ^3
     "@types/lodash.get": ^4
     "@types/lodash.merge": ^4
@@ -5797,7 +5797,7 @@ highlight.js@10.5.0:
     "@typescript-eslint/parser": ^4.20.0
     "@vitejs/plugin-vue": ^1.2.1
     "@vue/compiler-sfc": ^3.0.11
-    "@vueuse/core": ^4.6.3
+    "@vueuse/core": ^4.7.0
     apollo-link-scalars: ^2.1.1
     autoprefixer: ^10.2.5
     bson: ^4.2.3
@@ -7451,11 +7451,11 @@ typescript@^4.2.3:
   linkType: hard
 
 "windicss@npm:^2.5.9":
-  version: 2.5.9
-  resolution: "windicss@npm:2.5.9"
+  version: 2.5.10
+  resolution: "windicss@npm:2.5.10"
   bin:
     windicss: cli/index.js
-  checksum: 0054461d96a00698ad89c3d881c9c88edec7a5fa0fe2956d986cc0ace4e85b28ed74e0bd51eeb9ecd84720beddb247924d5053db13ccc28ab31ce76556b322ed
+  checksum: fa88791124db1f7c0ccbe09dcfc7b2e423402ad5aa1902dd6f3e7cc13765679db4c223926661f17b83f63eb10be9985748f70a044d7e036f10c052d279273290
   languageName: node
   linkType: hard
 
@@ -7528,9 +7528,9 @@ typescript@^4.2.3:
   linkType: hard
 
 "y18n@npm:^5.0.5":
-  version: 5.0.5
-  resolution: "y18n@npm:5.0.5"
-  checksum: a7d41b0cccca1c98ebab270a944df48eb3b5352d3be0affb8afc8369823f6aa97a5fbead2c5b35e59a5650cb786b2b37627b45be5ff31f02a80dd3b881aceb17
+  version: 5.0.6
+  resolution: "y18n@npm:5.0.6"
+  checksum: 7411f9091e7774f8da5d986003206844c78bb3dd614f617baf6665ba5fa8ee3d841c44beb091dd638304831ed00929705fd97a3fd21aaf6d485e8359ccd48508
   languageName: node
   linkType: hard
 

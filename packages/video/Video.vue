@@ -90,7 +90,7 @@
                   :src="author.avatar"
                 />
                 <div
-                  class="absolute px-0.5 -right-1.5 top-0 rounded lg:transform lg:rotate-24 bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                  class="absolute px-0.75 -right-1.5 top-0 rounded lg:transform lg:rotate-24 bg-fuchsia-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                   v-text="author.position"
                 ></div>
               </div>
