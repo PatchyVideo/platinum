@@ -65,10 +65,57 @@ export default defineComponent({
 
 <style lang="postcss" scoped>
 @import 'highlight.js/styles/atom-one-light.css';
-</style>
-
-<style lang="postcss">
-.dark .prose {
-  @apply prose-light;
+.prose {
+  max-width: inherit;
+}
+.dark .prose :deep() {
+  @apply text-gray-200;
+  [class~='lead'] {
+    @apply text-gray-100;
+  }
+  a {
+    @apply text-white;
+  }
+  strong {
+    @apply text-white;
+  }
+  ol > li::before {
+    @apply text-gray-200;
+  }
+  ul > li::before {
+    @apply bg-gray-600;
+  }
+  hr {
+    @apply border-gray-200;
+  }
+  blockquote {
+    @apply text-gray-50;
+    border-left-color: theme('colors.gray.200');
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply text-white;
+  }
+  figure figcaption {
+    @apply text-gray-200;
+  }
+  code {
+    @apply text-white;
+  }
+  a code {
+    @apply text-white;
+  }
+  pre {
+    @apply text-gray-100 bg-gray-800;
+  }
+  thead {
+    @apply text-white;
+    border-bottom-color: theme('colors.gray.400');
+  }
+  tbody tr {
+    border-bottom-color: theme('colors.gray.600');
+  }
 }
 </style>
