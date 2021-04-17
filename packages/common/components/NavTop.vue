@@ -2,7 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-800 md:p-2"
+      class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-800 md:p-2"
     >
       <!-- Logo & Slide Button -->
       <div class="flex items-center flex-nowrap ml-2">
