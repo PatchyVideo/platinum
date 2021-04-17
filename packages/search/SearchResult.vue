@@ -81,47 +81,53 @@ export default defineComponent({
       return query
     })
 
-    watch(queryWord, async () => {
-      if (!queryWord.value || status.value === Status.loading) return
-      status.value = Status.loading
-      try {
-        const res = await useQuery({
-          query: gql`
-            query($offset: Int, $limit: Int, $query: String) {
-              listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
-                count
-                pageCount
-                videos {
-                  id
-                  item {
-                    coverImage
-                    title
-                    site
+    watch(
+      queryWord,
+      async () => {
+        if (!queryWord.value || status.value === Status.loading) return
+        status.value = Status.loading
+        try {
+          const res = await useQuery({
+            query: gql`
+              query($offset: Int, $limit: Int, $query: String) {
+                listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
+                  count
+                  pageCount
+                  videos {
+                    id
+                    item {
+                      coverImage
+                      title
+                      site
+                    }
                   }
                 }
               }
-            }
-          `,
-          variables: {
-            offset: offset.value,
-            limit: limit,
-            query: queryWord.value,
-          },
-        })
-        console.log(res)
+            `,
+            variables: {
+              offset: offset.value,
+              limit: limit,
+              query: queryWord.value,
+            },
+          })
+          console.log(res)
 
-        const resultData = res.data.listVideo
-        count.value = resultData.count
-        pageCount.value = resultData.pageCount
-        videos.value = resultData.videos
+          const resultData = res.data.listVideo
+          count.value = resultData.count
+          pageCount.value = resultData.pageCount
+          videos.value = resultData.videos
 
-        status.value = Status.result
-      } catch (err) {
-        status.value = Status.error
-        // console.log(err)
-        errMsg.value = err.message
+          status.value = Status.result
+        } catch (err) {
+          status.value = Status.error
+          // console.log(err)
+          errMsg.value = err.message
+        }
+      },
+      {
+        immediate: true,
       }
-    })
+    )
 
     // Change the router query to trigger the search function
     const router = useRouter()
