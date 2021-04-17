@@ -72,9 +72,9 @@ export default defineComponent({
     const count = ref(0)
     const pageCount = ref(0)
     const videos = ref<Video[]>()
+    const route = useRoute()
     const queryWord = computed(() => {
-      const i = useRoute().query.i
-      const query = i ? (typeof i === 'object' ? i.join(' ') : i) : ''
+      const query = route.query.i ? (typeof route.query.i === 'object' ? route.query.i.join(' ') : route.query.i) : ''
       if (query) {
         document.title = t('search.title') + query
       }
