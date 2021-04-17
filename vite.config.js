@@ -5,8 +5,6 @@ import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
 import components from 'vite-plugin-components'
 import viteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
-import legacy from '@vitejs/plugin-legacy'
-import { browsersWithSupportForEcmaVersion } from '@wessberg/browserslist-generator'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
@@ -61,10 +59,6 @@ export default defineConfig({
       ],
     }),
     viteIcons(),
-    legacy({
-      targets: [...browsersWithSupportForEcmaVersion('es2018'), 'not dead'],
-      modernPolyfills: true,
-    }),
     {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
