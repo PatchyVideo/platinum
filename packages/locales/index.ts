@@ -35,12 +35,8 @@ function getBrowserLang(): string | undefined {
     for (const lang of navigator.languages) {
       if (langs.includes(lang)) return lang // return lang in browser langs
     }
-    // for (const ilang of langs) {
-    //   for (const lang in navigator.languages) {
-    //     if (ilang.indexOf(lang + '-') > -1) return lang // return lang that is similar
-    //   }
-    // }
   }
+  return navigator.language
 }
 
 function setBrowserLang(lang: string) {

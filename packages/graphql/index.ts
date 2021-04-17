@@ -109,7 +109,7 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
 }
 
 export function useQuery(
-  options: QueryOptions<schema.Query, OperationVariables>
+  options: QueryOptions<OperationVariables, schema.Query>
 ): Promise<ApolloQueryResult<schema.Query>> {
   const client = injectClient()
   return client.query<schema.Query>(options)

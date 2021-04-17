@@ -11,12 +11,12 @@
     </div>
 
     <div class="p-2">
-      <div v-if="status == 'loading'">搜索中......</div>
-      <div v-else-if="status == 'error'">
+      <div v-if="status === 'loading'">搜索中......</div>
+      <div v-else-if="status === 'error'">
         <div>加载失败了QAQ</div>
         <div>{{ '错误原因：' + errMsg }}</div>
       </div>
-      <div v-else-if="status == 'result'">
+      <div v-else-if="status === 'result'">
         <div>{{ '共搜索到' + count + '个视频' }}</div>
         <div v-for="video in videos" :key="video.item.title" class="py-1 flex items-start hover:bg-gray-50">
           <div class="img-box w-2/5 pr-0.5 inline-block overflow-hidden">
@@ -45,7 +45,7 @@
 import AutoComplete from '@/common/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useQuery } from '@/graphql'
@@ -73,57 +73,72 @@ export default defineComponent({
     const pageCount = ref(0)
     const videos = ref<Video[]>()
     const queryWord = computed(() => {
-      const query = useRoute().query.i
-      document.title = (t('search.title') + query) as string
-      getQueryResult(query as string)
+      const i = useRoute().query.i
+      const query = i ? (typeof i === 'object' ? i.join(' ') : i) : ''
+      if (query) {
+        document.title = t('search.title') + query
+      }
       return query
     })
-    async function getQueryResult(query: string): Promise<void> {
+
+    watch(queryWord, async () => {
+      if (!queryWord.value || status.value === Status.loading) return
       status.value = Status.loading
-      await useQuery({
-        query: gql`
-          query($offset: Int, $limit: Int, $query: String) {
-            listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
-              count
-              pageCount
-              videos {
-                id
-                item {
-                  coverImage
-                  title
-                  site
+      try {
+        const res = await useQuery({
+          query: gql`
+            query($offset: Int, $limit: Int, $query: String) {
+              listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
+                count
+                pageCount
+                videos {
+                  id
+                  item {
+                    coverImage
+                    title
+                    site
+                  }
                 }
               }
             }
-          }
-        `,
-        variables: {
-          offset: offset.value,
-          limit: limit,
-          query: query,
-        },
-      })
-        .then((res) => {
-          status.value = Status.result
-          console.log(res)
-          const resultData = res.data.listVideo
-          count.value = resultData.count
-          pageCount.value = resultData.pageCount
-          videos.value = resultData.videos
+          `,
+          variables: {
+            offset: offset.value,
+            limit: limit,
+            query: queryWord.value,
+          },
         })
-        .catch((err) => {
-          status.value = Status.error
-          // console.log(err)
-          errMsg.value = err.message
-        })
-    }
+        console.log(res)
+
+        const resultData = res.data.listVideo
+        count.value = resultData.count
+        pageCount.value = resultData.pageCount
+        videos.value = resultData.videos
+
+        status.value = Status.result
+      } catch (err) {
+        status.value = Status.error
+        // console.log(err)
+        errMsg.value = err.message
+      }
+    })
 
     // Change the router query to trigger the search function
     const router = useRouter()
     function searchResult(searchContent: string): void {
       router.push({ path: '/search-result', query: { i: searchContent } })
     }
-    return { t, offset, status, errMsg, count, pageCount, videos, queryWord, searchResult }
+    return {
+      t,
+      offset,
+      status,
+      errMsg,
+      count,
+      pageCount,
+      videos,
+      queryWord,
+      searchResult,
+    }
   },
 })
 </script>
