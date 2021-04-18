@@ -18,7 +18,12 @@
       </div>
       <div v-else-if="status === 'result'">
         <div>{{ '共搜索到' + count + '个视频' }}</div>
-        <div v-for="video in videos" :key="video.item.title" class="py-1 flex items-start hover:bg-gray-50">
+        <div
+          v-for="video in videos"
+          :key="video.item.title"
+          class="py-1 flex items-start hover:bg-gray-50"
+          @click="jumpToVideoResult(video.id.toHexString())"
+        >
           <div class="img-box w-2/5 pr-0.5 inline-block overflow-hidden">
             <img
               class="object-cover h-full w-full"
@@ -26,12 +31,16 @@
             />
           </div>
           <div class="w-3/5 pl-0.5 text-sm inline-block">
-            <router-link
-              :to="'/video/' + video.id"
-              class="title overflow-ellipsis overflow-hidden"
-              :title="video.item.title"
-              >{{ video.item.title }}</router-link
-            >
+            <div v-if="video.item.partName">
+              <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
+              <div class="text-xs inline-block w-full truncate text-gray-600">
+                <label class="font-semibold">P{{ pageOfVideo(video.item.url) }}</label
+                >{{ video.item.partName }}
+              </div>
+            </div>
+            <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+              video.item.title
+            }}</a>
             <div>{{ '源网站：' + video.item.site }}</div>
           </div>
         </div>
@@ -80,7 +89,6 @@ export default defineComponent({
       }
       return query
     })
-
     watch(
       queryWord,
       async () => {
@@ -99,6 +107,9 @@ export default defineComponent({
                       coverImage
                       title
                       site
+                      cid
+                      partName
+                      url
                     }
                   }
                 }
@@ -129,10 +140,22 @@ export default defineComponent({
       }
     )
 
-    // Change the router query to trigger the search function
+    /* Get part name number from Bilibili video's URL */
+    const pageOfVideo = computed(() => {
+      return (url: string): string => {
+        return url.slice(url.indexOf('=') + 1, url.length)
+      }
+    })
+
+    /* Change the router query to trigger the search function */
     const router = useRouter()
     function searchResult(searchContent: string): void {
       router.push({ path: '/search-result', query: { i: searchContent } })
+    }
+
+    /* Jump to video detail page */
+    function jumpToVideoResult(id: string): void {
+      router.push({ path: '/video/' + id })
     }
     return {
       t,
@@ -143,7 +166,9 @@ export default defineComponent({
       pageCount,
       videos,
       queryWord,
+      pageOfVideo,
       searchResult,
+      jumpToVideoResult,
     }
   },
 })
