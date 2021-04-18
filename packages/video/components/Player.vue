@@ -51,10 +51,10 @@
 </template>
 
 <script lang="ts">
-import { gql, parseGraph, schema } from '@/graphql'
+import { schema } from '@/graphql'
 import { FetchResult } from '@apollo/client/core'
 import { templateRef, useElementSize, useEventListener, useIntervalFn } from '@vueuse/core'
-import { computed, ref, defineComponent, nextTick, onMounted, watch } from 'vue'
+import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType } from 'vue'
 
 type YouGetVideoData = YouGetGeneralVideoData | YouGetBilibiliVideoData
 type YouGetBaseVideoData = {
@@ -79,16 +79,14 @@ type YouGetVideoStreamData = {
   src: string[]
 }
 
-export const graph = parseGraph({
-  graphRaw: gql`
-    fragment default on VideoItem @export {
-      url
-    }
-  `,
-})
-
 export default defineComponent({
-  setup() {
+  props: {
+    item: {
+      type: Object as PropType<schema.VideoItem>,
+      default: () => ({}),
+    },
+  },
+  setup(props) {
     const root = templateRef('root')
     const { width } = useElementSize(root)
     const height = computed(() => (width.value / 16) * 9)
@@ -249,44 +247,53 @@ export default defineComponent({
 
     const url = ref('')
     onMounted(() => {
-      log('正在获取视频信息\n')
-      graph.onFragmentData<schema.VideoItem>('default').then((data) => {
-        url.value = data.url
-        log(`视频URL：${url.value}\n`)
-        log('正在解析视频地址\n')
-        fetch('https://patchyvideo.com/be/helper/get_video_stream', {
-          method: 'POST',
-          credentials: 'include',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            url: url.value,
-          }),
-        })
-          .then((data) => data.json())
-          .then((result: FetchResult<YouGetVideoData>) => {
-            if (result.data) {
-              console.log(result.data)
-              switch (result.data.extractor) {
-                case 'BiliBili': {
-                  streams.value = result.data.streams
-                  const stream = streams.value[0]
-                  log(`视频源：BiliBili, 视频格式：${stream.container}, 视频清晰度：${stream.quality}\n`)
-                  playStream(stream)
-                  break
+      watch(
+        () => props.item.url,
+        () => {
+          if (!props.item.url) return
+          log('正在获取视频信息\n')
+          url.value = props.item.url
+          log(`视频URL：${url.value}\n`)
+          log('正在解析视频地址\n')
+          fetch('https://patchyvideo.com/be/helper/get_video_stream', {
+            method: 'POST',
+            credentials: 'include',
+            headers: new Headers({
+              'Content-Type': 'application/json',
+            }),
+            body: JSON.stringify({
+              url: url.value,
+            }),
+          })
+            .then((data) => data.json())
+            .then((result: FetchResult<YouGetVideoData>) => {
+              if (result.data) {
+                console.log(result.data)
+                switch (result.data.extractor) {
+                  case 'BiliBili': {
+                    streams.value = result.data.streams
+                    const stream = streams.value[0]
+                    log(`视频源：BiliBili, 视频格式：${stream.container}, 视频清晰度：${stream.quality}\n`)
+                    playStream(stream)
+                    break
+                  }
+                  default: {
+                    log('未知的视频源：' + result.data.extractor)
+                    throw 'unknown extractor'
+                  }
                 }
-                default: {
-                  log('未知的视频源：' + result.data.extractor)
-                  throw 'unknown extractor'
-                }
+              } else {
+                throw 'no data'
               }
-            }
-          })
-          .catch(() => {
-            enableIframe()
-          })
-      })
+            })
+            .catch(() => {
+              enableIframe()
+            })
+        },
+        {
+          immediate: true,
+        }
+      )
     })
 
     const streams = ref<YouGetVideoStreamData[]>([])

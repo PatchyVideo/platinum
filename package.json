@@ -1,6 +1,6 @@
 {
   "name": "platinum",
-  "version": "0.7.0-alpha.0",
+  "version": "0.7.0-alpha.1",
   "description": "An always-experimental frontend for PatchyVideo/PatchyVideo",
   "author": "PatchyVideo",
   "contributors": [
@@ -72,6 +72,7 @@
     "lodash.merge": "^4.6.2",
     "postcss": "^8.2.10",
     "postcss-import": "^14.0.1",
+    "postcss-mixins": "^7.0.3",
     "postcss-nested": "^5.0.5",
     "prettier": "^2.2.1",
     "rollup-plugin-copy": "^3.4.0",

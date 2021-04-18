@@ -1,6 +1,6 @@
 import { createApp, defineComponent, h } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { buildGraph, BuiltGraph, createApollo, provideClient } from '@/graphql'
+import { createApollo, provideClient } from '@/graphql'
 
 /* Tailwind CSS */
 import '@/tailwindcss'
@@ -10,10 +10,6 @@ import '@/darkmode'
 
 /* GraphQL */
 const client = createApollo()
-const onRouterImport = (value: unknown) => {
-  if ('graph' in (value as { graph?: BuiltGraph })) buildGraph((value as { graph: BuiltGraph }).graph, client)
-  return value
-}
 
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
@@ -34,27 +30,27 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('@/home/Home.vue').then(onRouterImport),
+      component: () => import('@/home/Home.vue'),
     },
     {
       path: '/search-page',
-      component: () => import('@/search/SearchPage.vue').then(onRouterImport),
+      component: () => import('@/search/SearchPage.vue'),
     },
     {
       path: '/search-result',
-      component: () => import('@/search/SearchResult.vue').then(onRouterImport),
+      component: () => import('@/search/SearchResult.vue'),
     },
     {
       path: '/video/:vid',
-      component: () => import('@/video/Video.vue').then(onRouterImport),
+      component: () => import('@/video/Video.vue'),
     },
     {
       path: '/debug/error-pages/404',
-      component: () => import('@/error-pages/components/404.vue').then(onRouterImport),
+      component: () => import('@/error-pages/components/404.vue'),
     },
     {
       path: '/:url+',
-      component: () => import('@/error-pages/components/404.vue').then(onRouterImport),
+      component: () => import('@/error-pages/components/404.vue'),
     },
   ],
 })

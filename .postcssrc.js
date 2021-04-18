@@ -11,6 +11,8 @@ module.exports = {
     require('autoprefixer'),
     // Docs: https://github.com/postcss/postcss-import#readme
     require('postcss-import'),
+    // Docs: https://github.com/postcss/postcss-mixins#readme
+    require('postcss-mixins'),
     // Docs: https://github.com/postcss/postcss-nested#readme
     require('postcss-nested'),
   ],

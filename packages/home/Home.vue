@@ -36,7 +36,7 @@
 
     <!-- Main Components -->
     <div v-if="false">
-      <div v-for="comp in ucompList" :key="comp">
+      <div v-for="(comp, index) in ucompList" :key="index">
         <div class="border-b border-gray-200 h-px w-full mb-2"></div>
         <component :is="'comp_' + comp.name" :data="comp.data" class="mx-2"></component>
         <div class="w-full mt-2"></div>
@@ -49,58 +49,11 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, defineComponent, reactive, ref } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
-import { gql, parseGraph } from '@/graphql'
 import Footer from '@/common/components/Footer.vue'
 import NavTop from '@/common/components/NavTop.vue'
-
-const limit = ref(1)
-
-const childFrag = parseGraph({
-  graphRaw: gql`
-    fragment default on ListVideoResult @export @param(limit: Int) @vari(limitP1: Int) {
-      count
-    }
-  `,
-  variables(vars) {
-    return {
-      limitP1: (vars.limit.value as number) + 1,
-    }
-  },
-})
-
-export const graph = parseGraph({
-  graphRaw: gql`
-    # @import child from 'childFrag'
-
-    fragment default on Query @export @param(offset: Int, limit: Int) {
-      listVideo(
-        para: {
-          offset: $offset
-          limit: $limit
-          humanReadableTag: true
-          query: "https://www.bilibili.com/video/av287017839?p=1"
-        }
-      ) {
-        count
-        ...child @apply(limit: $limit)
-      }
-    }
-  `,
-  variables: {
-    offset: 0,
-    limit: limit,
-  },
-  children: {
-    childFrag,
-  },
-})
-
-console.log(graph)
-graph.onFragmentData('default', (data) => console.log('main', data))
-childFrag.onFragmentData('default', (data) => console.log('child', data))
 
 export default defineComponent({
   components: {

@@ -7,27 +7,21 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg" v-text="videoItem.title"></h1>
+            <h1 class="mt-1 lg:text-lg" v-text="video.item.title"></h1>
             <div class="text-gray-600 dark:text-gray-300">
-              {{ videoItem.repostType }} <Suspense><RelativeDate :date="videoItem.uploadTime" /></Suspense>
+              {{ video.item.repostType }} <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
             </div>
           </div>
           <!-- Video Player -->
           <Suspense>
-            <Player />
+            <Player :item="video.item" />
           </Suspense>
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div class="mx-1 md:mx-2 lg:mx-8">
             <!-- Video Tag -->
-            <div
-              v-for="tag in regularTags"
-              :key="tag.id.toHexString()"
-              class="inline-block tag text-sm text-white whitespace-nowrap pr-1 mr-1"
-              :class="'tag-' + tag.category.toLowerCase()"
-              v-text="tag.name"
-            ></div>
+            <Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag>
             <!-- Video Description -->
-            <MarkdownBlock :text="videoItem.desc" :sm="true"></MarkdownBlock>
+            <MarkdownBlock :text="video.item.desc" :sm="true"></MarkdownBlock>
           </div>
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div>
@@ -113,107 +107,18 @@
 </template>
 
 <script lang="ts">
-import Player, { graph as playerGraph } from './components/Player.vue'
+import Player from './components/Player.vue'
+import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import TagBorder from './TagBorder'
-import { reactive, defineComponent, ref } from 'vue'
+import { reactive, defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { gql, parseGraph, schema } from '@/graphql'
+import { schema, useQuery } from '@/graphql'
 import { ObjectID } from 'bson'
-import { behMostMatch } from '@/locales'
 import { getUserAvatar } from '@/common/lib/imageUrl'
-
-const gvid = ref('')
-
-export const graph = parseGraph({
-  graphRaw: gql`
-    # @import player from 'player'
-
-    fragment default on Query @export @vari(vid: String) {
-      getVideo(para: { vid: $vid, lang: "CHS" }) {
-        item {
-          title
-          desc
-          uploadTime
-          url
-          repostType
-          ...player
-        }
-        meta {
-          createdBy {
-            id
-            username
-            desc
-            image
-            gravatar
-          }
-        }
-        tags {
-          __typename
-          ... on AuthorTagObject {
-            authorRole
-            author {
-              id
-              tagname
-              avatar
-              desc
-            }
-          }
-          ... on RegularTagObject {
-            id
-            category
-            languages {
-              lang
-              value
-            }
-          }
-        }
-        commentThread {
-          id
-          count
-          comments {
-            id
-            content
-            meta {
-              createdAt
-              createdBy {
-                id
-                username
-                image
-                gravatar
-                desc
-              }
-            }
-            children {
-              id
-              content
-              meta {
-                createdAt
-                createdBy {
-                  id
-                  username
-                  image
-                  gravatar
-                  desc
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  `,
-  children: {
-    player: playerGraph,
-  },
-  variables: {
-    vid: gvid,
-  },
-  isReady: ref(false),
-})
+import { gql } from '@apollo/client/core'
 
 export default defineComponent({
   components: {
@@ -222,40 +127,98 @@ export default defineComponent({
     Footer,
     NavTop,
     RelativeDate,
+    Tag,
   },
-  setup() {
+  async setup() {
+    // TODO: using script setup instead
+
     /* submit query */
     const route = useRoute()
-    const vid = route.params.vid as string
-    gvid.value = vid
-    graph.ready()
+    const vid = computed(() => <string>route.params.vid)
+    const res = await useQuery({
+      query: gql`
+        query($vid: String!) {
+          getVideo(para: { vid: $vid, lang: "CHS" }) {
+            item {
+              title
+              desc
+              uploadTime
+              url
+              repostType
+            }
+            meta {
+              createdBy {
+                id
+                username
+                desc
+                image
+                gravatar
+              }
+            }
+            tags {
+              __typename
+              ... on AuthorTagObject {
+                authorRole
+                author {
+                  id
+                  tagname
+                  avatar
+                  desc
+                }
+              }
+              ... on RegularTagObject {
+                id
+                category
+                languages {
+                  lang
+                  value
+                }
+              }
+            }
+            commentThread {
+              id
+              count
+              comments {
+                id
+                content
+                meta {
+                  createdAt
+                  createdBy {
+                    id
+                    username
+                    image
+                    gravatar
+                    desc
+                  }
+                }
+                children {
+                  id
+                  content
+                  meta {
+                    createdAt
+                    createdBy {
+                      id
+                      username
+                      image
+                      gravatar
+                      desc
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        vid: vid.value,
+      },
+    })
 
     /* basic info */
-    const videoItem: {
-      title: string
-      desc: string
-      repostType: string
-      uploadTime: Date
-      url: string
-    } = reactive({
-      title: '',
-      desc: '',
-      repostType: '',
-      uploadTime: new Date(),
-      url: '',
-    })
-    graph.onFragmentData<schema.Query>('default', (data) => {
-      const video = data.getVideo
-
-      videoItem.title = video.item.title
-      videoItem.desc = video.item.desc
-      videoItem.repostType = video.item.repostType
-      videoItem.uploadTime = video.item.uploadTime
-      videoItem.url = video.item.url
-
-      // change title
-      document.title = video.item.title
-    })
+    const video = reactive(res.data.getVideo)
+    // change title
+    document.title = video.item.title
 
     /* tags */
     type Authors = {
@@ -268,63 +231,33 @@ export default defineComponent({
     }[]
     const authors = ref<Authors>([])
 
-    type RegularTags = {
-      id: ObjectID
-      category: schema.Scalars['FETagCategories']
-      name: string
-    }[]
-    const regularTags = ref<RegularTags>([])
-
-    graph.onFragmentData<schema.Query>('default', (data) => {
-      const video = data.getVideo
-      video.tags.forEach((tag) => {
-        if (tag.__typename === 'AuthorTagObject') {
-          if (tag.author)
-            authors.value.push({
-              type: 'AuthorTag',
-              id: tag.author.id,
-              name: tag.author.tagname,
-              desc: tag.author.desc,
-              avatar: getUserAvatar({
-                image: tag.author.avatar,
-              }),
-              position: tag.authorRole,
-            })
-        } else if (tag.__typename === 'RegularTagObject') {
-          regularTags.value.push({
-            id: tag.id,
-            category: tag.category,
-            name: behMostMatch(tag.languages),
+    const regularTags = ref<schema.TagObject[]>([])
+    video.tags.forEach((tag) => {
+      if (tag.__typename === 'AuthorTagObject') {
+        if (tag.author)
+          authors.value.push({
+            type: 'AuthorTag',
+            id: tag.author.id,
+            name: tag.author.tagname,
+            desc: tag.author.desc,
+            avatar: getUserAvatar({
+              image: tag.author.avatar,
+            }),
+            position: tag.authorRole,
           })
-        }
-      })
-      if (video.meta.createdBy)
-        authors.value.push({
-          type: 'User',
-          id: video.meta.createdBy.id,
-          name: video.meta.createdBy.username,
-          desc: video.meta.createdBy.desc,
-          avatar: getUserAvatar(video.meta.createdBy),
-          position: '上传者',
-        })
+      } else if (tag.__typename === 'RegularTagObject') {
+        regularTags.value.push(tag)
+      }
     })
-
-    const tagColors = {
-      copyright: '#a0a',
-      language: '#585455',
-      character: '#0a0',
-      author: '#a00',
-      general: '#0073ff',
-      meta: '#f80',
-      soundtrack: '#ff7792',
-    }
-    const tagBorder = reactive(
-      Object.fromEntries(
-        Object.entries(tagColors).map(([key, value]) => {
-          return [key, ref('url("data:image/svg+xml;base64, ' + btoa(TagBorder.replaceAll('#333', value)) + '")')]
-        })
-      )
-    )
+    if (video.meta.createdBy)
+      authors.value.push({
+        type: 'User',
+        id: video.meta.createdBy.id,
+        name: video.meta.createdBy.username,
+        desc: video.meta.createdBy.desc,
+        avatar: getUserAvatar(video.meta.createdBy),
+        position: '上传者',
+      })
 
     /* comments */
     interface Comment {
@@ -341,88 +274,54 @@ export default defineComponent({
       children?: Comment[]
     }
     const comments: Comment[] = []
+    if (video.commentThread?.comments) {
+      video.commentThread.comments.forEach((comment) => {
+        if (comment.content && comment.meta.createdBy && !comment.deleted)
+          comments.push({
+            id: comment.id,
+            createdAt: comment.meta.createdAt,
+            content: comment.content,
+            author: {
+              id: comment.meta.createdBy.id,
+              username: comment.meta.createdBy.username,
+              image: getUserAvatar(comment.meta.createdBy),
+              desc: comment.meta.createdBy.desc,
+            },
+            hidden: comment.hidden,
+            children: (() => {
+              const children: Comment[] = []
 
-    graph.onFragmentData<schema.Query>('default', (data) => {
-      const video = data.getVideo
-      if (video.commentThread?.comments) {
-        video.commentThread.comments.forEach((comment) => {
-          if (comment.content && comment.meta.createdBy && !comment.deleted)
-            comments.push({
-              id: comment.id,
-              createdAt: comment.meta.createdAt,
-              content: comment.content,
-              author: {
-                id: comment.meta.createdBy.id,
-                username: comment.meta.createdBy.username,
-                image: getUserAvatar(comment.meta.createdBy),
-                desc: comment.meta.createdBy.desc,
-              },
-              hidden: comment.hidden,
-              children: (() => {
-                const children: Comment[] = []
+              if (comment.children)
+                comment.children.forEach((comment) => {
+                  if (comment.content && comment.meta.createdBy)
+                    children.push({
+                      id: comment.id,
+                      createdAt: comment.meta.createdAt,
+                      content: comment.content,
+                      author: {
+                        id: comment.meta.createdBy.id,
+                        username: comment.meta.createdBy.username,
+                        image: getUserAvatar(comment.meta.createdBy),
+                        desc: comment.meta.createdBy.desc,
+                      },
+                      hidden: comment.hidden,
+                    })
+                })
 
-                if (comment.children)
-                  comment.children.forEach((comment) => {
-                    if (comment.content && comment.meta.createdBy)
-                      children.push({
-                        id: comment.id,
-                        createdAt: comment.meta.createdAt,
-                        content: comment.content,
-                        author: {
-                          id: comment.meta.createdBy.id,
-                          username: comment.meta.createdBy.username,
-                          image: getUserAvatar(comment.meta.createdBy),
-                          desc: comment.meta.createdBy.desc,
-                        },
-                        hidden: comment.hidden,
-                      })
-                  })
-
-                return children
-              })(),
-            })
-        })
-      }
-    })
+              return children
+            })(),
+          })
+      })
+    }
 
     return {
       route,
       vid,
-      videoItem,
+      video,
       authors,
       regularTags,
-      tagBorder,
       comments,
     }
   },
 })
 </script>
-
-<style lang="postcss" scoped>
-.tag {
-  border-width: 2px 2px 2px 15px;
-  border-image-source: v-bind('tagBorder.general');
-  border-image-slice: 8 8 8 40 fill;
-}
-.tag-copyright {
-  border-image-source: v-bind('tagBorder.copyright');
-}
-.tag-language {
-  border-image-source: v-bind('tagBorder.language');
-}
-.tag-character {
-  border-image-source: v-bind('tagBorder.character');
-}
-/* .tag-author {
-  border-image-source: v-bind('tagBorder.author');
-} */
-/* .tag-general {
-  border-image-source: v-bind('tagBorder.general');
-} */
-.tag-meta {
-  border-image-source: v-bind('tagBorder.meta');
-}
-.tag-soundtrack {
-  border-image-source: v-bind('tagBorder.soundtrack');
-}
-</style>
