@@ -57,7 +57,7 @@
           <a v-else></a>
           <div>{{ '第' + (offset + 1) + '/' + pageCount + '页' }}</div>
           <a
-            v-if="offset != pageCount"
+            v-if="offset + 1 != pageCount"
             href="#"
             class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
             @click="jumpToNextPage"
@@ -113,17 +113,15 @@ export default defineComponent({
     })
     const offsetChangeFromOtherQuery = ref(false)
     const offset = computed(() =>
-      Number(
-        route.query.page ? (typeof route.query.page === 'object' ? route.query.page.join(' ') : route.query.page) : 0
-      )
+      Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
     )
 
     /* Refresh query result for URL query change */
     watch(
       queryWord,
       () => {
-        console.log('queryWord changed!')
         queryVideos()
+        offsetChangeFromOtherQuery.value = false
       },
       {
         immediate: true,
@@ -134,7 +132,6 @@ export default defineComponent({
         offsetChangeFromOtherQuery.value = false
         return
       }
-      console.log('offset changed!')
       queryVideos()
     })
 
