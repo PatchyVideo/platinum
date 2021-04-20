@@ -1,27 +1,34 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-  <!-- eslint-disable-next-line vue/no-v-html -->
-  <article class="prose break-all" :class="{ 'prose-sm': sm }" v-html="html"></article>
+  <article
+    class="prose break-all"
+    :class="{ 'prose-sm': size === 'sm', 'prose-lg': size === 'lg', 'prose-xl': size === 'xl' }"
+    v-html="html"
+  ></article>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref } from 'vue'
+import { asyncComputed } from '@vueuse/core'
 import ParserWorker from '../lib/parser.worker?worker'
 import parser from '../lib/parser'
 
 const worker = (() => {
   try {
     const worker = new ParserWorker()
-    worker.addEventListener('error', (e) => {
-      isWorkerWorking = false
+    worker.addEventListener('error', () => {
+      isWorkerWorking.value = false
     })
     return worker
-  } catch (_) {}
+  } catch (_) {
+    // ignore
+  }
 })()
-let isWorkerWorking = true
+let isWorkerWorking = ref(true)
 const render = (text: string) =>
   new Promise<string>((resolve) => {
     try {
-      if (!worker || !isWorkerWorking) throw 'noworker'
+      if (!worker || !isWorkerWorking.value) throw 'noworker'
       const id = Math.random()
       const onMessage = (e: MessageEvent) => {
         if (e.data.id === id) {
@@ -42,20 +49,15 @@ export default defineComponent({
       type: String,
       default: '',
     },
-    sm: {
-      type: Boolean,
-      default: false,
+    size: {
+      type: String,
+      default: '',
     },
   },
   setup(props) {
-    const html = ref('Parsing...')
-    watch(
-      () => props.text,
-      () => {
-        render(props.text).then((text) => (html.value = text))
-      },
-      { immediate: true }
-    )
+    const html = asyncComputed(async () => {
+      return await render(props.text)
+    }, 'Parsing...')
     return {
       html,
     }

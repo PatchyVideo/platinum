@@ -21,7 +21,7 @@
             <!-- Video Tag -->
             <Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag>
             <!-- Video Description -->
-            <MarkdownBlock :text="video.item.desc" :sm="true"></MarkdownBlock>
+            <MarkdownBlock :text="video.item.desc" size="sm"></MarkdownBlock>
           </div>
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div>
@@ -35,13 +35,13 @@
                 />
               </div>
               <div>
-                <span class="font-medium" v-text="comment.author.username"></span
+                <span class="text-sm font-medium" v-text="comment.author.username"></span
                 ><Suspense
                   ><RelativeDate
-                    class="text-sm text-gray-600 dark:text-gray-300 ml-2"
+                    class="text-sm font-light text-gray-600 dark:text-gray-300 ml-1.5"
                     :date="comment.createdAt" /></Suspense
                 ><br />
-                <MarkdownBlock class="min-h-8" :text="comment.content" :sm="true" />
+                <MarkdownBlock class="min-h-8" :text="comment.content" size="sm" />
                 <div
                   v-for="child in comment.children"
                   :key="child.id.toHexString()"
@@ -61,7 +61,7 @@
                         class="text-sm text-gray-600 dark:text-gray-300 ml-2"
                         :date="child.createdAt" /></Suspense
                     ><br />
-                    <MarkdownBlock class="min-h-8" :text="child.content" :sm="true" />
+                    <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
                   </div>
                 </div>
               </div>
