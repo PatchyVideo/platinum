@@ -48,23 +48,19 @@
         <div class="flex-1 flex justify-between items-center">
           <a
             v-if="offset"
-            href="#"
             class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
             @click="jumpToPreviousPage"
           >
             上一页
           </a>
-          <a v-else></a>
           <div>{{ '第' + (offset + 1) + '/' + pageCount + '页' }}</div>
           <a
             v-if="offset + 1 != pageCount"
-            href="#"
             class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
             @click="jumpToNextPage"
           >
             下一页
           </a>
-          <a v-else></a>
         </div>
       </div>
     </div>
