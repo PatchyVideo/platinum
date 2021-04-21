@@ -3,6 +3,7 @@ body {
 }
 a {
   @apply transition-colors hover:text-pink-300;
+  @apply cursor-pointer;
 }
 .dark a {
   @apply hover:text-pink-600;
