@@ -97,6 +97,7 @@
         </div>
       </div>
     </div>
+    <BackTop></BackTop>
     <Footer></Footer>
   </div>
 </template>
@@ -105,6 +106,7 @@
 import AutoComplete from '@/common/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
+import BackTop from '@/common/components/BackTop.vue'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -119,7 +121,7 @@ enum Status {
 }
 
 export default defineComponent({
-  components: { NavTop, AutoComplete, Footer },
+  components: { NavTop, AutoComplete, Footer, BackTop },
   props: {},
   setup() {
     const { t } = useI18n()
@@ -252,13 +254,13 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+.img-box {
+  height: 25vw;
+}
+.img-box-md {
+  height: 13.75vw;
+}
 @responsive {
-  .img-box {
-    height: 25vw;
-  }
-  .img-box-md {
-    height: 13.75vw;
-  }
   .img-box-lg {
     height: 9.2vw;
   }
