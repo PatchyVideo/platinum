@@ -10,7 +10,7 @@
       <auto-complete class="hidden md:inline-block" :keyword="queryWord" @search="searchResult"></auto-complete>
     </div>
 
-    <div class="p-2">
+    <div class="p-2 md:m-auto lg:w-7/10">
       <div v-if="status === 'loading'">搜索中......</div>
       <div v-else-if="status === 'error'">
         <div>加载失败了QAQ</div>
@@ -18,37 +18,70 @@
       </div>
       <div v-else-if="count === 0">没有搜索到视频QAQ</div>
       <div v-else-if="status === 'result'">
-        <div>{{ '共搜索到' + count + '个视频' }}</div>
-        <div
-          v-for="video in videos"
-          :key="video.item.title"
-          class="py-1 flex items-start hover:bg-gray-50"
-          @click="jumpToVideoResult(video.id.toHexString())"
-        >
-          <div class="img-box w-2/5 pr-0.5 inline-block overflow-hidden">
-            <img
-              class="object-cover h-full w-full"
-              :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-            />
-          </div>
-          <div class="w-3/5 pl-0.5 text-sm inline-block">
-            <div v-if="video.item.partName">
-              <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
-              <div class="text-xs inline-block w-full truncate text-gray-600">
-                <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                >{{ video.item.partName }}
-              </div>
+        <div class="border-b-1 pb-1">{{ '共搜索到' + count + '个视频' }}</div>
+        <!-- Mobile View -->
+        <div class="md:hidden">
+          <div
+            v-for="video in videos"
+            :key="video.item.title"
+            class="py-1 flex items-start hover:bg-gray-50 dark:hover:bg-gray-800"
+            @click="jumpToVideoResult(video.id.toHexString())"
+          >
+            <div class="img-box w-2/5 mr-0.5 overflow-hidden rounded-sm">
+              <img
+                class="object-cover h-full w-full"
+                :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
+              />
             </div>
-            <a v-else href="#" class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
-              video.item.title
-            }}</a>
-            <div>{{ '源网站：' + video.item.site }}</div>
+            <div class="w-3/5 text-sm">
+              <div v-if="video.item.partName">
+                <a class="inline-block w-full truncate">{{ video.item.title }}</a>
+                <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
+                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
+                  >{{ video.item.partName }}
+                </div>
+              </div>
+              <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
+              <div>{{ '源网站：' + video.item.site }}</div>
+            </div>
           </div>
         </div>
-        <div class="flex-1 flex justify-between items-center">
+        <!-- Desktop View -->
+        <div class="justify-evenly flex-wrap hidden md:flex">
+          <div
+            v-for="video in videos"
+            :key="video.item.title"
+            class="w-21/100 my-5 border rounded-lg dark:border-gray-500"
+            @click="jumpToVideoResult(video.id.toHexString())"
+          >
+            <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
+              <img
+                class="object-cover h-full w-full rounded-lg"
+                :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
+              />
+            </div>
+            <div class="p-1 text-left text-sm lg:text-base">
+              <div v-if="video.item.partName">
+                <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
+                <div
+                  class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
+                  :title="video.item.partName"
+                >
+                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
+                  >{{ video.item.partName }}
+                </div>
+              </div>
+              <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+                video.item.title
+              }}</a>
+              <div>{{ '源网站：' + video.item.site }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
           <a
             v-if="offset"
-            class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
             @click="jumpToPreviousPage"
           >
             上一页
@@ -56,7 +89,7 @@
           <div>{{ '第' + (offset + 1) + '/' + pageCount + '页' }}</div>
           <a
             v-if="offset + 1 != pageCount"
-            class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:text-gray-500"
+            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
             @click="jumpToNextPage"
           >
             下一页
@@ -219,8 +252,16 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.img-box {
-  height: 25vw;
+@responsive {
+  .img-box {
+    height: 25vw;
+  }
+  .img-box-md {
+    height: 13.75vw;
+  }
+  .img-box-lg {
+    height: 9.2vw;
+  }
 }
 .title {
   display: -webkit-box;
