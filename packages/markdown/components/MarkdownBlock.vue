@@ -11,7 +11,7 @@
 import { defineComponent, ref } from 'vue'
 import { asyncComputed } from '@vueuse/core'
 import ParserWorker from '../lib/parser.worker?worker'
-import parser from '../lib/parser'
+import { render } from '../lib/parser'
 
 const worker = (() => {
   try {
@@ -25,7 +25,7 @@ const worker = (() => {
   }
 })()
 let isWorkerWorking = ref(true)
-const render = (text: string) =>
+const renderText = (text: string) =>
   new Promise<string>((resolve) => {
     try {
       if (!worker || !isWorkerWorking.value) throw 'noworker'
@@ -39,7 +39,7 @@ const render = (text: string) =>
       worker.addEventListener('message', onMessage)
       worker.postMessage({ id, text })
     } catch (_) {
-      resolve(parser.render(text))
+      resolve(render(text))
     }
   })
 
@@ -56,7 +56,7 @@ export default defineComponent({
   },
   setup(props) {
     const html = asyncComputed(async () => {
-      return await render(props.text)
+      return await renderText(props.text)
     }, 'Parsing...')
     return {
       html,

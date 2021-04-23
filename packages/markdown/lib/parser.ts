@@ -79,7 +79,7 @@ const DRlink_open =
     return self.renderToken(tokens, idx, options)
   }
 
-const last: {
+let last: {
   level: number
   url: URL
 }[] = []
@@ -116,4 +116,15 @@ markdownIt.renderer.rules.link_close = function (tokens, idx, options, env, self
   )
 }
 
-export default markdownIt
+export function render(src: string): string {
+  const l = last
+  last = []
+  let res
+  try {
+    res = markdownIt.render(src)
+  } catch (e) {
+    res = `Error throwed from Markdown parser:\n${e.name}: ${e.message}`
+  }
+  last = l
+  return res
+}
