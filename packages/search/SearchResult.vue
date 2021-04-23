@@ -260,8 +260,8 @@ export default defineComponent({
 .img-box-md {
   height: 13.75vw;
 }
-@responsive {
-  .img-box-lg {
+@variants lg {
+  .lg\:img-box-lg {
     height: 9.2vw;
   }
 }
