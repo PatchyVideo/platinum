@@ -20,12 +20,15 @@
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
       </div>
       <!-- User -->
-      <div v-if="!isLogin" class="space-x-4 mr-2">
-        <icon-uil-user-circle class="inline ml-2 text-2xl" />
+      <div v-if="!isLogin" class="mr-2">
+        <a @click="isLogin = true">登录</a>
       </div>
-      <div v-else class="space-x-4 mr-2">
-        <button>freesia</button>
-        <icon-uil-bell class="inline cursor-pointer text-2xl" />
+      <div v-else class="mr-2">
+        <img
+          class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
+          src="packages/common/assets/DefaultAvatar.jpg"
+          alt=""
+        />
       </div>
     </div>
     <!-- DrawerLayout -->
