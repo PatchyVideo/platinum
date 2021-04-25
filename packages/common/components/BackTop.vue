@@ -23,7 +23,6 @@ export default defineComponent({
       top.value = document.body.scrollTop || document.documentElement.scrollTop
     }
     function backUp(): void {
-      console.log(top.value)
       if (top.value > 0) {
         window.requestAnimationFrame(backUp)
         window.scrollTo(0, top.value - top.value / 5)
