@@ -7,6 +7,10 @@
 module.exports = {
   darkMode: 'class',
   theme: {
+    filter: {
+      none: 'none',
+      brightness: 'brightness(80%)',
+    },
     extend: {
       screens: {
         lg: '1201px',
@@ -23,8 +27,12 @@ module.exports = {
       },
     },
   },
+  variants: {
+    filter: ['responsive'],
+  },
   plugins: [
     // https://github.com/tailwindlabs/tailwindcss-typography#usage
     require('windicss/plugin/typography'),
+    require('windicss/plugin/filters'),
   ],
 }

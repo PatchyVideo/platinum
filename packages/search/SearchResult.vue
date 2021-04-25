@@ -39,7 +39,7 @@
           >
             <div class="img-box w-2/5 mr-0.5 overflow-hidden rounded-sm">
               <img
-                class="object-cover h-full w-full"
+                class="object-cover h-full w-full dark:filter-brightness"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
@@ -73,7 +73,7 @@
           >
             <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
               <img
-                class="filter brightness-75 object-cover h-full w-full rounded-lg"
+                class="object-cover h-full w-full rounded-lg dark:filter-brightness"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
