@@ -1,20 +1,20 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
-    <div class="shadow rounded-full h-9 text-center bg-white dark:bg-gray-800">
+    <div class="shadow rounded-xl h-9 text-center bg-white dark:bg-gray-800" :class="{ 'h-11': size === 'lg' }">
       <icon-uil-search class="inline ml-2 mr-1" />
       <input
         ref="autoComplete"
         v-model="searchContent"
         class="inline-block h-full outline-none dark:bg-gray-800"
-        :class="{ 'w-75': size === 'deskTop', 'mr-8': size === 'mobile' }"
+        :class="{ 'w-75': size === 'deskTop', 'w-150': size === 'lg', 'mr-8': size === 'mobile' }"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
       />
       <button
-        v-if="size === 'deskTop'"
-        class="bg-pink-300 h-full px-3 rounded-r-full transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
+        v-if="size === 'deskTop' || size === 'lg'"
+        class="bg-pink-300 h-full px-3 rounded-r-xl transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
         @click="searchContent && $emit('search', searchContent)"
       >
         {{ t('common.autoComplete.search') }}
@@ -72,7 +72,7 @@ export default defineComponent({
     size: {
       type: String,
       validator: (value: string) => {
-        return ['deskTop', 'mobile'].indexOf(value) !== -1
+        return ['lg', 'deskTop', 'mobile'].indexOf(value) !== -1
       },
       default: 'deskTop',
     },

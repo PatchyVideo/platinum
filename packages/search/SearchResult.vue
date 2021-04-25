@@ -7,7 +7,12 @@
         {{ '搜索结果 - ' + queryWord }}
       </h3>
       <auto-complete class="md:hidden" size="mobile" :keyword="queryWord" @search="searchResult"></auto-complete>
-      <auto-complete class="hidden md:inline-block" :keyword="queryWord" @search="searchResult"></auto-complete>
+      <auto-complete
+        class="hidden md:inline-block"
+        size="lg"
+        :keyword="queryWord"
+        @search="searchResult"
+      ></auto-complete>
     </div>
 
     <div class="p-2 md:m-auto lg:w-7/10">

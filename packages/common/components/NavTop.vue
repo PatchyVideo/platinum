@@ -10,7 +10,7 @@
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="openDrawer()"
         />
-        <logo class="hidden md:inline-block"></logo>
+        <logo class="cursor-pointer hidden md:inline-block" @click="toHome()"></logo>
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar">
@@ -169,6 +169,11 @@ export default defineComponent({
       router.push({ path: '/search-result', query: { i: searchContent } })
     }
 
+    // Back to home page
+    function toHome(): void {
+      router.push({ path: '/' })
+    }
+
     const languageList = [
       {
         name: '简体中文',
@@ -188,6 +193,7 @@ export default defineComponent({
       openDrawer,
       hideDrawer,
       searchResult,
+      toHome,
       isDark,
       languageList,
     }
