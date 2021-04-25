@@ -26,7 +26,7 @@
       <div v-else class="mr-2">
         <img
           class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
-          src="packages/common/assets/DefaultAvatar.jpg"
+          src="/packages/common/assets/DefaultAvatar.jpg"
           alt=""
         />
       </div>
