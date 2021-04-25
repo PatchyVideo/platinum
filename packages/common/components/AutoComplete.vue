@@ -1,12 +1,18 @@
 <template>
-  <div ref="autoCompleteRoot" class="relative inline-block">
-    <div class="shadow rounded-xl h-9 text-center bg-white dark:bg-gray-800" :class="{ 'h-11': size === 'lg' }">
+  <div
+    ref="autoCompleteRoot"
+    class="relative inline-block"
+    :class="{ 'w-2\/5': size === 'deskTop', 'w-9\/12': size === 'lg', 'w-5\/6': size === 'mobile' }"
+  >
+    <div
+      class="shadow rounded-xl h-9 flex justify-start items-center bg-white dark:bg-gray-800"
+      :class="{ 'h-11': size === 'lg' }"
+    >
       <icon-uil-search class="inline ml-2 mr-1" />
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block h-full outline-none dark:bg-gray-800"
-        :class="{ 'w-75': size === 'deskTop', 'w-150': size === 'lg', 'mr-8': size === 'mobile' }"
+        class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-xl"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
@@ -14,7 +20,7 @@
       />
       <button
         v-if="size === 'deskTop' || size === 'lg'"
-        class="bg-pink-300 h-full px-3 rounded-r-xl transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200"
+        class="bg-pink-300 h-full px-3 rounded-r-xl transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200 w-20"
         @click="searchContent && $emit('search', searchContent)"
       >
         {{ t('common.autoComplete.search') }}

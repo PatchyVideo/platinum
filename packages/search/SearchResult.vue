@@ -2,13 +2,18 @@
   <div class="dark:bg-gray-700">
     <nav-top :show-search-bar="false"></nav-top>
 
-    <div class="text-center">
+    <div class="text-center flex flex-col justify-start items-center">
       <h3 class="text-lg font-semibold p-4 px-auto">
         {{ '搜索结果 - ' + queryWord }}
       </h3>
-      <auto-complete class="md:hidden" size="mobile" :keyword="queryWord" @search="searchResult"></auto-complete>
       <auto-complete
-        class="hidden md:inline-block"
+        class="md:hidden sm:w-4/6 w-5/6"
+        size="mobile"
+        :keyword="queryWord"
+        @search="searchResult"
+      ></auto-complete>
+      <auto-complete
+        class="hidden md:inline-block md:w-4/6 lg:w-3/6"
         size="lg"
         :keyword="queryWord"
         @search="searchResult"

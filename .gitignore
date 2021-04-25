@@ -117,3 +117,4 @@ dist
 
 # custom
 __generated__
+/.idea/

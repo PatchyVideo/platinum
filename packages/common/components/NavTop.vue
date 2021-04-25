@@ -13,12 +13,12 @@
         <logo class="cursor-pointer hidden md:inline-block" @click="toHome()"></logo>
       </div>
       <!-- Search Bar -->
-      <div v-if="showSearchBar">
-        <router-link to="/search-page" alt="mobile search button">
-          <icon-uil-search class="inline md:hidden" />
+      <template v-if="showSearchBar">
+        <router-link to="/search-page" alt="mobile search button" class="md:hidden">
+          <icon-uil-search class="inline" />
         </router-link>
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
-      </div>
+      </template>
       <!-- User -->
       <div v-if="!isLogin" class="mr-2">
         <a @click="isLogin = true">登录</a>
