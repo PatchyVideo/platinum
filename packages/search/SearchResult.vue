@@ -47,7 +47,14 @@
                 </div>
               </div>
               <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
-              <div>{{ '源网站：' + video.item.site }}</div>
+              <div class="flex text-xs h-4 align-middle" :title="video.item.site">
+                <div>源网站：</div>
+                <img
+                  class="cover"
+                  :src="'/packages/common/assets/WebIcons/' + video.item.site + '.png'"
+                  :alt="video.item.site"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -56,12 +63,12 @@
           <div
             v-for="video in videos"
             :key="video.item.title"
-            class="w-21/100 my-5 border rounded-lg dark:border-gray-500"
+            class="w-21/100 my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
             @click="jumpToVideoResult(video.id.toHexString())"
           >
             <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
               <img
-                class="object-cover h-full w-full rounded-lg"
+                class="filter brightness-75 object-cover h-full w-full rounded-lg"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
@@ -79,7 +86,14 @@
               <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
                 video.item.title
               }}</a>
-              <div class="text-xs">{{ '源网站：' + video.item.site }}</div>
+              <div class="flex text-xs h-4 align-middle" :title="video.item.site">
+                <div>源网站：</div>
+                <img
+                  class="cover"
+                  :src="'/packages/common/assets/WebIcons/' + video.item.site + '.png'"
+                  :alt="video.item.site"
+                />
+              </div>
             </div>
           </div>
         </div>
