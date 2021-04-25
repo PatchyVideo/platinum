@@ -47,7 +47,7 @@
           </div>
         </div>
         <!-- Desktop View -->
-        <div class="justify-evenly flex-wrap hidden md:flex">
+        <div class="search-result-backimg justify-evenly flex-wrap hidden md:flex">
           <div
             v-for="video in videos"
             :key="video.item.title"
@@ -60,7 +60,7 @@
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
-            <div class="p-1 text-left text-sm lg:text-base">
+            <div class="p-3 text-left text-sm lg:text-base">
               <div v-if="video.item.partName">
                 <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
                 <div
@@ -74,7 +74,7 @@
               <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
                 video.item.title
               }}</a>
-              <div>{{ '源网站：' + video.item.site }}</div>
+              <div class="text-xs">{{ '源网站：' + video.item.site }}</div>
             </div>
           </div>
         </div>
@@ -254,7 +254,13 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.img-box {
+.search-result-backimg {
+  @apply bg-center;
+  @apply bg-no-repeat;
+  @apply bg-contain;
+  background-image: url('/packages\common\assets\SearchResultBackImg.png');
+}
+mg-box {
   height: 25vw;
 }
 .img-box-md {
