@@ -95,7 +95,7 @@
                 <div>源网站：</div>
                 <img
                   class="cover"
-                  :src="'/packages/common/assets/WebIcons/' + video.item.site + '.png'"
+                  :src="'packages/common/assets/WebIcons/' + video.item.site + '.png'"
                   :alt="video.item.site"
                 />
               </div>
@@ -282,7 +282,7 @@ export default defineComponent({
   @apply bg-center;
   @apply bg-no-repeat;
   @apply bg-contain;
-  background-image: url('/packages\common\assets\SearchResultBackImg.png');
+  background-image: url('/packages/common/assets/SearchResultBackImg.png');
 }
 mg-box {
   height: 25vw;
