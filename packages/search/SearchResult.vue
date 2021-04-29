@@ -54,11 +54,7 @@
               <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>源网站：</div>
-                <img
-                  class="cover"
-                  :src="'/packages/common/assets/WebIcons/' + video.item.site + '.png'"
-                  :alt="video.item.site"
-                />
+                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
@@ -93,11 +89,7 @@
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>源网站：</div>
-                <img
-                  class="cover"
-                  :src="'packages/common/assets/WebIcons/' + video.item.site + '.png'"
-                  :alt="video.item.site"
-                />
+                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
@@ -131,6 +123,15 @@ import AutoComplete from '@/common/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/common/components/BackTop.vue'
+import acfun from '@/common/assets/WebIcons/acfun.png'
+import bilibili from '@/common/assets/WebIcons/bilibili.png'
+import ipfs from '@/common/assets/WebIcons/bilibili.png'
+import nicovideo from '@/common/assets/WebIcons/bilibili.png'
+import twitter from '@/common/assets/WebIcons/bilibili.png'
+import weiboMobile from '@/common/assets/WebIcons/weibo-mobile.png'
+import weiboPc from '@/common/assets/WebIcons/weibo-pc.png'
+import youtube from '@/common/assets/WebIcons/youtube.png'
+import zcool from '@/common/assets/WebIcons/zcool.png'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -258,6 +259,19 @@ export default defineComponent({
     function jumpToVideoResult(id: string): void {
       router.push({ path: '/video/' + id })
     }
+
+    /* Images */
+    const imgMod: Record<string, string> = {
+      acfun: acfun,
+      bilibili: bilibili,
+      ipfs: ipfs,
+      nicovideo: nicovideo,
+      twitter: twitter,
+      'weibo-mobile': weiboMobile,
+      'weibo-pc': weiboPc,
+      youtube: youtube,
+      zcool: zcool,
+    }
     return {
       t,
       queryWord,
@@ -272,6 +286,7 @@ export default defineComponent({
       jumpToPreviousPage,
       jumpToNextPage,
       jumpToVideoResult,
+      imgMod,
     }
   },
 })
