@@ -13,8 +13,8 @@
       <li
         v-for="item in itemList"
         :key="item.value"
-        @click="changeItem(item.value)"
         class="p-2 transition-colors hover:bg-gray-100 hover:bg-gray-100 hover:dark:bg-gray-900"
+        @click="changeItem(item.value)"
       >
         {{ item.name }}
       </li>

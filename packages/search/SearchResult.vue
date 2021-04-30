@@ -1,23 +1,23 @@
 <template>
   <div class="dark:bg-gray-700">
-    <nav-top :show-search-bar="false"></nav-top>
+    <NavTop :show-search-bar="false"></NavTop>
 
     <div class="text-center flex flex-col justify-start items-center">
       <h3 class="text-lg font-semibold p-4 px-auto">
         {{ '搜索结果 - ' + queryWord }}
       </h3>
-      <auto-complete
+      <AutoComplete
         class="md:hidden sm:w-4/6 w-5/6"
         size="mobile"
         :keyword="queryWord"
         @search="searchResult"
-      ></auto-complete>
-      <auto-complete
+      ></AutoComplete>
+      <AutoComplete
         class="hidden md:inline-block md:w-4/6 lg:w-3/6"
         size="lg"
         :keyword="queryWord"
         @search="searchResult"
-      ></auto-complete>
+      ></AutoComplete>
     </div>
 
     <div class="p-2 md:m-auto lg:w-7/10">
@@ -123,21 +123,19 @@ import AutoComplete from '@/common/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/common/components/BackTop.vue'
-import acfun from '@/common/assets/WebIcons/acfun.png'
-import bilibili from '@/common/assets/WebIcons/bilibili.png'
-import ipfs from '@/common/assets/WebIcons/bilibili.png'
-import nicovideo from '@/common/assets/WebIcons/bilibili.png'
-import twitter from '@/common/assets/WebIcons/bilibili.png'
-import weiboMobile from '@/common/assets/WebIcons/weibo-mobile.png'
-import weiboPc from '@/common/assets/WebIcons/weibo-pc.png'
-import youtube from '@/common/assets/WebIcons/youtube.png'
-import zcool from '@/common/assets/WebIcons/zcool.png'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useQuery } from '@/graphql'
 import { gql } from '@apollo/client/core'
 import { Video } from '@/graphql/__generated__/graphql'
+
+const imgMod = Object.fromEntries(
+  Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
+    key.replace(/\/packages\/common\/assets\/WebIcons\/(.+)\.png/, '$1'),
+    value.default,
+  ])
+)
 
 enum Status {
   loading = 'loading',
@@ -260,18 +258,6 @@ export default defineComponent({
       router.push({ path: '/video/' + id })
     }
 
-    /* Images */
-    const imgMod: Record<string, string> = {
-      acfun: acfun,
-      bilibili: bilibili,
-      ipfs: ipfs,
-      nicovideo: nicovideo,
-      twitter: twitter,
-      'weibo-mobile': weiboMobile,
-      'weibo-pc': weiboPc,
-      youtube: youtube,
-      zcool: zcool,
-    }
     return {
       t,
       queryWord,
