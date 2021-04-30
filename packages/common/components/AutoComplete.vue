@@ -29,7 +29,7 @@
     <div
       role="listbox"
       :class="{ listHidden: listHidden }"
-      class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 space-y-2 dark:bg-gray-800"
+      class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-11 space-y-2 dark:bg-gray-800"
     >
       <div
         v-for="item in searchResult"
@@ -57,7 +57,7 @@
     </div>
     <div
       :class="[loading ? 'loading' : 'noloading']"
-      class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-11 dark:bg-gray-800"
+      class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
       v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
     ></div>
   </div>
