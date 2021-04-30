@@ -364,20 +364,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-.listHidden {
-  @apply max-h-0;
-  @apply invisible;
-}
-.activeListItem {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-900;
-}
-.loading {
-  @apply visible;
-}
-.noloading {
-  @apply max-h-0;
-  @apply invisible;
-}
-</style>
+<style lang="postcss" scoped></style>
