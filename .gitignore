@@ -117,4 +117,5 @@ dist
 
 # custom
 __generated__
-/.idea/
+.idea
+.vercel
