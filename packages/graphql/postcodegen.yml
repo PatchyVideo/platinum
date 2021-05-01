@@ -12,8 +12,6 @@ generates:
         DateTimeUtc: Date
         ObjectId: 'bson#ObjectID as ObjectId'
         FETagCategories: "'Copyright' | 'Language' | 'Character' | 'Author' | 'General' | 'Meta' | 'Soundtrack'"
-        FEUserImage: string
-        FECoverImage: string
   packages/graphql/__generated__/graphql.schema.json:
     plugins:
       - introspection

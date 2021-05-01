@@ -35,7 +35,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform transition-transform duration-300 w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
+        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform-gpu transition-transform duration-300 w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->

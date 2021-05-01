@@ -28,10 +28,11 @@
             <!-- Video Comments -->
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
               <div class="mx-2">
-                <img
-                  :src="comment.author.image"
-                  :alt="comment.author.username + '\'s avatar'"
+                <UserAvatar
                   class="inline w-12 h-12 rounded-full object-cover"
+                  :image="comment.author.image"
+                  :gravatar="comment.author.gravatar"
+                  :alt="comment.author.username"
                 />
               </div>
               <div>
@@ -48,10 +49,11 @@
                   class="flex flex-row flex-nowrap my-1"
                 >
                   <div class="mt-1 mr-2">
-                    <img
-                      :src="child.author.image"
-                      :alt="child.author.username + '\'s avatar'"
+                    <UserAvatar
                       class="inline w-8 h-8 rounded-full object-cover"
+                      :image="child.author.image"
+                      :gravatar="child.author.gravatar"
+                      :alt="child.author.username"
                     />
                   </div>
                   <div>
@@ -78,13 +80,14 @@
             >
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
-                <img
+                <UserAvatar
                   class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
-                  :alt="author.name + '\'s avatar'"
-                  :src="author.avatar"
+                  :image="author.avatar"
+                  :gravatar="author.gravatar"
+                  :alt="author.name"
                 />
                 <div
-                  class="absolute px-0.75 -right-1.5 top-0 rounded lg:transform lg:rotate-24 bg-fuchsia-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                  class="absolute px-0.75 -right-1.5 top-0 rounded lg:transform-gpu lg:rotate-24 bg-fuchsia-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                   v-text="author.position"
                 ></div>
               </div>
@@ -113,12 +116,11 @@ import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
+import UserAvatar from '@/common/components/UserAvatar.vue'
 import { reactive, defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { schema, useQuery } from '@/graphql'
+import { schema, useQuery, gql } from '@/graphql'
 import { ObjectID } from 'bson'
-import { getUserAvatar } from '@/common/lib/imageUrl'
-import { gql } from '@apollo/client/core'
 
 export default defineComponent({
   components: {
@@ -128,6 +130,7 @@ export default defineComponent({
     NavTop,
     RelativeDate,
     Tag,
+    UserAvatar,
   },
   async setup() {
     // TODO: using script setup instead
@@ -228,6 +231,7 @@ export default defineComponent({
       name: string
       desc: string
       avatar: string
+      gravatar?: string
     }[]
     const authors = ref<Authors>([])
 
@@ -240,9 +244,7 @@ export default defineComponent({
             id: tag.author.id,
             name: tag.author.tagname,
             desc: tag.author.desc,
-            avatar: getUserAvatar({
-              image: tag.author.avatar,
-            }),
+            avatar: tag.author.avatar,
             position: tag.authorRole,
           })
       } else if (tag.__typename === 'RegularTagObject') {
@@ -255,7 +257,8 @@ export default defineComponent({
         id: video.meta.createdBy.id,
         name: video.meta.createdBy.username,
         desc: video.meta.createdBy.desc,
-        avatar: getUserAvatar(video.meta.createdBy),
+        avatar: video.meta.createdBy.image,
+        gravatar: video.meta.createdBy.gravatar || undefined,
         position: '上传者',
       })
 
@@ -268,6 +271,7 @@ export default defineComponent({
         id: ObjectID
         username: string
         image: string
+        gravatar?: string
         desc: string
       }
       hidden?: boolean
@@ -284,7 +288,8 @@ export default defineComponent({
             author: {
               id: comment.meta.createdBy.id,
               username: comment.meta.createdBy.username,
-              image: getUserAvatar(comment.meta.createdBy),
+              image: comment.meta.createdBy.image,
+              gravatar: comment.meta.createdBy.gravatar || undefined,
               desc: comment.meta.createdBy.desc,
             },
             hidden: comment.hidden,
@@ -301,7 +306,8 @@ export default defineComponent({
                       author: {
                         id: comment.meta.createdBy.id,
                         username: comment.meta.createdBy.username,
-                        image: getUserAvatar(comment.meta.createdBy),
+                        image: comment.meta.createdBy.image,
+                        gravatar: comment.meta.createdBy.gravatar || undefined,
                         desc: comment.meta.createdBy.desc,
                       },
                       hidden: comment.hidden,

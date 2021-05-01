@@ -16,9 +16,26 @@
       allow="fullscreen"
       sandbox="allow-scripts allow-popups-to-escape-sandbox allow-same-origin"
     ></iframe>
+    <!-- top -->
     <div
       v-show="videoElementReady && !useIframe"
-      class="controlbar absolute transform ease-in-out translate-y-2/1 duration-300 bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+      class="absolute transform-gpu ease-in-out duration-300 top-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+      :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
+    >
+      <div class="mt-2 mx-2 flex justify-between">
+        <div
+          class="flex-nowrap text-white whitespace-nowrap overflow-hidden"
+          :class="{ 'ml-2': !item.title.startsWith('【') }"
+          v-text="item.title"
+        ></div>
+        <div @click="showSettings = true"><icon-uil-setting class="text-white text-xl" /></div>
+      </div>
+    </div>
+    <!-- bottom -->
+    <div
+      v-show="videoElementReady && !useIframe"
+      class="absolute transform-gpu ease-in-out duration-300 bottom-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+      :class="{ 'translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
       <div class="h-full m-0 align-middle">
         <div ref="progressbar" class="relative w-full h-1 bg-gray-600 transition-all ease-in-out">
@@ -57,21 +74,55 @@
         </div>
       </div>
       <div class="flex flex-row items-center h-6 mx-6 my-1 text-white">
-        <span @click="onPlayPause"><icon-uil-pause v-if="playing" /><icon-uil-play v-else /></span
+        <span class="text-xl" @click="onPlayPause"><icon-uil-pause v-if="playing" /><icon-uil-play v-else /></span
         ><span class="px-1"></span>
         <div class="volume flex flex-row items-center">
-          <icon-uil-volume class="mr-0.5" />
+          <icon-uil-volume class="mr-0.5 text-xl" />
           <div class="inline-block h-full m-0 align-middle">
             <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 transition-all ease-in-out">
               <div class="relative h-full left-0 bottom-0 bg-pink-600" :style="{ width: volume * 100 + '%' }">
                 <span
-                  class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform scale-0 cursor-pointer"
+                  class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform-gpu scale-0 cursor-pointer"
                 ></span>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <!-- side -->
+    <div
+      v-show="videoElementReady && !useIframe && showSettings"
+      class="absolute top-0 bottom-0 left-0 right-0"
+      @click="showSettings = false"
+    ></div>
+    <div
+      v-show="videoElementReady && !useIframe"
+      class="absolute top-0 bottom-0 left-auto right-0 bg-black transform-gpu duration-300 ease-in-out transition-all overflow-hidden"
+      :class="{ 'translate-x-full': !showSettings }"
+    >
+      <transition :name="transToParent ? 'setting-left' : 'setting-right'">
+        <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-500">
+          <div class="px-2 pt-3 pb-2 font-medium">
+            <icon-uil-arrow-left
+              v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
+              class="absolute w-6 h-6 align-middle"
+              @click="activeSettingsItemName = activeSettingsItem.parent"
+            />
+            <div class="text-center" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
+          </div>
+          <div v-for="(item, index) in activeSettingsItem.items" :key="index" class="px-2 py-1">
+            <div v-if="item.type === 'text'" :class="item.class" @click="item.onClick" v-text="item.text"></div>
+            <div v-else-if="item.type === 'sub' && item.to in settings" @click="activeSettingsItemName = item.to">
+              <div class="inline-block" v-text="item.text"></div>
+              <div class="inline-block float-right">
+                <span v-if="item.rightText" class="text-gray-300" v-text="item.rightText"></span
+                ><icon-uil-arrow-right class="inline" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </transition>
     </div>
     <div
       v-if="!videoElementReady && !useIframe"
@@ -85,7 +136,7 @@
 <script lang="ts">
 import { schema } from '@/graphql'
 import { FetchResult } from '@apollo/client/core'
-import { templateRef, useElementSize, useEventListener } from '@vueuse/core'
+import { Fn, GeneralEventListener, templateRef, useElementSize, useEventListener, useTimeoutFn } from '@vueuse/core'
 import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType } from 'vue'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
@@ -137,6 +188,27 @@ type AudioStream = {
   tbr?: number
   src: string[]
 }
+type SettingMenu = {
+  id: string
+  name?: string
+  parent?: string
+  items: SettingItem[]
+}
+type SettingItem = SettingText | SettingSub
+type SettingText = {
+  type: 'text'
+  class?: string[]
+  text: string
+  rightText?: string
+  onClick?: GeneralEventListener<Event>
+}
+type SettingSub = {
+  type: 'sub'
+  to: string
+  text: string
+  rightText?: string
+  onClick?: GeneralEventListener<Event>
+}
 
 const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
 const formats = ['webm_dash', 'mp4_dash', 'flv']
@@ -152,6 +224,66 @@ export default defineComponent({
     const root = templateRef('root')
     const { width } = useElementSize(root)
     const height = computed(() => (width.value / 16) * 9)
+
+    const showControlBar = ref(true)
+    onMounted(() => {
+      let _stop: Fn
+      useEventListener(root, 'mouseover', () => {
+        if (_stop) _stop()
+        showControlBar.value = true
+      })
+      useEventListener(root, 'mouseleave', () => {
+        const { stop } = useTimeoutFn(
+          () => {
+            showControlBar.value = false
+          },
+          200,
+          true
+        )
+        _stop = stop
+      })
+    })
+
+    const showSettings = ref(false)
+
+    const activeSettingsItemName = ref('default')
+    const activeSettingsItem = computed(() => settings.value[activeSettingsItemName.value])
+    const settings = computed<Record<string, SettingMenu>>(() => ({
+      default: {
+        id: 'default',
+        name: '视频设置',
+        items: [
+          {
+            type: 'sub',
+            to: 'quality',
+            text: '清晰度',
+            rightText: streamQuality.value,
+          },
+        ],
+      },
+      quality: {
+        id: 'quality',
+        name: '清晰度',
+        parent: 'default',
+        items: [
+          ...(() => {
+            const qualities: string[] = []
+            streams.value.forEach((stream) => {
+              if (!qualities.includes(stream.quality)) qualities.push(stream.quality)
+            })
+            return <SettingText[]>qualities.map((quality) => ({
+              type: 'text',
+              text: quality,
+              onClick: () => playStream(quality),
+            }))
+          })(),
+        ],
+      },
+    }))
+    const transToParent = ref(false)
+    watch(activeSettingsItemName, (n, o) => {
+      transToParent.value = n === settings.value[o].parent
+    })
 
     const src = ref('')
 
@@ -170,7 +302,11 @@ export default defineComponent({
 
     const video = templateRef<HTMLVideoElement>('video')
     const playing = ref(false)
-    const onPlayPause = () => (playing.value = !playing.value)
+    const userClickedPlaying = ref(false)
+    const onPlayPause = () => {
+      if (!userClickedPlaying.value) userClickedPlaying.value = true
+      playing.value = !playing.value
+    }
     onMounted(() => {
       watch(playing, () => {
         try {
@@ -188,36 +324,36 @@ export default defineComponent({
       })
     })
     onMounted(() => {
-      for (const i of [
-        'audioprocess',
-        'canplay',
-        'canplaythrough',
-        'complete',
-        'durationchange',
-        'emptied',
-        'ended',
-        'loadeddata',
-        'loadedmetadata',
-        'pause',
-        'play',
-        'playing',
-        'progress',
-        'ratechange',
-        'seeked',
-        'seeking',
-        'stalled',
-        'suspend',
-        'timeupdate',
-        'volumechange',
-        'waiting',
-      ]) {
-        video.value.addEventListener(i, (e) => {
-          console.log('video', i, e)
-        })
-        audio.value.addEventListener(i, (e) => {
-          console.log('audio', i, e)
-        })
-      }
+      // for (const i of [
+      //   'audioprocess',
+      //   'canplay',
+      //   'canplaythrough',
+      //   'complete',
+      //   'durationchange',
+      //   'emptied',
+      //   'ended',
+      //   'loadeddata',
+      //   'loadedmetadata',
+      //   'pause',
+      //   'play',
+      //   'playing',
+      //   'progress',
+      //   'ratechange',
+      //   'seeked',
+      //   'seeking',
+      //   'stalled',
+      //   'suspend',
+      //   'timeupdate',
+      //   'volumechange',
+      //   'waiting',
+      // ]) {
+      //   video.value.addEventListener(i, (e) => {
+      //     console.log('video', i, e)
+      //   })
+      //   audio.value.addEventListener(i, (e) => {
+      //     console.log('audio', i, e)
+      //   })
+      // }
       useEventListener(video.value, 'play', () => {
         if (hasAudioStream.value) {
           audio.value.currentTime = video.value.currentTime
@@ -308,7 +444,7 @@ export default defineComponent({
         ]
       }
     }
-    watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
+    // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
     const progress = computed(() => currentTime.value / duration.value)
     const progressbar = templateRef<HTMLDivElement>('progressbar')
     onMounted(() => {
@@ -316,16 +452,16 @@ export default defineComponent({
         currentTime.value = video.value.currentTime
         if (hasAudioStream.value) {
           if (videoReady.value && audioReady.value) {
-            console.log(
-              'diff',
-              audio.value.currentTime,
-              video.value.currentTime,
-              audio.value.currentTime - video.value.currentTime
-            )
-            if (Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
-              audio.value.currentTime = video.value.currentTime
-              audio.value.play()
-            }
+            // console.log(
+            //   'diff',
+            //   audio.value.currentTime,
+            //   video.value.currentTime,
+            //   audio.value.currentTime - video.value.currentTime
+            // )
+            // if (Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
+            //   audio.value.currentTime = video.value.currentTime
+            //   audio.value.play()
+            // }
             if (audio.value.paused && !video.value.paused) audio.value.play()
             if (!audio.value.paused && video.value.paused) audio.value.pause()
           } else {
@@ -333,19 +469,23 @@ export default defineComponent({
             watch(
               audioReady,
               () => {
-                if (audioReady.value && playing.value) video.value.play()
+                if (audioReady.value && playing.value) {
+                  video.value.play()
+                }
               },
               { flush: 'post' }
             )
           }
         }
-      })
-      useEventListener(video.value, 'progress', () => {
         videoLoadedAmount.value = video.value.buffered
-      })
-      useEventListener(audio.value, 'progress', () => {
         audioLoadedAmount.value = audio.value.buffered
       })
+      // useEventListener(video.value, 'progress', () => {
+      //   videoLoadedAmount.value = video.value.buffered
+      // })
+      // useEventListener(audio.value, 'progress', () => {
+      //   audioLoadedAmount.value = audio.value.buffered
+      // })
       useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
         let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
         percentage = Math.max(0, Math.min(1, percentage))
@@ -426,12 +566,14 @@ export default defineComponent({
 
     const isContainerSupported = (container: string, codecs?: string, isAudio = false) => {
       if (['flv'].includes(container)) return true
-      return !!(isAudio ? audio : video).value.canPlayType(
-        `video/${container.replace(/_dash$/, '')}${codecs ? `; codecs="${codecs}"` : ''}`
-      )
+      return window.MediaSource.isTypeSupported(getMIME(container, codecs, isAudio))
     }
+    const getMIME = (container: string, codecs?: string, isAudio = false) =>
+      `${isAudio ? 'audio' : 'video'}/${container.replace(/_dash$/, '')}${codecs ? `; codecs="${codecs}"` : ''}`
     const hasAudioStream = ref(false)
+    const streamQuality = ref('')
     const playStream = (quality: string) => {
+      streamQuality.value = quality
       if (video.value) {
         log('正在切换视频源\n')
         useIframe.value = false
@@ -605,6 +747,13 @@ export default defineComponent({
       videoLoadedRanges,
       audioLoadedRanges,
       hasAudioStream,
+      showControlBar,
+      userClickedPlaying,
+      showSettings,
+      settings,
+      activeSettingsItemName,
+      activeSettingsItem,
+      transToParent,
     }
   },
 })
@@ -620,11 +769,7 @@ export default defineComponent({
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
-.root:hover {
-  .controlbar {
-    @apply translate-y-0;
-  }
-}
+
 .volume:hover {
   .volumebar {
     @apply w-16;
@@ -632,5 +777,22 @@ export default defineComponent({
   .volumedot {
     @apply scale-100;
   }
+}
+
+.setting-right-enter-active,
+.setting-left-leave-active {
+  @apply absolute top-0 transition-all duration-300 transform-gpu;
+}
+.setting-right-leave-active,
+.setting-left-enter-active {
+  @apply transition-all duration-300 transform-gpu;
+}
+.setting-right-leave-to,
+.setting-left-enter-from {
+  @apply -translate-x-full;
+}
+.setting-right-enter-from,
+.setting-left-leave-to {
+  @apply translate-x-full;
 }
 </style>

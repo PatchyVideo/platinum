@@ -126,8 +126,7 @@ import BackTop from '@/common/components/BackTop.vue'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useQuery } from '@/graphql'
-import { gql } from '@apollo/client/core'
+import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 
 const imgMod = Object.fromEntries(
