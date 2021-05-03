@@ -45,6 +45,10 @@ const router = createRouter({
       component: () => import('@/video/Video.vue'),
     },
     {
+      path: '/user/login',
+      component: () => import('@/user/Login.vue'),
+    },
+    {
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },

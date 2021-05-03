@@ -4,5 +4,15 @@
   "i18n-ally.sourceLanguage": "zh-CN",
   "volar.tsPlugin": true,
   "windicss.enableCodeFolding": false,
-  "conventionalCommits.scopes": ["deps", "user", "home", "nav", "common", "video", "graphql", "search"]
+  "conventionalCommits.scopes": [
+    "deps",
+    "user",
+    "home",
+    "nav",
+    "common",
+    "video",
+    "graphql",
+    "search",
+    "user"
+  ]
 }

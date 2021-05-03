@@ -21,7 +21,7 @@
       </template>
       <!-- User -->
       <div v-if="!isLogin" class="mr-2">
-        <a @click="isLogin = true">登录</a>
+        <router-link to="/user/login">登录</router-link>
       </div>
       <div v-else class="mr-2">
         <img
