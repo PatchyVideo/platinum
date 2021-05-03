@@ -1,9 +1,10 @@
 {
-  "include": ["packages", "node_modules/vite/client.d.ts"],
+  "include": ["packages"],
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "WebWorker"],
+    "types": ["vite/client"],
     "jsx": "preserve",
     "target": "ESNext",
     "sourceMap": true,

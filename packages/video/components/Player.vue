@@ -102,16 +102,20 @@
       :class="{ 'translate-x-full': !showSettings }"
     >
       <transition :name="transToParent ? 'setting-left' : 'setting-right'">
-        <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-500">
+        <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-600">
           <div class="px-2 pt-3 pb-2 font-medium">
             <icon-uil-arrow-left
               v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
               class="absolute w-6 h-6 align-middle"
-              @click="activeSettingsItemName = activeSettingsItem.parent"
+              @click="toSettingsParent"
             />
             <div class="text-center" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
           </div>
-          <div v-for="(item, index) in activeSettingsItem.items" :key="index" class="px-2 py-1">
+          <div
+            v-for="(item, index) in activeSettingsItem.items"
+            :key="index"
+            class="px-2 py-1 whitespace-pre hover:bg-gray-700 transform-gpu transition-all duration-100"
+          >
             <div v-if="item.type === 'text'" :class="item.class" @click="item.onClick" v-text="item.text"></div>
             <div v-else-if="item.type === 'sub' && item.to in settings" @click="activeSettingsItemName = item.to">
               <div class="inline-block" v-text="item.text"></div>
@@ -273,7 +277,7 @@ export default defineComponent({
             })
             return <SettingText[]>qualities.map((quality) => ({
               type: 'text',
-              text: quality,
+              text: `${streamQuality.value === quality ? '·' : ' '} ${quality}`,
               onClick: () => playStream(quality),
             }))
           })(),
@@ -284,6 +288,9 @@ export default defineComponent({
     watch(activeSettingsItemName, (n, o) => {
       transToParent.value = n === settings.value[o].parent
     })
+    const toSettingsParent = () => {
+      activeSettingsItemName.value = <string>activeSettingsItem.value.parent
+    }
 
     const src = ref('')
 
@@ -754,6 +761,7 @@ export default defineComponent({
       activeSettingsItemName,
       activeSettingsItem,
       transToParent,
+      toSettingsParent,
     }
   },
 })

@@ -27,5 +27,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-</style>
+<style lang="postcss" scoped></style>

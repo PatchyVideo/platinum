@@ -1,5 +1,5 @@
 import { usePreferredDark } from '@vueuse/core'
-import { ref, watchEffect,watch } from 'vue'
+import { ref, watchEffect } from 'vue'
 
 const htmlRoot = document.querySelector('html')
 const themeMeta = document.querySelector('meta[name="color-scheme"]')
@@ -8,10 +8,10 @@ document.querySelector('body')?.classList.add('dark:bg-gray-700')
 function updateDOM(v: boolean) {
   if (v) {
     htmlRoot?.classList.contains('dark') || htmlRoot?.classList.add('dark')
-    themeMeta?.setAttribute("content", "dark")
+    themeMeta?.setAttribute('content', 'dark')
   } else {
     htmlRoot?.classList.contains('dark') && htmlRoot?.classList.remove('dark')
-    themeMeta?.setAttribute("content", "light")
+    themeMeta?.setAttribute('content', 'light')
   }
 }
 

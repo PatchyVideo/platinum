@@ -34,13 +34,12 @@
 </template>
 
 <script lang="ts">
-import { onMounted, onUnmounted, reactive, ref, defineComponent } from 'vue'
+import { onMounted, onUnmounted, reactive, defineComponent } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { isDark } from '@/darkmode'
 import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
-import { version as pkgversion } from '@@/package.json'
 
 export default defineComponent({
   props: {
@@ -106,7 +105,7 @@ export default defineComponent({
       if (typed?.destroy) typed.destroy()
     })
 
-    const version = ref(pkgversion)
+    const version = import.meta.env.VITE_APP_VERSION
 
     return {
       t,

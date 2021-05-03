@@ -1200,7 +1200,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@iconify/json@npm:^1.1.336":
+"@iconify/json@npm:^1.1.337":
   version: 1.1.337
   resolution: "@iconify/json@npm:1.1.337"
   checksum: dd8d5e59f3fdee06c96fc7081a2bc7a1927d2f70c5164fa451ff077a1410d7f4a5cd6d1340f2fa195aaa5277e4bc5888912b995453b1358ea62605b4da316389
@@ -5824,7 +5824,7 @@ highlight.js@10.5.0:
     "@graphql-codegen/introspection": ^1.18.2
     "@graphql-codegen/schema-ast": ^1.18.2
     "@graphql-codegen/typescript": ^1.22.0
-    "@iconify/json": ^1.1.336
+    "@iconify/json": ^1.1.337
     "@types/events": ^3
     "@types/lodash.get": ^4
     "@types/lodash.merge": ^4
@@ -5864,7 +5864,7 @@ highlight.js@10.5.0:
     tlds: ^1.221.1
     typed.js: ^2.0.12
     typescript: ^4.2.4
-    vite: ^2.2.3
+    vite: ^2.2.4
     vite-plugin-components: ^0.8.4
     vite-plugin-icons: ^0.5.0
     vite-plugin-windicss: ^0.15.10
@@ -7404,9 +7404,9 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "vite@npm:2.2.3"
+"vite@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "vite@npm:2.2.4"
   dependencies:
     esbuild: ^0.9.3
     fsevents: ~2.3.1
@@ -7418,7 +7418,7 @@ typescript@^4.2.4:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: c621b561fe8ddc8b1c417bc140fd48591d483de1b890109e16793f0dbb04d262dd855e0fa5922e7370e9086225492a4202ec7f9f3336b68288618a58721e0988
+  checksum: f0eb18ccd94a65c8db6846c6da5b46297121fc3604dfb6a48bbbd3b96d9e3096b717bdfa7001dce0de6ca2e991da6da920bd01658824f9ab34f5904281ccacae
   languageName: node
   linkType: hard
 

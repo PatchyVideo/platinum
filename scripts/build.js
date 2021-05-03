@@ -1,6 +1,5 @@
 ;(async () => {
   const fs = require('fs')
-  const simpleGit = require('simple-git')
   const vite = require('vite')
 
   /**
@@ -9,10 +8,7 @@
 
   require('./usecache')
 
-  const data = {
-    gitLatest: (await simpleGit().log({ maxCount: 1 })).latest,
-    date: new Date().toISOString(),
-  }
+  const data = await require('./usedata')()
 
   fs.writeFileSync('./.cache/buildData.json', JSON.stringify(data))
 

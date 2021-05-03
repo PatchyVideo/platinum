@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full dark:bg-gray-700">
+  <div class="w-full">
     <div class="text-center">
-      <h1 class="text-xl" v-text="t('error-pages.N404.title')"></h1>
-      <div class="text-sm text-gray-600" v-text="fullPath"></div>
+      <h1 class="text-xl dark:text-white" v-text="t('error-pages.N404.title')"></h1>
+      <div class="text-sm text-gray-600 dark:text-gray-200" v-text="fullPath"></div>
     </div>
   </div>
 </template>
@@ -26,5 +26,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-</style>
+<style lang="postcss" scoped></style>
