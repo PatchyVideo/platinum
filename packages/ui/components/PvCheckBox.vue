@@ -3,6 +3,7 @@
     <input
       :checked="check"
       class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
+      :class="{ 'h-6 w-12 switch-sm': size === 'sm' }"
       type="checkbox"
       @change="updateValue()"
     />
@@ -15,6 +16,13 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   components: {},
   props: {
+    size: {
+      type: String,
+      default: 'md',
+      validator: (value: string) => {
+        return ['sm', 'md'].indexOf(value) !== -1
+      },
+    },
     check: {
       type: Boolean,
       required: true,
@@ -36,6 +44,10 @@ export default defineComponent({
 .switch:before {
   content: '';
   @apply absolute w-8 inset-y-0 left-0 rounded-full bg-white shadow transition-all duration-200;
+}
+.switch-sm:before {
+  content: '';
+  @apply w-6;
 }
 .switch:checked {
   @apply bg-pink-300 border-pink-200;
