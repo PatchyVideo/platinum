@@ -2,9 +2,8 @@ body {
   @apply dark:text-white;
 }
 a {
-  @apply transition-colors hover:text-pink-300;
-  @apply cursor-pointer;
+  @apply transition-colors duration-150 hover:text-pink-300 cursor-pointer;
 }
 .dark a {
-  @apply hover:text-pink-600;
+  @apply hover:text-pink-800;
 }

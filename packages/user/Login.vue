@@ -55,7 +55,7 @@ export default defineComponent({
   @apply bg-center;
   @apply bg-no-repeat;
   @apply bg-cover;
-  background-image: url('../common/assets/Login.jpg');
+  background-image: url('./assets/Login.jpg');
 }
 .log-in-box {
   filter: drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.25));

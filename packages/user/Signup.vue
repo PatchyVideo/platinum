@@ -70,7 +70,7 @@ export default defineComponent({
   @apply bg-bottom;
   @apply bg-no-repeat;
   @apply bg-cover;
-  background-image: url('../common/assets/Signup.jpg');
+  background-image: url('./assets/Signup.jpg');
 }
 .log-in-box {
   filter: drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.25));

@@ -26,7 +26,7 @@
       <div v-else class="mr-2">
         <img
           class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
-          src="/packages/common/assets/DefaultAvatar.jpg"
+          src="@/user/assets/DefaultAvatar.jpg"
           alt="Avatar"
         />
       </div>
@@ -45,7 +45,7 @@
         </div>
         <!-- Main List -->
         <div class="space-y-3">
-          <router-link class="block" to=""
+          <router-link class="block" to="/"
             ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.navTop.mainMenu.home')
             }}</router-link
@@ -131,9 +131,9 @@ import { isDark } from '@/darkmode'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import Logo from '@/common/components/Logo.vue'
-import AutoComplete from './AutoComplete.vue'
-import PvSelect from './PvSelect.vue'
-import PvCheckBox from './PvCheckBox.vue'
+import AutoComplete from '@/search/components/AutoComplete.vue'
+import PvSelect from '@/ui/components/PvSelect.vue'
+import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 
 export default defineComponent({
   components: {
@@ -204,8 +204,7 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .mask-enter-active,
 .mask-leave-active {
-  @apply transition-all;
-  @apply duration-200;
+  @apply transition-all duration-200;
 }
 .mask-enter-from,
 .mask-leave-to {

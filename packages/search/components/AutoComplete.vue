@@ -28,14 +28,14 @@
     </div>
     <div
       role="listbox"
-      :class="{ 'list-hidden': listHidden }"
+      :class="{ hidden: listHidden }"
       class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-11 space-y-2 dark:bg-gray-800"
     >
       <div
         v-for="item in searchResult"
         :key="item.tag"
         class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
-        :class="{ 'active-list-item': item.active }"
+        :class="{ 'bg-gray-100 dark:bg-gray-900': item.active }"
         @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs || [], false) || '')"
       >
         <div>
@@ -56,7 +56,7 @@
       </div>
     </div>
     <div
-      :class="[loading ? 'loading' : 'no-loading']"
+      :class="{ hidden: !loading }"
       class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
       v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
     ></div>
@@ -364,20 +364,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-.list-hidden {
-  @apply max-h-0;
-  @apply invisible;
-}
-.active-list-item {
-  @apply bg-gray-100;
-  @apply dark:bg-gray-900;
-}
-.loading {
-  @apply visible;
-}
-.no-loading {
-  @apply max-h-0;
-  @apply invisible;
-}
-</style>
+<style lang="postcss" scoped></style>

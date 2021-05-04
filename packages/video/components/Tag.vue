@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 import { schema } from '@/graphql'
 import { behMostMatch } from '@/locales'
-import { computed, defineProps } from 'vue-demi'
+import { computed, defineProps } from 'vue'
 
 const props = defineProps<{
   tag: schema.TagObject

@@ -119,7 +119,7 @@
 </template>
 
 <script lang="ts">
-import AutoComplete from '@/common/components/AutoComplete.vue'
+import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/common/components/BackTop.vue'

@@ -1,24 +1,34 @@
 <template>
   <div
     ref="pvSelectRoot"
-    class="pv-select pl-4 pr-8 m-1 rounded-full cursor-pointer relative inline-block border dark:border-gray-800"
-    :class="{ active: !listHidden }"
+    class="pl-4 pr-8 m-1 rounded-full cursor-pointer relative inline-block border dark:border-gray-800 transition-shadow duration-200"
+    :class="{ 'outline-none ring ring-pink-300': !listHidden }"
     @click="listHidden = !listHidden"
   >
-    <div class="inline-block truncate align-top" v-text="getItemNameByValue(selected)"></div>
-    <ul
-      class="shadow rounded bg-white absolute top-15/12 left-0 z-2 box-border min-w-full max-h-40 overflow-x-hidden overflow-y-auto dark:bg-gray-800"
-      :class="{ listHidden: listHidden }"
+    <div class="inline-block truncate align-top select-none" v-text="getItemNameByValue(selected)"></div>
+    <div
+      class="shadow rounded bg-white absolute top-15/12 left-0 z-2 box-border min-w-full max-h-40 overflow-hidden dark:bg-gray-800"
     >
-      <li
-        v-for="item in itemList"
-        :key="item.value"
-        class="p-2 transition-colors hover:bg-gray-100 hover:bg-gray-100 hover:dark:bg-gray-900"
-        @click="changeItem(item.value)"
+      <ul
+        class="overflow-x-hidden overflow-y-auto transform-gpu transition-all duration-200"
+        :style="{ marginTop: listHidden ? '-100%' : '0' }"
       >
-        {{ item.name }}
-      </li>
-    </ul>
+        <li
+          v-for="item in itemList"
+          :key="item.value"
+          class="p-2 select-none transition-colors hover:bg-gray-100 hover:bg-gray-100 hover:dark:bg-gray-900"
+          @click="changeItem(item.value)"
+        >
+          {{ item.name }}
+        </li>
+      </ul>
+    </div>
+    <div
+      class="absolute inline-block z-1 top-0 right-0 box-border h-full text-center select-none mr-2 transform-gpu origin-center transition-all duration-200"
+      :class="{ 'rotate-180': !listHidden }"
+    >
+      ▼
+    </div>
   </div>
 </template>
 
@@ -78,25 +88,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-.active {
-  @apply outline-none;
-  @apply ring;
-  @apply ring-pink-300;
-}
-.listHidden {
-  @apply max-h-0;
-  @apply invisible;
-}
-.pv-select:after {
-  content: '▼';
-  @apply absolute;
-  @apply z-1;
-  @apply top-0;
-  @apply right-0;
-  @apply box-border;
-  @apply h-full;
-  @apply text-center;
-  @apply pr-2;
-}
-</style>
+<style lang="postcss" scoped></style>

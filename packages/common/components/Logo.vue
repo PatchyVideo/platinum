@@ -2,7 +2,6 @@
   <div class="md:mx-3">
     <svg
       v-if="showIcon"
-      id="图层_1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 2844 3778"
       class="fill-current inline-block"

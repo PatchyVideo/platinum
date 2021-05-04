@@ -35,19 +35,10 @@ export default defineComponent({
 <style lang="postcss" scoped>
 .switch:before {
   content: '';
-  @apply w-8;
-  @apply absolute;
-  @apply inset-y-0;
-  @apply left-0;
-  @apply rounded-full;
-  @apply bg-white;
-  @apply shadow;
-  @apply transition-all;
-  @apply duration-200;
+  @apply absolute w-8 inset-y-0 left-0 rounded-full bg-white shadow transition-all duration-200;
 }
 .switch:checked {
-  @apply bg-pink-300;
-  @apply border-pink-200;
+  @apply bg-pink-300 border-pink-200;
 }
 .switch:checked:before {
   @apply left-6;
