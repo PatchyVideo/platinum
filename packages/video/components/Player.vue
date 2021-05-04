@@ -74,13 +74,18 @@
         </div>
       </div>
       <div class="flex flex-row items-center h-6 mx-6 my-1 text-white">
-        <span class="text-xl" @click="onPlayPause"><icon-uil-pause v-if="playing" /><icon-uil-play v-else /></span
+        <span class="text-xl" @click="onPlayPause"
+          ><icon-uil-spinner-alt v-if="!streamsReady" class="animate-spin" /><icon-uil-pause
+            v-else-if="playing" /><icon-uil-play v-else /></span
         ><span class="px-1"></span>
         <div class="volume flex flex-row items-center">
           <icon-uil-volume class="mr-0.5 text-xl" />
           <div class="inline-block h-full m-0 align-middle">
-            <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 transition-all ease-in-out">
-              <div class="relative h-full left-0 bottom-0 bg-pink-600" :style="{ width: volume * 100 + '%' }">
+            <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
+              <div
+                class="relative h-full left-0 bottom-0 bg-pink-600 rounded-l-full"
+                :style="{ width: volume * 100 + '%' }"
+              >
                 <span
                   class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform-gpu scale-0 cursor-pointer"
                 ></span>
@@ -124,6 +129,9 @@
                 ><icon-uil-arrow-right class="inline" />
               </div>
             </div>
+            <div v-else-if="item.type === 'check'" class="flex justify-between">
+              <span v-text="item.text"></span><PvCheckBox v-model:check="item.checked.value" size="sm" />
+            </div>
           </div>
         </div>
       </transition>
@@ -138,10 +146,19 @@
 </template>
 
 <script lang="ts">
+import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import { schema } from '@/graphql'
 import { FetchResult } from '@apollo/client/core'
-import { Fn, GeneralEventListener, templateRef, useElementSize, useEventListener, useTimeoutFn } from '@vueuse/core'
-import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType } from 'vue'
+import {
+  Fn,
+  GeneralEventListener,
+  templateRef,
+  useElementSize,
+  useEventListener,
+  useLocalStorage,
+  useTimeoutFn,
+} from '@vueuse/core'
+import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType, Ref } from 'vue'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
 type BaseVideoData = {
@@ -198,7 +215,7 @@ type SettingMenu = {
   parent?: string
   items: SettingItem[]
 }
-type SettingItem = SettingText | SettingSub
+type SettingItem = SettingText | SettingSub | SettingsCheck
 type SettingText = {
   type: 'text'
   class?: string[]
@@ -213,11 +230,19 @@ type SettingSub = {
   rightText?: string
   onClick?: GeneralEventListener<Event>
 }
+type SettingsCheck = {
+  type: 'check'
+  text: string
+  checked: Ref<boolean>
+}
 
 const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
 const formats = ['webm_dash', 'mp4_dash', 'flv']
 
 export default defineComponent({
+  components: {
+    PvCheckBox,
+  },
   props: {
     item: {
       type: Object as PropType<schema.VideoItem>,
@@ -262,6 +287,11 @@ export default defineComponent({
             to: 'quality',
             text: '清晰度',
             rightText: streamQuality.value,
+          },
+          {
+            type: 'check',
+            text: '同步音频',
+            checked: syncAudio,
           },
         ],
       },
@@ -391,6 +421,7 @@ export default defineComponent({
 
     const audioReady = ref(false)
     const videoReady = ref(false)
+    const streamsReady = computed(() => audioReady.value && videoReady.value)
     onMounted(() => {
       useEventListener(video.value, 'waiting', () => {
         videoReady.value = false
@@ -454,6 +485,7 @@ export default defineComponent({
     // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
     const progress = computed(() => currentTime.value / duration.value)
     const progressbar = templateRef<HTMLDivElement>('progressbar')
+    const syncAudio = useLocalStorage('player_settings_sync_audio', false)
     onMounted(() => {
       useEventListener(video.value, 'timeupdate', () => {
         currentTime.value = video.value.currentTime
@@ -465,10 +497,10 @@ export default defineComponent({
             //   video.value.currentTime,
             //   audio.value.currentTime - video.value.currentTime
             // )
-            // if (Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
-            //   audio.value.currentTime = video.value.currentTime
-            //   audio.value.play()
-            // }
+            if (syncAudio.value && Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
+              audio.value.currentTime = video.value.currentTime + (audio.value.currentTime - currentTime.value)
+              audio.value.play()
+            }
             if (audio.value.paused && !video.value.paused) audio.value.play()
             if (!audio.value.paused && video.value.paused) audio.value.pause()
           } else {
@@ -497,10 +529,6 @@ export default defineComponent({
         let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
         percentage = Math.max(0, Math.min(1, percentage))
         currentTime.value = audio.value.currentTime = video.value.currentTime = percentage * duration.value
-        if (!playing.value) {
-          if (!video.value.paused) video.value.pause()
-          if (!audio.value.paused) audio.value.pause()
-        }
       })
       useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
         const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
@@ -509,18 +537,13 @@ export default defineComponent({
           currentTime.value = percentage * duration.value
         })
         const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
-          audio.value.currentTime = video.value.currentTime = currentTime.value
-          if (!playing.value) {
-            if (!video.value.paused) video.value.pause()
-            if (!audio.value.paused) audio.value.pause()
-          }
           stopMouseMove()
           stopMouseUp()
         })
       })
     })
 
-    const volume = ref(0.5)
+    const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
     onMounted(() => {
       watch(
         volume,
@@ -762,6 +785,7 @@ export default defineComponent({
       activeSettingsItem,
       transToParent,
       toSettingsParent,
+      streamsReady,
     }
   },
 })
