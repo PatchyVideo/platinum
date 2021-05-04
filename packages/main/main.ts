@@ -49,6 +49,10 @@ const router = createRouter({
       component: () => import('@/user/Login.vue'),
     },
     {
+      path: '/user/signup',
+      component: () => import('@/user/Signup.vue'),
+    },
+    {
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },
