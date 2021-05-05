@@ -421,7 +421,7 @@ export default defineComponent({
 
     const audioReady = ref(false)
     const videoReady = ref(false)
-    const streamsReady = computed(() => audioReady.value && videoReady.value)
+    const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
     onMounted(() => {
       useEventListener(video.value, 'waiting', () => {
         videoReady.value = false
