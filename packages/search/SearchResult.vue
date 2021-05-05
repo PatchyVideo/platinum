@@ -21,13 +21,13 @@
     </div>
 
     <div class="p-2 md:m-auto lg:w-7/10">
-      <div v-if="status === 'loading'">搜索中......</div>
-      <div v-else-if="status === 'error'">
+      <div v-if="status === Status.loading">搜索中......</div>
+      <div v-else-if="status === Status.error">
         <div>加载失败了QAQ</div>
         <div>{{ '错误原因：' + errMsg }}</div>
       </div>
       <div v-else-if="count === 0">没有搜索到视频QAQ</div>
-      <div v-else-if="status === 'result'">
+      <div v-else-if="status === Status.result">
         <div class="border-b-1 pb-1">{{ '共搜索到' + count + '个视频' }}</div>
         <!-- Mobile View -->
         <div class="md:hidden">
@@ -136,12 +136,6 @@ const imgMod = Object.fromEntries(
   ])
 )
 
-enum Status {
-  loading = 'loading',
-  result = 'result',
-  error = 'error',
-}
-
 export default defineComponent({
   components: { NavTop, AutoComplete, Footer, BackTop },
   props: {},
@@ -150,6 +144,11 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const limit = 20
+    enum Status {
+      loading = 'loading',
+      result = 'result',
+      error = 'error',
+    }
     const status = ref<Status>()
     const errMsg = ref('')
     const count = ref(0)
@@ -261,6 +260,7 @@ export default defineComponent({
       t,
       queryWord,
       offset,
+      Status,
       status,
       errMsg,
       count,
