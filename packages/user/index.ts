@@ -39,7 +39,7 @@ async function checkLoginStatus(needGetUserDataFromLocalStorage = false): Promis
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         isLogin.value = IsLogin.yes
-        if (needGetUserDataFromLocalStorage) getUserDataFromLocalStorage
+        if (needGetUserDataFromLocalStorage) getUserDataFromLocalStorage()
       } else {
         isLogin.value = IsLogin.no
         clearUserDataFromLocalStorage()
