@@ -73,6 +73,5 @@ app.mount('#app')
 import './pvcc'
 
 /* Login authentication & user data filling */
-import { checkLoginStatus, getUserDataFromLocalStorage } from '@/user'
-await checkLoginStatus()
-getUserDataFromLocalStorage()
+import { checkLoginStatus } from '@/user'
+checkLoginStatus(true)

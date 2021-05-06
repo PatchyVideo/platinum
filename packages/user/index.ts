@@ -24,7 +24,7 @@ enum IsLogin {
 }
 const isLogin = ref<IsLogin>(IsLogin.no)
 
-async function checkLoginStatus(): Promise<void> {
+async function checkLoginStatus(needGetUserDataFromLocalStorage = false): Promise<void> {
   isLogin.value = IsLogin.loading
   await fetch('https://patchyvideo.com/be/user/whoami', {
     method: 'POST',
@@ -39,6 +39,7 @@ async function checkLoginStatus(): Promise<void> {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         isLogin.value = IsLogin.yes
+        if (needGetUserDataFromLocalStorage) getUserDataFromLocalStorage
       } else {
         isLogin.value = IsLogin.no
         clearUserDataFromLocalStorage()
@@ -60,6 +61,7 @@ function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolea
 }
 
 function getUserDataFromLocalStorage(): void {
+  isLogin.value = IsLogin.loading
   const userData = JSON.parse(localStorage.getItem('userData') || '{}')
   if (JSON.stringify(userData) === '{}') {
     isLogin.value = IsLogin.no
