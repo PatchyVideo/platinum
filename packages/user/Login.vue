@@ -53,7 +53,7 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { resDataStatus } from '@/common/lib/resDataStatus'
-import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user/index'
+import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 

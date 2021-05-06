@@ -17,15 +17,15 @@ const userDefault: User = {
   isAdmin: false,
 }
 
-enum Islogin {
+enum IsLogin {
   'yes' = 'yes',
   'no' = 'no',
   'loading' = 'loading',
 }
-const isLogin = ref<Islogin>(Islogin.no)
+const isLogin = ref<IsLogin>(IsLogin.no)
 
 async function checkLoginStatus(): Promise<void> {
-  isLogin.value = Islogin.loading
+  isLogin.value = IsLogin.loading
   await fetch('https://patchyvideo.com/be/user/whoami', {
     method: 'POST',
     headers: new Headers({
@@ -36,17 +36,17 @@ async function checkLoginStatus(): Promise<void> {
   })
     .then((data) => data.json())
     .then((res) => {
-      console.log(res)
+      // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
-        isLogin.value = Islogin.yes
+        isLogin.value = IsLogin.yes
       } else {
-        isLogin.value = Islogin.no
+        isLogin.value = IsLogin.no
         clearUserDataFromLocalStorage()
       }
     })
     .catch((err) => {
-      console.log(err)
-      isLogin.value = Islogin.no
+      // console.log(err)
+      isLogin.value = IsLogin.no
       clearUserDataFromLocalStorage()
     })
 }
@@ -62,9 +62,9 @@ function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolea
 function getUserDataFromLocalStorage(): void {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}')
   if (userData === '{}') {
-    isLogin.value = Islogin.no
+    isLogin.value = IsLogin.no
   } else {
-    isLogin.value = Islogin.yes
+    isLogin.value = IsLogin.yes
     user.value = {
       name: userData.name,
       avatar: userData.avatar,
@@ -81,7 +81,7 @@ function clearUserDataFromLocalStorage(): void {
 
 export {
   user,
-  Islogin,
+  IsLogin,
   isLogin,
   checkLoginStatus,
   setUserDataToLocalStorage,

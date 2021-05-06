@@ -24,11 +24,7 @@
         <router-link to="/user/login">登录</router-link>
       </div>
       <div v-else class="mr-2">
-        <img
-          class="inline-block h-9 w-9 rounded-full ring-2 ring-white"
-          src="@/user/assets/DefaultAvatar.jpg"
-          alt="Avatar"
-        />
+        <UserAvatar :image="user.avatar" class="inline-block h-9 w-9 rounded-full ring-2 ring-white"></UserAvatar>
       </div>
     </div>
     <!-- DrawerLayout -->
@@ -70,9 +66,14 @@
               t('common.navTop.mainMenu.Leaderboard')
             }}</router-link
           >
+          <a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
+            ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
+              t('common.navTop.mainMenu.wiki')
+            }}</a
+          >
         </div>
         <!-- User List -->
-        <div class="space-y-3">
+        <div v-if="isLogin === IsLogin.yes" class="space-y-3">
           <router-link class="block" to=""
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
               t('common.navTop.userOperation.postvideo')
@@ -83,14 +84,9 @@
               t('common.navTop.userOperation.tag')
             }}</router-link
           >
-          <a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
-            ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.wiki')
-            }}</a
-          >
         </div>
         <!-- Super Admin -->
-        <div class="w-full space-y-2">
+        <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.navTop.admin.admin')"></div>
           <div v-text="t('common.navTop.admin.whoAmI')"></div>
           <router-link class="block" to="" v-text="t('common.navTop.admin.superAdmin')"></router-link>
@@ -130,10 +126,12 @@ import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
+import { user, isLogin, IsLogin } from '@/user'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
+import UserAvatar from '@/user/components/UserAvatar.vue'
 
 export default defineComponent({
   components: {
@@ -141,6 +139,7 @@ export default defineComponent({
     AutoComplete,
     PvSelect,
     PvCheckBox,
+    UserAvatar,
   },
   props: {
     showSearchBar: {
@@ -150,7 +149,6 @@ export default defineComponent({
   },
   setup() {
     const { t } = useI18n()
-    let isLogin = ref(false)
 
     // Drawer Operation
     let drawerOpen = ref<boolean | undefined>()
@@ -188,7 +186,9 @@ export default defineComponent({
     return {
       t,
       locale,
+      user,
       isLogin,
+      IsLogin,
       drawerOpen,
       openDrawer,
       hideDrawer,

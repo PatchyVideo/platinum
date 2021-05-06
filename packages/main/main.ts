@@ -73,6 +73,6 @@ app.mount('#app')
 import './pvcc'
 
 /* Login authentication & user data filling */
-import { checkLoginStatus, getUserDataFromLocalStorage } from '@/user/index'
-getUserDataFromLocalStorage()
+import { checkLoginStatus, getUserDataFromLocalStorage } from '@/user'
 checkLoginStatus()
+getUserDataFromLocalStorage()
