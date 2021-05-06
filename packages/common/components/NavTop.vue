@@ -31,20 +31,24 @@
             class="inline-block h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
             @click="userListOpen = true"
           ></UserAvatar>
+          <!-- User List -->
           <transition name="userList">
             <div
               v-if="userListOpen"
-              class="absolute -right-2 top-5 w-40 p-2 mt-1/2 rounded overflow-hidden bg-white border shadow overflow-visible"
+              class="absolute -right-2 top-5 w-40 p-2 mt-1/2 rounded overflow-hidden bg-white border shadow overflow-visible dark:bg-gray-700 dark:border-black"
             >
               <UserAvatar
                 :title="user.name"
                 :image="user.avatar"
                 class="h-13 w-13 rounded-full ring-2 ring-white cursor-pointer absolute right-0 -top-5"
               ></UserAvatar>
-              <div class="space-y-3">
+              <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
-                <div class="text-center cursor-pointer hover:bg-gray-100" @click="logout">退出登录</div>
+                <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
+                  退出登录
+                </div>
               </div>
+              <div v-else class="p-5">登录验证中...</div>
             </div>
           </transition>
         </div>

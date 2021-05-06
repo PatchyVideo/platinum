@@ -283,7 +283,7 @@ export default defineComponent({
   @apply bg-center;
   @apply bg-no-repeat;
   @apply bg-contain;
-  background-image: url('/packages/common/assets/SearchResultBackImg.png');
+  background-image: url('./assets/SearchResultBackImg.png');
 }
 mg-box {
   height: 25vw;

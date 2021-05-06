@@ -1,8 +1,8 @@
 <template>
-  <div class="log-in h-screen w-full md:min-h-xl dark:filter-brightness">
+  <div class="log-in-mobile h-screen w-full md:min-h-xl dark:filter-brightness md:log-in-md">
     <!-- Desktop view -->
     <div
-      class="log-in-box flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 blur-2 shadow ml-50 hidden md:flex"
+      class="log-in-box flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 blur-2 shadow ml-50 text-black hidden md:flex"
     >
       <Logo :larger="20"></Logo>
       <div class="w-full space-y-3">
@@ -40,6 +40,51 @@
           </button>
           <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
           <router-link class="block text-blue-600 hover:text-blue-800" to="/user/signup">注册→</router-link>
+        </div>
+      </div>
+      <!-- This div is only for placeholder  -->
+      <div class="h-20 w-full"></div>
+      <div>© PatchyVideo 2020-2021</div>
+    </div>
+
+    <!-- Mobile view -->
+    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow flex md:hidden text-white">
+      <Logo :larger="20"></Logo>
+      <div class="w-full space-y-3">
+        <div>
+          <div class="flex w-full border-b-1 border-white">
+            <icon-uil-user class="align-middle w-7" />
+            <input
+              v-model="userName"
+              class="outline-none w-full bg-transparent placeholder-white"
+              placeholder="请输入用户名或邮箱"
+            />
+          </div>
+          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
+        </div>
+        <div>
+          <div class="flex w-full border-b-1 border-white">
+            <icon-uil-padlock class="align-middle w-7" />
+            <input
+              v-model="password"
+              type="password"
+              class="outline-none w-full bg-transparent placeholder-white"
+              placeholder="请输入密码"
+              @keydown.enter="login"
+            />
+          </div>
+          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
+        </div>
+        <div class="space-y-1">
+          <button
+            :disabled="loginStatus === LoginStatus.loading"
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
+            @click="login"
+          >
+            {{ loginStatus === LoginStatus.loading ? '登录中...' : '登录' }}
+          </button>
+          <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <router-link class="block text-blue-600" to="/user/signup">注册→</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -185,11 +230,19 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-.log-in {
-  @apply bg-center;
+.log-in-mobile {
+  @apply bg-bottom;
   @apply bg-no-repeat;
   @apply bg-cover;
-  background-image: url('./assets/Login.jpg');
+  background-image: url('./assets/LoginMobile.jpg');
+}
+@variants md {
+  .md\:log-in-md {
+    @apply bg-center;
+    @apply bg-no-repeat;
+    @apply bg-cover;
+    background-image: url('./assets/Login.jpg');
+  }
 }
 .log-in-box {
   filter: drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.25));
