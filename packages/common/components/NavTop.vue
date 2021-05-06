@@ -20,11 +20,34 @@
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
       </template>
       <!-- User -->
-      <div v-if="isLogin === IsLogin.no" class="mr-2">
-        <router-link to="/user/login">登录</router-link>
-      </div>
-      <div v-else class="mr-2">
-        <UserAvatar :image="user.avatar" class="inline-block h-9 w-9 rounded-full ring-2 ring-white"></UserAvatar>
+      <div ref="userList" class="mr-2">
+        <div v-if="isLogin === IsLogin.no">
+          <router-link to="/user/login">登录</router-link>
+        </div>
+        <div v-else class="relative">
+          <UserAvatar
+            :title="user.name"
+            :image="user.avatar"
+            class="inline-block h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
+            @click="userListOpen = true"
+          ></UserAvatar>
+          <transition name="userList">
+            <div
+              v-if="userListOpen"
+              class="absolute -right-2 top-5 w-40 p-2 mt-1/2 rounded overflow-hidden bg-white border shadow overflow-visible"
+            >
+              <UserAvatar
+                :title="user.name"
+                :image="user.avatar"
+                class="h-13 w-13 rounded-full ring-2 ring-white cursor-pointer absolute right-0 -top-5"
+              ></UserAvatar>
+              <div class="space-y-3">
+                <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
+                <div class="text-center cursor-pointer hover:bg-gray-100" @click="logout">退出登录</div>
+              </div>
+            </div>
+          </transition>
+        </div>
       </div>
     </div>
     <!-- DrawerLayout -->
@@ -85,6 +108,7 @@
             }}</router-link
           >
         </div>
+        <div v-else-if="isLogin === IsLogin.loading">验证登录中...</div>
         <!-- Super Admin -->
         <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.navTop.admin.admin')"></div>
@@ -121,12 +145,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
-import { user, isLogin, IsLogin } from '@/user'
+import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
@@ -150,8 +174,23 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
 
-    // Drawer Operation
-    let drawerOpen = ref<boolean | undefined>()
+    /* User list Operation */
+    const userListOpen = ref<boolean>(false)
+    const userList = ref<HTMLDivElement | null>(null)
+    const userListListener = (e: MouseEvent): void => {
+      if (!userList.value?.contains(e.target as HTMLElement)) {
+        userListOpen.value = false
+      }
+    }
+    onMounted((): void => {
+      document.addEventListener('click', userListListener)
+    })
+    onUnmounted((): void => {
+      document.removeEventListener('click', userListListener)
+    })
+
+    /* Drawer Operation */
+    const drawerOpen = ref<boolean | undefined>()
     function openDrawer(): void {
       drawerOpen.value = true
       window.document.body.style.overflow = 'hidden'
@@ -161,15 +200,29 @@ export default defineComponent({
       window.document.body.style.overflow = 'visible'
     }
 
-    // Search
+    /* Search */
     const router = useRouter()
     function searchResult(searchContent: string): void {
       router.push({ path: '/search-result', query: { i: searchContent } })
     }
 
-    // Back to home page
+    /* Back to home page */
     function toHome(): void {
       router.push({ path: '/' })
+    }
+
+    /* Log out */
+    async function logout(): Promise<void> {
+      await fetch('https://patchyvideo.com/be/logout.do', {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({}),
+        credentials: 'include',
+      })
+      clearUserDataFromLocalStorage()
+      location.reload()
     }
 
     const languageList = [
@@ -186,7 +239,11 @@ export default defineComponent({
     return {
       t,
       locale,
+      isDark,
+      languageList,
       user,
+      userList,
+      userListOpen,
       isLogin,
       IsLogin,
       drawerOpen,
@@ -194,8 +251,7 @@ export default defineComponent({
       hideDrawer,
       searchResult,
       toHome,
-      isDark,
-      languageList,
+      logout,
     }
   },
 })
@@ -209,5 +265,14 @@ export default defineComponent({
 .mask-enter-from,
 .mask-leave-to {
   @apply bg-opacity-0;
+}
+.userList-enter-active,
+.userList-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.userList-enter-from,
+.userList-leave-to {
+  opacity: 0;
 }
 </style>

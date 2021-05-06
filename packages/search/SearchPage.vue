@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-pink-50 dark:bg-gray-700">
+  <div class="dark:bg-gray-700">
     <NavTop :show-search-bar="false"></NavTop>
     <div class="pt-26 pb-30 text-center">
       <h3 class="text-lg font-semibold p-4 px-auto">
