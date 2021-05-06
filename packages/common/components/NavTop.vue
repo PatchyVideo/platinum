@@ -20,7 +20,7 @@
         <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
       </template>
       <!-- User -->
-      <div v-if="!isLogin" class="mr-2">
+      <div v-if="isLogin === IsLogin.no" class="mr-2">
         <router-link to="/user/login">登录</router-link>
       </div>
       <div v-else class="mr-2">
@@ -37,7 +37,7 @@
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
           <icon-uil-list-ul class="text-2xl cursor-pointer" @click="hideDrawer()" />
-          <logo class="md:mr-15" :show-icon="false"></logo>
+          <logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></logo>
         </div>
         <!-- Main List -->
         <div class="space-y-3">

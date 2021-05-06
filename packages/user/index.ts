@@ -61,14 +61,14 @@ function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolea
 
 function getUserDataFromLocalStorage(): void {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}')
-  if (userData === '{}') {
+  if (JSON.stringify(userData) === '{}') {
     isLogin.value = IsLogin.no
   } else {
     isLogin.value = IsLogin.yes
     user.value = {
       name: userData.name,
       avatar: userData.avatar,
-      isAdmin: userData.isAdmin == 'true',
+      isAdmin: userData.isAdmin,
     }
   }
 }

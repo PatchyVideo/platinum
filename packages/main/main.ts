@@ -74,5 +74,5 @@ import './pvcc'
 
 /* Login authentication & user data filling */
 import { checkLoginStatus, getUserDataFromLocalStorage } from '@/user'
-checkLoginStatus()
+await checkLoginStatus()
 getUserDataFromLocalStorage()
