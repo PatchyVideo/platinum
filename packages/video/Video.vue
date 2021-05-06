@@ -120,6 +120,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import { reactive, defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { schema, useQuery, gql } from '@/graphql'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { ObjectID } from 'bson'
 
 export default defineComponent({
@@ -221,7 +222,7 @@ export default defineComponent({
     /* basic info */
     const video = reactive(res.data.getVideo)
     // change title
-    document.title = video.item.title
+    setSiteTitle(video.item.title)
 
     /* tags */
     type Authors = {

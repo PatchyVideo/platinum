@@ -54,12 +54,14 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
 export default defineComponent({
   components: { Logo },
   props: {},
   setup() {
+    setSiteTitle('注册 - PatchyVideo')
     return {}
   },
 })

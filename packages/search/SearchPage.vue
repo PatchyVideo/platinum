@@ -18,12 +18,14 @@ import Footer from '@/common/components/Footer.vue'
 import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 export default defineComponent({
   components: { NavTop, AutoComplete, Footer },
   props: {},
   setup() {
     const { t } = useI18n()
+    setSiteTitle(t('common.autoComplete.search') + ' - PatchyVideo')
 
     // Search
     const router = useRouter()

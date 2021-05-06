@@ -128,6 +128,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 const imgMod = Object.fromEntries(
   Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
@@ -159,7 +160,7 @@ export default defineComponent({
     const queryWord = computed(() => {
       const query = route.query.i ? (typeof route.query.i === 'object' ? route.query.i.join(' ') : route.query.i) : ''
       if (query) {
-        document.title = t('search.title') + query
+        setSiteTitle(t('search.title') + query)
       }
       return query
     })
