@@ -48,7 +48,7 @@
     </div>
 
     <!-- Mobile view -->
-    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow flex md:hidden text-white">
+    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow flex text-white md:hidden">
       <Logo :larger="20"></Logo>
       <div class="w-full space-y-3">
         <div>
@@ -78,7 +78,7 @@
         <div class="space-y-1">
           <button
             :disabled="loginStatus === LoginStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="login"
           >
             {{ loginStatus === LoginStatus.loading ? '登录中...' : '登录' }}

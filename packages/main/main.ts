@@ -53,6 +53,10 @@ const router = createRouter({
       component: () => import('@/user/Signup.vue'),
     },
     {
+      path: '/user/signup-redirect',
+      component: () => import('@/user/SignupRedirect.vue'),
+    },
+    {
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },
