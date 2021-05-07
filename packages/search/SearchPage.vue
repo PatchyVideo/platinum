@@ -3,7 +3,7 @@
     <NavTop :show-search-bar="false"></NavTop>
     <div class="pt-26 pb-30 text-center">
       <h3 class="text-lg font-semibold p-4 px-auto">
-        {{ 'PatchyVideo | ' + t('common.autoComplete.search') }}
+        {{ 'PatchyVideo | ' + t('search.search-page.search') }}
       </h3>
       <AutoComplete size="mobile" class="inline-block" @search="searchResult"></AutoComplete>
     </div>
@@ -25,7 +25,7 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    setSiteTitle(t('common.autoComplete.search') + ' - PatchyVideo')
+    setSiteTitle(t('search.search-page.title') + ' - PatchyVideo')
 
     // Search
     const router = useRouter()

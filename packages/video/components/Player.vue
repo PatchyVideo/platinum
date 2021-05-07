@@ -159,6 +159,7 @@ import {
   useTimeoutFn,
 } from '@vueuse/core'
 import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType, Ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
 type BaseVideoData = {
@@ -250,6 +251,8 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const { t } = useI18n()
+
     const root = templateRef('root')
     const { width } = useElementSize(root)
     const height = computed(() => (width.value / 16) * 9)
@@ -280,24 +283,24 @@ export default defineComponent({
     const settings = computed<Record<string, SettingMenu>>(() => ({
       default: {
         id: 'default',
-        name: '视频设置',
+        name: t('video.player.settings.default.name'),
         items: [
           {
             type: 'sub',
             to: 'quality',
-            text: '清晰度',
+            text: t('video.player.settings.default.items.quality'),
             rightText: streamQuality.value,
           },
           {
             type: 'check',
-            text: '同步音频',
+            text: t('video.player.settings.default.items.audio'),
             checked: syncAudio,
           },
         ],
       },
       quality: {
         id: 'quality',
-        name: '清晰度',
+        name: t('video.player.settings.quality.name'),
         parent: 'default',
         items: [
           ...(() => {
@@ -590,7 +593,7 @@ export default defineComponent({
       return ''
     })
     const enableIframe = () => {
-      log('切换视频播放至内嵌')
+      log(t('video.player.enable-iframe'))
       useIframe.value = true
     }
 
@@ -605,13 +608,13 @@ export default defineComponent({
     const playStream = (quality: string) => {
       streamQuality.value = quality
       if (video.value) {
-        log('正在切换视频源\n')
+        log(t('video.player.play-stream.source.video.source-changing') + '\n')
         useIframe.value = false
         const stream =
           streams.value.filter((v) => v.quality === quality).find((s) => isContainerSupported(s.container, s.vcodec)) ??
           streams.value.find((s) => isContainerSupported(s.container, s.vcodec))
         if (!stream) {
-          log('无可支持视频源\n')
+          log(t('video.player.play-stream.source.video.source-nothing') + '\n')
           enableIframe()
           return
         }
@@ -623,7 +626,7 @@ export default defineComponent({
               .find((s) => isContainerSupported(s.container, s.acodec, true))
           : undefined
         if (stream.audioStreams && !audioStream) {
-          log('无可支持音频源\n')
+          log(t('video.player.play-stream.source.audio.source-nothing') + '\n')
           enableIframe()
           return
         }
@@ -631,38 +634,38 @@ export default defineComponent({
         try {
           switch (stream.container) {
             case 'flv': {
-              log('正在载入flv.js\n')
+              log(t('video.player.play-stream.container.flv.player-loading') + '\n')
               import('flv.js')
                 .then((module) => {
                   const flvjs = module.default
-                  log('正在创建flv解析器\n')
+                  log(t('video.player.play-stream.container.flv.parse-creating') + '\n')
                   if ('createPlayer' in flvjs) {
                     const flvPlayer = flvjs.createPlayer({
                       type: 'flv',
                       url: stream.src[0].replace(/^http:/, 'https:'),
                     })
                     flvPlayer.attachMediaElement(video.value)
-                    log('正在加载视频源\n')
+                    log(t('video.player.play-stream.container.flv.source-loading') + '\n')
                     flvPlayer.load()
                     flvPlayer.on('metadata_arrived', () => {
-                      log('播放器加载完毕\n')
+                      log(t('video.player.play-stream.container.flv.player-loaded') + '\n')
                       videoElementReady.value = true
                     })
                     hasAudioStream.value = false
                   }
                 })
                 .catch((e) => {
-                  log('flv解析器创建失败\n' + e + '\n')
+                  log(t('video.player.play-stream.container.flv.player-failed') + '\n' + e + '\n')
                   enableIframe()
                 })
               break
             }
             case 'webm_dash':
             case 'mp4_dash': {
-              log('正在加载视频源\n')
+              log(t('video.player.play-stream.container.mp4_dash.source-loading') + '\n')
               video.value.src = stream.src[0]
               const onCanplay = () => {
-                log('播放器加载完毕\n')
+                log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
                 videoElementReady.value = true
                 video.value.removeEventListener('canplay', onCanplay)
               }
@@ -678,7 +681,7 @@ export default defineComponent({
             }
           }
         } catch (e) {
-          log('视频源解析失败\n' + e + '\n')
+          log(t('video.player.play-stream.container.failed') + '\n' + e + '\n')
           enableIframe()
         }
       }
@@ -690,10 +693,10 @@ export default defineComponent({
         () => props.item.url,
         () => {
           if (!props.item.url) return
-          log('正在获取视频信息\n')
+          log(t('video.player.video.info-fetching') + '\n')
           url.value = props.item.url
-          log(`视频URL：${url.value}\n`)
-          log('正在解析视频地址\n')
+          log(t('video.player.video.URL') + url.value + '\n')
+          log(t('video.player.video.address-parsing') + '\n')
           fetch('https://patchyvideo.com/be/helper/get_video_stream', {
             method: 'POST',
             credentials: 'include',
@@ -712,7 +715,14 @@ export default defineComponent({
                   case 'BiliBili': {
                     streams.value = <VideoStream[]>result.data.streams
                     const stream = streams.value[0]
-                    log(`视频源：BiliBili, 视频格式：${stream.container}, 视频清晰度：${stream.quality}\n`)
+                    log(
+                      t('video.player.video.profile.BiliBili.source') +
+                        t('video.player.video.profile.BiliBili.format') +
+                        stream.container +
+                        t('video.player.video.profile.BiliBili.quality') +
+                        stream.quality +
+                        '\n'
+                    )
                     playStream(stream.quality)
                     break
                   }
@@ -732,13 +742,20 @@ export default defineComponent({
                       .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
                     streams.value = videoStreams
                     const stream = streams.value[0]
-                    log(`视频源：Youtube, 视频格式：${stream.container}, 视频清晰度：${stream.quality}\n`)
+                    log(
+                      t('video.player.video.profile.Youtube.source') +
+                        t('video.player.video.profile.Youtube.format') +
+                        stream.container +
+                        t('video.player.video.profile.Youtube.quality') +
+                        stream.quality +
+                        '\n'
+                    )
                     console.log(streams)
                     playStream(stream.quality)
                     break
                   }
                   default: {
-                    log('未知的视频源：' + result.data.extractor)
+                    log(t('video.player.video.profile.unknown-source') + result.data.extractor)
                     throw 'unknown extractor'
                   }
                 }
@@ -759,6 +776,7 @@ export default defineComponent({
     const streams = ref<VideoStream[]>([])
 
     return {
+      t,
       url,
       logText,
       streams,

@@ -22,7 +22,7 @@
       <!-- User -->
       <div ref="userList" class="mr-2">
         <div v-if="isLogin === IsLogin.no">
-          <router-link to="/user/login">登录</router-link>
+          <router-link to="/user/login">{{ t('common.nav-top.user.login') }}</router-link>
         </div>
         <div v-else class="relative">
           <UserAvatar
@@ -45,10 +45,10 @@
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
-                  退出登录
+                  {{ t('common.nav-top.user.logout') }}
                 </div>
               </div>
-              <div v-else class="p-5">登录验证中...</div>
+              <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
             </div>
           </transition>
         </div>
@@ -70,32 +70,32 @@
         <div class="space-y-3">
           <router-link class="block" to="/"
             ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.home')
+              t('common.nav-top.main-menu.home')
             }}</router-link
           >
           <router-link class="block" to=""
             ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.video')
+              t('common.nav-top.main-menu.video')
             }}</router-link
           >
           <router-link class="block" to=""
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.list')
+              t('common.nav-top.main-menu.list')
             }}</router-link
           >
           <router-link class="block" to=""
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.discussBoard')
+              t('common.nav-top.main-menu.discuss-board')
             }}</router-link
           >
           <router-link class="block" to=""
             ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.Leaderboard')
+              t('common.nav-top.main-menu.leaderboard')
             }}</router-link
           >
           <a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
             ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.mainMenu.wiki')
+              t('common.nav-top.main-menu.wiki')
             }}</a
           >
         </div>
@@ -103,34 +103,34 @@
         <div v-if="isLogin === IsLogin.yes" class="space-y-3">
           <router-link class="block" to=""
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.userOperation.postvideo')
+              t('common.nav-top.user-operation.postvideo')
             }}</router-link
           >
           <router-link class="block" to=""
             ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
-              t('common.navTop.userOperation.tag')
+              t('common.nav-top.user-operation.tag')
             }}</router-link
           >
         </div>
         <div v-else-if="isLogin === IsLogin.loading">验证登录中...</div>
         <!-- Super Admin -->
         <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="w-full space-y-2">
-          <div class="text-gray-400 text-xs" v-text="t('common.navTop.admin.admin')"></div>
-          <div v-text="t('common.navTop.admin.whoAmI')"></div>
-          <router-link class="block" to="" v-text="t('common.navTop.admin.superAdmin')"></router-link>
+          <div class="text-gray-400 text-xs" v-text="t('common.nav-top.admin.admin')"></div>
+          <div v-text="t('common.nav-top.admin.who-am-I')"></div>
+          <router-link class="block" to="" v-text="t('common.nav-top.admin.super-admin')"></router-link>
         </div>
         <!-- Settings -->
         <div class="w-full space-y-2">
-          <div class="text-gray-400 text-xs" v-text="t('common.navTop.settings.settings')"></div>
+          <div class="text-gray-400 text-xs" v-text="t('common.nav-top.settings.settings')"></div>
           <div class="flex justify-between items-center">
             <label class="space-x-2">
-              <label v-text="t('common.navTop.settings.darkMode')"></label>
+              <label v-text="t('common.nav-top.settings.darkmode')"></label>
               <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
             </label>
             <pv-check-box v-model:check="isDark"></pv-check-box>
           </div>
           <div class="flex justify-between items-center">
-            <label v-text="t('common.navTop.settings.lang')"></label>
+            <label v-text="t('common.nav-top.settings.lang')"></label>
             <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
           </div>
         </div>

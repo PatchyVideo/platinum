@@ -4,7 +4,7 @@
 
     <div class="text-center flex flex-col justify-start items-center">
       <h3 class="text-lg font-semibold p-4 px-auto">
-        {{ '搜索结果 - ' + queryWord }}
+        {{ t('search.search-result.search-keywords') + queryWord }}
       </h3>
       <AutoComplete
         class="md:hidden sm:w-4/6 w-5/6"
@@ -21,14 +21,20 @@
     </div>
 
     <div class="p-2 md:m-auto lg:w-7/10">
-      <div v-if="status === Status.loading">搜索中......</div>
+      <div v-if="status === Status.loading">{{ t('search.search-result.main-body.loading.searching') }}</div>
       <div v-else-if="status === Status.error">
-        <div>加载失败了QAQ</div>
-        <div>{{ '错误原因：' + errMsg }}</div>
+        <div>{{ t('search.search-result.main-body.failed.search-failed') }}</div>
+        <div>{{ t('search.search-result.main-body.failed.search-failed-reason') + errMsg }}</div>
       </div>
-      <div v-else-if="count === 0">没有搜索到视频QAQ</div>
+      <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
       <div v-else-if="status === Status.result">
-        <div class="border-b-1 pb-1">{{ '共搜索到' + count + '个视频' }}</div>
+        <div class="border-b-1 pb-1">
+          {{
+            t('search.search-result.main-body.successful.search-result-count1') +
+            count +
+            t('search.search-result.main-body.successful.search-result-count2')
+          }}
+        </div>
         <!-- Mobile View -->
         <div class="md:hidden">
           <div
@@ -53,7 +59,7 @@
               </div>
               <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>源网站：</div>
+                <div>{{ t('search.search-result.video.source-site') }}</div>
                 <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
@@ -88,7 +94,7 @@
                 video.item.title
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>源网站：</div>
+                <div>{{ t('search.search-result.video.source-site') }}</div>
                 <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
@@ -100,15 +106,23 @@
             class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
             @click="jumpToPreviousPage"
           >
-            上一页
+            {{ t('search.search-result.pagination.page-previous') }}
           </a>
-          <div>{{ '第' + (offset + 1) + '/' + pageCount + '页' }}</div>
+          <div>
+            {{
+              t('search.search-result.pagination.page-number1') +
+              (offset + 1) +
+              '/' +
+              pageCount +
+              t('search.search-result.pagination.page-number2')
+            }}
+          </div>
           <a
             v-if="offset + 1 != pageCount"
             class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
             @click="jumpToNextPage"
           >
-            下一页
+            {{ t('search.search-result.pagination.page-next') }}
           </a>
         </div>
       </div>
@@ -122,7 +136,7 @@
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import BackTop from '@/common/components/BackTop.vue'
+import BackTop from '@/ui/components/BackTop.vue'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -160,7 +174,7 @@ export default defineComponent({
     const queryWord = computed(() => {
       const query = route.query.i ? (typeof route.query.i === 'object' ? route.query.i.join(' ') : route.query.i) : ''
       if (query) {
-        setSiteTitle(t('search.title') + query)
+        setSiteTitle(t('search.search-result.title') + query)
       }
       return query
     })

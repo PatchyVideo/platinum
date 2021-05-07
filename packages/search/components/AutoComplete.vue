@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div
     ref="autoCompleteRoot"
@@ -23,7 +24,7 @@
         class="bg-pink-300 h-full px-3 rounded-r-xl transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200 w-20"
         @click="searchContent && $emit('search', searchContent)"
       >
-        {{ t('common.autoComplete.search') }}
+        {{ t('search.auto-complete.search') }}
       </button>
     </div>
     <div
@@ -58,7 +59,7 @@
     <div
       :class="{ hidden: !loading }"
       class="p-3 text-center shadow rounded bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
-      v-text="searchSuccess ? t('common.autoComplete.loading') : t('common.autoComplete.loadingFailed')"
+      v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
     ></div>
   </div>
 </template>

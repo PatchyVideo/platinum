@@ -7,28 +7,28 @@
       <div class="p-4 pt-10 space-y-10 md:pt-24">
         <div>
           <div class="font-semibold md:text-lg">
-            {{ t('home.intro') }}
+            {{ t('home.home.intro') }}
             <br />
-            {{ t('home.intro2') }}
+            {{ t('home.home.intro2') }}
           </div>
           <div>
-            {{ t('home.progress') }}
+            {{ t('home.home.progress') }}
             <a
               class="underline"
               href="https://github.com/PatchyVideo/PatchyVideo-docs/blob/main/%E7%AC%AC%E4%B8%89%E8%BD%AE%E5%AD%90-%E6%B5%8B%E8%AF%95%E7%89%88%E5%86%85%E5%AE%B9.md"
               target="_blank"
-              >{{ t('home.progress2') }}</a
+              >{{ t('home.home.progress2') }}</a
             >
           </div>
         </div>
         <div class="font-semibold md:text-lg">
-          {{ t('home.join') }}
+          {{ t('home.home.join') }}
           <br />
           <a
             class="underline text-lg"
             :href="locale == 'zh-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
             target="_blank"
-            >{{ t('home.join2') }}</a
+            >{{ t('home.home.join2') }}</a
           >
         </div>
       </div>
@@ -52,6 +52,7 @@
 import { defineComponent, reactive, ref } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Footer from '@/common/components/Footer.vue'
 import NavTop from '@/common/components/NavTop.vue'
 
@@ -62,6 +63,9 @@ export default defineComponent({
     NavTop,
   },
   setup() {
+    const { t } = useI18n()
+    setSiteTitle(t('home.home.title'))
+
     interface HomeCompData {
       name: string
       data?: string
@@ -77,9 +81,6 @@ export default defineComponent({
         data: '{"listID":"5e057a1b31929c83a76d18a4"}',
       })
     }
-
-    const { t } = useI18n()
-
     return {
       t,
       locale,

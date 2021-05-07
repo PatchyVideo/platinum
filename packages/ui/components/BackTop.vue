@@ -2,7 +2,7 @@
   <div
     class="shadow fixed bottom-5 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-800"
     :class="{ 'opacity-50': !top }"
-    :title="t('common.backTop.backTop')"
+    :title="t('ui.back-top.back-top')"
     @click="backUp()"
   >
     <icon-uil-top-arrow-to-top class="text-2xl" />

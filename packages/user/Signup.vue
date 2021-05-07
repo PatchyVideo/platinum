@@ -12,7 +12,7 @@
             <input
               v-model="userName"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请输入用户名"
+              :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
@@ -24,7 +24,7 @@
               v-model="password"
               type="password"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请输入密码"
+              :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
@@ -36,7 +36,7 @@
               v-model="password2"
               type="password"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请重复密码"
+              :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
@@ -47,7 +47,7 @@
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请绑定邮箱"
+              :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
           </div>
@@ -59,10 +59,16 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             @click="signup"
           >
-            {{ signupStatus === SignupStatus.loading ? '注册中...' : '注册' }}
+            {{
+              signupStatus === SignupStatus.loading
+                ? t('user.signup.signup-status.loading')
+                : t('user.signup.signup-status.ready')
+            }}
           </button>
           <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">←登录</router-link>
+          <router-link class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
+            '←' + t('user.signup.login')
+          }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -80,7 +86,7 @@
             <input
               v-model="userName"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              placeholder="请输入用户名"
+              :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
@@ -92,7 +98,7 @@
               v-model="password"
               type="password"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              placeholder="请输入密码"
+              :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
@@ -104,7 +110,7 @@
               v-model="password2"
               type="password"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              placeholder="请重复密码"
+              :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
@@ -115,7 +121,7 @@
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              placeholder="请绑定邮箱"
+              :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
           </div>
@@ -127,10 +133,16 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="signup"
           >
-            {{ signupStatus === SignupStatus.loading ? '注册中...' : '注册' }}
+            {{
+              signupStatus === SignupStatus.loading
+                ? t('user.signup.signup-status.loading')
+                : t('user.signup.signup-status.ready')
+            }}
           </button>
           <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-right text-gray-300" to="/user/login">←登录</router-link>
+          <router-link class="block text-right text-gray-300" to="/user/login">{{
+            '←' + t('user.signup.login')
+          }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -144,6 +156,7 @@
 import { defineComponent, ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 
@@ -151,8 +164,9 @@ export default defineComponent({
   components: { Logo },
   props: {},
   setup() {
+    const { t } = useI18n()
     const router = useRouter()
-    setSiteTitle('注册 - PatchyVideo')
+    setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
 
     enum SignupStatus {
       'ready' = 'ready',
@@ -160,33 +174,33 @@ export default defineComponent({
       'error' = 'error',
     }
     const signupStatus = ref<string>(SignupStatus.ready)
-    enum UsernameStatus {
-      'fine' = ' ',
-      'tip' = '请输入用户名！',
-      'msg' = '长度在 2 到 32 个字符!',
-      'res' = '该用户名已被注册！',
-      'err' = '网络错误！',
+    const UsernameStatus = {
+      fine: t('user.signup.username.username-status.fine'),
+      tip: t('user.signup.username.username-status.tip'),
+      msg: t('user.signup.username.username-status.msg'),
+      res: t('user.signup.username.username-status.res'),
+      err: t('user.signup.username.username-status.err'),
     }
     const usernameStatus = ref<string>(UsernameStatus.fine)
-    enum PasswordStatus {
-      'fine' = ' ',
-      'tip' = '请输入密码!',
-      'msg' = '长度在 6 到 64 个字符!',
+    const PasswordStatus = {
+      fine: t('user.signup.password.password-status.fine'),
+      tip: t('user.signup.password.password-status.tip'),
+      msg: t('user.signup.password.password-status.msg'),
     }
     const passwordStatus = ref<string>(PasswordStatus.fine)
-    enum Password2Status {
-      'fine' = ' ',
-      'tip' = '请再次输入密码!',
-      'msg' = '两次密码输入不一致！',
+    const Password2Status = {
+      fine: t('user.signup.password2.password2-status.fine'),
+      tip: t('user.signup.password2.password2-status.tip'),
+      msg: t('user.signup.password2.password2-status.msg'),
     }
     const password2Status = ref<string>(Password2Status.fine)
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    enum EmailStatus {
-      'fine' = ' ',
-      'tip' = '请输入邮箱!',
-      'msg' = '请输入正确的邮箱格式！',
-      'res' = '该邮箱已被注册！',
-      'err' = '网络错误！',
+    const EmailStatus = {
+      fine: t('user.signup.email.email-status.fine'),
+      tip: t('user.signup.email.email-status.tip'),
+      msg: t('user.signup.email.email-status.msg'),
+      res: t('user.signup.email.email-status.res'),
+      err: t('user.signup.email.email-status.err'),
     }
     const emailStatus = ref<string>(EmailStatus.fine)
 
@@ -319,7 +333,7 @@ export default defineComponent({
           if (res.status === resDataStatus.SUCCEED) session = res.data
           else {
             signupStatus.value = SignupStatus.error
-            errmsg.value = '未知错误'
+            errmsg.value = t('user.signup.signup-status.error')
           }
         })
         .catch((err) => {
@@ -358,6 +372,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       SignupStatus,
       signupStatus,
       usernameStatus,

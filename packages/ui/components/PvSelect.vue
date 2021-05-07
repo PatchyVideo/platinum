@@ -62,7 +62,7 @@ export default defineComponent({
 
     // Get Item Name By Value
     function getItemNameByValue(value: string): string {
-      return props.itemList.find((item) => item.value === value)?.name || t('common.pvSelect.select')
+      return props.itemList.find((item) => item.value === value)?.name || t('ui.pv-select.select')
     }
 
     // Click to hide the list

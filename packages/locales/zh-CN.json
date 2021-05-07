@@ -1,48 +1,33 @@
 {
-  "home": {
-    "hello": "你好世界！",
-    "intro": "新页面还在建设中哦(/ω＼)",
-    "intro2": "先尝试使用顶部导航栏的搜索功能搜索一个自己喜欢的视频吧！",
-    "progress": "*项目的功能进度可以参考",
-    "progress2": "这里",
-    "join": "当然了，新页面也意味着帕琪站需要更多热爱东方的大家来一起帮忙建设，如果大家有兴趣的话，可以先参考一下介个:",
-    "join2": "招募祈望 - PatchyVideo Wiki"
-  },
   "common": {
-    "navTop": {
-      "mainMenu": {
+    "nav-top": {
+      "main-menu": {
         "home": "主页",
         "video": "视频",
         "list": "播放列表",
-        "discussBoard": "讨论板",
-        "Leaderboard": "用户排行榜",
+        "discuss-board": "讨论板",
+        "leaderboard": "用户排行榜",
         "wiki": "网站维基"
       },
-      "userOperation": {
+      "user-operation": {
         "postvideo": "发布视频",
         "tag": "编辑标签"
       },
       "admin": {
         "admin": "管理员",
-        "whoAmI": "视角",
-        "superAdmin": "管理员页面"
+        "who-am-I": "视角",
+        "super-admin": "管理员页面"
       },
       "settings": {
         "settings": "设置",
-        "darkMode": "深色模式",
+        "darkmode": "深色模式",
         "lang": "显示语言"
+      },
+      "user": {
+        "login": "登录",
+        "logout": "退出登录",
+        "confirming": "验证登录中..."
       }
-    },
-    "autoComplete": {
-      "search": "搜索",
-      "loading": "加载中...",
-      "loadingFailed": "加载失败了QAQ"
-    },
-    "backTop": {
-      "backTop": "回到顶部"
-    },
-    "pvSelect": {
-      "select": "请选择"
     },
     "footer": {
       "wiki": "网站维基",
@@ -60,15 +45,215 @@
     "light": "浅色",
     "dark": "深色"
   },
-  "locales": {
-    "change-lang-reload-hint": "部分语言修改需要刷新页面才能生效\n现在刷新页面吗？"
-  },
   "error-pages": {
     "N404": {
       "title": "巴瓦鲁魔法服务器并没有这个界面"
     }
   },
+  "home": {
+    "home": {
+      "title": "PatchyVideo - Platinum(WIP)",
+      "hello": "你好世界！",
+      "intro": "新页面还在建设中哦(/ω＼)",
+      "intro2": "先尝试使用顶部导航栏的搜索功能搜索一个自己喜欢的视频吧！",
+      "progress": "*项目的功能进度可以参考",
+      "progress2": "这里",
+      "join": "当然了，新页面也意味着帕琪站需要更多热爱东方的大家来一起帮忙建设，如果大家有兴趣的话，可以先参考一下介个:",
+      "join2": "招募祈望 - PatchyVideo Wiki"
+    },
+    "list": {
+      "favorites": "收藏夹"
+    }
+  },
+  "locales": {
+    "change-lang-reload-hint": "部分语言修改需要刷新页面才能生效\n现在刷新页面吗？"
+  },
   "search": {
-    "title": "搜索结果 - "
+    "search-result": {
+      "title": "搜索结果 - ",
+      "search-keywords": "搜索结果 - ",
+      "main-body": {
+        "loading": {
+          "searching": "搜索中......"
+        },
+        "failed": {
+          "search-failed": "加载失败了QAQ",
+          "search-failed-reason": "错误原因："
+        },
+        "successful": {
+          "search-no-result": "没有搜索到视频QAQ",
+          "search-result-count1": "共搜索到",
+          "search-result-count2": "个视频"
+        }
+      },
+      "video": { "source-site": "源网站：" },
+      "pagination": {
+        "page-previous": "上一页",
+        "page-number1": "第",
+        "page-number2": "页",
+        "page-next": "下一页"
+      }
+    },
+    "search-page": {
+      "title": "搜索",
+      "search": "搜索"
+    },
+    "auto-complete": {
+      "search": "搜索",
+      "loading": "加载中...",
+      "loading-failed": "加载失败了QAQ"
+    }
+  },
+  "ui": {
+    "back-top": {
+      "back-top": "回到顶部"
+    },
+    "pv-select": {
+      "select": "请选择"
+    }
+  },
+  "user": {
+    "login": {
+      "title": "登录",
+      "username": {
+        "placeholder": "请输入用户名或邮箱",
+        "username-status": {
+          "fine": " ",
+          "tip": "请输入用户名或邮箱！",
+          "msg": "长度在 2 到 32 个字符！"
+        }
+      },
+      "password": {
+        "placeholder": "请输入密码",
+        "password-status": {
+          "fine": " ",
+          "tip": "请输入密码！",
+          "msg": "长度在 6 到 64 个字符！"
+        }
+      },
+      "login-status": {
+        "ready": "登录",
+        "loading": "登录中...",
+        "failed": "用户名或密码错误！",
+        "error": "未知错误"
+      },
+      "signup": "注册"
+    },
+    "signup": {
+      "title": "注册",
+      "username": {
+        "placeholder": "请输入用户名",
+        "username-status": {
+          "fine": " ",
+          "tip": "请输入用户名！",
+          "msg": "长度在 2 到 32 个字符!",
+          "res": "该用户名已被注册！",
+          "err": "网络错误！"
+        }
+      },
+      "password": {
+        "placeholder": "请输入密码",
+        "password-status": {
+          "fine": " ",
+          "tip": "请输入密码!",
+          "msg": "长度在 6 到 64 个字符!"
+        }
+      },
+      "password2": {
+        "placeholder": "请重复密码",
+        "password2-status": {
+          "fine": " ",
+          "tip": "请再次输入密码!",
+          "msg": "两次密码输入不一致！"
+        }
+      },
+      "email": {
+        "placeholder": "请绑定邮箱",
+        "email-status": {
+          "fine": " ",
+          "tip": "请输入邮箱!",
+          "msg": "请输入正确的邮箱格式！",
+          "res": "该邮箱已被注册！",
+          "err": "网络错误！"
+        }
+      },
+      "signup-status": {
+        "ready": "注册",
+        "loading": "注册中...",
+        "error": "未知错误"
+      },
+      "login": "登录"
+    },
+    "signup-redirect": {
+      "title": "跳转中...",
+      "log1": "注册成功，",
+      "log2": "秒后跳转回登录页面",
+      "jump": "没有反应？点击我手动跳转"
+    }
+  },
+  "video": {
+    "video": {
+      "uploader": "上传者",
+      "no-desc": "这个人太懒啦，并没有写简介"
+    },
+    "player": {
+      "settings": {
+        "default": {
+          "name": "视频设置",
+          "items": {
+            "quality": "清晰度",
+            "audio": "同步音频"
+          }
+        },
+        "quality": {
+          "name": "清晰度"
+        }
+      },
+      "enable-iframe": "切换视频播放至内嵌",
+      "play-stream": {
+        "source": {
+          "video": {
+            "source-changing": "正在切换视频源",
+            "source-nothing": "无可支持视频源"
+          },
+          "audio": {
+            "source-nothing": "无可支持音频源"
+          }
+        },
+        "container": {
+          "flv": {
+            "player-loading": "正在载入flv.js",
+            "player-loaded": "播放器加载完毕",
+            "player-failed": "flv解析器创建失败",
+            "parse-creating": "正在创建flv解析器",
+            "source-loading": "正在加载视频源"
+          },
+          "webm_dash": {},
+          "mp4_dash": {
+            "player-loaded": "播放器加载完毕",
+            "source-loading": "正在加载视频源"
+          },
+          "failed": "视频源解析失败"
+        }
+      },
+      "video": {
+        "info-fetching": "正在获取视频信息",
+        "URL": "视频URL：",
+        "address-parsing": "正在解析视频地址",
+        "profile": {
+          "BiliBili": {
+            "source": "视频源：BiliBili，",
+            "format": "视频格式：",
+            "quality": "，视频清晰度："
+          },
+          "Youtube": {
+            "source": "视频源：Youtube，",
+            "format": "视频格式：",
+            "quality": "，视频清晰度："
+          },
+          "unknown-source": "未知的视频源："
+        }
+      }
+    }
   }
 }

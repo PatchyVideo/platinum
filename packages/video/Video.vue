@@ -97,7 +97,7 @@
                 <div
                   class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
                 >
-                  {{ author.desc || '这个人太懒啦，并没有写简介' }}
+                  {{ author.desc || t('video.video.no-desc') }}
                 </div>
               </div>
             </div>
@@ -119,6 +119,7 @@ import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import { reactive, defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { schema, useQuery, gql } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { ObjectID } from 'bson'
@@ -135,6 +136,8 @@ export default defineComponent({
   },
   async setup() {
     // TODO: using script setup instead
+
+    const { t } = useI18n()
 
     /* submit query */
     const route = useRoute()
@@ -260,7 +263,7 @@ export default defineComponent({
         desc: video.meta.createdBy.desc,
         avatar: video.meta.createdBy.image,
         gravatar: video.meta.createdBy.gravatar || undefined,
-        position: '上传者',
+        position: t('video.video.uploader'),
       })
 
     /* comments */
@@ -322,6 +325,7 @@ export default defineComponent({
     }
 
     return {
+      t,
       route,
       vid,
       video,

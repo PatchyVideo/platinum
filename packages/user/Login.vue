@@ -12,7 +12,7 @@
             <input
               v-model="userName"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请输入用户名或邮箱"
+              :placeholder="t('user.login.username.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
@@ -24,7 +24,7 @@
               v-model="password"
               type="password"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请输入密码"
+              :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"
             />
           </div>
@@ -36,10 +36,16 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             @click="login"
           >
-            {{ loginStatus === LoginStatus.loading ? '登录中...' : '登录' }}
+            {{
+              loginStatus === LoginStatus.loading
+                ? t('user.login.login-status.loading')
+                : t('user.login.login-status.ready')
+            }}
           </button>
           <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600 hover:text-blue-800" to="/user/signup">注册→</router-link>
+          <router-link class="block text-blue-600 hover:text-blue-800" to="/user/signup">{{
+            t('user.login.signup') + '→'
+          }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -57,7 +63,7 @@
             <input
               v-model="userName"
               class="outline-none w-full bg-transparent placeholder-white"
-              placeholder="请输入用户名或邮箱"
+              :placeholder="t('user.login.username.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
@@ -69,7 +75,7 @@
               v-model="password"
               type="password"
               class="outline-none w-full bg-transparent placeholder-white"
-              placeholder="请输入密码"
+              :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"
             />
           </div>
@@ -81,10 +87,14 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="login"
           >
-            {{ loginStatus === LoginStatus.loading ? '登录中...' : '登录' }}
+            {{
+              loginStatus === LoginStatus.loading
+                ? t('user.login.login-status.loading')
+                : t('user.login.login-status.ready')
+            }}
           </button>
           <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600" to="/user/signup">注册→</router-link>
+          <router-link class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -97,6 +107,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
@@ -106,8 +117,9 @@ export default defineComponent({
   components: { Logo },
   props: {},
   setup() {
+    const { t } = useI18n()
     const router = useRouter()
-    setSiteTitle('登录 - PatchyVideo')
+    setSiteTitle(t('user.login.title') + ' - PatchyVideo')
 
     enum LoginStatus {
       'ready' = 'ready',
@@ -115,16 +127,16 @@ export default defineComponent({
       'error' = 'error',
     }
     const loginStatus = ref<string>(LoginStatus.ready)
-    enum UsernameStatus {
-      'fine' = ' ',
-      'tip' = '请输入用户名或邮箱！',
-      'msg' = '长度在 2 到 32 个字符!',
+    const UsernameStatus = {
+      fine: t('user.login.username.username-status.fine'),
+      tip: t('user.login.username.username-status.tip'),
+      msg: t('user.login.username.username-status.msg'),
     }
     const usernameStatus = ref<string>(UsernameStatus.fine)
-    enum PasswordStatus {
-      'fine' = ' ',
-      'tip' = '请输入密码!',
-      'msg' = '长度在 6 到 64 个字符!',
+    const PasswordStatus = {
+      fine: t('user.login.password.password-status.fine'),
+      tip: t('user.login.password.password-status.tip'),
+      msg: t('user.login.password.password-status.msg'),
     }
     const passwordStatus = ref<string>(PasswordStatus.fine)
 
@@ -177,7 +189,7 @@ export default defineComponent({
           if (res.status === resDataStatus.SUCCEED) session = res.data
           else {
             loginStatus.value = LoginStatus.error
-            errmsg.value = '未知错误'
+            errmsg.value = t('user.login.login-status.error')
           }
         })
         .catch((err) => {
@@ -212,7 +224,7 @@ export default defineComponent({
             return
           } else if (res.status === resDataStatus.FAILED) {
             loginStatus.value = LoginStatus.error
-            errmsg.value = '用户名或密码错误！'
+            errmsg.value = t('user.login.login-status.failed')
           } else {
             loginStatus.value = LoginStatus.error
             errmsg.value = res.dataerr.reason
@@ -224,7 +236,7 @@ export default defineComponent({
           errmsg.value = err
         })
     }
-    return { LoginStatus, loginStatus, usernameStatus, passwordStatus, userName, password, errmsg, login }
+    return { t, LoginStatus, loginStatus, usernameStatus, passwordStatus, userName, password, errmsg, login }
   },
 })
 </script>
