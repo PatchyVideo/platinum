@@ -16,9 +16,11 @@ jobs:
 
       - name: Codegen
         run: yarn codegen
+        timeout-minutes: 5
 
       - name: Build
         run: yarn build
+        timeout-minutes: 15
 
       - name: Deploy to Vercel (Staging)
         if: ${{ github.ref != 'refs/heads/main' }}
@@ -29,6 +31,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID}}
           working-directory: ./dist
           github-comment: false
+        timeout-minutes: 5
 
       - name: Deploy to Vercel (Production)
         if: ${{ github.ref == 'refs/heads/main' }}
@@ -40,3 +43,4 @@ jobs:
           vercel-args: '--prod'
           working-directory: ./dist
           github-comment: false
+        timeout-minutes: 5
