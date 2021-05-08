@@ -45,6 +45,10 @@ const router = createRouter({
       component: () => import('@/video/Video.vue'),
     },
     {
+      path: '/embed/:vid',
+      component: () => import('@/video/Embed.vue'),
+    },
+    {
       path: '/user/login',
       component: () => import('@/user/Login.vue'),
     },
