@@ -1,11 +1,12 @@
 require('cross-fetch/polyfill')
 
 const isbot = require('isbot')
+const path = require('path')
 const fs = require('fs')
 const gql = require('fake-tag')
 const { encode } = require('html-entities')
 
-const html = fs.readFileSync('./index.html').toString()
+const html = fs.readFileSync(path.join(__dirname, '../index.html')).toString()
 
 /**
  * @param {import('@vercel/node').VercelRequest} req
@@ -79,8 +80,6 @@ module.exports = async (req, res) => {
       body = body.replace(/<!-- meta start -->[\S\s]*<!-- meta end -->/, og)
     }
   }
-
-  body += '<!-- UA: ' + ua + ' -->'
 
   res
     .writeHead(200, {
