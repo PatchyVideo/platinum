@@ -24,6 +24,10 @@
   "license": "MIT",
   "repository": "https://github.com/PatchyVideo/platinum",
   "private": true,
+  "workspaces": [
+    ".",
+    "public"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "node ./scripts/build.js",
@@ -63,6 +67,7 @@
     "@types/tlds": "^1.199.0",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
+    "@vercel/node": "^1.10.0",
     "@vitejs/plugin-vue": "^1.2.2",
     "@vue/compiler-sfc": "^3.0.11",
     "autoprefixer": "^10.2.5",

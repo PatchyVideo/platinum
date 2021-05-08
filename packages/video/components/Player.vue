@@ -1,5 +1,10 @@
 <template>
-  <div ref="root" class="root relative w-full bg-black overflow-hidden" :style="{ height: height + 'px' }">
+  <div
+    ref="root"
+    class="root relative w-full bg-black overflow-hidden"
+    :class="{ 'h-full': fullWidth }"
+    :style="{ height: fullWidth ? undefined : height + 'px' }"
+  >
     <video
       v-show="videoElementReady && !useIframe"
       ref="video"
@@ -248,6 +253,10 @@ export default defineComponent({
     item: {
       type: Object as PropType<schema.VideoItem>,
       default: () => ({}),
+    },
+    fullWidth: {
+      type: Boolean,
+      default: false,
     },
   },
   setup(props) {

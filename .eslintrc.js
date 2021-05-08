@@ -20,7 +20,7 @@ module.exports = {
    */
   overrides: [
     {
-      files: ['./*.config.js', './*rc.js', './scripts/*.js', './packages/**/scripts/*.js'],
+      files: ['./*.config.js', './*rc.js', '**/scripts/**/*.js', './public/**/*.js'],
       env: {
         node: true,
       },
