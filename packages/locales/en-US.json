@@ -1,65 +1,263 @@
 {
-  "home": {
-    "hello": "Hello World!",
-    "intro": "This page is currently under construction.(/ω＼)",
-    "intro2": "Try to use the navigation bar to search for videos of interest.",
-    "progress": "Working process can be seen",
-    "progress2": "HERE",
-    "join": "Do you want to join us to make Touhou community better?",
-    "join2": "Click HERE NOW!"
-  },
   "common": {
-    "navTop": {
-      "mainMenu": {
+    "nav-top": {
+      "work-in-progress": "The function is still in progress, please be patient!",
+      "main-menu": {
         "home": "Home",
-        "video": "Videos",
-        "list": "Play Lists",
-        "discussBoard": "Forums",
-        "Leaderboard": "Leaderboard",
+        "video": "Video",
+        "list": "Playlist",
+        "discuss-board": "Forum",
+        "leaderboard": "Leaderboard",
         "wiki": "Wiki"
       },
-      "userOperation": {
+      "user-operation": {
         "postvideo": "Post Video",
         "tag": "Edit Tags"
       },
       "admin": {
         "admin": "Admin",
-        "whoAmI": "Identity",
-        "superAdmin": "Admin Page"
+        "who-am-I": "My Role",
+        "super-admin": "Admin"
       },
       "settings": {
         "settings": "Settings",
-        "darkMode": "Dark Mode",
-        "lang": "language"
+        "darkmode": "Darkmode",
+        "lang": "Language"
+      },
+      "user": {
+        "login": "Login",
+        "logout": "Logout",
+        "confirming": "Logging in..."
       }
     },
-    "autoComplete": {
-      "search": "Search",
-      "loading": "Loading...",
-      "loadingFailed": "Loading Failed :("
-    },
-    "backTop": {
-      "backTop": "回到顶部"
-    },
-    "pvSelect": {
-      "select": "select"
-    },
     "footer": {
-      "bl-account": "BiliBili Account",
-      "code": "Development",
+      "wiki": "Wiki",
+      "status": "Site status",
+      "bl-account": "Bilibili account",
+      "joinus": "Join Us",
+      "code": "Codes",
+      "repositories": "Repos",
+      "feedback-issue": "Report bugs",
       "contact": "Contact",
-      "feedback-issue": "Report issues",
-      "joinus": "Join us",
-      "repositories": "Repositories",
-      "status": "Status",
-      "wiki": "Wiki"
+      "license": "Lincense"
     }
   },
   "darkmode": {
-    "dark": "Dark",
-    "light": "Light"
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "error-pages": {
+    "N404": {
+      "title": "Page not found"
+    }
+  },
+  "home": {
+    "home": {
+      "title": "PatchyVideo - Platinum(WIP)",
+      "hello": "Hello world",
+      "intro": "New page under construction(/ω＼)",
+      "intro2": "You can try searching for videos using the top nav bar",
+      "progress": "*Progress can be found ",
+      "progress2": "here",
+      "old-page": "*The old version of the site can be seen",
+      "old-page2": "here",
+      "offical-account": "Go to our official bilibili account, hit the subscribe button, and get our latest updates at the earliest time!",
+      "join": "Of course, we need help from the touhou community to make PatchyVideo better, that means you can be of help:",
+      "join2": "Join Us - PatchyVideo Wiki"
+    },
+    "list": {
+      "favorites": "Playlist"
+    }
   },
   "locales": {
-    "change-lang-reload-hint": "Some language changes may need a refresh in order to fully apply.\nRefresh the page now?"
+    "change-lang-reload-hint": "Some changes are only visible are reloading the page, do you wise to reload now?"
+  },
+  "search": {
+    "search-result": {
+      "title": "Result - ",
+      "search-keywords": "Result - ",
+      "main-body": {
+        "loading": {
+          "searching": "Searching......"
+        },
+        "failed": {
+          "search-failed": "Search failed",
+          "search-failed-reason": "Reason:"
+        },
+        "successful": {
+          "search-no-result": "No match found",
+          "search-result-count1": "Total ",
+          "search-result-count2": " videos"
+        }
+      },
+      "video": { "source-site": "Source:" },
+      "pagination": {
+        "page-previous": "Prev",
+        "page-number1": "",
+        "page-number2": "",
+        "page-next": "Next"
+      }
+    },
+    "search-page": {
+      "title": "Search",
+      "search": "Search"
+    },
+    "auto-complete": {
+      "search": "Search",
+      "loading": "Loading...",
+      "loading-failed": "autocomplete unavailable"
+    }
+  },
+  "ui": {
+    "back-top": {
+      "back-top": "Back to top"
+    },
+    "pv-select": {
+      "select": "Choose"
+    }
+  },
+  "user": {
+    "login": {
+      "title": "Login",
+      "username": {
+        "placeholder": "Username or email",
+        "username-status": {
+          "fine": " ",
+          "tip": "Username or email is required",
+          "msg": "Length must be between 2 to 32"
+        }
+      },
+      "password": {
+        "placeholder": "Password",
+        "password-status": {
+          "fine": " ",
+          "tip": "Password",
+          "msg": "Length must be between 6 to 64"
+        }
+      },
+      "login-status": {
+        "ready": "Login",
+        "loading": "Logging in...",
+        "failed": "Check your username or password",
+        "error": "Unknown error"
+      },
+      "signup": "Sign up"
+    },
+    "signup": {
+      "title": "Sign up",
+      "username": {
+        "placeholder": "Username",
+        "username-status": {
+          "fine": " ",
+          "tip": "Username is required",
+          "msg": "Length must be between 2 to 32",
+          "res": "Username taken",
+          "err": "Unknown error"
+        }
+      },
+      "password": {
+        "placeholder": "Password",
+        "password-status": {
+          "fine": " ",
+          "tip": "Password is required",
+          "msg": "Length must be between 6 to 64"
+        }
+      },
+      "password2": {
+        "placeholder": "Repeat password",
+        "password2-status": {
+          "fine": " ",
+          "tip": "Repeat password!",
+          "msg": "Passwords mismatch"
+        }
+      },
+      "email": {
+        "placeholder": "Email",
+        "email-status": {
+          "fine": " ",
+          "tip": "Email is required",
+          "msg": "Not a valid email",
+          "res": "Email already in use",
+          "err": "Unknown error"
+        }
+      },
+      "signup-status": {
+        "ready": "Sign up",
+        "loading": "Please wait...",
+        "error": "Unknown error"
+      },
+      "login": "Login"
+    },
+    "signup-redirect": {
+      "title": "Redirecting...",
+      "log1": "Sign up succeed",
+      "log2": " seconds to home page",
+      "jump": "Home page"
+    }
+  },
+  "video": {
+    "video": {
+      "uploader": "Uploader",
+      "no-desc": "<No description provided>"
+    },
+    "player": {
+      "settings": {
+        "default": {
+          "name": "Video setting",
+          "items": {
+            "quality": "Quality",
+            "audio": "Sync audio"
+          }
+        },
+        "quality": {
+          "name": "Quality"
+        }
+      },
+      "enable-iframe": "Use source player",
+      "play-stream": {
+        "source": {
+          "video": {
+            "source-changing": "Switching to source player",
+            "source-nothing": "No video source available"
+          },
+          "audio": {
+            "source-nothing": "No audio source available"
+          }
+        },
+        "container": {
+          "flv": {
+            "player-loading": "Loading flv.js",
+            "player-loaded": "Player loaded",
+            "player-failed": "Failed to create flv player",
+            "parse-creating": "Creating flv parser",
+            "source-loading": "Reading video source"
+          },
+          "webm_dash": {},
+          "mp4_dash": {
+            "player-loaded": "Player loaded",
+            "source-loading": "Reading video source"
+          },
+          "failed": "Failed to read video source"
+        }
+      },
+      "video": {
+        "info-fetching": "Fetching video info",
+        "URL": "Video URL：",
+        "address-parsing": "Acquiring video source",
+        "profile": {
+          "BiliBili": {
+            "source": "Source：BiliBili，",
+            "format": "Format：",
+            "quality": "，Quality："
+          },
+          "Youtube": {
+            "source": "Source：Youtube，",
+            "format": "Format：",
+            "quality": "，Quality："
+          },
+          "unknown-source": "Unknown video source："
+        }
+      }
+    }
   }
 }

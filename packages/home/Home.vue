@@ -20,6 +20,13 @@
               >{{ t('home.home.progress2') }}</a
             >
           </div>
+          <div>
+            {{ t('home.home.old-page') }}
+            <a class="underline" href="https://patchyvideo.com/" target="_blank">{{ t('home.home.old-page2') }}</a>
+          </div>
+        </div>
+        <div class="underline text-lg">
+          <a href="https://space.bilibili.com/515657675" target="_blank">{{ t('home.home.offical-account') }}</a>
         </div>
         <div class="font-semibold md:text-lg">
           {{ t('home.home.join') }}

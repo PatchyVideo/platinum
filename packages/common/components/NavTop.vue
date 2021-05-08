@@ -73,22 +73,22 @@
               t('common.nav-top.main-menu.home')
             }}</router-link
           >
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.video')
             }}</router-link
           >
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.list')
             }}</router-link
           >
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.discuss-board')
             }}</router-link
           >
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.leaderboard')
             }}</router-link
@@ -101,12 +101,12 @@
         </div>
         <!-- User List -->
         <div v-if="isLogin === IsLogin.yes" class="space-y-3">
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.postvideo')
             }}</router-link
           >
-          <router-link class="block" to=""
+          <router-link class="block" to="" @click="progressing"
             ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.tag')
             }}</router-link
@@ -229,6 +229,11 @@ export default defineComponent({
       location.reload()
     }
 
+    /* Work in progress */
+    function progressing(): void {
+      alert(t('common.nav-top.work-in-progress'))
+    }
+
     const languageList = [
       {
         name: '简体中文',
@@ -256,6 +261,7 @@ export default defineComponent({
       searchResult,
       toHome,
       logout,
+      progressing,
     }
   },
 })
