@@ -53,17 +53,17 @@ module.exports = async (req, res) => {
         )}" />`,
         `<meta itemprop="name" content="${encode(data.item.title)}" />`,
         `<meta itemprop="description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta itemprop="image" content="${data.item.coverImage}" />`,
+        `<meta itemprop="image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
 
         // opengraph data
         `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta property="og:type" content="video.other" />`,
-        `<meta property="og:image" content="${encodeHTML(data.item.coverImage)}" />`,
+        `<meta property="og:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
         `<meta property="og:description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta property="og:url" content="https://${req.headers.host}${req.url}" />`,
+        `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta property="og:site_name" content="PatchyVideo" />`,
-        `<meta property="og:video:url" content="https://${req.headers.host}/embed/${vid}" />`,
-        `<meta property="og:video:secure_url" content="https://${req.headers.host}/embed/${vid}" />`,
+        `<meta property="og:video:url" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
+        `<meta property="og:video:secure_url" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
         `<meta property="og:video:type" content="text/html" />`,
         ...data.tags
           .reduce((pv, cv) => [...pv, ...cv.languages.map((v) => v.value)], [])
@@ -71,11 +71,11 @@ module.exports = async (req, res) => {
 
         // twitter data
         `<meta name="twitter:card" content="player" />`,
-        `<meta name="twitter:url" content="https://${req.headers.host}${req.url}" />`,
+        `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta name="twitter:image" content="${data.item.coverImage}" />`,
-        `<meta name="twitter:player" content="https://${req.headers.host}/embed/${vid}" />`,
+        `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
+        `<meta name="twitter:player" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
       ].join('\n')
       body = body.replace(/<!-- meta start -->[\S\s]*<!-- meta end -->/, og)
     }
