@@ -1,16 +1,13 @@
+import { defineConfig } from 'windicss/helpers'
+
 /**
- * TailwindCSS Configuration File
+ * WindiCSS Configuration File
  *
- * Docs: https://tailwindcss.com/docs/configuration
- * Default: https://github.com/tailwindcss/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+ * Docs: https://windicss.org/guide/configuration.html
  */
-module.exports = {
+export default defineConfig({
   darkMode: 'class',
   theme: {
-    filter: {
-      none: 'none',
-      brightness: 'brightness(80%)',
-    },
     extend: {
       screens: {
         lg: '1201px',
@@ -27,12 +24,8 @@ module.exports = {
       },
     },
   },
-  variants: {
-    filter: ['responsive'],
-  },
   plugins: [
     // https://github.com/tailwindlabs/tailwindcss-typography#usage
     require('windicss/plugin/typography'),
-    require('windicss/plugin/filters'),
   ],
-}
+})

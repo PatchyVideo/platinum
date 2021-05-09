@@ -1,8 +1,8 @@
 <template>
-  <div class="log-in-mobile h-screen w-full md:min-h-xl dark:filter-brightness md:log-in-md">
+  <div class="log-in-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:log-in-md">
     <!-- Desktop view -->
     <div
-      class="log-in-box flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 blur-2 shadow ml-50 text-black hidden md:flex"
+      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm ml-50 text-black hidden md:flex"
     >
       <Logo :larger="20"></Logo>
       <div class="w-full space-y-3">
@@ -255,8 +255,5 @@ export default defineComponent({
     @apply bg-cover;
     background-image: url('./assets/Login.jpg');
   }
-}
-.log-in-box {
-  filter: drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.25));
 }
 </style>

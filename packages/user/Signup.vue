@@ -1,8 +1,8 @@
 <template>
-  <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:filter-brightness md:sign-up-md">
+  <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
     <!-- Desktop view -->
     <div
-      class="sign-up-box flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 blur-2 shadow mr-50 hidden md:flex"
+      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 hidden md:flex"
     >
       <Logo :larger="20"></Logo>
       <div class="w-full space-y-2">
@@ -404,8 +404,5 @@ export default defineComponent({
     @apply bg-cover;
     background-image: url('./assets/Signup.jpg');
   }
-}
-.sign-up-box {
-  filter: drop-shadow(0 0 0.25rem rgba(255, 255, 255, 0.25));
 }
 </style>

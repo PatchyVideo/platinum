@@ -45,7 +45,7 @@
           >
             <div class="img-box w-2/5 mr-0.5 overflow-hidden rounded-sm">
               <img
-                class="object-cover h-full w-full dark:filter-brightness"
+                class="object-cover h-full w-full dark:(filter brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
@@ -75,7 +75,7 @@
           >
             <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
               <img
-                class="object-cover h-full w-full rounded-lg dark:filter-brightness"
+                class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
