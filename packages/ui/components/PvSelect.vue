@@ -7,11 +7,11 @@
   >
     <div class="inline-block truncate align-top select-none" v-text="getItemNameByValue(selected)"></div>
     <div
-      class="shadow rounded bg-white absolute top-15/12 left-0 z-2 box-border min-w-full max-h-40 overflow-hidden dark:bg-gray-800"
+      class="shadow rounded bg-white absolute top-15/12 left-0 z-2 box-border min-w-full overflow-hidden dark:bg-gray-800"
     >
       <ul
         class="overflow-x-hidden overflow-y-auto transform-gpu transition-all duration-200"
-        :style="{ marginTop: listHidden ? '-100%' : '0' }"
+        :style="{ marginTop: listHidden ? '-' + itemList.length * 50 + '%' : '0' }"
       >
         <li
           v-for="item in itemList"

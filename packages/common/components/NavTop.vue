@@ -243,6 +243,10 @@ export default defineComponent({
         name: 'English',
         value: 'en-US',
       },
+      {
+        name: '粤语',
+        value: 'zh-CAN',
+      },
     ]
 
     return {
