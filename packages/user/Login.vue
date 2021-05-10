@@ -4,7 +4,10 @@
     <div
       class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm ml-50 text-black hidden md:flex"
     >
-      <Logo :larger="20"></Logo>
+      <div class="w-full">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg text-center">{{ t('user.login.title') }}</div>
+      </div>
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b-1 border-black">

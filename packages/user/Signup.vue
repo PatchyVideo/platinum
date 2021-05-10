@@ -2,16 +2,19 @@
   <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
     <!-- Desktop view -->
     <div
-      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 hidden md:flex"
+      class="flex-wrap content-between w-80 h-full p-5 bg-white text-gray-900 bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 hidden md:flex"
     >
-      <Logo :larger="20"></Logo>
+      <div class="w-full">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg text-center">{{ t('user.signup.title') }}</div>
+      </div>
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b-1 border-black">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-900"
               :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
@@ -23,7 +26,7 @@
             <input
               v-model="password"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-900"
               :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
@@ -35,7 +38,7 @@
             <input
               v-model="password2"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-900"
               :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
@@ -46,7 +49,7 @@
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-900"
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
@@ -85,7 +88,7 @@
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
+              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
               :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
@@ -97,7 +100,7 @@
             <input
               v-model="password"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
+              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
               :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
@@ -109,7 +112,7 @@
             <input
               v-model="password2"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
+              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
               :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
@@ -120,7 +123,7 @@
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
+              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
@@ -140,7 +143,7 @@
             }}
           </button>
           <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-right text-gray-300" to="/user/login">{{
+          <router-link class="block text-right text-blue-600" to="/user/login">{{
             '←' + t('user.signup.login')
           }}</router-link>
         </div>
