@@ -141,7 +141,8 @@
         "failed": "用户名或密码错误！",
         "error": "未知错误"
       },
-      "signup": "注册"
+      "signup": "注册",
+      "forget-password": "忘记密码？"
     },
     "signup": {
       "title": "注册",

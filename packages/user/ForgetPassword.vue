@@ -1,73 +1,39 @@
 <template>
-  <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
+  <div
+    class="forget-password-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:forget-password-md"
+  >
     <!-- Desktop view -->
     <div
-      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 hidden md:flex"
+      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 text-black hidden md:flex"
     >
-      <Logo :larger="20"></Logo>
+      <div class="w-full">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg text-center">找回密码</div>
+      </div>
       <div class="w-full space-y-2">
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-user class="align-middle w-7" />
-            <input
-              v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              :placeholder="t('user.signup.username.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-lock-open-alt class="align-middle w-7" />
-            <input
-              v-model="password"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              :placeholder="t('user.signup.password.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-padlock class="align-middle w-7" />
-            <input
-              v-model="password2"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              :placeholder="t('user.signup.password2.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
-        </div>
         <div>
           <div class="flex w-full border-b-1 border-black">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              :placeholder="t('user.signup.email.placeholder')"
-              @keydown.enter="signup"
+              placeholder="请输入账号绑定的邮箱"
+              @keydown.enter="sendEmail"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
         </div>
         <div class="space-y-1">
           <button
-            :disabled="signupStatus === SignupStatus.loading"
+            :disabled="sendStatus === SendStatus.loading"
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
-            @click="signup"
+            @click="sendEmail"
           >
-            {{
-              signupStatus === SignupStatus.loading
-                ? t('user.signup.signup-status.loading')
-                : t('user.signup.signup-status.ready')
-            }}
+            {{ sendStatus === SendStatus.loading ? '发送中...' : '发送' }}
           </button>
-          <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
           <router-link class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
-            '←' + t('user.signup.login')
+            '←' + '返回登录'
           }}</router-link>
         </div>
       </div>
@@ -77,72 +43,36 @@
     </div>
 
     <!-- Mobile view -->
-    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow dark:text-white flex md:hidden">
-      <Logo class="text-black" :larger="20"></Logo>
+    <div
+      class="flex-wrap content-between w-full h-full p-5 shadow text-white flex filter drop-shadow-md backdrop-filter backdrop-blur-sm md:hidden"
+    >
+      <div class="w-full text-center">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg">找回密码</div>
+      </div>
       <div class="w-full space-y-2">
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
-            <icon-uil-user class="align-middle w-7" />
-            <input
-              v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              :placeholder="t('user.signup.username.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
-            <icon-uil-lock-open-alt class="align-middle w-7" />
-            <input
-              v-model="password"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              :placeholder="t('user.signup.password.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
-            <icon-uil-padlock class="align-middle w-7" />
-            <input
-              v-model="password2"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              :placeholder="t('user.signup.password2.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b-1 border-white">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white"
-              :placeholder="t('user.signup.email.placeholder')"
-              @keydown.enter="signup"
+              class="outline-none w-full bg-transparent placeholder-white"
+              placeholder="请输入账号绑定的邮箱"
+              @keydown.enter="sendEmail"
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
         </div>
         <div class="space-y-1">
           <button
-            :disabled="signupStatus === SignupStatus.loading"
+            :disabled="sendStatus === SendStatus.loading"
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
-            @click="signup"
+            @click="sendEmail"
           >
-            {{
-              signupStatus === SignupStatus.loading
-                ? t('user.signup.signup-status.loading')
-                : t('user.signup.signup-status.ready')
-            }}
+            {{ sendStatus === SendStatus.loading ? '发送中...' : '发送' }}
           </button>
-          <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-right text-gray-300" to="/user/login">{{
-            '←' + t('user.signup.login')
-          }}</router-link>
+          <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <router-link class="block text-right text-blue-600" to="/user/login">{{ '←' + '返回登录' }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -157,6 +87,7 @@ import { defineComponent, ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { locale } from '@/locales'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 
@@ -166,83 +97,31 @@ export default defineComponent({
   setup() {
     const { t } = useI18n()
     const router = useRouter()
-    setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
+    setSiteTitle('忘记密码' + ' - PatchyVideo')
 
-    enum SignupStatus {
+    enum SendStatus {
       'ready' = 'ready',
       'loading' = 'loading',
       'error' = 'error',
     }
-    const signupStatus = ref<string>(SignupStatus.ready)
-    const UsernameStatus = {
-      fine: t('user.signup.username.username-status.fine'),
-      tip: t('user.signup.username.username-status.tip'),
-      msg: t('user.signup.username.username-status.msg'),
-      res: t('user.signup.username.username-status.res'),
-      err: t('user.signup.username.username-status.err'),
-    }
-    const usernameStatus = ref<string>(UsernameStatus.fine)
-    const PasswordStatus = {
-      fine: t('user.signup.password.password-status.fine'),
-      tip: t('user.signup.password.password-status.tip'),
-      msg: t('user.signup.password.password-status.msg'),
-    }
-    const passwordStatus = ref<string>(PasswordStatus.fine)
-    const Password2Status = {
-      fine: t('user.signup.password2.password2-status.fine'),
-      tip: t('user.signup.password2.password2-status.tip'),
-      msg: t('user.signup.password2.password2-status.msg'),
-    }
-    const password2Status = ref<string>(Password2Status.fine)
+    const sendStatus = ref<SendStatus>(SendStatus.ready)
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
-      fine: t('user.signup.email.email-status.fine'),
-      tip: t('user.signup.email.email-status.tip'),
-      msg: t('user.signup.email.email-status.msg'),
-      res: t('user.signup.email.email-status.res'),
-      err: t('user.signup.email.email-status.err'),
+      fine: ' ',
+      tip: '请输入邮箱！',
+      msg: '请输入正确的邮箱格式！',
     }
     const emailStatus = ref<string>(EmailStatus.fine)
 
-    const userName = ref<string>('')
-    const password = ref<string>('')
-    const password2 = ref<string>('')
     const email = ref<string>('')
-    const errmsg = ref<string>('')
+    const errmsg = ref<string>(' ')
 
-    async function signup(): Promise<void> {
-      if (signupStatus.value === SignupStatus.loading) return
-      signupStatus.value = SignupStatus.loading
+    async function sendEmail(): Promise<void> {
+      if (sendStatus.value === SendStatus.loading) return
+      sendStatus.value = SendStatus.loading
 
       /* Form validation  */
       let valid = true
-      if (!userName.value) {
-        valid = false
-        usernameStatus.value = UsernameStatus.tip
-      } else if (userName.value.length < 2 || userName.value.length > 32) {
-        valid = false
-        usernameStatus.value = UsernameStatus.msg
-      } else {
-        usernameStatus.value = UsernameStatus.fine
-      }
-      if (!password.value) {
-        valid = false
-        passwordStatus.value = PasswordStatus.tip
-      } else if (password.value.length < 6 || password.value.length > 64) {
-        valid = false
-        passwordStatus.value = PasswordStatus.msg
-      } else {
-        passwordStatus.value = PasswordStatus.fine
-      }
-      if (!password2.value) {
-        valid = false
-        password2Status.value = Password2Status.tip
-      } else if (password2.value != password.value) {
-        valid = false
-        password2Status.value = Password2Status.msg
-      } else {
-        password2Status.value = Password2Status.fine
-      }
       if (!email.value) {
         valid = false
         emailStatus.value = EmailStatus.tip
@@ -252,105 +131,18 @@ export default defineComponent({
       } else {
         emailStatus.value = EmailStatus.fine
       }
-      if (valid) {
-        const fetchUser = fetch('https://patchyvideo.com/be/user/exists.do', {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            username: userName.value,
-          }),
-          credentials: 'include',
-        })
-          .then((data) => data.json())
-          .then((res) => {
-            console.log(res)
-            if (res.status != resDataStatus.SUCCEED) {
-              usernameStatus.value = UsernameStatus.err
-              valid = false
-            }
-            // 'res.data=true' means the user already exists
-            else if (res.data) {
-              usernameStatus.value = UsernameStatus.res
-              valid = false
-            }
-          })
-          .catch((err) => {
-            // console.log(err)
-            usernameStatus.value = UsernameStatus.err
-            valid = false
-          })
-        const fetchEmail = fetch('https://patchyvideo.com/be/user/email_avail.do', {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            email: email.value,
-          }),
-          credentials: 'include',
-        })
-          .then((data) => data.json())
-          .then((res) => {
-            // console.log(res)
-            if (res.status != resDataStatus.SUCCEED) {
-              emailStatus.value = EmailStatus.err
-              valid = false
-            }
-            // 'res.data=true' means the user already exists
-            else if (res.data) {
-              emailStatus.value = EmailStatus.res
-              valid = false
-            }
-          })
-          .catch((err) => {
-            // console.log(err)
-            emailStatus.value = EmailStatus.err
-            valid = false
-          })
-        await fetchUser
-        await fetchEmail
-      }
       if (!valid) {
-        signupStatus.value = SignupStatus.ready
+        sendStatus.value = SendStatus.ready
         return
       }
-
-      /* Sign up */
-      let session = ''
-      await fetch('https://patchyvideo.com/be/auth/get_session.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({ type: 'SIGNUP' }),
-        credentials: 'include',
-      })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) session = res.data
-          else {
-            signupStatus.value = SignupStatus.error
-            errmsg.value = t('user.signup.signup-status.error')
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          signupStatus.value = SignupStatus.error
-          errmsg.value = err
-        })
-      await fetch('https://patchyvideo.com/be/signup.do', {
+      await fetch('https://patchyvideo.com/be/user/request_resetpass.do', {
         method: 'POST',
         headers: new Headers({
           'Content-Type': 'application/json',
         }),
         body: JSON.stringify({
-          username: userName.value,
-          password: password.value,
           email: email.value,
-          session: session,
+          lang: locale.value,
         }),
         credentials: 'include',
       })
@@ -358,51 +150,49 @@ export default defineComponent({
         .then((res) => {
           // console.log(res)
           if (res.status === resDataStatus.SUCCEED) {
-            router.push('/user/signup-redirect')
+            sendStatus.value = SendStatus.ready
+            alert('邮件发送成功，请查收！')
+          } else if (res.status === resDataStatus.FAILED) {
+            sendStatus.value = SendStatus.error
+            errmsg.value = '该邮箱未绑定账号！'
           } else {
-            signupStatus.value = SignupStatus.error
-            errmsg.value = res.dataerr.reason
+            sendStatus.value = SendStatus.error
+            errmsg.value = '未知错误！'
           }
         })
         .catch((err) => {
           // console.log(err)
-          signupStatus.value = SignupStatus.error
+          sendStatus.value = SendStatus.error
           errmsg.value = err
         })
     }
 
     return {
       t,
-      SignupStatus,
-      signupStatus,
-      usernameStatus,
-      passwordStatus,
-      password2Status,
-      emailStatus,
-      userName,
-      password,
-      password2,
       email,
       errmsg,
-      signup,
+      emailStatus,
+      SendStatus,
+      sendStatus,
+      sendEmail,
     }
   },
 })
 </script>
 
 <style lang="postcss" scoped>
-.sign-up-mobile {
-  @apply bg-bottom;
+.forget-password-mobile {
+  @apply bg-center;
   @apply bg-no-repeat;
   @apply bg-cover;
-  background-image: url('./assets/SignupMobile.jpg');
+  background-image: url('./assets/LoginMobile.jpg');
 }
 @variants md {
-  .md\:sign-up-md {
-    @apply bg-bottom;
+  .md\:forget-password-md {
+    @apply bg-center;
     @apply bg-no-repeat;
     @apply bg-cover;
-    background-image: url('./assets/Signup.jpg');
+    background-image: url('./assets/Login.jpg');
   }
 }
 </style>

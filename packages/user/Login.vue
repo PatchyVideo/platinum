@@ -32,9 +32,9 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password"
-            >忘记密码？</router-link
-          >
+          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
+            t('user.login.forget-password')
+          }}</router-link>
         </div>
         <div class="space-y-1">
           <button
@@ -91,9 +91,9 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password"
-            >忘记密码？</router-link
-          >
+          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
+            t('user.login.forget-password')
+          }}</router-link>
         </div>
         <div class="space-y-1">
           <button
