@@ -189,8 +189,55 @@
       },
       "login": "登录"
     },
+    "forget-password": {
+      "title": "找回密码",
+      "email": {
+        "placeholder": "请输入账号绑定的邮箱",
+        "email-status": {
+          "fine": " ",
+          "tip": "请输入邮箱！",
+          "msg": "请输入正确的邮箱格式！"
+        }
+      },
+      "send-status": {
+        "ready": "发送",
+        "loading": "发送中...",
+        "successful": "邮件发送成功，请查收！",
+        "failed": "该邮箱未绑定账号！",
+        "error": "未知错误"
+      },
+      "login": "返回登录"
+    },
+    "reset-password": {
+      "title": "重置密码",
+      "password": {
+        "placeholder": "请设定新密码",
+        "password-status": {
+          "fine": " ",
+          "tip": "请输入密码！",
+          "msg": "长度在4到64个字符！"
+        }
+      },
+      "password2": {
+        "placeholder": "请重复新密码",
+        "password2-status": {
+          "fine": " ",
+          "tip": "请再次输入密码！",
+          "msg": "两次密码输入不一致！"
+        }
+      },
+      "reset-status": {
+        "ready": "重置",
+        "loading": "重置中...",
+        "error": "无效的key"
+      }
+    },
     "redirect": {
       "title": "跳转中...",
+      "from": {
+        "sign-up": "注册",
+        "reset-password": "重置"
+      },
       "log1": "成功，",
       "log2": "秒后跳转回登录页面",
       "jump": "没有反应？点击我手动跳转"

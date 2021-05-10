@@ -8,7 +8,7 @@
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
-        <div class="text-lg text-center">找回密码</div>
+        <div class="text-lg text-center">{{ t('user.forget-password.title') }}</div>
       </div>
       <div class="w-full space-y-2">
         <div>
@@ -17,7 +17,7 @@
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
-              placeholder="请输入账号绑定的邮箱"
+              :placeholder="t('user.forget-password.email.placeholder')"
               @keydown.enter="sendEmail"
             />
           </div>
@@ -29,11 +29,15 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             @click="sendEmail"
           >
-            {{ sendStatus === SendStatus.loading ? '发送中...' : '发送' }}
+            {{
+              sendStatus === SendStatus.loading
+                ? t('user.forget-password.send-status.loading')
+                : t('user.forget-password.send-status.ready')
+            }}
           </button>
           <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
           <router-link class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
-            '←' + '返回登录'
+            '←' + t('user.forget-password.login')
           }}</router-link>
         </div>
       </div>
@@ -48,7 +52,7 @@
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
-        <div class="text-lg">找回密码</div>
+        <div class="text-lg">{{ t('user.forget-password.title') }}</div>
       </div>
       <div class="w-full space-y-2">
         <div>
@@ -57,7 +61,7 @@
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-white"
-              placeholder="请输入账号绑定的邮箱"
+              :placeholder="t('user.forget-password.email.placeholder')"
               @keydown.enter="sendEmail"
             />
           </div>
@@ -69,10 +73,16 @@
             class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="sendEmail"
           >
-            {{ sendStatus === SendStatus.loading ? '发送中...' : '发送' }}
+            {{
+              sendStatus === SendStatus.loading
+                ? t('user.forget-password.send-status.loading')
+                : t('user.forget-password.send-status.ready')
+            }}
           </button>
           <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-right text-blue-600" to="/user/login">{{ '←' + '返回登录' }}</router-link>
+          <router-link class="block text-right text-blue-600" to="/user/login">{{
+            '←' + t('user.forget-password.login')
+          }}</router-link>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -85,7 +95,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
 import { resDataStatus } from '@/common/lib/resDataStatus'
@@ -96,8 +105,7 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    const router = useRouter()
-    setSiteTitle('忘记密码' + ' - PatchyVideo')
+    setSiteTitle(t('user.forget-password.title') + ' - PatchyVideo')
 
     enum SendStatus {
       'ready' = 'ready',
@@ -107,9 +115,9 @@ export default defineComponent({
     const sendStatus = ref<SendStatus>(SendStatus.ready)
     const emailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
-      fine: ' ',
-      tip: '请输入邮箱！',
-      msg: '请输入正确的邮箱格式！',
+      fine: t('user.forget-password.email.email-status.fine'),
+      tip: t('user.forget-password.email.email-status.tip'),
+      msg: t('user.forget-password.email.email-status.msg'),
     }
     const emailStatus = ref<string>(EmailStatus.fine)
 
@@ -151,13 +159,13 @@ export default defineComponent({
           // console.log(res)
           if (res.status === resDataStatus.SUCCEED) {
             sendStatus.value = SendStatus.ready
-            alert('邮件发送成功，请查收！')
+            alert(t('user.forget-password.send-status.successful'))
           } else if (res.status === resDataStatus.FAILED) {
             sendStatus.value = SendStatus.error
-            errmsg.value = '该邮箱未绑定账号！'
+            errmsg.value = t('user.forget-password.send-status.failed')
           } else {
             sendStatus.value = SendStatus.error
-            errmsg.value = '未知错误！'
+            errmsg.value = t('user.forget-password.send-status.error')
           }
         })
         .catch((err) => {

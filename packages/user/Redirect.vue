@@ -21,8 +21,8 @@ export default defineComponent({
     setSiteTitle(t('user.redirect.title'))
 
     const From = {
-      'sign-up': '注册',
-      'reset-password': '重置',
+      'sign-up': t('user.redirect.from.sign-up'),
+      'reset-password': t('user.redirect.from.reset-password'),
       default: '?',
     }
     const from = computed<string>(() => route.query.from as string)
