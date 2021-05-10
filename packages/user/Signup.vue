@@ -80,8 +80,13 @@
     </div>
 
     <!-- Mobile view -->
-    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow dark:text-white flex md:hidden">
-      <Logo class="text-black" :larger="20"></Logo>
+    <div
+      class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm dark:text-white flex md:hidden"
+    >
+      <div class="w-full text-white text-center">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg">{{ t('user.signup.title') }}</div>
+      </div>
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b-1 border-black dark:border-white">

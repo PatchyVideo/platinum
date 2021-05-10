@@ -57,8 +57,13 @@
     </div>
 
     <!-- Mobile view -->
-    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow flex text-white md:hidden">
-      <Logo :larger="20"></Logo>
+    <div
+      class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm text-white md:hidden"
+    >
+      <div class="w-full text-center">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg">{{ t('user.login.title') }}</div>
+      </div>
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b-1 border-white">
