@@ -183,8 +183,8 @@ export default defineComponent({
           'Content-Type': 'application/json',
         }),
         body: JSON.stringify({
-          reset_key: resetKey,
-          new_pass: password,
+          reset_key: resetKey.value,
+          new_pass: password.value,
         }),
         credentials: 'include',
       })
@@ -192,7 +192,7 @@ export default defineComponent({
         .then((res) => {
           // console.log(res)
           if (res.status === resDataStatus.SUCCEED) {
-            router.push({ path: '/user/redirect', query: { from: 'sign-in' } })
+            router.push({ path: '/user/redirect', query: { from: 'reset-password' } })
           } else {
             resetStatus.value = ResetStatus.error
             errmsg.value = res.dataerr.reason

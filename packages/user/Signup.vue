@@ -367,7 +367,7 @@ export default defineComponent({
         .then((res) => {
           // console.log(res)
           if (res.status === resDataStatus.SUCCEED) {
-            router.push({ path: '/user/redirect', query: { from: 'reset-password' } })
+            router.push({ path: '/user/redirect', query: { from: 'sign-up' } })
           } else {
             signupStatus.value = SignupStatus.error
             errmsg.value = res.dataerr.reason
