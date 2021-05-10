@@ -1,14 +1,14 @@
 <template>
   <div class="text-center h-full w-full p-6">
-    <div>{{ t('user.signup-redirect.log1') + count + t('user.signup-redirect.log2') }}</div>
-    <router-link class="underline" to="/user/login">{{ t('user.signup-redirect.jump') }}</router-link>
+    <div>{{ fromWord + t('user.redirect.log1') + count + t('user.redirect.log2') }}</div>
+    <router-link class="underline" to="/user/login">{{ t('user.redirect.jump') }}</router-link>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 export default defineComponent({
@@ -16,8 +16,28 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
+    const route = useRoute()
     const router = useRouter()
-    setSiteTitle(t('user.signup-redirect.title'))
+    setSiteTitle(t('user.redirect.title'))
+
+    const From = {
+      'sign-up': '注册',
+      'reset-password': '重置',
+      default: '?',
+    }
+    const from = computed<string>(() => route.query.from as string)
+
+    let catchFrom = false
+    for (let key in From) {
+      if (key === from.value) {
+        catchFrom = true
+      }
+    }
+    if (!catchFrom) {
+      router.push('/404')
+    }
+
+    const fromWord = computed(() => From[from.value as keyof typeof From])
 
     const count = ref<number>(5)
     onMounted(() => {
@@ -26,7 +46,7 @@ export default defineComponent({
     watch(count, () => {
       if (!count.value) router.push('/user/login')
     })
-    return { t, count }
+    return { t, fromWord, count }
   },
 })
 </script>

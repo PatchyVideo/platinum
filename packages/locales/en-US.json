@@ -188,9 +188,9 @@
       },
       "login": "Login"
     },
-    "signup-redirect": {
+    "redirect": {
       "title": "Redirecting...",
-      "log1": "Sign up succeed",
+      "log1": " succeed",
       "log2": " seconds to home page",
       "jump": "Home page"
     }

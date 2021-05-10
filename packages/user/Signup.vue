@@ -83,7 +83,7 @@
     <div
       class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm dark:text-white flex md:hidden"
     >
-      <div class="w-full text-white text-center">
+      <div class="w-full text-center">
         <Logo :larger="20"></Logo>
         <div class="text-lg">{{ t('user.signup.title') }}</div>
       </div>
@@ -349,6 +349,7 @@ export default defineComponent({
           signupStatus.value = SignupStatus.error
           errmsg.value = err
         })
+
       await fetch('https://patchyvideo.com/be/signup.do', {
         method: 'POST',
         headers: new Headers({
@@ -366,7 +367,7 @@ export default defineComponent({
         .then((res) => {
           // console.log(res)
           if (res.status === resDataStatus.SUCCEED) {
-            router.push('/user/signup-redirect')
+            router.push({ path: '/user/redirect', query: { from: 'reset-password' } })
           } else {
             signupStatus.value = SignupStatus.error
             errmsg.value = res.dataerr.reason
