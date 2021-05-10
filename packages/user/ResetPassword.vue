@@ -4,10 +4,7 @@
     <div
       class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm ml-50 text-black hidden md:flex"
     >
-      <div class="w-full">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg text-center">{{ t('user.login.title') }}</div>
-      </div>
+      <Logo :larger="20"></Logo>
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b-1 border-black">
@@ -32,9 +29,6 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password"
-            >忘记密码？</router-link
-          >
         </div>
         <div class="space-y-1">
           <button
@@ -60,13 +54,8 @@
     </div>
 
     <!-- Mobile view -->
-    <div
-      class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm text-white md:hidden"
-    >
-      <div class="w-full text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg">{{ t('user.login.title') }}</div>
-      </div>
+    <div class="flex-wrap content-between w-full h-full p-5 blur-2 shadow flex text-white md:hidden">
+      <Logo :larger="20"></Logo>
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b-1 border-white">
@@ -91,9 +80,6 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password"
-            >忘记密码？</router-link
-          >
         </div>
         <div class="space-y-1">
           <button

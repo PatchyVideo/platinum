@@ -57,8 +57,16 @@ const router = createRouter({
       component: () => import('@/user/Signup.vue'),
     },
     {
-      path: '/user/signup-redirect',
-      component: () => import('@/user/SignupRedirect.vue'),
+      path: '/user/forget-password',
+      component: () => import('@/user/ForgetPassword.vue'),
+    },
+    {
+      path: '/user/reset-password',
+      component: () => import('@/user/ResetPassword.vue'),
+    },
+    {
+      path: '/user/redirect',
+      component: () => import('@/user/Redirect.vue'),
     },
     {
       path: '/debug/error-pages/404',
