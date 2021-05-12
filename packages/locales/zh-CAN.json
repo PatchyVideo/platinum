@@ -90,7 +90,9 @@
           "search-result-count2": "个视频"
         }
       },
-      "video": { "source-site": "源网站：" },
+      "video": {
+        "source-site": "源网站："
+      },
       "pagination": {
         "page-previous": "上一页",
         "page-number1": "第",
@@ -141,7 +143,8 @@
         "failed": "用户名或密码错咗！",
         "error": "未知嘅错误"
       },
-      "signup": "注册"
+      "signup": "注册",
+      "forget-password": ""
     },
     "signup": {
       "title": "注册",
@@ -192,7 +195,54 @@
       "title": "跳转紧...",
       "log1": "成功，",
       "log2": "秒之后跳转翻回登录页面",
-      "jump": "没有反应？点击我手动跳转"
+      "jump": "没有反应？点击我手动跳转",
+      "from": {
+        "reset-password": "",
+        "sign-up": ""
+      }
+    },
+    "forget-password": {
+      "email": {
+        "email-status": {
+          "fine": "",
+          "msg": "",
+          "tip": ""
+        },
+        "placeholder": ""
+      },
+      "login": "",
+      "send-status": {
+        "error": "",
+        "failed": "",
+        "loading": "",
+        "ready": "",
+        "successful": ""
+      },
+      "title": ""
+    },
+    "reset-password": {
+      "password": {
+        "password-status": {
+          "fine": "",
+          "msg": "",
+          "tip": ""
+        },
+        "placeholder": ""
+      },
+      "password2": {
+        "password2-status": {
+          "fine": "",
+          "msg": "",
+          "tip": ""
+        },
+        "placeholder": ""
+      },
+      "reset-status": {
+        "error": "",
+        "loading": "",
+        "ready": ""
+      },
+      "title": ""
     }
   },
   "video": {
