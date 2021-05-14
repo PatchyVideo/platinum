@@ -10,7 +10,7 @@ generates:
       nonOptionalTypename: true
       scalars:
         DateTimeUtc: Date
-        ObjectId: 'bson#ObjectID as ObjectId'
+        ObjectId: 'bson-objectid#default as ObjectId'
         FETagCategories: "'Copyright' | 'Language' | 'Character' | 'Author' | 'General' | 'Meta' | 'Soundtrack'"
   packages/graphql/__generated__/graphql.schema.json:
     plugins:

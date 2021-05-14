@@ -122,7 +122,7 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { schema, useQuery, gql } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { ObjectID } from 'bson'
+import ObjectID from 'bson-objectid'
 
 export default defineComponent({
   components: {

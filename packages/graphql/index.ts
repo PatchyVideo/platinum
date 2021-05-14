@@ -12,7 +12,7 @@ import {
   FetchResult,
   disableFragmentWarnings,
 } from '@apollo/client/core'
-import { ObjectID } from 'bson'
+import ObjectID from 'bson-objectid'
 
 import { withScalars } from 'apollo-link-scalars'
 import { buildClientSchema, IntrospectionQuery } from 'graphql'

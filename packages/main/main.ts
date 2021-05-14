@@ -22,6 +22,7 @@ const app = createApp(
     },
   })
 )
+const appPromises: Promise<unknown>[] = []
 
 /* Vue Router */
 const router = createRouter({
@@ -84,10 +85,12 @@ app.use(router)
 import i18n from '@/locales'
 app.use(i18n)
 
-app.mount('#app')
-
 import './pvcc'
 
 /* Login authentication & user data filling */
 import { checkLoginStatus } from '@/user'
-checkLoginStatus(true)
+appPromises.push(checkLoginStatus(true))
+
+Promise.all(appPromises).then(() => {
+  app.mount('#app')
+})

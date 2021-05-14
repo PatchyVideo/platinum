@@ -8,40 +8,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { asyncComputed } from '@vueuse/core'
-import ParserWorker from '../lib/parser.worker?worker'
+import { computed, defineComponent } from 'vue'
 import { render } from '../lib/parser'
-
-const worker = (() => {
-  try {
-    const worker = new ParserWorker()
-    worker.addEventListener('error', () => {
-      isWorkerWorking.value = false
-    })
-    return worker
-  } catch (_) {
-    // ignore
-  }
-})()
-let isWorkerWorking = ref(true)
-const renderText = (text: string) =>
-  new Promise<string>((resolve) => {
-    try {
-      if (!worker || !isWorkerWorking.value) throw 'noworker'
-      const id = Math.random()
-      const onMessage = (e: MessageEvent) => {
-        if (e.data.id === id) {
-          worker.removeEventListener('message', onMessage)
-          resolve(e.data.text)
-        }
-      }
-      worker.addEventListener('message', onMessage)
-      worker.postMessage({ id, text })
-    } catch (_) {
-      resolve(render(text))
-    }
-  })
 
 export default defineComponent({
   props: {
@@ -55,9 +23,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const html = asyncComputed(async () => {
-      return await renderText(props.text)
-    }, 'Parsing...')
+    const html = computed(() => render(props.text))
     return {
       html,
     }
