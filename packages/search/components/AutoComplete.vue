@@ -21,7 +21,17 @@
       />
       <button
         v-if="size === 'deskTop' || size === 'lg'"
-        class="bg-pink-300 h-full px-3 rounded-r-xl transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200 w-20"
+        class="
+          bg-pink-300
+          h-full
+          px-3
+          rounded-r-xl
+          transition-colors
+          focus:outline-none
+          focus:ring focus:ring-pink-300
+          hover:bg-pink-200
+          w-20
+        "
         @click="searchContent && $emit('search', searchContent)"
       >
         {{ t('search.auto-complete.search') }}

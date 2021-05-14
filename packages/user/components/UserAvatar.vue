@@ -6,11 +6,12 @@
 import { computed, defineProps } from 'vue'
 import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
 
-const props = defineProps<{
-  image?: string
-  gravatar?: string
-  alt?: string
-}>()
+const props =
+  defineProps<{
+    image?: string
+    gravatar?: string
+    alt?: string
+  }>()
 
 const img = computed(() => {
   if (props.image && props.image !== 'default') return `https://patchyvideo.com/be/images/userphotos/${props.image}`

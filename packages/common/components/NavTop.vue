@@ -2,7 +2,18 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-800 md:p-2"
+      class="
+        h-auto
+        p-1
+        flex
+        items-center
+        justify-between
+        border-b border-gray-300
+        bg-gray-50
+        dark:bg-gray-700
+        dark:border-gray-800
+        md:p-2
+      "
     >
       <!-- Logo & Slide Button -->
       <div class="flex items-center flex-nowrap ml-2">
@@ -35,7 +46,22 @@
           <transition name="userList">
             <div
               v-if="userListOpen"
-              class="absolute -right-2 top-5 w-40 p-2 mt-1/2 rounded overflow-hidden bg-white border shadow overflow-visible dark:bg-gray-700 dark:border-black"
+              class="
+                absolute
+                -right-2
+                top-5
+                w-40
+                p-2
+                mt-1/2
+                rounded
+                overflow-hidden
+                bg-white
+                border
+                shadow
+                overflow-visible
+                dark:bg-gray-700
+                dark:border-black
+              "
             >
               <UserAvatar
                 :title="user.name"
@@ -58,7 +84,23 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 p-1 z-50 left-0 overflow-auto space-y-8 bg-white transform-gpu transition-transform duration-300 w-9/12 dark:bg-gray-700 md:w-auto md:p-2"
+        class="
+          absolute
+          inset-y-0
+          p-1
+          z-50
+          left-0
+          overflow-auto
+          space-y-8
+          bg-white
+          transform-gpu
+          transition-transform
+          duration-300
+          w-9/12
+          dark:bg-gray-700
+          md:w-auto
+          md:p-2
+        "
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->

@@ -2,7 +2,22 @@
   <div class="inline-block">
     <input
       :checked="check"
-      class="switch appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-50 shadow-inner bg-clip-content align-middle w-14 h-8 inline-block relative transition-colors"
+      class="
+        switch
+        appearance-none
+        outline-none
+        rounded-full
+        border border-solid border-gray-300
+        bg-gray-50
+        shadow-inner
+        bg-clip-content
+        align-middle
+        w-14
+        h-8
+        inline-block
+        relative
+        transition-colors
+      "
       :class="{ 'h-6 w-12 switch-sm': size === 'sm' }"
       type="checkbox"
       @change="updateValue()"

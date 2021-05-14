@@ -1,10 +1,34 @@
 <template>
   <div
-    class="forget-password-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:forget-password-md"
+    class="
+      forget-password-mobile
+      h-screen
+      w-full
+      md:min-h-xl
+      flex
+      justify-end
+      dark:(filter
+      brightness-80)
+      md:forget-password-md
+    "
   >
     <!-- Desktop view -->
     <div
-      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 text-black hidden md:flex"
+      class="
+        flex-wrap
+        content-between
+        w-80
+        h-full
+        p-5
+        bg-white bg-opacity-50
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        mr-50
+        text-black
+        hidden
+        md:flex
+      "
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
@@ -26,7 +50,21 @@
         <div class="space-y-1">
           <button
             :disabled="sendStatus === SendStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+              disabled:hover:bg-blue-300
+              disabled:hover:cursor-not-allowed
+            "
             @click="sendEmail"
           >
             {{
@@ -48,7 +86,20 @@
 
     <!-- Mobile view -->
     <div
-      class="flex-wrap content-between w-full h-full p-5 shadow text-white flex filter drop-shadow-md backdrop-filter backdrop-blur-sm md:hidden"
+      class="
+        flex-wrap
+        content-between
+        w-full
+        h-full
+        p-5
+        shadow
+        text-white
+        flex
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        md:hidden
+      "
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
@@ -70,7 +121,19 @@
         <div class="space-y-1">
           <button
             :disabled="sendStatus === SendStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+            "
             @click="sendEmail"
           >
             {{
@@ -113,7 +176,8 @@ export default defineComponent({
       'error' = 'error',
     }
     const sendStatus = ref<SendStatus>(SendStatus.ready)
-    const emailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const emailFormat =
+      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
       fine: t('user.forget-password.email.email-status.fine'),
       tip: t('user.forget-password.email.email-status.tip'),

@@ -45,7 +45,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
   const link = from([
     // Backend Server
     withScalars({
-      schema: buildClientSchema((jsonSchema as unknown) as IntrospectionQuery),
+      schema: buildClientSchema(jsonSchema as unknown as IntrospectionQuery),
       typesMap,
     }),
     new HttpLink({ uri: 'https://patchyvideo.com/be/gql/graphql' }),

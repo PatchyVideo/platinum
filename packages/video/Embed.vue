@@ -24,7 +24,7 @@ export default defineComponent({
     const vid = computed(() => <string>route.params.vid)
     const res = await useQuery({
       query: gql`
-        query($vid: String!) {
+        query ($vid: String!) {
           getVideo(para: { vid: $vid, lang: "CHS" }) {
             item {
               title

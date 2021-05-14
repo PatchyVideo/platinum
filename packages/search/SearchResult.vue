@@ -70,7 +70,16 @@
           <div
             v-for="video in videos"
             :key="video.item.title"
-            class="w-21/100 my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
+            class="
+              w-21/100
+              my-5
+              border
+              shadow-sm
+              rounded-lg
+              bg-white bg-opacity-50
+              dark:border-gray-500
+              dark:bg-gray-700
+            "
             @click="jumpToVideoResult(video.id.toHexString())"
           >
             <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
@@ -103,7 +112,20 @@
         <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
           <a
             v-if="offset"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
+            class="
+              inline-flex
+              items-center
+              px-4
+              py-2
+              border border-gray-300
+              text-sm
+              font-medium
+              rounded-lg
+              hover:text-gray-500
+              dark:bg-gray-600
+              dark:border-gray-700
+              dark:hover:bg-black
+            "
             @click="jumpToPreviousPage"
           >
             {{ t('search.search-result.pagination.page-previous') }}
@@ -119,7 +141,20 @@
           </div>
           <a
             v-if="offset + 1 != pageCount"
-            class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black"
+            class="
+              inline-flex
+              items-center
+              px-4
+              py-2
+              border border-gray-300
+              text-sm
+              font-medium
+              rounded-lg
+              hover:text-gray-500
+              dark:bg-gray-600
+              dark:border-gray-700
+              dark:hover:bg-black
+            "
             @click="jumpToNextPage"
           >
             {{ t('search.search-result.pagination.page-next') }}
@@ -208,7 +243,7 @@ export default defineComponent({
       try {
         const res = await useQuery({
           query: gql`
-            query($offset: Int, $limit: Int, $query: String) {
+            query ($offset: Int, $limit: Int, $query: String) {
               listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
                 count
                 pageCount

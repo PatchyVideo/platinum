@@ -2,7 +2,22 @@
   <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
     <!-- Desktop view -->
     <div
-      class="flex-wrap content-between w-80 h-full p-5 bg-white text-gray-900 bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm mr-50 hidden md:flex"
+      class="
+        flex-wrap
+        content-between
+        w-80
+        h-full
+        p-5
+        bg-white
+        text-gray-900
+        bg-opacity-50
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        mr-50
+        hidden
+        md:flex
+      "
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
@@ -59,7 +74,21 @@
         <div class="space-y-1">
           <button
             :disabled="signupStatus === SignupStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+              disabled:hover:bg-blue-300
+              disabled:hover:cursor-not-allowed
+            "
             @click="signup"
           >
             {{
@@ -81,7 +110,21 @@
 
     <!-- Mobile view -->
     <div
-      class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm dark:text-white flex md:hidden"
+      class="
+        flex-wrap
+        content-between
+        w-full
+        h-full
+        p-5
+        shadow
+        flex
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        dark:text-white
+        flex
+        md:hidden
+      "
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
@@ -93,7 +136,15 @@
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
+              class="
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-gray-900
+                text-gray-900
+                dark:placeholder-white
+                dark:text-white
+              "
               :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
@@ -105,7 +156,15 @@
             <input
               v-model="password"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
+              class="
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-gray-900
+                text-gray-900
+                dark:placeholder-white
+                dark:text-white
+              "
               :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
@@ -117,7 +176,15 @@
             <input
               v-model="password2"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
+              class="
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-gray-900
+                text-gray-900
+                dark:placeholder-white
+                dark:text-white
+              "
               :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
@@ -128,7 +195,15 @@
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900 dark:placeholder-white dark:text-white"
+              class="
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-gray-900
+                text-gray-900
+                dark:placeholder-white
+                dark:text-white
+              "
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
@@ -138,7 +213,19 @@
         <div class="space-y-1">
           <button
             :disabled="signupStatus === SignupStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+            "
             @click="signup"
           >
             {{
@@ -202,7 +289,8 @@ export default defineComponent({
       msg: t('user.signup.password2.password2-status.msg'),
     }
     const password2Status = ref<string>(Password2Status.fine)
-    const emailFormat = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+    const emailFormat =
+      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
       fine: t('user.signup.email.email-status.fine'),
       tip: t('user.signup.email.email-status.tip'),

@@ -87,7 +87,21 @@
                   :alt="author.name"
                 />
                 <div
-                  class="absolute px-0.75 -right-1.5 top-0 rounded lg:transform-gpu lg:rotate-24 bg-fuchsia-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                  class="
+                    absolute
+                    px-0.75
+                    -right-1.5
+                    top-0
+                    rounded
+                    lg:transform-gpu
+                    lg:rotate-24
+                    bg-fuchsia-600
+                    text-xs
+                    lg:text-sm
+                    text-white
+                    whitespace-nowrap
+                    overflow-hidden
+                  "
                   v-text="author.position"
                 ></div>
               </div>
@@ -144,7 +158,7 @@ export default defineComponent({
     const vid = computed(() => <string>route.params.vid)
     const res = await useQuery({
       query: gql`
-        query($vid: String!) {
+        query ($vid: String!) {
           getVideo(para: { vid: $vid, lang: "CHS" }) {
             item {
               title

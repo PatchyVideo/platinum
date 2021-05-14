@@ -2,7 +2,21 @@
   <div class="log-in-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:log-in-md">
     <!-- Desktop view -->
     <div
-      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm ml-50 text-black hidden md:flex"
+      class="
+        flex-wrap
+        content-between
+        w-80
+        h-full
+        p-5
+        bg-white bg-opacity-50
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        ml-50
+        text-black
+        hidden
+        md:flex
+      "
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
@@ -39,7 +53,22 @@
         <div class="space-y-1">
           <button
             :disabled="loginStatus === LoginStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              hover:bg-blue-700
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+              disabled:hover:bg-blue-300
+              disabled:hover:cursor-not-allowed
+            "
             @click="login"
           >
             {{
@@ -61,7 +90,20 @@
 
     <!-- Mobile view -->
     <div
-      class="flex-wrap content-between w-full h-full p-5 shadow flex filter drop-shadow-md backdrop-filter backdrop-blur-sm text-white md:hidden"
+      class="
+        flex-wrap
+        content-between
+        w-full
+        h-full
+        p-5
+        shadow
+        flex
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        text-white
+        md:hidden
+      "
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
@@ -98,7 +140,19 @@
         <div class="space-y-1">
           <button
             :disabled="loginStatus === LoginStatus.loading"
-            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+            "
             @click="login"
           >
             {{
