@@ -115,25 +115,25 @@
               t('common.nav-top.main-menu.home')
             }}</router-link
           >
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.video')
-            }}</router-link
+            }}</a
           >
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.list')
-            }}</router-link
+            }}</a
           >
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.discuss-board')
-            }}</router-link
+            }}</a
           >
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.leaderboard')
-            }}</router-link
+            }}</a
           >
           <a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
             ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
@@ -143,15 +143,15 @@
         </div>
         <!-- User List -->
         <div v-if="isLogin === IsLogin.yes" class="space-y-3">
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.postvideo')
-            }}</router-link
+            }}</a
           >
-          <router-link class="block" to="" @click="progressing"
+          <a class="block" @click="progressing"
             ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.tag')
-            }}</router-link
+            }}</a
           >
         </div>
         <div v-else-if="isLogin === IsLogin.loading">验证登录中...</div>
@@ -159,7 +159,7 @@
         <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.nav-top.admin.admin')"></div>
           <div v-text="t('common.nav-top.admin.who-am-I')"></div>
-          <router-link class="block" to="" v-text="t('common.nav-top.admin.super-admin')"></router-link>
+          <a class="block" v-text="t('common.nav-top.admin.super-admin')"></a>
         </div>
         <!-- Settings -->
         <div class="w-full space-y-2">
