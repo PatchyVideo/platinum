@@ -122,6 +122,7 @@ import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { computed, defineComponent, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
+import NProgress from 'nprogress'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { gql, useQuery } from '@/graphql'
 import { getCoverImage } from '@/common/lib/imageUrl'
@@ -149,6 +150,7 @@ export default defineComponent({
     const route = useRoute()
     const pid = computed(() => <string>route.params.pid)
     const offset = ref(0)
+    NProgress.inc()
     const res = await useQuery({
       query: gql`
         query ($pid: String!, $offset: Int!, $limit: Int!) {
@@ -191,6 +193,7 @@ export default defineComponent({
         limit: 20,
       },
     })
+    if (NProgress.isStarted()) NProgress.done()
 
     /* basic info */
     const playlist = reactive(res.data.getPlaylist)

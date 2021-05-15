@@ -175,6 +175,7 @@ import BackTop from '@/ui/components/BackTop.vue'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import NProgress from 'nprogress'
 import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
@@ -242,6 +243,7 @@ export default defineComponent({
       if (!queryWord.value || status.value === Status.loading) return
       status.value = Status.loading
       try {
+        NProgress.inc()
         const res = await useQuery({
           query: gql`
             query ($offset: Int, $limit: Int, $query: String) {
@@ -268,6 +270,7 @@ export default defineComponent({
             query: queryWord.value,
           },
         })
+        if (NProgress.isStarted()) NProgress.done()
         // console.log(res)
 
         const resultData = res.data.listVideo

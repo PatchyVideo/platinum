@@ -134,9 +134,10 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import { reactive, defineComponent, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import ObjectID from 'bson-objectid'
+import NProgress from 'nprogress'
 import { schema, useQuery, gql } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import ObjectID from 'bson-objectid'
 
 export default defineComponent({
   components: {
@@ -235,6 +236,7 @@ export default defineComponent({
         vid: vid.value,
       },
     })
+    NProgress.done()
 
     /* basic info */
     const video = reactive(res.data.getVideo)

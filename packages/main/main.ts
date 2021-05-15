@@ -1,6 +1,4 @@
 import { createApp, defineComponent, h } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
-import { createApollo, provideClient } from '@/graphql'
 
 /* Tailwind CSS */
 import '@/tailwindcss'
@@ -9,7 +7,16 @@ import '@/tailwindcss'
 import '@/darkmode'
 
 /* GraphQL */
+import { createApollo, provideClient } from '@/graphql'
 const client = createApollo()
+
+/* NProgress */
+import NProgress from 'nprogress'
+import 'nprogress/css/nprogress.css'
+function incProcess() {
+  if (NProgress.isStarted()) NProgress.inc()
+}
+NProgress.start()
 
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
@@ -25,6 +32,7 @@ const app = createApp(
 const appPromises: Promise<unknown>[] = []
 
 /* Vue Router */
+import { createRouter, createWebHistory } from 'vue-router'
 const router = createRouter({
   history: createWebHistory(),
   strict: true,
@@ -40,10 +48,12 @@ const router = createRouter({
     {
       path: '/search-result',
       component: () => import('@/search/SearchResult.vue'),
+      meta: { holdLoading: true },
     },
     {
       path: '/video/:vid',
       component: () => import('@/video/Video.vue'),
+      meta: { holdLoading: true },
     },
     {
       path: '/embed/:vid',
@@ -52,6 +62,7 @@ const router = createRouter({
     {
       path: '/playlist/:pid',
       component: () => import('@/playlist/Playlist.vue'),
+      meta: { holdLoading: true },
     },
     {
       path: '/user/login',
@@ -83,6 +94,19 @@ const router = createRouter({
     },
   ],
 })
+router.beforeEach(() => {
+  if (!NProgress.isStarted()) {
+    NProgress.start()
+  }
+})
+router.afterEach((guard) => {
+  if (NProgress.isStarted()) {
+    NProgress.inc()
+    if (!guard.meta.holdLoading) {
+      NProgress.done()
+    }
+  }
+})
 app.use(router)
 
 /* Vue I18n */
@@ -95,6 +119,7 @@ import './pvcc'
 import { checkLoginStatus } from '@/user'
 appPromises.push(checkLoginStatus(true))
 
-Promise.all(appPromises).then(() => {
+Promise.allSettled(appPromises.map((v) => v.then(incProcess))).then(() => {
   app.mount('#app')
+  incProcess()
 })

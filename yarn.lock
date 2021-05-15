@@ -1527,6 +1527,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/nprogress@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@types/nprogress@npm:0.2.0"
+  checksum: f5831461b6984302ae8f4f7efaf963f9faaf8be1879db96bd2d4d48b32e4701141275fe5908b7b4c65fa817d92a09f3f95dbceed7146c1227017dac8915a6e90
+  languageName: node
+  linkType: hard
+
 "@types/object-path@npm:^0.11.0":
   version: 0.11.0
   resolution: "@types/object-path@npm:0.11.0"
@@ -5454,6 +5461,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"nprogress@npm:1.0.0-1":
+  version: 1.0.0-1
+  resolution: "nprogress@npm:1.0.0-1"
+  checksum: 6b59c08b3d0114115e36a635ea4c09d913e4ab36af3aae91d1c0087c8895a7928718fec803319b1e195b3f30622e305f4a7391fcf29668c2b56b68d73fbcf6df
+  languageName: node
+  linkType: hard
+
 "nullthrows@npm:^1.1.1":
   version: 1.1.1
   resolution: "nullthrows@npm:1.1.1"
@@ -5798,6 +5812,7 @@ fsevents@~2.3.1:
     "@types/lodash.get": ^4
     "@types/lodash.merge": ^4
     "@types/markdown-it": ^12.0.1
+    "@types/nprogress": ^0.2.0
     "@types/tlds": ^1.199.0
     "@typescript-eslint/eslint-plugin": ^4.23.0
     "@typescript-eslint/parser": ^4.23.0
@@ -5824,6 +5839,7 @@ fsevents@~2.3.1:
     lodash.get: ^4.4.2
     lodash.merge: ^4.6.2
     markdown-it: ^12.0.6
+    nprogress: 1.0.0-1
     postcss: ^8.2.15
     postcss-import: ^14.0.2
     postcss-mixins: ^7.0.3
