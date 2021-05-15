@@ -1,9 +1,10 @@
-name: Build and Deploy to Vercel
+name: CI Workflow
 on:
   push:
 
 jobs:
   build:
+    name: Build and Deploy to Vercel
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
