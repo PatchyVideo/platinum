@@ -1,14 +1,14 @@
 import MarkdownIt from 'markdown-it'
-import hljs from 'highlight.js'
+import hljs from 'highlight.js/lib/common'
 import tlds from 'tlds'
 
 const markdownIt = new MarkdownIt({
   breaks: true,
   linkify: true,
-  highlight: function (str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
+  highlight: function (str, language) {
+    if (language && hljs.getLanguage(language)) {
       try {
-        return hljs.highlight(lang, str).value
+        return hljs.highlight(str, { language }).value
       } catch (__) {
         // if error, just run as not renderd.
       }

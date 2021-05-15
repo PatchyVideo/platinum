@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
-@import 'highlight.js/styles/atom-one-light.css';
+@import 'highlight.js/styles/github.css';
 .prose {
   max-width: inherit;
 }

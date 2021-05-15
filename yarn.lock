@@ -6,9 +6,9 @@ __metadata:
   cacheKey: 7
 
 "@antfu/utils@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@antfu/utils@npm:0.1.5"
-  checksum: 2db53c72eb6bbc7e0f8fa866bddd10590b1b38ce47944e5bd3fa04956f0e40048fb0447865dde5f4cf8e0dcbb99663d8e02a60b29d04dd185685a44bd0949f2e
+  version: 0.1.6
+  resolution: "@antfu/utils@npm:0.1.6"
+  checksum: 3e138e76c8bab8fec6ed34e1827ed12bc5f363faea36dbaf280a0bad971dd6b92ef4342a8d2ed4363a269a5fad24ab4a0436cd6f0b5c88a905cae57fcddfc4c8
   languageName: node
   linkType: hard
 
@@ -1521,9 +1521,9 @@ __metadata:
   linkType: hard
 
 "@types/node@npm:*":
-  version: 15.0.3
-  resolution: "@types/node@npm:15.0.3"
-  checksum: 72bfbac4282443a7b5d5b43c7c39fe855aa1687b5fa5629b735fd2ceacf371b711ccfc956c8af1b1cbd9c74c79be845a801a4c7275048f340aa0df3beec6b10f
+  version: 15.3.0
+  resolution: "@types/node@npm:15.3.0"
+  checksum: 44039665ab71a6ec12e6637a9db4ec3123fdfaf52952ca8028a6f1b37c41c2d380e88d28a41e02693bf9d4815307e0ad938815bf8ffedc5f4d045855fa28db06
   languageName: node
   linkType: hard
 
@@ -1796,22 +1796,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^4.10.0":
-  version: 4.10.0
-  resolution: "@vueuse/core@npm:4.10.0"
+"@vueuse/core@npm:^4.11.0":
+  version: 4.11.0
+  resolution: "@vueuse/core@npm:4.11.0"
   dependencies:
-    "@vueuse/shared": 4.10.0
+    "@vueuse/shared": 4.11.0
     vue-demi: "*"
-  checksum: 78dc749efcacc73878da70ccb8b73296288ffb691e55ef94c215e37fe673927ee1f0b301ed1ae7396ddc20880850bdfe0dae9ad0ad30385cec5a880283659663
+  checksum: c1ce270c6d6d44aadb98a64ab56727416929286a37b25628092ef8cd1e6aceb86f86363992761b62a8a0c50fda33cf9ca4cdfe9d24f05c8599adddadc307e0fa
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:4.10.0":
-  version: 4.10.0
-  resolution: "@vueuse/shared@npm:4.10.0"
+"@vueuse/shared@npm:4.11.0":
+  version: 4.11.0
+  resolution: "@vueuse/shared@npm:4.11.0"
   dependencies:
     vue-demi: "*"
-  checksum: 70c190614649caf981b476cff797998b1c4f012d46e48ce93bf67cb85cd2d02d39852589eb047a208b6151224680f8ebaee9dd0d81af88f4b8a00c37703208ad
+  checksum: 2031d0499cded6754a92f3739ea80b794c5708646aacf02b057dabab1f073176a4f1be04b4a93a2514326d967c3c1a58188c9a50d27fefcd87b3ea2f33321da9
   languageName: node
   linkType: hard
 
@@ -1934,14 +1934,14 @@ __metadata:
   linkType: hard
 
 "ajv@npm:^8.0.1":
-  version: 8.3.0
-  resolution: "ajv@npm:8.3.0"
+  version: 8.4.0
+  resolution: "ajv@npm:8.4.0"
   dependencies:
     fast-deep-equal: ^3.1.1
     json-schema-traverse: ^1.0.0
     require-from-string: ^2.0.2
     uri-js: ^4.2.2
-  checksum: 95a98cc9cb0223f05530dd9e0d43e958d3a2e555a15f40bdcaafebe63254f6c53f88afcb4bec22344ae0f5fc0a87889ce3826973fc63e25ae159afadf1887c74
+  checksum: 0dcdfe0ecaafca2de60d01601c041853a1057f26bcb24de79484a3f6947486cad7b84d2779f93a9a315345451248aca14ed4996213905b42fac4ec11c7a76a6c
   languageName: node
   linkType: hard
 
@@ -3013,9 +3013,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.723":
-  version: 1.3.727
-  resolution: "electron-to-chromium@npm:1.3.727"
-  checksum: a090f19d382d78a5e22d1ccd656336c341ddd878fe0675613b53c24c12d0edbb8fe07e41ab5c42d49584617f3ece1650c20b2dceaaa3a1b583922fdf2b132b6b
+  version: 1.3.728
+  resolution: "electron-to-chromium@npm:1.3.728"
+  checksum: 0ef494c972f783008af6f6e62aed24d8d41013944122e9a3810d342224f45b9a0a312127409f6ed776bd055b0e74e04ceb939a685d8013a7a4f7f7f6218a7e90
   languageName: node
   linkType: hard
 
@@ -3140,11 +3140,11 @@ __metadata:
   linkType: hard
 
 "esbuild@npm:^0.11.20":
-  version: 0.11.21
-  resolution: "esbuild@npm:0.11.21"
+  version: 0.11.22
+  resolution: "esbuild@npm:0.11.22"
   bin:
     esbuild: bin/esbuild
-  checksum: 5b122d678a0c00b746f8862a8e51656a268d3416487bfe61006ebb893519ee512d0a66639c23c1aeb89d454812b3f7c6e60e7c5a0859dcebfa8e2fe52ac8bdb4
+  checksum: eb448d8793058197996bf71b3a2d648e6f9d2751e1b0a195c72a555c4ad8098db91771f73c7bc68802eb02d89301fe962b2abda9c328e5d3c60da33bc279ff3b
   languageName: node
   linkType: hard
 
@@ -3985,17 +3985,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-highlight.js@10.5.0:
-  version: 10.5.0
-  resolution: "highlight.js@npm:10.5.0"
-  checksum: 00cfa96a725a7fe3f2e4f594303cfb69682414c2e6f1d2e3827bc7c738d8402491fcd5d92db2a3bb210d3d674873298d4a0d05cd78e6fe78a1e8137980a92722
-  languageName: node
-  linkType: hard
-
-"highlight.js@patch:highlight.js@10.5.0#./.yarn/diffs/highlight.js.diff::locator=platinum%40workspace%3A.":
-  version: 10.5.0
-  resolution: "highlight.js@patch:highlight.js@npm%3A10.5.0#./.yarn/diffs/highlight.js.diff::version=10.5.0&hash=3bb51d&locator=platinum%40workspace%3A."
-  checksum: 0a3923c47aa199cef7eb7a09d6d3ca06246aca4a7c314b3a3e5c4f73035626696fb16ae93a5630744f7cc319a9340e19c9a4de6f7e60ef942be09a6e6961aab0
+"highlight.js@npm:^11.0.0-beta0":
+  version: 11.0.0-beta0
+  resolution: "highlight.js@npm:11.0.0-beta0"
+  checksum: d759b66555f37f98e9c5430a2a48b47c00368e7e933ab31f1ade64a54ffda3589b4754aa1fb52f4c177e72dc9adf429b99dc39e783927f80109320ccc448ecb2
   languageName: node
   linkType: hard
 
@@ -5811,7 +5804,7 @@ highlight.js@10.5.0:
     "@vercel/node": ^1.10.0
     "@vitejs/plugin-vue": ^1.2.2
     "@vue/compiler-sfc": ^3.0.11
-    "@vueuse/core": ^4.10.0
+    "@vueuse/core": ^4.11.0
     apollo-link-scalars: ^2.1.3
     autoprefixer: ^10.2.5
     bson: ^4.3.0
@@ -5827,7 +5820,7 @@ highlight.js@10.5.0:
     flv.js: ^1.5.0
     graphql: ^15.5.0
     graphql-compose: ^8.1.0
-    highlight.js: "patch:highlight.js@10.5.0#./.yarn/diffs/highlight.js.diff"
+    highlight.js: ^11.0.0-beta0
     lodash.get: ^4.4.2
     lodash.merge: ^4.6.2
     markdown-it: ^12.0.6
@@ -5844,7 +5837,7 @@ highlight.js@10.5.0:
     typescript: ^4.2.4
     vite: ^2.3.2
     vite-plugin-components: ^0.9.1
-    vite-plugin-icons: ^0.5.0
+    vite-plugin-icons: ^0.5.1
     vite-plugin-windicss: next
     vue: next
     vue-i18n: next
@@ -6397,8 +6390,8 @@ highlight.js@10.5.0:
   linkType: hard
 
 "rollup@npm:^2.38.5":
-  version: 2.47.0
-  resolution: "rollup@npm:2.47.0"
+  version: 2.48.0
+  resolution: "rollup@npm:2.48.0"
   dependencies:
     fsevents: ~2.3.1
   dependenciesMeta:
@@ -6406,7 +6399,7 @@ highlight.js@10.5.0:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: bab2079fea72ebb6457e88717f64f3bd8ff52556827f77485708274aa94f2dfa19f555c022643957d604ff7329be5d010234346d28e13dcfed33d742d3e468b0
+  checksum: 3f50c1e023adcf9fc14100b7ca128482ea58cd27af0aad344affbd9622fc35bbd28ca13ceac35b252d137aedd36df39886b3a308e42b437bcb46918584ee89d3
   languageName: node
   linkType: hard
 
@@ -7293,9 +7286,9 @@ typescript@^4.2.4:
   languageName: node
   linkType: hard
 
-"vite-plugin-icons@npm:^0.5.0":
-  version: 0.5.0
-  resolution: "vite-plugin-icons@npm:0.5.0"
+"vite-plugin-icons@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "vite-plugin-icons@npm:0.5.1"
   dependencies:
     "@iconify/json-tools": ^1.0.10
     vue-template-es2015-compiler: ^1.9.1
@@ -7303,7 +7296,7 @@ typescript@^4.2.4:
     "@iconify/json": "*"
     "@vue/compiler-sfc": ^3.0.2
     vue-template-compiler: ^2.6.12
-  checksum: 4ed8af21d46ca23ea3510d3b202880ea39c3754f742b34d79cd4dddd03d5c570cbec1be82c97b908e4d9fa6b4c05fd9042fd2a00271f78db5c31dfe4039b02b7
+  checksum: 0345801c2c05afab4528109e443418e4e2bbcd1404441a4427759b78a28eebe1decd3b0aa07f5e05b39dbffb9cbf60de9605f715a3c7a45ce0e6af63c8c9902e
   languageName: node
   linkType: hard
 
@@ -7469,11 +7462,11 @@ typescript@^4.2.4:
   linkType: hard
 
 "windicss@npm:^3.0.0":
-  version: 3.0.3
-  resolution: "windicss@npm:3.0.3"
+  version: 3.0.5
+  resolution: "windicss@npm:3.0.5"
   bin:
     windicss: cli/index.js
-  checksum: ba9dc2c0a213f3a1500d7b6b0faf069fc1368719d21a9fdb10ea0c607952c0b2ebfc6d8003447f8442fccc86b57c60d1d3dc43851d6da20c327d432128291eb9
+  checksum: fe07c7d74aa28b12a58c7e1a8dd53ef77fd7fafc689fa4c190ff2efdcb1f5f8ad92206ae370ab3858cb926f2c8a06aeafc04e080821f15ff3c4f8ed9ccc3302c
   languageName: node
   linkType: hard
 
