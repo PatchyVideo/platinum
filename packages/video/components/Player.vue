@@ -638,7 +638,7 @@ export default defineComponent({
       return ''
     })
     const enableIframe = () => {
-      log(t('video.player.enable-iframe'))
+      log(t('video.player.enable-iframe') + '\n')
       useIframe.value = true
     }
 
@@ -740,7 +740,7 @@ export default defineComponent({
           if (!props.item.url) return
           log(t('video.player.video.info-fetching') + '\n')
           url.value = props.item.url
-          log(t('video.player.video.URL') + url.value + '\n')
+          log(t('video.player.video.URL', { url: url.value }) + '\n')
           log(t('video.player.video.address-parsing') + '\n')
           fetch('https://patchyvideo.com/be/helper/get_video_stream', {
             method: 'POST',
@@ -761,12 +761,11 @@ export default defineComponent({
                     streams.value = <VideoStream[]>result.data.streams
                     const stream = streams.value[0]
                     log(
-                      t('video.player.video.profile.BiliBili.source') +
-                        t('video.player.video.profile.BiliBili.format') +
-                        stream.container +
-                        t('video.player.video.profile.BiliBili.quality') +
-                        stream.quality +
-                        '\n'
+                      t('video.player.video.profile.known-source', {
+                        source: 'BiliBili',
+                        format: stream.container,
+                        quality: stream.quality,
+                      }) + '\n'
                     )
                     playStream(stream.quality)
                     break
@@ -788,19 +787,18 @@ export default defineComponent({
                     streams.value = videoStreams
                     const stream = streams.value[0]
                     log(
-                      t('video.player.video.profile.Youtube.source') +
-                        t('video.player.video.profile.Youtube.format') +
-                        stream.container +
-                        t('video.player.video.profile.Youtube.quality') +
-                        stream.quality +
-                        '\n'
+                      t('video.player.video.profile.known-source', {
+                        source: 'Youtube',
+                        format: stream.container,
+                        quality: stream.quality,
+                      }) + '\n'
                     )
                     console.log(streams)
                     playStream(stream.quality)
                     break
                   }
                   default: {
-                    log(t('video.player.video.profile.unknown-source') + result.data.extractor)
+                    log(t('video.player.video.profile.unknown-source', { source: result.data.extractor }))
                     throw 'unknown extractor'
                   }
                 }

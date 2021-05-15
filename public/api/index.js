@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
       const data = (
         await queryGraphQL(
           gql`
-            query($vid: String!) {
+            query ($vid: String!) {
               getVideo(para: { vid: $vid, lang: "CHS" }) {
                 item {
                   coverImage
@@ -76,6 +76,49 @@ module.exports = async (req, res) => {
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
         `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
         `<meta name="twitter:player" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
+      ].join('\n')
+      body = body.replace(/<!-- meta start -->[\S\s]*<!-- meta end -->/, og)
+    } else if (/\/playlist\/\w+/.test(req.url)) {
+      const pid = req.url.match(/\/playlist\/(\w+)/)[1]
+      const data = (
+        await queryGraphQL(
+          gql`
+            query ($pid: String!) {
+              getPlaylist(para: { pid: $pid }) {
+                item {
+                  title
+                  cover
+                  desc
+                }
+              }
+            }
+          `,
+          {
+            pid,
+          }
+        )
+      ).data.getPlaylist
+      const og = [
+        // common data
+        `<title>${encode(data.item.title)} - PatchyVideo</title>`,
+        `<meta property="description" content="${encodeHTML(data.item.desc)}" />`,
+        `<meta itemprop="name" content="${encode(data.item.title)}" />`,
+        `<meta itemprop="description" content="${encodeHTML(data.item.desc)}" />`,
+        `<meta itemprop="image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
+
+        // opengraph data
+        `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
+        `<meta property="og:image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
+        `<meta property="og:description" content="${encodeHTML(data.item.desc)}" />`,
+        `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
+        `<meta property="og:site_name" content="PatchyVideo" />`,
+
+        // twitter data
+        `<meta name="twitter:card" content="summary" />`,
+        `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
+        `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
+        `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
+        `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
       ].join('\n')
       body = body.replace(/<!-- meta start -->[\S\s]*<!-- meta end -->/, og)
     }

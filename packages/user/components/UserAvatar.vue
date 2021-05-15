@@ -8,8 +8,8 @@ import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
 
 const props =
   defineProps<{
-    image?: string
-    gravatar?: string
+    image?: string | null
+    gravatar?: string | null
     alt?: string
   }>()
 

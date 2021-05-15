@@ -90,7 +90,9 @@
           "search-result-count2": "个视频"
         }
       },
-      "video": { "source-site": "源网站：" },
+      "video": {
+        "source-site": "源网站："
+      },
       "pagination": {
         "page-previous": "上一页",
         "page-number1": "第",
@@ -290,22 +292,24 @@
       },
       "video": {
         "info-fetching": "正在获取视频信息",
-        "URL": "视频URL：",
+        "URL": "视频URL：{url}",
         "address-parsing": "正在解析视频地址",
         "profile": {
-          "BiliBili": {
-            "source": "视频源：BiliBili，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
-          "Youtube": {
-            "source": "视频源：Youtube，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
-          "unknown-source": "未知的视频源："
+          "known-source": "视频源：{source}，视频格式：{format}，视频清晰度：{quality}",
+          "unknown-source": "未知的视频源：{source}"
         }
       }
+    }
+  },
+  "playlist": {
+    "playlist": {
+      "info": {
+        "video-count": "{count}个视频",
+        "rating": "评分{rating}",
+        "edit-date": "最后更新于 {date}"
+      },
+      "expand": "展开",
+      "collapse": "收起"
     }
   }
 }

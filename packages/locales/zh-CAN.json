@@ -292,19 +292,8 @@
       },
       "video": {
         "info-fetching": "睇度获取紧视频信息",
-        "URL": "视频嘅URL：",
         "address-parsing": "睇度解析紧视频地址",
         "profile": {
-          "BiliBili": {
-            "source": "视频源：BiliBili，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
-          "Youtube": {
-            "source": "视频源：Youtube，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
           "unknown-source": "未知嘅视频源："
         }
       }

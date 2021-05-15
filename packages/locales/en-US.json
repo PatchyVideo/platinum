@@ -292,19 +292,8 @@
       },
       "video": {
         "info-fetching": "Fetching video info",
-        "URL": "Video URL：",
         "address-parsing": "Acquiring video source",
         "profile": {
-          "BiliBili": {
-            "source": "Source：BiliBili，",
-            "format": "Format：",
-            "quality": "，Quality："
-          },
-          "Youtube": {
-            "source": "Source：Youtube，",
-            "format": "Format：",
-            "quality": "，Quality："
-          },
           "unknown-source": "Unknown video source："
         }
       }

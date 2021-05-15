@@ -7,6 +7,7 @@ languageIds:
 
 usageMatchRegex:
   - "[^\\w\\d]t\\(['\"`]({key})['\"`]"
+  - '[^\\w\\d]i18n-t keypath="({key})"'
 
 refactorTemplates:
   - t('$1')

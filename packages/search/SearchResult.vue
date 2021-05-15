@@ -178,6 +178,7 @@ import { useI18n } from 'vue-i18n'
 import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { pageOfVideo } from '@/video/lib/biliHelper'
 
 const imgMod = Object.fromEntries(
   Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
@@ -281,13 +282,6 @@ export default defineComponent({
         status.value = Status.error
       }
     }
-
-    /* Get part name number from Bilibili video's URL */
-    const pageOfVideo = computed(() => {
-      return (url: string): string => {
-        return url.slice(url.indexOf('=') + 1, url.length)
-      }
-    })
 
     /* Change the router query to trigger the search function */
     function searchResult(searchContent: string): void {

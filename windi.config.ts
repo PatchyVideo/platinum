@@ -22,10 +22,14 @@ export default defineConfig({
         meta: '#f80',
         soundtrack: '#ff7792',
       },
+      lineClamp: {
+        '3': 3,
+      },
     },
   },
   plugins: [
     // https://github.com/tailwindlabs/tailwindcss-typography#usage
     require('windicss/plugin/typography'),
+    require('windicss/plugin/line-clamp'),
   ],
 })
