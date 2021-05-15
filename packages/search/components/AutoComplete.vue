@@ -222,10 +222,10 @@ export default defineComponent({
     function ConvertLangRes(langs: langs[], hastran = true): string | void {
       if (!langs) return
       const LangList = [
-        { id: 1, lang: 'CHS' },
-        { id: 2, lang: 'CHT' },
-        { id: 5, lang: 'ENG' },
-        { id: 10, lang: 'JPN' },
+        { id: 1, lang: 'zh-CH' },
+        { id: 2, lang: 'zh-CHT' },
+        { id: 5, lang: 'en-US' },
+        { id: 10, lang: 'ja-JP' },
       ]
       const level = [10, 5, 1, 2]
       let Lang = ''
