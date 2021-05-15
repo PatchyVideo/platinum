@@ -53,15 +53,15 @@
   },
   "home": {
     "home": {
-      "title": "PatchyVideo",
+      "title": "PatchyVideo - Platinum(WIP)",
       "hello": "你好世界！",
-      "intro": "新页面净睇度建设中哦(/ω＼)",
+      "intro": "新页面净睇度建设紧哦(/ω＼)",
       "intro2": "先试下用顶部导航栏嘅的搜索功能搜索一个自己中意嘅视频吧！",
       "progress": "*项目嘅功能进度可以参考",
       "progress2": "呢度",
-      "old-page": "*旧嘅页面可以点击",
+      "old-page": "旧嘅页面可以点击",
       "old-page2": "呢度",
-      "offical-account": "点击关注帕琪站B站官方账号，可以看到新页面嘅最新进度！",
+      "offical-account": "点击关注帕琪站B站官方账号，可以看到新页面最新进度！",
       "join": "梗系，新页面都意味着帕琪站需要更多热爱东方的大家来一起帮手建设，如果大家有兴趣嘅话，可以先参考下呢个:",
       "join2": "招募祈望 - PatchyVideo Wiki"
     },
@@ -74,25 +74,23 @@
   },
   "search": {
     "search-result": {
-      "title": "搜索结果 - ",
-      "search-keywords": "搜索嘅结果 - ",
+      "title": "揾到嘅结果 - ",
+      "search-keywords": "揾到嘅结果 - ",
       "main-body": {
         "loading": {
-          "searching": "搜索紧......"
+          "searching": "揾紧......"
         },
         "failed": {
           "search-failed": "加载失败咗QAQ",
           "search-failed-reason": "错误嘅原因："
         },
         "successful": {
-          "search-no-result": "冇搜索到视频QAQ",
-          "search-result-count1": "一共搜索到",
+          "search-no-result": "没有揾到视频QAQ",
+          "search-result-count1": "一共揾到咗",
           "search-result-count2": "个视频"
         }
       },
-      "video": {
-        "source-site": "源网站："
-      },
+      "video": { "source-site": "源网站：" },
       "pagination": {
         "page-previous": "上一页",
         "page-number1": "第",
@@ -125,8 +123,8 @@
         "placeholder": "请输入用户名或者系邮箱",
         "username-status": {
           "fine": " ",
-          "tip": "请输入用户名或者邮箱！",
-          "msg": "长度在 2 至到 32 个字符！"
+          "tip": "请输入用户名或邮箱！",
+          "msg": "长度睇 2 到 32 个字符！"
         }
       },
       "password": {
@@ -134,17 +132,17 @@
         "password-status": {
           "fine": " ",
           "tip": "请输入密码！",
-          "msg": "长度在 6 至到 64 个字符！"
+          "msg": "长度睇 6 到 64 个字符！"
         }
       },
       "login-status": {
         "ready": "登录",
-        "loading": "登录紧...",
-        "failed": "用户名或密码错咗！",
+        "loading": "登录紧..",
+        "failed": "用户名或者密码错咗！",
         "error": "未知嘅错误"
       },
       "signup": "注册",
-      "forget-password": ""
+      "forget-password": "忘记咗密码?"
     },
     "signup": {
       "title": "注册",
@@ -153,8 +151,8 @@
         "username-status": {
           "fine": " ",
           "tip": "请输入用户名！",
-          "msg": "长度在 2 至到 32 个字符!",
-          "res": "呢个用户名被注册咗！",
+          "msg": "长度睇 2 到 32 个字符!",
+          "res": "呢个用户名已被注册！",
           "err": "网络错误！"
         }
       },
@@ -163,11 +161,11 @@
         "password-status": {
           "fine": " ",
           "tip": "请输入密码!",
-          "msg": "长度在 6 至到 64 个字符!"
+          "msg": "长度睇 6 到 64 个字符!"
         }
       },
       "password2": {
-        "placeholder": "请重复一次密码",
+        "placeholder": "请重复密码",
         "password2-status": {
           "fine": " ",
           "tip": "请再次输入密码!",
@@ -180,7 +178,7 @@
           "fine": " ",
           "tip": "请输入邮箱!",
           "msg": "请输入正确嘅邮箱格式！",
-          "res": "该邮箱被注册咗！",
+          "res": "呢个邮箱被注册咗！",
           "err": "网络错误！"
         }
       },
@@ -191,69 +189,69 @@
       },
       "login": "登录"
     },
-    "redirect": {
-      "title": "跳转紧...",
-      "log1": "成功，",
-      "log2": "秒之后跳转翻回登录页面",
-      "jump": "没有反应？点击我手动跳转",
-      "from": {
-        "reset-password": "",
-        "sign-up": ""
-      }
-    },
     "forget-password": {
+      "title": "揾番密码",
       "email": {
+        "placeholder": "请输入账号绑定嘅邮箱",
         "email-status": {
-          "fine": "",
-          "msg": "",
-          "tip": ""
-        },
-        "placeholder": ""
+          "fine": " ",
+          "tip": "请输入邮箱！",
+          "msg": "请输入正确嘅邮箱格式！"
+        }
       },
-      "login": "",
       "send-status": {
-        "error": "",
-        "failed": "",
-        "loading": "",
-        "ready": "",
-        "successful": ""
+        "ready": "发送",
+        "loading": "发送紧...",
+        "successful": "邮件发送成功，请查收！",
+        "failed": "呢个邮箱未绑定账号！",
+        "error": "未知错误"
       },
-      "title": ""
+      "login": "返回登录"
     },
     "reset-password": {
+      "title": "重置密码",
       "password": {
+        "placeholder": "请设定新密码",
         "password-status": {
-          "fine": "",
-          "msg": "",
-          "tip": ""
-        },
-        "placeholder": ""
+          "fine": " ",
+          "tip": "请输入密码！",
+          "msg": "长度睇4到64个字符！"
+        }
       },
       "password2": {
+        "placeholder": "请重复新密码",
         "password2-status": {
-          "fine": "",
-          "msg": "",
-          "tip": ""
-        },
-        "placeholder": ""
+          "fine": " ",
+          "tip": "请再次输入密码！",
+          "msg": "两次密码输入不一致！"
+        }
       },
       "reset-status": {
-        "error": "",
-        "loading": "",
-        "ready": ""
+        "ready": "重置",
+        "loading": "重置紧...",
+        "error": "无效嘅key"
+      }
+    },
+    "redirect": {
+      "title": "跳转紧...",
+      "from": {
+        "sign-up": "注册",
+        "reset-password": "重置"
       },
-      "title": ""
+      "log1": "成功，",
+      "log2": "秒后跳番登录页面",
+      "jump": "冇反应？点我手动跳转"
     }
   },
   "video": {
     "video": {
       "uploader": "上传者",
-      "no-desc": "这个人太懒，冇写简介"
+      "no-desc": "这个人太懒啦，冇写简介"
     },
     "player": {
       "settings": {
         "default": {
-          "name": "视频嘅设置",
+          "name": "视频设置",
           "items": {
             "quality": "清晰度",
             "audio": "同步音频"
@@ -292,8 +290,19 @@
       },
       "video": {
         "info-fetching": "睇度获取紧视频信息",
+        "URL": "视频嘅URL：",
         "address-parsing": "睇度解析紧视频地址",
         "profile": {
+          "BiliBili": {
+            "source": "视频源：BiliBili，",
+            "format": "视频格式：",
+            "quality": "，视频清晰度："
+          },
+          "Youtube": {
+            "source": "视频源：Youtube，",
+            "format": "视频格式：",
+            "quality": "，视频清晰度："
+          },
           "unknown-source": "未知嘅视频源："
         }
       }
