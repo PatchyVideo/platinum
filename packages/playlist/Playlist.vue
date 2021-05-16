@@ -150,7 +150,6 @@ export default defineComponent({
     const route = useRoute()
     const pid = computed(() => <string>route.params.pid)
     const offset = ref(0)
-    NProgress.inc()
     const res = await useQuery({
       query: gql`
         query ($pid: String!, $offset: Int!, $limit: Int!) {

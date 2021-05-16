@@ -95,17 +95,15 @@ const router = createRouter({
   ],
 })
 router.beforeEach(() => {
-  if (!NProgress.isStarted()) {
-    NProgress.start()
-  }
+  if (!NProgress.isStarted()) NProgress.start()
 })
 router.afterEach((guard) => {
-  if (NProgress.isStarted()) {
-    NProgress.inc()
-    if (!guard.meta.holdLoading) {
+  incProcess()
+  appPromisesFinish.then(() => {
+    if (!guard.meta.holdLoading && NProgress.isStarted()) {
       NProgress.done()
     }
-  }
+  })
 })
 app.use(router)
 
@@ -119,7 +117,7 @@ import './pvcc'
 import { checkLoginStatus } from '@/user'
 appPromises.push(checkLoginStatus(true))
 
-Promise.allSettled(appPromises.map((v) => v.then(incProcess))).then(() => {
+const appPromisesFinish = Promise.allSettled(appPromises.map((v) => v.then(incProcess))).then(() => {
   app.mount('#app')
   incProcess()
 })
