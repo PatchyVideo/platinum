@@ -287,7 +287,7 @@ export default defineComponent({
       },
       {
         name: '粤语',
-        value: 'zh-CAN',
+        value: 'zh-Hant-HK-yue',
       },
     ]
 
