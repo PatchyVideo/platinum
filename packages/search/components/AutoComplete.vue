@@ -47,7 +47,7 @@
         :key="item.tag"
         class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
         :class="{ 'bg-gray-100 dark:bg-gray-900': item.active }"
-        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs || [], false) || '')"
+        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs || [], item.keyword, false) || '')"
       >
         <div>
           <div
@@ -60,7 +60,7 @@
               'text-meta': item.cat === 4,
               'text-soundtrack': item.cat === 6,
             }"
-            v-html="item.tag || ConvertLangRes(item.langs || [])"
+            v-html="item.tag || ConvertLangRes(item.langs || [], item.keyword)"
           ></div>
         </div>
         <div class="text-gray-400">{{ item.cnt || '' }}</div>
@@ -103,6 +103,7 @@ export default defineComponent({
       cnt: null | string
       active?: boolean
       langs?: langs[]
+      keyword?: string
     }
     interface langs {
       l: number
@@ -219,7 +220,7 @@ export default defineComponent({
         return siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
       }
     }
-    function ConvertLangRes(langs: langs[], hastran = true): string | void {
+    function ConvertLangRes(langs: langs[], keyword = '', hastran = true): string | void {
       if (!langs) return
       const LangList = [
         { id: 1, lang: 'zh-CH' },
@@ -251,7 +252,7 @@ export default defineComponent({
           if (CurrLangWord) break
         }
       }
-      mainLang = CurrLangWord?.w || ''
+      mainLang = CurrLangWord?.w || keyword
 
       if (hastran) {
         // Fetch the sub language
@@ -341,7 +342,8 @@ export default defineComponent({
       } else {
         searchContent.value = formatSearchContent(
           cutHeadSearchContent +
-            (searchResult.value[i].tag || ConvertLangRes(searchResult.value[i].langs || [], false)) +
+            (searchResult.value[i].tag ||
+              ConvertLangRes(searchResult.value[i].langs || [], searchResult.value[i].keyword, false)) +
             ' ' +
             cutTailSearchContent
         )
