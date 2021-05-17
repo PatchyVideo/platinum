@@ -20,7 +20,7 @@ export default defineComponent({
     const router = useRouter()
     setSiteTitle(t('user.redirect.title'))
 
-    const From = {
+    const From: Record<string, string> = {
       'sign-up': t('user.redirect.from.sign-up'),
       'reset-password': t('user.redirect.from.reset-password'),
       default: '?',
@@ -37,7 +37,7 @@ export default defineComponent({
       router.push('/404')
     }
 
-    const fromWord = computed(() => From[from.value as keyof typeof From])
+    const fromWord = computed(() => From[from.value])
 
     const count = ref<number>(5)
     onMounted(() => {
