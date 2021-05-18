@@ -97,12 +97,10 @@ function IDToISO639(id: number): string {
 }
 
 interface LangItemWithName {
-  kind: 'langItemWithName'
   lang: string
   value: string
 }
 interface LangItemWithID {
-  kind: 'langItemWithID'
   l: number
   w: string
 }
@@ -113,18 +111,21 @@ export function behMostMatch(valueWithLang: LangItemWithName[]): string {
   }
   return valueWithLang[0].value || 'undifined'
 }
-export function langBestMatch(valueWithLang: LangItemWithName[] | LangItemWithID[]): string {
+export function langBestMatchName(valueWithLang: LangItemWithName[]): string {
   const siteLang = iso639locale.value
   const browserlang = iso639nav.value
   for (const value of valueWithLang) {
-    if (value.kind === 'langItemWithName') {
-      if (value.lang === siteLang) return value.value
-      else if (value.lang === browserlang) return value.value
-    } else {
-      if (IDToISO639(value.l) === siteLang) return value.w
-      else if (IDToISO639(value.l) === browserlang) return value.w
-    }
+    if (value.lang === siteLang) return value.value
+    else if (value.lang === browserlang) return value.value
   }
-  if (valueWithLang[0].kind === 'langItemWithName') return valueWithLang[0].value || 'undifined'
-  else return valueWithLang[0].w || 'undifined'
+  return valueWithLang[0].value || 'undifined'
+}
+export function langBestMatchID(valueWithLang: LangItemWithID[]): string {
+  const siteLang = iso639locale.value
+  const browserlang = iso639nav.value
+  for (const value of valueWithLang) {
+    if (IDToISO639(value.l) === siteLang) return value.w
+    else if (IDToISO639(value.l) === browserlang) return value.w
+  }
+  return valueWithLang[0].w || 'undifined'
 }
