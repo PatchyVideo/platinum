@@ -109,57 +109,13 @@
             </div>
           </div>
         </div>
-        <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
-          <a
-            v-if="offset"
-            class="
-              inline-flex
-              items-center
-              px-4
-              py-2
-              border border-gray-300
-              text-sm
-              font-medium
-              rounded-lg
-              hover:text-gray-500
-              dark:bg-gray-600
-              dark:border-gray-700
-              dark:hover:bg-black
-            "
-            @click="jumpToPreviousPage"
-          >
-            {{ t('search.search-result.pagination.page-previous') }}
-          </a>
-          <div>
-            {{
-              t('search.search-result.pagination.page-number1') +
-              (offset + 1) +
-              '/' +
-              pageCount +
-              t('search.search-result.pagination.page-number2')
-            }}
-          </div>
-          <a
-            v-if="offset + 1 != pageCount"
-            class="
-              inline-flex
-              items-center
-              px-4
-              py-2
-              border border-gray-300
-              text-sm
-              font-medium
-              rounded-lg
-              hover:text-gray-500
-              dark:bg-gray-600
-              dark:border-gray-700
-              dark:hover:bg-black
-            "
-            @click="jumpToNextPage"
-          >
-            {{ t('search.search-result.pagination.page-next') }}
-          </a>
-        </div>
+        <PvPagination
+          :page-count="pageCount"
+          :page="page"
+          @previous="jumpToPreviousPage"
+          @next="jumpToNextPage"
+          @change="jumpToSelectedPage"
+        ></PvPagination>
       </div>
     </div>
     <BackTop></BackTop>
@@ -172,6 +128,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
+import PvPagination from '@/ui/components/PvPagination.vue'
 import { computed, defineComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -189,7 +146,7 @@ const imgMod = Object.fromEntries(
 )
 
 export default defineComponent({
-  components: { NavTop, AutoComplete, Footer, BackTop },
+  components: { NavTop, AutoComplete, Footer, BackTop, PvPagination },
   props: {},
   setup() {
     const { t } = useI18n()
@@ -219,6 +176,7 @@ export default defineComponent({
     const offset = computed(() =>
       Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
     )
+    const page = computed(() => offset.value + 1)
 
     /* Refresh query result for URL query change */
     watch(
@@ -296,6 +254,9 @@ export default defineComponent({
     function jumpToNextPage(): void {
       router.push({ path: '/search-result', query: { i: queryWord.value, page: offset.value + 1 } })
     }
+    function jumpToSelectedPage(page: number): void {
+      router.push({ path: '/search-result', query: { i: queryWord.value, page: page - 1 } })
+    }
 
     /* Jump to video detail page */
     function jumpToVideoResult(id: string): void {
@@ -309,6 +270,7 @@ export default defineComponent({
       Status,
       status,
       errMsg,
+      page,
       count,
       pageCount,
       videos,
@@ -316,6 +278,7 @@ export default defineComponent({
       searchResult,
       jumpToPreviousPage,
       jumpToNextPage,
+      jumpToSelectedPage,
       jumpToVideoResult,
       imgMod,
     }

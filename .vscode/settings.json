@@ -13,6 +13,7 @@
     "video",
     "graphql",
     "search",
-    "user"
+    "user",
+    "ui"
   ]
 }
