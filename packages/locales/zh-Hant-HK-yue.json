@@ -90,12 +90,8 @@
           "search-result-count2": "个视频"
         }
       },
-      "video": { "source-site": "源网站：" },
-      "pagination": {
-        "page-previous": "上一页",
-        "page-number1": "第",
-        "page-number2": "页",
-        "page-next": "下一页"
+      "video": {
+        "source-site": "源网站："
       }
     },
     "search-page": {
@@ -114,6 +110,13 @@
     },
     "pv-select": {
       "select": "请选择"
+    },
+    "pv-pagination": {
+      "alert": "",
+      "page-next": "",
+      "page-number1": "",
+      "page-number2": "",
+      "page-previous": ""
     }
   },
   "user": {
@@ -289,22 +292,24 @@
         }
       },
       "video": {
-        "info-fetching": "睇度获取紧视频信息",
-        "URL": "视频嘅URL：",
-        "address-parsing": "睇度解析紧视频地址",
+        "info-fetching": "",
+        "URL": "",
+        "address-parsing": "",
         "profile": {
-          "BiliBili": {
-            "source": "视频源：BiliBili，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
-          "Youtube": {
-            "source": "视频源：Youtube，",
-            "format": "视频格式：",
-            "quality": "，视频清晰度："
-          },
-          "unknown-source": "未知嘅视频源："
+          "known-source": "",
+          "unknown-source": ""
         }
+      }
+    }
+  },
+  "playlist": {
+    "playlist": {
+      "collapse": "",
+      "expand": "",
+      "info": {
+        "edit-date": "",
+        "rating": "",
+        "video-count": ""
       }
     }
   }

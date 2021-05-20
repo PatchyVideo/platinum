@@ -20,18 +20,18 @@
         "
         @click="$emit('previous')"
       >
-        {{ t('search.search-result.pagination.page-previous') }}
+        {{ t('ui.pv-pagination.page-previous') }}
       </a>
       <div>
         <label>
-          {{ t('search.search-result.pagination.page-number1') }}
+          {{ t('ui.pv-pagination.page-number1') }}
         </label>
         <input
           v-model="pageNum"
           class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
           @keydown.enter="change"
         />
-        <label>{{ '/' + pageCount + t('search.search-result.pagination.page-number2') }}</label>
+        <label>{{ '/' + pageCount + t('ui.pv-pagination.page-number2') }}</label>
       </div>
       <a
         v-if="page != pageCount"
@@ -51,7 +51,7 @@
         "
         @click="$emit('next')"
       >
-        {{ t('search.search-result.pagination.page-next') }}
+        {{ t('ui.pv-pagination.page-next') }}
       </a>
     </div>
   </div>
@@ -79,7 +79,7 @@ export default defineComponent({
     const pageNum = ref<number>(props.page)
     function change(): void {
       if (isNaN(pageNum.value) || pageNum.value <= 0 || pageNum.value > props.pageCount) {
-        alert('请输入有效的页数！')
+        alert(t('ui.pv-pagination.alert'))
         return
       }
       emit('change', pageNum.value)

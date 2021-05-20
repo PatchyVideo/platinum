@@ -92,12 +92,6 @@
       },
       "video": {
         "source-site": "Source:"
-      },
-      "pagination": {
-        "page-previous": "Prev",
-        "page-number1": "",
-        "page-number2": "",
-        "page-next": "Next"
       }
     },
     "search-page": {
@@ -291,10 +285,12 @@
         }
       },
       "video": {
-        "info-fetching": "Fetching video info",
-        "address-parsing": "Acquiring video source",
+        "info-fetching": "",
+        "URL": "",
+        "address-parsing": "",
         "profile": {
-          "unknown-source": "Unknown video source："
+          "known-source": "",
+          "unknown-source": ""
         }
       }
     }

@@ -92,12 +92,6 @@
       },
       "video": {
         "source-site": "源网站："
-      },
-      "pagination": {
-        "page-previous": "上一页",
-        "page-number1": "第",
-        "page-number2": "页",
-        "page-next": "下一页"
       }
     },
     "search-page": {
@@ -116,6 +110,13 @@
     },
     "pv-select": {
       "select": "请选择"
+    },
+    "pv-pagination": {
+      "alert": "请输入有效的页数！",
+      "page-next": "下一页",
+      "page-previous": "上一页",
+      "page-number1": "第",
+      "page-number2": "页"
     }
   },
   "user": {
@@ -303,13 +304,13 @@
   },
   "playlist": {
     "playlist": {
+      "collapse": "收起",
+      "expand": "展开",
       "info": {
         "video-count": "{count}个视频",
         "rating": "评分{rating}",
         "edit-date": "最后更新于 {date}"
-      },
-      "expand": "展开",
-      "collapse": "收起"
+      }
     }
   }
 }
