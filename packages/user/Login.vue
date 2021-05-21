@@ -1,7 +1,89 @@
 <template>
   <div class="log-in-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:log-in-md">
+    <!-- Mobile view -->
+    <div
+      v-if="!isMiddleScreen"
+      class="
+        flex-wrap
+        content-between
+        w-full
+        h-full
+        p-5
+        shadow
+        flex
+        filter
+        drop-shadow-md
+        backdrop-filter backdrop-blur-sm
+        text-white
+      "
+    >
+      <div class="w-full text-center">
+        <Logo :larger="20"></Logo>
+        <div class="text-lg">{{ t('user.login.title') }}</div>
+      </div>
+      <div class="w-full space-y-3">
+        <div>
+          <div class="flex w-full border-b-1 border-white">
+            <icon-uil-user class="align-middle w-7" />
+            <input
+              v-model="userName"
+              class="outline-none w-full bg-transparent placeholder-white"
+              :placeholder="t('user.login.username.placeholder')"
+            />
+          </div>
+          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
+        </div>
+        <div>
+          <div class="flex w-full border-b-1 border-white">
+            <icon-uil-padlock class="align-middle w-7" />
+            <input
+              v-model="password"
+              type="password"
+              class="outline-none w-full bg-transparent placeholder-white"
+              :placeholder="t('user.login.password.placeholder')"
+              @keydown.enter="login"
+            />
+          </div>
+          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
+          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
+            t('user.login.forget-password')
+          }}</router-link>
+        </div>
+        <div class="space-y-1">
+          <button
+            :disabled="loginStatus === LoginStatus.loading"
+            class="
+              w-full
+              py-2
+              border border-transparent
+              rounded-md
+              text-white
+              bg-blue-600
+              focus:outline-none
+              focus:ring-2
+              focus:bg-blue-700
+              disabled:bg-blue-300
+              disabled:focus:bg-blue-300
+            "
+            @click="login"
+          >
+            {{
+              loginStatus === LoginStatus.loading
+                ? t('user.login.login-status.loading')
+                : t('user.login.login-status.ready')
+            }}
+          </button>
+          <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <router-link class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</router-link>
+        </div>
+      </div>
+      <!-- This div is only for placeholder  -->
+      <div class="h-20 w-full"></div>
+      <div>© PatchyVideo 2020-2021</div>
+    </div>
     <!-- Desktop view -->
     <div
+      v-else
       class="
         flex-wrap
         content-between
@@ -14,8 +96,7 @@
         backdrop-filter backdrop-blur-sm
         ml-50
         text-black
-        hidden
-        md:flex
+        flex
       "
     >
       <div class="w-full">
@@ -87,88 +168,6 @@
       <div class="h-20 w-full"></div>
       <div>© PatchyVideo 2020-2021</div>
     </div>
-
-    <!-- Mobile view -->
-    <div
-      class="
-        flex-wrap
-        content-between
-        w-full
-        h-full
-        p-5
-        shadow
-        flex
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        text-white
-        md:hidden
-      "
-    >
-      <div class="w-full text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg">{{ t('user.login.title') }}</div>
-      </div>
-      <div class="w-full space-y-3">
-        <div>
-          <div class="flex w-full border-b-1 border-white">
-            <icon-uil-user class="align-middle w-7" />
-            <input
-              v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-white"
-              :placeholder="t('user.login.username.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-white">
-            <icon-uil-padlock class="align-middle w-7" />
-            <input
-              v-model="password"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-white"
-              :placeholder="t('user.login.password.placeholder')"
-              @keydown.enter="login"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
-            t('user.login.forget-password')
-          }}</router-link>
-        </div>
-        <div class="space-y-1">
-          <button
-            :disabled="loginStatus === LoginStatus.loading"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none
-              focus:ring-2
-              focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
-            "
-            @click="login"
-          >
-            {{
-              loginStatus === LoginStatus.loading
-                ? t('user.login.login-status.loading')
-                : t('user.login.login-status.ready')
-            }}
-          </button>
-          <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</router-link>
-        </div>
-      </div>
-      <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
-      <div>© PatchyVideo 2020-2021</div>
-    </div>
   </div>
 </template>
 
@@ -178,6 +177,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
+import { isMiddleScreen } from '@/ui'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
@@ -304,7 +304,18 @@ export default defineComponent({
           errmsg.value = err
         })
     }
-    return { t, LoginStatus, loginStatus, usernameStatus, passwordStatus, userName, password, errmsg, login }
+    return {
+      t,
+      isMiddleScreen,
+      LoginStatus,
+      loginStatus,
+      usernameStatus,
+      passwordStatus,
+      userName,
+      password,
+      errmsg,
+      login,
+    }
   },
 })
 </script>

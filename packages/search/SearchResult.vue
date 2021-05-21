@@ -7,13 +7,15 @@
         {{ t('search.search-result.search-keywords') + queryWord }}
       </h3>
       <AutoComplete
-        class="md:hidden sm:w-4/6 w-5/6"
+        v-if="!isMiddleScreen"
+        class="sm:w-4/6 w-5/6"
         size="mobile"
         :keyword="queryWord"
         @search="searchResult"
       ></AutoComplete>
       <AutoComplete
-        class="hidden md:inline-block md:w-4/6 lg:w-3/6"
+        v-else
+        class="md:w-4/6 lg:w-3/6"
         size="lg"
         :keyword="queryWord"
         @search="searchResult"
@@ -36,7 +38,7 @@
           }}
         </div>
         <!-- Mobile View -->
-        <div class="md:hidden">
+        <div v-if="!isMiddleScreen">
           <div
             v-for="video in videos"
             :key="video.item.title"
@@ -66,7 +68,7 @@
           </div>
         </div>
         <!-- Desktop View -->
-        <div class="search-result-backimg justify-evenly flex-wrap hidden md:flex">
+        <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
           <div
             v-for="video in videos"
             :key="video.item.title"
@@ -137,6 +139,7 @@ import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
+import { isMiddleScreen } from '@/ui'
 
 const imgMod = Object.fromEntries(
   Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
@@ -265,6 +268,7 @@ export default defineComponent({
 
     return {
       t,
+      isMiddleScreen,
       queryWord,
       offset,
       Status,

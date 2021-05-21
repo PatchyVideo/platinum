@@ -25,10 +25,10 @@
       </div>
       <!-- Search Bar -->
       <template v-if="showSearchBar">
-        <router-link to="/search-page" alt="mobile search button" class="md:hidden">
+        <router-link v-if="!isMiddleScreen" to="/search-page" alt="mobile search button">
           <icon-uil-search class="inline" />
         </router-link>
-        <AutoComplete class="hidden md:inline-block" @search="searchResult"></AutoComplete>
+        <AutoComplete v-else @search="searchResult"></AutoComplete>
       </template>
       <!-- User -->
       <div ref="userList" class="mr-2">
@@ -195,6 +195,7 @@ import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale } from '@/locales'
+import { isMiddleScreen } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 import Logo from '@/common/components/Logo.vue'
@@ -294,6 +295,7 @@ export default defineComponent({
     return {
       t,
       locale,
+      isMiddleScreen,
       isDark,
       languageList,
       user,
