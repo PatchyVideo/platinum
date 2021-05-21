@@ -21,7 +21,7 @@
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="openDrawer()"
         />
-        <logo class="cursor-pointer hidden md:inline-block" @click="toHome()"></logo>
+        <logo v-if="isMiddleScreen" class="cursor-pointer inline-block" @click="toHome()"></logo>
       </div>
       <!-- Search Bar -->
       <template v-if="showSearchBar">

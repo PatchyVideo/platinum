@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pageCount - 1">
+  <div v-if="pageCount - 1" class="xs:text-xs">
     <!-- Mobile View -->
     <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
       <a
@@ -7,8 +7,8 @@
         class="
           inline-flex
           items-center
-          px-4
-          py-2
+          px-2
+          py-1
           border border-gray-300
           text-sm
           font-medium
@@ -17,6 +17,8 @@
           dark:bg-gray-600
           dark:border-gray-700
           dark:hover:bg-black
+          md:px-4
+          md:py-2
         "
         @click="$emit('previous')"
       >
@@ -38,8 +40,8 @@
         class="
           inline-flex
           items-center
-          px-4
-          py-2
+          px-2
+          py-1
           border border-gray-300
           text-sm
           font-medium
@@ -48,6 +50,8 @@
           dark:bg-gray-600
           dark:border-gray-700
           dark:hover:bg-black
+          md:px-4
+          md:py-2
         "
         @click="$emit('next')"
       >
