@@ -33,7 +33,7 @@
           <br />
           <a
             class="underline text-lg"
-            :href="locale == 'zh-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
+            :href="locale == 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
             target="_blank"
             >{{ t('home.home.join2') }}</a
           >

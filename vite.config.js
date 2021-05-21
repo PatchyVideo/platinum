@@ -6,6 +6,7 @@ import windicss from 'vite-plugin-windicss'
 import components from 'vite-plugin-components'
 import viteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
 import { visualizer } from 'rollup-plugin-visualizer'
+import yaml from '@rollup/plugin-yaml'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 
@@ -45,6 +46,7 @@ export default async ({ command, mode }) => {
       exclude: ['@apollo/client'],
     },
     plugins: [
+      yaml(),
       vue(),
       windicss({
         transformCSS: 'pre',

@@ -19,8 +19,8 @@ import { buildClientSchema, IntrospectionQuery } from 'graphql'
 import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
 
-import * as schema from './__generated__/graphql'
-export { schema }
+import type * as schema from './__generated__/graphql'
+export type { schema }
 
 export { gql } from '@apollo/client/core'
 

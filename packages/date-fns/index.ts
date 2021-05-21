@@ -1,5 +1,5 @@
-import { locale } from '@/locales'
-import { Locale } from 'date-fns'
+import { pickBestLocale } from '@/locales'
+import type { Locale } from 'date-fns'
 const locales = {
   af: () => import('date-fns/esm/locale/af'),
   'ar-DZ': () => import('date-fns/esm/locale/ar-DZ'),
@@ -80,7 +80,7 @@ const locales = {
 } as Record<string, () => Promise<{ default: Locale }>>
 
 export const dateFnsLocale = async (): Promise<Locale> => {
-  const l = locale.value in locales ? locales[locale.value] : locales['en-US']
-  const lr = await l()
+  const lang = locales[pickBestLocale(Object.keys(locales), 'en-US')]
+  const lr = await lang()
   return 'default' in lr ? lr.default : (await locales['en-US']()).default
 }

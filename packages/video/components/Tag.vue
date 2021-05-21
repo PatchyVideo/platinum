@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts" setup>
-import { schema } from '@/graphql'
+import type { schema } from '@/graphql'
 import { behMostMatch } from '@/locales'
 import { computed, defineProps } from 'vue'
 

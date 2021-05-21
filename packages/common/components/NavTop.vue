@@ -194,7 +194,7 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
-import { locale } from '@/locales'
+import { locale, messages } from '@/locales'
 import { isMiddleScreen } from '@/ui'
 import { useI18n } from 'vue-i18n'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
@@ -277,20 +277,7 @@ export default defineComponent({
       alert(t('common.nav-top.work-in-progress'))
     }
 
-    const languageList = [
-      {
-        name: '简体中文',
-        value: 'zh-CN',
-      },
-      {
-        name: 'English',
-        value: 'en-US',
-      },
-      {
-        name: '粤语',
-        value: 'zh-Hant-HK-yue',
-      },
-    ]
+    const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
 
     return {
       t,

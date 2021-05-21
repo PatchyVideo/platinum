@@ -1,47 +1,42 @@
 import { computed } from 'vue'
 import { createI18n } from 'vue-i18n'
+import { match } from '@formatjs/intl-localematcher/lib'
+import type { Locale } from '@formatjs/intl-locale'
+import { useLocalStorage } from '@vueuse/core'
 
-const messages = Object.fromEntries(
-  Object.entries(import.meta.globEager('./*.json')).map(([key, value]) => [
-    key.replace(/.+\/(.+)\.json/, '$1'),
+export const messages = Object.fromEntries(
+  Object.entries(import.meta.globEager('./*.{yml,yaml,json}')).map(([key, value]) => [
+    key.replace(/.+\/(.+)\.(?:ya?ml|json)/, '$1'),
     value.default,
   ])
 )
 
-const langs = Object.keys(messages)
+export const langs = Object.keys(messages)
+
+const lslang = useLocalStorage<string | undefined>('lang', undefined)
 
 const i18n = createI18n({
   legacy: false,
-  locale: getBrowserLang() || 'zh-CN',
+  locale: getBrowserLang() || 'zh-Hans-CN',
   availableLocales: langs,
-  fallbackLocale: 'zh-CN',
+  fallbackLocale: 'zh-Hans-CN',
   messages,
 })
 
 export default i18n
 
 function getBrowserLang(): string | undefined {
-  if ('lang' in localStorage) {
-    const lang = localStorage.getItem('lang')
-    if (lang)
-      if (langs.includes(lang)) {
-        return lang // return lang in localStorage
-      } else {
-        localStorage.removeItem('lang') // reset invalid lang
-      }
-  }
-  if (langs.includes(navigator.language)) return navigator.language // return browser lang
-  if (navigator.languages) {
-    for (const lang of navigator.languages) {
-      if (langs.includes(lang)) return lang // return lang in browser langs
-    }
-  }
-  return navigator.language
+  const userLangs = [...navigator.languages]
+  if (lslang.value) userLangs.unshift(lslang.value)
+  return match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
 }
 
 function setBrowserLang(lang: string) {
-  if (lang === navigator.language) localStorage.removeItem('lang')
-  if (langs.includes(lang)) localStorage.setItem('lang', lang)
+  if (lang === navigator.language) {
+    lslang.value = undefined
+    return
+  }
+  lslang.value = lang
 }
 
 export const locale = computed({
@@ -55,19 +50,69 @@ export const locale = computed({
   },
 })
 
-function BCP47ToISO639(code: string): string {
-  const map: Record<string, string> = {
-    zh: 'CHS',
-    'zh-CN': 'CHS',
-    'zh-Hant-HK-yue': 'CHS',
-    'zh-TW': 'CHT',
-    'zh-HK': 'CHT',
-    en: 'ENG',
-    'en-US': 'ENG',
-    'en-GB': 'ENG',
-    ja: 'JPN',
+export const userPreferredLocales = computed(() => [locale.value, ...navigator.languages])
+
+export function BCP47ToISO639(code: string): string {
+  try {
+    // https://github.com/microsoft/TypeScript/pull/39664
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const lo = new Intl.Locale(code) as Locale
+    switch (lo.language) {
+      case 'yue':
+        return 'CHT'
+
+      case 'zh': {
+        switch (lo.script) {
+          case 'Hans':
+            return 'CHS'
+          case 'Hant':
+            return 'CHT'
+        }
+        switch (lo.region) {
+          case 'CN':
+            return 'CHS'
+          case 'HK':
+          case 'TW':
+            return 'CHT'
+        }
+        return 'CHS'
+      }
+      case 'cs':
+        return 'CSY'
+      case 'en':
+        return 'ENG'
+      case 'nl':
+        return 'NLD'
+      case 'fr':
+        return 'FRA'
+      case 'de':
+        return 'DEU'
+      case 'hu':
+        return 'HUN'
+      case 'it':
+        return 'ITA'
+      case 'ja':
+        return 'JPN'
+      case 'ko':
+        return 'KOR'
+      case 'pl':
+        return 'PLK'
+      case 'ro':
+        return 'ROM'
+      case 'ru':
+        return 'RUS'
+      case 'es':
+        return 'ESP'
+      case 'tr':
+        return 'TRK'
+      case 'vi':
+        return 'VIM'
+    }
+    return 'CHS'
+  } catch (e) {
+    return 'CHS'
   }
-  return code in map ? map[code] : 'CHS'
 }
 export const iso639locale = computed(() => BCP47ToISO639(locale.value))
 export const iso639nav = computed(() => BCP47ToISO639(navigator.language))
@@ -128,4 +173,8 @@ export function langBestMatchID(valueWithLang: LangItemWithID[]): string {
     else if (IDToISO639(value.l) === browserlang) return value.w
   }
   return valueWithLang[0].w || 'undifined'
+}
+
+export function pickBestLocale(locales: string[], defaultLocale?: string): string {
+  return match(userPreferredLocales.value, locales, defaultLocale ?? locales[0], { algorithm: 'best fit' })
 }

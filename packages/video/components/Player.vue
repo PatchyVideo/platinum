@@ -188,7 +188,7 @@
 
 <script lang="ts">
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
-import { schema } from '@/graphql'
+import type { schema } from '@/graphql'
 import { FetchResult } from '@apollo/client/core'
 import {
   Fn,

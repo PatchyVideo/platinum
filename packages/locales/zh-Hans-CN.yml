@@ -1,0 +1,242 @@
+_info:
+  name: 简体中文
+common:
+  nav-top:
+    work-in-progress: 该功能尚在完善中，敬请期待！
+    main-menu:
+      home: 主页
+      video: 视频
+      list: 播放列表
+      discuss-board: 讨论板
+      leaderboard: 用户排行榜
+      wiki: 网站维基
+    user-operation:
+      postvideo: 发布视频
+      tag: 编辑标签
+    admin:
+      admin: 管理员
+      who-am-I: 视角
+      super-admin: 管理员页面
+    settings:
+      settings: 设置
+      darkmode: 深色模式
+      lang: 显示语言
+    user:
+      login: 登录
+      logout: 退出登录
+      confirming: 验证登录中...
+  footer:
+    wiki: 网站维基
+    status: 网站状态
+    bl-account: B站官方帐户
+    joinus: 招募祈愿
+    code: 代码相关
+    repositories: 项目仓库
+    feedback-issue: 反馈BUG
+    contact: 联系我们
+    license: 项目开源许可
+darkmode:
+  light: 浅色
+  dark: 深色
+error-pages:
+  N404:
+    title: 巴瓦鲁魔法服务器并没有这个界面
+home:
+  home:
+    title: PatchyVideo
+    hello: 你好世界！
+    intro: 新页面还在建设中哦(/ω＼)
+    intro2: 先尝试使用顶部导航栏的搜索功能搜索一个自己喜欢的视频吧！
+    progress: '*项目的功能进度可以参考'
+    progress2: 这里
+    old-page: '*旧页面可以点击'
+    old-page2: 这里
+    offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
+    join: '当然了，新页面也意味着帕琪站需要更多热爱东方的大家来一起帮忙建设，如果大家有兴趣的话，可以先参考一下介个:'
+    join2: 招募祈望 - PatchyVideo Wiki
+  list:
+    favorites: 收藏夹
+locales:
+  change-lang-reload-hint: |-
+    部分语言修改需要刷新页面才能生效
+    现在刷新页面吗？
+search:
+  search-result:
+    title: '搜索结果 - '
+    search-keywords: '搜索结果 - '
+    main-body:
+      loading:
+        searching: 搜索中......
+      failed:
+        search-failed: 加载失败了QAQ
+        search-failed-reason: 错误原因：
+      successful:
+        search-no-result: 没有搜索到视频QAQ
+        search-result-count1: 共搜索到
+        search-result-count2: 个视频
+    video:
+      source-site: 源网站：
+  search-page:
+    title: 搜索
+    search: 搜索
+  auto-complete:
+    search: 搜索
+    loading: 加载中...
+    loading-failed: 加载失败了QAQ
+ui:
+  back-top:
+    back-top: 回到顶部
+  pv-select:
+    select: 请选择
+  pv-pagination:
+    alert: 请输入有效的页数！
+    page-next: 下一页
+    page-previous: 上一页
+    page-number1: 第
+    page-number2: 页
+user:
+  login:
+    title: 登录
+    username:
+      placeholder: 请输入用户名或邮箱
+      username-status:
+        fine: ' '
+        tip: 请输入用户名或邮箱！
+        msg: 长度在 2 到 32 个字符！
+    password:
+      placeholder: 请输入密码
+      password-status:
+        fine: ' '
+        tip: 请输入密码！
+        msg: 长度在 6 到 64 个字符！
+    login-status:
+      ready: 登录
+      loading: 登录中...
+      failed: 用户名或密码错误！
+      error: 未知错误
+    signup: 注册
+    forget-password: 忘记密码？
+  signup:
+    title: 注册
+    username:
+      placeholder: 请输入用户名
+      username-status:
+        fine: ' '
+        tip: 请输入用户名！
+        msg: 长度在 2 到 32 个字符!
+        res: 该用户名已被注册！
+        err: 网络错误！
+    password:
+      placeholder: 请输入密码
+      password-status:
+        fine: ' '
+        tip: 请输入密码!
+        msg: 长度在 6 到 64 个字符!
+    password2:
+      placeholder: 请重复密码
+      password2-status:
+        fine: ' '
+        tip: 请再次输入密码!
+        msg: 两次密码输入不一致！
+    email:
+      placeholder: 请绑定邮箱
+      email-status:
+        fine: ' '
+        tip: 请输入邮箱!
+        msg: 请输入正确的邮箱格式！
+        res: 该邮箱已被注册！
+        err: 网络错误！
+    signup-status:
+      ready: 注册
+      loading: 注册中...
+      error: 未知错误
+    login: 登录
+  forget-password:
+    title: 找回密码
+    email:
+      placeholder: 请输入账号绑定的邮箱
+      email-status:
+        fine: ' '
+        tip: 请输入邮箱！
+        msg: 请输入正确的邮箱格式！
+    send-status:
+      ready: 发送
+      loading: 发送中...
+      successful: 邮件发送成功，请查收！
+      failed: 该邮箱未绑定账号！
+      error: 未知错误
+    login: 返回登录
+  reset-password:
+    title: 重置密码
+    password:
+      placeholder: 请设定新密码
+      password-status:
+        fine: ' '
+        tip: 请输入密码！
+        msg: 长度在4到64个字符！
+    password2:
+      placeholder: 请重复新密码
+      password2-status:
+        fine: ' '
+        tip: 请再次输入密码！
+        msg: 两次密码输入不一致！
+    reset-status:
+      ready: 重置
+      loading: 重置中...
+      error: 无效的key
+  redirect:
+    title: 跳转中...
+    from:
+      sign-up: 注册
+      reset-password: 重置
+    log1: 成功，
+    log2: 秒后跳转回登录页面
+    jump: 没有反应？点击我手动跳转
+video:
+  video:
+    uploader: 上传者
+    no-desc: 这个人太懒啦，并没有写简介
+  player:
+    settings:
+      default:
+        name: 视频设置
+        items:
+          quality: 清晰度
+          audio: 同步音频
+      quality:
+        name: 清晰度
+    enable-iframe: 切换视频播放至内嵌
+    play-stream:
+      source:
+        video:
+          source-changing: 正在切换视频源
+          source-nothing: 无可支持视频源
+        audio:
+          source-nothing: 无可支持音频源
+      container:
+        flv:
+          player-loading: 正在载入flv.js
+          player-loaded: 播放器加载完毕
+          player-failed: flv解析器创建失败
+          parse-creating: 正在创建flv解析器
+          source-loading: 正在加载视频源
+        webm_dash: {}
+        mp4_dash:
+          player-loaded: 播放器加载完毕
+          source-loading: 正在加载视频源
+        failed: 视频源解析失败
+    video:
+      info-fetching: 正在获取视频信息
+      URL: 视频URL：{url}
+      address-parsing: 正在解析视频地址
+      profile:
+        known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
+        unknown-source: 未知的视频源：{source}
+playlist:
+  playlist:
+    collapse: 收起
+    expand: 展开
+    info:
+      video-count: '{count}个视频'
+      rating: 评分{rating}
+      edit-date: 最后更新于 {date}
