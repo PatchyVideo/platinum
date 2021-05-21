@@ -6,5 +6,8 @@
     "fake-tag": "^2.0.0",
     "html-entities": "^2.3.2",
     "isbot": "^3.0.26"
+  },
+  "devDependencies": {
+    "@vercel/node": "^1.10.0"
   }
 }

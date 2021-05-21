@@ -236,7 +236,7 @@ export default defineComponent({
         vid: vid.value,
       },
     })
-    NProgress.done()
+    if (NProgress.isStarted()) NProgress.done()
 
     /* basic info */
     const video = reactive(res.data.getVideo)

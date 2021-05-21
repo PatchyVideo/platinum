@@ -204,6 +204,7 @@ export default defineComponent({
       if (!queryWord.value || status.value === Status.loading) return
       status.value = Status.loading
       try {
+        if (!NProgress.isStarted()) NProgress.start()
         const res = await useQuery({
           query: gql`
             query ($offset: Int, $limit: Int, $query: String) {
