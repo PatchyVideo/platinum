@@ -2,7 +2,7 @@
   <div class="log-in-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:log-in-md">
     <!-- Mobile view -->
     <div
-      v-if="!isMiddleScreen"
+      v-if="screenSizes['<md']"
       class="
         flex-wrap
         content-between
@@ -177,7 +177,7 @@ import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
@@ -306,7 +306,7 @@ export default defineComponent({
     }
     return {
       t,
-      isMiddleScreen,
+      screenSizes,
       LoginStatus,
       loginStatus,
       usernameStatus,

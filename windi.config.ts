@@ -10,7 +10,6 @@ export default defineConfig({
   theme: {
     extend: {
       screens: {
-        lg: '1201px',
         '3xl': '1920px',
       },
       colors: {
@@ -31,5 +30,6 @@ export default defineConfig({
     // https://github.com/tailwindlabs/tailwindcss-typography#usage
     require('windicss/plugin/typography'),
     require('windicss/plugin/line-clamp'),
+    require('windicss/plugin/aspect-ratio'),
   ],
 })

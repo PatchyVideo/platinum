@@ -2,7 +2,7 @@
   <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
     <!-- Mobile view -->
     <div
-      v-if="!isMiddleScreen"
+      v-if="screenSizes['<md']"
       class="
         flex-wrap
         content-between
@@ -252,7 +252,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 import Logo from '@/common/components/Logo.vue'
 
 export default defineComponent({
@@ -290,7 +290,7 @@ export default defineComponent({
     }
     const password2Status = ref<string>(Password2Status.fine)
     const emailFormat =
-      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
       fine: t('user.signup.email.email-status.fine'),
       tip: t('user.signup.email.email-status.tip'),
@@ -470,7 +470,7 @@ export default defineComponent({
 
     return {
       t,
-      isMiddleScreen,
+      screenSizes,
       SignupStatus,
       signupStatus,
       usernameStatus,

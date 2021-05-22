@@ -1,5 +1,5 @@
 <template>
-  <div class="dark:bg-gray-700">
+  <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
     <NavTop :show-search-bar="false"></NavTop>
 
     <div class="text-center flex flex-col justify-start items-center">
@@ -7,7 +7,7 @@
         {{ t('search.search-result.search-keywords') + queryWord }}
       </h3>
       <AutoComplete
-        v-if="!isMiddleScreen"
+        v-if="screenSizes['<md']"
         class="sm:w-4/6 w-5/6"
         size="mobile"
         :keyword="queryWord"
@@ -22,7 +22,7 @@
       ></AutoComplete>
     </div>
 
-    <div class="p-2 md:m-auto lg:w-7/10">
+    <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === Status.loading">{{ t('search.search-result.main-body.loading.searching') }}</div>
       <div v-else-if="status === Status.error">
         <div>{{ t('search.search-result.main-body.failed.search-failed') }}</div>
@@ -38,14 +38,14 @@
           }}
         </div>
         <!-- Mobile View -->
-        <div v-if="!isMiddleScreen">
+        <div v-if="screenSizes['<md']">
           <div
             v-for="video in videos"
             :key="video.item.title"
             class="py-1 flex items-start hover:bg-gray-50 dark:hover:bg-gray-800"
             @click="jumpToVideoResult(video.id.toHexString())"
           >
-            <div class="img-box w-2/5 mr-0.5 overflow-hidden rounded-sm">
+            <div class="aspect-10/16 w-2/5 mr-0.5 overflow-hidden rounded-sm">
               <img
                 class="object-cover h-full w-full dark:(filter brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
@@ -84,7 +84,7 @@
             "
             @click="jumpToVideoResult(video.id.toHexString())"
           >
-            <div class="img-box-md overflow-hidden rounded-sm lg:img-box-lg">
+            <div class="aspect-10/16 overflow-hidden rounded-sm">
               <img
                 class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
@@ -139,7 +139,7 @@ import { useQuery, gql } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 
 const imgMod = Object.fromEntries(
   Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
@@ -269,7 +269,7 @@ export default defineComponent({
 
     return {
       t,
-      isMiddleScreen,
+      screenSizes,
       queryWord,
       offset,
       Status,
@@ -297,17 +297,6 @@ export default defineComponent({
   @apply bg-no-repeat;
   @apply bg-contain;
   background-image: url('./assets/SearchResultBackImg.png');
-}
-mg-box {
-  height: 25vw;
-}
-.img-box-md {
-  height: 13.75vw;
-}
-@variants lg {
-  .lg\:img-box-lg {
-    height: 9.2vw;
-  }
 }
 .title {
   display: -webkit-box;

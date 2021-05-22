@@ -2,7 +2,7 @@
   <div class="reset-password-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:reset-password-md">
     <!-- Mobile view -->
     <div
-      v-if="!isMiddleScreen"
+      v-if="screenSizes['<md']"
       class="
         flex-wrap
         content-between
@@ -182,7 +182,7 @@
 import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
@@ -284,7 +284,7 @@ export default defineComponent({
 
     return {
       t,
-      isMiddleScreen,
+      screenSizes,
       ResetStatus,
       resetStatus,
       passwordStatus,

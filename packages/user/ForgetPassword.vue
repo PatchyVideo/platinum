@@ -14,7 +14,7 @@
   >
     <!-- Mobile view -->
     <div
-      v-if="!isMiddleScreen"
+      v-if="screenSizes['<md']"
       class="
         flex-wrap
         content-between
@@ -161,7 +161,7 @@ import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 
 export default defineComponent({
   components: { Logo },
@@ -241,7 +241,7 @@ export default defineComponent({
 
     return {
       t,
-      isMiddleScreen,
+      screenSizes,
       email,
       errmsg,
       emailStatus,

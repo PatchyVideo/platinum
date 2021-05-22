@@ -21,11 +21,11 @@
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="openDrawer()"
         />
-        <logo v-if="isMiddleScreen" class="cursor-pointer inline-block" @click="toHome()"></logo>
+        <logo v-if="screenSizes.md" class="cursor-pointer inline-block" @click="toHome()"></logo>
       </div>
       <!-- Search Bar -->
       <template v-if="showSearchBar">
-        <router-link v-if="!isMiddleScreen" to="/search-page" alt="mobile search button">
+        <router-link v-if="screenSizes['<md']" to="/search-page" alt="mobile search button">
           <icon-uil-search class="inline" />
         </router-link>
         <AutoComplete v-else @search="searchResult"></AutoComplete>
@@ -195,7 +195,7 @@ import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale, messages } from '@/locales'
-import { isMiddleScreen } from '@/ui'
+import { screenSizes } from '@/tailwindcss'
 import { useI18n } from 'vue-i18n'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 import Logo from '@/common/components/Logo.vue'
@@ -282,7 +282,7 @@ export default defineComponent({
     return {
       t,
       locale,
-      isMiddleScreen,
+      screenSizes,
       isDark,
       languageList,
       user,
