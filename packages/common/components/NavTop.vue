@@ -19,7 +19,7 @@
       <div class="flex items-center flex-nowrap ml-2">
         <icon-uil-list-ul
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
-          @click="openDrawer()"
+          @click="drawerOpen = true"
         />
         <logo v-if="screenSizes.md" class="cursor-pointer inline-block" @click="toHome()"></logo>
       </div>
@@ -105,7 +105,7 @@
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
-          <icon-uil-list-ul class="text-2xl cursor-pointer" @click="hideDrawer()" />
+          <icon-uil-list-ul class="text-2xl cursor-pointer" @click="drawerOpen = false" />
           <logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></logo>
         </div>
         <!-- Main List -->
@@ -182,16 +182,18 @@
         <div
           v-if="drawerOpen"
           class="absolute inset-0 bg-black bg-opacity-20 z-49"
-          @click="hideDrawer()"
+          @click="drawerOpen = false"
           @touchmove.prevent
         ></div>
       </transition>
     </div>
   </div>
+  <!-- eslint-disable-next-line vue/no-v-html -->
+  <div class="hidden invisible" v-html="hiddenStyle"></div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { isDark } from '@/darkmode'
 import { locale, messages } from '@/locales'
@@ -238,14 +240,7 @@ export default defineComponent({
 
     /* Drawer Operation */
     const drawerOpen = ref<boolean | undefined>()
-    function openDrawer(): void {
-      drawerOpen.value = true
-      window.document.body.style.overflow = 'hidden'
-    }
-    function hideDrawer(): void {
-      drawerOpen.value = false
-      window.document.body.style.overflow = 'visible'
-    }
+    const hiddenStyle = computed(() => (drawerOpen.value ? '<style>body{overflow:hidden;}</style>' : ''))
 
     /* Search */
     const router = useRouter()
@@ -291,12 +286,11 @@ export default defineComponent({
       isLogin,
       IsLogin,
       drawerOpen,
-      openDrawer,
-      hideDrawer,
       searchResult,
       toHome,
       logout,
       progressing,
+      hiddenStyle,
     }
   },
 })
