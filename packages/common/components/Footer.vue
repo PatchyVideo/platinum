@@ -19,16 +19,18 @@
         </ul>
       </div>
     </div>
-    <div v-if="!small" class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div
-      v-if="!small"
-      class="text-center text-sm md:text-base text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden"
-    >
+    <div v-if="!small" class="text-center text-sm text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
-    <div class="border-t border-gray-400 dark:border-gray-800 border-dotted w-full"></div>
-    <div class="text-center my-2 text-gray-600 dark:text-gray-200">
-      Platinum V{{ version }}, © 2020-2021 PatchyVideo
+    <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
+      Platinum v{{ version }}(<a
+        :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
+        target="_blank"
+        rel="noopener noreferrer"
+        v-text="commitHash.slice(0, 7)"
+      ></a
+      >)<br />
+      © 2020-2021 PatchyVideo
     </div>
   </div>
 </template>
@@ -106,6 +108,7 @@ export default defineComponent({
     })
 
     const version = import.meta.env.VITE_APP_VERSION
+    const commitHash = import.meta.env.VITE_COMMIT_HASH
 
     return {
       t,
@@ -113,6 +116,7 @@ export default defineComponent({
       isDark,
       locale,
       version,
+      commitHash,
     }
   },
 })

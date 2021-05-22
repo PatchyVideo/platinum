@@ -38,7 +38,8 @@ export default async ({ command, mode }) => {
       ],
     },
     define: {
-      'import.meta.env.VITE_APP_VERSION': JSON.stringify(`${version}(${data.gitLatest.hash.slice(0, 7)})`),
+      'import.meta.env.VITE_APP_VERSION': JSON.stringify(version),
+      'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date),
     },
     optimizeDeps: {
