@@ -24,7 +24,7 @@ module.exports = {
       env: {
         node: true,
       },
-      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+      extends: ['eslint:recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.js', '*.jsx'],
@@ -32,7 +32,7 @@ module.exports = {
         es2020: true,
         browser: true,
       },
-      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
+      extends: ['eslint:recommended', 'plugin:prettier/recommended'],
     },
     {
       files: ['*.ts', '*.tsx'],

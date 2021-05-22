@@ -1,6 +1,6 @@
 {
   "name": "platinum",
-  "version": "0.7.0-alpha.1",
+  "version": "0.7.0-alpha.2",
   "description": "An always-experimental frontend for PatchyVideo/PatchyVideo",
   "author": "PatchyVideo",
   "contributors": [
@@ -32,8 +32,9 @@
     "dev": "vite",
     "build": "node ./scripts/build.js",
     "preview": "vite preview",
-    "eslint": "eslint --ignore-path \".gitignore\" --fix packages",
-    "codegen": "node ./scripts/codegen.js"
+    "lint": "eslint --ignore-path \".gitignore\" --fix packages",
+    "codegen": "node ./scripts/codegen.js",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
     "@apollo/client": "^3.3.19",
@@ -61,7 +62,7 @@
     "@graphql-codegen/introspection": "^1.18.2",
     "@graphql-codegen/schema-ast": "^1.18.2",
     "@graphql-codegen/typescript": "^1.22.0",
-    "@iconify/json": "^1.1.346",
+    "@iconify/json": "^1.1.347",
     "@rollup/plugin-yaml": "^3.0.0",
     "@types/events": "^3",
     "@types/markdown-it": "^12.0.1",
@@ -73,8 +74,9 @@
     "@vue/compiler-sfc": "^3.0.11",
     "autoprefixer": "^10.2.5",
     "chalk": "^4.1.1",
+    "conventional-changelog-cli": "^2.1.1",
     "cross-fetch": "^3.1.4",
-    "eslint": "^7.26.0",
+    "eslint": "^7.27.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^7.9.0",
