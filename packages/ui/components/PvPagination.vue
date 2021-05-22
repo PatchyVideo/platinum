@@ -3,7 +3,7 @@
     <!-- Mobile View -->
     <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
       <a
-        v-if="page != 1"
+        v-if="page !== 1"
         class="
           inline-flex
           items-center
@@ -21,9 +21,27 @@
           md:py-2
         "
         @click="$emit('previous')"
-      >
-        {{ t('ui.pv-pagination.page-previous') }}
-      </a>
+        v-text="t('ui.pv-pagination.page-previous')"
+      ></a>
+      <a
+        v-else
+        disabled
+        class="
+          inline-flex
+          items-center
+          px-2
+          py-1
+          border border-gray-300
+          text-sm
+          font-medium
+          rounded-lg
+          dark:bg-gray-600
+          dark:border-gray-700
+          md:px-4
+          md:py-2
+        "
+        v-text="t('ui.pv-pagination.page-previous')"
+      ></a>
       <div>
         <label>
           {{ t('ui.pv-pagination.page-number1') }}
@@ -36,7 +54,7 @@
         <label>{{ '/' + pageCount + t('ui.pv-pagination.page-number2') }}</label>
       </div>
       <a
-        v-if="page != pageCount"
+        v-if="page !== pageCount"
         class="
           inline-flex
           items-center
@@ -54,9 +72,27 @@
           md:py-2
         "
         @click="$emit('next')"
-      >
-        {{ t('ui.pv-pagination.page-next') }}
-      </a>
+        v-text="t('ui.pv-pagination.page-next')"
+      ></a>
+      <a
+        v-else
+        disabled
+        class="
+          inline-flex
+          items-center
+          px-2
+          py-1
+          border border-gray-300
+          text-sm
+          font-medium
+          rounded-lg
+          dark:bg-gray-600
+          dark:border-gray-700
+          md:px-4
+          md:py-2
+        "
+        v-text="t('ui.pv-pagination.page-next')"
+      ></a>
     </div>
   </div>
 </template>
