@@ -1,14 +1,6 @@
 ;(async () => {
-  console.log('> GraphQL > Pre codegen')
-  await exec('graphql-codegen --config ./packages/graphql/precodegen.yml')
-  console.log('\n')
-
-  console.log('> GraphQL > Process schema')
-  await exec('node ./packages/graphql/scripts/processSchema.js')
-  console.log('\n')
-
-  console.log('> GraphQL > Post codegen')
-  await exec('graphql-codegen --config ./packages/graphql/postcodegen.yml')
+  console.log('> GraphQL > Codegen')
+  await exec('graphql-codegen --config ./packages/graphql/codegen.yml')
   console.log('\n')
 })()
 

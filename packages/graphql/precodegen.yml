@@ -1,7 +1,0 @@
-overwrite: true
-generates:
-  packages/graphql/__generated__/originalSchema.graphql:
-    schema:
-      - https://patchyvideo.com/be/gql/graphql
-    plugins:
-      - schema-ast

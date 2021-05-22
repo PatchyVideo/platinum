@@ -19,7 +19,7 @@ const props =
 const tag = computed(() => {
   return {
     id: props.tag.id,
-    category: props.tag.category,
+    category: props.tag.category.toLowerCase(),
     name: behMostMatch(props.tag.languages),
   }
 })

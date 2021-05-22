@@ -1,5 +1,6 @@
 overwrite: true
-schema: packages/graphql/__generated__/builtSchema.graphql
+schema:
+  - https://patchyvideo.com/be/gql/graphql
 generates:
   packages/graphql/__generated__/graphql.ts:
     plugins:
@@ -11,7 +12,6 @@ generates:
       scalars:
         DateTimeUtc: Date
         ObjectId: 'bson-objectid#default as ObjectId'
-        FETagCategories: "'Copyright' | 'Language' | 'Character' | 'Author' | 'General' | 'Meta' | 'Soundtrack'"
   packages/graphql/__generated__/graphql.schema.json:
     plugins:
       - introspection
