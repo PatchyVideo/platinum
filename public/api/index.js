@@ -71,6 +71,7 @@ module.exports = async (req, res) => {
 
         // twitter data
         `<meta name="twitter:card" content="player" />`,
+        `<meta name="twitter:site" content="@PatchyVideo" />`,
         `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
@@ -115,6 +116,7 @@ module.exports = async (req, res) => {
 
         // twitter data
         `<meta name="twitter:card" content="summary" />`,
+        `<meta name="twitter:site" content="@PatchyVideo" />`,
         `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
