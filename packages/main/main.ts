@@ -1,4 +1,4 @@
-import { createApp, defineComponent, h } from 'vue'
+import { createApp, defineComponent, h, nextTick } from 'vue'
 
 /* Tailwind CSS */
 import '@/tailwindcss'
@@ -99,6 +99,7 @@ router.beforeEach(() => {
 })
 router.afterEach((guard) => {
   incProcess()
+  checkIfBackendDown()
   appPromisesFinish.then(() => {
     if (!guard.meta.holdLoading && NProgress.isStarted()) {
       NProgress.done()
@@ -111,7 +112,29 @@ app.use(router)
 import i18n from '@/locales'
 app.use(i18n)
 
-import './pvcc'
+/* Check if backend is alive */
+import BackendDown from './components/BackendDown.vue'
+async function loadBackendDown() {
+  const errorPageApp = createApp(
+    defineComponent({
+      render: () => h(BackendDown),
+    })
+  )
+  await appPromisesFinish
+  await router.isReady()
+  await nextTick()
+  app.unmount()
+  errorPageApp.mount('#app')
+}
+const checkIfBackendDown = () =>
+  fetch('https://patchyvideo.com/be/alive.txt')
+    .then((res) => {
+      if (!res.ok) throw ''
+    })
+    .catch(() => {
+      loadBackendDown()
+    })
+appPromises.push(checkIfBackendDown())
 
 /* Login authentication & user data filling */
 import { checkLoginStatus } from '@/user'
@@ -121,3 +144,6 @@ const appPromisesFinish = Promise.allSettled(appPromises.map((v) => v.then(incPr
   app.mount('#app')
   incProcess()
 })
+
+/* PatchyVideo Console Controls */
+import './pvcc'
