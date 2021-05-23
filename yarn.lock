@@ -725,12 +725,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/ecma402-abstract@npm:1.9.0":
-  version: 1.9.0
-  resolution: "@formatjs/ecma402-abstract@npm:1.9.0"
+"@formatjs/ecma402-abstract@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@formatjs/ecma402-abstract@npm:1.9.1"
   dependencies:
     tslib: ^2.1.0
-  checksum: b7caa96d63bf78ac3c1325ac94972203dd572d91f0e52e6586aea6af24bb32f93e66733bcc9204739eeaf7e124da10d42b5fa6dc6532660a4b3f3dad4521c54c
+  checksum: 79ffa9abfbe999d3c55e672ec9edd4434da772298d107ea7d88a6df327d26390c74068b2c1d632325aae97d2f0fcd9c301ee0a7b4da251535eeccad967b4d569
   languageName: node
   linkType: hard
 
@@ -744,25 +744,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@formatjs/intl-locale@npm:^2.4.27":
-  version: 2.4.27
-  resolution: "@formatjs/intl-locale@npm:2.4.27"
+"@formatjs/intl-locale@npm:^2.4.28":
+  version: 2.4.28
+  resolution: "@formatjs/intl-locale@npm:2.4.28"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.9.0
+    "@formatjs/ecma402-abstract": 1.9.1
     "@formatjs/intl-getcanonicallocales": 1.7.0
     cldr-core: 38
     tslib: ^2.1.0
-  checksum: a0ec48e6e25720b7b57abef79e3d71c165b6e94641bd4196612e8678ad321cae1ff948055c6203c90a73b804a0a130f84fa7226c9c11c7ed517806ced0c8b941
+  checksum: 098b536d1a93c509fc9c26ec8cd038c0d85d832403a8a65c34b5f6035323533458ba5d0f47e2ebd2a59cebf3bd3f781c3a7b3b822a840e416c2af710067f0dd5
   languageName: node
   linkType: hard
 
-"@formatjs/intl-localematcher@npm:^0.2.12":
-  version: 0.2.12
-  resolution: "@formatjs/intl-localematcher@npm:0.2.12"
+"@formatjs/intl-localematcher@npm:^0.2.13":
+  version: 0.2.13
+  resolution: "@formatjs/intl-localematcher@npm:0.2.13"
   dependencies:
-    "@formatjs/ecma402-abstract": 1.9.0
+    "@formatjs/ecma402-abstract": 1.9.1
     tslib: ^2.1.0
-  checksum: 0b5c66c9b4cd4adfd8c6de469303bf9b60bd230363b57c42f69889349e10c44635cd21d2e9e2dbb9453c1b6a2e10fdb52e37c776ae6985ccdbf2eb3d6ba390b9
+  checksum: a3513896a300b4472309ce25f4575cb62de19d4a1b8bf219f0ba5dc4bfbfe84ca3d03b1540aad6c345afd9e172b0d5dd306dfe62377fa35026e53971f944bb7d
   languageName: node
   linkType: hard
 
@@ -6660,8 +6660,8 @@ fsevents@~2.3.1:
   resolution: "platinum@workspace:."
   dependencies:
     "@apollo/client": ^3.3.19
-    "@formatjs/intl-locale": ^2.4.27
-    "@formatjs/intl-localematcher": ^0.2.12
+    "@formatjs/intl-locale": ^2.4.28
+    "@formatjs/intl-localematcher": ^0.2.13
     "@graphql-codegen/cli": ^1.21.4
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/introspection": ^1.18.2
@@ -7391,8 +7391,8 @@ fsevents@~2.3.1:
   linkType: hard
 
 "rollup@npm:^2.38.5":
-  version: 2.48.0
-  resolution: "rollup@npm:2.48.0"
+  version: 2.49.0
+  resolution: "rollup@npm:2.49.0"
   dependencies:
     fsevents: ~2.3.1
   dependenciesMeta:
@@ -7400,7 +7400,7 @@ fsevents@~2.3.1:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 3f50c1e023adcf9fc14100b7ca128482ea58cd27af0aad344affbd9622fc35bbd28ca13ceac35b252d137aedd36df39886b3a308e42b437bcb46918584ee89d3
+  checksum: e40d31a8be7e26f6a67bda0864a1fad6b2aa7415d56d229136ddfd17238394cb837fb5994d99d6ca42d9b06d24833925d61aea07b5fb9107a65953e4b45ee028
   languageName: node
   linkType: hard
 
