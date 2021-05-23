@@ -30,16 +30,12 @@ module.exports = async (req, res) => {
       ),
     })
   )
-  await compressStream(
-    req,
-    stream,
-    res
-      .status(200)
-      .setHeader(
-        'Cache-Control',
-        'public, s-maxage=31536000, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800'
-      )
-      .setHeader('Content-Type', 'text/javascript; charset=utf-8')
-      .setHeader('Last-Modified', lastModified)
+  res.status(200)
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=31536000, max-age=604800, stale-while-revalidate=604800, stale-if-error=604800'
   )
+  res.setHeader('Content-Type', 'text/javascript; charset=utf-8')
+  res.setHeader('Last-Modified', lastModified)
+  await compressStream(req, stream, res)
 }

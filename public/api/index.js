@@ -128,7 +128,9 @@ module.exports = async (req, res) => {
     }
   }
 
-  await compressStream(req, Readable.from(body), res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8'))
+  res.status(200)
+  res.setHeader('Content-Type', 'text/html; charset=utf-8')
+  await compressStream(req, Readable.from(body), res)
 }
 
 /**
