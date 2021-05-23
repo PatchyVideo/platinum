@@ -37,10 +37,6 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       serialize: (parsed: ObjectID) => parsed.toHexString(),
       parseValue: (raw: string) => new ObjectID(raw),
     },
-    FETagCategories: {
-      serialize: (parsed: string) => parsed,
-      parseValue: (raw: string | null): string | null => raw,
-    },
   }
   const link = from([
     // Backend Server

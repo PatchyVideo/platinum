@@ -2,7 +2,7 @@ module.exports = {
   client: {
     service: {
       name: 'PVGQL(local)',
-      localSchemaFile: './packages/graphql/__generated__/builtSchema.graphql',
+      localSchemaFile: './packages/graphql/__generated__/schema.graphql',
     },
     includes: ['./packages/**/*.{graphql,js,ts,jsx,tsx,vue}'],
     excludes: ['./packages/graphql/__generated__/*'],
