@@ -5,6 +5,8 @@ const path = require('path')
 const fs = require('fs')
 const gql = require('fake-tag')
 const { encode } = require('html-entities')
+const { Readable } = require('stream')
+const { compressStream } = require('../lib/common')
 
 const html = fs.readFileSync(path.join(__dirname, '../index.html')).toString()
 
@@ -126,12 +128,7 @@ module.exports = async (req, res) => {
     }
   }
 
-  res
-    .writeHead(200, {
-      'Content-Length': Buffer.byteLength(body),
-      'Content-Type': 'text/html',
-    })
-    .end(body)
+  await compressStream(req, Readable.from(body), res.status(200).setHeader('Content-Type', 'text/html; charset=utf-8'))
 }
 
 /**
