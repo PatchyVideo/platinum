@@ -89,11 +89,11 @@ ui:
   pv-select:
     select: 请选择
   pv-pagination:
-    alert: ''
-    page-next: ''
-    page-number1: ''
-    page-number2: ''
-    page-previous: ''
+    alert: 请输入一个有效嘅页数！
+    page-next: 下一页
+    page-number1: 第
+    page-number2: 页
+    page-previous: 上一页
 user:
   login:
     title: 登录
@@ -195,7 +195,7 @@ user:
 video:
   video:
     uploader: 上传者
-    no-desc: 这个人太懒啦，冇写简介
+    no-desc: 呢个人太懒啦，冇写简介
   player:
     settings:
       default:
@@ -226,17 +226,18 @@ video:
           source-loading: 加载紧视频源
         failed: 视频源解析失败咗
     video:
-      info-fetching: ''
-      URL: ''
-      address-parsing: ''
+      info-fetching: 睇度获取紧视频嘅信息
+      URL: 视频嘅URL：{url}
+      address-parsing: 睇度解析紧视频地址
       profile:
-        known-source: ''
-        unknown-source: ''
+        known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
+        unknown-source: 未知嘅视频源：{source}
 playlist:
   playlist:
-    collapse: ''
-    expand: ''
+    collapse: 收起
+    expand: 展开
     info:
-      edit-date: ''
-      rating: ''
-      video-count: ''
+      edit-date: 最后睇{date}更新
+      rating: 评分{rating}
+      video-count: '{count}个视频'
+
