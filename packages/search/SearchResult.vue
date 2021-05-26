@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-              <div v-if="video.item.partName">
+              <div v-if="video.item.partName" class="overflow-hidden">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
                   <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
