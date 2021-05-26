@@ -18,7 +18,7 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    let top = ref<number>(document.body.scrollTop || document.documentElement.scrollTop)
+    const top = ref<number>(document.body.scrollTop || document.documentElement.scrollTop)
     function getTop(): void {
       top.value = document.body.scrollTop || document.documentElement.scrollTop
     }

@@ -45,11 +45,13 @@
             class="py-1 flex items-start hover:bg-gray-50 dark:hover:bg-gray-800"
             @click="jumpToVideoResult(video.id.toHexString())"
           >
-            <div class="aspect-10/16 w-2/5 mr-0.5 overflow-hidden rounded-sm">
-              <img
-                class="object-cover h-full w-full dark:(filter brightness-80)"
-                :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-              />
+            <div class="w-2/5 mr-0.5">
+              <div class="aspect-10/16 overflow-hidden rounded-sm">
+                <img
+                  class="object-cover h-full w-full dark:(filter brightness-80)"
+                  :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
+                />
+              </div>
             </div>
             <div class="w-3/5 text-sm">
               <div v-if="video.item.partName">
