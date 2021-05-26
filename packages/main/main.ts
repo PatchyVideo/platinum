@@ -51,6 +51,11 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
+      path: '/video-list',
+      component: () => import('@/video/VideoList.vue'),
+      meta: { holdLoading: true },
+    },
+    {
       path: '/video/:vid',
       component: () => import('@/video/Video.vue'),
       meta: { holdLoading: true },

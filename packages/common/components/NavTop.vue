@@ -110,27 +110,27 @@
         </div>
         <!-- Main List -->
         <div class="space-y-3">
-          <router-link class="block" to="/"
+          <router-link to="/" class="block"
             ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.home')
             }}</router-link
           >
-          <a class="block" @click="progressing"
+          <router-link to="/video-list" class="block"
             ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.video')
-            }}</a
+            }}</router-link
           >
           <router-link to="/playlist-list" class="block"
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.list')
             }}</router-link
           >
-          <a class="block" @click="progressing"
+          <a class="block" @click="progressing()"
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.discuss-board')
             }}</a
           >
-          <a class="block" @click="progressing"
+          <a class="block" @click="progressing()"
             ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.leaderboard')
             }}</a
@@ -143,12 +143,12 @@
         </div>
         <!-- User List -->
         <div v-if="isLogin === IsLogin.yes" class="space-y-3">
-          <a class="block" @click="progressing"
+          <a class="block" @click="progressing()"
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.postvideo')
             }}</a
           >
-          <a class="block" @click="progressing"
+          <a class="block" @click="progressing()"
             ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.tag')
             }}</a
