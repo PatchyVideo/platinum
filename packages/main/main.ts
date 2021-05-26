@@ -60,6 +60,11 @@ const router = createRouter({
       component: () => import('@/video/Embed.vue'),
     },
     {
+      path: '/playlist-list',
+      component: () => import('@/playlist/PlaylistList.vue'),
+      meta: { holdLoading: true },
+    },
+    {
       path: '/playlist/:pid',
       component: () => import('@/playlist/Playlist.vue'),
       meta: { holdLoading: true },

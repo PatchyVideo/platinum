@@ -120,10 +120,10 @@
               t('common.nav-top.main-menu.video')
             }}</a
           >
-          <a class="block" @click="progressing"
+          <router-link to="/playlist-list" class="block"
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.list')
-            }}</a
+            }}</router-link
           >
           <a class="block" @click="progressing"
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
@@ -199,6 +199,7 @@ import { isDark } from '@/darkmode'
 import { locale, messages } from '@/locales'
 import { screenSizes } from '@/tailwindcss'
 import { useI18n } from 'vue-i18n'
+import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
@@ -265,11 +266,6 @@ export default defineComponent({
       })
       clearUserDataFromLocalStorage()
       location.reload()
-    }
-
-    /* Work in progress */
-    function progressing(): void {
-      alert(t('common.nav-top.work-in-progress'))
     }
 
     const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
