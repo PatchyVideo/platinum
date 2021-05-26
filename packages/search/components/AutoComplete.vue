@@ -202,6 +202,7 @@ export default defineComponent({
       await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
         .then((data) => data.json())
         .then((res) => {
+          // console.log(res)
           listData = listData.concat(res)
           loading.value = false
           for (let i = 0; i < listData.length; i++) {
@@ -211,8 +212,8 @@ export default defineComponent({
           listHidden.value = false
         })
         .catch((err) => {
+          // console.log(err)
           searchSuccess.value = false
-          console.log(err)
         })
     }
     function siteOrKeywordFilter(query: string) {

@@ -198,8 +198,7 @@ export default defineComponent({
           },
         })
         if (NProgress.isStarted()) NProgress.done()
-        console.log(res)
-
+        // console.log(res)
         const resultData = res.data.listPlaylist
         count.value = resultData.count
         pageCount.value = resultData.pageCount
@@ -207,7 +206,7 @@ export default defineComponent({
 
         status.value = Status.result
       } catch (err) {
-        console.log(err)
+        // console.log(err)
         errMsg.value = err.message
         status.value = Status.error
       }
