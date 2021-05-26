@@ -75,6 +75,10 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
+      path: '/user/:pid',
+      component: () => import('@/user/User.vue'),
+    },
+    {
       path: '/user/login',
       component: () => import('@/user/Login.vue'),
     },

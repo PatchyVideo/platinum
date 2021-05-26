@@ -24,6 +24,7 @@ common:
     user:
       login: 登录
       logout: 退出登录
+      userprofile: 个人中心
       confirming: 验证登录中...
   footer:
     wiki: 网站维基

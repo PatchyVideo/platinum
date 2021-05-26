@@ -47,6 +47,7 @@
             <div
               v-if="userListOpen"
               class="
+                z-999
                 absolute
                 -right-2
                 top-5
@@ -70,6 +71,9 @@
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
+                <router-link class="block text-center" to="/user/me">{{
+                  t('common.nav-top.user.userprofile')
+                }}</router-link>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
                   {{ t('common.nav-top.user.logout') }}
                 </div>
