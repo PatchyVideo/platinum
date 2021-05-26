@@ -42,7 +42,7 @@
           <div
             v-for="video in videos"
             :key="video.item.title"
-            class="py-1 flex items-start hover:bg-gray-50 dark:hover:bg-gray-800"
+            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             @click="jumpToVideoResult(video.id.toHexString())"
           >
             <div class="w-2/5 mr-0.5">
@@ -53,7 +53,7 @@
                 />
               </div>
             </div>
-            <div class="w-3/5 text-sm">
+            <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div v-if="video.item.partName">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">

@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
     <NavTop></NavTop>
-    <div class="p-5 md:m-auto xl:w-9/10 2xl:w-8/10">
+    <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === Status.loading">{{ '加载中' }}</div>
       <div v-else-if="status === Status.error">
         <div>{{ '加载失败了QAQ' }}</div>
@@ -17,7 +17,7 @@
           <div
             v-for="video in videos"
             :key="video.item.title"
-            class="py-1 flex items-start hover:bg-gray-50 dark:hover:bg-gray-800"
+            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             @click="jumpToVideoResult(video.id.toHexString())"
           >
             <div class="w-2/5 mr-0.5">
@@ -28,7 +28,7 @@
                 />
               </div>
             </div>
-            <div class="w-3/5 text-sm">
+            <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
               <div v-if="video.item.partName">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
@@ -149,9 +149,10 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
+    setSiteTitle('视频列表 - PatchyVideo')
     const route = useRoute()
     const router = useRouter()
-    const limit = 20
+    const limit = 40
     enum Status {
       loading = 'loading',
       result = 'result',

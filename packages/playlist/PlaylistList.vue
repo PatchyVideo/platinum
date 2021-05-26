@@ -134,10 +134,10 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    setSiteTitle('视频列表 - PatchyVideo')
+    setSiteTitle('播放列表 - PatchyVideo')
     const route = useRoute()
     const router = useRouter()
-    const limit = 20
+    const limit = 40
     const order = 'last_modified'
     enum Status {
       loading = 'loading',
