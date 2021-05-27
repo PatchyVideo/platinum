@@ -187,6 +187,8 @@ export default defineComponent({
     )
 
     async function queryVideos(): Promise<void> {
+      if (status.value === Status.loading) return
+      status.value = Status.loading
       try {
         if (!NProgress.isStarted()) NProgress.start()
         const res = await useQuery({
