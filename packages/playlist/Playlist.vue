@@ -117,7 +117,7 @@
                 class="inline-block rounded-lg border-gray-200 border-2"
                 width="240"
                 height="150"
-                :src="getCoverImage({ image: playlist.item.cover })"
+                :src="getCoverImage({ image: video.item.coverImage })"
               />
             </div>
           </div>
