@@ -25,6 +25,7 @@ common:
       login: 登录
       logout: 退出登录
       confirming: 系度验证登录紧...
+      userprofile: 个人中心
   footer:
     wiki: 网站嘅维基
     status: 网站嘅状态
@@ -240,4 +241,3 @@ playlist:
       edit-date: 最后睇{date}更新
       rating: 评分{rating}
       video-count: '{count}个视频'
-
