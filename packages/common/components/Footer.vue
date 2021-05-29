@@ -85,6 +85,7 @@ export default defineComponent({
           { key: 'Tencent QQ', href: 'https://jq.qq.com/?k=fOJYEJt1' },
           { key: 'Telegram', href: 'https://t.me/PatchyVideo' },
           { key: 'Discord', href: 'https://discord.gg/FtPPQqz' },
+          { key: 'Twitter', href: 'https://twitter.com/PatchyVideo' },
           { key: 'Email', href: 'mailto:zyddnys@outlook.com' },
         ],
       },
