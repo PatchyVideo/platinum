@@ -2,8 +2,8 @@
   <div
     ref="root"
     class="root relative w-full bg-black overflow-hidden"
-    :class="{ 'h-full': fullWidth }"
-    :style="{ height: fullWidth ? undefined : height + 'px' }"
+    :class="{ 'h-full': fullHeight }"
+    :style="{ height: fullHeight ? undefined : height + 'px' }"
   >
     <video
       v-show="videoElementReady && !useIframe"
@@ -88,39 +88,46 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-row items-center h-6 mx-6 my-1 text-white">
-        <span class="text-xl" @click="onPlayPause"
-          ><icon-uil-spinner-alt v-if="!streamsReady" class="animate-spin" /><icon-uil-pause
-            v-else-if="playing" /><icon-uil-play v-else /></span
-        ><span class="px-1"></span>
-        <div class="volume flex flex-row items-center">
-          <icon-uil-volume class="mr-0.5 text-xl" />
-          <div class="inline-block h-full m-0 align-middle">
-            <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
-              <div
-                class="relative h-full left-0 bottom-0 bg-pink-600 rounded-l-full"
-                :style="{ width: volume * 100 + '%' }"
-              >
-                <span
-                  class="
-                    volumedot
-                    absolute
-                    right-0
-                    top-0
-                    w-3
-                    h-3
-                    -mt-1
-                    -mr-1.5
-                    bg-white
-                    rounded-full
-                    transform-gpu
-                    scale-0
-                    cursor-pointer
-                  "
-                ></span>
+      <div class="flex flex-row justify-between flex-nowrap h-6 mx-6 my-1 text-white overflow-hidden">
+        <div class="flex-grow-0 flex flex-row items-center">
+          <span class="text-xl" @click="onPlayPause"
+            ><icon-uil-spinner-alt v-if="!streamsReady" class="animate-spin" /><icon-uil-pause
+              v-else-if="playing" /><icon-uil-play v-else /></span
+          ><span class="px-1"></span>
+          <div class="volume flex flex-row items-center">
+            <icon-uil-volume class="mr-0.5 text-xl" />
+            <div class="inline-block h-full m-0 align-middle">
+              <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
+                <div
+                  class="relative h-full left-0 bottom-0 bg-pink-600 rounded-l-full"
+                  :style="{ width: volume * 100 + '%' }"
+                >
+                  <span
+                    class="
+                      volumedot
+                      absolute
+                      right-0
+                      top-0
+                      w-3
+                      h-3
+                      -mt-1
+                      -mr-1.5
+                      bg-white
+                      rounded-full
+                      transform-gpu
+                      scale-0
+                      cursor-pointer
+                    "
+                  ></span>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+        <div class="flex-grow-0">
+          <span v-if="!disableFullscreen" class="text-xl" @click="onFullscreen"
+            ><icon-uil-expand-arrows-alt v-if="!isFullscreen" /><icon-uil-compress-arrows v-else /></span
+          ><span class="px-1"></span>
         </div>
       </div>
     </div>
@@ -158,20 +165,30 @@
             <div class="text-center" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
           </div>
           <div
-            v-for="(item, index) in activeSettingsItem.items"
+            v-for="(settingsItem, index) in activeSettingsItem.items"
             :key="index"
-            class="px-2 py-1 whitespace-pre hover:bg-gray-700 transform-gpu transition-all duration-100"
+            class="px-2 py-1 whitespace-pre transform-gpu transition-all duration-100"
+            :class="{ 'hover:bg-gray-700': 'onClick' in settingsItem || 'to' in settingsItem }"
           >
-            <div v-if="item.type === 'text'" :class="item.class" @click="item.onClick" v-text="item.text"></div>
-            <div v-else-if="item.type === 'sub' && item.to in settings" @click="activeSettingsItemName = item.to">
-              <div class="inline-block" v-text="item.text"></div>
+            <div
+              v-if="settingsItem.type === 'text'"
+              :class="settingsItem.class"
+              @click="settingsItem.onClick"
+              v-text="settingsItem.text"
+            ></div>
+            <div
+              v-else-if="settingsItem.type === 'sub' && settingsItem.to in settings"
+              @click="activeSettingsItemName = settingsItem.to"
+            >
+              <div class="inline-block" v-text="settingsItem.text"></div>
               <div class="inline-block float-right">
-                <span v-if="item.rightText" class="text-gray-300" v-text="item.rightText"></span
+                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span
                 ><icon-uil-arrow-right class="inline" />
               </div>
             </div>
-            <div v-else-if="item.type === 'check'" class="flex justify-between">
-              <span v-text="item.text"></span><PvCheckBox v-model:check="item.checked.value" size="sm" />
+            <div v-else-if="settingsItem.type === 'check'" class="flex justify-between">
+              <span v-text="settingsItem.text"></span
+              ><PvCheckBox v-model:check="settingsItem.checked.value" size="sm" />
             </div>
           </div>
         </div>
@@ -196,7 +213,9 @@ import {
   templateRef,
   useElementSize,
   useEventListener,
+  useFullscreen,
   useLocalStorage,
+  useThrottleFn,
   useTimeoutFn,
 } from '@vueuse/core'
 import { computed, ref, defineComponent, nextTick, onMounted, watch, PropType, Ref } from 'vue'
@@ -290,7 +309,11 @@ export default defineComponent({
       type: Object as PropType<schema.VideoItem>,
       default: () => ({}),
     },
-    fullWidth: {
+    fullHeight: {
+      type: Boolean,
+      default: false,
+    },
+    disableFullscreen: {
       type: Boolean,
       default: false,
     },
@@ -302,27 +325,35 @@ export default defineComponent({
     const { width } = useElementSize(root)
     const height = computed(() => (width.value / 16) * 9)
 
+    const video = templateRef<HTMLVideoElement>('video')
+
+    /* control bar */
     const showControlBar = ref(true)
+    let _stop: Fn
+    const delayedHideControlBar = useThrottleFn((delay = 200) => {
+      if (_stop) _stop()
+      const { stop } = useTimeoutFn(
+        () => {
+          showControlBar.value = false
+        },
+        delay,
+        true
+      )
+      _stop = stop
+    })
     onMounted(() => {
-      let _stop: Fn
-      useEventListener(root, 'mouseover', () => {
+      useEventListener(root, 'mousemove', () => {
         if (_stop) _stop()
         showControlBar.value = true
+        if (isFullscreen.value) delayedHideControlBar(800)
       })
       useEventListener(root, 'mouseleave', () => {
-        const { stop } = useTimeoutFn(
-          () => {
-            showControlBar.value = false
-          },
-          200,
-          true
-        )
-        _stop = stop
+        delayedHideControlBar()
       })
     })
 
+    /* video settings */
     const showSettings = ref(false)
-
     const activeSettingsItemName = ref('default')
     const activeSettingsItem = computed(() => settings.value[activeSettingsItemName.value])
     const settings = computed<Record<string, SettingMenu>>(() => ({
@@ -349,6 +380,19 @@ export default defineComponent({
         parent: 'default',
         items: [
           ...(() => {
+            return currentStream.value
+              ? <[SettingText]>[
+                  {
+                    type: 'text',
+                    text: t('video.player.settings.quality.items.current-codec', {
+                      container: currentStream.value.container.replace(/_dash$/, ''),
+                      codec: currentStream.value.vcodec || 'unknown',
+                    }),
+                  },
+                ]
+              : []
+          })(),
+          ...(() => {
             const qualities: string[] = []
             streams.value.forEach((stream) => {
               if (!qualities.includes(stream.quality)) qualities.push(stream.quality)
@@ -372,6 +416,7 @@ export default defineComponent({
 
     const src = ref('')
 
+    /* loading log */
     const logText = ref('')
     const logEl = templateRef('logEl')
     const log = (_log: string) => {
@@ -385,7 +430,7 @@ export default defineComponent({
       })
     }
 
-    const video = templateRef<HTMLVideoElement>('video')
+    /* play & pause */
     const playing = ref(false)
     const userClickedPlaying = ref(false)
     const onPlayPause = () => {
@@ -460,6 +505,7 @@ export default defineComponent({
     })
     const videoElementReady = ref(false)
 
+    /* dedicated audio track */
     const audio = templateRef<HTMLAudioElement>('audio')
     onMounted(() => {
       useEventListener(audio.value, 'timeupdate', () => {
@@ -467,6 +513,7 @@ export default defineComponent({
       })
     })
 
+    /* video ready state */
     const audioReady = ref(false)
     const videoReady = ref(false)
     const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
@@ -485,6 +532,7 @@ export default defineComponent({
       })
     })
 
+    /* progress bar */
     const currentTime = ref(0)
     const videoLoadedAmount = ref<TimeRanges | null>(null)
     const videoLoadedRanges = computed(() => computeLoadedRanges(videoLoadedAmount.value))
@@ -591,6 +639,7 @@ export default defineComponent({
       })
     })
 
+    /* volume bar */
     const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
     onMounted(() => {
       watch(
@@ -622,6 +671,10 @@ export default defineComponent({
       })
     })
 
+    /* full screen */
+    const { isFullscreen, toggle: onFullscreen } = useFullscreen(root)
+
+    /* iframe mode */
     const useIframe = ref(false)
     const iframeUrl = computed(() => {
       if (url.value) {
@@ -650,6 +703,7 @@ export default defineComponent({
       `${isAudio ? 'audio' : 'video'}/${container.replace(/_dash$/, '')}${codecs ? `; codecs="${codecs}"` : ''}`
     const hasAudioStream = ref(false)
     const streamQuality = ref('')
+    const currentStream = ref<VideoStream | undefined>()
     const playStream = (quality: string) => {
       streamQuality.value = quality
       if (video.value) {
@@ -711,6 +765,7 @@ export default defineComponent({
               video.value.src = stream.src[0]
               const onCanplay = () => {
                 log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
+                currentStream.value = stream
                 videoElementReady.value = true
                 video.value.removeEventListener('canplay', onCanplay)
               }
@@ -847,6 +902,8 @@ export default defineComponent({
       transToParent,
       toSettingsParent,
       streamsReady,
+      isFullscreen,
+      onFullscreen,
     }
   },
 })

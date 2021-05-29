@@ -2,7 +2,7 @@
   <div class="absolute top-0 bottom-0 left-0 right-0">
     <!-- Video Player -->
     <Suspense>
-      <Player :item="video.item" :full-width="true" />
+      <Player :item="video.item" :full-height="true" :disable-fullscreen="true" />
     </Suspense>
   </div>
 </template>

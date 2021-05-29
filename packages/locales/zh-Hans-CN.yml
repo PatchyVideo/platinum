@@ -206,6 +206,8 @@ video:
           audio: 同步音频
       quality:
         name: 清晰度
+        items:
+          current-codec: 当前格式：{container} ({codec})
     enable-iframe: 切换视频播放至内嵌
     play-stream:
       source:
