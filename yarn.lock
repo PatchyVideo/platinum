@@ -1573,6 +1573,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/dompurify@npm:^2.2.2":
+  version: 2.2.2
+  resolution: "@types/dompurify@npm:2.2.2"
+  dependencies:
+    "@types/trusted-types": "*"
+  checksum: fddc8a9c905853eeceedb01b4290e1759da416f1f80166c17e1a983edc934eca94d7b98e59a598b214821170ff820eb2fdf46702d5f35823a47aa72e82ff8b45
+  languageName: node
+  linkType: hard
+
 "@types/estree@npm:0.0.39":
   version: 0.0.39
   resolution: "@types/estree@npm:0.0.39"
@@ -1757,6 +1766,13 @@ __metadata:
   version: 1.199.0
   resolution: "@types/tlds@npm:1.199.0"
   checksum: d0f77cbdb60acbd26070628192f36de041acd5b5a5e5c6e290c9d2bdec113bb045c6fcabc35064db9aac98e53b6a4086eaa70beb892988dd4545957bff2d10fb
+  languageName: node
+  linkType: hard
+
+"@types/trusted-types@npm:*":
+  version: 2.0.0
+  resolution: "@types/trusted-types@npm:2.0.0"
+  checksum: 5273f017de36cdd37580d9dc1b3e82c4a7d005c1515a40145084b5155e4303a064aa7d02f4fb3ecece72d0cc62bb708487a43b4e70e9cab9a2a6fb9184f310c5
   languageName: node
   linkType: hard
 
@@ -3547,6 +3563,13 @@ __metadata:
   dependencies:
     esutils: ^2.0.2
   checksum: 2eae469bd2889ceee9892083a67340b3622568fe5290edce620e5d5ddab23d644b2a780e9a7c68ad9c8a62716a70c5e484402ac93a398fa78b54b7505592aa7f
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^2.2.8":
+  version: 2.2.8
+  resolution: "dompurify@npm:2.2.8"
+  checksum: c8498b4dc81c5b61f84c09836da7ed1ab61fce3f349bbcf669b28a44047d85f795141c4a1daa66879481560b955bfbd1dc9dae04ad554f52d727739ecb6ea545
   languageName: node
   linkType: hard
 
@@ -7020,6 +7043,7 @@ fsevents@~2.3.1:
     "@graphql-codegen/typescript": ^1.22.0
     "@iconify/json": ^1.1.347
     "@rollup/plugin-yaml": ^3.0.0
+    "@types/dompurify": ^2.2.2
     "@types/events": ^3
     "@types/markdown-it": ^12.0.1
     "@types/nprogress": ^0.2.0
@@ -7036,6 +7060,7 @@ fsevents@~2.3.1:
     conventional-changelog-cli: ^2.1.1
     cross-fetch: ^3.1.4
     date-fns: ^2.21.3
+    dompurify: ^2.2.8
     eslint: ^7.27.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^3.4.0
