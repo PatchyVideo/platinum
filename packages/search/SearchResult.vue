@@ -23,103 +23,118 @@
     </div>
 
     <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div v-if="status === Status.loading">{{ t('search.search-result.main-body.loading.searching') }}</div>
-      <div v-else-if="status === Status.error">
-        <div>{{ t('search.search-result.main-body.failed.search-failed') }}</div>
-        <div>{{ t('search.search-result.main-body.failed.search-failed-reason') + errMsg }}</div>
-      </div>
-      <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
-      <div v-else-if="status === Status.result">
-        <div class="border-b-1 pb-1">
-          {{
-            t('search.search-result.main-body.successful.search-result-count1') +
-            count +
-            t('search.search-result.main-body.successful.search-result-count2')
-          }}
+      <div class="flex mt-2">
+        <div
+          v-for="tabs in Tab"
+          :key="tabs.key"
+          class="p-5 pt-3 cursor-pointer text-gray-400 font-bold border-t-4 border-transparent"
+          :class="{ 'active-tab': tabs.key === tab }"
+          @click="changeTab(tabs.key)"
+        >
+          {{ tabs.name }}
         </div>
-        <!-- Mobile View -->
-        <div v-if="screenSizes['<md']">
-          <div
-            v-for="video in videos"
-            :key="video.item.title"
-            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
-            @click="jumpToVideoResult(video.id.toHexString())"
-          >
-            <div class="w-2/5 mr-0.5">
+      </div>
+
+      <!-- Videos -->
+      <div v-if="tab === Tab[0].key">
+        <div v-if="status === Status.loading">{{ t('search.search-result.main-body.loading.searching') }}</div>
+        <div v-else-if="status === Status.error">
+          <div>{{ t('search.search-result.main-body.failed.search-failed') }}</div>
+          <div>{{ t('search.search-result.main-body.failed.search-failed-reason') + errMsg }}</div>
+        </div>
+        <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
+        <div v-else-if="status === Status.result">
+          <div class="border-b-1 pb-1">
+            {{
+              t('search.search-result.main-body.successful.search-result-count1') +
+              count +
+              t('search.search-result.main-body.successful.search-result-count2')
+            }}
+          </div>
+          <!-- Mobile View -->
+          <div v-if="screenSizes['<md']">
+            <div
+              v-for="video in videos"
+              :key="video.item.title"
+              class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
+              @click="jumpToVideoResult(video.id.toHexString())"
+            >
+              <div class="w-2/5 mr-0.5">
+                <div class="aspect-10/16 overflow-hidden rounded-sm">
+                  <img
+                    class="object-cover h-full w-full dark:(filter brightness-80)"
+                    :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
+                  />
+                </div>
+              </div>
+              <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
+                <div v-if="video.item.partName" class="overflow-hidden">
+                  <a class="inline-block w-full truncate">{{ video.item.title }}</a>
+                  <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
+                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
+                    >{{ video.item.partName }}
+                  </div>
+                </div>
+                <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
+                <div class="flex text-xs h-4 align-middle" :title="video.item.site">
+                  <div>{{ t('search.search-result.video.source-site') }}</div>
+                  <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Desktop View -->
+          <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+            <div
+              v-for="video in videos"
+              :key="video.item.title"
+              class="
+                w-21/100
+                my-5
+                border
+                shadow-sm
+                rounded-lg
+                bg-white bg-opacity-50
+                dark:border-gray-500
+                dark:bg-gray-700
+              "
+              @click="jumpToVideoResult(video.id.toHexString())"
+            >
               <div class="aspect-10/16 overflow-hidden rounded-sm">
                 <img
-                  class="object-cover h-full w-full dark:(filter brightness-80)"
+                  class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
                   :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
                 />
               </div>
-            </div>
-            <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-              <div v-if="video.item.partName" class="overflow-hidden">
-                <a class="inline-block w-full truncate">{{ video.item.title }}</a>
-                <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
-                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                  >{{ video.item.partName }}
+              <div class="p-3 text-left text-sm lg:text-base">
+                <div v-if="video.item.partName">
+                  <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
+                  <div
+                    class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
+                    :title="video.item.partName"
+                  >
+                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
+                    >{{ video.item.partName }}
+                  </div>
                 </div>
-              </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
-              <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>{{ t('search.search-result.video.source-site') }}</div>
-                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+                  video.item.title
+                }}</a>
+                <div class="flex text-xs h-4 align-middle" :title="video.item.site">
+                  <div>{{ t('search.search-result.video.source-site') }}</div>
+                  <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                </div>
               </div>
             </div>
           </div>
+          <PvPagination
+            :page-count="pageCount"
+            :page="page"
+            @previous="jumpToPreviousPage"
+            @next="jumpToNextPage"
+            @change="jumpToSelectedPage"
+          ></PvPagination>
         </div>
-        <!-- Desktop View -->
-        <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
-          <div
-            v-for="video in videos"
-            :key="video.item.title"
-            class="
-              w-21/100
-              my-5
-              border
-              shadow-sm
-              rounded-lg
-              bg-white bg-opacity-50
-              dark:border-gray-500
-              dark:bg-gray-700
-            "
-            @click="jumpToVideoResult(video.id.toHexString())"
-          >
-            <div class="aspect-10/16 overflow-hidden rounded-sm">
-              <img
-                class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
-                :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-              />
-            </div>
-            <div class="p-3 text-left text-sm lg:text-base">
-              <div v-if="video.item.partName">
-                <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
-                <div
-                  class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
-                  :title="video.item.partName"
-                >
-                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                  >{{ video.item.partName }}
-                </div>
-              </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
-                video.item.title
-              }}</a>
-              <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>{{ t('search.search-result.video.source-site') }}</div>
-                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <PvPagination
-          :page-count="pageCount"
-          :page="page"
-          @previous="jumpToPreviousPage"
-          @next="jumpToNextPage"
-          @change="jumpToSelectedPage"
-        ></PvPagination>
       </div>
     </div>
     <BackTop></BackTop>
@@ -182,6 +197,21 @@ export default defineComponent({
       Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
     )
     const page = computed(() => offset.value + 1)
+    const Tab = [
+      {
+        key: 'video',
+        name: '视频',
+      },
+      {
+        key: 'playlist',
+        name: '播放列表',
+      },
+    ]
+    const tab = computed(() =>
+      String(
+        route.query.tab ? (typeof route.query.tab === 'object' ? route.query.tab[0] : route.query.tab) : Tab[0].key
+      )
+    )
 
     /* Refresh query result for URL query change */
     watch(
@@ -194,6 +224,10 @@ export default defineComponent({
         immediate: true,
       }
     )
+    watch(tab, () => {
+      queryVideos()
+      offsetChangeFromOtherQuery.value = false
+    })
     watch(offset, () => {
       if (offsetChangeFromOtherQuery.value) {
         offsetChangeFromOtherQuery.value = false
@@ -252,7 +286,7 @@ export default defineComponent({
     /* Change the router query to trigger the search function */
     function searchResult(searchContent: string): void {
       offsetChangeFromOtherQuery.value = true
-      router.push({ path: '/search-result', query: { i: searchContent, page: 0 } })
+      router.push({ path: '/search-result', query: { i: searchContent, page: 0, tab: tab.value } })
     }
     function jumpToPreviousPage(): void {
       router.push({ path: '/search-result', query: { i: queryWord.value, page: offset.value - 1 } })
@@ -262,6 +296,9 @@ export default defineComponent({
     }
     function jumpToSelectedPage(page: number): void {
       router.push({ path: '/search-result', query: { i: queryWord.value, page: page - 1 } })
+    }
+    function changeTab(key: string): void {
+      router.push({ path: '/search-result', query: { i: queryWord.value, page: 0, tab: key } })
     }
 
     /* Jump to video detail page */
@@ -274,6 +311,8 @@ export default defineComponent({
       screenSizes,
       queryWord,
       offset,
+      Tab,
+      tab,
       Status,
       status,
       errMsg,
@@ -286,6 +325,7 @@ export default defineComponent({
       jumpToPreviousPage,
       jumpToNextPage,
       jumpToSelectedPage,
+      changeTab,
       jumpToVideoResult,
       imgMod,
     }
@@ -294,6 +334,10 @@ export default defineComponent({
 </script>
 
 <style lang="postcss" scoped>
+.active-tab {
+  @apply text-black;
+  @apply border-pink-300;
+}
 .search-result-backimg {
   @apply bg-center;
   @apply bg-no-repeat;
