@@ -13,7 +13,7 @@ export const messages = Object.fromEntries(
 
 export const langs = Object.keys(messages)
 
-const lslang = useLocalStorage<string | undefined>('lang', undefined)
+const lslang = useLocalStorage<string | undefined>('lang', 'zh-Hans-CN')
 
 const i18n = createI18n({
   legacy: false,
