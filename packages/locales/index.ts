@@ -13,7 +13,7 @@ export const messages = Object.fromEntries(
 
 export const langs = Object.keys(messages)
 
-const lslang = useLocalStorage<string | undefined>('lang', 'zh-Hans-CN')
+const lslang = useLocalStorage<string | undefined>('lang', undefined)
 
 const i18n = createI18n({
   legacy: false,
@@ -27,8 +27,15 @@ export default i18n
 
 function getBrowserLang(): string | undefined {
   const userLangs = [...navigator.languages]
-  if (lslang.value) userLangs.unshift(lslang.value)
-  return match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
+  if (lslang.value && lslang.value !== 'undefined' && lslang.value !== 'null') userLangs.unshift(lslang.value)
+  let result
+  try {
+    result = match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
+  } catch (e) {
+    result = 'zh-Hans-CN'
+    if (!(e instanceof RangeError)) throw e
+  }
+  return result
 }
 
 function setBrowserLang(lang: string) {
