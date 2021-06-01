@@ -23,15 +23,17 @@
     </div>
 
     <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div class="flex mt-2">
-        <div
-          v-for="tabs in Tab"
-          :key="tabs.key"
-          class="p-5 pt-3 cursor-pointer text-gray-400 font-bold border-t-4 border-transparent"
-          :class="{ 'active-tab': tabs.key === tab }"
-          @click="changeTab(tabs.key)"
-        >
-          {{ tabs.name }}
+      <div class="flex justify-between mt-2">
+        <div class="flex">
+          <div
+            v-for="tabs in Tab"
+            :key="tabs.key"
+            class="p-5 pt-3 cursor-pointer text-gray-400 font-bold border-t-4 border-transparent"
+            :class="{ 'active-tab': tabs.key === tab }"
+            @click="changeTab(tabs.key)"
+          >
+            {{ tabs.name }}
+          </div>
         </div>
       </div>
 
@@ -44,13 +46,21 @@
         </div>
         <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
         <div v-else-if="status === Status.result">
-          <div class="border-b-1 pb-1">
-            {{
-              t('search.search-result.main-body.successful.search-result-count1') +
-              count +
-              t('search.search-result.main-body.successful.search-result-count2')
-            }}
+          <div class="flex justify-between items-end border-b-1 pb-1">
+            <div>
+              {{
+                t('search.search-result.main-body.successful.search-result-count1') +
+                count +
+                t('search.search-result.main-body.successful.search-result-count2')
+              }}
+            </div>
+            <div v-if="tab === 'video'" class="flex self-center">
+              <label class="cursor-pointer px-5 py-2 text-black font-bold rounded-full bg-gray-100">全部</label>
+              <label class="cursor-pointer px-5 py-2 text-gray-400 font-bold">国内网站</label>
+              <label class="cursor-pointer px-5 py-2 text-gray-400 font-bold">境外网站</label>
+            </div>
           </div>
+
           <!-- Mobile View -->
           <div v-if="screenSizes['<md']">
             <div
@@ -83,6 +93,7 @@
               </div>
             </div>
           </div>
+
           <!-- Desktop View -->
           <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
             <div
@@ -127,6 +138,7 @@
               </div>
             </div>
           </div>
+
           <PvPagination
             :page-count="pageCount"
             :page="page"
