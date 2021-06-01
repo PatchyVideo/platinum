@@ -5,17 +5,15 @@ interface User {
   name: string
   avatar: string
   isAdmin: boolean
+  uid: string
 }
-const user = ref<User>({
-  name: '',
-  avatar: 'default',
-  isAdmin: false,
-})
 const userDefault: User = {
   name: '',
   avatar: 'default',
   isAdmin: false,
+  uid: '',
 }
+const user = ref<User>(userDefault)
 
 enum IsLogin {
   'yes' = 'yes',
@@ -52,11 +50,12 @@ async function checkLoginStatus(needGetUserDataFromLocalStorage = false): Promis
     })
 }
 
-function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolean): void {
+function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolean, uid: string): void {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}')
   userData.name = name
   userData.avatar = avatar
   userData.isAdmin = isAdmin
+  userData.uid = uid
   localStorage.setItem('userData', JSON.stringify(userData))
 }
 
@@ -71,6 +70,7 @@ function getUserDataFromLocalStorage(): void {
       name: userData.name,
       avatar: userData.avatar,
       isAdmin: userData.isAdmin,
+      uid: userData.uid,
     }
   }
 }

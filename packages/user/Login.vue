@@ -285,7 +285,8 @@ export default defineComponent({
             setUserDataToLocalStorage(
               res.data.username,
               res.data.image,
-              res.data.access_control_status === 'admin' ? true : false
+              res.data.access_control_status === 'admin' ? true : false,
+              res.data.uid
             )
             getUserDataFromLocalStorage()
             router.push({ path: '/' })
