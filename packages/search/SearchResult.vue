@@ -195,11 +195,12 @@
 
       <!-- Playlists -->
       <div v-else-if="tab === Tabs[1].value">
-        <div v-if="status === Status.loading">{{ '加载中' }}</div>
+        <div v-if="status === Status.loading">{{ '搜索中......' }}</div>
         <div v-else-if="status === Status.error">
           <div>{{ '加载失败了QAQ' }}</div>
           <div>{{ '错误原因：' + errMsg }}</div>
         </div>
+        <div v-else-if="count === 0">{{ '没有搜索到播放列表QAQ' }}</div>
         <div v-else-if="status === Status.result">
           <div class="border-b-1 pb-1">
             {{ '共' + count + '个播放列表' }}
