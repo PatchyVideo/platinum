@@ -23,12 +23,23 @@
     </div>
 
     <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div class="flex justify-between mt-2">
+      <div class="my-2 md:m-0 md:flex md:justify-between">
         <div class="flex">
           <div
             v-for="tabs in Tabs"
             :key="tabs.value"
-            class="p-5 pt-3 cursor-pointer text-gray-400 font-bold border-t-4 border-transparent"
+            class="
+              px-5
+              py-2
+              cursor-pointer
+              text-gray-400 text-sm
+              font-semibold
+              border-t-4 border-transparent
+              md:text-base
+              md:font-bold
+              md:p-5
+              md:pt-3
+            "
             :class="{ 'active-tab': tabs.value === tab }"
             @click="changeTab(tabs.value)"
           >
@@ -39,7 +50,17 @@
           <label
             v-for="orders in Orders"
             :key="orders.value"
-            class="cursor-pointer px-5 py-2 text-gray-400 font-bold"
+            class="
+              px-2
+              py-1
+              cursor-pointer
+              text-gray-400 text-sm
+              font-semibold
+              md:text-base
+              md:font-bold
+              md:px-5
+              md:py-2
+            "
             :class="{ 'active-opt': orders.value === order }"
             @click="changeOrder(orders.value)"
             >{{ orders.name }}</label
@@ -56,7 +77,7 @@
         </div>
         <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
         <div v-else-if="status === Status.result">
-          <div class="flex justify-between items-end border-b-1 pb-1">
+          <div class="flex flex-wrap-reverse justify-between items-end border-b-1 pb-1">
             <div>
               {{
                 t('search.search-result.main-body.successful.search-result-count1') +
@@ -68,7 +89,17 @@
               <label
                 v-for="sites in VisibleSites"
                 :key="sites.value"
-                class="cursor-pointer px-3 py-1 text-gray-400 font-bold"
+                class="
+                  px-2
+                  py-1
+                  cursor-pointer
+                  text-gray-400 text-sm
+                  font-semibold
+                  md:text-base
+                  md:font-bold
+                  md:px-3
+                  md:py-1
+                "
                 :class="{ 'active-opt': sites.value === visibleSite }"
                 @click="changeVisibleSites(sites.value)"
                 >{{ sites.name }}</label
@@ -573,11 +604,14 @@ export default defineComponent({
 .active-tab {
   @apply text-black;
   @apply border-pink-300;
+  @apply dark:text-white;
 }
 .active-opt {
   @apply text-black;
   @apply rounded-full;
   @apply bg-gray-100;
+  @apply dark:text-white
+  @apply bg-gray-500;
 }
 .search-result-backimg {
   @apply bg-center;
