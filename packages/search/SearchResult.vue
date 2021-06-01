@@ -611,7 +611,7 @@ export default defineComponent({
   @apply rounded-full;
   @apply bg-gray-100;
   @apply dark:text-white
-  @apply bg-gray-500;
+  @apply dark:bg-gray-500;
 }
 .search-result-backimg {
   @apply bg-center;
