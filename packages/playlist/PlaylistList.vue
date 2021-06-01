@@ -162,14 +162,14 @@ export default defineComponent({
           offsetChangeFromOtherQuery.value = false
           return
         }
-        queryVideos()
+        queryPlaylists()
       },
       {
         immediate: true,
       }
     )
 
-    async function queryVideos(): Promise<void> {
+    async function queryPlaylists(): Promise<void> {
       if (status.value === Status.loading) return
       status.value = Status.loading
       try {
@@ -224,7 +224,7 @@ export default defineComponent({
       router.push({ path: '/playlist-list', query: { page: page - 1 } })
     }
 
-    /* Jump to video detail page */
+    /* Jump to detail page */
     function jumpToPlaylist(id: string): void {
       router.push({ path: '/playlist/' + id })
     }
