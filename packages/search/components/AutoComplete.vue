@@ -32,7 +32,7 @@
           hover:bg-pink-200
           w-20
         "
-        @click="searchContent && $emit('search', searchContent)"
+        @click="completeKeywordOrSearch(true)"
       >
         {{ t('search.auto-complete.search') }}
       </button>
@@ -109,13 +109,14 @@ export default defineComponent({
       l: number
       w: string
     }
-    let listHidden = ref<boolean>(true)
-    let loading = ref<boolean>(false)
-    let searchSuccess = ref<boolean>(true)
-    let searchContent = ref<null | string>(props.keyword)
+    const listHidden = ref<boolean>(true)
+    const loading = ref<boolean>(false)
+    const searchIsComplete = ref<boolean>(false)
+    const searchSuccess = ref<boolean>(true)
+    const searchContent = ref<null | string>(props.keyword)
     let cutHeadSearchContent: string
     let cutTailSearchContent: string
-    let searchResult = ref<resultType[]>([])
+    const searchResult = ref<resultType[]>([])
     let sitesAndKeywords: resultType[] = reactive([
       { tag: 'site:acfun', cat: 6, cnt: null, active: false },
       { tag: 'site:bilibili', cat: 6, cnt: null, active: false },
@@ -150,7 +151,7 @@ export default defineComponent({
     })
 
     // Slice the search key word
-    let autoComplete = ref<HTMLInputElement | null>(null)
+    const autoComplete = ref<HTMLInputElement | null>(null)
     function getSearchKeyword(): string | null {
       let endlocation: number = autoComplete.value?.selectionStart || 0
       let query: string = searchContent.value?.slice(0, endlocation) || ''
@@ -209,7 +210,7 @@ export default defineComponent({
             listData[i].active = false
           }
           searchResult.value = listData
-          listHidden.value = false
+          !searchIsComplete.value && (listHidden.value = false)
         })
         .catch((err) => {
           // console.log(err)
@@ -330,14 +331,16 @@ export default defineComponent({
     }
 
     //  Select the keyword from the search list with keyboard or search
-    function completeKeywordOrSearch(): void {
+    function completeKeywordOrSearch(usingSearchButton = false): void {
+      searchIsComplete.value = true
+      loading.value = false
       let i = 0
       for (i; i < searchResult.value.length; i++) {
         if (searchResult.value[i].active === true) {
           break
         }
       }
-      if (i == searchResult.value.length) {
+      if (usingSearchButton || i == searchResult.value.length) {
         searchContent.value && emit('search', searchContent.value)
         return
       } else {
@@ -349,12 +352,12 @@ export default defineComponent({
             cutTailSearchContent
         )
         searchResult.value = []
-        listHidden.value = true
       }
     }
+
     // Delete extra spaces
     function formatSearchContent(content: string): string {
-      var formater = new RegExp('\\s\\s+', 'g')
+      const formater = new RegExp('\\s\\s+', 'g')
       content = content.replace(formater, ' ')
       return content
     }
