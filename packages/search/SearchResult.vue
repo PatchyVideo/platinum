@@ -560,10 +560,16 @@ export default defineComponent({
 
     /* Jump to detail page */
     function jumpToVideoResult(id: string): void {
-      router.push({ path: '/video/' + id })
+      const { href } = router.resolve({
+        path: '/video/' + id,
+      })
+      window.open(href, '_blank')
     }
     function jumpToPlaylist(id: string): void {
-      router.push({ path: '/playlist/' + id })
+      const { href } = router.resolve({
+        path: '/playlist/' + id,
+      })
+      window.open(href, '_blank')
     }
 
     return {

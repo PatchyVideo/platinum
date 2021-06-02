@@ -226,7 +226,10 @@ export default defineComponent({
 
     /* Jump to detail page */
     function jumpToPlaylist(id: string): void {
-      router.push({ path: '/playlist/' + id })
+      const { href } = router.resolve({
+        path: '/playlist/' + id,
+      })
+      window.open(href, '_blank')
     }
     return {
       t,

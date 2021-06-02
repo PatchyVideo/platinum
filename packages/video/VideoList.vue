@@ -11,7 +11,7 @@
         <div class="border-b-1 pb-1">
           {{ '共' + count + '个视频' }}
         </div>
-        <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div>
+        <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <div
@@ -246,7 +246,10 @@ export default defineComponent({
 
     /* Jump to video detail page */
     function jumpToVideoResult(id: string): void {
-      router.push({ path: '/video/' + id })
+      const { href } = router.resolve({
+        path: '/video/' + id,
+      })
+      window.open(href, '_blank')
     }
 
     return {
