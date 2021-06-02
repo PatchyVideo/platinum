@@ -3,12 +3,12 @@
     <NavTop :show-search-bar="false"></NavTop>
 
     <div class="text-center flex flex-col justify-start items-center">
-      <h3 class="text-lg font-semibold p-4 px-auto">
+      <h3 v-if="screenSizes['sm']" class="text-lg font-semibold p-4 px-auto">
         {{ t('search.search-result.search-keywords') + queryWord }}
       </h3>
       <AutoComplete
         v-if="screenSizes['<md']"
-        class="sm:w-4/6 w-5/6"
+        class="mt-3 sm:w-4/6 w-5/6"
         size="mobile"
         :keyword="queryWord"
         @search="searchResult"
@@ -123,17 +123,17 @@
                 </div>
               </div>
               <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-                <div v-if="video.item.partName" class="overflow-hidden">
+                <div v-if="video.item.partName" class="overflow-hidden w-full">
                   <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                   <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
                     <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
                     >{{ video.item.partName }}
                   </div>
                 </div>
-                <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
+                <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
                 <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                   <div>{{ t('search.search-result.video.source-site') }}</div>
-                  <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                  <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
                 </div>
               </div>
             </div>

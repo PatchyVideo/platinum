@@ -29,17 +29,17 @@
               </div>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
-              <div v-if="video.item.partName" class="overflow-hidden">
+              <div v-if="video.item.partName" class="overflow-hidden w-full">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
                   <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
                   >{{ video.item.partName }}
                 </div>
               </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
+              <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ '源网站' }}</div>
-                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
