@@ -2,7 +2,6 @@ _info:
   name: English
 common:
   nav-top:
-    work-in-progress: The function is still in progress, please be patient!
     main-menu:
       home: Home
       video: Video
@@ -25,6 +24,7 @@ common:
       login: Login
       logout: Logout
       confirming: Logging in...
+      userprofile: ''
   footer:
     wiki: Wiki
     status: Site status
@@ -51,32 +51,59 @@ home:
     progress2: here
     old-page: '*The old version of the site can be seen'
     old-page2: here
-    offical-account: Go to our official bilibili account, hit the subscribe button,
-      and get our latest updates at the earliest time!
-    join: 'Of course, we need help from the touhou community to make PatchyVideo better,
-      that means you can be of help:'
+    offical-account: >-
+      Go to our official bilibili account, hit the subscribe button, and get our
+      latest updates at the earliest time!
+    join: >-
+      Of course, we need help from the touhou community to make PatchyVideo
+      better, that means you can be of help:
     join2: Join Us - PatchyVideo Wiki
   list:
     favorites: Playlist
 locales:
-  change-lang-reload-hint: Some changes are only visible are reloading the page, do
-    you wise to reload now?
+  change-lang-reload-hint: >-
+    Some changes are only visible are reloading the page, do you wise to reload
+    now?
 search:
   search-result:
     title: 'Result - '
     search-keywords: 'Result - '
-    main-body:
-      loading:
-        searching: Searching......
-      failed:
-        search-failed: Search failed
-        search-failed-reason: 'Reason:'
-      successful:
-        search-no-result: No match found
-        search-result-count1: 'Total '
-        search-result-count2: ' videos'
     video:
-      source-site: 'Source:'
+      main-body:
+        loading:
+          searching: Searching......
+        failed:
+          search-failed: Search failed
+          search-failed-reason: 'Reason:'
+        successful:
+          search-no-result: No match found
+          search-result-count1: 'Total '
+          search-result-count2: ' videos'
+      video:
+        source-site: 'Source:'
+      tab: ''
+      visible-sites:
+        abroad: ''
+        all: ''
+        home: ''
+    order:
+      last-modified: ''
+      video-oldest: ''
+    playlist:
+      main-body:
+        failed:
+          search-failed: ''
+          search-failed-reason: ''
+        loading:
+          searching: ''
+        successful:
+          search-no-result: ''
+          search-result-count1: ''
+          search-result-count2: ''
+      playlist:
+        playlist-count1: ''
+        playlist-count2: ''
+      tab: ''
   search-page:
     title: Search
     search: Search
@@ -89,6 +116,12 @@ ui:
     back-top: Back to top
   pv-select:
     select: Choose
+  pv-pagination:
+    alert: ''
+    page-next: ''
+    page-number1: ''
+    page-number2: ''
+    page-previous: ''
 user:
   login:
     title: Login
@@ -190,7 +223,7 @@ user:
 video:
   video:
     uploader: Uploader
-    no-desc: '<No description provided>'
+    no-desc: <No description provided>
   player:
     settings:
       default:
@@ -200,6 +233,8 @@ video:
           audio: Sync audio
       quality:
         name: Quality
+        items:
+          current-codec: ''
     enable-iframe: Use source player
     play-stream:
       source:
@@ -227,3 +262,46 @@ video:
       profile:
         known-source: ''
         unknown-source: ''
+  video-list:
+    advanced-search:
+      name: ''
+    main-body:
+      failed:
+        search-failed: ''
+        search-failed-reason: ''
+      loading:
+        searching: ''
+      successful:
+        search-no-result: ''
+        search-result-count1: ''
+        search-result-count2: ''
+    title: ''
+    video:
+      source-site: ''
+others:
+  WIP1: ''
+  WIP2: ''
+playlist:
+  playlist-list:
+    advanced-search:
+      name: ''
+    main-body:
+      failed:
+        search-failed: ''
+        search-failed-reason: ''
+      loading:
+        searching: ''
+      successful:
+        search-result-count1: ''
+        search-result-count2: ''
+    playlist:
+      playlist-count1: ''
+      playlist-count2: ''
+    title: ''
+  playlist:
+    collapse: ''
+    expand: ''
+    info:
+      edit-date: ''
+      rating: ''
+      video-count: ''

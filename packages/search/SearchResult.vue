@@ -70,19 +70,19 @@
 
       <!-- Videos -->
       <div v-if="tab === Tabs[0].value">
-        <div v-if="status === Status.loading">{{ t('search.search-result.main-body.loading.searching') }}</div>
+        <div v-if="status === Status.loading">{{ t('search.search-result.video.main-body.loading.searching') }}</div>
         <div v-else-if="status === Status.error">
-          <div>{{ t('search.search-result.main-body.failed.search-failed') }}</div>
-          <div>{{ t('search.search-result.main-body.failed.search-failed-reason') + errMsg }}</div>
+          <div>{{ t('search.search-result.video.main-body.failed.search-failed') }}</div>
+          <div>{{ t('search.search-result.video.main-body.failed.search-failed-reason') + errMsg }}</div>
         </div>
-        <div v-else-if="count === 0">{{ t('search.search-result.main-body.successful.search-no-result') }}</div>
+        <div v-else-if="count === 0">{{ t('search.search-result.video.main-body.successful.search-no-result') }}</div>
         <div v-else-if="status === Status.result">
           <div class="flex flex-wrap-reverse justify-between items-end border-b-1 pb-1">
             <div>
               {{
-                t('search.search-result.main-body.successful.search-result-count1') +
+                t('search.search-result.video.main-body.successful.search-result-count1') +
                 count +
-                t('search.search-result.main-body.successful.search-result-count2')
+                t('search.search-result.video.main-body.successful.search-result-count2')
               }}
             </div>
             <div v-if="tab === 'video'" class="flex self-center space-x-2">
@@ -132,7 +132,7 @@
                 </div>
                 <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
                 <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                  <div>{{ t('search.search-result.video.source-site') }}</div>
+                  <div>{{ t('search.search-result.video.video.source-site') }}</div>
                   <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
                 </div>
               </div>
@@ -176,7 +176,7 @@
                   video.item.title
                 }}</a>
                 <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                  <div>{{ t('search.search-result.video.source-site') }}</div>
+                  <div>{{ t('search.search-result.video.video.source-site') }}</div>
                   <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
                 </div>
               </div>
@@ -195,15 +195,21 @@
 
       <!-- Playlists -->
       <div v-else-if="tab === Tabs[1].value">
-        <div v-if="status === Status.loading">{{ '搜索中......' }}</div>
+        <div v-if="status === Status.loading">{{ t('search.search-result.playlist.main-body.loading.searching') }}</div>
         <div v-else-if="status === Status.error">
-          <div>{{ '加载失败了QAQ' }}</div>
-          <div>{{ '错误原因：' + errMsg }}</div>
+          <div>{{ t('search.search-result.playlist.main-body.failed.search-failed') }}</div>
+          <div>{{ t('search.search-result.playlist.main-body.failed.search-failed-reason') + errMsg }}</div>
         </div>
-        <div v-else-if="count === 0">{{ '没有搜索到播放列表QAQ' }}</div>
+        <div v-else-if="count === 0">
+          {{ t('search.search-result.playlist.main-body.successful.search-no-result') }}
+        </div>
         <div v-else-if="status === Status.result">
           <div class="border-b-1 pb-1">
-            {{ '共' + count + '个播放列表' }}
+            {{
+              t('search.search-result.playlist.main-body.successful.search-result-count1') +
+              count +
+              t('search.search-result.playlist.main-body.successful.search-result-count2')
+            }}
           </div>
           <!-- Mobile View -->
           <div v-if="screenSizes['<md']">
@@ -224,13 +230,17 @@
               <div class="w-3/5 flex flex-wrap content-between">
                 <div class="title-mobile overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
                 <div class="w-full text-sm text-gray-600 dark:text-gray-300">
-                  {{ '共' + playlist.item.count + '个视频' }}
+                  {{
+                    t('search.search-result.playlist.playlist.playlist-count1') +
+                    playlist.item.count +
+                    t('search.search-result.playlist.playlist.playlist-count2')
+                  }}
                 </div>
               </div>
             </div>
           </div>
           <!-- Desktop View -->
-          <div v-else class="justify-evenly flex-wrap flex">
+          <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
             <div
               v-for="playlist in playlists"
               :key="playlist.item.title"
@@ -263,7 +273,11 @@
                 <div class="w-1/2 py-2 flex flex-wrap content-between">
                   <div class="desc w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
                   <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-                    {{ '共' + playlist.item.count + '个视频' }}
+                    {{
+                      t('search.search-result.playlist.playlist.playlist-count1') +
+                      playlist.item.count +
+                      t('search.search-result.playlist.playlist.playlist-count2')
+                    }}
                   </div>
                 </div>
               </div>
@@ -344,11 +358,11 @@ export default defineComponent({
     const Tabs = [
       {
         value: 'video',
-        name: '视频',
+        name: t('search.search-result.video.tab'),
       },
       {
         value: 'playlist',
-        name: '播放列表',
+        name: t('search.search-result.playlist.tab'),
       },
     ]
     const tab = computed(() =>
@@ -359,15 +373,15 @@ export default defineComponent({
     const VisibleSites = [
       {
         value: '',
-        name: '全部',
+        name: t('search.search-result.video.visible-sites.all'),
       },
       {
         value: 'ANY(site:acfun site:bilibili site:zcool)',
-        name: '国内网站',
+        name: t('search.search-result.video.visible-sites.home'),
       },
       {
         value: 'ANY(site:nicovideo site:twitter site:youtube site:ipfs)',
-        name: '境外网站',
+        name: t('search.search-result.video.visible-sites.abroad'),
       },
     ]
     const visibleSite = computed(() =>
@@ -380,8 +394,8 @@ export default defineComponent({
       )
     )
     const Orders = [
-      { value: 'last_modified', name: '最新修改' },
-      { value: 'video_oldest', name: '时间倒序' },
+      { value: 'last_modified', name: t('search.search-result.order.last-modified') },
+      { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
     ]
     const order = computed(() =>
       String(
