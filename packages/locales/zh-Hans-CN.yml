@@ -2,7 +2,6 @@ _info:
   name: 简体中文
 common:
   nav-top:
-    work-in-progress: 该功能尚在完善中，敬请期待！
     main-menu:
       home: 主页
       video: 视频
@@ -61,28 +60,76 @@ locales:
   change-lang-reload-hint: |-
     部分语言修改需要刷新页面才能生效
     现在刷新页面吗？
-search:
-  search-result:
-    title: '搜索结果 - '
-    search-keywords: '搜索结果 - '
+playlist:
+  playlist-list:
+    title: 播放列表
     main-body:
       loading:
-        searching: 搜索中......
+        searching: 少女祈祷中......
       failed:
         search-failed: 加载失败了QAQ
         search-failed-reason: 错误原因：
       successful:
-        search-no-result: 没有搜索到视频QAQ
-        search-result-count1: 共搜索到
-        search-result-count2: 个视频
+        search-result-count1: 共
+        search-result-count2: 个播放列表
+    playlist:
+      playlist-count1: 共
+      playlist-count2: 个视频
+    advanced-search:
+      name: 高级搜索
+  playlist:
+    collapse: 收起
+    expand: 展开
+    info:
+      video-count: '{count}个视频'
+      rating: 评分{rating}
+      edit-date: 最后更新于 {date}
+search:
+  search-result:
+    title: '搜索结果 - '
+    search-keywords: '搜索结果 - '
+    order:
+      last-modified: 最新修改
+      video-oldest: 时间倒序
     video:
-      source-site: 源网站：
+      tab: 视频
+      main-body:
+        loading:
+          searching: 少女祈祷中......
+        failed:
+          search-failed: 加载失败了QAQ
+          search-failed-reason: 错误原因：
+        successful:
+          search-no-result: 没有搜索到视频QAQ
+          search-result-count1: 共搜索到
+          search-result-count2: 个视频
+      video:
+        source-site: 源网站：
+      visible-sites:
+        all: 全部
+        home: 国内网站
+        abroad: 国外网站
+    playlist:
+      tab: 播放列表
+      main-body:
+        loading:
+          searching: 少女祈祷中......
+        failed:
+          search-failed: 加载失败了QAQ
+          search-failed-reason: 错误原因：
+        successful:
+          search-no-result: 没有搜索到播放列表QAQ
+          search-result-count1: 共搜索到
+          search-result-count2: 个播放列表
+      playlist:
+        playlist-count1: 共
+        playlist-count2: 个视频
   search-page:
     title: 搜索
     search: 搜索
   auto-complete:
     search: 搜索
-    loading: 加载中...
+    loading: 少女祈祷中......
     loading-failed: 加载失败了QAQ
 ui:
   back-top:
@@ -225,6 +272,22 @@ user:
       boundEmail: 已绑定的邮箱
       none: 暂无
 video:
+  video-list:
+    title: 视频列表
+    main-body:
+      loading:
+        searching: 少女祈祷中......
+      failed:
+        search-failed: 加载失败了QAQ
+        search-failed-reason: 错误原因：
+      successful:
+        search-no-result: 没有搜索到视频QAQ
+        search-result-count1: 共
+        search-result-count2: 个视频
+    video:
+      source-site: 源网站：
+    advanced-search:
+      name: 高级搜索
   video:
     uploader: 上传者
     no-desc: 这个人太懒啦，并没有写简介
@@ -266,11 +329,6 @@ video:
       profile:
         known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
         unknown-source: 未知的视频源：{source}
-playlist:
-  playlist:
-    collapse: 收起
-    expand: 展开
-    info:
-      video-count: '{count}个视频'
-      rating: 评分{rating}
-      edit-date: 最后更新于 {date}
+others:
+  WIP1: 该
+  WIP2: 功能正在完善中，敬请期待！

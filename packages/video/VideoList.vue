@@ -2,16 +2,20 @@
   <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
     <NavTop></NavTop>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div v-if="status === Status.loading">{{ '加载中' }}</div>
+      <div v-if="status === Status.loading">{{ t('video.video-list.main-body.loading.searching') }}</div>
       <div v-else-if="status === Status.error">
-        <div>{{ '加载失败了QAQ' }}</div>
-        <div>{{ '错误原因：' + errMsg }}</div>
+        <div>{{ t('video.video-list.main-body.failed.search-failed') }}</div>
+        <div>{{ t('video.video-list.main-body.failed.search-failed-reason') + errMsg }}</div>
       </div>
       <div v-else-if="status === Status.result">
         <div class="border-b-1 pb-1">
-          {{ '共' + count + '个视频' }}
+          {{
+            t('video.video-list.main-body.successful.search-result-count1') +
+            count +
+            t('video.video-list.main-body.successful.search-result-count2')
+          }}
         </div>
-        <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div>
+        <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <div
@@ -29,17 +33,17 @@
               </div>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
-              <div v-if="video.item.partName" class="overflow-hidden">
+              <div v-if="video.item.partName" class="overflow-hidden w-full">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
                   <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
                   >{{ video.item.partName }}
                 </div>
               </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden">{{ video.item.title }}</a>
+              <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>{{ '源网站' }}</div>
-                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                <div>{{ t('video.video-list.video.source-site') }}</div>
+                <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
@@ -82,7 +86,7 @@
                 video.item.title
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>{{ '源网站' }}</div>
+                <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
@@ -111,8 +115,8 @@
         rounded-full
         dark:bg-gray-800
       "
-      :title="'高级搜索'"
-      @click="progressing('高级搜索')"
+      :title="t('video.video-list.advanced-search.name')"
+      @click="t('video.video-list.advanced-search.name')"
     >
       <icon-uil-file-search-alt class="text-2xl" />
     </div>
@@ -149,7 +153,7 @@ export default defineComponent({
   props: {},
   setup() {
     const { t } = useI18n()
-    setSiteTitle('视频列表 - PatchyVideo')
+    setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
     const route = useRoute()
     const router = useRouter()
     const limit = 40
@@ -246,7 +250,10 @@ export default defineComponent({
 
     /* Jump to video detail page */
     function jumpToVideoResult(id: string): void {
-      router.push({ path: '/video/' + id })
+      const { href } = router.resolve({
+        path: '/video/' + id,
+      })
+      window.open(href, '_blank')
     }
 
     return {

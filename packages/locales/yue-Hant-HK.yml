@@ -2,7 +2,6 @@ _info:
   name: 粵語中文
 common:
   nav-top:
-    work-in-progress: 呢个功能净喺度完善紧，敬请期待！
     main-menu:
       home: 主页
       video: 视频
@@ -65,18 +64,42 @@ search:
   search-result:
     title: '揾到嘅结果 - '
     search-keywords: '揾到嘅结果 - '
-    main-body:
-      loading:
-        searching: 揾紧......
-      failed:
-        search-failed: 加载失败咗QAQ
-        search-failed-reason: 错误嘅原因：
-      successful:
-        search-no-result: 没有揾到视频QAQ
-        search-result-count1: 一共揾到咗
-        search-result-count2: 个视频
     video:
-      source-site: 源网站：
+      main-body:
+        loading:
+          searching: 揾紧......
+        failed:
+          search-failed: 加载失败咗QAQ
+          search-failed-reason: 错误嘅原因：
+        successful:
+          search-no-result: 没有揾到视频QAQ
+          search-result-count1: 一共揾到咗
+          search-result-count2: 个视频
+      video:
+        source-site: 源网站：
+      tab: ''
+      visible-sites:
+        abroad: ''
+        all: ''
+        home: ''
+    order:
+      last-modified: ''
+      video-oldest: ''
+    playlist:
+      main-body:
+        failed:
+          search-failed: ''
+          search-failed-reason: ''
+        loading:
+          searching: ''
+        successful:
+          search-no-result: ''
+          search-result-count1: ''
+          search-result-count2: ''
+      playlist:
+        playlist-count1: ''
+        playlist-count2: ''
+      tab: ''
   search-page:
     title: 搜索
     search: 搜索
@@ -206,6 +229,8 @@ video:
           audio: 同步音频
       quality:
         name: 清晰度
+        items:
+          current-codec: ''
     enable-iframe: 切换视频播放至内嵌嘅播放器
     play-stream:
       source:
@@ -233,6 +258,22 @@ video:
       profile:
         known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
         unknown-source: 未知嘅视频源：{source}
+  video-list:
+    advanced-search:
+      name: ''
+    main-body:
+      failed:
+        search-failed: ''
+        search-failed-reason: ''
+      loading:
+        searching: ''
+      successful:
+        search-no-result: ''
+        search-result-count1: ''
+        search-result-count2: ''
+    title: ''
+    video:
+      source-site: ''
 playlist:
   playlist:
     collapse: 收起
@@ -241,3 +282,22 @@ playlist:
       edit-date: 最后睇{date}更新
       rating: 评分{rating}
       video-count: '{count}个视频'
+  playlist-list:
+    advanced-search:
+      name: ''
+    main-body:
+      failed:
+        search-failed: ''
+        search-failed-reason: ''
+      loading:
+        searching: ''
+      successful:
+        search-result-count1: ''
+        search-result-count2: ''
+    playlist:
+      playlist-count1: ''
+      playlist-count2: ''
+    title: ''
+others:
+  WIP1: ''
+  WIP2: ''
