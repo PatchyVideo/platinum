@@ -193,6 +193,37 @@ user:
     log1: 成功，
     log2: 秒后跳转回登录页面
     jump: 没有反应？点击我手动跳转
+  user-page:
+    title: 个人中心
+    not-logged-in: 用户未登录，点我登录
+    avatar:
+      current: 当前头像
+      requirement: 选择图片上传：大小256 * 256像素
+      choose-image: 选择图片
+      upload: 上传
+    username:
+      placeholder: 更改用户名
+      modify: 更改
+      cancel: 取消
+    description:
+      placeholder: 更改个人描述
+      save: 保存
+    password:
+      title: 更改密码
+      old: 旧密码
+      oldPlaceholder: 请输入旧密码
+      new: 新密码
+      newPlaceholder: 请输入新密码
+      confirmNew: 确认密码
+      confirmNewPlaceholder: 请重复输入新密码
+      commit: 提交
+      reset: 重置
+    email:
+      title: 绑定邮箱
+      placeholder: 请输入邮箱
+      bind: 绑定
+      boundEmail: 已绑定的邮箱
+      none: 暂无
 video:
   video:
     uploader: 上传者
