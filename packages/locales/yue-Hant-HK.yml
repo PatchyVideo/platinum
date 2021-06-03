@@ -47,9 +47,9 @@ home:
     hello: 你好世界！
     intro: 新页面净睇度建设紧哦(/ω＼)
     intro2: 先试下用顶部导航栏嘅的搜索功能搜索一个自己中意嘅视频吧！
-    progress: '*项目嘅功能进度可以参考'
+    progress: '*项目嘅功能进度可以参考 {0}'
     progress2: 呢度
-    old-page: 旧嘅页面可以点击
+    old-page: 旧嘅页面可以点击 {0}
     old-page2: 呢度
     offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
     join: '梗系，新页面都意味着帕琪站需要更多热爱东方的大家来一起帮手建设，如果大家有兴趣嘅话，可以先参考下呢个:'
@@ -60,6 +60,28 @@ locales:
   change-lang-reload-hint: |-
     部分嘅语言修改需要刷新下页面先至生效
     想宜家刷新页面吗？
+playlist:
+  playlist:
+    collapse: 收起
+    expand: 展开
+    info:
+      edit-date: 最后睇{date}更新
+      rating: 评分{rating}
+      video-count: '{count}个视频'
+  playlist-list:
+    advanced-search:
+      name: ''
+    main-body:
+      failed:
+        load-failed: ''
+        load-failed-reason: ''
+      loading:
+        searching: ''
+      successful:
+        load-result-count: ''
+    playlist:
+      playlist-count: ''
+    title: ''
 search:
   search-result:
     title: '揾到嘅结果 - '
@@ -73,8 +95,7 @@ search:
           search-failed-reason: 错误嘅原因：
         successful:
           search-no-result: 没有揾到视频QAQ
-          search-result-count1: 一共揾到咗
-          search-result-count2: 个视频
+          search-result-count: 一共揾到咗{count}个视频
       video:
         source-site: 源网站：
       tab: ''
@@ -94,11 +115,9 @@ search:
           searching: ''
         successful:
           search-no-result: ''
-          search-result-count1: ''
-          search-result-count2: ''
+          search-result-count: ''
       playlist:
-        playlist-count1: ''
-        playlist-count2: ''
+        playlist-count: ''
       tab: ''
   search-page:
     title: 搜索
@@ -115,8 +134,7 @@ ui:
   pv-pagination:
     alert: 请输入一个有效嘅页数！
     page-next: 下一页
-    page-number1: 第
-    page-number2: 页
+    page-number: 第{count}/{total}页
     page-previous: 上一页
 user:
   login:
@@ -213,9 +231,39 @@ user:
     from:
       sign-up: 注册
       reset-password: 重置
-    log1: 成功，
-    log2: 秒后跳番登录页面
+    log: '{fromWord}成功，{count}秒后跳番登录页面'
     jump: 冇反应？点我手动跳转
+  user-page:
+    avatar:
+      choose-image: ''
+      current: ''
+      requirement: ''
+      upload: ''
+    description:
+      placeholder: ''
+      save: ''
+    email:
+      bind: ''
+      boundEmail: ''
+      none: ''
+      placeholder: ''
+      title: ''
+    not-logged-in: ''
+    password:
+      commit: ''
+      confirmNew: ''
+      confirmNewPlaceholder: ''
+      new: ''
+      newPlaceholder: ''
+      old: ''
+      oldPlaceholder: ''
+      reset: ''
+      title: ''
+    title: ''
+    username:
+      cancel: ''
+      modify: ''
+      placeholder: ''
 video:
   video:
     uploader: 上传者
@@ -269,35 +317,10 @@ video:
         searching: ''
       successful:
         search-no-result: ''
-        search-result-count1: ''
-        search-result-count2: ''
+        search-result-count: ''
     title: ''
     video:
       source-site: ''
-playlist:
-  playlist:
-    collapse: 收起
-    expand: 展开
-    info:
-      edit-date: 最后睇{date}更新
-      rating: 评分{rating}
-      video-count: '{count}个视频'
-  playlist-list:
-    advanced-search:
-      name: ''
-    main-body:
-      failed:
-        search-failed: ''
-        search-failed-reason: ''
-      loading:
-        searching: ''
-      successful:
-        search-result-count1: ''
-        search-result-count2: ''
-    playlist:
-      playlist-count1: ''
-      playlist-count2: ''
-    title: ''
 others:
   WIP1: ''
   WIP2: ''

@@ -1,6 +1,8 @@
 <template>
   <div class="text-center h-full w-full p-6">
-    <div>{{ fromWord + t('user.redirect.log1') + count + t('user.redirect.log2') }}</div>
+    <div>
+      {{ t('user.redirect.log', { fromWord: fromWord, count: count }) }}
+    </div>
     <router-link class="underline" to="/user/login">{{ t('user.redirect.jump') }}</router-link>
   </div>
 </template>

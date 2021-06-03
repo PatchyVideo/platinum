@@ -79,11 +79,7 @@
         <div v-else-if="status === Status.result">
           <div class="flex flex-wrap-reverse justify-between items-end border-b-1 pb-1">
             <div>
-              {{
-                t('search.search-result.video.main-body.successful.search-result-count1') +
-                count +
-                t('search.search-result.video.main-body.successful.search-result-count2')
-              }}
+              {{ t('search.search-result.video.main-body.successful.search-result-count', { count: count }) }}
             </div>
             <div v-if="tab === 'video'" class="flex self-center space-x-2">
               <label
@@ -205,11 +201,7 @@
         </div>
         <div v-else-if="status === Status.result">
           <div class="border-b-1 pb-1">
-            {{
-              t('search.search-result.playlist.main-body.successful.search-result-count1') +
-              count +
-              t('search.search-result.playlist.main-body.successful.search-result-count2')
-            }}
+            {{ t('search.search-result.playlist.main-body.successful.search-result-count', { count: count }) }}
           </div>
           <!-- Mobile View -->
           <div v-if="screenSizes['<md']">
@@ -230,11 +222,7 @@
               <div class="w-3/5 flex flex-wrap content-between">
                 <div class="title-mobile overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
                 <div class="w-full text-sm text-gray-600 dark:text-gray-300">
-                  {{
-                    t('search.search-result.playlist.playlist.playlist-count1') +
-                    playlist.item.count +
-                    t('search.search-result.playlist.playlist.playlist-count2')
-                  }}
+                  {{ t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count }) }}
                 </div>
               </div>
             </div>
@@ -273,11 +261,7 @@
                 <div class="w-1/2 py-2 flex flex-wrap content-between">
                   <div class="desc w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
                   <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-                    {{
-                      t('search.search-result.playlist.playlist.playlist-count1') +
-                      playlist.item.count +
-                      t('search.search-result.playlist.playlist.playlist-count2')
-                    }}
+                    {{ t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count }) }}
                   </div>
                 </div>
               </div>

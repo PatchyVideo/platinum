@@ -47,23 +47,43 @@ home:
     hello: Hello world
     intro: New page under construction(/ω＼)
     intro2: You can try searching for videos using the top nav bar
-    progress: '*Progress can be found '
+    progress: '*You can find our progress {0}'
     progress2: here
-    old-page: '*The old version of the site can be seen'
+    old-page: '*You can view the old version of the site {0}'
     old-page2: here
     offical-account: >-
       Go to our official bilibili account, hit the subscribe button, and get our
       latest updates at the earliest time!
     join: >-
       Of course, we need help from the touhou community to make PatchyVideo
-      better, that means you can be of help:
+      better, which means you can be of help:
     join2: Join Us - PatchyVideo Wiki
   list:
     favorites: Playlist
 locales:
-  change-lang-reload-hint: >-
-    Some changes are only visible are reloading the page, do you wise to reload
-    now?
+  change-lang-reload-hint: Some changes are only visible after reloading, do you wish to reload now?
+playlist:
+  playlist-list:
+    advanced-search:
+      name: Advanced search
+    main-body:
+      failed:
+        load-failed: Failure
+        load-failed-reason: 'Reason:'
+      loading:
+        searching: Searching...
+      successful:
+        load-result-count: '{count} playlists found'
+    playlist:
+      playlist-count: '{count} videos'
+    title: ''
+  playlist:
+    collapse: Collapse
+    expand: Expand
+    info:
+      edit-date: 'Edited on:'
+      rating: Rating
+      video-count: Videos
 search:
   search-result:
     title: 'Result - '
@@ -77,32 +97,29 @@ search:
           search-failed-reason: 'Reason:'
         successful:
           search-no-result: No match found
-          search-result-count1: 'Total '
-          search-result-count2: ' videos'
+          search-result-count: 'Total {count} videos'
       video:
         source-site: 'Source:'
       tab: ''
       visible-sites:
-        abroad: ''
-        all: ''
-        home: ''
+        abroad: Foreign site
+        all: All
+        home: Domestic site
     order:
-      last-modified: ''
-      video-oldest: ''
+      last-modified: Last modified
+      video-oldest: Oldest
     playlist:
       main-body:
         failed:
-          search-failed: ''
-          search-failed-reason: ''
+          search-failed: Failure
+          search-failed-reason: 'Reason:'
         loading:
-          searching: ''
+          searching: Searching...
         successful:
-          search-no-result: ''
-          search-result-count1: ''
-          search-result-count2: ''
+          search-no-result: No result
+          search-result-count: '{count} videos found'
       playlist:
-        playlist-count1: ''
-        playlist-count2: ''
+        playlist-count: '{count} playlists found'
       tab: ''
   search-page:
     title: Search
@@ -117,11 +134,10 @@ ui:
   pv-select:
     select: Choose
   pv-pagination:
-    alert: ''
-    page-next: ''
-    page-number1: ''
-    page-number2: ''
-    page-previous: ''
+    alert: Please enter a valid number of page
+    page-next: Next page
+    page-number: Page{count}/{total}
+    page-previous: Previous page
 user:
   login:
     title: Login
@@ -181,8 +197,7 @@ user:
     login: Login
   redirect:
     title: Redirecting...
-    log1: ' succeed'
-    log2: ' seconds to home page'
+    log: '{fromWord} succeed, {count} seconds to home page'
     jump: Home page
     from:
       reset-password: Reset your password
@@ -220,6 +235,37 @@ user:
       loading: Resetting your password...
       ready: Reset
     title: Reset your password
+  user-page:
+    avatar:
+      choose-image: ''
+      current: ''
+      requirement: ''
+      upload: ''
+    description:
+      placeholder: ''
+      save: ''
+    email:
+      bind: ''
+      boundEmail: ''
+      none: ''
+      placeholder: ''
+      title: ''
+    not-logged-in: ''
+    password:
+      commit: ''
+      confirmNew: ''
+      confirmNewPlaceholder: ''
+      new: ''
+      newPlaceholder: ''
+      old: ''
+      oldPlaceholder: ''
+      reset: ''
+      title: ''
+    title: ''
+    username:
+      cancel: ''
+      modify: ''
+      placeholder: ''
 video:
   video:
     uploader: Uploader
@@ -234,7 +280,7 @@ video:
       quality:
         name: Quality
         items:
-          current-codec: ''
+          current-codec: current codec：{container} ({codec})
     enable-iframe: Use source player
     play-stream:
       source:
@@ -256,52 +302,27 @@ video:
           source-loading: Reading video source
         failed: Failed to read video source
     video:
-      info-fetching: ''
-      URL: ''
-      address-parsing: ''
+      info-fetching: Obtaining video information
+      URL: 'The URL of the video: {url}'
+      address-parsing: Resolving original video address
       profile:
-        known-source: ''
-        unknown-source: ''
+        known-source: source：{source}，format：{format}，quality：{quality}
+        unknown-source: unknown source：{source}
   video-list:
     advanced-search:
-      name: ''
+      name: Advanced search
     main-body:
       failed:
-        search-failed: ''
-        search-failed-reason: ''
+        search-failed: Failure
+        search-failed-reason: 'Reason:'
       loading:
-        searching: ''
+        searching: Searching...
       successful:
-        search-no-result: ''
-        search-result-count1: ''
-        search-result-count2: ''
-    title: ''
+        search-no-result: No playlist found
+        search-result-count: '{count}  playlists found'
+    title: Video list
     video:
-      source-site: ''
+      source-site: 'Source site:'
 others:
-  WIP1: ''
-  WIP2: ''
-playlist:
-  playlist-list:
-    advanced-search:
-      name: ''
-    main-body:
-      failed:
-        search-failed: ''
-        search-failed-reason: ''
-      loading:
-        searching: ''
-      successful:
-        search-result-count1: ''
-        search-result-count2: ''
-    playlist:
-      playlist-count1: ''
-      playlist-count2: ''
-    title: ''
-  playlist:
-    collapse: ''
-    expand: ''
-    info:
-      edit-date: ''
-      rating: ''
-      video-count: ''
+  WIP1: The function
+  WIP2: '{WIP1} is under construction, please wait warmly'

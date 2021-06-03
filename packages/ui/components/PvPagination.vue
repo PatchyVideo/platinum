@@ -42,17 +42,19 @@
         "
         v-text="t('ui.pv-pagination.page-previous')"
       ></a>
-      <div>
-        <label>
-          {{ t('ui.pv-pagination.page-number1') }}
-        </label>
-        <input
-          v-model="pageNum"
-          class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
-          @keydown.enter="change"
-        />
-        <label>{{ '/' + pageCount + t('ui.pv-pagination.page-number2') }}</label>
-      </div>
+      <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
+        <template #count>
+          <input
+            v-model="pageNum"
+            place="action"
+            class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
+            @keydown.enter="change"
+          />
+        </template>
+        <template #total>
+          <span>{{ pageCount }}</span>
+        </template>
+      </i18n-t>
       <a
         v-if="page !== pageCount"
         class="

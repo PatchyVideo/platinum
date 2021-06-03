@@ -4,16 +4,12 @@
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === Status.loading">{{ t('playlist.playlist-list.main-body.loading.searching') }}</div>
       <div v-else-if="status === Status.error">
-        <div>{{ t('playlist.playlist-list.main-body.failed.search-failed') }}</div>
-        <div>{{ t('playlist.playlist-list.main-body.failed.search-failed-reason') + errMsg }}</div>
+        <div>{{ t('playlist.playlist-list.main-body.failed.load-failed') }}</div>
+        <div>{{ t('playlist.playlist-list.main-body.failed.load-failed-reason') + errMsg }}</div>
       </div>
       <div v-else-if="status === Status.result">
         <div class="border-b-1 pb-1">
-          {{
-            t('playlist.playlist-list.main-body.successful.search-result-count1') +
-            count +
-            t('playlist.playlist-list.main-body.successful.search-result-count2')
-          }}
+          {{ t('playlist.playlist-list.main-body.successful.load-result-count', { count: count }) }}
         </div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
@@ -34,11 +30,7 @@
             <div class="w-3/5 flex flex-wrap content-between">
               <div class="title-mobile overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
               <div class="w-full text-sm text-gray-600 dark:text-gray-300">
-                {{
-                  t('playlist.playlist-list.playlist.playlist-count1') +
-                  playlist.item.count +
-                  t('playlist.playlist-list.playlist.playlist-count2')
-                }}
+                {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
               </div>
             </div>
           </div>
@@ -77,11 +69,7 @@
               <div class="w-1/2 py-2 flex flex-wrap content-between">
                 <div class="desc w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
                 <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-                  {{
-                    t('playlist.playlist-list.playlist.playlist-count1') +
-                    playlist.item.count +
-                    t('playlist.playlist-list.playlist.playlist-count2')
-                  }}
+                  {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
                 </div>
               </div>
             </div>

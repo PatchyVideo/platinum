@@ -11,19 +11,17 @@
             <br />
             {{ t('home.home.intro2') }}
           </div>
-          <div>
-            {{ t('home.home.progress') }}
+          <i18n-t keypath="home.home.progress" tag="div">
             <a
               class="underline"
               href="https://github.com/PatchyVideo/PatchyVideo-docs/blob/main/%E7%AC%AC%E4%B8%89%E8%BD%AE%E5%AD%90-%E6%B5%8B%E8%AF%95%E7%89%88%E5%86%85%E5%AE%B9.md"
               target="_blank"
               >{{ t('home.home.progress2') }}</a
             >
-          </div>
-          <div>
-            {{ t('home.home.old-page') }}
+          </i18n-t>
+          <i18n-t keypath="home.home.old-page" tag="div">
             <a class="underline" href="https://patchyvideo.com/" target="_blank">{{ t('home.home.old-page2') }}</a>
-          </div>
+          </i18n-t>
         </div>
         <div class="underline text-lg">
           <a href="https://space.bilibili.com/515657675" target="_blank">{{ t('home.home.offical-account') }}</a>

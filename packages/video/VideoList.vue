@@ -116,7 +116,7 @@
         dark:bg-gray-800
       "
       :title="t('video.video-list.advanced-search.name')"
-      @click="t('video.video-list.advanced-search.name')"
+      @click="progressing(t('video.video-list.advanced-search.name'))"
     >
       <icon-uil-file-search-alt class="text-2xl" />
     </div>
