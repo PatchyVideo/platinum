@@ -70,18 +70,18 @@ playlist:
       video-count: '{count}个视频'
   playlist-list:
     advanced-search:
-      name: ''
+      name: 高级搜索
     main-body:
       failed:
-        load-failed: ''
-        load-failed-reason: ''
+        load-failed: 加载失败了QAQ
+        load-failed-reason: 错误嘅原因：
       loading:
-        searching: ''
+        searching: 少女祈祷中......
       successful:
-        load-result-count: ''
+        load-result-count: 一共有{count}个播放列表
     playlist:
-      playlist-count: ''
-    title: ''
+      playlist-count: 一共{count}个视频
+    title: 播放列表
 search:
   search-result:
     title: '揾到嘅结果 - '
@@ -98,27 +98,27 @@ search:
           search-result-count: 一共揾到咗{count}个视频
       video:
         source-site: 源网站：
-      tab: ''
+      tab: 视频
       visible-sites:
-        abroad: ''
-        all: ''
-        home: ''
+        abroad: 国外嘅网站
+        all: 全部
+        home: 国内嘅网站
     order:
-      last-modified: ''
-      video-oldest: ''
+      last-modified: 最新嘅修改
+      video-oldest: 时间倒序
     playlist:
       main-body:
         failed:
-          search-failed: ''
-          search-failed-reason: ''
+          search-failed: 加载失败了QAQ
+          search-failed-reason: 错误嘅原因：
         loading:
-          searching: ''
+          searching: 少女祈祷中......
         successful:
-          search-no-result: ''
-          search-result-count: ''
+          search-no-result: 冇揾到播放列表QAQ
+          search-result-count: 揾到{count}个播放列表
       playlist:
-        playlist-count: ''
-      tab: ''
+        playlist-count: 一共{count}个视频
+      tab: 播放列表
   search-page:
     title: 搜索
     search: 搜索
@@ -235,35 +235,35 @@ user:
     jump: 冇反应？点我手动跳转
   user-page:
     avatar:
-      choose-image: ''
-      current: ''
-      requirement: ''
-      upload: ''
+      choose-image: 选择图片
+      current: 当前嘅图片
+      requirement: 选择一张图片上传：大小系256 * 256像素
+      upload: 上传
     description:
-      placeholder: ''
-      save: ''
+      placeholder: 更改个人描述
+      save: 保存
     email:
-      bind: ''
-      boundEmail: ''
-      none: ''
-      placeholder: ''
-      title: ''
-    not-logged-in: ''
+      bind: 绑定
+      boundEmail: 已经绑定咗嘅邮箱
+      none: 暂时冇有
+      placeholder: 请输入邮箱
+      title: 绑定邮箱
+    not-logged-in: 你净未登陆，点我登陆
     password:
-      commit: ''
-      confirmNew: ''
-      confirmNewPlaceholder: ''
-      new: ''
-      newPlaceholder: ''
-      old: ''
-      oldPlaceholder: ''
-      reset: ''
-      title: ''
-    title: ''
+      commit: 提交
+      confirmNew: 确认密码
+      confirmNewPlaceholder: 请重新输入新密码
+      new: 新密码
+      newPlaceholder: 请输入新密码
+      old: 旧密码
+      oldPlaceholder: 请输入旧密码
+      reset: 重置
+      title: 更改密码
+    title: 个人中心
     username:
-      cancel: ''
-      modify: ''
-      placeholder: ''
+      cancel: 取消
+      modify: 更改
+      placeholder: 更改用户名
 video:
   video:
     uploader: 上传者
@@ -278,7 +278,7 @@ video:
       quality:
         name: 清晰度
         items:
-          current-codec: ''
+          current-codec: 当前格式：{container} ({codec})
     enable-iframe: 切换视频播放至内嵌嘅播放器
     play-stream:
       source:
@@ -308,19 +308,19 @@ video:
         unknown-source: 未知嘅视频源：{source}
   video-list:
     advanced-search:
-      name: ''
+      name: 高级搜索
     main-body:
       failed:
-        search-failed: ''
-        search-failed-reason: ''
+        search-failed: 加载失败咗QAQ
+        search-failed-reason: 错误嘅原因：
       loading:
-        searching: ''
+        searching: 少女祈祷中......
       successful:
-        search-no-result: ''
-        search-result-count: ''
-    title: ''
+        search-no-result: 冇揾到视频QAQ
+        search-result-count: 一共{count}个视频
+    title: 视频嘅列表
     video:
-      source-site: ''
+      source-site: 源网站：
 others:
-  WIP1: ''
-  WIP2: ''
+  WIP1: 呢个
+  WIP2: '{WIP1}功能净睇度完善紧，敬请期待！'
