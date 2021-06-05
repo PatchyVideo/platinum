@@ -24,48 +24,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'UserInput',
-  components: {},
-  props: {
-    value: {
-      type: String,
-      default: '',
-    },
-    type: {
-      type: String,
-      default: 'singleLine', //singleLine, richText, password, email
-    },
-    placeholder: {
-      type: String,
-      default: '请输入内容',
-    },
+<script lang="ts" setup>
+import { computed, defineEmit, defineProps } from 'vue'
+import type { PropType } from 'vue'
+
+const props = defineProps({
+  value: {
+    type: String,
+    required: true,
   },
-  emits: ['update:value'],
-  data() {
-    return {}
+  type: {
+    type: String as PropType<'singleLine' | 'richText' | 'password' | 'email'>,
+    default: 'singleLine',
   },
-  computed: {
-    localValue: {
-      // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-      get() {
-        return this.value
-      },
-      // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-      set(v) {
-        this.$emit('update:value', v)
-      },
-    },
+  placeholder: {
+    type: String,
+    default: '请输入内容',
   },
-  watch: {},
-  methods: {},
-}
+})
+
+const emit = defineEmit(['update:value'])
+
+const localValue = computed({
+  get: () => props.value,
+  set: (v) => void emit('update:value', v),
+})
 </script>
 
 <style lang="postcss" scoped>
 .input {
-  @apply border-gray-300 text-gray-500 dark:text-gray-200 border-1 border-solid focus:outline-none bg-white dark:bg-opacity-5 rounded hover:border-gray-400 transition duration-300 focus:border-blue-300 placeholder-gray-300::placeholder;
+  @apply border-gray-300 text-gray-500 dark:text-gray-200 border-1 border-solid focus:outline-none bg-white dark:bg-opacity-5 rounded hover:border-gray-400 transition duration-300 focus:border-blue-300 placeholder-gray-300;
 }
 .input-single {
   @apply h-10 pl-7 pr-3 py-2;

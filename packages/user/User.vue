@@ -33,7 +33,7 @@
           <div v-if="isEditingUsername" class="flex flex-col justify-between items-start lg:flex-row">
             <UserInput
               :value="username"
-              :type="'singleLine'"
+              type="singleLine"
               :placeholder="t('user.user-page.username.placeholder')"
               class="w-full lg:w-6/10"
               @update:value="tempUsername = $event"
@@ -67,7 +67,7 @@
         <div class="w-full lg:w-4/5 mt-4">
           <UserInput
             v-model:value="description"
-            :type="'richText'"
+            type="richText"
             :placeholder="t('user.user-page.description.placeholder')"
           />
           <button class="btn btn-default w-1/2 sm:w-1/4 mt-4" @click="onSaveDescription">
@@ -82,7 +82,7 @@
               <p class="password-row-label">{{ t('user.user-page.password.old') }}</p>
               <UserInput
                 v-model:value="oldPassword"
-                :type="'password'"
+                type="password"
                 :placeholder="t('user.user-page.password.oldPlaceholder')"
                 class="password-row-input"
               />
@@ -91,7 +91,7 @@
               <p class="password-row-label">{{ t('user.user-page.password.new') }}</p>
               <UserInput
                 v-model:value="newPassword"
-                :type="'password'"
+                type="password"
                 :placeholder="t('user.user-page.password.newPlaceholder')"
                 class="password-row-input"
               />
@@ -100,7 +100,7 @@
               <p class="password-row-label">{{ t('user.user-page.password.confirmNew') }}</p>
               <UserInput
                 v-model:value="newConfirmedPassword"
-                :type="'password'"
+                type="password"
                 :placeholder="t('user.user-page.password.confirmNewPlaceholder')"
                 class="password-row-input"
               />
@@ -126,7 +126,7 @@
           <UserInput
             v-model:value="newEmail"
             class="w-full mt-4"
-            :type="'email'"
+            type="email"
             :placeholder="t('user.user-page.email.placeholder')"
           />
           <button class="mt-4 w-1/2 sm:w-1/4 btn btn-default" @click="onBindEmail">
@@ -148,26 +148,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, watch, ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { schema, useQuery, gql } from '@/graphql'
-
-import { isLogin, IsLogin, user } from '@/user/index'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { User } from '@/graphql/__generated__/graphql'
-
-import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
+import { computed, defineComponent, reactive, watch, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useQuery, gql } from '@/graphql'
+import { isLogin, IsLogin, user } from '@/user/index'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { templateRef } from '@vueuse/core'
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
 }
 
 export default defineComponent({
-  components: { UserInput, UserAvatar, NavTop, AutoComplete, Footer },
+  components: { UserInput, UserAvatar, NavTop, Footer },
   props: {},
   setup() {
     const { t } = useI18n()
@@ -175,14 +172,14 @@ export default defineComponent({
     const isLoginStateYes = computed(() => isLogin.value == IsLogin.yes)
     let isEditingUsername = ref(false)
     let avatar = ref('')
-    const chooseAvatarInput = ref<HTMLInputElement>(document.createElement('input'))
+    const chooseAvatarInput = templateRef<HTMLInputElement | null>('chooseAvatarInput')
     let username = ref('')
     let tempUsername = ref('')
     let oldPassword = ref('')
     let newPassword = ref('')
     let newConfirmedPassword = ref('')
-    let email = ref<User['email']>('')
-    let newEmail = ref<User['email']>('')
+    let email = ref('')
+    let newEmail = ref('')
     let description = ref('')
     watch(
       isLoginStateYes,
@@ -208,7 +205,7 @@ export default defineComponent({
         const userInfo = reactive(res.data.getUser)
         avatar.value = userInfo.image
         username.value = userInfo.username
-        email.value = userInfo.email
+        email.value = userInfo.email || ''
         description.value = userInfo.desc
       },
       { immediate: true }
@@ -227,7 +224,7 @@ export default defineComponent({
       //fr.onloadend = () => {}
     }
     const onChooseAvatar = () => {
-      chooseAvatarInput.value.click()
+      chooseAvatarInput.value?.click()
     }
     const onUploadAvatar = () => {
       alert('功能开发中，敬请期待！')
@@ -255,7 +252,6 @@ export default defineComponent({
       t,
       isLoginStateYes,
       isEditingUsername,
-      chooseAvatarInput,
       avatar,
       username,
       tempUsername,
