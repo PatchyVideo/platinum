@@ -34,9 +34,8 @@
           w-20
         "
         @click="completeKeywordOrSearch(true)"
-      >
-        {{ t('search.auto-complete.search') }}
-      </button>
+        v-text="t('search.auto-complete.search')"
+      ></button>
     </div>
     <div
       role="listbox"
