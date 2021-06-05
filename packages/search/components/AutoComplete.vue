@@ -18,6 +18,7 @@
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
+        @click="onSearchContentChange()"
       />
       <button
         v-if="size === 'deskTop' || size === 'lg'"
@@ -43,13 +44,13 @@
       class="shadow rounded bg-white w-full absolute top-14/12 left-0 z-11 space-y-2 dark:bg-gray-800"
     >
       <div
-        v-for="item in searchResult"
+        v-for="(item, index) in searchResult.map(lang2tag)"
         :key="item.tag"
-        class="p-3 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
-        :class="{ 'bg-gray-100 dark:bg-gray-900': item.active }"
-        @click="clickAutocompleteKeyword(item.tag || ConvertLangRes(item.langs || [], item.keyword, false) || '')"
+        class="px-3 py-1 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between hover:dark:bg-gray-900"
+        :class="{ 'bg-gray-100 dark:bg-gray-900': index === activeSearchResult }"
+        @click="clickAutocompleteKeyword(item.tag)"
       >
-        <div>
+        <div class="text-left">
           <div
             :class="{
               'text-copyright': item.cat === 2,
@@ -60,8 +61,9 @@
               'text-meta': item.cat === 4,
               'text-soundtrack': item.cat === 6,
             }"
-            v-html="item.tag || ConvertLangRes(item.langs || [], item.keyword)"
+            v-text="item.tag"
           ></div>
+          <template v-if="item.sub"><div class="text-xs text-gray-600" v-text="item.sub"></div></template>
         </div>
         <div class="text-gray-400">{{ item.cnt || '' }}</div>
       </div>
@@ -75,10 +77,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, onMounted, onUnmounted, watch } from 'vue'
+import { defineComponent, ref, reactive, nextTick } from 'vue'
 import { isDark } from '@/darkmode'
 import { useI18n } from 'vue-i18n'
-import { locale } from '@/locales'
+import { templateRef, throttledWatch, useEventListener } from '@vueuse/core'
 
 export default defineComponent({
   props: {
@@ -99,9 +101,9 @@ export default defineComponent({
     const { t } = useI18n()
     interface resultType {
       tag?: string
+      sub?: string
       cat: number
       cnt: null | string
-      active?: boolean
       langs?: langs[]
       keyword?: string
     }
@@ -117,6 +119,7 @@ export default defineComponent({
     let cutHeadSearchContent: string
     let cutTailSearchContent: string
     const searchResult = ref<resultType[]>([])
+    const activeSearchResult = ref(-1)
     let sitesAndKeywords: resultType[] = reactive([
       { tag: 'site:acfun', cat: 6, cnt: null, active: false },
       { tag: 'site:bilibili', cat: 6, cnt: null, active: false },
@@ -133,199 +136,131 @@ export default defineComponent({
     ])
 
     // Send query and show the list
-    let timer: ReturnType<typeof setTimeout> | null = null
-    watch(searchContent, () => {
-      const searchDelay = 500
-      const searchKeyword: string = getSearchKeyword() || ''
-      if (!searchContent.value || !searchKeyword) {
-        timer && clearTimeout(timer)
+    const onSearchContentChange = () => {
+      if (!searchContent.value || !getSearchKeyword()) {
+        activeSearchResult.value = -1
         listHidden.value = true
         return
       }
-      timer && clearTimeout(timer)
-      timer = setTimeout(() => {
-        //  New search keyword should be calculated
-        const newSearchKeyword = getSearchKeyword() || ''
-        newSearchKeyword && getSearchList(newSearchKeyword)
-      }, searchDelay)
-    })
+      const searchKeyword = getSearchKeyword() || ''
+      if (searchKeyword) getSearchList(searchKeyword)
+    }
+    throttledWatch(searchContent, () => nextTick(onSearchContentChange), { throttle: 500 })
 
     // Slice the search key word
-    const autoComplete = ref<HTMLInputElement | null>(null)
+    const autoComplete = templateRef<HTMLInputElement | null>('autoComplete')
     function getSearchKeyword(): string | null {
-      let endlocation: number = autoComplete.value?.selectionStart || 0
-      let query: string = searchContent.value?.slice(0, endlocation) || ''
-      let startlocation: number = match(query)
+      let endlocation = autoComplete.value?.selectionStart || 0
+      let query = searchContent.value?.slice(0, endlocation) || ''
+      let startlocation = matchSearchKeywordStart(query)
       cutHeadSearchContent = searchContent.value?.slice(0, startlocation) || ''
       cutTailSearchContent = searchContent.value?.slice(endlocation, searchContent.value.length) || ''
       query = query.slice(startlocation, endlocation)
-      if (isNull(query)) {
-        return null
-      }
+      if (isEmptyString(query)) return null
       return query
     }
-    function match(text: string): number {
+    function matchSearchKeywordStart(text: string): number {
       let i: number = text.length
       while (i--) {
-        if (
-          text.charAt(i) == ' ' ||
-          text.charAt(i) == '\t' ||
-          text.charAt(i) == '\n' ||
-          text.charAt(i) == '\v' ||
-          text.charAt(i) == '\f' ||
-          text.charAt(i) == '\r' ||
-          text.charAt(i).charCodeAt(0) == 41 // 41 is the ascII code of  ')'
-        ) {
-          return i + 1
-        } else if (text.charAt(i).charCodeAt(0) == 40) {
-          // 40 is the ascII code of  ')'
-          if (i > 0 && text.charAt(i - 1) == '_') {
-            continue
-          } else {
+        switch (text.charAt(i)) {
+          case ' ':
+          case '\t':
+          case '\n':
+          case '\v':
+          case '\f':
+          case '\r':
+          case ')':
             return i + 1
+          case '(': {
+            if (i > 0 && text.charAt(i - 1) === '_') {
+              continue
+            } else {
+              return i + 1
+            }
           }
         }
       }
       return 0
     }
-    function isNull(str: string): boolean {
-      if (str == '') return true
-      let regu = '^[ ]+$'
-      let re = new RegExp(regu)
-      return re.test(str)
-    }
+    const isEmptyString = (str: string): boolean => !str.trim()
 
     // Search for Search list
     async function getSearchList(searchKeyword: string): Promise<void> {
+      activeSearchResult.value = -1
       listHidden.value = true
       loading.value = true
       let listData: resultType[] = sitesAndKeywords.filter(siteOrKeywordFilter(searchKeyword))
       await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
         .then((data) => data.json())
         .then((res) => {
-          // console.log(res)
           listData = listData.concat(res)
           loading.value = false
-          for (let i = 0; i < listData.length; i++) {
-            listData[i].active = false
-          }
+          activeSearchResult.value = -1
           searchResult.value = listData
           !searchIsComplete.value && (listHidden.value = false)
         })
-        .catch((err) => {
-          // console.log(err)
+        .catch(() => {
           searchSuccess.value = false
         })
     }
     function siteOrKeywordFilter(query: string) {
-      return (siteOrKeyword: resultType): boolean => {
-        return siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
-      }
+      return (siteOrKeyword: resultType): boolean => siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
     }
-    function ConvertLangRes(langs: langs[], keyword = '', hastran = true): string | void {
-      if (!langs) return
-      const LangList = [
-        { id: 1, lang: 'zh-CH' },
-        { id: 2, lang: 'zh-CHT' },
-        { id: 5, lang: 'en-US' },
-        { id: 10, lang: 'ja-JP' },
-      ]
+    function ConvertLangRes(langs: langs[], keyword = ''): { main: string; sub?: string } {
       const level = [10, 5, 1, 2]
-      let Lang = ''
-      let mainLang = ''
-      let subLang = ''
-      // Calculate the main language and the sub language
 
-      // Fetch current language's ID
-      let CurrLangIDObject = LangList.find((x) => {
-        return x.lang === locale.value
-      })
-      let CurrLangID: number = CurrLangIDObject ? CurrLangIDObject.id : 1
-
-      // Fetch content with ID
-      let CurrLangWord = langs.find((x) => {
-        return x.l == CurrLangID
-      })
-      if (!CurrLangWord) {
-        for (let i = 0; i < level.length; i++) {
-          CurrLangWord = langs.find((x) => {
-            return x.l == level[i]
-          })
-          if (CurrLangWord) break
-        }
+      // Fetch the sub language
+      // Level: Japanese, English, Simplified Chinese, Traditional Chinese
+      // 优先级：日本語，English，简体中文，繁體中文
+      let SubLangWord = null
+      for (let i = 0; i < level.length; i++) {
+        SubLangWord = langs.find((x) => {
+          return x.l == level[i]
+        })
+        if (SubLangWord) break
       }
-      mainLang = CurrLangWord?.w || keyword
+      const subLang = SubLangWord ? SubLangWord.w : keyword
 
-      if (hastran) {
-        // Fetch the sub language
-        // Level: Japanese, English, Simplified Chinese, Traditional Chinese
-        // 优先级：日本語，English，简体中文，繁體中文
-        let SubLangWord = null
-        for (let i = 0; i < level.length; i++) {
-          if (level[i] == CurrLangWord?.l) continue
-          SubLangWord = langs.find((x) => {
-            return x.l == level[i]
-          })
-          if (SubLangWord) break
-        }
-        subLang = SubLangWord ? SubLangWord.w : mainLang
-
-        // Composite
-        Lang = `${mainLang.replace(/_/g, ' ')}`
-        Lang += `<span style='font-size:8px;color: gray;display: block;'>${subLang.replace(/_/g, ' ')}</span>`
-      } else {
-        Lang = mainLang
+      // Composite
+      return {
+        main: keyword.replace(/_/g, ' '),
+        sub: subLang.replace(/_/g, ' '),
       }
-      return Lang
     }
 
     // Click to hide the list
-    const autoCompleteRoot = ref<HTMLDivElement | null>(null)
-    const autoCompleteListener = (e: MouseEvent): void => {
-      for (let j = 0; j < searchResult.value.length; j++) {
-        searchResult.value[j].active = false
-      }
+    const autoCompleteRoot = templateRef<HTMLDivElement | null>('autoCompleteRoot')
+    useEventListener(document, 'click', (e: MouseEvent): void => {
+      activeSearchResult.value = -1
       if (!autoCompleteRoot.value?.contains(e.target as HTMLElement)) {
         listHidden.value = true
         loading.value = false
       }
-    }
-    onMounted((): void => {
-      document.addEventListener('click', autoCompleteListener)
-    })
-    onUnmounted((): void => {
-      document.removeEventListener('click', autoCompleteListener)
     })
 
     // Select the keyword from the search list with keyboard
     function selectAutocompleteKeyword(up: boolean): void {
       if (!searchResult.value.length) return
-      let i = 0
-      for (i; i < searchResult.value.length; i++) {
-        if (searchResult.value[i].active === true) {
-          break
-        }
-      }
-      for (let j = 0; j < searchResult.value.length; j++) {
-        searchResult.value[j].active = false
-      }
       if (up) {
-        if (i === searchResult.value.length || i === 0) {
-          searchResult.value[searchResult.value.length - 1].active = true
+        if (activeSearchResult.value === 0) {
+          activeSearchResult.value = searchResult.value.length - 1
         } else {
-          searchResult.value[i - 1].active = true
+          activeSearchResult.value--
         }
       } else {
-        if (i === searchResult.value.length || i === searchResult.value.length - 1) {
-          searchResult.value[0].active = true
+        if (activeSearchResult.value === searchResult.value.length - 1) {
+          activeSearchResult.value = 0
         } else {
-          searchResult.value[i + 1].active = true
+          activeSearchResult.value++
         }
       }
     }
     // Select the keyword from the search list with mouse
     function clickAutocompleteKeyword(tag: string): void {
-      searchContent.value = formatSearchContent(cutHeadSearchContent + tag + ' ' + cutTailSearchContent)
+      searchContent.value = formatSearchContent(
+        cutHeadSearchContent + tag.replace(/ /g, '_') + ' ' + cutTailSearchContent
+      )
+      activeSearchResult.value = -1
       listHidden.value = true
       autoComplete.value?.focus()
     }
@@ -334,22 +269,13 @@ export default defineComponent({
     function completeKeywordOrSearch(usingSearchButton = false): void {
       searchIsComplete.value = true
       loading.value = false
-      let i = 0
-      for (i; i < searchResult.value.length; i++) {
-        if (searchResult.value[i].active === true) {
-          break
-        }
-      }
-      if (usingSearchButton || i == searchResult.value.length) {
-        searchContent.value && emit('search', searchContent.value)
+      if (usingSearchButton || activeSearchResult.value === -1) {
+        if (searchContent.value) emit('search', searchContent.value)
         return
       } else {
+        const item = searchResult.value[activeSearchResult.value]
         searchContent.value = formatSearchContent(
-          cutHeadSearchContent +
-            (searchResult.value[i].tag ||
-              ConvertLangRes(searchResult.value[i].langs || [], searchResult.value[i].keyword, false)) +
-            ' ' +
-            cutTailSearchContent
+          cutHeadSearchContent + lang2tag(item).tag.replace(/ /g, '_') + ' ' + cutTailSearchContent
         )
         searchResult.value = []
       }
@@ -357,9 +283,13 @@ export default defineComponent({
 
     // Delete extra spaces
     function formatSearchContent(content: string): string {
-      const formater = new RegExp('\\s\\s+', 'g')
-      content = content.replace(formater, ' ')
+      content = content.replace(/\s+/g, ' ')
       return content
+    }
+
+    const lang2tag = (item: resultType) => {
+      const l = ConvertLangRes(item.langs || [], item.keyword)
+      return { ...item, tag: item.tag || l.main, sub: l.sub }
     }
 
     return {
@@ -369,13 +299,14 @@ export default defineComponent({
       loading,
       searchSuccess,
       searchResult,
-      autoCompleteRoot,
+      activeSearchResult,
       searchContent,
-      autoComplete,
+      lang2tag,
       ConvertLangRes,
       selectAutocompleteKeyword,
       clickAutocompleteKeyword,
       completeKeywordOrSearch,
+      onSearchContentChange,
     }
   },
 })
