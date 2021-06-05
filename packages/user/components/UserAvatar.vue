@@ -1,28 +1,29 @@
 <template>
-  <img :alt="alt + '\'s avatar'" :src="img" @error="onError" />
+  <img :alt="alt + '\'s avatar'" :src="imgs[currImg]" @error="onError" />
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed, defineProps, ref } from 'vue'
 import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
 
 const props = defineProps<{
+  current?: string
   image?: string | null
   gravatar?: string | null
   alt?: string
 }>()
 
-const img = computed(() => {
-  if (props.image && props.image !== 'default') return `https://patchyvideo.com/be/images/userphotos/${props.image}`
+const imgs = computed(() => {
+  const imgs: string[] = []
+  if (props.current) imgs.push(props.current)
+  if (props.image && props.image !== 'default') imgs.push(`https://patchyvideo.com/be/images/userphotos/${props.image}`)
   if (props.gravatar && props.gravatar.length === 32)
-    return `https://www.gravatar.com/avatar/${props.gravatar}?d=https%3A%2F%2Fpatchyvideo.com%2Fbe%2Fimages%2Fuserphotos%2Fdefault`
-  return defaultAvatar
+    imgs.push(`https://secure.gravatar.com/avatar/${props.gravatar}?d=404`)
+  imgs.push(defaultAvatar)
+  return imgs
 })
-const fallbackImg = computed(() => {
-  if (props.image && props.image !== 'default') return `https://patchyvideo.com/be/images/userphotos/${props.image}`
-  return defaultAvatar
-})
+const currImg = ref(0)
 const onError = (e: Event) => {
-  if ((e.target as HTMLImageElement).src !== fallbackImg.value) (e.target as HTMLImageElement).src = fallbackImg.value
+  if (imgs.value.length >= currImg.value) currImg.value++
 }
 </script>
