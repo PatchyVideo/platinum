@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <!--
-  PatchyVideo/Platinum V%version%
+  PatchyVideo/Platinum V<%= version %>(<%= gitLatest.hash.slice(0, 7) %>)
   MIT License, Copyright (c) 2020-2021 PatchyVideo
-  Generated: %date%
+  Generated: <%= date.toISOString() %>
 -->
 <html lang="en">
   <head>
@@ -20,7 +20,9 @@
   </head>
   <body>
     <div id="app"></div>
+    <% if (isProd) { %>
     <script src="/api/polyfill.js"></script>
+    <% } %>
     <script type="module" src="/packages/main/preflight.ts"></script>
     <script type="module" src="/packages/main/main.ts"></script>
   </body>

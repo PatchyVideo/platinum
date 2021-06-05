@@ -1663,6 +1663,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash.template@npm:^4":
+  version: 4.5.0
+  resolution: "@types/lodash.template@npm:4.5.0"
+  dependencies:
+    "@types/lodash": "*"
+  checksum: 6be922ed3dd3d430e6cf014eec4702381aa66fa54503246628b084eb1c3195dc8f5831ecefa2a76de0edee109b1987a5119845e36a9465f2d7c853689d7c943d
+  languageName: node
+  linkType: hard
+
+"@types/lodash@npm:*":
+  version: 4.14.170
+  resolution: "@types/lodash@npm:4.14.170"
+  checksum: 5ecc968649e764e3204435ba5125a3645e5e83963069a26b9307791698bf47ed9c2bd0f97488d9537eb4753d4bae596e5fa6187437a5b04bf47aba78fa553d50
+  languageName: node
+  linkType: hard
+
 "@types/markdown-it@npm:^12.0.1":
   version: 12.0.1
   resolution: "@types/markdown-it@npm:12.0.1"
@@ -5788,6 +5804,13 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
+"lodash._reinterpolate@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "lodash._reinterpolate@npm:3.0.0"
+  checksum: 27513557d6fe526296324f1de9e1b8e8ac88ef2a2544a655e825f3ab0f52c5a675f1a73a0c9ff3c64fda031c56dfb4deb9dac7c7d21f9a04bc63dd7db5a5a73d
+  languageName: node
+  linkType: hard
+
 "lodash.camelcase@npm:^4.3.0":
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
@@ -5939,6 +5962,25 @@ fsevents@~2.3.1:
   version: 4.6.0
   resolution: "lodash.reduce@npm:4.6.0"
   checksum: 1f8eb29e6f14ceb7abae77c1815eaeca329a8fe419b02236f60ab19dfc88c8475e959990afe93118534c4d7c9d17fed1f1876a36dda16cb70e27eb779fecf15a
+  languageName: node
+  linkType: hard
+
+"lodash.template@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.template@npm:4.5.0"
+  dependencies:
+    lodash._reinterpolate: ^3.0.0
+    lodash.templatesettings: ^4.0.0
+  checksum: e27068e20b7a374938c20ab76a093dd49e9626bfbe1882d9d05d81efefe3210cfcd6ad24f1cb0d956ce57d75855fec17bd386a4aa54762a144bd7c0891ee7ee1
+  languageName: node
+  linkType: hard
+
+"lodash.templatesettings@npm:^4.0.0":
+  version: 4.2.0
+  resolution: "lodash.templatesettings@npm:4.2.0"
+  dependencies:
+    lodash._reinterpolate: ^3.0.0
+  checksum: 45546a5b76376b138ef4f01aa2722813127c639428eb9baef3fbac176b509ee2dab5cb9d1ee8267dbeeef8d49371f9a748af3df83649bf8b75fa54993f65b7aa
   languageName: node
   linkType: hard
 
@@ -7053,6 +7095,7 @@ fsevents@~2.3.1:
     "@rollup/plugin-yaml": ^3.0.0
     "@types/dompurify": ^2.2.2
     "@types/events": ^3
+    "@types/lodash.template": ^4
     "@types/markdown-it": ^12.0.1
     "@types/nprogress": ^0.2.0
     "@types/tlds": ^1.207.0
@@ -7079,6 +7122,7 @@ fsevents@~2.3.1:
     graphql-compose: ^8.1.0
     highlight.js: ^11.0.0-beta1
     lodash.merge: ^4.6.2
+    lodash.template: ^4.5.0
     markdown-it: ^12.0.6
     nprogress: 1.0.0-1
     postcss: ^8.3.0

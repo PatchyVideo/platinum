@@ -1,6 +1,5 @@
 // @ts-check
 import path from 'path'
-import fs from 'fs'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
 import components from 'vite-plugin-components'
@@ -9,28 +8,34 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
+import template from 'lodash.template'
+import simpleGit from 'simple-git'
 
 /**
  * Vite Configuration File
- * @type {import('vite').UserConfig}
  */
-export default async ({ command, mode }) => {
+export default defineConfig(async ({ command, mode }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const data = fs.existsSync('./.cache/buildData.json')
-    ? JSON.parse(fs.readFileSync('./.cache/buildData.json').toString())
-    : await require('./scripts/usedata')()
+  const data = {
+    mode,
+    isDev: mode !== 'production',
+    isProd: mode === 'production',
+    version,
+    gitLatest: (await simpleGit().log({ maxCount: 1 })).latest,
+    date: new Date(),
+  }
 
   // @type string
   const banner = [
     '/*!',
     ` * PatchyVideo/Platinum V${version}(${data.gitLatest.hash.slice(0, 7)})`,
     ' * MIT License, Copyright (c) 2020-2021 PatchyVideo',
-    ` * Generated: ${data.date}`,
+    ` * Generated: ${data.date.toISOString()}`,
     ' */',
   ].join()
 
-  return defineConfig({
+  return {
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(__dirname, './packages/') },
@@ -40,7 +45,7 @@ export default async ({ command, mode }) => {
     define: {
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(version),
       'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
-      'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date),
+      'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
     },
     optimizeDeps: {
       include: ['@apollo/client/core'],
@@ -84,6 +89,15 @@ export default async ({ command, mode }) => {
         }),
         apply: 'build',
       },
+      {
+        name: 'html-template',
+        transformIndexHtml: {
+          enforce: 'pre',
+          transform(html) {
+            return template(html)(data)
+          },
+        },
+      },
     ],
     build: {
       sourcemap: true,
@@ -93,5 +107,5 @@ export default async ({ command, mode }) => {
         },
       },
     },
-  })
-}
+  }
+})
