@@ -164,7 +164,7 @@
                     class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
                     :title="video.item.partName"
                   >
-                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
+                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ': ' }}</label
                     >{{ video.item.partName }}
                   </div>
                 </div>

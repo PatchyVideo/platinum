@@ -8,13 +8,10 @@
         <div>{{ t('video.video-list.main-body.failed.search-failed-reason') + errMsg }}</div>
       </div>
       <div v-else-if="status === Status.result">
-        <div class="border-b-1 pb-1">
-          {{
-            t('video.video-list.main-body.successful.search-result-count1') +
-            count +
-            t('video.video-list.main-body.successful.search-result-count2')
-          }}
-        </div>
+        <div
+          class="border-b-1 pb-1"
+          v-text="t('video.video-list.main-body.successful.search-result-count', { count })"
+        ></div>
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
