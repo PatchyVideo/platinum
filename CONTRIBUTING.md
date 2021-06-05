@@ -22,7 +22,7 @@ $ yarn
 $ yarn codegen
 
 # lint & format
-$ yarn eslint
+$ yarn lint
 
 # launch vite dev server
 $ yarn dev

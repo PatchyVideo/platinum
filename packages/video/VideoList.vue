@@ -57,8 +57,7 @@
               shadow-sm
               rounded-lg
               bg-white bg-opacity-50
-              dark:border-gray-500
-              dark:bg-gray-700
+              dark:border-gray-500 dark:bg-gray-700
             "
             @click="jumpToVideoResult(video.id.toHexString())"
           >

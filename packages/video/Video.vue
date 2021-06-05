@@ -93,8 +93,7 @@
                     -right-1.5
                     top-0
                     rounded
-                    lg:transform-gpu
-                    lg:rotate-24
+                    lg:transform-gpu lg:rotate-24
                     bg-fuchsia-600
                     text-xs
                     lg:text-sm

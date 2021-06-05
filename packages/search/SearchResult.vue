@@ -35,10 +35,7 @@
               text-gray-400 text-sm
               font-semibold
               border-t-4 border-transparent
-              md:text-base
-              md:font-bold
-              md:p-5
-              md:pt-3
+              md:text-base md:font-bold md:p-5 md:pt-3
             "
             :class="{ 'active-tab': tabs.value === tab }"
             @click="changeTab(tabs.value)"
@@ -56,10 +53,7 @@
               cursor-pointer
               text-gray-400 text-sm
               font-semibold
-              md:text-base
-              md:font-bold
-              md:px-5
-              md:py-2
+              md:text-base md:font-bold md:px-5 md:py-2
             "
             :class="{ 'active-opt': orders.value === order }"
             @click="changeOrder(orders.value)"
@@ -91,10 +85,7 @@
                   cursor-pointer
                   text-gray-400 text-sm
                   font-semibold
-                  md:text-base
-                  md:font-bold
-                  md:px-3
-                  md:py-1
+                  md:text-base md:font-bold md:px-3 md:py-1
                 "
                 :class="{ 'active-opt': sites.value === visibleSite }"
                 @click="changeVisibleSites(sites.value)"
@@ -146,8 +137,7 @@
                 shadow-sm
                 rounded-lg
                 bg-white bg-opacity-50
-                dark:border-gray-500
-                dark:bg-gray-700
+                dark:border-gray-500 dark:bg-gray-700
               "
               @click="jumpToVideoResult(video.id.toHexString())"
             >
@@ -240,8 +230,7 @@
                 shadow-md
                 rounded-lg
                 bg-white bg-opacity-50
-                dark:border-gray-500
-                dark:bg-gray-700
+                dark:border-gray-500 dark:bg-gray-700
               "
             >
               <router-link

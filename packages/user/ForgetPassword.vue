@@ -56,11 +56,8 @@
               rounded-md
               text-white
               bg-blue-600
-              focus:outline-none
-              focus:ring-2
-              focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
+              focus:outline-none focus:ring-2 focus:bg-blue-700
+              disabled:bg-blue-300 disabled:focus:bg-blue-300
             "
             @click="sendEmail"
           >
@@ -125,9 +122,7 @@
               rounded-md
               text-white
               bg-blue-600
-              focus:outline-none
-              focus:ring-2
-              focus:bg-blue-700
+              focus:outline-none focus:ring-2 focus:bg-blue-700
               disabled:bg-blue-300
               disabled:focus:bg-blue-300
               disabled:hover:bg-blue-300

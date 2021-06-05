@@ -33,8 +33,7 @@
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white
-                dark:text-white
+                dark:placeholder-white dark:text-white
               "
               :placeholder="t('user.reset-password.password.placeholder')"
             />
@@ -53,8 +52,7 @@
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white
-                dark:text-white
+                dark:placeholder-white dark:text-white
               "
               :placeholder="t('user.reset-password.password2.placeholder')"
               @keydown.enter="reset"
@@ -72,11 +70,8 @@
               rounded-md
               text-white
               bg-blue-600
-              focus:outline-none
-              focus:ring-2
-              focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
+              focus:outline-none focus:ring-2 focus:bg-blue-700
+              disabled:bg-blue-300 disabled:focus:bg-blue-300
             "
             @click="reset"
           >
@@ -152,9 +147,7 @@
               text-white
               bg-blue-600
               hover:bg-blue-700
-              focus:outline-none
-              focus:ring-2
-              focus:bg-blue-700
+              focus:outline-none focus:ring-2 focus:bg-blue-700
               disabled:bg-blue-300
               disabled:focus:bg-blue-300
               disabled:hover:bg-blue-300

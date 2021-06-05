@@ -11,10 +11,9 @@ import type { schema } from '@/graphql'
 import { behMostMatch } from '@/locales'
 import { computed, defineProps } from 'vue'
 
-const props =
-  defineProps<{
-    tag: schema.TagObject
-  }>()
+const props = defineProps<{
+  tag: schema.TagObject
+}>()
 
 const tag = computed(() => {
   return {

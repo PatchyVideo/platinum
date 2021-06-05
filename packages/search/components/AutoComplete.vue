@@ -28,8 +28,7 @@
           px-3
           rounded-r-xl
           transition-colors
-          focus:outline-none
-          focus:ring focus:ring-pink-300
+          focus:outline-none focus:ring focus:ring-pink-300
           hover:bg-pink-200
           w-20
         "

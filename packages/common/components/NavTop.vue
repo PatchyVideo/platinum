@@ -10,8 +10,7 @@
         justify-between
         border-b border-gray-300
         bg-gray-50
-        dark:bg-gray-700
-        dark:border-gray-800
+        dark:bg-gray-700 dark:border-gray-800
         md:p-2
       "
     >
@@ -60,8 +59,7 @@
                 border
                 shadow
                 overflow-visible
-                dark:bg-gray-700
-                dark:border-black
+                dark:bg-gray-700 dark:border-black
               "
             >
               <UserAvatar
@@ -102,8 +100,7 @@
           duration-300
           w-9/12
           dark:bg-gray-700
-          md:w-auto
-          md:p-2
+          md:w-auto md:p-2
         "
         :class="{ '-translate-x-full': !drawerOpen }"
       >
