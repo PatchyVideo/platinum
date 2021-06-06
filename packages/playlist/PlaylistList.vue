@@ -109,11 +109,11 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
 import { screenSizes } from '@/tailwindcss'
-import { useQuery, gql } from '@/graphql'
+import { useQuery, gql, useResult, Query } from '@/graphql'
 import { useRoute, useRouter } from 'vue-router'
 import { progressing } from '@/common/lib/progressing'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
@@ -136,7 +136,7 @@ export default defineComponent({
     setSiteTitle(t('playlist.playlist-list.title') + ' - PatchyVideo')
     const route = useRoute()
     const router = useRouter()
-    const limit = 40
+    const limit = ref(40)
     const order = 'last_modified'
     enum Status {
       loading = 'loading',
@@ -147,70 +147,75 @@ export default defineComponent({
     const errMsg = ref('')
     const count = ref(0)
     const pageCount = ref(0)
-    const playlists = ref<Playlist[]>()
+    const playlists = ref<Playlist[]>([])
     const offsetChangeFromOtherQuery = ref(false)
     const offset = computed(() =>
       Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
     )
     const page = computed(() => offset.value + 1)
 
-    watch(
-      offset,
-      () => {
-        if (offsetChangeFromOtherQuery.value) {
-          offsetChangeFromOtherQuery.value = false
-          return
-        }
-        queryPlaylists()
-      },
-      {
-        immediate: true,
+    watch(offset, () => {
+      if (offsetChangeFromOtherQuery.value) {
+        offsetChangeFromOtherQuery.value = false
+        return
       }
-    )
+      fetchMore({
+        variables: {
+          offset: offset.value * limit.value,
+          limit: limit.value,
+          order: order,
+        },
+      }).then((v) => {
+        result.value = v.data
+      })
+    })
 
-    async function queryPlaylists(): Promise<void> {
-      if (status.value === Status.loading) return
-      status.value = Status.loading
-      try {
-        if (!NProgress.isStarted()) NProgress.start()
-        const res = await useQuery({
-          query: gql`
-            query ($offset: Int, $limit: Int, $order: String) {
-              listPlaylist(para: { offset: $offset, limit: $limit, order: $order }) {
-                playlists {
-                  id
-                  item {
-                    cover
-                    title
-                    desc
-                    count
-                  }
-                }
+    const { result, loading, onError, fetchMore } = useQuery<Query>(
+      gql`
+        query ($offset: Int, $limit: Int, $order: String) {
+          listPlaylist(para: { offset: $offset, limit: $limit, order: $order }) {
+            playlists {
+              id
+              item {
+                cover
+                title
+                desc
                 count
-                pageCount
               }
             }
-          `,
-          variables: {
-            offset: offset.value * limit,
-            limit: limit,
-            order: order,
-          },
-        })
-        if (NProgress.isStarted()) NProgress.done()
-        // console.log(res)
-        const resultData = res.data.listPlaylist
-        count.value = resultData.count
-        pageCount.value = resultData.pageCount
-        playlists.value = resultData.playlists
-
-        status.value = Status.result
-      } catch (err) {
-        // console.log(err)
-        errMsg.value = err.message
-        status.value = Status.error
+            count
+            pageCount
+          }
+        }
+      `,
+      {
+        offset: offset.value * limit.value,
+        limit: limit.value,
+        order: order,
       }
-    }
+    )
+    const resultData = useResult(result, null, (data) => data.listPlaylist)
+    watchEffect(() => {
+      if (resultData.value) {
+        count.value = resultData.value.count
+        pageCount.value = resultData.value.pageCount
+        playlists.value = resultData.value.playlists
+      }
+    })
+    watchEffect(() => {
+      if (loading.value) {
+        status.value = Status.loading
+        if (!NProgress.isStarted()) NProgress.start()
+      } else {
+        status.value = Status.result
+        if (NProgress.isStarted()) NProgress.done()
+      }
+    })
+    onError((err) => {
+      // console.log(err)
+      errMsg.value = err.message
+      status.value = Status.error
+    })
 
     /* Change the router query to trigger the search function */
     function jumpToPreviousPage(): void {
@@ -234,6 +239,7 @@ export default defineComponent({
       t,
       screenSizes,
       offset,
+      limit,
       Status,
       status,
       errMsg,

@@ -126,11 +126,11 @@ import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
-import { useQuery, gql } from '@/graphql'
+import { useQuery, gql, useResult, Query } from '@/graphql'
 import { Video } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
@@ -172,66 +172,70 @@ export default defineComponent({
     const page = computed(() => offset.value + 1)
 
     /* Refresh query result for URL query change */
-    watch(
-      offset,
-      () => {
-        if (offsetChangeFromOtherQuery.value) {
-          offsetChangeFromOtherQuery.value = false
-          return
-        }
-        queryVideos()
-      },
-      {
-        immediate: true,
+    watch(offset, () => {
+      if (offsetChangeFromOtherQuery.value) {
+        offsetChangeFromOtherQuery.value = false
+        return
       }
-    )
+      fetchMore({
+        variables: {
+          offset: offset.value * limit,
+          limit: limit,
+          query: '',
+        },
+      }).then((v) => {
+        result.value = v.data
+      })
+    })
 
-    async function queryVideos(): Promise<void> {
-      if (status.value === Status.loading) return
-      status.value = Status.loading
-      try {
-        if (!NProgress.isStarted()) NProgress.start()
-        const res = await useQuery({
-          query: gql`
-            query ($offset: Int, $limit: Int, $query: String) {
-              listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
-                count
-                pageCount
-                videos {
-                  id
-                  item {
-                    coverImage
-                    title
-                    site
-                    cid
-                    partName
-                    url
-                  }
-                }
+    const { result, loading, onError, fetchMore } = useQuery<Query>(
+      gql`
+        query ($offset: Int, $limit: Int, $query: String) {
+          listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
+            count
+            pageCount
+            videos {
+              id
+              item {
+                coverImage
+                title
+                site
+                cid
+                partName
+                url
               }
             }
-          `,
-          variables: {
-            offset: offset.value * limit,
-            limit: limit,
-            query: '',
-          },
-        })
-        if (NProgress.isStarted()) NProgress.done()
-        // console.log(res)
-
-        const resultData = res.data.listVideo
-        count.value = resultData.count
-        pageCount.value = resultData.pageCount
-        videos.value = resultData.videos
-
-        status.value = Status.result
-      } catch (err) {
-        // console.log(err)
-        errMsg.value = err.message
-        status.value = Status.error
+          }
+        }
+      `,
+      {
+        offset: offset.value * limit,
+        limit: limit,
+        query: '',
       }
-    }
+    )
+    watchEffect(() => {
+      if (loading.value) {
+        status.value = Status.loading
+        if (!NProgress.isStarted()) NProgress.start()
+      } else {
+        status.value = Status.result
+        if (NProgress.isStarted()) NProgress.done()
+      }
+    })
+
+    const resultData = useResult(result, null, (data) => data.listVideo)
+    watchEffect(() => {
+      if (resultData.value) {
+        count.value = resultData.value.count
+        pageCount.value = resultData.value.pageCount
+        videos.value = resultData.value.videos
+      }
+    })
+    onError((err) => {
+      errMsg.value = err.message
+      status.value = Status.error
+    })
 
     /* Change the router query to trigger the search function */
     function jumpToPreviousPage(): void {

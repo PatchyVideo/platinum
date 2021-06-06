@@ -172,7 +172,7 @@ export default defineComponent({
     }
     const sendStatus = ref<SendStatus>(SendStatus.ready)
     const emailFormat =
-      /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
     const EmailStatus = {
       fine: t('user.forget-password.email.email-status.fine'),
       tip: t('user.forget-password.email.email-status.tip'),

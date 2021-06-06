@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 bottom-0 left-0 right-0">
+  <div v-if="video" class="absolute top-0 bottom-0 left-0 right-0">
     <!-- Video Player -->
     <Suspense>
       <Player :item="video.item" :full-height="true" :disable-fullscreen="true" />
@@ -9,21 +9,21 @@
 
 <script lang="ts">
 import Player from './components/Player.vue'
-import { reactive, defineComponent, computed } from 'vue'
+import { defineComponent, computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useQuery, gql } from '@/graphql'
+import { useQuery, gql, useResult, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 export default defineComponent({
   components: {
     Player,
   },
-  async setup() {
+  setup() {
     /* submit query */
     const route = useRoute()
     const vid = computed(() => <string>route.params.vid)
-    const res = await useQuery({
-      query: gql`
+    const { result } = useQuery<Query>(
+      gql`
         query ($vid: String!) {
           getVideo(para: { vid: $vid, lang: "CHS" }) {
             item {
@@ -33,15 +33,17 @@ export default defineComponent({
           }
         }
       `,
-      variables: {
+      {
         vid: vid.value,
-      },
-    })
+      }
+    )
 
     /* basic info */
-    const video = reactive(res.data.getVideo)
+    const video = useResult(result, null, (data) => data.getVideo)
     // change title
-    setSiteTitle(video.item.title)
+    watchEffect(() => {
+      if (video.value) setSiteTitle(video.value.item.title)
+    })
 
     return {
       route,

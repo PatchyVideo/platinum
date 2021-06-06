@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { provide, inject } from 'vue'
 import {
   ApolloClient,
@@ -5,14 +6,13 @@ import {
   NormalizedCacheObject,
   from,
   HttpLink,
-  OperationVariables,
-  ApolloQueryResult,
-  QueryOptions,
-  MutationOptions,
-  FetchResult,
   disableFragmentWarnings,
+  FieldFunctionOptions,
 } from '@apollo/client/core'
+import type { SafeReadonly } from '@apollo/client/cache/core/types/common'
+import { offsetLimitPagination } from '@apollo/client/utilities'
 import ObjectID from 'bson-objectid'
+import { DefaultApolloClient } from '@vue/apollo-composable'
 
 import { withScalars } from 'apollo-link-scalars'
 import { buildClientSchema, IntrospectionQuery } from 'graphql'
@@ -21,10 +21,15 @@ import generatedIntrospection from './__generated__/graphql.fragment'
 
 import type * as schema from './__generated__/graphql'
 export type { schema }
+export type Query = schema.Query
+export type Mutation = schema.Mutation
+export type Subscription = schema.Subscription
 
 export { gql } from '@apollo/client/core'
 
-const clientSymbol = Symbol('GraphQL Client Symbol')
+import { useQuery as vUseQuery } from '@vue/apollo-composable'
+export * from '@vue/apollo-composable'
+
 disableFragmentWarnings()
 
 export function createApollo(): ApolloClient<NormalizedCacheObject> {
@@ -46,8 +51,89 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
     }),
     new HttpLink({ uri: 'https://patchyvideo.com/be/gql/graphql' }),
   ])
+  const childOffsetLimitPara = (tagName: string) => ({
+    read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
+      if (!args) throw new Error('')
+      return (
+        existing && {
+          ...existing,
+          [tagName]: existing[tagName].slice(args.para.offset, args.para.offset + args.para.limit),
+        }
+      )
+    },
+    merge(
+      existing: SafeReadonly<any> | undefined,
+      incoming: SafeReadonly<any>,
+      { args, mergeObjects }: FieldFunctionOptions
+    ): any {
+      return {
+        ...mergeObjects(existing, incoming),
+        [tagName]: (() => {
+          const merged = existing ? existing[tagName].slice(0) : []
+          if (args) {
+            // Assume an offset of 0 if args.offset omitted.
+            const { offset = 0 } = args.para
+            for (let i = 0; i < incoming[tagName].length; ++i) {
+              merged[offset + i] = incoming[tagName][i]
+            }
+          }
+          return merged
+        })(),
+      }
+    },
+  })
+  const selfOffsetLimitPara = () => ({
+    read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
+      if (!args) throw new Error('')
+      return existing && existing.slice(args.para.offset, args.para.offset + args.para.limit)
+    },
+    merge(existing: SafeReadonly<any> | undefined, incoming: SafeReadonly<any>, { args }: FieldFunctionOptions): any {
+      const merged = existing ? existing.slice(0) : []
+      if (args) {
+        // Assume an offset of 0 if args.offset omitted.
+        const { offset = 0 } = args.para
+        for (let i = 0; i < incoming.length; ++i) {
+          merged[offset + i] = incoming[i]
+        }
+      }
+      return merged
+    },
+  })
   const cache = new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,
+    typePolicies: {
+      Query: {
+        fields: {
+          listPlaylist: {
+            ...childOffsetLimitPara('playlists'),
+            keyArgs: ['query', 'order', 'additionalConstraint'],
+          },
+          listVideo: {
+            ...childOffsetLimitPara('videos'),
+            keyArgs: ['query', 'qtype', 'order', 'additionalConstraint', 'hidePlaceholder', 'lang', 'humanReadableTag'],
+          },
+          listTagObjects: {
+            ...childOffsetLimitPara('tags'),
+            keyArgs: ['query', 'queryRegex', 'category', 'order'],
+          },
+          listNotifications: {
+            ...selfOffsetLimitPara(),
+            keyArgs: ['listAll', 'noteType'],
+          },
+          listSubscriptionVideos: {
+            ...childOffsetLimitPara('videos'),
+            keyArgs: ['query', 'queryRegex', 'category', 'order'],
+          },
+        },
+      },
+      Playlist: {
+        fields: {
+          videos: {
+            ...offsetLimitPagination(),
+          },
+        },
+      },
+    },
   })
   const client = new ApolloClient({
     link,
@@ -57,11 +143,11 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
 }
 
 export function provideClient(client: ApolloClient<NormalizedCacheObject>): void {
-  provide(clientSymbol, client)
+  provide(DefaultApolloClient, client)
 }
 
 export function injectClient(): ApolloClient<NormalizedCacheObject> {
-  const client = inject<ApolloClient<NormalizedCacheObject>>(clientSymbol)
+  const client = inject<ApolloClient<NormalizedCacheObject>>(DefaultApolloClient)
   return client || createApollo()
 }
 
@@ -70,16 +156,15 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
   return client
 }
 
-export function useQuery(
-  options: QueryOptions<OperationVariables, schema.Query>
-): Promise<ApolloQueryResult<schema.Query>> {
-  const client = injectClient()
-  return client.query<schema.Query>(options)
-}
-
-export function useMutate(
-  options: MutationOptions<schema.Mutation, OperationVariables>
-): Promise<FetchResult<schema.Mutation>> {
-  const client = injectClient()
-  return client.mutate<schema.Mutation>(options)
-}
+export const useQuery = function useQuery(this: never, ...args: never) {
+  const query = vUseQuery.apply(this, args)
+  const fetchMore = query.fetchMore
+  query.fetchMore = function (this: never, ...args: never) {
+    // `fetchMore` doesn't automatically change loading state, but changing it makes more sense
+    query.loading.value = true
+    const fm = fetchMore.apply(this, args)
+    fm.then(() => (query.loading.value = false))
+    return fm
+  } as typeof query.fetchMore
+  return query
+} as typeof vUseQuery

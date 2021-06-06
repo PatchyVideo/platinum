@@ -428,7 +428,7 @@ import { templateRef } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
-import { useQuery, gql } from '@/graphql'
+import { gql, injectClient } from '@/graphql'
 import { Video, Playlist } from '@/graphql/__generated__/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
@@ -530,6 +530,7 @@ export default defineComponent({
 
     /* Refresh query result for URL query change */
     const URLQuery = computed(() => route.query)
+    const client = injectClient()
     watch(
       URLQuery,
       () => {
@@ -547,12 +548,13 @@ export default defineComponent({
       }
     )
 
+    // TODO: split video, playlist apart and use fetchMore
     async function queryVideos(): Promise<void> {
       if (!queryWord.value || status.value === Status.loading) return
       status.value = Status.loading
       try {
         if (!NProgress.isStarted()) NProgress.start()
-        const res = await useQuery({
+        const res = await client.query({
           query: gql`
             query ($offset: Int, $limit: Int, $query: String, $order: String, $additionalConstraint: String) {
               listVideo(
@@ -610,7 +612,7 @@ export default defineComponent({
       status.value = Status.loading
       try {
         if (!NProgress.isStarted()) NProgress.start()
-        const res = await useQuery({
+        const res = await client.query({
           query: gql`
             query ($offset: Int, $limit: Int, $query: String, $order: String) {
               listPlaylist(para: { offset: $offset, limit: $limit, query: $query, order: $order }) {

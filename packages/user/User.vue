@@ -154,7 +154,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
 import { computed, defineComponent, reactive, watch, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useQuery, gql } from '@/graphql'
+import { gql, injectClient } from '@/graphql'
 import { isLogin, IsLogin, user } from '@/user/index'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { templateRef } from '@vueuse/core'
@@ -181,11 +181,13 @@ export default defineComponent({
     let email = ref('')
     let newEmail = ref('')
     let description = ref('')
+    const client = injectClient()
     watch(
       isLoginStateYes,
       async (isLoginState) => {
         if (!isLoginState) return
-        const res = await useQuery({
+        // TODO: useQuery
+        const res = await client.query({
           query: gql`
             query ($uid: String!) {
               getUser(para: { uid: $uid }) {

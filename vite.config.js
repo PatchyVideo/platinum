@@ -48,7 +48,7 @@ export default defineConfig(async ({ command, mode }) => {
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
     },
     optimizeDeps: {
-      include: ['@apollo/client/core'],
+      include: ['@apollo/client/core', '@apollo/client/utilities'],
       exclude: ['@apollo/client'],
     },
     plugins: [
