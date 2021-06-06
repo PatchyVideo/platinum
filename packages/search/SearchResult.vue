@@ -412,7 +412,7 @@
         </div>
       </div>
     </div>
-    <BackTop />
+    <BackTop ref="backTop" />
     <Footer />
   </div>
 </template>
@@ -423,7 +423,8 @@ import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch, Component } from 'vue'
+import { templateRef } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
@@ -602,6 +603,7 @@ export default defineComponent({
         errMsg.value = err.message
         status.value = Status.error
       }
+      toTop()
     }
     async function queryPlaylists(): Promise<void> {
       if (status.value === Status.loading) return
@@ -646,6 +648,11 @@ export default defineComponent({
         errMsg.value = err.message
         status.value = Status.error
       }
+      toTop()
+    }
+    const backTop = templateRef<(typeof BackTop & Component & Element) | null>('backTop')
+    function toTop() {
+      if (backTop.value) backTop.value.backUp()
     }
 
     /* Change the router query to trigger the search function */
@@ -764,6 +771,11 @@ export default defineComponent({
 .title {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 </style>
