@@ -139,9 +139,9 @@
       </div>
     </div>
     <div v-else class="text-lg">
-      <router-link to="/user/login">
+      <RouterLink to="/user/login">
         {{ t('user.user-page.not-logged-in') }}
-      </router-link>
+      </RouterLink>
     </div>
     <Footer></Footer>
   </div>

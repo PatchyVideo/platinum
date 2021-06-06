@@ -43,7 +43,7 @@
     <div v-if="false">
       <div v-for="(comp, index) in ucompList" :key="index">
         <div class="border-b border-gray-200 h-px w-full mb-2"></div>
-        <component :is="'comp_' + comp.name" :data="comp.data" class="mx-2"></component>
+        <Component :is="'comp_' + comp.name" :data="comp.data" class="mx-2"></Component>
         <div class="w-full mt-2"></div>
       </div>
       <input v-model="addCompName" class="border rounded border-black mr-2" />

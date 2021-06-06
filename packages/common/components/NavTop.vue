@@ -20,19 +20,19 @@
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="drawerOpen = true"
         />
-        <logo v-if="screenSizes.md" class="cursor-pointer inline-block" @click="toHome()"></logo>
+        <Logo v-if="screenSizes.md" class="cursor-pointer inline-block" @click="toHome()"></Logo>
       </div>
       <!-- Search Bar -->
       <template v-if="showSearchBar">
-        <router-link v-if="screenSizes['<md']" to="/search-page" alt="mobile search button">
+        <RouterLink v-if="screenSizes['<md']" to="/search-page" alt="mobile search button">
           <icon-uil-search class="inline" />
-        </router-link>
+        </RouterLink>
         <AutoComplete v-else @search="searchResult"></AutoComplete>
       </template>
       <!-- User -->
       <div ref="userList" class="mr-2">
         <div v-if="isLogin === IsLogin.no">
-          <router-link to="/user/login">{{ t('common.nav-top.user.login') }}</router-link>
+          <RouterLink to="/user/login">{{ t('common.nav-top.user.login') }}</RouterLink>
         </div>
         <div v-else class="relative">
           <UserAvatar
@@ -42,7 +42,7 @@
             @click="userListOpen = true"
           ></UserAvatar>
           <!-- User List -->
-          <transition name="userList">
+          <Transition name="userList">
             <div
               v-if="userListOpen"
               class="
@@ -69,16 +69,16 @@
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
-                <router-link class="block text-center" to="/user/me">{{
+                <RouterLink class="block text-center" to="/user/me">{{
                   t('common.nav-top.user.userprofile')
-                }}</router-link>
+                }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
                   {{ t('common.nav-top.user.logout') }}
                 </div>
               </div>
               <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
             </div>
-          </transition>
+          </Transition>
         </div>
       </div>
     </div>
@@ -107,24 +107,24 @@
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
           <icon-uil-list-ul class="text-2xl cursor-pointer" @click="drawerOpen = false" />
-          <logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></logo>
+          <Logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></Logo>
         </div>
         <!-- Main List -->
         <div class="space-y-3">
-          <router-link to="/" class="block"
+          <RouterLink to="/" class="block"
             ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.home')
-            }}</router-link
+            }}</RouterLink
           >
-          <router-link to="/video-list" class="block"
+          <RouterLink to="/video-list" class="block"
             ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.video')
-            }}</router-link
+            }}</RouterLink
           >
-          <router-link to="/playlist-list" class="block"
+          <RouterLink to="/playlist-list" class="block"
             ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.list')
-            }}</router-link
+            }}</RouterLink
           >
           <a class="block" @click="progressing()"
             ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
@@ -170,23 +170,23 @@
               <label v-text="t('common.nav-top.settings.darkmode')"></label>
               <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
             </label>
-            <pv-check-box v-model:check="isDark"></pv-check-box>
+            <PvCheckBox v-model:check="isDark"></PvCheckBox>
           </div>
           <div class="flex justify-between items-center">
             <label v-text="t('common.nav-top.settings.lang')"></label>
-            <pv-select v-model:selected="locale" :item-list="languageList"></pv-select>
+            <PvSelect v-model:selected="locale" :item-list="languageList"></PvSelect>
           </div>
         </div>
       </div>
       <!-- Mask -->
-      <transition name="mask">
+      <Transition name="mask">
         <div
           v-if="drawerOpen"
           class="absolute inset-0 bg-black bg-opacity-20 z-49"
           @click="drawerOpen = false"
           @touchmove.prevent
         ></div>
-      </transition>
+      </Transition>
     </div>
   </div>
   <!-- eslint-disable-next-line vue/no-v-html -->

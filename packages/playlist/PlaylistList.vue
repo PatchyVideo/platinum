@@ -51,10 +51,10 @@
               dark:border-gray-500 dark:bg-gray-700
             "
           >
-            <router-link
+            <RouterLink
               :to="'/playlist/' + playlist.id"
               class="block border-b-1 py-3 text-center text-xl truncate font-semibold lg:text-2xl"
-              >{{ playlist.item.title }}</router-link
+              >{{ playlist.item.title }}</RouterLink
             >
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">

@@ -45,9 +45,9 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
+          <RouterLink class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
             t('user.login.forget-password')
-          }}</router-link>
+          }}</RouterLink>
         </div>
         <div class="space-y-1">
           <button
@@ -71,7 +71,7 @@
             }}
           </button>
           <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</router-link>
+          <RouterLink class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -124,9 +124,9 @@
             />
           </div>
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <router-link class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
+          <RouterLink class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
             t('user.login.forget-password')
-          }}</router-link>
+          }}</RouterLink>
         </div>
         <div class="space-y-1">
           <button
@@ -154,9 +154,9 @@
             }}
           </button>
           <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600 hover:text-blue-800" to="/user/signup">{{
+          <RouterLink class="block text-blue-600 hover:text-blue-800" to="/user/signup">{{
             t('user.login.signup') + '→'
-          }}</router-link>
+          }}</RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->

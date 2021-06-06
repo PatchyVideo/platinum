@@ -154,7 +154,7 @@
       "
       :class="{ 'translate-x-full': !showSettings }"
     >
-      <transition :name="transToParent ? 'setting-left' : 'setting-right'">
+      <Transition :name="transToParent ? 'setting-left' : 'setting-right'">
         <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-600">
           <div class="px-2 pt-3 pb-2 font-medium">
             <icon-uil-arrow-left
@@ -192,7 +192,7 @@
             </div>
           </div>
         </div>
-      </transition>
+      </Transition>
     </div>
     <div
       v-if="!videoElementReady && !useIframe"

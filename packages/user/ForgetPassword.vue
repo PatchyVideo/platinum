@@ -68,9 +68,9 @@
             }}
           </button>
           <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-right text-blue-600" to="/user/login">{{
+          <RouterLink class="block text-right text-blue-600" to="/user/login">{{
             '←' + t('user.forget-password.login')
-          }}</router-link>
+          }}</RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -137,9 +137,9 @@
             }}
           </button>
           <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
-          <router-link class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
+          <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
             '←' + t('user.forget-password.login')
-          }}</router-link>
+          }}</RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->

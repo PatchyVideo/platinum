@@ -3,7 +3,7 @@
     <div>
       {{ t('user.redirect.log', { fromWord: fromWord, count: count }) }}
     </div>
-    <router-link class="underline" to="/user/login">{{ t('user.redirect.jump') }}</router-link>
+    <RouterLink class="underline" to="/user/login">{{ t('user.redirect.jump') }}</RouterLink>
   </div>
 </template>
 
