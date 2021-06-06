@@ -24,7 +24,7 @@ common:
       login: Login
       logout: Logout
       confirming: Logging in...
-      userprofile: ''
+      userprofile: 'Profile'
   footer:
     wiki: Wiki
     status: Site status
@@ -76,7 +76,7 @@ playlist:
         load-result-count: '{count} playlists found'
     playlist:
       playlist-count: '{count} videos'
-    title: ''
+    title: 'Playlist'
   playlist:
     collapse: Collapse
     expand: Expand
@@ -97,10 +97,10 @@ search:
           search-failed-reason: 'Reason:'
         successful:
           search-no-result: No match found
-          search-result-count: 'Total {count} videos'
+          search-result-count: 'Total {count} video(s)'
       video:
         source-site: 'Source:'
-      tab: ''
+      tab: 'Video'
       visible-sites:
         abroad: Foreign site
         all: All
@@ -110,17 +110,17 @@ search:
       video-oldest: Oldest
     playlist:
       main-body:
-        failed:
-          search-failed: Failure
-          search-failed-reason: 'Reason:'
         loading:
           searching: Searching...
+        failed:
+          search-failed: Search failed
+          search-failed-reason: 'Reason:'
         successful:
           search-no-result: No result
-          search-result-count: '{count} videos found'
+          search-result-count: '{count} video(s) found'
       playlist:
-        playlist-count: '{count} playlists found'
-      tab: ''
+        playlist-count: '{count} playlist(s) found'
+      tab: 'Playlist'
   search-page:
     title: Search
     search: Search
@@ -237,35 +237,35 @@ user:
     title: Reset your password
   user-page:
     avatar:
-      choose-image: ''
-      current: ''
-      requirement: ''
-      upload: ''
+      choose-image: 'Choose an image'
+      current: 'Your current avatar'
+      requirement: 'Choose an image to upload. The size of the avatar would be 256*256 pixels'
+      upload: 'Upload'
     description:
-      placeholder: ''
-      save: ''
+      placeholder: 'Change your description'
+      save: 'Save'
     email:
-      bind: ''
-      boundEmail: ''
-      none: ''
-      placeholder: ''
-      title: ''
-    not-logged-in: ''
+      bind: 'Bind'
+      boundEmail: 'E-mail bound to your account'
+      none: 'None'
+      placeholder: 'Please enter your e-mail address'
+      title: 'Bind your e-mail'
+    not-logged-in: 'User not logged in. Click here to log in'
     password:
-      commit: ''
-      confirmNew: ''
-      confirmNewPlaceholder: ''
-      new: ''
-      newPlaceholder: ''
-      old: ''
-      oldPlaceholder: ''
-      reset: ''
-      title: ''
-    title: ''
+      commit: 'Commit'
+      confirmNew: 'Confirm your new password'
+      confirmNewPlaceholder: 'Please enter the new password again'
+      new: 'New password'
+      newPlaceholder: 'Please enter your new password'
+      old: 'Previous password'
+      oldPlaceholder: 'Please enter your previous password'
+      reset: 'Reset'
+      title: 'Change your password'
+    title: 'User page'
     username:
-      cancel: ''
-      modify: ''
-      placeholder: ''
+      cancel: 'Cancel'
+      modify: 'Submit'
+      placeholder: 'Change your username'
 video:
   video:
     uploader: Uploader
