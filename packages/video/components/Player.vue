@@ -328,9 +328,9 @@ const video = templateRef<HTMLVideoElement>('video')
 
 /* control bar */
 const showControlBar = ref(true)
-let _stop: Fn
+let stopHideControlBar: Fn
 const delayedHideControlBar = useThrottleFn((delay = 200) => {
-  if (_stop) _stop()
+  if (stopHideControlBar) stopHideControlBar()
   const { stop } = useTimeoutFn(
     () => {
       showControlBar.value = false
@@ -338,11 +338,11 @@ const delayedHideControlBar = useThrottleFn((delay = 200) => {
     delay,
     true
   )
-  _stop = stop
+  stopHideControlBar = stop
 })
 onMounted(() => {
   useEventListener(root, 'mousemove', () => {
-    if (_stop) _stop()
+    if (stopHideControlBar) stopHideControlBar()
     showControlBar.value = true
     if (isFullscreen.value) delayedHideControlBar(800)
   })
