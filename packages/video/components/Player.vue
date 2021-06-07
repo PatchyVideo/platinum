@@ -208,8 +208,7 @@
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import { computed, ref, nextTick, onMounted, watch, defineProps } from 'vue'
 import {
-  templateRef,
-  useElementSize,
+  useElementBounding,
   useEventListener,
   useFullscreen,
   useLocalStorage,
@@ -321,11 +320,11 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const root = templateRef('root')
-const { width } = useElementSize(root)
+const root = ref<HTMLDivElement | null>(null)
+const { width } = useElementBounding(root)
 const height = computed(() => (width.value / 16) * 9)
 
-const video = templateRef<HTMLVideoElement | null>('video')
+const video = ref<HTMLVideoElement | null>(null)
 
 /* control bar */
 const showControlBar = ref(true)
@@ -416,7 +415,7 @@ const toSettingsParent = () => {
 
 /* loading log */
 const logText = ref('')
-const logEl = templateRef('logEl')
+const logEl = ref<HTMLParagraphElement | null>(null)
 const log = (_log: string) => {
   console.log('[Player] > ' + _log)
   logText.value += _log
@@ -506,7 +505,7 @@ onMounted(() => {
 const videoElementReady = ref(false)
 
 /* dedicated audio track */
-const audio = templateRef<HTMLAudioElement | null>('audio')
+const audio = ref<HTMLAudioElement | null>(null)
 onMounted(() => {
   useEventListener(audio.value, 'timeupdate', () => {
     if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
@@ -581,7 +580,7 @@ const computeLoadedRanges = (amount: TimeRanges | null) => {
 }
 // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
 const progress = computed(() => currentTime.value / duration.value)
-const progressbar = templateRef<HTMLDivElement>('progressbar')
+const progressbar = ref<HTMLDivElement | null>(null)
 const syncAudio = useLocalStorage('player_settings_sync_audio', false)
 onMounted(() => {
   useEventListener(video.value, 'timeupdate', () => {
@@ -623,7 +622,7 @@ onMounted(() => {
   //   audioLoadedAmount.value = audio.value.buffered
   // })
   useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
-    let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
+    let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     currentTime.value = percentage * duration.value
   })
@@ -631,7 +630,7 @@ onMounted(() => {
   useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
     dragging = true
     const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-      let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
+      let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
       percentage = Math.max(0, Math.min(1, percentage))
       currentTime.value = percentage * duration.value
     })
@@ -662,7 +661,7 @@ watch(
     if (audio.value && audio.value.volume !== volume.value) audio.value.volume = volume.value
   }
 )
-const volumebar = templateRef<HTMLDivElement>('volumebar')
+const volumebar = ref<HTMLDivElement | null>(null)
 useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
   let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
   percentage = Math.max(0, Math.min(1, percentage))
