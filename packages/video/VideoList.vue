@@ -2,12 +2,12 @@
   <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
     <NavTop></NavTop>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div v-if="status === Status.loading">{{ t('video.video-list.main-body.loading.searching') }}</div>
-      <div v-else-if="status === Status.error">
+      <div v-if="status === 'loading'">{{ t('video.video-list.main-body.loading.searching') }}</div>
+      <div v-else-if="status === 'error'">
         <div>{{ t('video.video-list.main-body.failed.search-failed') }}</div>
         <div>{{ t('video.video-list.main-body.failed.search-failed-reason') + errMsg }}</div>
       </div>
-      <div v-else-if="status === Status.result">
+      <div v-else-if="status === 'result'">
         <div
           class="border-b-1 pb-1"
           v-text="t('video.video-list.main-body.successful.search-result-count', { count })"
@@ -121,17 +121,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { computed, defineComponent, ref, watch, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
-import { useQuery, gql, useResult, Query } from '@/graphql'
-import { Video } from '@/graphql/__generated__/graphql'
+import { useQuery, gql, useResult } from '@/graphql'
+import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { progressing } from '@/common/lib/progressing'
@@ -144,139 +144,108 @@ const imgMod = Object.fromEntries(
   ])
 )
 
-export default defineComponent({
-  components: { NavTop, Footer, BackTop, PvPagination },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
-    const route = useRoute()
-    const router = useRouter()
-    const limit = 40
-    enum Status {
-      loading = 'loading',
-      result = 'result',
-      error = 'error',
-    }
-    const status = ref<Status>()
-    const errMsg = ref('')
-    const count = ref(0)
-    const pageCount = ref(0)
-    const videos = ref<Video[]>()
+const { t } = useI18n()
+setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
+const route = useRoute()
+const router = useRouter()
+const limit = 40
+const status = ref<'loading' | 'result' | 'error'>()
+const errMsg = ref('')
+const count = ref(0)
+const pageCount = ref(0)
+const videos = ref<schema.Video[]>()
 
-    /* Precess URL query */
-    const offsetChangeFromOtherQuery = ref(false)
-    const offset = computed(() =>
-      Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
-    )
-    const page = computed(() => offset.value + 1)
+/* Precess URL query */
+const offsetChangeFromOtherQuery = ref(false)
+const offset = computed(() =>
+  Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
+)
+const page = computed(() => offset.value + 1)
 
-    /* Refresh query result for URL query change */
-    watch(offset, () => {
-      if (offsetChangeFromOtherQuery.value) {
-        offsetChangeFromOtherQuery.value = false
-        return
-      }
-      fetchMore({
-        variables: {
-          offset: offset.value * limit,
-          limit: limit,
-          query: '',
-        },
-      }).then((v) => {
-        result.value = v.data
-      })
-    })
+/* Refresh query result for URL query change */
+watch(offset, () => {
+  if (offsetChangeFromOtherQuery.value) {
+    offsetChangeFromOtherQuery.value = false
+    return
+  }
+  fetchMore({
+    variables: {
+      offset: offset.value * limit,
+      limit: limit,
+      query: '',
+    },
+  }).then((v) => {
+    result.value = v.data
+  })
+})
 
-    const { result, loading, onError, fetchMore } = useQuery<Query>(
-      gql`
-        query ($offset: Int, $limit: Int, $query: String) {
-          listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
-            count
-            pageCount
-            videos {
-              id
-              item {
-                coverImage
-                title
-                site
-                cid
-                partName
-                url
-              }
-            }
+const { result, loading, onError, fetchMore } = useQuery<Query>(
+  gql`
+    query ($offset: Int, $limit: Int, $query: String) {
+      listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
+        count
+        pageCount
+        videos {
+          id
+          item {
+            coverImage
+            title
+            site
+            cid
+            partName
+            url
           }
         }
-      `,
-      {
-        offset: offset.value * limit,
-        limit: limit,
-        query: '',
       }
-    )
-    watchEffect(() => {
-      if (loading.value) {
-        status.value = Status.loading
-        if (!NProgress.isStarted()) NProgress.start()
-      } else {
-        status.value = Status.result
-        if (NProgress.isStarted()) NProgress.done()
-      }
-    })
-
-    const resultData = useResult(result, null, (data) => data.listVideo)
-    watchEffect(() => {
-      if (resultData.value) {
-        count.value = resultData.value.count
-        pageCount.value = resultData.value.pageCount
-        videos.value = resultData.value.videos
-      }
-    })
-    onError((err) => {
-      errMsg.value = err.message
-      status.value = Status.error
-    })
-
-    /* Change the router query to trigger the search function */
-    function jumpToPreviousPage(): void {
-      router.push({ path: '/video-list', query: { page: offset.value - 1 } })
     }
-    function jumpToNextPage(): void {
-      router.push({ path: '/video-list', query: { page: offset.value + 1 } })
-    }
-    function jumpToSelectedPage(page: number): void {
-      router.push({ path: '/video-list', query: { page: page - 1 } })
-    }
-
-    /* Jump to video detail page */
-    function jumpToVideoResult(id: string): void {
-      const { href } = router.resolve({
-        path: '/video/' + id,
-      })
-      window.open(href, '_blank')
-    }
-
-    return {
-      t,
-      screenSizes,
-      offset,
-      Status,
-      status,
-      errMsg,
-      page,
-      count,
-      pageCount,
-      videos,
-      pageOfVideo,
-      jumpToPreviousPage,
-      jumpToNextPage,
-      jumpToSelectedPage,
-      jumpToVideoResult,
-      imgMod,
-      progressing,
-    }
-  },
+  `,
+  {
+    offset: offset.value * limit,
+    limit: limit,
+    query: '',
+  }
+)
+watchEffect(() => {
+  if (loading.value) {
+    status.value = 'loading'
+    if (!NProgress.isStarted()) NProgress.start()
+  } else {
+    status.value = 'result'
+    if (NProgress.isStarted()) NProgress.done()
+  }
 })
+
+const resultData = useResult(result, null, (data) => data.listVideo)
+watchEffect(() => {
+  if (resultData.value) {
+    count.value = resultData.value.count
+    pageCount.value = resultData.value.pageCount
+    videos.value = resultData.value.videos
+  }
+})
+onError((err) => {
+  errMsg.value = err.message
+  status.value = 'error'
+})
+
+/* Change the router query to trigger the search function */
+function jumpToPreviousPage(): void {
+  router.push({ path: '/video-list', query: { page: offset.value - 1 } })
+}
+function jumpToNextPage(): void {
+  router.push({ path: '/video-list', query: { page: offset.value + 1 } })
+}
+function jumpToSelectedPage(page: number): void {
+  router.push({ path: '/video-list', query: { page: page - 1 } })
+}
+
+/* Jump to video detail page */
+function jumpToVideoResult(id: string): void {
+  const { href } = router.resolve({
+    path: '/video/' + id,
+  })
+  window.open(href, '_blank')
+}
 </script>
 
 <style lang="postcss" scoped>

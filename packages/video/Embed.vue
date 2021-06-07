@@ -7,49 +7,37 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Player from './components/Player.vue'
-import { defineComponent, computed, watchEffect } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useQuery, gql, useResult, Query } from '@/graphql'
+import { useQuery, gql, useResult } from '@/graphql'
+import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
-export default defineComponent({
-  components: {
-    Player,
-  },
-  setup() {
-    /* submit query */
-    const route = useRoute()
-    const vid = computed(() => <string>route.params.vid)
-    const { result } = useQuery<Query>(
-      gql`
-        query ($vid: String!) {
-          getVideo(para: { vid: $vid, lang: "CHS" }) {
-            item {
-              title
-              url
-            }
-          }
+/* submit query */
+const route = useRoute()
+const vid = computed(() => <string>route.params.vid)
+const { result } = useQuery<Query>(
+  gql`
+    query ($vid: String!) {
+      getVideo(para: { vid: $vid, lang: "CHS" }) {
+        item {
+          title
+          url
         }
-      `,
-      {
-        vid: vid.value,
       }
-    )
-
-    /* basic info */
-    const video = useResult(result, null, (data) => data.getVideo)
-    // change title
-    watchEffect(() => {
-      if (video.value) setSiteTitle(video.value.item.title)
-    })
-
-    return {
-      route,
-      vid,
-      video,
     }
-  },
+  `,
+  {
+    vid: vid.value,
+  }
+)
+
+/* basic info */
+const video = useResult(result, null, (data) => data.getVideo)
+// change title
+watchEffect(() => {
+  if (video.value) setSiteTitle(video.value.item.title)
 })
 </script>

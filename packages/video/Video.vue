@@ -179,7 +179,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import Player from './components/Player.vue'
 import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
@@ -187,246 +187,220 @@ import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { defineComponent, computed, watchEffect } from 'vue'
+import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
 import NProgress from 'nprogress'
-import { schema, useQuery, gql, useResult, Query } from '@/graphql'
+import { useQuery, gql, useResult } from '@/graphql'
+import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
-export default defineComponent({
-  components: {
-    Player,
-    MarkdownBlock,
-    Footer,
-    NavTop,
-    RelativeDate,
-    Tag,
-    UserAvatar,
-  },
-  setup() {
-    // TODO: using script setup instead
+const { t } = useI18n()
 
-    const { t } = useI18n()
-
-    /* submit query */
-    const route = useRoute()
-    const vid = computed(() => <string>route.params.vid)
-    const { result, loading } = useQuery<Query>(
-      gql`
-        query ($vid: String!) {
-          getVideo(para: { vid: $vid, lang: "CHS" }) {
-            item {
-              title
+/* submit query */
+const route = useRoute()
+const vid = computed(() => <string>route.params.vid)
+const { result, loading } = useQuery<Query>(
+  gql`
+    query ($vid: String!) {
+      getVideo(para: { vid: $vid, lang: "CHS" }) {
+        item {
+          title
+          desc
+          uploadTime
+          url
+          repostType
+        }
+        meta {
+          createdBy {
+            id
+            username
+            desc
+            image
+            gravatar
+          }
+        }
+        tags {
+          __typename
+          ... on AuthorTagObject {
+            authorRole
+            author {
+              id
+              tagname
+              avatar
               desc
-              uploadTime
-              url
-              repostType
             }
+          }
+          ... on RegularTagObject {
+            id
+            category
+            languages {
+              lang
+              value
+            }
+          }
+        }
+        commentThread {
+          id
+          count
+          comments {
+            id
+            content
             meta {
+              createdAt
               createdBy {
                 id
                 username
-                desc
                 image
                 gravatar
+                desc
               }
             }
-            tags {
-              __typename
-              ... on AuthorTagObject {
-                authorRole
-                author {
-                  id
-                  tagname
-                  avatar
-                  desc
-                }
-              }
-              ... on RegularTagObject {
-                id
-                category
-                languages {
-                  lang
-                  value
-                }
-              }
-            }
-            commentThread {
+            children {
               id
-              count
-              comments {
-                id
-                content
-                meta {
-                  createdAt
-                  createdBy {
-                    id
-                    username
-                    image
-                    gravatar
-                    desc
-                  }
-                }
-                children {
+              content
+              meta {
+                createdAt
+                createdBy {
                   id
-                  content
-                  meta {
-                    createdAt
-                    createdBy {
-                      id
-                      username
-                      image
-                      gravatar
-                      desc
-                    }
-                  }
+                  username
+                  image
+                  gravatar
+                  desc
                 }
               }
             }
           }
         }
-      `,
-      {
-        vid: vid.value,
       }
-    )
-
-    /* sync process bar */
-    watchEffect(() => {
-      if (loading.value) {
-        if (!NProgress.isStarted()) NProgress.start()
-      } else {
-        if (NProgress.isStarted()) NProgress.done()
-      }
-    })
-
-    /* basic info */
-    const video = useResult(result, null, (data) => data.getVideo)
-    // change title
-    watchEffect(() => {
-      if (video.value) setSiteTitle(video.value.item.title)
-    })
-
-    /* tags */
-    type Author = {
-      type: 'AuthorTag' | 'User'
-      position: string
-      id: ObjectID
-      name: string
-      desc: string
-      avatar: string
-      gravatar?: string
     }
-    const authors = computed(() =>
-      video.value
-        ? ((video.value.tags.filter((v) => v.__typename === 'AuthorTagObject') as schema.AuthorTagObject[])
-            .map(
-              (tag) =>
-                tag.author &&
-                ({
-                  type: 'AuthorTag',
-                  id: tag.author.id,
-                  name: tag.author.tagname,
-                  desc: tag.author.desc,
-                  avatar: tag.author.avatar,
-                  position: tag.authorRole,
-                } as Author)
-            )
-            .concat([
-              video.value.meta.createdBy && {
-                type: 'User',
-                id: video.value.meta.createdBy.id,
-                name: video.value.meta.createdBy.username,
-                desc: video.value.meta.createdBy.desc,
-                avatar: video.value.meta.createdBy.image,
-                gravatar: video.value.meta.createdBy.gravatar || undefined,
-                position: t('video.video.uploader'),
-              },
-            ])
-            .filter((v) => !!v) as Author[])
-        : []
-    )
+  `,
+  {
+    vid: vid.value,
+  }
+)
 
-    const regularTags = computed(() =>
-      video.value
-        ? (video.value.tags.filter((v) => v.__typename === 'RegularTagObject') as schema.RegularTagObject[])
-        : []
-    )
-
-    /* comments */
-    interface Comment {
-      id: ObjectID
-      createdAt: Date
-      content: string
-      author: {
-        id: ObjectID
-        username: string
-        image: string
-        gravatar?: string
-        desc: string
-      }
-      hidden?: boolean
-      children?: Comment[]
-    }
-    const comments = computed(() =>
-      video.value?.commentThread?.comments
-        ? (video.value.commentThread.comments
-            .map(
-              (comment) =>
-                comment.content &&
-                comment.meta.createdBy &&
-                !comment.deleted && {
-                  id: comment.id,
-                  createdAt: comment.meta.createdAt,
-                  content: comment.content,
-                  author: {
-                    id: comment.meta.createdBy.id,
-                    username: comment.meta.createdBy.username,
-                    image: comment.meta.createdBy.image,
-                    gravatar: comment.meta.createdBy.gravatar || undefined,
-                    desc: comment.meta.createdBy.desc,
-                  },
-                  hidden: comment.hidden,
-                  children: (() => {
-                    const children: Comment[] = []
-
-                    if (comment.children)
-                      comment.children.forEach((comment) => {
-                        if (comment.content && comment.meta.createdBy)
-                          children.push({
-                            id: comment.id,
-                            createdAt: comment.meta.createdAt,
-                            content: comment.content,
-                            author: {
-                              id: comment.meta.createdBy.id,
-                              username: comment.meta.createdBy.username,
-                              image: comment.meta.createdBy.image,
-                              gravatar: comment.meta.createdBy.gravatar || undefined,
-                              desc: comment.meta.createdBy.desc,
-                            },
-                            hidden: comment.hidden,
-                          })
-                      })
-
-                    return children
-                  })(),
-                }
-            )
-            .filter((v) => !!v) as Comment[])
-        : []
-    )
-
-    return {
-      t,
-      route,
-      vid,
-      video,
-      authors,
-      regularTags,
-      comments,
-    }
-  },
+/* sync process bar */
+watchEffect(() => {
+  if (loading.value) {
+    if (!NProgress.isStarted()) NProgress.start()
+  } else {
+    if (NProgress.isStarted()) NProgress.done()
+  }
 })
+
+/* basic info */
+const video = useResult(result, null, (data) => data.getVideo)
+// change title
+watchEffect(() => {
+  if (video.value) setSiteTitle(video.value.item.title)
+})
+
+/* tags */
+type Author = {
+  type: 'AuthorTag' | 'User'
+  position: string
+  id: ObjectID
+  name: string
+  desc: string
+  avatar: string
+  gravatar?: string
+}
+const authors = computed(() =>
+  video.value
+    ? ((video.value.tags.filter((v) => v.__typename === 'AuthorTagObject') as schema.AuthorTagObject[])
+        .map(
+          (tag) =>
+            tag.author &&
+            ({
+              type: 'AuthorTag',
+              id: tag.author.id,
+              name: tag.author.tagname,
+              desc: tag.author.desc,
+              avatar: tag.author.avatar,
+              position: tag.authorRole,
+            } as Author)
+        )
+        .concat([
+          video.value.meta.createdBy && {
+            type: 'User',
+            id: video.value.meta.createdBy.id,
+            name: video.value.meta.createdBy.username,
+            desc: video.value.meta.createdBy.desc,
+            avatar: video.value.meta.createdBy.image,
+            gravatar: video.value.meta.createdBy.gravatar || undefined,
+            position: t('video.video.uploader'),
+          },
+        ])
+        .filter((v) => !!v) as Author[])
+    : []
+)
+
+const regularTags = computed(() =>
+  video.value ? (video.value.tags.filter((v) => v.__typename === 'RegularTagObject') as schema.RegularTagObject[]) : []
+)
+
+/* comments */
+interface Comment {
+  id: ObjectID
+  createdAt: Date
+  content: string
+  author: {
+    id: ObjectID
+    username: string
+    image: string
+    gravatar?: string
+    desc: string
+  }
+  hidden?: boolean
+  children?: Comment[]
+}
+const comments = computed(() =>
+  video.value?.commentThread?.comments
+    ? (video.value.commentThread.comments
+        .map(
+          (comment) =>
+            comment.content &&
+            comment.meta.createdBy &&
+            !comment.deleted && {
+              id: comment.id,
+              createdAt: comment.meta.createdAt,
+              content: comment.content,
+              author: {
+                id: comment.meta.createdBy.id,
+                username: comment.meta.createdBy.username,
+                image: comment.meta.createdBy.image,
+                gravatar: comment.meta.createdBy.gravatar || undefined,
+                desc: comment.meta.createdBy.desc,
+              },
+              hidden: comment.hidden,
+              children: (() => {
+                const children: Comment[] = []
+
+                if (comment.children)
+                  comment.children.forEach((comment) => {
+                    if (comment.content && comment.meta.createdBy)
+                      children.push({
+                        id: comment.id,
+                        createdAt: comment.meta.createdAt,
+                        content: comment.content,
+                        author: {
+                          id: comment.meta.createdBy.id,
+                          username: comment.meta.createdBy.username,
+                          image: comment.meta.createdBy.image,
+                          gravatar: comment.meta.createdBy.gravatar || undefined,
+                          desc: comment.meta.createdBy.desc,
+                        },
+                        hidden: comment.hidden,
+                      })
+                  })
+
+                return children
+              })(),
+            }
+        )
+        .filter((v) => !!v) as Comment[])
+    : []
+)
 </script>
