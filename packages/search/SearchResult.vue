@@ -56,180 +56,7 @@
       </div>
 
       <!-- Videos -->
-      <div v-if="tab === Tabs[0].value">
-        <div v-if="status === Status.loading">
-          <div v-text="t('search.search-result.video.main-body.loading.searching')"></div>
-          <!-- Mobile View -->
-          <div v-if="screenSizes['<md']">
-            <div v-for="index in 20" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
-              <div class="w-2/5 mr-0.5">
-                <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
-              </div>
-              <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-                <div
-                  class="
-                    title
-                    overflow-ellipsis overflow-hidden
-                    rounded-md
-                    w-full
-                    bg-gray-400
-                    dark:bg-gray-600
-                    animate-pulse
-                  "
-                >
-                  &nbsp;
-                </div>
-                <div
-                  class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600 animate-pulse"
-                ></div>
-              </div>
-            </div>
-          </div>
-          <!-- Desktop View -->
-          <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
-            <div
-              v-for="index in 20"
-              :key="index"
-              class="
-                w-21/100
-                my-5
-                border
-                shadow-sm
-                rounded-lg
-                bg-white bg-opacity-50
-                dark:border-gray-500 dark:bg-gray-700
-              "
-            >
-              <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
-              <div class="p-3 text-left text-sm lg:text-base">
-                <div
-                  class="title overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
-                >
-                  &nbsp;
-                </div>
-                <div
-                  class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
-                ></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-else-if="status === Status.error">
-          <div v-text="t('search.search-result.video.main-body.failed.search-failed')"></div>
-          <div v-text="t('search.search-result.video.main-body.failed.search-failed-reason') + errMsg"></div>
-        </div>
-        <div
-          v-else-if="count === 0"
-          v-text="t('search.search-result.video.main-body.successful.search-no-result')"
-        ></div>
-        <div v-else-if="status === Status.result">
-          <div class="flex flex-wrap-reverse justify-between items-end border-b-1 pb-1">
-            <div
-              v-text="t('search.search-result.video.main-body.successful.search-result-count', { count: count })"
-            ></div>
-            <div v-if="tab === 'video'" class="flex self-center space-x-2">
-              <label
-                v-for="sites in VisibleSites"
-                :key="sites.value"
-                class="
-                  px-2
-                  py-1
-                  cursor-pointer
-                  text-gray-400 text-sm
-                  font-semibold
-                  md:text-base md:font-bold md:px-3 md:py-1
-                "
-                :class="{ 'active-opt': sites.value === visibleSite }"
-                @click="changeVisibleSites(sites.value)"
-                v-text="sites.name"
-              ></label>
-            </div>
-          </div>
-          <!-- Mobile View -->
-          <div v-if="screenSizes['<md']">
-            <div
-              v-for="video in videos"
-              :key="video.item.title"
-              class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
-              @click="jumpToVideoResult(video.id.toHexString())"
-            >
-              <div class="w-2/5 mr-0.5">
-                <div class="aspect-10/16 overflow-hidden rounded-sm">
-                  <img
-                    class="object-cover h-full w-full dark:(filter brightness-80)"
-                    :src="getCoverImage({ image: video.item.coverImage })"
-                  />
-                </div>
-              </div>
-              <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-                <div v-if="video.item.partName" class="overflow-hidden w-full">
-                  <a class="inline-block w-full truncate">{{ video.item.title }}</a>
-                  <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
-                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                    >{{ video.item.partName }}
-                  </div>
-                </div>
-                <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
-                <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                  <div>{{ t('search.search-result.video.video.source-site') }}</div>
-                  <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Desktop View -->
-          <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
-            <div
-              v-for="video in videos"
-              :key="video.item.title"
-              class="
-                w-21/100
-                my-5
-                border
-                shadow-sm
-                rounded-lg
-                bg-white bg-opacity-50
-                dark:border-gray-500 dark:bg-gray-700
-              "
-              @click="jumpToVideoResult(video.id.toHexString())"
-            >
-              <div class="aspect-10/16 overflow-hidden rounded-sm">
-                <img
-                  class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
-                  :src="getCoverImage({ image: video.item.coverImage })"
-                />
-              </div>
-              <div class="p-3 text-left text-sm lg:text-base">
-                <div v-if="video.item.partName">
-                  <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
-                  <div
-                    class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
-                    :title="video.item.partName"
-                  >
-                    <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ': ' }}</label
-                    >{{ video.item.partName }}
-                  </div>
-                </div>
-                <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
-                  video.item.title
-                }}</a>
-                <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                  <div>{{ t('search.search-result.video.video.source-site') }}</div>
-                  <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <PvPagination
-            :page-count="pageCount"
-            :page="page"
-            @previous="jumpToPreviousPage"
-            @next="jumpToNextPage"
-            @change="jumpToSelectedPage"
-          ></PvPagination>
-        </div>
-      </div>
+      <SearchVideo v-if="tab === Tabs[0].value" :query-word="queryWord" :order="order" :page-count="pageCount" />
 
       <!-- Playlists -->
       <div v-else-if="tab === Tabs[1].value">
@@ -422,6 +249,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
+import SearchVideo from '@/search/components/SearchVideo.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import { computed, defineComponent, ref, watch, Component } from 'vue'
 import { templateRef } from '@vueuse/core'
@@ -430,20 +258,12 @@ import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
 import { gql, injectClient } from '@/graphql'
 import { Video, Playlist } from '@/graphql/__generated__/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { pageOfVideo } from '@/video/lib/biliHelper'
-import { screenSizes } from '@/tailwindcss'
 import { getCoverImage } from '@/common/lib/imageUrl'
-
-const imgMod = Object.fromEntries(
-  Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
-    key.replace(/\/packages\/common\/assets\/WebIcons\/(.+)\.png/, '$1'),
-    value.default,
-  ])
-)
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { screenSizes } from '@/tailwindcss'
 
 export default defineComponent({
-  components: { NavTop, AutoComplete, Footer, BackTop, PvPagination },
+  components: { NavTop, AutoComplete, Footer, BackTop, SearchVideo, PvPagination },
   props: {},
   setup() {
     const { t } = useI18n()
@@ -491,29 +311,7 @@ export default defineComponent({
         route.query.tab ? (typeof route.query.tab === 'object' ? route.query.tab[0] : route.query.tab) : Tabs[0].value
       )
     )
-    const VisibleSites = [
-      {
-        value: '',
-        name: t('search.search-result.video.visible-sites.all'),
-      },
-      {
-        value: 'ANY(site:acfun site:bilibili site:zcool)',
-        name: t('search.search-result.video.visible-sites.home'),
-      },
-      {
-        value: 'ANY(site:nicovideo site:twitter site:youtube site:ipfs)',
-        name: t('search.search-result.video.visible-sites.abroad'),
-      },
-    ]
-    const visibleSite = computed(() =>
-      String(
-        route.query.visible_site
-          ? typeof route.query.visible_site === 'object'
-            ? route.query.visible_site[0]
-            : route.query.visible_site
-          : localStorage.getItem('VisibleSite') || VisibleSites[0].value
-      )
-    )
+
     const Orders = [
       { value: 'last_modified', name: t('search.search-result.order.last-modified') },
       { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
@@ -524,7 +322,7 @@ export default defineComponent({
           ? typeof route.query.order === 'object'
             ? route.query.order[0]
             : route.query.order
-          : Orders[0].value || ''
+          : Orders[0].value
       )
     )
 
@@ -535,9 +333,6 @@ export default defineComponent({
       URLQuery,
       () => {
         switch (tab.value) {
-          case Tabs[0].value:
-            queryVideos()
-            break
           case Tabs[1].value:
             queryPlaylists()
             break
@@ -547,66 +342,6 @@ export default defineComponent({
         immediate: true,
       }
     )
-
-    // TODO: split video, playlist apart and use fetchMore
-    async function queryVideos(): Promise<void> {
-      if (!queryWord.value || status.value === Status.loading) return
-      status.value = Status.loading
-      try {
-        if (!NProgress.isStarted()) NProgress.start()
-        const res = await client.query({
-          query: gql`
-            query ($offset: Int, $limit: Int, $query: String, $order: String, $additionalConstraint: String) {
-              listVideo(
-                para: {
-                  offset: $offset
-                  limit: $limit
-                  humanReadableTag: true
-                  query: $query
-                  order: $order
-                  additionalConstraint: $additionalConstraint
-                }
-              ) {
-                count
-                pageCount
-                videos {
-                  id
-                  item {
-                    coverImage
-                    title
-                    site
-                    cid
-                    partName
-                    url
-                  }
-                }
-              }
-            }
-          `,
-          variables: {
-            offset: offset.value * limit,
-            limit: limit,
-            query: queryWord.value,
-            order: order.value,
-            additionalConstraint: visibleSite.value,
-          },
-        })
-        if (NProgress.isStarted()) NProgress.done()
-        // console.log(res)
-
-        const resultData = res.data.listVideo
-        count.value = resultData.count
-        pageCount.value = resultData.pageCount
-        videos.value = resultData.videos
-
-        status.value = Status.result
-      } catch (err) {
-        // console.log(err)
-        errMsg.value = err.message
-        status.value = Status.error
-      }
-      toTop()
-    }
     async function queryPlaylists(): Promise<void> {
       if (status.value === Status.loading) return
       status.value = Status.loading
@@ -702,12 +437,6 @@ export default defineComponent({
     }
 
     /* Jump to detail page */
-    function jumpToVideoResult(id: string): void {
-      const { href } = router.resolve({
-        path: '/video/' + id,
-      })
-      window.open(href, '_blank')
-    }
     function jumpToPlaylist(id: string): void {
       const { href } = router.resolve({
         path: '/playlist/' + id,
@@ -719,11 +448,8 @@ export default defineComponent({
       t,
       screenSizes,
       queryWord,
-      offset,
       Tabs,
       tab,
-      VisibleSites,
-      visibleSite,
       Orders,
       order,
       Status,
@@ -734,7 +460,7 @@ export default defineComponent({
       pageCount,
       videos,
       playlists,
-      pageOfVideo,
+      getCoverImage,
       searchResult,
       jumpToPreviousPage,
       jumpToNextPage,
@@ -742,10 +468,7 @@ export default defineComponent({
       changeTab,
       changeVisibleSites,
       changeOrder,
-      jumpToVideoResult,
       jumpToPlaylist,
-      getCoverImage,
-      imgMod,
     }
   },
 })
