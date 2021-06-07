@@ -1,4 +1,7 @@
 import { defineConfig } from 'windicss/helpers'
+import typography from 'windicss/plugin/typography'
+import lineClamp from 'windicss/plugin/line-clamp'
+import aspectRatio from 'windicss/plugin/aspect-ratio'
 
 /**
  * WindiCSS Configuration File
@@ -28,8 +31,8 @@ export default defineConfig({
   },
   plugins: [
     // https://github.com/tailwindlabs/tailwindcss-typography#usage
-    require('windicss/plugin/typography'),
-    require('windicss/plugin/line-clamp'),
-    require('windicss/plugin/aspect-ratio'),
+    typography,
+    lineClamp,
+    aspectRatio,
   ],
 })

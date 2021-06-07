@@ -40,11 +40,13 @@
               <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
             </div>
             <div
-              ref="descContainer"
-              class="overflow-hidden transition-all duration-600 ease-in-out"
-              :style="{ maxHeight: expandDesc ? (descContainer ? descContainer.scrollWidth + 'px' : 'none') : '96px' }"
+              ref="descText"
+              class="overflow-hidden transform-gpu transition-all duration-600 ease-in-out my-2"
+              :style="{
+                height: expandDesc && descScrollHeight > 0 ? descScrollHeight + 'px' : '96px',
+              }"
             >
-              <MarkdownBlock ref="descText" class="py-2" size="sm" :text="playlist.item.desc" />
+              <MarkdownBlock size="sm" :text="playlist.item.desc" />
             </div>
             <div
               v-if="shouldClampDesc || expandDesc"
@@ -151,7 +153,7 @@ import Footer from '@/common/components/Footer.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import { computed, defineComponent, nextTick, ref, watchEffect } from 'vue'
+import { computed, defineComponent, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import NProgress from 'nprogress'
@@ -159,7 +161,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { gql, Query, useQuery, useResult } from '@/graphql'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { pageOfVideo } from '@/video/lib/biliHelper'
-import { templateRef, useElementBounding, useElementSize, useIntersectionObserver } from '@vueuse/core'
+import { templateRef, useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import { screenSizes } from '@/tailwindcss'
 
 export default defineComponent({
@@ -171,11 +173,6 @@ export default defineComponent({
     RelativeDate,
   },
   async setup() {
-    const descContainer = templateRef('descContainer')
-    const { height: containerHeight } = useElementBounding(descContainer)
-    const descText = templateRef('descText')
-    const { height: textHeight } = useElementSize(descText)
-
     const { t } = useI18n()
     const router = useRouter()
 
@@ -262,10 +259,16 @@ export default defineComponent({
       }
     })
 
-    console.log(playlist)
-
-    const shouldClampDesc = computed(() => textHeight.value > containerHeight.value)
+    const descText = templateRef('descText')
+    const { height: descBoundingHeight } = useElementBounding(descText)
+    const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
     const expandDesc = ref(false)
+    const descScrollHeight = ref(0)
+    const updateScrollHeight = () => {
+      descScrollHeight.value = descText.value?.scrollHeight || 0
+    }
+    onMounted(updateScrollHeight)
+    onUpdated(updateScrollHeight)
 
     return {
       t,
@@ -275,8 +278,7 @@ export default defineComponent({
       offset,
       expandDesc,
       shouldClampDesc,
-      textHeight,
-      descContainer,
+      descScrollHeight,
       descText,
       router,
       screenSizes,
