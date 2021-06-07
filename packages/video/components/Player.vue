@@ -204,6 +204,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import { computed, ref, nextTick, onMounted, watch, defineProps } from 'vue'
 import {
@@ -324,7 +325,7 @@ const root = templateRef('root')
 const { width } = useElementSize(root)
 const height = computed(() => (width.value / 16) * 9)
 
-const video = templateRef<HTMLVideoElement>('video')
+const video = templateRef<HTMLVideoElement | null>('video')
 
 /* control bar */
 const showControlBar = ref(true)
@@ -413,8 +414,6 @@ const toSettingsParent = () => {
   activeSettingsItemName.value = activeSettingsItem.value.parent as string
 }
 
-const src = ref('')
-
 /* loading log */
 const logText = ref('')
 const logEl = templateRef('logEl')
@@ -438,17 +437,19 @@ const onPlayPause = () => {
 }
 onMounted(() => {
   watch(playing, () => {
-    try {
-      if (video.value.currentTime === video.value.duration) {
-        video.value.currentTime = 0
-        audio.value.currentTime = 0
+    if (video.value && audio.value) {
+      try {
+        if (video.value.currentTime === video.value.duration) {
+          video.value.currentTime = 0
+          audio.value.currentTime = 0
+        }
+        playing.value ? video.value.play() : video.value.pause()
+      } catch (_) {
+        //
       }
-      playing.value ? video.value.play() : video.value.pause()
-    } catch (_) {
-      //
     }
   })
-  video.value.addEventListener('ended', () => {
+  useEventListener(video, 'ended', () => {
     playing.value = false
   })
 })
@@ -483,32 +484,33 @@ onMounted(() => {
   //     console.log('audio', i, e)
   //   })
   // }
-  useEventListener(video.value, 'play', () => {
-    if (hasAudioStream.value) {
-      audio.value.currentTime = video.value.currentTime
+  useEventListener(video, 'play', () => {
+    if (hasAudioStream.value && audio.value) {
+      audio.value.currentTime = video.value!.currentTime
       audio.value.play()
     }
   })
-  useEventListener(video.value, 'pause', () => {
-    if (hasAudioStream.value) {
-      audio.value.currentTime = video.value.currentTime
+  useEventListener(video, 'pause', () => {
+    if (hasAudioStream.value && audio.value) {
+      audio.value.currentTime = video.value!.currentTime
       audio.value.pause()
     }
   })
 })
 const duration = ref(0)
 onMounted(() => {
-  useEventListener(video.value, 'durationchange', () => {
-    duration.value = video.value.duration
+  useEventListener(video, 'durationchange', () => {
+    duration.value = video.value!.duration
   })
 })
 const videoElementReady = ref(false)
 
 /* dedicated audio track */
-const audio = templateRef<HTMLAudioElement>('audio')
+const audio = templateRef<HTMLAudioElement | null>('audio')
 onMounted(() => {
   useEventListener(audio.value, 'timeupdate', () => {
-    if (!audio.value.paused && audioReady.value && (video.value.paused || !videoReady.value)) audio.value.pause()
+    if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
+      audio.value!.pause()
   })
 })
 
@@ -583,7 +585,7 @@ const progressbar = templateRef<HTMLDivElement>('progressbar')
 const syncAudio = useLocalStorage('player_settings_sync_audio', false)
 onMounted(() => {
   useEventListener(video.value, 'timeupdate', () => {
-    currentTime.value = video.value.currentTime
+    currentTime.value = video.value!.currentTime
     if (hasAudioStream.value) {
       if (videoReady.value && audioReady.value) {
         // console.log(
@@ -592,27 +594,27 @@ onMounted(() => {
         //   video.value.currentTime,
         //   audio.value.currentTime - video.value.currentTime
         // )
-        if (syncAudio.value && Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
-          audio.value.currentTime = video.value.currentTime + (audio.value.currentTime - currentTime.value)
+        if (audio.value && syncAudio.value && Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
+          audio.value.currentTime = video.value!.currentTime + (audio.value.currentTime - currentTime.value)
           audio.value.play()
         }
-        if (audio.value.paused && !video.value.paused) audio.value.play()
-        if (!audio.value.paused && video.value.paused) audio.value.pause()
+        if (audio.value && audio.value.paused && !video.value!.paused) audio.value.play()
+        if (audio.value && !audio.value.paused && video.value!.paused) audio.value.pause()
       } else {
-        video.value.pause()
+        video.value!.pause()
         watch(
           audioReady,
           () => {
             if (audioReady.value && playing.value) {
-              video.value.play()
+              video.value!.play()
             }
           },
           { flush: 'post' }
         )
       }
     }
-    videoLoadedAmount.value = video.value.buffered
-    audioLoadedAmount.value = audio.value.buffered
+    if (video.value) videoLoadedAmount.value = video.value.buffered
+    if (audio.value) audioLoadedAmount.value = audio.value.buffered
   })
   // useEventListener(video.value, 'progress', () => {
   //   videoLoadedAmount.value = video.value.buffered
@@ -623,9 +625,11 @@ onMounted(() => {
   useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
     let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
-    currentTime.value = audio.value.currentTime = video.value.currentTime = percentage * duration.value
+    currentTime.value = percentage * duration.value
   })
+  let dragging = false
   useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
+    dragging = true
     const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
       let percentage = (e.clientX - progressbar.value.getBoundingClientRect().left) / progressbar.value.clientWidth
       percentage = Math.max(0, Math.min(1, percentage))
@@ -634,39 +638,45 @@ onMounted(() => {
     const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
       stopMouseMove()
       stopMouseUp()
+      dragging = false
     })
+  })
+  watch(currentTime, () => {
+    if (!dragging) {
+      if (video.value) video.value.currentTime = currentTime.value
+      if (audio.value) audio.value.currentTime = currentTime.value
+    }
   })
 })
 
 /* volume bar */
 const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
-onMounted(() => {
-  watch(
-    volume,
-    () => {
-      video.value.volume = volume.value
-      audio.value.volume = volume.value
-    },
-    { immediate: true }
-  )
-})
+watch(
+  () => {
+    volume.value
+    video.value
+    audio.value
+  },
+  () => {
+    if (video.value && video.value.volume !== volume.value) video.value.volume = volume.value
+    if (audio.value && audio.value.volume !== volume.value) audio.value.volume = volume.value
+  }
+)
 const volumebar = templateRef<HTMLDivElement>('volumebar')
-onMounted(() => {
-  useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
+useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
+  let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+  percentage = Math.max(0, Math.min(1, percentage))
+  volume.value = percentage
+})
+useEventListener(volumebar.value, 'mousedown', (e: DragEvent) => {
+  const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
     let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     volume.value = percentage
   })
-  useEventListener(volumebar.value, 'mousedown', (e: DragEvent) => {
-    const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-      let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
-      percentage = Math.max(0, Math.min(1, percentage))
-      volume.value = percentage
-    })
-    const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
-      stopMouseMove()
-      stopMouseUp()
-    })
+  const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+    stopMouseMove()
+    stopMouseUp()
   })
 })
 
@@ -703,7 +713,17 @@ const getMIME = (container: string, codecs?: string, isAudio = false) =>
 const hasAudioStream = ref(false)
 const streamQuality = ref('')
 const currentStream = ref<VideoStream | undefined>()
-const playStream = (quality: string) => {
+const playStream = async (quality: string) => {
+  if (!video.value || !audio.value)
+    await new Promise<void>((r) => {
+      watch(
+        () => {
+          video.value
+          audio.value
+        },
+        () => video.value && audio.value && r()
+      )
+    })
   streamQuality.value = quality
   if (video.value) {
     log(t('video.player.play-stream.source.video.source-changing') + '\n')
@@ -742,7 +762,7 @@ const playStream = (quality: string) => {
                   type: 'flv',
                   url: stream.src[0].replace(/^http:/, 'https:'),
                 })
-                flvPlayer.attachMediaElement(video.value)
+                flvPlayer.attachMediaElement(video.value!)
                 log(t('video.player.play-stream.container.flv.source-loading') + '\n')
                 flvPlayer.load()
                 flvPlayer.on('metadata_arrived', () => {
@@ -766,13 +786,13 @@ const playStream = (quality: string) => {
             log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
             currentStream.value = stream
             videoElementReady.value = true
-            video.value.removeEventListener('canplay', onCanplay)
+            video.value!.removeEventListener('canplay', onCanplay)
           }
           video.value.addEventListener('canplay', onCanplay)
           if (stream.audioStreams) {
-            audio.value.src = stream.audioStreams[0].src[0]
-            audio.value.currentTime = video.value.currentTime
-            audio.value.load()
+            audio.value!.src = stream.audioStreams[0].src[0]
+            audio.value!.currentTime = video.value.currentTime
+            audio.value!.load()
             hasAudioStream.value = true
           }
           video.value.load()
@@ -787,88 +807,86 @@ const playStream = (quality: string) => {
 }
 
 const url = ref('')
-onMounted(() => {
-  watch(
-    () => props.item.url,
-    () => {
-      if (!props.item.url) return
-      log(t('video.player.video.info-fetching') + '\n')
-      url.value = props.item.url
-      log(t('video.player.video.URL', { url: url.value }) + '\n')
-      log(t('video.player.video.address-parsing') + '\n')
-      fetch('https://patchyvideo.com/be/helper/get_video_stream', {
-        method: 'POST',
-        credentials: 'include',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          url: url.value,
-        }),
-      })
-        .then((data) => data.json())
-        .then((result: FetchResult<VideoData>) => {
-          if (result.data) {
-            console.log(result.data)
-            switch (result.data.extractor) {
-              case 'BiliBili': {
-                streams.value = result.data.streams as VideoStream[]
-                const stream = streams.value[0]
-                log(
-                  t('video.player.video.profile.known-source', {
-                    source: 'BiliBili',
-                    format: stream.container,
-                    quality: stream.quality,
-                  }) + '\n'
-                )
-                playStream(stream.quality)
-                break
-              }
-              case 'Youtube': {
-                let videoStreams: VideoStream[] = []
-                const audioStreams: AudioStream[] = []
-                result.data.streams.forEach((s) => {
-                  if (s.quality === 'tiny') {
-                    audioStreams.push(s as AudioStream)
-                  } else {
-                    videoStreams.push(s as VideoStream)
-                  }
-                })
-                videoStreams = videoStreams
-                  .map((v) => ({ ...v, audioStreams: audioStreams }))
-                  .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
-                  .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
-                streams.value = videoStreams
-                const stream = streams.value[0]
-                log(
-                  t('video.player.video.profile.known-source', {
-                    source: 'Youtube',
-                    format: stream.container,
-                    quality: stream.quality,
-                  }) + '\n'
-                )
-                console.log(streams)
-                playStream(stream.quality)
-                break
-              }
-              default: {
-                log(t('video.player.video.profile.unknown-source', { source: result.data.extractor }))
-                throw 'unknown extractor'
-              }
+watch(
+  () => props.item.url,
+  () => {
+    if (!props.item.url) return
+    log(t('video.player.video.info-fetching') + '\n')
+    url.value = props.item.url
+    log(t('video.player.video.URL', { url: url.value }) + '\n')
+    log(t('video.player.video.address-parsing') + '\n')
+    fetch('https://patchyvideo.com/be/helper/get_video_stream', {
+      method: 'POST',
+      credentials: 'include',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        url: url.value,
+      }),
+    })
+      .then((data) => data.json())
+      .then((result: FetchResult<VideoData>) => {
+        if (result.data) {
+          console.log(result.data)
+          switch (result.data.extractor) {
+            case 'BiliBili': {
+              streams.value = result.data.streams as VideoStream[]
+              const stream = streams.value[0]
+              log(
+                t('video.player.video.profile.known-source', {
+                  source: 'BiliBili',
+                  format: stream.container,
+                  quality: stream.quality,
+                }) + '\n'
+              )
+              playStream(stream.quality)
+              break
             }
-          } else {
-            throw 'no data'
+            case 'Youtube': {
+              let videoStreams: VideoStream[] = []
+              const audioStreams: AudioStream[] = []
+              result.data.streams.forEach((s) => {
+                if (s.quality === 'tiny') {
+                  audioStreams.push(s as AudioStream)
+                } else {
+                  videoStreams.push(s as VideoStream)
+                }
+              })
+              videoStreams = videoStreams
+                .map((v) => ({ ...v, audioStreams: audioStreams }))
+                .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
+                .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
+              streams.value = videoStreams
+              const stream = streams.value[0]
+              log(
+                t('video.player.video.profile.known-source', {
+                  source: 'Youtube',
+                  format: stream.container,
+                  quality: stream.quality,
+                }) + '\n'
+              )
+              console.log(streams)
+              playStream(stream.quality)
+              break
+            }
+            default: {
+              log(t('video.player.video.profile.unknown-source', { source: result.data.extractor }))
+              throw 'unknown extractor'
+            }
           }
-        })
-        .catch(() => {
-          enableIframe()
-        })
-    },
-    {
-      immediate: true,
-    }
-  )
-})
+        } else {
+          throw 'no data'
+        }
+      })
+      .catch(() => {
+        enableIframe()
+      })
+  },
+  {
+    immediate: true,
+  }
+)
 
 const streams = ref<VideoStream[]>([])
 </script>
