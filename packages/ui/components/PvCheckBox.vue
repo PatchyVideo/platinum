@@ -15,7 +15,10 @@
         h-8
         inline-block
         relative
+        transform-gpu
         transition-colors
+        ease-out
+        duration-200
         before:(content
         absolute
         w-8
@@ -24,6 +27,7 @@
         rounded-full
         bg-white
         shadow
+        transform-gpu
         transition-all
         duration-200)
         checked:(bg-pink-300
