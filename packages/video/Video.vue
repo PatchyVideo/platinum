@@ -200,7 +200,7 @@ const { t } = useI18n()
 
 /* submit query */
 const route = useRoute()
-const vid = computed(() => <string>route.params.vid)
+const vid = computed(() => route.params.vid as string)
 const { result, loading } = useQuery<Query>(
   gql`
     query ($vid: String!) {

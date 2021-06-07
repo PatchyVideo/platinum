@@ -17,7 +17,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 /* submit query */
 const route = useRoute()
-const vid = computed(() => <string>route.params.vid)
+const vid = computed(() => route.params.vid as string)
 const { result } = useQuery<Query>(
   gql`
     query ($vid: String!) {

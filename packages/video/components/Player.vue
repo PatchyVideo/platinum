@@ -295,16 +295,17 @@ type SettingsCheck = {
   text: string
   checked: Ref<boolean>
 }
+type VideoItem = {
+  title: string
+  url: string
+}
 
 const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
 const formats = ['webm_dash', 'mp4_dash', 'flv']
 
 const props = defineProps({
   item: {
-    type: Object as PropType<{
-      title: string
-      url: string
-    }>,
+    type: Object as PropType<VideoItem>,
     required: true,
   },
   fullHeight: {
@@ -379,7 +380,7 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
     items: [
       ...(() => {
         return currentStream.value
-          ? <[SettingText]>[
+          ? ([
               {
                 type: 'text',
                 text: t('video.player.settings.quality.items.current-codec', {
@@ -387,7 +388,7 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
                   codec: currentStream.value.vcodec || 'unknown',
                 }),
               },
-            ]
+            ] as [SettingText])
           : []
       })(),
       ...(() => {
@@ -395,11 +396,11 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
         streams.value.forEach((stream) => {
           if (!qualities.includes(stream.quality)) qualities.push(stream.quality)
         })
-        return <SettingText[]>qualities.map((quality) => ({
+        return qualities.map((quality) => ({
           type: 'text',
           text: `${streamQuality.value === quality ? '·' : ' '} ${quality}`,
           onClick: () => playStream(quality),
-        }))
+        })) as SettingText[]
       })(),
     ],
   },
@@ -409,7 +410,7 @@ watch(activeSettingsItemName, (n, o) => {
   transToParent.value = n === settings.value[o].parent
 })
 const toSettingsParent = () => {
-  activeSettingsItemName.value = <string>activeSettingsItem.value.parent
+  activeSettingsItemName.value = activeSettingsItem.value.parent as string
 }
 
 const src = ref('')
@@ -811,7 +812,7 @@ onMounted(() => {
             console.log(result.data)
             switch (result.data.extractor) {
               case 'BiliBili': {
-                streams.value = <VideoStream[]>result.data.streams
+                streams.value = result.data.streams as VideoStream[]
                 const stream = streams.value[0]
                 log(
                   t('video.player.video.profile.known-source', {
@@ -828,9 +829,9 @@ onMounted(() => {
                 const audioStreams: AudioStream[] = []
                 result.data.streams.forEach((s) => {
                   if (s.quality === 'tiny') {
-                    audioStreams.push(<AudioStream>s)
+                    audioStreams.push(s as AudioStream)
                   } else {
-                    videoStreams.push(<VideoStream>s)
+                    videoStreams.push(s as VideoStream)
                   }
                 })
                 videoStreams = videoStreams
