@@ -1757,15 +1757,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/tlds@npm:^1.207.0":
-  version: 1.207.0
-  resolution: "@types/tlds@npm:1.207.0"
-  dependencies:
-    tlds: "*"
-  checksum: 09a542f778478fbdd4abe1a054cc8eb9d02b2ed3805e8bd02a63b754e959f3de383072be160ffeaf5d98a199c6b0d39202774381537ccf7dc62e23b790a4760e
-  languageName: node
-  linkType: hard
-
 "@types/trusted-types@npm:*":
   version: 2.0.0
   resolution: "@types/trusted-types@npm:2.0.0"
@@ -2198,14 +2189,14 @@ __metadata:
   linkType: hard
 
 "ajv@npm:^8.0.1":
-  version: 8.5.0
-  resolution: "ajv@npm:8.5.0"
+  version: 8.6.0
+  resolution: "ajv@npm:8.6.0"
   dependencies:
     fast-deep-equal: ^3.1.1
     json-schema-traverse: ^1.0.0
     require-from-string: ^2.0.2
     uri-js: ^4.2.2
-  checksum: 91274ac6627004c68467e8a05643b448d5581e77218c0331527d080c494cd24b5713c662ad8632fb2e46cbe5c9475aa73c8385ed59fa44b5813ff1c5e7b066c8
+  checksum: 4eed9ee72e752d34a99541d04a608030db17735672ec334563b7cbc5936cb879a394e8f75789174690c7cd58ec2610c8363cb7480c23c15a9ca4424911cd683d
   languageName: node
   linkType: hard
 
@@ -2758,9 +2749,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001219, caniuse-lite@npm:^1.0.30001230":
-  version: 1.0.30001234
-  resolution: "caniuse-lite@npm:1.0.30001234"
-  checksum: 0c8e2b68e227eb47121ca0c93bda530bbe8475a3e2ab14138a3d751258817c1a16c8a86a0809637fb90d48f92b63e47740f863c806f3e6de012e417dc3cb54c4
+  version: 1.0.30001235
+  resolution: "caniuse-lite@npm:1.0.30001235"
+  checksum: 4951fd24c07f6e1c5b05e4b2e121564eb0f50eca4aceb6901e60764a5fa5361c79721e2ccc60fb2134312f3b46ae8dda622e325e2f2ed5b864d844640e5bf8b9
   languageName: node
   linkType: hard
 
@@ -4620,11 +4611,11 @@ fsevents@~2.3.1:
   linkType: hard
 
 "graphql-ws@npm:^4.4.1":
-  version: 4.8.0
-  resolution: "graphql-ws@npm:4.8.0"
+  version: 4.9.0
+  resolution: "graphql-ws@npm:4.9.0"
   peerDependencies:
     graphql: ">=0.11 <=15"
-  checksum: a65164543ac7894e84285a5d85020eb3ad79e477c0b0a215b3cba142f2f342ed12513d2e61a0cf0e523477b5f68aee40c2d74efb0dd21c5c03b825c7d9c57bb1
+  checksum: 2a314ef9f494f54b79dee0fbe47937cc82c7374492a8eccc72a73c4f5c1f8c0f72631a89583f964bb66fb91e1e100f22e467c051553b545edaa6e35abb1d7d6d
   languageName: node
   linkType: hard
 
@@ -7049,7 +7040,6 @@ fsevents@~2.3.1:
     "@types/lodash.template": ^4
     "@types/markdown-it": ^12.0.1
     "@types/nprogress": ^0.2.0
-    "@types/tlds": ^1.207.0
     "@typescript-eslint/eslint-plugin": ^4.26.0
     "@typescript-eslint/parser": ^4.26.0
     "@vitejs/plugin-vue": ^1.2.3
@@ -7842,8 +7832,8 @@ fsevents@~2.3.1:
   linkType: hard
 
 "rollup@npm:^2.38.5":
-  version: 2.50.6
-  resolution: "rollup@npm:2.50.6"
+  version: 2.51.0
+  resolution: "rollup@npm:2.51.0"
   dependencies:
     fsevents: ~2.3.1
   dependenciesMeta:
@@ -7851,7 +7841,7 @@ fsevents@~2.3.1:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: 68e9092c098f85dafd7ea35cd86b996ba5e70b91cb62bd1b02c0ddcec0f9fe74952695e529b002aeeee69443d287b8c9907cd63a24d062ec9e838a34766b481b
+  checksum: ccdf74c8af028916997a077b18124f2a558ecd37c48de254b479721c10c08656853fa55fb69897eea7fbc8e3d5a3367aa32d27bf3584ac78b70cd265965b9023
   languageName: node
   linkType: hard
 
@@ -8585,7 +8575,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"tlds@npm:*, tlds@npm:^1.221.1":
+"tlds@npm:^1.221.1":
   version: 1.221.1
   resolution: "tlds@npm:1.221.1"
   bin:

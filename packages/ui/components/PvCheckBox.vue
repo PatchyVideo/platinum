@@ -3,7 +3,6 @@
     <input
       :checked="check"
       class="
-        switch
         appearance-none
         outline-none
         rounded-full
@@ -17,57 +16,44 @@
         inline-block
         relative
         transition-colors
+        before:(content
+        absolute
+        w-8
+        inset-y-0
+        left-0
+        rounded-full
+        bg-white
+        shadow
+        transition-all
+        duration-200)
+        checked:(bg-pink-300
+        border-pink-200)
+        checked:before:left-6
       "
-      :class="{ 'h-6 w-12 switch-sm': size === 'sm' }"
+      :class="{ 'h-6 w-12 before:(content w-6)': size === 'sm' }"
       type="checkbox"
-      @change="updateValue()"
+      @change="check = !check"
     />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { useVModel } from '@vueuse/core'
+import { defineEmit, defineProps } from 'vue-demi'
 
-export default defineComponent({
-  components: {},
-  props: {
-    size: {
-      type: String,
-      default: 'md',
-      validator: (value: string) => {
-        return ['sm', 'md'].indexOf(value) !== -1
-      },
-    },
-    check: {
-      type: Boolean,
-      required: true,
-    },
+const props = defineProps({
+  size: {
+    type: String,
+    default: 'md',
+    validator: (value: string) => ['sm', 'md'].indexOf(value) !== -1,
   },
-  emits: ['update:check'],
-  setup(props, { emit }) {
-    function updateValue(): void {
-      emit('update:check', !props.check)
-    }
-    return {
-      updateValue,
-    }
+  check: {
+    type: Boolean,
+    required: true,
   },
 })
-</script>
 
-<style lang="postcss" scoped>
-.switch:before {
-  content: '';
-  @apply absolute w-8 inset-y-0 left-0 rounded-full bg-white shadow transition-all duration-200;
-}
-.switch-sm:before {
-  content: '';
-  @apply w-6;
-}
-.switch:checked {
-  @apply bg-pink-300 border-pink-200;
-}
-.switch:checked:before {
-  @apply left-6;
-}
-</style>
+const emit = defineEmit(['update:check'])
+
+const check = useVModel(props, 'check', emit)
+</script>

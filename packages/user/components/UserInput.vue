@@ -25,8 +25,9 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineEmit, defineProps } from 'vue'
+import { defineEmit, defineProps } from 'vue'
 import type { PropType } from 'vue'
+import { useVModel } from '@vueuse/core'
 
 const props = defineProps({
   value: {
@@ -45,10 +46,7 @@ const props = defineProps({
 
 const emit = defineEmit(['update:value'])
 
-const localValue = computed({
-  get: () => props.value,
-  set: (v) => void emit('update:value', v),
-})
+const localValue = useVModel(props, 'value', emit)
 </script>
 
 <style lang="postcss" scoped>

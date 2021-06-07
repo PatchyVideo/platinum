@@ -41,7 +41,7 @@
           v-for="item in itemList"
           :key="item.value"
           class="p-2 select-none transition-colors hover:bg-gray-100 hover:bg-gray-100 hover:dark:bg-gray-900"
-          @click="changeItem(item.value)"
+          @click="selected = item.value"
         >
           {{ item.name }}
         </li>
@@ -71,60 +71,47 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType, ref, onMounted, onUnmounted } from 'vue'
+<script lang="ts" setup>
+import { ref, defineProps, defineEmit } from 'vue'
+import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useEventListener, useVModel } from '@vueuse/core'
 
-interface selectList {
+interface SelectList {
   name: string
   value: string
 }
 
-export default defineComponent({
-  components: {},
-  props: {
-    itemList: {
-      type: Array as PropType<selectList[]>,
-      default: () => [],
-      requred: true,
-    },
-    selected: {
-      type: String,
-      default: 'default',
-      requred: true,
-    },
+const props = defineProps({
+  itemList: {
+    type: Array as PropType<SelectList[]>,
+    default: () => [],
+    requred: true,
   },
-  emits: ['update:selected'],
-  setup(props, { emit }) {
-    const { t } = useI18n()
-    let listHidden = ref<boolean>(true)
-
-    // Get Item Name By Value
-    function getItemNameByValue(value: string): string {
-      return props.itemList.find((item) => item.value === value)?.name || t('ui.pv-select.select')
-    }
-
-    // Click to hide the list
-    const pvSelectRoot = ref<HTMLDivElement | null>(null)
-    const pvSelectListener = (e: MouseEvent): void => {
-      if (!pvSelectRoot.value?.contains(e.target as HTMLElement)) {
-        listHidden.value = true
-      }
-    }
-    onMounted((): void => {
-      document.addEventListener('click', pvSelectListener)
-    })
-    onUnmounted((): void => {
-      document.removeEventListener('click', pvSelectListener)
-    })
-
-    // Select Item From The List
-    function changeItem(itemValue: string): void {
-      emit('update:selected', itemValue)
-    }
-    return { t, listHidden, getItemNameByValue, pvSelectRoot, changeItem }
+  selected: {
+    type: String,
+    default: 'default',
+    requred: true,
   },
 })
-</script>
 
-<style lang="postcss" scoped></style>
+const emit = defineEmit(['update:selected'])
+
+const selected = useVModel(props, 'selected', emit)
+
+const { t } = useI18n()
+let listHidden = ref<boolean>(true)
+
+// Get Item Name By Value
+function getItemNameByValue(value: string): string {
+  return props.itemList.find((item) => item.value === value)?.name || t('ui.pv-select.select')
+}
+
+// Click to hide the list
+const pvSelectRoot = ref<HTMLDivElement | null>(null)
+useEventListener(document, 'click', (e) => {
+  if (!pvSelectRoot.value?.contains(e.target as HTMLElement)) {
+    listHidden.value = true
+  }
+})
+</script>
