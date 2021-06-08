@@ -1680,13 +1680,13 @@ __metadata:
   linkType: hard
 
 "@types/markdown-it@npm:^12.0.1":
-  version: 12.0.1
-  resolution: "@types/markdown-it@npm:12.0.1"
+  version: 12.0.2
+  resolution: "@types/markdown-it@npm:12.0.2"
   dependencies:
     "@types/highlight.js": ^9.7.0
     "@types/linkify-it": "*"
     "@types/mdurl": "*"
-  checksum: 3ced78ec408b185509f05b81381a6ffe67ac26fca89a352f2479c39b7dc86f1c999a925deaa23f56cf5c57f47aebeb1508035174c83b065bd0bdb0fd3b6cf617
+  checksum: eb6adcbcdbcc51c694770257231f2084cbaf3aeda714a4e6cf32db517d8bb0e3a166eb2fe7d43e2b340cbf563a4957e45dd5a7cb2e75cadd7c355d806be16537
   languageName: node
   linkType: hard
 
@@ -2044,9 +2044,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@windicss/plugin-utils@npm:1.0.1":
-  version: 1.0.1
-  resolution: "@windicss/plugin-utils@npm:1.0.1"
+"@windicss/plugin-utils@npm:1.0.3":
+  version: 1.0.3
+  resolution: "@windicss/plugin-utils@npm:1.0.3"
   dependencies:
     "@antfu/utils": ^0.1.6
     debug: ^4.3.2
@@ -2054,8 +2054,8 @@ __metadata:
     jiti: ^1.10.1
     magic-string: ^0.25.7
     micromatch: ^4.0.4
-    windicss: ^3.1.0
-  checksum: c4ac8d003a9c1a8043d21e1334ab6292545dd86ce5e1e95889e7c6d8102f33298432d4164262cfcbc12a9136fc9b5092489de18862cdf31f0ef9e3bb7175b481
+    windicss: ^3.1.3
+  checksum: 21fc45c2ecafc1aa0e40fc3acf4ba5a2251491a55ba5823d3180de9f4c48423b614fcc78166e2df64be246f122cd160fab71b3641aef62186a50c222a693e741
   languageName: node
   linkType: hard
 
@@ -3736,11 +3736,11 @@ __metadata:
   linkType: hard
 
 "esbuild@npm:^0.12.5":
-  version: 0.12.6
-  resolution: "esbuild@npm:0.12.6"
+  version: 0.12.7
+  resolution: "esbuild@npm:0.12.7"
   bin:
     esbuild: bin/esbuild
-  checksum: 5303e77b84575ab4c71b381d797723f57208dd314c2d85e12b7f23fcd9edebf9e2be4bf2a7a23384205cd953990a4694b07dec00bbab55a6a729b5ca5bf8f0dd
+  checksum: fa8ac782c10dbaf8486b9926de726525977b3280b4204c32a247abe244cd05f02bd4fd37a2091e8170adcc651075f10616b65aabd8ba3e6e14fb680306fdcf62
   languageName: node
   linkType: hard
 
@@ -7272,7 +7272,7 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.1.10, postcss@npm:^8.1.6, postcss@npm:^8.2.10, postcss@npm:^8.3.0":
+"postcss@npm:^8.1.10, postcss@npm:^8.1.6, postcss@npm:^8.3.0":
   version: 8.3.0
   resolution: "postcss@npm:8.3.0"
   dependencies:
@@ -7832,8 +7832,8 @@ fsevents@~2.3.1:
   linkType: hard
 
 "rollup@npm:^2.38.5":
-  version: 2.51.0
-  resolution: "rollup@npm:2.51.0"
+  version: 2.51.1
+  resolution: "rollup@npm:2.51.1"
   dependencies:
     fsevents: ~2.3.1
   dependenciesMeta:
@@ -7841,7 +7841,7 @@ fsevents@~2.3.1:
       optional: true
   bin:
     rollup: dist/bin/rollup
-  checksum: ccdf74c8af028916997a077b18124f2a558ecd37c48de254b479721c10c08656853fa55fb69897eea7fbc8e3d5a3367aa32d27bf3584ac78b70cd265965b9023
+  checksum: 84aaa1bdc63d45613ddf8ddf9ca1bff2262f26bc014e7a0d69696a3ede88af45b2fba16e079421a8683c88f842a852a68fde13ada2e4d765831d19759f3265e0
   languageName: node
   linkType: hard
 
@@ -9069,26 +9069,26 @@ typescript@4.3.2:
   linkType: hard
 
 "vite-plugin-windicss@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "vite-plugin-windicss@npm:1.0.1"
+  version: 1.0.3
+  resolution: "vite-plugin-windicss@npm:1.0.3"
   dependencies:
-    "@windicss/plugin-utils": 1.0.1
+    "@windicss/plugin-utils": 1.0.3
     chalk: ^4.1.1
     debug: ^4.3.2
-    windicss: ^3.1.0
+    windicss: ^3.1.3
   peerDependencies:
     vite: ^2.0.1
-  checksum: 520e68461712e1676f3458fe7e8ececf679e669359667cda3cd935f05a63ebb19e4a43dffaa4c5ccac227ba935315bdf6c17d04939d3ad208925771dc94a839a
+  checksum: eaba563d7020393e3a5ac873f367a0ef29338f584f93fcf6516a2fb6e6e16d3550ce4d75bfe707b24f4e06ea94d6ab8fa3f9a16c99ba091f9c5418f6c42870fc
   languageName: node
   linkType: hard
 
 "vite@npm:^2.3.6":
-  version: 2.3.6
-  resolution: "vite@npm:2.3.6"
+  version: 2.3.7
+  resolution: "vite@npm:2.3.7"
   dependencies:
     esbuild: ^0.12.5
     fsevents: ~2.3.1
-    postcss: ^8.2.10
+    postcss: ^8.3.0
     resolve: ^1.19.0
     rollup: ^2.38.5
   dependenciesMeta:
@@ -9096,7 +9096,7 @@ typescript@4.3.2:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 94c32cd21c64ae872e5f22153036102459307c658ffb1f54d8cd38413d3a664f98a28d904c285055bc34b518cf5ba1e0164fda608157e49b9e544a0ca58c9918
+  checksum: d22efa9b20fec505d8813e87d0faf82a7160283da806487106bede729605b7c2b67ca9a829cd5d7c878c81ec4108e422ebae0e0928fe714265466c0056aa5ce3
   languageName: node
   linkType: hard
 
@@ -9254,12 +9254,12 @@ typescript@4.3.2:
   languageName: node
   linkType: hard
 
-"windicss@npm:^3.1.0":
-  version: 3.1.2
-  resolution: "windicss@npm:3.1.2"
+"windicss@npm:^3.1.3":
+  version: 3.1.3
+  resolution: "windicss@npm:3.1.3"
   bin:
     windicss: cli/index.js
-  checksum: 9a046390afb461376f98e6d93eba368850000176086838bec11440df863eb782d715472f3429ad7ea26947254b04ef19c09b7bdf47882acec3eb91f57d0f6610
+  checksum: a00d2bb581c4503eb654982411c1c20a4b357c3d2301ace963658d0d0016ae28cb2e0d0ca09e06c95035130e22a804b58c50bdf9664b0192d19aca3aedf12fe9
   languageName: node
   linkType: hard
 
