@@ -290,7 +290,7 @@ function jumpToVideoResult(id: string): void {
   @apply bg-center;
   @apply bg-no-repeat;
   @apply bg-contain;
-  background-image: url('./assets/SearchResultBackImg.png');
+  background-image: url('../assets/SearchResultBackImg.png');
 }
 .title {
   display: -webkit-box;
