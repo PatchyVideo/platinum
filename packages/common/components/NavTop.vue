@@ -199,7 +199,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { defineComponent, ref, onMounted, onUnmounted, computed, defineProps } from 'vue'
+import { ref, computed, defineProps } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
@@ -209,7 +209,7 @@ import { screenSizes } from '@/tailwindcss'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 
-const props = defineProps({
+defineProps({
   showSearchBar: {
     type: Boolean,
     default: true,

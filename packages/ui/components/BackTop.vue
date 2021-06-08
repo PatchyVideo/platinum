@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import { useEventListener, useThrottleFn } from '@vueuse/core'
-import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
