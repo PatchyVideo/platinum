@@ -4,6 +4,7 @@
   "i18n-ally.sourceLanguage": "zh-Hans-CN",
   "volar.tsPlugin": true,
   "windicss.enableCodeFolding": false,
+  "typescript.tsdk": "./node_modules/typescript/lib",
   "conventionalCommits.scopes": [
     "deps",
     "user",

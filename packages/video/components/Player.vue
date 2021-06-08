@@ -336,7 +336,7 @@ const delayedHideControlBar = useThrottleFn((delay = 200) => {
       showControlBar.value = false
     },
     delay,
-    true
+    { immediate: true }
   )
   stopHideControlBar = stop
 })
@@ -507,7 +507,7 @@ const videoElementReady = ref(false)
 /* dedicated audio track */
 const audio = ref<HTMLAudioElement | null>(null)
 onMounted(() => {
-  useEventListener(audio.value, 'timeupdate', () => {
+  useEventListener(audio, 'timeupdate', () => {
     if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
       audio.value!.pause()
   })
@@ -518,16 +518,16 @@ const audioReady = ref(false)
 const videoReady = ref(false)
 const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
 onMounted(() => {
-  useEventListener(video.value, 'waiting', () => {
+  useEventListener(video, 'waiting', () => {
     videoReady.value = false
   })
-  useEventListener(video.value, 'canplay', () => {
+  useEventListener(video, 'canplay', () => {
     videoReady.value = true
   })
-  useEventListener(audio.value, 'waiting', () => {
+  useEventListener(audio, 'waiting', () => {
     audioReady.value = false
   })
-  useEventListener(audio.value, 'canplay', () => {
+  useEventListener(audio, 'canplay', () => {
     audioReady.value = true
   })
 })
@@ -583,7 +583,7 @@ const progress = computed(() => currentTime.value / duration.value)
 const progressbar = ref<HTMLDivElement | null>(null)
 const syncAudio = useLocalStorage('player_settings_sync_audio', false)
 onMounted(() => {
-  useEventListener(video.value, 'timeupdate', () => {
+  useEventListener(video, 'timeupdate', () => {
     currentTime.value = video.value!.currentTime
     if (hasAudioStream.value) {
       if (videoReady.value && audioReady.value) {
@@ -615,19 +615,19 @@ onMounted(() => {
     if (video.value) videoLoadedAmount.value = video.value.buffered
     if (audio.value) audioLoadedAmount.value = audio.value.buffered
   })
-  // useEventListener(video.value, 'progress', () => {
+  // useEventListener(video, 'progress', () => {
   //   videoLoadedAmount.value = video.value.buffered
   // })
-  // useEventListener(audio.value, 'progress', () => {
+  // useEventListener(audio, 'progress', () => {
   //   audioLoadedAmount.value = audio.value.buffered
   // })
-  useEventListener(progressbar.value, 'click', (e: MouseEvent) => {
+  useEventListener(progressbar, 'click', (e: MouseEvent) => {
     let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     currentTime.value = percentage * duration.value
   })
   let dragging = false
-  useEventListener(progressbar.value, 'mousedown', (e: DragEvent) => {
+  useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
     dragging = true
     const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
       let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
@@ -662,14 +662,14 @@ watch(
   }
 )
 const volumebar = ref<HTMLDivElement | null>(null)
-useEventListener(volumebar.value, 'click', (e: MouseEvent) => {
-  let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+useEventListener(volumebar, 'click', (e: MouseEvent) => {
+  let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
   percentage = Math.max(0, Math.min(1, percentage))
   volume.value = percentage
 })
-useEventListener(volumebar.value, 'mousedown', (e: DragEvent) => {
+useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
   const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-    let percentage = (e.clientX - volumebar.value.getBoundingClientRect().left) / volumebar.value.clientWidth
+    let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     volume.value = percentage
   })
@@ -781,13 +781,12 @@ const playStream = async (quality: string) => {
         case 'mp4_dash': {
           log(t('video.player.play-stream.container.mp4_dash.source-loading') + '\n')
           video.value.src = stream.src[0]
-          const onCanplay = () => {
+          const stopOnVideoCanPlay = useEventListener(video, 'canplay', () => {
             log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
             currentStream.value = stream
             videoElementReady.value = true
-            video.value!.removeEventListener('canplay', onCanplay)
-          }
-          video.value.addEventListener('canplay', onCanplay)
+            stopOnVideoCanPlay()
+          })
           if (stream.audioStreams) {
             audio.value!.src = stream.audioStreams[0].src[0]
             audio.value!.currentTime = video.value.currentTime

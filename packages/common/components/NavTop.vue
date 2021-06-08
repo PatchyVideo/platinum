@@ -193,104 +193,70 @@
   <div class="hidden invisible" v-html="hiddenStyle"></div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, onMounted, onUnmounted, computed } from 'vue'
-import { useRouter } from 'vue-router'
-import { isDark } from '@/darkmode'
-import { locale, messages } from '@/locales'
-import { screenSizes } from '@/tailwindcss'
-import { useI18n } from 'vue-i18n'
-import { progressing } from '@/common/lib/progressing'
-import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
+<script lang="ts" setup>
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import { defineComponent, ref, onMounted, onUnmounted, computed, defineProps } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useEventListener } from '@vueuse/core'
+import { isDark } from '@/darkmode'
+import { locale, messages } from '@/locales'
+import { screenSizes } from '@/tailwindcss'
+import { progressing } from '@/common/lib/progressing'
+import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 
-export default defineComponent({
-  components: {
-    Logo,
-    AutoComplete,
-    PvSelect,
-    PvCheckBox,
-    UserAvatar,
-  },
-  props: {
-    showSearchBar: {
-      type: Boolean,
-      default: true,
-    },
-  },
-  setup() {
-    const { t } = useI18n()
-
-    /* User list Operation */
-    const userListOpen = ref<boolean>(false)
-    const userList = ref<HTMLDivElement | null>(null)
-    const userListListener = (e: MouseEvent): void => {
-      if (!userList.value?.contains(e.target as HTMLElement)) {
-        userListOpen.value = false
-      }
-    }
-    onMounted((): void => {
-      document.addEventListener('click', userListListener)
-    })
-    onUnmounted((): void => {
-      document.removeEventListener('click', userListListener)
-    })
-
-    /* Drawer Operation */
-    const drawerOpen = ref<boolean | undefined>()
-    const hiddenStyle = computed(() => (drawerOpen.value ? '<style>body{overflow:hidden;}</style>' : ''))
-
-    /* Search */
-    const router = useRouter()
-    function searchResult(searchContent: string): void {
-      router.push({ path: '/search-result', query: { i: searchContent } })
-    }
-
-    /* Back to home page */
-    function toHome(): void {
-      router.push({ path: '/' })
-    }
-
-    /* Log out */
-    async function logout(): Promise<void> {
-      await fetch('https://patchyvideo.com/be/logout.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({}),
-        credentials: 'include',
-      })
-      clearUserDataFromLocalStorage()
-      location.reload()
-    }
-
-    const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
-
-    return {
-      t,
-      locale,
-      screenSizes,
-      isDark,
-      languageList,
-      user,
-      userList,
-      userListOpen,
-      isLogin,
-      IsLogin,
-      drawerOpen,
-      searchResult,
-      toHome,
-      logout,
-      progressing,
-      hiddenStyle,
-    }
+const props = defineProps({
+  showSearchBar: {
+    type: Boolean,
+    default: true,
   },
 })
+
+const { t } = useI18n()
+
+/* User list Operation */
+const userListOpen = ref<boolean>(false)
+const userList = ref<HTMLDivElement | null>(null)
+useEventListener(document, 'click', (e: MouseEvent): void => {
+  if (!userList.value?.contains(e.target as HTMLElement)) {
+    userListOpen.value = false
+  }
+})
+
+/* Drawer Operation */
+const drawerOpen = ref<boolean | undefined>()
+const hiddenStyle = computed(() => (drawerOpen.value ? '<style>body{overflow:hidden;}</style>' : ''))
+
+/* Search */
+const router = useRouter()
+function searchResult(searchContent: string): void {
+  router.push({ path: '/search-result', query: { i: searchContent } })
+}
+
+/* Back to home page */
+function toHome(): void {
+  router.push({ path: '/' })
+}
+
+/* Log out */
+async function logout(): Promise<void> {
+  await fetch('https://patchyvideo.com/be/logout.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({}),
+    credentials: 'include',
+  })
+  clearUserDataFromLocalStorage()
+  location.reload()
+}
+
+const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
 </script>
 
 <style lang="postcss" scoped>
