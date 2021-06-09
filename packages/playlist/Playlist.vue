@@ -139,6 +139,9 @@
               ></div>
             </div>
           </div>
+          <div v-if="fetchingMore" class="flex justify-center pt-4">
+            <icon-uil-spinner-alt class="text-xl animate-spin" />
+          </div>
         </div>
       </template>
     </div>
@@ -147,142 +150,118 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import { computed, defineComponent, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
+import { computed, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import NProgress from 'nprogress'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { gql, Query, useQuery, useResult } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
+import type { Query } from '@/graphql'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { templateRef, useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import { screenSizes } from '@/tailwindcss'
 
-export default defineComponent({
-  components: {
-    NavTop,
-    Footer,
-    MarkdownBlock,
-    UserAvatar,
-    RelativeDate,
-  },
-  async setup() {
-    const { t } = useI18n()
-    const router = useRouter()
+const { t } = useI18n()
+const router = useRouter()
 
-    const observerTarget = templateRef('observerTarget')
-    const fetchingMore = ref(false)
-    const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
-      if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
-        stopObserber()
-        return
-      }
-      if (isIntersecting && !fetchingMore.value && playlist.value) {
-        fetchingMore.value = true
-        fetchMore({
-          variables: {
-            offset: playlist.value.videos.length,
-          },
-        }).then((v) => {
-          result.value.getPlaylist.videos.concat(v.data.getPlaylist.videos)
-          nextTick(() => {
-            fetchingMore.value = false
-          })
-        })
-      }
+const observerTarget = templateRef('observerTarget')
+const fetchingMore = ref(false)
+const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
+  if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
+    stopObserber()
+    return
+  }
+  if (isIntersecting && !fetchingMore.value && playlist.value) {
+    fetchingMore.value = true
+    fetchMore({
+      variables: {
+        offset: playlist.value.videos.length,
+      },
+    }).then((v) => {
+      result.value.getPlaylist.videos.concat(v.data.getPlaylist.videos)
+      nextTick(() => {
+        fetchingMore.value = false
+      })
     })
+  }
+})
 
-    /* submit query */
-    const route = useRoute()
-    const pid = computed(() => <string>route.params.pid)
-    const offset = ref(0)
-    const { result, loading, fetchMore } = useQuery<Query>(
-      gql`
-        query ($pid: String!, $offset: Int!, $limit: Int!) {
-          getPlaylist(para: { pid: $pid }) {
-            item {
-              title
-              cover
-              count
-              desc
-            }
-            rating {
-              totalRating
-            }
-            videos(offset: $offset, limit: $limit) {
-              id
-              item {
-                title
-                partName
-                desc
-                coverImage
-                url
-              }
-            }
-            meta {
-              createdBy {
-                username
-                image
-                gravatar
-              }
-              createdAt
-              modifiedAt
-            }
-            editable
+/* submit query */
+const route = useRoute()
+const pid = computed(() => route.params.pid as string)
+const offset = ref(0)
+const { result, loading, fetchMore } = useQuery<Query>(
+  gql`
+    query ($pid: String!, $offset: Int!, $limit: Int!) {
+      getPlaylist(para: { pid: $pid }) {
+        item {
+          title
+          cover
+          count
+          desc
+        }
+        rating {
+          totalRating
+        }
+        videos(offset: $offset, limit: $limit) {
+          id
+          item {
+            title
+            partName
+            desc
+            coverImage
+            url
           }
         }
-      `,
-      {
-        pid: pid.value,
-        offset: offset.value,
-        limit: 20,
+        meta {
+          createdBy {
+            username
+            image
+            gravatar
+          }
+          createdAt
+          modifiedAt
+        }
+        editable
       }
-    )
-
-    /* basic info */
-    const playlist = useResult(result, null, (data) => data.getPlaylist)
-    // change title
-    watchEffect(() => {
-      if (playlist.value) setSiteTitle(playlist.value.item.title)
-    })
-    watchEffect(() => {
-      if (loading.value) {
-        if (!NProgress.isStarted()) NProgress.start()
-      } else {
-        if (NProgress.isStarted()) NProgress.done()
-      }
-    })
-
-    const descText = templateRef('descText')
-    const { height: descBoundingHeight } = useElementBounding(descText)
-    const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
-    const expandDesc = ref(false)
-    const descScrollHeight = ref(0)
-    const updateScrollHeight = () => {
-      descScrollHeight.value = descText.value?.scrollHeight || 0
     }
-    onMounted(updateScrollHeight)
-    onUpdated(updateScrollHeight)
+  `,
+  {
+    pid: pid.value,
+    offset: offset.value,
+    limit: 20,
+  }
+)
 
-    return {
-      t,
-      getCoverImage,
-      playlist,
-      pageOfVideo,
-      offset,
-      expandDesc,
-      shouldClampDesc,
-      descScrollHeight,
-      descText,
-      router,
-      screenSizes,
-    }
-  },
+/* basic info */
+const playlist = useResult(result, null, (data) => data.getPlaylist)
+// change title
+watchEffect(() => {
+  if (playlist.value) setSiteTitle(playlist.value.item.title)
 })
+watchEffect(() => {
+  if (loading.value) {
+    if (!NProgress.isStarted()) NProgress.start()
+  } else {
+    if (NProgress.isStarted()) NProgress.done()
+  }
+})
+
+const descText = templateRef('descText')
+const { height: descBoundingHeight } = useElementBounding(descText)
+const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
+const expandDesc = ref(false)
+const descScrollHeight = ref(0)
+const updateScrollHeight = () => {
+  descScrollHeight.value = descText.value?.scrollHeight || 0
+}
+onMounted(updateScrollHeight)
+onUpdated(updateScrollHeight)
 </script>
