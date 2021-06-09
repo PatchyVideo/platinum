@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import { defineEmit, defineProps } from 'vue-demi'
+import { defineEmit, defineProps } from 'vue'
 
 const props = defineProps({
   size: {
