@@ -54,13 +54,7 @@ export default defineConfig(async ({ command, mode }) => {
     plugins: [
       yaml(),
       vue(),
-      windicss({
-        transformCSS: 'pre',
-        scan: {
-          dirs: ['packages'],
-          fileExtensions: ['html', 'vue', 'ts', 'tsx', 'js', 'jsx', 'css'],
-        },
-      }),
+      windicss(),
       components({
         dirs: [],
         customComponentResolvers: [

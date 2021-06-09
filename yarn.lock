@@ -12,20 +12,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@apollo/client@npm:^3.0.2, @apollo/client@npm:^3.3.19":
-  version: 3.3.19
-  resolution: "@apollo/client@npm:3.3.19"
+"@apollo/client@npm:^3.0.2, @apollo/client@npm:^3.3.20":
+  version: 3.3.20
+  resolution: "@apollo/client@npm:3.3.20"
   dependencies:
     "@graphql-typed-document-node/core": ^3.0.0
     "@types/zen-observable": ^0.8.0
     "@wry/context": ^0.6.0
-    "@wry/equality": ^0.4.0
+    "@wry/equality": ^0.5.0
     fast-json-stable-stringify: ^2.0.0
     graphql-tag: ^2.12.0
     hoist-non-react-statics: ^3.3.2
     optimism: ^0.16.0
     prop-types: ^15.7.2
-    symbol-observable: ^2.0.0
+    symbol-observable: ^4.0.0
     ts-invariant: ^0.7.0
     tslib: ^1.10.0
     zen-observable: ^0.8.14
@@ -38,7 +38,7 @@ __metadata:
       optional: true
     subscriptions-transport-ws:
       optional: true
-  checksum: a7266cfdff900ef71adece4d24c853fc6179dfe3d3b89905b468b0a487959a435ef84219fb1266c86e2edb0747ff0e52b6ac49dba72bdac7cdbc55e1d0a2e357
+  checksum: ba1e0d92a96e1278d014ccf5f9d7f0082355d2de12e4d4527ea3f5e1f3da5b7b0b274fdc7d18741c4d287bcb00194456cd8276282602962a7ac52fbe773fea26
   languageName: node
   linkType: hard
 
@@ -1679,7 +1679,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/markdown-it@npm:^12.0.1":
+"@types/markdown-it@npm:^12.0.2":
   version: 12.0.2
   resolution: "@types/markdown-it@npm:12.0.2"
   dependencies:
@@ -2018,22 +2018,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vueuse/core@npm:^5.0.1":
-  version: 5.0.1
-  resolution: "@vueuse/core@npm:5.0.1"
+"@vueuse/core@npm:^5.0.2":
+  version: 5.0.2
+  resolution: "@vueuse/core@npm:5.0.2"
   dependencies:
-    "@vueuse/shared": 5.0.1
+    "@vueuse/shared": 5.0.2
     vue-demi: "*"
-  checksum: 59da7117752e4697311e6ee1bca7d46f591e52498da0812c76f9508cd70fd3270a367ad2efeb40ead2ce3d52cfc86ab7f190448f8443c2c21f8013ee76964d9d
+  checksum: d215945aceeb553b79ef6e37d025e5ab96332a828ae15dcfaf23c8a644d4be1a9650864823d9a3812e9611b38dd824a1137304c46e015cb14a8a97746158597d
   languageName: node
   linkType: hard
 
-"@vueuse/shared@npm:5.0.1":
-  version: 5.0.1
-  resolution: "@vueuse/shared@npm:5.0.1"
+"@vueuse/shared@npm:5.0.2":
+  version: 5.0.2
+  resolution: "@vueuse/shared@npm:5.0.2"
   dependencies:
     vue-demi: "*"
-  checksum: f6ea384637e9d22223b7e66fa6786ffebc655e76e45f22c4e758d37eeac65bc6dd8f05f99e35f5e8efb6746dd50da6115032c7b3bd036972d643a1998c4289cf
+  checksum: e6f7b512aa9daeb02c850d498c1893750d6fa6b1f2535d9e3a858b0b1d6bb9d432a137491b5426bca6b0615ce0166f2d7cb612606f6cb4cecbb76f5ce3ddf347
   languageName: node
   linkType: hard
 
@@ -2068,12 +2068,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wry/equality@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "@wry/equality@npm:0.4.0"
+"@wry/equality@npm:^0.5.0":
+  version: 0.5.1
+  resolution: "@wry/equality@npm:0.5.1"
   dependencies:
     tslib: ^2.1.0
-  checksum: 87c2b705edf0cc81e8b034367765762f3d2a1a0bfd9163b70389398bc0fc0338e1f8d68b2eaa70b0f5101c455bf5d419ae4a4f03f7f7697803e34adb9ca86b72
+  checksum: 9338248846ff40aa682c75d4bd5c78ccbda39342cea1246f21c018973b88635e19c8cd4180af57d3dd3f2317da8d269ce50b909be865d43d69815ed9a4afd092
   languageName: node
   linkType: hard
 
@@ -2417,13 +2417,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"async-limiter@npm:~1.0.0":
-  version: 1.0.1
-  resolution: "async-limiter@npm:1.0.1"
-  checksum: d123312ace75c07399ddc58e06cc028dacce35f71cdf59cf9b22f6c31dde221c22285e6185ede823ecb67f3b3065e26205eb9f74fcbba3f12ce7a2c2b09d7763
-  languageName: node
-  linkType: hard
-
 "asynckit@npm:^0.4.0":
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
@@ -2749,9 +2742,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.30001219, caniuse-lite@npm:^1.0.30001230":
-  version: 1.0.30001235
-  resolution: "caniuse-lite@npm:1.0.30001235"
-  checksum: 4951fd24c07f6e1c5b05e4b2e121564eb0f50eca4aceb6901e60764a5fa5361c79721e2ccc60fb2134312f3b46ae8dda622e325e2f2ed5b864d844640e5bf8b9
+  version: 1.0.30001236
+  resolution: "caniuse-lite@npm:1.0.30001236"
+  checksum: 2664f97f51c160b3e5ef74e8fb2e5cb189715855fb81bc9ab64f48e4c41cf5aaedb5c2f22277803851cab0aadb7cbf3e32a7afc631e6df2458d778791ff535bc
   languageName: node
   linkType: hard
 
@@ -3609,9 +3602,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.3.723":
-  version: 1.3.749
-  resolution: "electron-to-chromium@npm:1.3.749"
-  checksum: 7140caa32d93b8377280263aefae18aa27abddcac5426cd1c487f615ff3b0c99e5a8f474b7d27cb6d7f70de1c5872b89ea3d3f6476f052d6ddb24b567d39143c
+  version: 1.3.750
+  resolution: "electron-to-chromium@npm:1.3.750"
+  checksum: 5f96d0af63e74a52fadf0bd9adefd3f68b592d3ab4dea0bcf06792c9caf60008ade8fc2d13232ed6ced9d714973d883f0bd94cf508399852e22bd8c017e4edac
   languageName: node
   linkType: hard
 
@@ -3736,11 +3729,11 @@ __metadata:
   linkType: hard
 
 "esbuild@npm:^0.12.5":
-  version: 0.12.7
-  resolution: "esbuild@npm:0.12.7"
+  version: 0.12.8
+  resolution: "esbuild@npm:0.12.8"
   bin:
     esbuild: bin/esbuild
-  checksum: fa8ac782c10dbaf8486b9926de726525977b3280b4204c32a247abe244cd05f02bd4fd37a2091e8170adcc651075f10616b65aabd8ba3e6e14fb680306fdcf62
+  checksum: 91ad2c8ddb8a3b0b1746e41e09684ab9415fa77aa39b0a07b45e9041cfb8825353e11ae2f4cefb53189f8c5a40edc372aa8cb8093e48d782635576f518a1b662
   languageName: node
   linkType: hard
 
@@ -7025,7 +7018,7 @@ fsevents@~2.3.1:
   version: 0.0.0-use.local
   resolution: "platinum@workspace:."
   dependencies:
-    "@apollo/client": ^3.3.19
+    "@apollo/client": ^3.3.20
     "@formatjs/intl-locale": ^2.4.32
     "@formatjs/intl-localematcher": ^0.2.15
     "@graphql-codegen/cli": ^1.21.5
@@ -7038,14 +7031,14 @@ fsevents@~2.3.1:
     "@types/dompurify": ^2.2.2
     "@types/events": ^3
     "@types/lodash.template": ^4
-    "@types/markdown-it": ^12.0.1
+    "@types/markdown-it": ^12.0.2
     "@types/nprogress": ^0.2.0
     "@typescript-eslint/eslint-plugin": ^4.26.1
     "@typescript-eslint/parser": ^4.26.1
     "@vitejs/plugin-vue": ^1.2.3
     "@vue/apollo-composable": ^4.0.0-alpha.12
     "@vue/compiler-sfc": beta
-    "@vueuse/core": ^5.0.1
+    "@vueuse/core": ^5.0.2
     apollo-link-scalars: ^2.1.3
     autoprefixer: ^10.2.6
     bson-objectid: ^2.0.1
@@ -7071,14 +7064,14 @@ fsevents@~2.3.1:
     prettier: 2.3.1
     rollup-plugin-copy: ^3.4.0
     rollup-plugin-visualizer: ^5.5.0
-    simple-git: ^2.39.0
+    simple-git: ^2.39.1
     tlds: ^1.221.1
     typed.js: ^2.0.12
     typescript: 4.3.2
-    vite: ^2.3.6
+    vite: ^2.3.7
     vite-plugin-components: ^0.10.4
     vite-plugin-icons: ^0.6.1
-    vite-plugin-windicss: ^1.0.1
+    vite-plugin-windicss: ^1.0.3
     vue: beta
     vue-i18n: next
     vue-router: next
@@ -8002,14 +7995,14 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"simple-git@npm:^2.39.0":
-  version: 2.39.0
-  resolution: "simple-git@npm:2.39.0"
+"simple-git@npm:^2.39.1":
+  version: 2.39.1
+  resolution: "simple-git@npm:2.39.1"
   dependencies:
     "@kwsites/file-exists": ^1.1.1
     "@kwsites/promise-deferred": ^1.1.1
     debug: ^4.3.1
-  checksum: 26f46dab06d557219db06a3c3b7e275945a7a0a7ea93eb0905eff9256269c9ca91a710a5f9e1661cd9e3f24259244aaaf589df09a04afed06ab1b2ed4c86756a
+  checksum: 738e1cd94f0f7eaf03eefd0178bf55c5519fa46430029d7bf78fc09310f738064a86536aa28887f428b2e68f5a3c8928162c60de38210dfba987bcb2e154e8b8
   languageName: node
   linkType: hard
 
@@ -8393,17 +8386,17 @@ fsevents@~2.3.1:
   linkType: hard
 
 "subscriptions-transport-ws@npm:^0.9.18":
-  version: 0.9.18
-  resolution: "subscriptions-transport-ws@npm:0.9.18"
+  version: 0.9.19
+  resolution: "subscriptions-transport-ws@npm:0.9.19"
   dependencies:
     backo2: ^1.0.2
     eventemitter3: ^3.1.0
     iterall: ^1.2.1
     symbol-observable: ^1.0.4
-    ws: ^5.2.0
+    ws: ^5.2.0 || ^6.0.0 || ^7.0.0
   peerDependencies:
     graphql: ">=0.10.0"
-  checksum: 54f23dadb344395cff5f4719176fc78f0eced460ee718506981235f3b2ca20b31682ea859afcf988c430d42e1015dbb555f8ad1a219154b2d9f14c33565453ea
+  checksum: d305b2d9db46070edcbadca257df725d241253141d1a1ff019b47ba0f650678b4419e598bdda410d49913ffc2eb76695f4ae8e9cbf8b8cd124f057143a9250b7
   languageName: node
   linkType: hard
 
@@ -8457,10 +8450,10 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"symbol-observable@npm:^2.0.0":
-  version: 2.0.3
-  resolution: "symbol-observable@npm:2.0.3"
-  checksum: c022177891e0aa3169bbaaed68d928ff7a2b5f5b1b2bf655b99804ecfabe280a6f1042dd3bda609475e637c57141d39b33e692b6f6b5fdb29ce7f61cf77be57f
+"symbol-observable@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "symbol-observable@npm:4.0.0"
+  checksum: 6d184cd370270ab53279d2737c6880d64bbe854dbdf3d759600efbc11bba3d006a9f805070c81c84fae949067c069cd001a1440295ca3b36f705b05293bf8e1e
   languageName: node
   linkType: hard
 
@@ -9068,7 +9061,7 @@ typescript@4.3.2:
   languageName: node
   linkType: hard
 
-"vite-plugin-windicss@npm:^1.0.1":
+"vite-plugin-windicss@npm:^1.0.3":
   version: 1.0.3
   resolution: "vite-plugin-windicss@npm:1.0.3"
   dependencies:
@@ -9082,7 +9075,7 @@ typescript@4.3.2:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.3.6":
+"vite@npm:^2.3.7":
   version: 2.3.7
   resolution: "vite@npm:2.3.7"
   dependencies:
@@ -9345,12 +9338,18 @@ typescript@4.3.2:
   languageName: node
   linkType: hard
 
-"ws@npm:^5.2.0":
-  version: 5.2.2
-  resolution: "ws@npm:5.2.2"
-  dependencies:
-    async-limiter: ~1.0.0
-  checksum: c8217b54821ac9109bd395029487fd2a577867d6227624079dfa04c927728be13fdbe43070b2d349e9360d7dd17416c33362ba1062bff3bd9ddab6e9a9272915
+"ws@npm:^5.2.0 || ^6.0.0 || ^7.0.0":
+  version: 7.4.6
+  resolution: "ws@npm:7.4.6"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ^5.0.2
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: ffeb626d92f14aa3a67aa3784824c1d290131e25d225f4ca6b1b6b6d7ea754fca67694d89a5b99b144382365e1bccf1f7ec2f92df56f0d25f44939b070452f06
   languageName: node
   linkType: hard
 

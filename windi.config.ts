@@ -9,6 +9,9 @@ import aspectRatio from 'windicss/plugin/aspect-ratio'
  * Docs: https://windicss.org/guide/configuration.html
  */
 export default defineConfig({
+  extract: {
+    include: ['packages/**/*.{html,vue,ts,tsx,js,jsx,css}'],
+  },
   darkMode: 'class',
   theme: {
     extend: {
