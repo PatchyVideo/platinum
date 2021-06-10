@@ -49,7 +49,12 @@
       </div>
 
       <!-- Videos -->
-      <SearchVideo v-if="tab === Tabs[0].value" :query-word="queryWord" :order="order" :page-count="pageCount" />
+      <SearchVideo
+        v-if="tab === Tabs[0].value"
+        v-model:query-word="queryWord"
+        v-model:order="order"
+        v-model:page-count="pageCount"
+      />
 
       <!-- Playlists -->
     </div>
@@ -151,11 +156,11 @@ export default defineComponent({
     watch(
       URLQuery,
       () => {
-        switch (tab.value) {
-          case Tabs[1].value:
-            queryPlaylists()
-            break
-        }
+        // switch (tab.value) {
+        //   case Tabs[1].value:
+        //     queryPlaylists()
+        //     break
+        // }
       },
       {
         immediate: true,

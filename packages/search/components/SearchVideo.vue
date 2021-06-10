@@ -3,7 +3,7 @@
     <div v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
-      <div v-for="index in 20" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
+      <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-0.5">
           <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
         </div>
@@ -20,7 +20,7 @@
     <!-- Desktop View -->
     <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
       <div
-        v-for="index in 20"
+        v-for="index in limit"
         :key="index"
         class="w-21/100 my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
       >
@@ -129,6 +129,7 @@ import { screenSizes } from '@/tailwindcss'
 import { useVModel } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
 import { getCoverImage, imageMod } from '@/common/lib/imageUrl'
+import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
@@ -186,17 +187,18 @@ const visibleSite = computed(() =>
   )
 )
 
+/* Refresh query result for URL query change */
+const URLQuery = computed(() => route.query)
 watch(
-  [queryWord, offset, order],
-  ([queryWord, offset, order], [oQueryWord, oOffset, oOrder]) => {
-    // skip fetchMore when no parameter changes
-    if (queryWord === oQueryWord && offset === oOffset && order === oOrder) return
+  URLQuery,
+  () => {
     fetchMore({
       variables: {
-        offset: offset * limit,
+        offset: offset.value * limit,
         limit: limit,
-        query: queryWord,
-        order: order,
+        query: queryWord.value,
+        order: order.value,
+        additionalConstraint: visibleSite.value,
       },
     }).then((v) => {
       result.value = v.data
@@ -207,8 +209,17 @@ watch(
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int!, $limit: Int!, $query: String!, $order: String!) {
-      listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query, order: $order }) {
+    query ($offset: Int!, $limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
+      listVideo(
+        para: {
+          offset: $offset
+          limit: $limit
+          humanReadableTag: true
+          query: $query
+          order: $order
+          additionalConstraint: $additionalConstraint
+        }
+      ) {
         count
         pageCount
         videos {
@@ -230,6 +241,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     limit: limit,
     query: queryWord.value,
     order: order.value,
+    additionalConstraint: visibleSite.value,
   }
 )
 watchEffect(() => {
@@ -249,6 +261,7 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     videos.value = resultData.value.videos
   }
+  backTop()
 })
 onError((err) => {
   errMsg.value = err.message
