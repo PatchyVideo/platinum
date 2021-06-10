@@ -34,7 +34,7 @@ useEventListener(
   'scroll',
   useThrottleFn(() => {
     top.value = document.body.scrollTop || document.documentElement.scrollTop
-  }, 400)
+  }, 50)
 )
 
 function backUp(): void {
