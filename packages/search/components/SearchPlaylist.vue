@@ -198,7 +198,7 @@ const pageCount = useVModel(props, 'pageCount', emit)
 const order = useVModel(props, 'order', emit)
 
 const offset = computed(() =>
-  Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
+  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
 const page = computed(() => offset.value + 1)
 
@@ -219,7 +219,7 @@ const VisibleSites = [
 const visibleSite = computed(() =>
   String(
     route.query.visible_site
-      ? typeof route.query.visible_site === 'object'
+      ? Array.isArray(route.query.visible_site)
         ? route.query.visible_site[0]
         : route.query.visible_site
       : localStorage.getItem('VisibleSite') || VisibleSites[0].value

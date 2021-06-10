@@ -15,7 +15,7 @@
       "
     >
       <!-- Logo & Slide Button -->
-      <div class="flex items-center flex-nowrap ml-2">
+      <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
         <icon-uil-list-ul
           class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
           @click="drawerOpen = true"
@@ -23,16 +23,23 @@
         <Logo v-if="screenSizes.md" class="cursor-pointer inline-block" @click="toHome()"></Logo>
       </div>
       <!-- Search Bar -->
-      <template v-if="showSearchBar">
-        <RouterLink v-if="screenSizes['<md']" to="/search-page" alt="mobile search button">
-          <icon-uil-search class="inline" />
-        </RouterLink>
-        <AutoComplete v-else @search="searchResult"></AutoComplete>
-      </template>
+      <div v-if="showSearchBar" class="flex flex-auto flex-nowrap items-center justify-center mx-2">
+        <AutoComplete
+          ref="autoComplete"
+          v-model:keyword="keyword"
+          class="w-full max-w-150"
+          :teleport-result="teleportTo"
+          :show-recommendations="true"
+          @search="searchResult"
+          @searching="searching = $event"
+          @click="screenSizes['<sm'] && (hidePage = true)"
+        ></AutoComplete>
+        <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
+      </div>
       <!-- User -->
-      <div ref="userList" class="mr-2">
-        <div v-if="isLogin === IsLogin.no">
-          <RouterLink to="/user/login">{{ t('common.nav-top.user.login') }}</RouterLink>
+      <div v-show="!hidePage" ref="userList" class="mr-2">
+        <div v-if="isLogin === IsLogin.no" class="whitespace-nowrap">
+          <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')"></RouterLink>
         </div>
         <div v-else class="relative">
           <UserAvatar
@@ -191,6 +198,9 @@
   </div>
   <!-- eslint-disable-next-line vue/no-v-html -->
   <div class="hidden invisible" v-html="hiddenStyle"></div>
+  <div v-if="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-700">
+    <div ref="teleportTo" class="absolute w-full"></div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -199,8 +209,8 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { ref, computed, defineProps } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, defineProps, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
 import { isDark } from '@/darkmode'
@@ -217,6 +227,7 @@ defineProps({
 })
 
 const { t } = useI18n()
+const route = useRoute()
 
 /* User list Operation */
 const userListOpen = ref<boolean>(false)
@@ -234,6 +245,7 @@ const hiddenStyle = computed(() => (drawerOpen.value ? '<style>body{overflow:hid
 /* Search */
 const router = useRouter()
 function searchResult(searchContent: string): void {
+  hidePage.value = false
   router.push({ path: '/search-result', query: { i: searchContent } })
 }
 
@@ -257,6 +269,22 @@ async function logout(): Promise<void> {
 }
 
 const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
+
+const autoComplete = ref<InstanceType<typeof AutoComplete> | null>(null)
+const hidePage = ref(false)
+const searching = ref(false)
+watchEffect(() => console.log(searching.value))
+const keyword = ref(
+  route.path === '/search-result'
+    ? route.query.i
+      ? Array.isArray(route.query.i)
+        ? route.query.i.join(' ')
+        : route.query.i
+      : ''
+    : ''
+)
+
+const teleportTo = ref<HTMLElement>()
 </script>
 
 <style lang="postcss" scoped>

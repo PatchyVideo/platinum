@@ -1,19 +1,12 @@
 <template>
   <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
-    <NavTop :show-search-bar="false" />
+    <NavTop :show-search-bar="!screenSizes.sm" />
 
     <div class="text-center flex flex-col justify-start items-center">
-      <h3 v-if="screenSizes['sm']" class="text-lg font-semibold p-4 px-auto">
+      <h3 v-if="screenSizes.sm" class="text-lg font-semibold m-4 px-auto">
         {{ t('search.search-result.search-keywords') + queryWord }}
       </h3>
-      <AutoComplete
-        v-if="screenSizes['<md']"
-        class="mt-3 sm:w-4/6 w-5/6"
-        size="mobile"
-        :keyword="queryWord"
-        @search="searchResult"
-      />
-      <AutoComplete v-else class="md:w-4/6 lg:w-3/6" size="lg" :keyword="queryWord" @search="searchResult" />
+      <AutoComplete v-if="screenSizes.sm" class="w-2/5 md:w-4/6 lg:w-3/6" :keyword="queryWord" @search="searchResult" />
     </div>
 
     <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
@@ -113,7 +106,7 @@ export default defineComponent({
     /* Precess URL query */
     const queryWord = computed(() => {
       const query = String(
-        route.query.i ? (typeof route.query.i === 'object' ? route.query.i.join(' ') : route.query.i) : ''
+        route.query.i ? (Array.isArray(route.query.i) ? route.query.i.join(' ') : route.query.i) : ''
       )
       if (query) {
         setSiteTitle(t('search.search-result.title') + query)
@@ -121,7 +114,7 @@ export default defineComponent({
       return query
     })
     const offset = computed(() =>
-      Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
+      Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
     )
     const page = computed(() => offset.value + 1)
     const Tabs = [
@@ -135,9 +128,7 @@ export default defineComponent({
       },
     ]
     const tab = computed(() =>
-      String(
-        route.query.tab ? (typeof route.query.tab === 'object' ? route.query.tab[0] : route.query.tab) : Tabs[0].value
-      )
+      String(route.query.tab ? (Array.isArray(route.query.tab) ? route.query.tab[0] : route.query.tab) : Tabs[0].value)
     )
 
     const Orders = [
@@ -147,7 +138,7 @@ export default defineComponent({
     const order = computed(() =>
       String(
         route.query.order
-          ? typeof route.query.order === 'object'
+          ? Array.isArray(route.query.order)
             ? route.query.order[0]
             : route.query.order
           : Orders[0].value

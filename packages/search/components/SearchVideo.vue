@@ -154,13 +154,13 @@ const limit = 20
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
-const videos = ref<schema.Video[]>()
-const queryWord = ref<string>(props.queryWord)
-const pageCount = useVModel(props, 'pageCount', emit)
-const order = useVModel(props, 'order', emit)
+const videos = ref<schema.Video[]>([])
+const queryWord = useVModel(props, 'queryWord', emit, { passive: true })
+const pageCount = useVModel(props, 'pageCount', emit, { passive: true })
+const order = useVModel(props, 'order', emit, { passive: true })
 
 const offset = computed(() =>
-  Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
+  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
 const VisibleSites = [
   {
@@ -179,41 +179,36 @@ const VisibleSites = [
 const visibleSite = computed(() =>
   String(
     route.query.visible_site
-      ? typeof route.query.visible_site === 'object'
+      ? Array.isArray(route.query.visible_site)
         ? route.query.visible_site[0]
         : route.query.visible_site
       : localStorage.getItem('VisibleSite') || VisibleSites[0].value
   )
 )
 
-/* Refresh query result for URL query change */
-const URLQuery = computed(() => route.query)
-watch(URLQuery, () => {
-  fetchMore({
-    variables: {
-      offset: offset.value * limit,
-      limit: limit,
-      query: queryWord.value,
-      order: order.value,
-    },
-  }).then((v) => {
-    result.value = v.data
-  })
-})
+watch(
+  [queryWord, offset, order],
+  ([queryWord, offset, order], [oQueryWord, oOffset, oOrder]) => {
+    // skip fetchMore when no parameter changes
+    if (queryWord === oQueryWord && offset === oOffset && order === oOrder) return
+    fetchMore({
+      variables: {
+        offset: offset * limit,
+        limit: limit,
+        query: queryWord,
+        order: order,
+      },
+    }).then((v) => {
+      result.value = v.data
+    })
+  },
+  { deep: true }
+)
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int, $limit: Int, $query: String, $order: String, $additionalConstraint: String) {
-      listVideo(
-        para: {
-          offset: $offset
-          limit: $limit
-          humanReadableTag: true
-          query: $query
-          order: $order
-          additionalConstraint: $additionalConstraint
-        }
-      ) {
+    query ($offset: Int!, $limit: Int!, $query: String!, $order: String!) {
+      listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query, order: $order }) {
         count
         pageCount
         videos {

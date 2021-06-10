@@ -158,7 +158,7 @@ const videos = ref<schema.Video[]>()
 /* Precess URL query */
 const offsetChangeFromOtherQuery = ref(false)
 const offset = computed(() =>
-  Number(route.query.page ? (typeof route.query.page === 'object' ? route.query.page[0] : route.query.page) : 0)
+  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
 const page = computed(() => offset.value + 1)
 

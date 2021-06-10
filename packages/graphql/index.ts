@@ -158,13 +158,20 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
 
 export const useQuery = function useQuery(this: never, ...args: never) {
   const query = vUseQuery.apply(this, args)
+
+  // `fetchMore` doesn't automatically change loading state, but changing it makes more sense
   const fetchMore = query.fetchMore
   query.fetchMore = function (this: never, ...args: never) {
-    // `fetchMore` doesn't automatically change loading state, but changing it makes more sense
     query.loading.value = true
     const fm = fetchMore.apply(this, args)
     fm.then(() => (query.loading.value = false))
     return fm
   } as typeof query.fetchMore
+
+  // force refetch new queries
+  query.result.value = undefined
+  query.loading.value = true
+  query.refetch()
+
   return query
 } as typeof vUseQuery
