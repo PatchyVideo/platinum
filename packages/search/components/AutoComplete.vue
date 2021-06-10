@@ -87,11 +87,11 @@
         >
           <div>
             <h4 class="mx-2">
-              热门标签<icon-uil-spinner-alt v-if="hotTags.length === 0" class="inline animate-spin" />
+              热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
             </h4>
             <div class="mx-0.5 line-clamp-4 text-gray-700 dark:text-gray-300">
               <div
-                v-for="tag in hotTags"
+                v-for="tag in popularTags"
                 :key="tag"
                 class="inline-block mx-1.5"
                 @click="
@@ -119,8 +119,11 @@
 import { ref, reactive, nextTick, watchEffect, defineProps, defineEmit, useContext } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { asyncComputed, throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
-import { BCP47ToISO639, locale } from '@/locales'
+import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
+import { behMostMatch, iso639locale } from '@/locales'
+import { useQuery, useResult } from '@vue/apollo-composable'
+import { gql } from '@/graphql'
+import type { Query } from '@/graphql'
 
 const props = defineProps({
   keyword: {
@@ -347,31 +350,34 @@ watchEffect(() => {
 const { width } = useElementSize(autoCompleteRoot)
 
 /* hot tags */
-const hotTags = asyncComputed<string[]>(async () => {
-  await new Promise<void>((r) => {
-    watchEffect(() => {
-      if (!hideContainer.value) r()
-    })
-  })
-  const data = await fetch('https://patchyvideo.com/be/listvideo.do', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({
-      lang: BCP47ToISO639(locale.value),
-    }),
-    credentials: 'include',
-  })
-    .then((res) => res.json())
-    .catch(() => {
-      return []
-    })
-  const tags = data.data.tag_pops as Record<string, number>
-  return Object.entries(tags)
-    .sort(([, va], [, vb]) => vb - va)
-    .map(([k]) => k)
-}, [])
+const { result } = useQuery<Query>(
+  gql`
+    query ($lang: String!) {
+      getPopularTags(para: { lang: $lang }) {
+        popularTags {
+          popluarity
+          tag {
+            languages {
+              lang
+              value
+            }
+          }
+        }
+      }
+    }
+  `,
+  {
+    lang: iso639locale.value,
+  }
+)
+const popularTags = useResult(
+  result,
+  [],
+  (data) =>
+    data.getPopularTags.popularTags
+      ?.sort((a, b) => b.popluarity - a.popluarity)
+      .map((v) => behMostMatch(v.tag.languages)) ?? []
+)
 
 const { expose } = useContext()
 expose({ focus })
