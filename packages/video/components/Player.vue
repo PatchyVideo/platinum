@@ -625,10 +625,9 @@ onMounted(() => {
     let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     currentTime.value = percentage * duration.value
+    updateCurrentTime()
   })
-  let dragging = false
   useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
-    dragging = true
     const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
       let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
       percentage = Math.max(0, Math.min(1, percentage))
@@ -637,30 +636,21 @@ onMounted(() => {
     const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
       stopMouseMove()
       stopMouseUp()
-      dragging = false
+      updateCurrentTime()
     })
   })
-  watch(currentTime, () => {
-    if (!dragging) {
-      if (video.value) video.value.currentTime = currentTime.value
-      if (audio.value) audio.value.currentTime = currentTime.value
-    }
-  })
+  const updateCurrentTime = () => {
+    if (video.value) video.value.currentTime = currentTime.value
+    if (audio.value) audio.value.currentTime = currentTime.value
+  }
 })
 
 /* volume bar */
 const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
-watch(
-  () => {
-    volume.value
-    video.value
-    audio.value
-  },
-  () => {
-    if (video.value && video.value.volume !== volume.value) video.value.volume = volume.value
-    if (audio.value && audio.value.volume !== volume.value) audio.value.volume = volume.value
-  }
-)
+watch([volume, video, audio], () => {
+  if (video.value && video.value.volume !== volume.value) video.value.volume = volume.value
+  if (audio.value && audio.value.volume !== volume.value) audio.value.volume = volume.value
+})
 const volumebar = ref<HTMLDivElement | null>(null)
 useEventListener(volumebar, 'click', (e: MouseEvent) => {
   let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
