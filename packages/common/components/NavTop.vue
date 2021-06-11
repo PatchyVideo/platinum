@@ -191,7 +191,7 @@
           v-if="drawerOpen"
           class="absolute inset-0 bg-black bg-opacity-20 z-49"
           @click="drawerOpen = false"
-          @touchmove.prevent
+          @touchmove.prevent.passive
         ></div>
       </Transition>
     </div>

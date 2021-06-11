@@ -29,7 +29,7 @@
       class="absolute transform-gpu ease-in-out duration-300 top-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
       :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
-      <div class="mt-2 mx-2 flex justify-between">
+      <div class="m-2 flex justify-between">
         <div
           class="flex-nowrap text-white whitespace-nowrap overflow-hidden"
           :class="{ 'ml-2': !item.title.startsWith('【') }"
@@ -482,36 +482,36 @@ useEventListener(video, 'ended', () => {
   playing.value = false
 })
 onMounted(() => {
-  for (const i of [
-    'audioprocess',
-    'canplay',
-    'canplaythrough',
-    'complete',
-    'durationchange',
-    'emptied',
-    'ended',
-    'loadeddata',
-    'loadedmetadata',
-    'pause',
-    'play',
-    'playing',
-    'progress',
-    'ratechange',
-    'seeked',
-    'seeking',
-    'stalled',
-    'suspend',
-    'timeupdate',
-    'volumechange',
-    'waiting',
-  ]) {
-    video.value.addEventListener(i, (e) => {
-      console.log('video', i, e)
-    })
-    audio.value.addEventListener(i, (e) => {
-      console.log('audio', i, e)
-    })
-  }
+  // for (const i of [
+  //   'audioprocess',
+  //   'canplay',
+  //   'canplaythrough',
+  //   'complete',
+  //   'durationchange',
+  //   'emptied',
+  //   'ended',
+  //   'loadeddata',
+  //   'loadedmetadata',
+  //   'pause',
+  //   'play',
+  //   'playing',
+  //   'progress',
+  //   'ratechange',
+  //   'seeked',
+  //   'seeking',
+  //   'stalled',
+  //   'suspend',
+  //   'timeupdate',
+  //   'volumechange',
+  //   'waiting',
+  // ]) {
+  //   video.value.addEventListener(i, (e) => {
+  //     console.log('video', i, e)
+  //   })
+  //   audio.value.addEventListener(i, (e) => {
+  //     console.log('audio', i, e)
+  //   })
+  // }
   useEventListener(video, 'play', () => {
     if (hasAudioStream.value && audio.value) {
       audio.value.currentTime = video.value!.currentTime

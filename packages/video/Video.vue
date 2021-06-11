@@ -17,6 +17,7 @@
             <Player :item="video.item" />
           </Suspense>
           <div class="w-full border-t border-gray-300 my-2"></div>
+          <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-8">
             <!-- Video Tag -->
             <Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag>
@@ -29,7 +30,7 @@
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
               <div class="mx-2">
                 <UserAvatar
-                  class="inline w-12 h-12 rounded-full object-cover"
+                  class="inline w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
                   :image="comment.author.image"
                   :gravatar="comment.author.gravatar"
                   :alt="comment.author.username"
@@ -72,49 +73,51 @@
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
-          <div class="flex xl:flex-col justify-start px-1 pt-2">
-            <div
-              v-for="author of authors"
-              :key="author.id.toHexString()"
-              class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
-            >
-              <!-- Avatar -->
-              <div class="relative flex-shrink-0">
-                <UserAvatar
-                  class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
-                  :image="author.avatar"
-                  :gravatar="author.gravatar"
-                  :alt="author.name"
-                />
-                <div
-                  class="
-                    absolute
-                    px-0.75
-                    -right-1.5
-                    top-0
-                    rounded
-                    lg:transform-gpu lg:rotate-24
-                    bg-fuchsia-600
-                    text-xs
-                    lg:text-sm
-                    text-white
-                    whitespace-nowrap
-                    overflow-hidden
-                  "
-                  v-text="author.position"
-                ></div>
-              </div>
-              <div class="hidden sm:block ml-3 overflow-hidden">
-                {{ author.name }}
-                <br />
-                <div
-                  class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
-                >
-                  {{ author.desc || t('video.video.no-desc') }}
+          <Teleport :to="mobileAuthorTarget" :disabled="!mobileAuthorTarget || screenSizes.xl">
+            <div class="flex xl:flex-col justify-start px-1 xl:pt-4">
+              <div
+                v-for="author of authors"
+                :key="author.id.toHexString()"
+                class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
+              >
+                <!-- Avatar -->
+                <div class="relative flex-shrink-0">
+                  <UserAvatar
+                    class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
+                    :image="author.avatar"
+                    :gravatar="author.gravatar"
+                    :alt="author.name"
+                  />
+                  <div
+                    class="
+                      absolute
+                      px-0.75
+                      -right-1.5
+                      top-0
+                      rounded
+                      lg:transform-gpu lg:rotate-24
+                      bg-fuchsia-600
+                      text-xs
+                      lg:text-sm
+                      text-white
+                      whitespace-nowrap
+                      overflow-hidden
+                    "
+                    v-text="author.position"
+                  ></div>
+                </div>
+                <div class="hidden sm:block ml-3 overflow-hidden">
+                  {{ author.name }}
+                  <br />
+                  <div
+                    class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
+                  >
+                    {{ author.desc || t('video.video.no-desc') }}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </Teleport>
         </div>
       </div>
     </div>
@@ -139,7 +142,7 @@
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
-          <div class="flex xl:flex-col justify-start px-1 pt-2">
+          <div class="flex xl:flex-col justify-start px-1 xl:pt-4">
             <div class="flex items-center flex-nowrap px-1 py-1 xl:w-full">
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
@@ -187,7 +190,7 @@ import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { computed, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
@@ -195,6 +198,7 @@ import NProgress from 'nprogress'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { screenSizes } from '@/tailwindcss'
 
 const { t } = useI18n()
 
@@ -403,4 +407,6 @@ const comments = computed(() =>
         .filter((v) => !!v) as Comment[])
     : []
 )
+
+const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
 </script>
