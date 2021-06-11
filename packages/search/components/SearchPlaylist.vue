@@ -287,9 +287,14 @@ function jumpToPlaylist(id: string): void {
   @apply bg-contain;
   background-image: url('../assets/SearchResultBackImg.png');
 }
-.title {
+.title-mobile {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  -webkit-box-orient: vrtical;
+}
+.desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
 }
 </style>
