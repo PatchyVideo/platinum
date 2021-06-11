@@ -89,7 +89,7 @@
             <h4 class="mx-2">
               热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
             </h4>
-            <div class="mx-0.5 line-clamp-4 text-gray-700 dark:text-gray-300">
+            <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-700 dark:text-gray-300">
               <div
                 v-for="tag in popularTags"
                 :key="tag"
@@ -121,8 +121,7 @@ import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
-import { useQuery, useResult } from '@vue/apollo-composable'
-import { gql } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 
 const props = defineProps({
@@ -349,7 +348,7 @@ watchEffect(() => {
 
 const { width } = useElementSize(autoCompleteRoot)
 
-/* hot tags */
+/* popular tags */
 const { result } = useQuery<Query>(
   gql`
     query ($lang: String!) {
@@ -374,8 +373,8 @@ const popularTags = useResult(
   result,
   [],
   (data) =>
-    data.getPopularTags.popularTags
-      ?.sort((a, b) => b.popluarity - a.popluarity)
+    [...(data.getPopularTags.popularTags ?? [])]
+      .sort((a, b) => b.popluarity - a.popluarity)
       .map((v) => behMostMatch(v.tag.languages)) ?? []
 )
 

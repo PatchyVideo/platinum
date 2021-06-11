@@ -77,6 +77,5 @@ export function getUserDataFromLocalStorage(): void {
 
 export function clearUserDataFromLocalStorage(): void {
   localStorage.removeItem('userData')
-  sessionStorage.clear()
   user.value = userDefault
 }

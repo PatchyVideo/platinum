@@ -6,24 +6,26 @@
     :style="{ height: fullHeight ? undefined : height + 'px' }"
   >
     <video
-      v-show="videoElementReady && !useIframe"
+      v-show="videoElementReady && (usePlayer === 'video' || (usePlayer === 'canvas' && canvasTransparent))"
       ref="video"
       class="video w-full h-full focus:outline-none"
       playsinline
       preload="auto"
+      :crossorigin="crossorigin ? '' : undefined"
     ></video>
-    <audio v-show="false" ref="audio"></audio>
+    <audio v-show="false" ref="audio" :crossorigin="crossorigin ? '' : undefined"></audio>
     <iframe
-      v-if="useIframe && iframeUrl"
+      v-if="usePlayer === 'iframe' && iframeUrl"
       title="Video Player"
       class="block w-full h-full"
       :src="iframeUrl"
       allow="fullscreen"
       sandbox="allow-scripts allow-popups-to-escape-sandbox allow-same-origin"
     ></iframe>
+    <canvas v-show="usePlayer === 'canvas'" ref="canvas" class="absolute top-0 w-full h-full"></canvas>
     <!-- top -->
     <div
-      v-show="videoElementReady && !useIframe"
+      v-show="videoElementReady && !(usePlayer === 'iframe')"
       class="absolute transform-gpu ease-in-out duration-300 top-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
       :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
@@ -38,7 +40,7 @@
     </div>
     <!-- bottom -->
     <div
-      v-show="videoElementReady && !useIframe"
+      v-show="videoElementReady && !(usePlayer === 'iframe')"
       class="
         absolute
         transform-gpu
@@ -133,12 +135,12 @@
     </div>
     <!-- side -->
     <div
-      v-show="videoElementReady && !useIframe && showSettings"
+      v-show="videoElementReady && !(usePlayer === 'iframe') && showSettings"
       class="absolute top-0 bottom-0 left-0 right-0"
       @click="showSettings = false"
     ></div>
     <div
-      v-show="videoElementReady && !useIframe"
+      v-show="videoElementReady && !(usePlayer === 'iframe')"
       class="
         absolute
         top-0
@@ -195,7 +197,7 @@
       </Transition>
     </div>
     <div
-      v-if="!videoElementReady && !useIframe"
+      v-if="!videoElementReady && !(usePlayer === 'iframe')"
       class="absolute bottom-2 left-2 log overflow-y-scroll text-sm text-white"
     >
       <p ref="logEl" class="whitespace-pre" v-text="logText"></p>
@@ -206,12 +208,14 @@
 <script lang="ts" setup>
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
-import { computed, ref, nextTick, onMounted, watch, defineProps } from 'vue'
+import { computed, ref, nextTick, onMounted, watch, defineProps, watchEffect, onUnmounted } from 'vue'
 import {
   useElementBounding,
   useEventListener,
   useFullscreen,
+  useIntervalFn,
   useLocalStorage,
+  useRafFn,
   useThrottleFn,
   useTimeoutFn,
 } from '@vueuse/core'
@@ -219,6 +223,8 @@ import type { Fn, GeneralEventListener } from '@vueuse/core'
 import type { PropType, Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FetchResult } from '@apollo/client/core'
+import { extensionTweaks } from '@/main/extension'
+import type FlvJs from 'flv.js'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
 type BaseVideoData = {
@@ -324,7 +330,11 @@ const root = ref<HTMLDivElement | null>(null)
 const { width } = useElementBounding(root)
 const height = computed(() => (width.value / 16) * 9)
 
+const usePlayer = ref<'video' | 'iframe' | 'canvas'>('video')
 const video = ref<HTMLVideoElement | null>(null)
+
+const videoHasCors = ref(false)
+const crossorigin = computed(() => videoHasCors.value || extensionTweaks.value.includes('enable_cors_requests'))
 
 /* control bar */
 const showControlBar = ref(true)
@@ -340,21 +350,24 @@ const delayedHideControlBar = useThrottleFn((delay = 200) => {
   )
   stopHideControlBar = stop
 })
-onMounted(() => {
-  useEventListener(root, 'mousemove', () => {
-    if (stopHideControlBar) stopHideControlBar()
-    showControlBar.value = true
-    if (isFullscreen.value) delayedHideControlBar(800)
-  })
-  useEventListener(root, 'mouseleave', () => {
-    delayedHideControlBar()
-  })
+useEventListener(root, 'mousemove', () => {
+  if (stopHideControlBar) stopHideControlBar()
+  showControlBar.value = true
+  if (isFullscreen.value) delayedHideControlBar(800)
+})
+useEventListener(root, 'mouseleave', () => {
+  delayedHideControlBar()
 })
 
 /* video settings */
 const showSettings = ref(false)
 const activeSettingsItemName = ref('default')
 const activeSettingsItem = computed(() => settings.value[activeSettingsItemName.value])
+
+const syncAudio = useLocalStorage('player_settings_sync_audio', false)
+const useCanvas = ref(false)
+const canvasTransparent = ref(false)
+
 const settings = computed<Record<string, SettingMenu>>(() => ({
   default: {
     id: 'default',
@@ -371,6 +384,21 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
         text: t('video.player.settings.default.items.audio'),
         checked: syncAudio,
       },
+      ...(() =>
+        crossorigin.value
+          ? ([
+              {
+                type: 'check',
+                text: 'Canvas',
+                checked: useCanvas,
+              },
+              {
+                type: 'check',
+                text: 'Canvas 透明',
+                checked: canvasTransparent,
+              },
+            ] as SettingItem[])
+          : [])(),
     ],
   },
   quality: {
@@ -434,55 +462,56 @@ const onPlayPause = () => {
   if (!userClickedPlaying.value) userClickedPlaying.value = true
   playing.value = !playing.value
 }
-onMounted(() => {
-  watch(playing, () => {
-    if (video.value && audio.value) {
-      try {
-        if (video.value.currentTime === video.value.duration) {
-          video.value.currentTime = 0
-          audio.value.currentTime = 0
-        }
-        playing.value ? video.value.play() : video.value.pause()
-      } catch (_) {
-        //
+const updatePlaying = () => {
+  if (video.value && videoReady.value && (!hasAudioStream.value || (audio.value && audioReady.value))) {
+    try {
+      if (video.value.currentTime === video.value.duration) {
+        video.value.currentTime = 0
+        if (audio.value) audio.value.currentTime = 0
       }
+      if (playing.value && video.value.paused) video.value.play()
+      if (!playing.value && !video.value.paused) video.value.pause()
+    } catch (_) {
+      //
     }
-  })
-  useEventListener(video, 'ended', () => {
-    playing.value = false
-  })
+  }
+}
+useIntervalFn(updatePlaying, 500)
+watch(playing, updatePlaying)
+useEventListener(video, 'ended', () => {
+  playing.value = false
 })
 onMounted(() => {
-  // for (const i of [
-  //   'audioprocess',
-  //   'canplay',
-  //   'canplaythrough',
-  //   'complete',
-  //   'durationchange',
-  //   'emptied',
-  //   'ended',
-  //   'loadeddata',
-  //   'loadedmetadata',
-  //   'pause',
-  //   'play',
-  //   'playing',
-  //   'progress',
-  //   'ratechange',
-  //   'seeked',
-  //   'seeking',
-  //   'stalled',
-  //   'suspend',
-  //   'timeupdate',
-  //   'volumechange',
-  //   'waiting',
-  // ]) {
-  //   video.value.addEventListener(i, (e) => {
-  //     console.log('video', i, e)
-  //   })
-  //   audio.value.addEventListener(i, (e) => {
-  //     console.log('audio', i, e)
-  //   })
-  // }
+  for (const i of [
+    'audioprocess',
+    'canplay',
+    'canplaythrough',
+    'complete',
+    'durationchange',
+    'emptied',
+    'ended',
+    'loadeddata',
+    'loadedmetadata',
+    'pause',
+    'play',
+    'playing',
+    'progress',
+    'ratechange',
+    'seeked',
+    'seeking',
+    'stalled',
+    'suspend',
+    'timeupdate',
+    'volumechange',
+    'waiting',
+  ]) {
+    video.value.addEventListener(i, (e) => {
+      console.log('video', i, e)
+    })
+    audio.value.addEventListener(i, (e) => {
+      console.log('audio', i, e)
+    })
+  }
   useEventListener(video, 'play', () => {
     if (hasAudioStream.value && audio.value) {
       audio.value.currentTime = video.value!.currentTime
@@ -497,39 +526,49 @@ onMounted(() => {
   })
 })
 const duration = ref(0)
-onMounted(() => {
-  useEventListener(video, 'durationchange', () => {
-    duration.value = video.value!.duration
-  })
+useEventListener(video, 'durationchange', () => {
+  duration.value = video.value!.duration
 })
 const videoElementReady = ref(false)
 
 /* dedicated audio track */
 const audio = ref<HTMLAudioElement | null>(null)
-onMounted(() => {
-  useEventListener(audio, 'timeupdate', () => {
-    if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
-      audio.value!.pause()
-  })
+useEventListener(audio, 'timeupdate', () => {
+  if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
+    audio.value!.pause()
 })
 
 /* video ready state */
 const audioReady = ref(false)
 const videoReady = ref(false)
 const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
-onMounted(() => {
-  useEventListener(video, 'waiting', () => {
+let stopVideoWait: Fn | undefined
+useEventListener(video, 'waiting', () => {
+  const { stop } = useTimeoutFn(() => {
     videoReady.value = false
-  })
-  useEventListener(video, 'canplay', () => {
-    videoReady.value = true
-  })
-  useEventListener(audio, 'waiting', () => {
+  }, 200)
+  stopVideoWait = stop
+})
+useEventListener(video, 'canplay', () => {
+  if (stopVideoWait) {
+    stopVideoWait()
+    stopVideoWait = undefined
+  }
+  videoReady.value = true
+})
+let stopAudioWait: Fn | undefined
+useEventListener(audio, 'waiting', () => {
+  const { stop } = useTimeoutFn(() => {
     audioReady.value = false
-  })
-  useEventListener(audio, 'canplay', () => {
-    audioReady.value = true
-  })
+  }, 200)
+  stopAudioWait = stop
+})
+useEventListener(audio, 'canplay', () => {
+  if (stopAudioWait) {
+    stopAudioWait()
+    stopAudioWait = undefined
+  }
+  audioReady.value = true
 })
 
 /* progress bar */
@@ -581,75 +620,75 @@ const computeLoadedRanges = (amount: TimeRanges | null) => {
 // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
 const progress = computed(() => currentTime.value / duration.value)
 const progressbar = ref<HTMLDivElement | null>(null)
-const syncAudio = useLocalStorage('player_settings_sync_audio', false)
-onMounted(() => {
-  useEventListener(video, 'timeupdate', () => {
-    currentTime.value = video.value!.currentTime
-    if (hasAudioStream.value) {
-      if (videoReady.value && audioReady.value) {
-        // console.log(
-        //   'diff',
-        //   audio.value.currentTime,
-        //   video.value.currentTime,
-        //   audio.value.currentTime - video.value.currentTime
-        // )
-        if (audio.value && syncAudio.value && Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
-          audio.value.currentTime = video.value!.currentTime + (audio.value.currentTime - currentTime.value)
-          audio.value.play()
-        }
-        if (audio.value && audio.value.paused && !video.value!.paused) audio.value.play()
-        if (audio.value && !audio.value.paused && video.value!.paused) audio.value.pause()
-      } else {
-        video.value!.pause()
-        watch(
-          audioReady,
-          () => {
-            if (audioReady.value && playing.value) {
-              video.value!.play()
-            }
-          },
-          { flush: 'post' }
-        )
+useEventListener(video, 'timeupdate', () => {
+  currentTime.value = video.value!.currentTime
+  if (hasAudioStream.value) {
+    if (videoReady.value && audioReady.value) {
+      // console.log(
+      //   'diff',
+      //   audio.value.currentTime,
+      //   video.value.currentTime,
+      //   audio.value.currentTime - video.value.currentTime
+      // )
+      if (audio.value && syncAudio.value && Math.abs(audio.value.currentTime - currentTime.value) > 0.1) {
+        audio.value.currentTime = video.value!.currentTime + (audio.value.currentTime - currentTime.value)
+        audio.value.play()
       }
+      if (audio.value && audio.value.paused && !video.value!.paused) audio.value.play()
+      if (audio.value && !audio.value.paused && video.value!.paused) audio.value.pause()
+    } else {
+      video.value!.pause()
+      watch(
+        audioReady,
+        () => {
+          if (audioReady.value && playing.value) {
+            video.value!.play()
+          }
+        },
+        { flush: 'post' }
+      )
     }
-    if (video.value) videoLoadedAmount.value = video.value.buffered
-    if (audio.value) audioLoadedAmount.value = audio.value.buffered
-  })
-  // useEventListener(video, 'progress', () => {
-  //   videoLoadedAmount.value = video.value.buffered
-  // })
-  // useEventListener(audio, 'progress', () => {
-  //   audioLoadedAmount.value = audio.value.buffered
-  // })
-  useEventListener(progressbar, 'click', (e: MouseEvent) => {
+  }
+  if (video.value) videoLoadedAmount.value = video.value.buffered
+  if (audio.value) audioLoadedAmount.value = audio.value.buffered
+})
+// useEventListener(video, 'progress', () => {
+//   videoLoadedAmount.value = video.value.buffered
+// })
+// useEventListener(audio, 'progress', () => {
+//   audioLoadedAmount.value = audio.value.buffered
+// })
+useEventListener(progressbar, 'click', (e: MouseEvent) => {
+  let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
+  percentage = Math.max(0, Math.min(1, percentage))
+  currentTime.value = percentage * duration.value
+  updateCurrentTime()
+})
+useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
+  const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
     let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     currentTime.value = percentage * duration.value
+  })
+  const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+    stopMouseMove()
+    stopMouseUp()
     updateCurrentTime()
   })
-  useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
-    const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
-      let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
-      percentage = Math.max(0, Math.min(1, percentage))
-      currentTime.value = percentage * duration.value
-    })
-    const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
-      stopMouseMove()
-      stopMouseUp()
-      updateCurrentTime()
-    })
-  })
-  const updateCurrentTime = () => {
-    if (video.value) video.value.currentTime = currentTime.value
-    if (audio.value) audio.value.currentTime = currentTime.value
-  }
 })
+const updateCurrentTime = () => {
+  if (video.value) video.value.currentTime = currentTime.value
+  if (audio.value) audio.value.currentTime = currentTime.value
+}
 
 /* volume bar */
 const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
-watch([volume, video, audio], () => {
-  if (video.value && video.value.volume !== volume.value) video.value.volume = volume.value
-  if (audio.value && audio.value.volume !== volume.value) audio.value.volume = volume.value
+const keepElementVolume = ref(false)
+watch([volume, video, audio, keepElementVolume], () => {
+  let target = volume.value
+  if (keepElementVolume.value) target = 1
+  if (video.value && video.value.volume !== target) video.value.volume = target
+  if (audio.value && audio.value.volume !== target) audio.value.volume = target
 })
 const volumebar = ref<HTMLDivElement | null>(null)
 useEventListener(volumebar, 'click', (e: MouseEvent) => {
@@ -673,7 +712,6 @@ useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
 const { isFullscreen, toggle: onFullscreen } = useFullscreen(root)
 
 /* iframe mode */
-const useIframe = ref(false)
 const iframeUrl = computed(() => {
   if (url.value) {
     let regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
@@ -690,7 +728,7 @@ const iframeUrl = computed(() => {
 })
 const enableIframe = () => {
   log(t('video.player.enable-iframe') + '\n')
-  useIframe.value = true
+  usePlayer.value = 'iframe'
 }
 
 const isContainerSupported = (container: string, codecs?: string, isAudio = false) => {
@@ -702,6 +740,10 @@ const getMIME = (container: string, codecs?: string, isAudio = false) =>
 const hasAudioStream = ref(false)
 const streamQuality = ref('')
 const currentStream = ref<VideoStream | undefined>()
+let flvPlayer: FlvJs.Player | undefined
+onUnmounted(() => {
+  flvPlayer?.destroy()
+})
 const playStream = async (quality: string) => {
   if (!video.value || !audio.value)
     await new Promise<void>((r) => {
@@ -716,7 +758,6 @@ const playStream = async (quality: string) => {
   streamQuality.value = quality
   if (video.value) {
     log(t('video.player.play-stream.source.video.source-changing') + '\n')
-    useIframe.value = false
     const stream =
       streams.value.filter((v) => v.quality === quality).find((s) => isContainerSupported(s.container, s.vcodec)) ??
       streams.value.find((s) => isContainerSupported(s.container, s.vcodec))
@@ -747,7 +788,7 @@ const playStream = async (quality: string) => {
               const flvjs = module.default
               log(t('video.player.play-stream.container.flv.parse-creating') + '\n')
               if ('createPlayer' in flvjs) {
-                const flvPlayer = flvjs.createPlayer({
+                flvPlayer = flvjs.createPlayer({
                   type: 'flv',
                   url: stream.src[0].replace(/^http:/, 'https:'),
                 })
@@ -828,6 +869,7 @@ watch(
                   quality: stream.quality,
                 }) + '\n'
               )
+              videoHasCors.value = true
               playStream(stream.quality)
               break
             }
@@ -877,6 +919,148 @@ watch(
 )
 
 const streams = ref<VideoStream[]>([])
+
+const canvas = ref<HTMLCanvasElement | null>(null)
+{
+  watchEffect(() => {
+    if (!crossorigin.value && usePlayer.value === 'canvas') usePlayer.value = 'iframe'
+  })
+  watchEffect(() => {
+    if (useCanvas.value) {
+      usePlayer.value = 'canvas'
+    } else {
+      usePlayer.value = 'video'
+    }
+  })
+  let audioCtx: AudioContext | undefined
+  let gainNode: GainNode | undefined
+  let analyser: AnalyserNode | undefined
+  let frequencyBufferLength: number | undefined
+  let frequencyBuffer: Uint8Array | undefined
+  let source: MediaElementAudioSourceNode | undefined
+  let audioSourceType: 'audio' | 'video' | undefined
+  let clear: (() => void) | undefined
+  let watched = false
+  watchEffect(() => {
+    if (crossorigin.value && userClickedPlaying.value && !watched) {
+      watchEffect(() => {
+        if (hasAudioStream.value && audio.value && audioSourceType !== 'audio') {
+          if (clear) clear()
+          audioCtx = new AudioContext()
+          source = audioCtx.createMediaElementSource(audio.value)
+          audioSourceType = 'audio'
+        } else if (!hasAudioStream.value && video.value && audioSourceType !== 'video') {
+          if (clear) clear()
+          audioCtx = new AudioContext()
+          source = audioCtx.createMediaElementSource(video.value)
+          audioSourceType = 'video'
+        } else {
+          return
+        }
+        gainNode = audioCtx.createGain()
+        keepElementVolume.value = true
+        analyser = audioCtx.createAnalyser()
+        analyser.minDecibels = -90
+        analyser.maxDecibels = -10
+        analyser.smoothingTimeConstant = 0.85
+        analyser.fftSize = 256
+        frequencyBufferLength = analyser.frequencyBinCount
+        frequencyBuffer = new Uint8Array(frequencyBufferLength)
+
+        if (audioCtx.state === 'suspended') audioCtx.resume()
+        source.connect(gainNode)
+        source.connect(analyser)
+        gainNode.connect(audioCtx.destination)
+        clear = () => {
+          audioCtx?.close()
+          source?.disconnect(0)
+          source = undefined
+          gainNode?.disconnect(0)
+          gainNode = undefined
+          analyser?.disconnect(0)
+          analyser = undefined
+          clear = undefined
+        }
+      })
+      watchEffect(() => {
+        if (gainNode) gainNode.gain.value = volume.value
+      })
+      watched = true
+    }
+  })
+  onUnmounted(() => {
+    if (clear) clear()
+  })
+  let frame = 0
+  let ltrds: number[] = []
+  const { pause: pauseCanvasRender, resume: resumeCanvasRender } = useRafFn(
+    () => {
+      const cvs = canvas.value
+      const vid = video.value
+      if (cvs && !vid?.paused) {
+        const width = (cvs.width = cvs.clientWidth)
+        const height = (cvs.height = cvs.clientHeight)
+        const ctx = cvs.getContext('2d')
+        if (!ctx) return
+
+        {
+          if (canvasTransparent.value) {
+            ctx.clearRect(0, 0, width, height)
+          } else {
+            ctx.fillStyle = 'rgb(0,0,0)'
+            ctx.fillRect(0, 0, width, height)
+          }
+        }
+
+        {
+          if (analyser && frequencyBufferLength && frequencyBuffer) {
+            analyser.getByteFrequencyData(frequencyBuffer)
+            const w = width / frequencyBufferLength
+            let x = 0
+            for (const frequency of frequencyBuffer) {
+              const h = (height / 255) * frequency
+              ctx.fillStyle = `rgb(0,0,${(frequency + 200) * (255 / (200 + 255))})`
+              ctx.fillRect(x, height - h, w - 1, h)
+              x += w
+            }
+          }
+        }
+
+        {
+          ltrds.push(performance.now())
+          if (ltrds.length > 50) ltrds.shift()
+          ctx.fillStyle = 'rgb(255,255,255)'
+          const text = `Frame: ${frame++} Width: ${width} Height: ${height} FPS: ${Math.floor(
+            1000 / ((ltrds[ltrds.length - 1] - ltrds[0]) / ltrds.length)
+          )}`
+          const w = (width - ctx.measureText(text).width) / 2
+          ctx.fillText(text, w, 20)
+        }
+      }
+    },
+    { immediate: false }
+  )
+  watch(
+    [usePlayer, playing, videoReady, audioReady],
+    () => {
+      if (
+        usePlayer.value === 'canvas' &&
+        playing.value &&
+        videoReady.value &&
+        (!hasAudioStream.value || audioReady.value)
+      )
+        resumeCanvasRender()
+      if (
+        usePlayer.value !== 'canvas' ||
+        !playing.value ||
+        !videoReady.value ||
+        (hasAudioStream.value && !audioReady.value)
+      )
+        pauseCanvasRender()
+    },
+    { immediate: true }
+  )
+}
 </script>
 
 <style lang="postcss" scoped>

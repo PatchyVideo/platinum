@@ -171,7 +171,7 @@ export const useQuery = function useQuery(this: never, ...args: never) {
   // force refetch new queries
   query.result.value = undefined
   query.loading.value = true
-  query.refetch()
+  query.restart()
 
   return query
 } as typeof vUseQuery

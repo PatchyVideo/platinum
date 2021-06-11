@@ -159,5 +159,8 @@ const appPromisesFinish = Promise.allSettled(appPromises.map((v) => v.then(incPr
   incProcess()
 })
 
+/* Extension */
+import './extension'
+
 /* PatchyVideo Console Controls */
 import './pvcc'

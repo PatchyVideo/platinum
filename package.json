@@ -55,7 +55,7 @@
     "nprogress": "1.0.0-1",
     "tlds": "^1.221.1",
     "typed.js": "^2.0.12",
-    "vue": "beta",
+    "vue": "next",
     "vue-i18n": "next",
     "vue-router": "next"
   },
@@ -84,7 +84,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-vue": "^7.10.0",
     "lodash.template": "^4.5.0",
-    "postcss": "^8.3.0",
+    "postcss": "^8.3.2",
     "postcss-import": "^14.0.2",
     "postcss-mixins": "^8.1.0",
     "postcss-nested": "^5.0.5",

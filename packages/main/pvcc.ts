@@ -1,10 +1,21 @@
+import { extensions, extensionTweaks } from './extension'
+
 declare global {
   interface Window {
     PatchyVideo: typeof PatchyVideo
   }
 }
 
-const PatchyVideo = {}
+const PatchyVideo = {
+  extension: {
+    extensions: extensions,
+    extensionTweaks: extensionTweaks,
+    clear(): void {
+      extensions.value = {}
+      extensionTweaks.value = []
+    },
+  },
+}
 
 window.PatchyVideo = PatchyVideo
 
