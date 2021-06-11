@@ -352,7 +352,7 @@ export default defineComponent({
         })
           .then((data) => data.json())
           .then((res) => {
-            console.log(res)
+            // console.log(res)
             if (res.status != resDataStatus.SUCCEED) {
               usernameStatus.value = UsernameStatus.err
               valid = false
