@@ -41,7 +41,6 @@
         <template #count>
           <input
             v-model="pageNum"
-            place="action"
             class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
             @keydown.enter="change"
           />
@@ -90,8 +89,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { useVModel } from '@vueuse/core'
 
 export default defineComponent({
   components: {},
@@ -105,10 +105,10 @@ export default defineComponent({
       default: 1,
     },
   },
-  emits: ['previous', 'next', 'change'],
+  emits: ['previous', 'next', 'change', 'update:page', 'update:pageCount'],
   setup(props, { emit }) {
     const { t } = useI18n()
-    const pageNum = ref<number>(props.page)
+    const pageNum = useVModel(props, 'page', emit, { passive: true })
     function change(): void {
       if (isNaN(pageNum.value) || pageNum.value <= 0 || pageNum.value > props.pageCount) {
         alert(t('ui.pv-pagination.alert'))
