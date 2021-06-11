@@ -38,10 +38,13 @@
     <div v-text="t('search.search-result.video.main-body.failed.search-failed')"></div>
     <div v-text="t('search.search-result.video.main-body.failed.search-failed-reason') + errMsg"></div>
   </div>
-  <div v-else-if="count === 0" v-text="t('search.search-result.video.main-body.successful.search-no-result')"></div>
   <div v-else-if="status === 'result'">
     <div class="flex flex-wrap-reverse justify-between items-end border-b-1 pb-1">
-      <div v-text="t('search.search-result.video.main-body.successful.search-result-count', { count: count })"></div>
+      <div v-if="count === 0" v-text="t('search.search-result.video.main-body.successful.search-no-result')"></div>
+      <div
+        v-else
+        v-text="t('search.search-result.video.main-body.successful.search-result-count', { count: count })"
+      ></div>
       <div class="flex self-center space-x-2">
         <label
           v-for="sites in VisibleSites"
@@ -136,17 +139,9 @@ import type { schema, Query } from '@/graphql'
 import NProgress from 'nprogress'
 
 const props = defineProps({
-  queryWord: { type: String, required: true },
   pageCount: { type: Number, required: true },
-  order: {
-    type: String,
-    validator: (value: string) => {
-      return ['last_modified', 'video_oldest'].indexOf(value) !== -1
-    },
-    required: true,
-  },
 })
-const emit = defineEmit(['update:pageCount', 'update:order'])
+const emit = defineEmit(['update:pageCount'])
 
 const { t } = useI18n()
 const route = useRoute()
@@ -156,10 +151,12 @@ const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
 const videos = ref<schema.Video[]>([])
-const queryWord = useVModel(props, 'queryWord', emit, { passive: true })
 const pageCount = useVModel(props, 'pageCount', emit, { passive: true })
-const order = useVModel(props, 'order', emit, { passive: true })
 
+/* Precess URL query */
+const queryWord = computed(() =>
+  String(route.query.i ? (Array.isArray(route.query.i) ? route.query.i.join(' ') : route.query.i) : '')
+)
 const offset = computed(() =>
   Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
@@ -186,6 +183,15 @@ const visibleSite = computed(() =>
       : localStorage.getItem('VisibleSite') || VisibleSites[0].value
   )
 )
+const Orders = [
+  { value: 'last_modified', name: t('search.search-result.order.last-modified') },
+  { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
+]
+const order = computed(() =>
+  String(
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value
+  )
+)
 
 /* Refresh query result for URL query change */
 const URLQuery = computed(() => route.query)
@@ -206,7 +212,6 @@ watch(
   },
   { deep: true }
 )
-
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
     query ($offset: Int!, $limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
@@ -253,7 +258,6 @@ watchEffect(() => {
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-
 const resultData = useResult(result, null, (data) => data.listVideo)
 watchEffect(() => {
   if (resultData.value) {
