@@ -65,9 +65,10 @@
     "@graphql-codegen/introspection": "^1.18.2",
     "@graphql-codegen/schema-ast": "^1.18.3",
     "@graphql-codegen/typescript": "^1.22.1",
-    "@iconify/json": "^1.1.354",
+    "@iconify/json": "^1.1.355",
     "@rollup/plugin-yaml": "^3.0.0",
     "@types/dompurify": "^2.2.2",
+    "@types/eslint": "^7.2.13",
     "@types/events": "^3",
     "@types/lodash.template": "^4",
     "@types/markdown-it": "^12.0.2",
@@ -82,7 +83,7 @@
     "eslint": "^7.28.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "eslint-plugin-vue": "^7.10.0",
+    "eslint-plugin-vue": "^7.11.0",
     "lodash.template": "^4.5.0",
     "postcss": "^8.3.2",
     "postcss-import": "^14.0.2",
@@ -94,8 +95,8 @@
     "simple-git": "^2.39.1",
     "typescript": "4.3.2",
     "vite": "^2.3.7",
-    "vite-plugin-components": "^0.10.4",
-    "vite-plugin-icons": "^0.6.1",
+    "vite-plugin-components": "^0.11.1",
+    "vite-plugin-icons": "^0.6.2",
     "vite-plugin-windicss": "^1.0.3"
   }
 }

@@ -328,7 +328,11 @@ const { t } = useI18n()
 
 const root = ref<HTMLDivElement | null>(null)
 const { width } = useElementBounding(root)
-const height = computed(() => (width.value / 16) * 9)
+const height = computed(() =>
+  video.value && video.value.videoWidth > 0 && video.value.videoHeight > 0
+    ? (width.value / video.value.videoWidth) * video.value.videoHeight
+    : (width.value / 16) * 9
+)
 
 const usePlayer = ref<'video' | 'iframe' | 'canvas'>('video')
 const video = ref<HTMLVideoElement | null>(null)
@@ -941,6 +945,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
   let audioSourceType: 'audio' | 'video' | undefined
   let clear: (() => void) | undefined
   let watched = false
+  let frequencyBufferShift = 16
   watchEffect(() => {
     if (crossorigin.value && userClickedPlaying.value && !watched) {
       watchEffect(() => {
@@ -962,9 +967,9 @@ const canvas = ref<HTMLCanvasElement | null>(null)
         analyser = audioCtx.createAnalyser()
         analyser.minDecibels = -90
         analyser.maxDecibels = -10
-        analyser.smoothingTimeConstant = 0.85
-        analyser.fftSize = 256
-        frequencyBufferLength = analyser.frequencyBinCount
+        analyser.smoothingTimeConstant = 0.8
+        analyser.fftSize = 4096
+        frequencyBufferLength = analyser.frequencyBinCount / 16 + frequencyBufferShift
         frequencyBuffer = new Uint8Array(frequencyBufferLength)
 
         if (audioCtx.state === 'suspended') audioCtx.resume()
@@ -1015,13 +1020,23 @@ const canvas = ref<HTMLCanvasElement | null>(null)
         {
           if (analyser && frequencyBufferLength && frequencyBuffer) {
             analyser.getByteFrequencyData(frequencyBuffer)
-            const w = width / frequencyBufferLength
+            const deg = Math.PI / 12
+            const l = width + height * Math.tan(deg)
+            const w = l / (frequencyBufferLength - frequencyBufferShift) - 1
             let x = 0
-            for (const frequency of frequencyBuffer) {
-              const h = (height / 255) * frequency
-              ctx.fillStyle = `rgb(0,0,${(frequency + 200) * (255 / (200 + 255))})`
-              ctx.fillRect(x, height - h, w - 1, h)
-              x += w
+            for (const frequency of frequencyBuffer.slice(frequencyBufferShift)) {
+              const c = frequency / 255
+              ctx.fillStyle = `rgba(255,255,255,${c / 2 + 0.2})`
+              ctx.beginPath()
+              const bx = x - (1 - c) * height * Math.tan(deg)
+              const by = (1 - c) * height
+              ctx.moveTo(bx, by)
+              ctx.lineTo(bx + w, by + w * Math.tan(deg))
+              const lx = x - height * Math.tan(deg)
+              ctx.lineTo(lx + w / Math.cos(deg) ** 2, height)
+              ctx.lineTo(lx, height)
+              ctx.fill()
+              x += w + 1
             }
           }
         }
