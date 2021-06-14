@@ -137,10 +137,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmit, ref, computed, watch, watchEffect } from 'vue'
+import { defineProps, defineEmit, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
-import { useVModel } from '@vueuse/core'
+import { useVModels } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
 import { getCoverImage, imageMod } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
@@ -150,27 +150,24 @@ import type { schema, Query } from '@/graphql'
 import NProgress from 'nprogress'
 
 const props = defineProps({
+  query: { type: String, required: true },
+  limit: { type: Number, required: true },
+  offset: { type: Number, required: true },
+  order: { type: String, required: true },
+  visibleSite: { type: String, required: true },
   pageCount: { type: Number, required: true },
 })
-const emit = defineEmit(['update:pageCount'])
+const emit = defineEmit()
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
-const limit = 20
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
 const videos = ref<schema.Video[]>([])
-const pageCount = useVModel(props, 'pageCount', emit, { passive: true })
+const { query, limit, offset, order, visibleSite, pageCount } = useVModels(props, emit)
 
-/* Precess URL query */
-const queryWord = computed(() =>
-  String(route.query.i ? (Array.isArray(route.query.i) ? route.query.i.join(' ') : route.query.i) : '')
-)
-const offset = computed(() =>
-  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
-)
 const VisibleSites = [
   {
     value: '',
@@ -185,35 +182,16 @@ const VisibleSites = [
     name: t('search.search-result.video.visible-sites.abroad'),
   },
 ]
-const visibleSite = computed(() =>
-  String(
-    route.query.visible_site
-      ? Array.isArray(route.query.visible_site)
-        ? route.query.visible_site[0]
-        : route.query.visible_site
-      : localStorage.getItem('VisibleSite') || VisibleSites[0].value
-  )
-)
-const Orders = [
-  { value: 'last_modified', name: t('search.search-result.order.last-modified') },
-  { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
-]
-const order = computed(() =>
-  String(
-    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value
-  )
-)
 
-/* Refresh query result for URL query change */
-const URLQuery = computed(() => route.query)
+/* Refresh query result for props change */
 watch(
-  URLQuery,
+  props,
   () => {
     fetchMore({
       variables: {
-        offset: offset.value * limit,
-        limit: limit,
-        query: queryWord.value,
+        offset: offset.value * limit.value,
+        limit: limit.value,
+        query: query.value,
         order: order.value,
         additionalConstraint: visibleSite.value,
       },
@@ -253,9 +231,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     }
   `,
   {
-    offset: offset.value * limit,
-    limit: limit,
-    query: queryWord.value,
+    offset: offset.value * limit.value,
+    limit: limit.value,
+    query: query.value,
     order: order.value,
     additionalConstraint: visibleSite.value,
   }

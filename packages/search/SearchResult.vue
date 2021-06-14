@@ -54,10 +54,25 @@
       </div>
 
       <!-- Videos -->
-      <SearchVideo v-if="tab === Tabs[0].value" v-model:page-count="pageCount" />
+      <SearchVideo
+        v-if="tab === Tabs[0].value"
+        v-model:query="queryWord"
+        v-model:limit="limit"
+        v-model:offset="offset"
+        v-model:order="order"
+        v-model:visible-site="visibleSite"
+        v-model:page-count="pageCount"
+      />
 
       <!-- Playlists -->
-      <SearchPlaylist v-else-if="tab === Tabs[1].value" v-model:page-count="pageCount" />
+      <SearchPlaylist
+        v-else-if="tab === Tabs[1].value"
+        v-model:query="queryWord"
+        v-model:limit="limit"
+        v-model:offset="offset"
+        v-model:order="order"
+        v-model:page-count="pageCount"
+      />
     </div>
     <PvPagination
       v-model:page-count="pageCount"
@@ -98,11 +113,31 @@ const queryWord = computed(() => {
   }
   return query
 })
+const limit = computed(() => {
+  return Number(route.query.limit ? (Array.isArray(route.query.limit) ? route.query.limit[0] : route.query.limit) : 20)
+})
 const offset = computed(() => {
   return Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 })
-
 const page = computed(() => offset.value + 1)
+const Orders = [
+  { value: 'last_modified', name: t('search.search-result.order.last-modified') },
+  { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
+]
+const order = computed(() =>
+  String(
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value
+  )
+)
+const visibleSite = computed(() =>
+  String(
+    route.query.visible_site
+      ? Array.isArray(route.query.visible_site)
+        ? route.query.visible_site[0]
+        : route.query.visible_site
+      : localStorage.getItem('VisibleSite') || ''
+  )
+)
 const Tabs = [
   {
     value: 'video',
@@ -115,16 +150,6 @@ const Tabs = [
 ]
 const tab = computed(() =>
   String(route.query.tab ? (Array.isArray(route.query.tab) ? route.query.tab[0] : route.query.tab) : Tabs[0].value)
-)
-
-const Orders = [
-  { value: 'last_modified', name: t('search.search-result.order.last-modified') },
-  { value: 'video_oldest', name: t('search.search-result.order.video-oldest') },
-]
-const order = computed(() =>
-  String(
-    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value
-  )
 )
 
 /* Change the router query to trigger the search function */
