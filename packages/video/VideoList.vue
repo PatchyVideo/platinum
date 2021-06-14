@@ -2,7 +2,70 @@
   <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
     <NavTop></NavTop>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
-      <div v-if="status === 'loading'">{{ t('video.video-list.main-body.loading.searching') }}</div>
+      <div v-if="status === 'loading'">
+        <div v-text="t('video.video-list.main-body.loading.searching')"></div>
+        <!-- Mobile View -->
+        <div v-if="screenSizes['<md']">
+          <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
+            <div class="w-2/5 mr-0.5">
+              <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            </div>
+            <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
+              <div
+                class="
+                  line-clamp-2
+                  overflow-ellipsis overflow-hidden
+                  rounded-md
+                  w-full
+                  bg-gray-400
+                  dark:bg-gray-600
+                  animate-pulse
+                "
+              >
+                &nbsp;
+              </div>
+              <div
+                class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600 animate-pulse"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <!-- Desktop View -->
+        <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+          <div
+            v-for="index in limit"
+            :key="index"
+            class="
+              w-21/100
+              my-5
+              border
+              shadow-sm
+              rounded-lg
+              bg-white bg-opacity-50
+              dark:border-gray-500 dark:bg-gray-700
+            "
+          >
+            <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="p-3 text-left text-sm lg:text-base">
+              <div
+                class="
+                  line-clamp-2
+                  overflow-ellipsis overflow-hidden
+                  rounded-md
+                  bg-gray-400
+                  dark:bg-gray-600
+                  animate-pulse
+                "
+              >
+                &nbsp;
+              </div>
+              <div
+                class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div v-else-if="status === 'error'">
         <div>{{ t('video.video-list.main-body.failed.search-failed') }}</div>
         <div>{{ t('video.video-list.main-body.failed.search-failed-reason') + errMsg }}</div>
@@ -40,7 +103,7 @@
               <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
@@ -83,7 +146,7 @@
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover" :src="imgMod[video.item.site]" :alt="video.item.site" />
+                <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
           </div>
@@ -134,21 +197,15 @@ import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
+import { backTop } from '@/ui/lib/backTop'
+import { imageMod } from '@/common/lib/imageUrl'
 import { progressing } from '@/common/lib/progressing'
 import { screenSizes } from '@/tailwindcss'
-
-const imgMod = Object.fromEntries(
-  Object.entries(import.meta.globEager('/packages/common/assets/WebIcons/*.png')).map(([key, value]) => [
-    key.replace(/\/packages\/common\/assets\/WebIcons\/(.+)\.png/, '$1'),
-    value.default,
-  ])
-)
 
 const { t } = useI18n()
 setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
 const route = useRoute()
 const router = useRouter()
-const limit = 40
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
@@ -156,22 +213,21 @@ const pageCount = ref(0)
 const videos = ref<schema.Video[]>()
 
 /* Precess URL query */
-const offsetChangeFromOtherQuery = ref(false)
+const limit = computed(() => {
+  return Number(route.query.limit ? (Array.isArray(route.query.limit) ? route.query.limit[0] : route.query.limit) : 20)
+})
 const offset = computed(() =>
   Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
 const page = computed(() => offset.value + 1)
 
 /* Refresh query result for URL query change */
-watch(offset, () => {
-  if (offsetChangeFromOtherQuery.value) {
-    offsetChangeFromOtherQuery.value = false
-    return
-  }
+const URLQuery = computed(() => route.query)
+watch(URLQuery, () => {
   fetchMore({
     variables: {
-      offset: offset.value * limit,
-      limit: limit,
+      offset: offset.value * limit.value,
+      limit: limit.value,
       query: '',
     },
   }).then((v) => {
@@ -200,8 +256,8 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     }
   `,
   {
-    offset: offset.value * limit,
-    limit: limit,
+    offset: offset.value * limit.value,
+    limit: limit.value,
     query: '',
   }
 )
@@ -222,6 +278,7 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     videos.value = resultData.value.videos
   }
+  backTop()
 })
 onError((err) => {
   errMsg.value = err.message
@@ -230,13 +287,19 @@ onError((err) => {
 
 /* Change the router query to trigger the search function */
 function jumpToPreviousPage(): void {
-  router.push({ path: '/video-list', query: { page: offset.value - 1 } })
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.page = offset.value - 1
+  router.push({ path: route.path, query })
 }
 function jumpToNextPage(): void {
-  router.push({ path: '/video-list', query: { page: offset.value + 1 } })
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.page = offset.value + 1
+  router.push({ path: route.path, query })
 }
 function jumpToSelectedPage(page: number): void {
-  router.push({ path: '/video-list', query: { page: page - 1 } })
+  const query = JSON.parse(JSON.stringify(route.query))
+  query.page = page - 1
+  router.push({ path: route.path, query })
 }
 
 /* Jump to video detail page */

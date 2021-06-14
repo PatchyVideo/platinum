@@ -1,8 +1,8 @@
 <template>
   <div v-if="status === 'loading'">
+    <div class="border-b-1 pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
-      <div class="border-b-1 pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
       <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-0.5">
           <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
@@ -160,7 +160,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmit, ref, computed, watch, watchEffect } from 'vue'
+import { defineProps, defineEmit, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
 import { useVModels } from '@vueuse/core'
