@@ -1,5 +1,5 @@
 <template>
-  <div v-if="pageCount - 1" class="xs:text-xs">
+  <div v-if="pageCount - 1 && pageCount" class="xs:text-xs">
     <!-- Mobile View -->
     <div class="border-t-1 pt-1 flex-1 flex justify-between items-center">
       <a
