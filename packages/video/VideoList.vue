@@ -37,7 +37,7 @@
                   >{{ video.item.partName }}
                 </div>
               </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
+              <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover h-full" :src="imgMod[video.item.site]" :alt="video.item.site" />
@@ -78,7 +78,7 @@
                   >{{ video.item.partName }}
                 </div>
               </div>
-              <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+              <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
                 video.item.title
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
@@ -248,10 +248,4 @@ function jumpToVideoResult(id: string): void {
 }
 </script>
 
-<style lang="postcss" scoped>
-.title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-</style>
+<style lang="postcss" scoped></style>

@@ -28,7 +28,7 @@
               </div>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
-              <div class="title-mobile overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
+              <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
               <div class="w-full text-sm text-gray-600 dark:text-gray-300">
                 {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
               </div>
@@ -66,7 +66,7 @@
                 </div>
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">
-                <div class="desc w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
+                <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
                 <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
                   {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
                 </div>
@@ -257,15 +257,4 @@ export default defineComponent({
 })
 </script>
 
-<style lang="postcss" scoped>
-.title-mobile {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vrtical;
-}
-.desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-}
-</style>
+<style lang="postcss" scoped></style>

@@ -9,7 +9,15 @@
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
           <div
-            class="title overflow-ellipsis overflow-hidden rounded-md w-full bg-gray-400 dark:bg-gray-600 animate-pulse"
+            class="
+              line-clamp-2
+              overflow-ellipsis overflow-hidden
+              rounded-md
+              w-full
+              bg-gray-400
+              dark:bg-gray-600
+              animate-pulse
+            "
           >
             &nbsp;
           </div>
@@ -26,7 +34,9 @@
       >
         <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
         <div class="p-3 text-left text-sm lg:text-base">
-          <div class="title overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">
+          <div
+            class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+          >
             &nbsp;
           </div>
           <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
@@ -80,7 +90,7 @@
               >{{ video.item.partName }}
             </div>
           </div>
-          <a v-else class="title overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
+          <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
@@ -113,7 +123,9 @@
               >{{ video.item.partName }}
             </div>
           </div>
-          <a v-else class="title overflow-ellipsis overflow-hidden" :title="video.item.title">{{ video.item.title }}</a>
+          <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+            video.item.title
+          }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
@@ -125,7 +137,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineProps, defineEmit, ref, computed, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
@@ -303,10 +314,5 @@ function jumpToVideoResult(id: string): void {
   @apply bg-no-repeat;
   @apply bg-contain;
   background-image: url('../assets/SearchResultBackImg.png');
-}
-.title {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 }
 </style>

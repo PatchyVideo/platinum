@@ -10,7 +10,7 @@
         <div class="w-3/5 flex flex-wrap content-between">
           <div
             class="
-              title-mobile
+              line-clamp-2
               overflow-ellipsis overflow-hidden
               w-full
               rounded-md
@@ -67,7 +67,7 @@
             <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
           </div>
           <div class="w-1/2 py-2 flex flex-wrap content-between">
-            <div class="desc w-full overflow-ellipsis overflow-hidden">
+            <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
               <div v-for="i in 3" :key="i" class="mb-1 w-full rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">
                 &nbsp;
               </div>
@@ -108,7 +108,7 @@
           </div>
         </div>
         <div class="w-3/5 flex flex-wrap content-between">
-          <div class="title-mobile overflow-ellipsis overflow-hidden w-full" v-text="playlist.item.title"></div>
+          <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="playlist.item.title"></div>
           <div
             class="w-full text-sm text-gray-600 dark:text-gray-300"
             v-text="t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count })"
@@ -147,7 +147,7 @@
             </div>
           </div>
           <div class="w-1/2 py-2 flex flex-wrap content-between">
-            <div class="desc w-full overflow-ellipsis overflow-hidden" v-text="playlist.item.desc"></div>
+            <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden" v-text="playlist.item.desc"></div>
             <div
               class="w-full text-right text-sm text-gray-600 dark:text-gray-300"
               v-text="t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count })"
@@ -160,7 +160,6 @@
 </template>
 
 <script setup lang="ts">
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineProps, defineEmit, ref, computed, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
@@ -286,15 +285,5 @@ function jumpToPlaylist(id: string): void {
   @apply bg-no-repeat;
   @apply bg-contain;
   background-image: url('../assets/SearchResultBackImg.png');
-}
-.title-mobile {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vrtical;
-}
-.desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
 }
 </style>
