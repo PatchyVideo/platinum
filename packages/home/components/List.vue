@@ -5,30 +5,25 @@
   </div>
 </template>
 
-<script lang="ts">
-import { reactive, defineComponent } from 'vue'
+<script setup lang="ts">
+import { reactive, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 
-export default defineComponent({
-  props: {
-    data: {
-      type: String,
-      default: '{}',
-    },
-  },
-  setup(props) {
-    const { t } = useI18n()
-
-    interface HomeCompDataList {
-      listID: string
-    }
-
-    const data: HomeCompDataList = reactive(JSON.parse(props.data))
-
-    console.log(data.listID)
-    return { t }
+const props = defineProps({
+  data: {
+    type: String,
+    default: '{}',
   },
 })
+const { t } = useI18n()
+
+interface HomeCompDataList {
+  listID: string
+}
+
+const data: HomeCompDataList = reactive(JSON.parse(props.data))
+
+console.log(data.listID)
 </script>
 
 <style lang="postcss" scoped></style>

@@ -147,12 +147,12 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
-import { computed, defineComponent, reactive, watch, ref } from 'vue'
+import { computed, reactive, watch, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { gql, injectClient } from '@/graphql'
 import { isLogin, IsLogin, user } from '@/user/index'
@@ -163,118 +163,89 @@ interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
 }
 
-export default defineComponent({
-  components: { UserInput, UserAvatar, NavTop, Footer },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    setSiteTitle(t('user.user-page.title') + ' - PatchyVideo')
-    const isLoginStateYes = computed(() => isLogin.value == IsLogin.yes)
-    let isEditingUsername = ref(false)
-    let avatar = ref('')
-    const chooseAvatarInput = templateRef<HTMLInputElement | null>('chooseAvatarInput')
-    let username = ref('')
-    let tempUsername = ref('')
-    let oldPassword = ref('')
-    let newPassword = ref('')
-    let newConfirmedPassword = ref('')
-    let email = ref('')
-    let newEmail = ref('')
-    let description = ref('')
-    const client = injectClient()
-    watch(
-      isLoginStateYes,
-      async (isLoginState) => {
-        if (!isLoginState) return
-        // TODO: useQuery
-        const res = await client.query({
-          query: gql`
-            query ($uid: String!) {
-              getUser(para: { uid: $uid }) {
-                id
-                desc
-                username
-                image
-                email
-                gravatar
-              }
-            }
-          `,
-          variables: {
-            uid: user.value.uid,
-          },
-        })
-        const userInfo = reactive(res.data.getUser)
-        avatar.value = userInfo.image
-        username.value = userInfo.username
-        email.value = userInfo.email || ''
-        description.value = userInfo.desc
+const { t } = useI18n()
+setSiteTitle(t('user.user-page.title') + ' - PatchyVideo')
+const isLoginStateYes = computed(() => isLogin.value == IsLogin.yes)
+let isEditingUsername = ref(false)
+let avatar = ref('')
+const chooseAvatarInput = templateRef<HTMLInputElement | null>('chooseAvatarInput')
+let username = ref('')
+let tempUsername = ref('')
+let oldPassword = ref('')
+let newPassword = ref('')
+let newConfirmedPassword = ref('')
+let email = ref('')
+let newEmail = ref('')
+let description = ref('')
+const client = injectClient()
+watch(
+  isLoginStateYes,
+  async (isLoginState) => {
+    if (!isLoginState) return
+    // TODO: useQuery
+    const res = await client.query({
+      query: gql`
+        query ($uid: String!) {
+          getUser(para: { uid: $uid }) {
+            id
+            desc
+            username
+            image
+            email
+            gravatar
+          }
+        }
+      `,
+      variables: {
+        uid: user.value.uid,
       },
-      { immediate: true }
-    )
-    const onGetChosenAvatar = (e: HTMLInputEvent) => {
-      const files = e.target.files
-      if (files == null || files?.length == 0) {
-        alert('请选择头像文件！')
-        return
-      }
-      let fr = new FileReader()
-      fr.readAsDataURL(files[0])
-      fr.onload = (e) => {
-        avatar.value = e?.target?.result?.toString() ?? ''
-      }
-      //fr.onloadend = () => {}
-    }
-    const onChooseAvatar = () => {
-      chooseAvatarInput.value?.click()
-    }
-    const onUploadAvatar = () => {
-      alert('功能开发中，敬请期待！')
-    }
-    const onOpenUsernameEditor = () => {
-      isEditingUsername.value = true
-      tempUsername.value = username.value
-    }
-    const onUpdateUsername = () => {
-      alert('功能开发中，敬请期待！')
-    }
-    const onSaveDescription = () => {
-      alert('功能开发中，敬请期待！')
-    }
-    const onCommitNewPassword = () => {
-      alert('功能开发中，敬请期待！')
-    }
-    const onResetPassword = () => {
-      oldPassword.value = newPassword.value = newConfirmedPassword.value = ''
-    }
-    const onBindEmail = () => {
-      alert('功能开发中，敬请期待！')
-    }
-    return {
-      t,
-      isLoginStateYes,
-      isEditingUsername,
-      avatar,
-      username,
-      tempUsername,
-      oldPassword,
-      newPassword,
-      newConfirmedPassword,
-      email,
-      newEmail,
-      description,
-      onGetChosenAvatar,
-      onChooseAvatar,
-      onUploadAvatar,
-      onOpenUsernameEditor,
-      onUpdateUsername,
-      onSaveDescription,
-      onCommitNewPassword,
-      onResetPassword,
-      onBindEmail,
-    }
+    })
+    const userInfo = reactive(res.data.getUser)
+    avatar.value = userInfo.image
+    username.value = userInfo.username
+    email.value = userInfo.email || ''
+    description.value = userInfo.desc
   },
-})
+  { immediate: true }
+)
+const onGetChosenAvatar = (e: HTMLInputEvent) => {
+  const files = e.target.files
+  if (files == null || files?.length == 0) {
+    alert('请选择头像文件！')
+    return
+  }
+  let fr = new FileReader()
+  fr.readAsDataURL(files[0])
+  fr.onload = (e) => {
+    avatar.value = e?.target?.result?.toString() ?? ''
+  }
+  //fr.onloadend = () => {}
+}
+const onChooseAvatar = () => {
+  chooseAvatarInput.value?.click()
+}
+const onUploadAvatar = () => {
+  alert('功能开发中，敬请期待！')
+}
+const onOpenUsernameEditor = () => {
+  isEditingUsername.value = true
+  tempUsername.value = username.value
+}
+const onUpdateUsername = () => {
+  alert('功能开发中，敬请期待！')
+}
+const onSaveDescription = () => {
+  alert('功能开发中，敬请期待！')
+}
+const onCommitNewPassword = () => {
+  alert('功能开发中，敬请期待！')
+}
+const onResetPassword = () => {
+  oldPassword.value = newPassword.value = newConfirmedPassword.value = ''
+}
+const onBindEmail = () => {
+  alert('功能开发中，敬请期待！')
+}
 </script>
 
 <style lang="postcss" scoped>

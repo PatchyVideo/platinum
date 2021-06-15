@@ -62,7 +62,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="resetStatus === ResetStatus.loading"
+            :disabled="resetStatus === 'loading'"
             class="
               w-full
               py-2
@@ -76,12 +76,12 @@
             @click="reset"
           >
             {{
-              resetStatus === ResetStatus.loading
+              resetStatus === 'loading'
                 ? t('user.reset-password.reset-status.loading')
                 : t('user.reset-password.reset-status.ready')
             }}
           </button>
-          <div v-if="resetStatus === ResetStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="resetStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -138,7 +138,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="resetStatus === ResetStatus.loading"
+            :disabled="resetStatus === 'loading'"
             class="
               w-full
               py-2
@@ -156,12 +156,12 @@
             @click="reset"
           >
             {{
-              resetStatus === ResetStatus.loading
+              resetStatus === 'loading'
                 ? t('user.reset-password.reset-status.loading')
                 : t('user.reset-password.reset-status.ready')
             }}
           </button>
-          <div v-if="resetStatus === ResetStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="resetStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
@@ -171,8 +171,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
@@ -180,115 +180,91 @@ import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
-export default defineComponent({
-  components: { Logo },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    const route = useRoute()
-    const router = useRouter()
-    setSiteTitle(t('user.reset-password.title') + ' - PatchyVideo')
+const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
+setSiteTitle(t('user.reset-password.title') + ' - PatchyVideo')
 
-    enum ResetStatus {
-      'ready' = 'ready',
-      'loading' = 'loading',
-      'error' = 'error',
-    }
-    const resetStatus = ref<ResetStatus>(ResetStatus.ready)
-    const PasswordStatus = {
-      fine: t('user.reset-password.password.password-status.fine'),
-      tip: t('user.reset-password.password.password-status.tip'),
-      msg: t('user.reset-password.password.password-status.msg'),
-    }
-    const passwordStatus = ref<string>(PasswordStatus.fine)
-    const Password2Status = {
-      fine: t('user.reset-password.password2.password2-status.fine'),
-      tip: t('user.reset-password.password2.password2-status.tip'),
-      msg: t('user.reset-password.password2.password2-status.msg'),
-    }
-    const password2Status = ref<string>(Password2Status.fine)
+const resetStatus = ref<'ready' | 'loading' | 'error'>('ready')
+const PasswordStatus = {
+  fine: t('user.reset-password.password.password-status.fine'),
+  tip: t('user.reset-password.password.password-status.tip'),
+  msg: t('user.reset-password.password.password-status.msg'),
+}
+const passwordStatus = ref<string>(PasswordStatus.fine)
+const Password2Status = {
+  fine: t('user.reset-password.password2.password2-status.fine'),
+  tip: t('user.reset-password.password2.password2-status.tip'),
+  msg: t('user.reset-password.password2.password2-status.msg'),
+}
+const password2Status = ref<string>(Password2Status.fine)
 
-    const password = ref<string>()
-    const password2 = ref<string>()
-    const resetKey = computed(() => route.query.key)
-    const errmsg = ref<string>('')
+const password = ref<string>()
+const password2 = ref<string>()
+const resetKey = computed(() => route.query.key)
+const errmsg = ref<string>('')
 
-    async function reset(): Promise<void> {
-      if (resetStatus.value === ResetStatus.loading) return
-      resetStatus.value = ResetStatus.loading
+async function reset(): Promise<void> {
+  if (resetStatus.value === 'loading') return
+  resetStatus.value = 'loading'
 
-      /* Form validation  */
-      let valid = true
-      if (!password.value) {
-        valid = false
-        passwordStatus.value = PasswordStatus.tip
-      } else if (password.value.length < 6 || password.value.length > 64) {
-        valid = false
-        passwordStatus.value = PasswordStatus.msg
+  /* Form validation  */
+  let valid = true
+  if (!password.value) {
+    valid = false
+    passwordStatus.value = PasswordStatus.tip
+  } else if (password.value.length < 6 || password.value.length > 64) {
+    valid = false
+    passwordStatus.value = PasswordStatus.msg
+  } else {
+    passwordStatus.value = PasswordStatus.fine
+  }
+  if (!password2.value) {
+    valid = false
+    password2Status.value = Password2Status.tip
+  } else if (password2.value != password.value) {
+    valid = false
+    password2Status.value = Password2Status.msg
+  } else {
+    password2Status.value = Password2Status.fine
+  }
+  if (!resetKey.value) {
+    resetStatus.value = 'error'
+    errmsg.value = t('user.reset-password.reset-status.error')
+    return
+  }
+  if (!valid) {
+    resetStatus.value = 'ready'
+    return
+  }
+
+  await fetch('https://patchyvideo.com/be/user/resetpass.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      reset_key: resetKey.value,
+      new_pass: password.value,
+    }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) {
+        router.push({ path: '/user/redirect', query: { from: 'reset-password' } })
       } else {
-        passwordStatus.value = PasswordStatus.fine
+        resetStatus.value = 'error'
+        errmsg.value = res.dataerr.reason
       }
-      if (!password2.value) {
-        valid = false
-        password2Status.value = Password2Status.tip
-      } else if (password2.value != password.value) {
-        valid = false
-        password2Status.value = Password2Status.msg
-      } else {
-        password2Status.value = Password2Status.fine
-      }
-      if (!resetKey.value) {
-        resetStatus.value = ResetStatus.error
-        errmsg.value = t('user.reset-password.reset-status.error')
-        return
-      }
-      if (!valid) {
-        resetStatus.value = ResetStatus.ready
-        return
-      }
-
-      await fetch('https://patchyvideo.com/be/user/resetpass.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          reset_key: resetKey.value,
-          new_pass: password.value,
-        }),
-        credentials: 'include',
-      })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) {
-            router.push({ path: '/user/redirect', query: { from: 'reset-password' } })
-          } else {
-            resetStatus.value = ResetStatus.error
-            errmsg.value = res.dataerr.reason
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          resetStatus.value = ResetStatus.error
-          errmsg.value = err
-        })
-    }
-
-    return {
-      t,
-      screenSizes,
-      ResetStatus,
-      resetStatus,
-      passwordStatus,
-      password,
-      password2Status,
-      password2,
-      errmsg,
-      reset,
-    }
-  },
-})
+    })
+    .catch((err) => {
+      // console.log(err)
+      resetStatus.value = 'error'
+      errmsg.value = err
+    })
+}
 </script>
 
 <style lang="postcss" scoped>

@@ -15,29 +15,20 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref } from 'vue'
+<script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue'
 import { notis } from '../index'
 
-export default defineComponent({
-  setup() {
-    const now = ref(Date.now())
+const now = ref(Date.now())
 
-    let interval = 0
-    onMounted(() => {
-      interval = window.setInterval(() => {
-        now.value = Date.now()
-      }, 100)
-    })
-    onUnmounted(() => {
-      if (interval) clearInterval(interval)
-    })
-
-    return {
-      now,
-      notis,
-    }
-  },
+let interval = 0
+onMounted(() => {
+  interval = window.setInterval(() => {
+    now.value = Date.now()
+  }, 100)
+})
+onUnmounted(() => {
+  if (interval) clearInterval(interval)
 })
 </script>
 

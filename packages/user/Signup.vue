@@ -100,7 +100,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="signupStatus === SignupStatus.loading"
+            :disabled="signupStatus === 'loading'"
             class="
               w-full
               py-2
@@ -114,12 +114,10 @@
             @click="signup"
           >
             {{
-              signupStatus === SignupStatus.loading
-                ? t('user.signup.signup-status.loading')
-                : t('user.signup.signup-status.ready')
+              signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
             }}
           </button>
-          <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="signupStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-right text-blue-600" to="/user/login">{{
             '←' + t('user.signup.login')
           }}</RouterLink>
@@ -202,7 +200,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="signupStatus === SignupStatus.loading"
+            :disabled="signupStatus === 'loading'"
             class="
               w-full
               py-2
@@ -219,12 +217,10 @@
             @click="signup"
           >
             {{
-              signupStatus === SignupStatus.loading
-                ? t('user.signup.signup-status.loading')
-                : t('user.signup.signup-status.ready')
+              signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
             }}
           </button>
-          <div v-if="signupStatus === SignupStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="signupStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
             '←' + t('user.signup.login')
           }}</RouterLink>
@@ -237,8 +233,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -246,237 +242,209 @@ import { resDataStatus } from '@/common/lib/resDataStatus'
 import { screenSizes } from '@/tailwindcss'
 import Logo from '@/common/components/Logo.vue'
 
-export default defineComponent({
-  components: { Logo },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    const router = useRouter()
-    setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
+const { t } = useI18n()
+const router = useRouter()
+setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
 
-    enum SignupStatus {
-      'ready' = 'ready',
-      'loading' = 'loading',
-      'error' = 'error',
-    }
-    const signupStatus = ref<string>(SignupStatus.ready)
-    const UsernameStatus = {
-      fine: t('user.signup.username.username-status.fine'),
-      tip: t('user.signup.username.username-status.tip'),
-      msg: t('user.signup.username.username-status.msg'),
-      res: t('user.signup.username.username-status.res'),
-      err: t('user.signup.username.username-status.err'),
-    }
-    const usernameStatus = ref<string>(UsernameStatus.fine)
-    const PasswordStatus = {
-      fine: t('user.signup.password.password-status.fine'),
-      tip: t('user.signup.password.password-status.tip'),
-      msg: t('user.signup.password.password-status.msg'),
-    }
-    const passwordStatus = ref<string>(PasswordStatus.fine)
-    const Password2Status = {
-      fine: t('user.signup.password2.password2-status.fine'),
-      tip: t('user.signup.password2.password2-status.tip'),
-      msg: t('user.signup.password2.password2-status.msg'),
-    }
-    const password2Status = ref<string>(Password2Status.fine)
-    const emailFormat =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    const EmailStatus = {
-      fine: t('user.signup.email.email-status.fine'),
-      tip: t('user.signup.email.email-status.tip'),
-      msg: t('user.signup.email.email-status.msg'),
-      res: t('user.signup.email.email-status.res'),
-      err: t('user.signup.email.email-status.err'),
-    }
-    const emailStatus = ref<string>(EmailStatus.fine)
+const signupStatus = ref<'ready' | 'loading' | 'error'>('ready')
+const UsernameStatus = {
+  fine: t('user.signup.username.username-status.fine'),
+  tip: t('user.signup.username.username-status.tip'),
+  msg: t('user.signup.username.username-status.msg'),
+  res: t('user.signup.username.username-status.res'),
+  err: t('user.signup.username.username-status.err'),
+}
+const usernameStatus = ref<string>(UsernameStatus.fine)
+const PasswordStatus = {
+  fine: t('user.signup.password.password-status.fine'),
+  tip: t('user.signup.password.password-status.tip'),
+  msg: t('user.signup.password.password-status.msg'),
+}
+const passwordStatus = ref<string>(PasswordStatus.fine)
+const Password2Status = {
+  fine: t('user.signup.password2.password2-status.fine'),
+  tip: t('user.signup.password2.password2-status.tip'),
+  msg: t('user.signup.password2.password2-status.msg'),
+}
+const password2Status = ref<string>(Password2Status.fine)
+const emailFormat =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const EmailStatus = {
+  fine: t('user.signup.email.email-status.fine'),
+  tip: t('user.signup.email.email-status.tip'),
+  msg: t('user.signup.email.email-status.msg'),
+  res: t('user.signup.email.email-status.res'),
+  err: t('user.signup.email.email-status.err'),
+}
+const emailStatus = ref<string>(EmailStatus.fine)
 
-    const userName = ref<string>('')
-    const password = ref<string>('')
-    const password2 = ref<string>('')
-    const email = ref<string>('')
-    const errmsg = ref<string>('')
+const userName = ref<string>('')
+const password = ref<string>('')
+const password2 = ref<string>('')
+const email = ref<string>('')
+const errmsg = ref<string>('')
 
-    async function signup(): Promise<void> {
-      if (signupStatus.value === SignupStatus.loading) return
-      signupStatus.value = SignupStatus.loading
+async function signup(): Promise<void> {
+  if (signupStatus.value === 'loading') return
+  signupStatus.value = 'loading'
 
-      /* Form validation  */
-      let valid = true
-      if (!userName.value) {
-        valid = false
-        usernameStatus.value = UsernameStatus.tip
-      } else if (userName.value.length < 2 || userName.value.length > 32) {
-        valid = false
-        usernameStatus.value = UsernameStatus.msg
-      } else {
-        usernameStatus.value = UsernameStatus.fine
-      }
-      if (!password.value) {
-        valid = false
-        passwordStatus.value = PasswordStatus.tip
-      } else if (password.value.length < 6 || password.value.length > 64) {
-        valid = false
-        passwordStatus.value = PasswordStatus.msg
-      } else {
-        passwordStatus.value = PasswordStatus.fine
-      }
-      if (!password2.value) {
-        valid = false
-        password2Status.value = Password2Status.tip
-      } else if (password2.value != password.value) {
-        valid = false
-        password2Status.value = Password2Status.msg
-      } else {
-        password2Status.value = Password2Status.fine
-      }
-      if (!email.value) {
-        valid = false
-        emailStatus.value = EmailStatus.tip
-      } else if (!emailFormat.test(email.value)) {
-        valid = false
-        emailStatus.value = EmailStatus.msg
-      } else {
-        emailStatus.value = EmailStatus.fine
-      }
-      if (valid) {
-        const fetchUser = fetch('https://patchyvideo.com/be/user/exists.do', {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            username: userName.value,
-          }),
-          credentials: 'include',
-        })
-          .then((data) => data.json())
-          .then((res) => {
-            // console.log(res)
-            if (res.status != resDataStatus.SUCCEED) {
-              usernameStatus.value = UsernameStatus.err
-              valid = false
-            }
-            // 'res.data=true' means the user already exists
-            else if (res.data) {
-              usernameStatus.value = UsernameStatus.res
-              valid = false
-            }
-          })
-          .catch((err) => {
-            // console.log(err)
-            usernameStatus.value = UsernameStatus.err
-            valid = false
-          })
-        const fetchEmail = fetch('https://patchyvideo.com/be/user/email_avail.do', {
-          method: 'POST',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-          }),
-          body: JSON.stringify({
-            email: email.value,
-          }),
-          credentials: 'include',
-        })
-          .then((data) => data.json())
-          .then((res) => {
-            // console.log(res)
-            if (res.status != resDataStatus.SUCCEED) {
-              emailStatus.value = EmailStatus.err
-              valid = false
-            }
-            // 'res.data=true' means the user already exists
-            else if (res.data) {
-              emailStatus.value = EmailStatus.res
-              valid = false
-            }
-          })
-          .catch((err) => {
-            // console.log(err)
-            emailStatus.value = EmailStatus.err
-            valid = false
-          })
-        await fetchUser
-        await fetchEmail
-      }
-      if (!valid) {
-        signupStatus.value = SignupStatus.ready
-        return
-      }
-
-      /* Sign up */
-      let session = ''
-      await fetch('https://patchyvideo.com/be/auth/get_session.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({ type: 'SIGNUP' }),
-        credentials: 'include',
+  /* Form validation  */
+  let valid = true
+  if (!userName.value) {
+    valid = false
+    usernameStatus.value = UsernameStatus.tip
+  } else if (userName.value.length < 2 || userName.value.length > 32) {
+    valid = false
+    usernameStatus.value = UsernameStatus.msg
+  } else {
+    usernameStatus.value = UsernameStatus.fine
+  }
+  if (!password.value) {
+    valid = false
+    passwordStatus.value = PasswordStatus.tip
+  } else if (password.value.length < 6 || password.value.length > 64) {
+    valid = false
+    passwordStatus.value = PasswordStatus.msg
+  } else {
+    passwordStatus.value = PasswordStatus.fine
+  }
+  if (!password2.value) {
+    valid = false
+    password2Status.value = Password2Status.tip
+  } else if (password2.value != password.value) {
+    valid = false
+    password2Status.value = Password2Status.msg
+  } else {
+    password2Status.value = Password2Status.fine
+  }
+  if (!email.value) {
+    valid = false
+    emailStatus.value = EmailStatus.tip
+  } else if (!emailFormat.test(email.value)) {
+    valid = false
+    emailStatus.value = EmailStatus.msg
+  } else {
+    emailStatus.value = EmailStatus.fine
+  }
+  if (valid) {
+    const fetchUser = fetch('https://patchyvideo.com/be/user/exists.do', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        username: userName.value,
+      }),
+      credentials: 'include',
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        // console.log(res)
+        if (res.status != resDataStatus.SUCCEED) {
+          usernameStatus.value = UsernameStatus.err
+          valid = false
+        }
+        // 'res.data=true' means the user already exists
+        else if (res.data) {
+          usernameStatus.value = UsernameStatus.res
+          valid = false
+        }
       })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) session = res.data
-          else {
-            signupStatus.value = SignupStatus.error
-            errmsg.value = t('user.signup.signup-status.error')
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          signupStatus.value = SignupStatus.error
-          errmsg.value = err
-        })
-
-      await fetch('https://patchyvideo.com/be/signup.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          username: userName.value,
-          password: password.value,
-          email: email.value,
-          session: session,
-        }),
-        credentials: 'include',
+      .catch((err) => {
+        // console.log(err)
+        usernameStatus.value = UsernameStatus.err
+        valid = false
       })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) {
-            router.push({ path: '/user/redirect', query: { from: 'sign-up' } })
-          } else {
-            signupStatus.value = SignupStatus.error
-            errmsg.value = res.dataerr.reason
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          signupStatus.value = SignupStatus.error
-          errmsg.value = err
-        })
-    }
+    const fetchEmail = fetch('https://patchyvideo.com/be/user/email_avail.do', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: JSON.stringify({
+        email: email.value,
+      }),
+      credentials: 'include',
+    })
+      .then((data) => data.json())
+      .then((res) => {
+        // console.log(res)
+        if (res.status != resDataStatus.SUCCEED) {
+          emailStatus.value = EmailStatus.err
+          valid = false
+        }
+        // 'res.data=true' means the user already exists
+        else if (res.data) {
+          emailStatus.value = EmailStatus.res
+          valid = false
+        }
+      })
+      .catch((err) => {
+        // console.log(err)
+        emailStatus.value = EmailStatus.err
+        valid = false
+      })
+    await fetchUser
+    await fetchEmail
+  }
+  if (!valid) {
+    signupStatus.value = 'ready'
+    return
+  }
 
-    return {
-      t,
-      screenSizes,
-      SignupStatus,
-      signupStatus,
-      usernameStatus,
-      passwordStatus,
-      password2Status,
-      emailStatus,
-      userName,
-      password,
-      password2,
-      email,
-      errmsg,
-      signup,
-    }
-  },
-})
+  /* Sign up */
+  let session = ''
+  await fetch('https://patchyvideo.com/be/auth/get_session.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({ type: 'SIGNUP' }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) session = res.data
+      else {
+        signupStatus.value = 'error'
+        errmsg.value = t('user.signup.signup-status.error')
+      }
+    })
+    .catch((err) => {
+      // console.log(err)
+      signupStatus.value = 'error'
+      errmsg.value = err
+    })
+
+  await fetch('https://patchyvideo.com/be/signup.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      username: userName.value,
+      password: password.value,
+      email: email.value,
+      session: session,
+    }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) {
+        router.push({ path: '/user/redirect', query: { from: 'sign-up' } })
+      } else {
+        signupStatus.value = 'error'
+        errmsg.value = res.dataerr.reason
+      }
+    })
+    .catch((err) => {
+      // console.log(err)
+      signupStatus.value = 'error'
+      errmsg.value = err
+    })
+}
 </script>
 
 <style lang="postcss" scoped>

@@ -7,28 +7,22 @@
   ></article>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed, defineProps } from 'vue'
 import { render } from '../lib/parser'
 
-export default defineComponent({
-  props: {
-    text: {
-      type: String,
-      default: '',
-    },
-    size: {
-      type: String,
-      default: '',
-    },
+const props = defineProps({
+  text: {
+    type: String,
+    default: '',
   },
-  setup(props) {
-    const html = computed(() => render(props.text))
-    return {
-      html,
-    }
+  size: {
+    type: String,
+    default: '',
   },
 })
+
+const html = computed(() => render(props.text))
 </script>
 
 <style lang="postcss" scoped>

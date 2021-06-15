@@ -51,7 +51,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="loginStatus === LoginStatus.loading"
+            :disabled="loginStatus === 'loading'"
             class="
               w-full
               py-2
@@ -64,13 +64,9 @@
             "
             @click="login"
           >
-            {{
-              loginStatus === LoginStatus.loading
-                ? t('user.login.login-status.loading')
-                : t('user.login.login-status.ready')
-            }}
+            {{ loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready') }}
           </button>
-          <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="loginStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</RouterLink>
         </div>
       </div>
@@ -130,7 +126,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="loginStatus === LoginStatus.loading"
+            :disabled="loginStatus === 'loading'"
             class="
               w-full
               py-2
@@ -147,13 +143,9 @@
             "
             @click="login"
           >
-            {{
-              loginStatus === LoginStatus.loading
-                ? t('user.login.login-status.loading')
-                : t('user.login.login-status.ready')
-            }}
+            {{ loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready') }}
           </button>
-          <div v-if="loginStatus === LoginStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="loginStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-blue-600 hover:text-blue-800" to="/user/signup">{{
             t('user.login.signup') + '→'
           }}</RouterLink>
@@ -166,8 +158,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
@@ -176,144 +168,121 @@ import { screenSizes } from '@/tailwindcss'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
-export default defineComponent({
-  components: { Logo },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    const router = useRouter()
-    setSiteTitle(t('user.login.title') + ' - PatchyVideo')
+const { t } = useI18n()
+const router = useRouter()
+setSiteTitle(t('user.login.title') + ' - PatchyVideo')
 
-    enum LoginStatus {
-      'ready' = 'ready',
-      'loading' = 'loading',
-      'error' = 'error',
-    }
-    const loginStatus = ref<string>(LoginStatus.ready)
-    const UsernameStatus = {
-      fine: t('user.login.username.username-status.fine'),
-      tip: t('user.login.username.username-status.tip'),
-      msg: t('user.login.username.username-status.msg'),
-    }
-    const usernameStatus = ref<string>(UsernameStatus.fine)
-    const PasswordStatus = {
-      fine: t('user.login.password.password-status.fine'),
-      tip: t('user.login.password.password-status.tip'),
-      msg: t('user.login.password.password-status.msg'),
-    }
-    const passwordStatus = ref<string>(PasswordStatus.fine)
+const loginStatus = ref<'ready' | 'loading' | 'error'>('ready')
+const UsernameStatus = {
+  fine: t('user.login.username.username-status.fine'),
+  tip: t('user.login.username.username-status.tip'),
+  msg: t('user.login.username.username-status.msg'),
+}
+const usernameStatus = ref<string>(UsernameStatus.fine)
+const PasswordStatus = {
+  fine: t('user.login.password.password-status.fine'),
+  tip: t('user.login.password.password-status.tip'),
+  msg: t('user.login.password.password-status.msg'),
+}
+const passwordStatus = ref<string>(PasswordStatus.fine)
 
-    const userName = ref<string>('')
-    const password = ref<string>('')
-    const errmsg = ref<string>('')
+const userName = ref<string>('')
+const password = ref<string>('')
+const errmsg = ref<string>('')
 
-    async function login(): Promise<void> {
-      if (loginStatus.value === LoginStatus.loading) return
-      loginStatus.value = LoginStatus.loading
+async function login(): Promise<void> {
+  if (loginStatus.value === 'loading') return
+  loginStatus.value = 'loading'
 
-      /* Form validation  */
-      let valid = true
-      if (!userName.value) {
-        valid = false
-        usernameStatus.value = UsernameStatus.tip
-      } else if (userName.value.length < 2 || userName.value.length > 32) {
-        valid = false
-        usernameStatus.value = UsernameStatus.msg
-      } else {
-        usernameStatus.value = UsernameStatus.fine
+  /* Form validation  */
+  let valid = true
+  if (!userName.value) {
+    valid = false
+    usernameStatus.value = UsernameStatus.tip
+  } else if (userName.value.length < 2 || userName.value.length > 32) {
+    valid = false
+    usernameStatus.value = UsernameStatus.msg
+  } else {
+    usernameStatus.value = UsernameStatus.fine
+  }
+  if (!password.value) {
+    valid = false
+    passwordStatus.value = PasswordStatus.tip
+  } else if (password.value.length < 6 || password.value.length > 64) {
+    valid = false
+    passwordStatus.value = PasswordStatus.msg
+  } else {
+    passwordStatus.value = PasswordStatus.fine
+  }
+  if (!valid) {
+    loginStatus.value = 'ready'
+    return
+  }
+
+  /* Login */
+  let session = ''
+  await fetch('https://patchyvideo.com/be/auth/get_session.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({ type: 'LOGIN' }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) session = res.data
+      else {
+        loginStatus.value = 'error'
+        errmsg.value = t('user.login.login-status.error')
       }
-      if (!password.value) {
-        valid = false
-        passwordStatus.value = PasswordStatus.tip
-      } else if (password.value.length < 6 || password.value.length > 64) {
-        valid = false
-        passwordStatus.value = PasswordStatus.msg
-      } else {
-        passwordStatus.value = PasswordStatus.fine
-      }
-      if (!valid) {
-        loginStatus.value = LoginStatus.ready
+    })
+    .catch((err) => {
+      // console.log(err)
+      loginStatus.value = 'error'
+      errmsg.value = err
+    })
+  await fetch('https://patchyvideo.com/be/login.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      username: userName.value,
+      password: password.value,
+      session: session,
+    }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) {
+        loginStatus.value = 'ready'
+        setUserDataToLocalStorage(
+          res.data.username,
+          res.data.image,
+          res.data.access_control_status === 'admin' ? true : false,
+          res.data.uid
+        )
+        getUserDataFromLocalStorage()
+        router.push({ path: '/' })
         return
+      } else if (res.status === resDataStatus.FAILED) {
+        loginStatus.value = 'error'
+        errmsg.value = t('user.login.login-status.failed')
+      } else {
+        loginStatus.value = 'error'
+        errmsg.value = res.dataerr.reason
       }
-
-      /* Login */
-      let session = ''
-      await fetch('https://patchyvideo.com/be/auth/get_session.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({ type: 'LOGIN' }),
-        credentials: 'include',
-      })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) session = res.data
-          else {
-            loginStatus.value = LoginStatus.error
-            errmsg.value = t('user.login.login-status.error')
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          loginStatus.value = LoginStatus.error
-          errmsg.value = err
-        })
-      await fetch('https://patchyvideo.com/be/login.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          username: userName.value,
-          password: password.value,
-          session: session,
-        }),
-        credentials: 'include',
-      })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) {
-            loginStatus.value = LoginStatus.ready
-            setUserDataToLocalStorage(
-              res.data.username,
-              res.data.image,
-              res.data.access_control_status === 'admin' ? true : false,
-              res.data.uid
-            )
-            getUserDataFromLocalStorage()
-            router.push({ path: '/' })
-            return
-          } else if (res.status === resDataStatus.FAILED) {
-            loginStatus.value = LoginStatus.error
-            errmsg.value = t('user.login.login-status.failed')
-          } else {
-            loginStatus.value = LoginStatus.error
-            errmsg.value = res.dataerr.reason
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          loginStatus.value = LoginStatus.error
-          errmsg.value = err
-        })
-    }
-    return {
-      t,
-      screenSizes,
-      LoginStatus,
-      loginStatus,
-      usernameStatus,
-      passwordStatus,
-      userName,
-      password,
-      errmsg,
-      login,
-    }
-  },
-})
+    })
+    .catch((err) => {
+      // console.log(err)
+      loginStatus.value = 'error'
+      errmsg.value = err
+    })
+}
 </script>
 
 <style lang="postcss" scoped>

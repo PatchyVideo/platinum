@@ -48,7 +48,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="sendStatus === SendStatus.loading"
+            :disabled="sendStatus === 'loading'"
             class="
               w-full
               py-2
@@ -62,12 +62,12 @@
             @click="sendEmail"
           >
             {{
-              sendStatus === SendStatus.loading
+              sendStatus === 'loading'
                 ? t('user.forget-password.send-status.loading')
                 : t('user.forget-password.send-status.ready')
             }}
           </button>
-          <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="sendStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-right text-blue-600" to="/user/login">{{
             '←' + t('user.forget-password.login')
           }}</RouterLink>
@@ -114,7 +114,7 @@
         </div>
         <div class="space-y-1">
           <button
-            :disabled="sendStatus === SendStatus.loading"
+            :disabled="sendStatus === 'loading'"
             class="
               w-full
               py-2
@@ -131,12 +131,12 @@
             @click="sendEmail"
           >
             {{
-              sendStatus === SendStatus.loading
+              sendStatus === 'loading'
                 ? t('user.forget-password.send-status.loading')
                 : t('user.forget-password.send-status.ready')
             }}
           </button>
-          <div v-if="sendStatus === SendStatus.error" class="text-red-500">{{ errmsg }}</div>
+          <div v-if="sendStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
           <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
             '←' + t('user.forget-password.login')
           }}</RouterLink>
@@ -149,8 +149,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref } from 'vue'
+<script setup lang="ts">
+import { ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
@@ -158,94 +158,72 @@ import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 import { screenSizes } from '@/tailwindcss'
 
-export default defineComponent({
-  components: { Logo },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    setSiteTitle(t('user.forget-password.title') + ' - PatchyVideo')
+const { t } = useI18n()
+setSiteTitle(t('user.forget-password.title') + ' - PatchyVideo')
 
-    enum SendStatus {
-      'ready' = 'ready',
-      'loading' = 'loading',
-      'error' = 'error',
-    }
-    const sendStatus = ref<SendStatus>(SendStatus.ready)
-    const emailFormat =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    const EmailStatus = {
-      fine: t('user.forget-password.email.email-status.fine'),
-      tip: t('user.forget-password.email.email-status.tip'),
-      msg: t('user.forget-password.email.email-status.msg'),
-    }
-    const emailStatus = ref<string>(EmailStatus.fine)
+const sendStatus = ref<'ready' | 'loading' | 'error'>('ready')
+const emailFormat =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const EmailStatus = {
+  fine: t('user.forget-password.email.email-status.fine'),
+  tip: t('user.forget-password.email.email-status.tip'),
+  msg: t('user.forget-password.email.email-status.msg'),
+}
+const emailStatus = ref<string>(EmailStatus.fine)
 
-    const email = ref<string>('')
-    const errmsg = ref<string>(' ')
+const email = ref<string>('')
+const errmsg = ref<string>(' ')
 
-    async function sendEmail(): Promise<void> {
-      if (sendStatus.value === SendStatus.loading) return
-      sendStatus.value = SendStatus.loading
+async function sendEmail(): Promise<void> {
+  if (sendStatus.value === 'loading') return
+  sendStatus.value = 'loading'
 
-      /* Form validation  */
-      let valid = true
-      if (!email.value) {
-        valid = false
-        emailStatus.value = EmailStatus.tip
-      } else if (!emailFormat.test(email.value)) {
-        valid = false
-        emailStatus.value = EmailStatus.msg
+  /* Form validation  */
+  let valid = true
+  if (!email.value) {
+    valid = false
+    emailStatus.value = EmailStatus.tip
+  } else if (!emailFormat.test(email.value)) {
+    valid = false
+    emailStatus.value = EmailStatus.msg
+  } else {
+    emailStatus.value = EmailStatus.fine
+  }
+  if (!valid) {
+    sendStatus.value = 'ready'
+    return
+  }
+  await fetch('https://patchyvideo.com/be/user/request_resetpass.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      email: email.value,
+      lang: locale.value,
+    }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === resDataStatus.SUCCEED) {
+        sendStatus.value = 'ready'
+        alert(t('user.forget-password.send-status.successful'))
+      } else if (res.status === resDataStatus.FAILED) {
+        sendStatus.value = 'error'
+        errmsg.value = t('user.forget-password.send-status.failed')
       } else {
-        emailStatus.value = EmailStatus.fine
+        sendStatus.value = 'error'
+        errmsg.value = t('user.forget-password.send-status.error')
       }
-      if (!valid) {
-        sendStatus.value = SendStatus.ready
-        return
-      }
-      await fetch('https://patchyvideo.com/be/user/request_resetpass.do', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          email: email.value,
-          lang: locale.value,
-        }),
-        credentials: 'include',
-      })
-        .then((data) => data.json())
-        .then((res) => {
-          // console.log(res)
-          if (res.status === resDataStatus.SUCCEED) {
-            sendStatus.value = SendStatus.ready
-            alert(t('user.forget-password.send-status.successful'))
-          } else if (res.status === resDataStatus.FAILED) {
-            sendStatus.value = SendStatus.error
-            errmsg.value = t('user.forget-password.send-status.failed')
-          } else {
-            sendStatus.value = SendStatus.error
-            errmsg.value = t('user.forget-password.send-status.error')
-          }
-        })
-        .catch((err) => {
-          // console.log(err)
-          sendStatus.value = SendStatus.error
-          errmsg.value = err
-        })
-    }
-
-    return {
-      t,
-      screenSizes,
-      email,
-      errmsg,
-      emailStatus,
-      SendStatus,
-      sendStatus,
-      sendEmail,
-    }
-  },
-})
+    })
+    .catch((err) => {
+      // console.log(err)
+      sendStatus.value = 'error'
+      errmsg.value = err
+    })
+}
 </script>
 
 <style lang="postcss" scoped>

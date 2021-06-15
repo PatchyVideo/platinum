@@ -53,48 +53,32 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+<script setup lang="ts">
+import { reactive, ref } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Footer from '@/common/components/Footer.vue'
 import NavTop from '@/common/components/NavTop.vue'
 
-export default defineComponent({
-  components: {
-    Footer,
-    // comp_list: defineAsyncComponent(() => import('./components/List.vue'), NavTop),
-    NavTop,
-  },
-  setup() {
-    const { t } = useI18n()
-    setSiteTitle(t('home.home.title'))
+const { t } = useI18n()
+setSiteTitle(t('home.home.title'))
 
-    interface HomeCompData {
-      name: string
-      data?: string
-    }
+interface HomeCompData {
+  name: string
+  data?: string
+}
 
-    const ucompList: HomeCompData[] = reactive([])
+const ucompList: HomeCompData[] = reactive([])
 
-    const addCompName = ref('')
+const addCompName = ref('')
 
-    const addComp = (): void => {
-      ucompList.push({
-        name: addCompName.value,
-        data: '{"listID":"5e057a1b31929c83a76d18a4"}',
-      })
-    }
-    return {
-      t,
-      locale,
-      ucompList,
-      addCompName,
-      addComp,
-    }
-  },
-})
+const addComp = (): void => {
+  ucompList.push({
+    name: addCompName.value,
+    data: '{"listID":"5e057a1b31929c83a76d18a4"}',
+  })
+}
 </script>
 
 <style lang="postcss" scoped></style>

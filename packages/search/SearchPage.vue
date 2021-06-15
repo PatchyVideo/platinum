@@ -11,31 +11,22 @@
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
-export default defineComponent({
-  components: { NavTop, AutoComplete, Footer },
-  props: {},
-  setup() {
-    const { t } = useI18n()
-    setSiteTitle(t('search.search-page.title') + ' - PatchyVideo')
+const { t } = useI18n()
+setSiteTitle(t('search.search-page.title') + ' - PatchyVideo')
 
-    // Search
-    const router = useRouter()
-    function searchResult(searchContent: string): void {
-      router.push({ path: '/search-result', query: { i: searchContent } })
-    }
-
-    return { t, searchResult }
-  },
-})
+// Search
+const router = useRouter()
+function searchResult(searchContent: string): void {
+  router.push({ path: '/search-result', query: { i: searchContent } })
+}
 </script>
 
 <style lang="postcss" scoped></style>

@@ -94,26 +94,21 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue'
+<script setup lang="ts">
+import { computed, defineProps } from 'vue'
 
-export default defineComponent({
-  props: {
-    showIcon: {
-      type: Boolean,
-      default: true,
-    },
-    larger: {
-      type: Number,
-      default: 0,
-    },
+const props = defineProps({
+  showIcon: {
+    type: Boolean,
+    default: true,
   },
-  setup(props) {
-    const h1 = computed(() => props.larger + 30)
-    const h2 = computed(() => props.larger + 48)
-    return { h1, h2 }
+  larger: {
+    type: Number,
+    default: 0,
   },
 })
+const h1 = computed(() => props.larger + 30)
+const h2 = computed(() => props.larger + 48)
 </script>
 
 <style lang="postcss" scoped>

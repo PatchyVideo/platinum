@@ -40,7 +40,7 @@
       <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
         <template #count>
           <input
-            v-model="pageNum"
+            v-model="page"
             class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
             @keydown.enter="change"
           />
@@ -88,37 +88,31 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import { defineEmit, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useVModel } from '@vueuse/core'
+import { useVModels } from '@vueuse/core'
 
-export default defineComponent({
-  components: {},
-  props: {
-    page: {
-      type: Number,
-      default: 1,
-    },
-    pageCount: {
-      type: Number,
-      default: 1,
-    },
+const props = defineProps({
+  page: {
+    type: Number,
+    default: 1,
   },
-  emits: ['previous', 'next', 'change', 'update:page', 'update:pageCount'],
-  setup(props, { emit }) {
-    const { t } = useI18n()
-    const pageNum = useVModel(props, 'page', emit, { passive: true })
-    function change(): void {
-      if (isNaN(pageNum.value) || pageNum.value <= 0 || pageNum.value > props.pageCount) {
-        alert(t('ui.pv-pagination.alert'))
-        return
-      }
-      emit('change', pageNum.value)
-    }
-    return { t, pageNum, change }
+  pageCount: {
+    type: Number,
+    default: 1,
   },
 })
+const emit = defineEmit(['previous', 'next', 'change'])
+const { t } = useI18n()
+const { page, pageCount } = useVModels(props, emit)
+function change(): void {
+  if (isNaN(page.value) || page.value <= 0 || page.value > props.pageCount) {
+    alert(t('ui.pv-pagination.alert'))
+    return
+  }
+  emit('change', page.value)
+}
 </script>
 
 <style lang="postcss" scoped></style>

@@ -7,23 +7,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 
-export default defineComponent({
-  setup() {
-    const { t } = useI18n()
-
-    const { fullPath } = useRoute()
-
-    return {
-      t,
-      fullPath,
-    }
-  },
-})
+const { t } = useI18n()
+const { fullPath } = useRoute()
 </script>
 
 <style lang="postcss" scoped></style>
