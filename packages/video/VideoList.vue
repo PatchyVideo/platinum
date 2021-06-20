@@ -78,11 +78,11 @@
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
-          <div
+          <RouterLink
             v-for="video in videos"
             :key="video.item.title"
             class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
-            @click="jumpToVideoResult(video.id.toHexString())"
+            :to="'/video/' + video.id.toHexString()"
           >
             <div class="w-2/5 mr-0.5">
               <div class="aspect-10/16 overflow-hidden rounded-sm">
@@ -106,11 +106,11 @@
                 <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
-          </div>
+          </RouterLink>
         </div>
         <!-- Desktop View -->
         <div v-else class="justify-evenly flex-wrap flex">
-          <div
+          <RouterLink
             v-for="video in videos"
             :key="video.item.title"
             class="
@@ -122,7 +122,7 @@
               bg-white bg-opacity-50
               dark:border-gray-500 dark:bg-gray-700
             "
-            @click="jumpToVideoResult(video.id.toHexString())"
+            :to="'/video/' + video.id.toHexString()"
           >
             <div class="aspect-10/16 overflow-hidden rounded-sm">
               <img
@@ -149,7 +149,7 @@
                 <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
               </div>
             </div>
-          </div>
+          </RouterLink>
         </div>
         <PvPagination
           :page-count="pageCount"
@@ -300,14 +300,6 @@ function jumpToSelectedPage(page: number): void {
   const query = JSON.parse(JSON.stringify(route.query))
   query.page = page - 1
   router.push({ path: route.path, query })
-}
-
-/* Jump to video detail page */
-function jumpToVideoResult(id: string): void {
-  const { href } = router.resolve({
-    path: '/video/' + id,
-  })
-  window.open(href, '_blank')
 }
 </script>
 

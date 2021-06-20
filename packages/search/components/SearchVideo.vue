@@ -68,11 +68,11 @@
     </div>
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
-      <div
+      <RouterLink
         v-for="video in videos"
         :key="video.item.title"
         class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
-        @click="jumpToVideoResult(video.id.toHexString())"
+        :to="'/video/' + video.id.toHexString()"
       >
         <div class="w-2/5 mr-0.5">
           <div class="aspect-10/16 overflow-hidden rounded-sm">
@@ -96,15 +96,15 @@
             <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
           </div>
         </div>
-      </div>
+      </RouterLink>
     </div>
     <!-- Desktop View -->
     <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
-      <div
+      <RouterLink
         v-for="video in videos"
         :key="video.item.title"
         class="w-21/100 my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
-        @click="jumpToVideoResult(video.id.toHexString())"
+        :to="'/video/' + video.id.toHexString()"
       >
         <div class="aspect-10/16 overflow-hidden rounded-sm">
           <img
@@ -131,7 +131,7 @@
             <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
           </div>
         </div>
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>
@@ -268,14 +268,6 @@ function changeVisibleSites(value: string): void {
   query.page = 0
   query.visible_site = value
   router.push({ path: route.path, query })
-}
-
-/* Jump to detail page */
-function jumpToVideoResult(id: string): void {
-  const { href } = router.resolve({
-    path: '/video/' + id,
-  })
-  window.open(href, '_blank')
 }
 </script>
 

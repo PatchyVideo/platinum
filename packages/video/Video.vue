@@ -118,6 +118,78 @@
               </div>
             </div>
           </Teleport>
+          <div
+            v-if="playlist"
+            class="mx-2 border-gray-300 dark:border-gray-600 border-1 rounded-md mt-2 flex flex-col max-h-125"
+          >
+            <div class="mx-2 my-1 flex justify-between">
+              <div>
+                <RouterLink class="" :to="'/playlist/' + pid" v-text="playlist.item.title"></RouterLink>
+                <div class="text-sm text-gray-800 dark:text-gray-200">
+                  {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
+                  }}{{ playlistIndex + ' / ' + playlist.item.count }}
+                </div>
+              </div>
+              <div class="flex flex-col justify-around">
+                <icon-uil-angle-up
+                  class="text-xl transform transition-transform duration-300 select-none cursor-pointer"
+                  :class="{ 'rotate-180': playlistCollaped }"
+                  @click="playlistCollaped = !playlistCollaped"
+                />
+              </div>
+            </div>
+            <div
+              v-show="!playlistCollaped"
+              class="
+                h-full
+                overflow-y-auto
+                scrollbar-thin scrollbar-thumb-gray-500
+                hover:scrollbar-thumb-gray-300
+                scrollbar-thumb-rounded-full
+              "
+            >
+              <RouterLink
+                v-for="(plVideo, plIndex) in playlist.videos"
+                :key="plVideo.id.toHexString()"
+                class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
+                :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.id.toHexString() === vid }"
+                :to="'/video/' + plVideo.id + '?list=' + pid"
+              >
+                <div
+                  class="
+                    flex flex-col flex-shrink-0 flex-grow-0
+                    justify-around
+                    text-xs
+                    w-4
+                    self-center
+                    text-center
+                    overflow-hidden
+                  "
+                >
+                  <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
+                  ><template v-else>{{ plIndex + 1 }}</template>
+                </div>
+                <div class="flex-shrink-0 flex-grow-0 w-24">
+                  <div class="aspect-5/8">
+                    <img
+                      class="inline-block"
+                      width="96"
+                      height="54"
+                      :src="getCoverImage({ image: plVideo.item.coverImage })"
+                    />
+                  </div>
+                </div>
+                <div class="flex flex-col justify-between">
+                  <h2 class="text-sm line-clamp-2" v-text="plVideo.item.title"></h2>
+                  <div
+                    v-if="plVideo.meta.createdBy"
+                    class="text-xs text-gray-800 dark:text-gray-200"
+                    v-text="plVideo.meta.createdBy.username"
+                  ></div>
+                </div>
+              </RouterLink>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -199,15 +271,17 @@ import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/tailwindcss'
+import { getCoverImage } from '@/common/lib/imageUrl'
 
 const { t } = useI18n()
 
 /* submit query */
 const route = useRoute()
 const vid = computed(() => route.params.vid as string)
+const pid = computed(() => (Array.isArray(route.query.list) ? route.query.list[0] : route.query.list))
 const { result, loading } = useQuery<Query>(
   gql`
-    query ($vid: String!) {
+    query ($vid: String!, $fetchPlaylist: Boolean!, $pid: String = "") {
       getVideo(para: { vid: $vid, lang: "CHS" }) {
         item {
           title
@@ -278,10 +352,35 @@ const { result, loading } = useQuery<Query>(
           }
         }
       }
+      getPlaylist(para: { pid: $pid }) @include(if: $fetchPlaylist) {
+        item {
+          title
+          count
+        }
+        meta {
+          createdBy {
+            username
+          }
+        }
+        videos(offset: 0, limit: 200) {
+          id
+          item {
+            title
+            coverImage
+          }
+          meta {
+            createdBy {
+              username
+            }
+          }
+        }
+      }
     }
   `,
   {
     vid: vid.value,
+    fetchPlaylist: !!pid.value,
+    pid: pid.value,
   }
 )
 
@@ -409,4 +508,12 @@ const comments = computed(() =>
 )
 
 const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
+
+const playlist = useResult(result, null, (data) => data.getPlaylist)
+const playlistIndex = computed(
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  () =>
+    video.value && playlist.value ? playlist.value.videos.findIndex((v) => v.id.toHexString() === vid.value) + 1 : -1
+)
+const playlistCollaped = ref(false)
 </script>
