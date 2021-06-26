@@ -36,22 +36,71 @@
         ></AutoComplete>
         <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
       </div>
-      <!-- User -->
-      <div v-show="!hidePage" ref="userList" class="mr-2">
+      <!-- User Box -->
+      <div v-show="!hidePage" class="mr-2">
         <div v-if="isLogin === IsLogin.no" class="whitespace-nowrap">
           <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')"></RouterLink>
         </div>
         <div v-else class="relative">
-          <UserAvatar
-            :title="user.name"
-            :image="user.avatar"
-            class="inline-block h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
-            @click="userListOpen = true"
-          ></UserAvatar>
+          <div class="flex items-center space-x-3">
+            <div
+              v-if="!screenSizes['<sm']"
+              ref="msgBoxBtn"
+              class="
+                flex
+                items-center
+                justify-center
+                w-9
+                h-9
+                text-xl
+                cursor-pointer
+                rounded-full
+                transition-colors
+                hover:bg-gray-200 hover:dark:bg-gray-900
+              "
+              :class="{ 'bg-gray-200 dark:bg-gray-900': msgBoxOpen }"
+              @click="msgBoxOpen = true"
+            >
+              <icon-uil-envelope />
+            </div>
+            <div ref="userListBtn">
+              <UserAvatar
+                :title="user.name"
+                :image="user.avatar"
+                class="h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
+                @click="userListOpen = true"
+              ></UserAvatar>
+            </div>
+          </div>
+          <!-- Message Box -->
+          <Transition name="msgBox">
+            <div
+              v-if="msgBoxOpen"
+              ref="msgBox"
+              class="
+                z-999
+                absolute
+                right-0
+                top-10
+                w-80
+                p-2
+                rounded
+                overflow-hidden
+                bg-white
+                border
+                shadow
+                overflow-visible
+                dark:bg-gray-700 dark:border-black
+              "
+            >
+              通知
+            </div>
+          </Transition>
           <!-- User List -->
           <Transition name="userList">
             <div
               v-if="userListOpen"
+              ref="userList"
               class="
                 z-999
                 absolute
@@ -76,6 +125,7 @@
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
+                <RouterLink v-if="screenSizes['<sm']" class="block text-center" to=""> 我的消息 </RouterLink>
                 <RouterLink class="block text-center" to="/user/me">{{
                   t('common.nav-top.user.userprofile')
                 }}</RouterLink>
@@ -229,12 +279,19 @@ defineProps({
 const { t } = useI18n()
 const route = useRoute()
 
-/* User list Operation */
+/* User lists Operation */
 const userListOpen = ref<boolean>(false)
+const userListBtn = ref<HTMLDivElement | null>(null)
 const userList = ref<HTMLDivElement | null>(null)
+const msgBoxOpen = ref<boolean>(false)
+const msgBoxBtn = ref<HTMLDivElement | null>(null)
+const msgBox = ref<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e: MouseEvent): void => {
-  if (!userList.value?.contains(e.target as HTMLElement)) {
+  if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement))) {
     userListOpen.value = false
+  }
+  if (!(msgBox.value?.contains(e.target as HTMLElement) || msgBoxBtn.value?.contains(e.target as HTMLElement))) {
+    msgBoxOpen.value = false
   }
 })
 
