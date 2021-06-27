@@ -124,7 +124,11 @@
           >
             <div class="mx-2 my-1 flex justify-between">
               <div>
-                <RouterLink class="" :to="'/playlist/' + pid" v-text="playlist.item.title"></RouterLink>
+                <RouterLink class="" :to="'/playlist/' + pid"
+                  ><icon-uil-list-ui-alt
+                    class="inline-block mr-1 align-middle text-sm text-gray-700 dark:text-gray-100"
+                  />{{ playlist.item.title }}</RouterLink
+                >
                 <div class="text-sm text-gray-800 dark:text-gray-200">
                   {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
                   }}{{ playlistIndex + ' / ' + playlist.item.count }}
@@ -149,11 +153,11 @@
               "
             >
               <RouterLink
-                v-for="(plVideo, plIndex) in playlist.videos"
-                :key="plVideo.id.toHexString()"
+                v-for="(plVideo, plIndex) in playlistVideos"
+                :key="plVideo.video.id.toHexString()"
                 class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
-                :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.id.toHexString() === vid }"
-                :to="'/video/' + plVideo.id + '?list=' + pid"
+                :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
+                :to="'/video/' + plVideo.video.id + '?list=' + pid"
               >
                 <div
                   class="
@@ -167,7 +171,7 @@
                   "
                 >
                   <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
-                  ><template v-else>{{ plIndex + 1 }}</template>
+                  ><template v-else>{{ plVideo.rank + 1 }}</template>
                 </div>
                 <div class="flex-shrink-0 flex-grow-0 w-24">
                   <div class="aspect-5/8">
@@ -175,16 +179,16 @@
                       class="inline-block"
                       width="96"
                       height="54"
-                      :src="getCoverImage({ image: plVideo.item.coverImage })"
+                      :src="getCoverImage({ image: plVideo.video.item.coverImage })"
                     />
                   </div>
                 </div>
                 <div class="flex flex-col justify-between">
-                  <h2 class="text-sm line-clamp-2" v-text="plVideo.item.title"></h2>
+                  <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
                   <div
-                    v-if="plVideo.meta.createdBy"
+                    v-if="plVideo.video.meta.createdBy"
                     class="text-xs text-gray-800 dark:text-gray-200"
-                    v-text="plVideo.meta.createdBy.username"
+                    v-text="plVideo.video.meta.createdBy.username"
                   ></div>
                 </div>
               </RouterLink>
@@ -352,17 +356,8 @@ const { result, loading } = useQuery<Query>(
           }
         }
       }
-      getPlaylist(para: { pid: $pid }) @include(if: $fetchPlaylist) {
-        item {
-          title
-          count
-        }
-        meta {
-          createdBy {
-            username
-          }
-        }
-        videos(offset: 0, limit: 200) {
+      listAdjacentVideos(para: { pid: $pid, vid: $vid, k: 200 }) @include(if: $fetchPlaylist) {
+        video {
           id
           item {
             title
@@ -372,6 +367,18 @@ const { result, loading } = useQuery<Query>(
             createdBy {
               username
             }
+          }
+        }
+        rank
+      }
+      getPlaylist(para: { pid: $pid }) @include(if: $fetchPlaylist) {
+        item {
+          title
+          count
+        }
+        meta {
+          createdBy {
+            username
           }
         }
       }
@@ -510,10 +517,13 @@ const comments = computed(() =>
 const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
 
 const playlist = useResult(result, null, (data) => data.getPlaylist)
+const playlistVideos = useResult(result, null, (data) => data.listAdjacentVideos)
 const playlistIndex = computed(
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   () =>
-    video.value && playlist.value ? playlist.value.videos.findIndex((v) => v.id.toHexString() === vid.value) + 1 : -1
+    video.value && playlistVideos.value
+      ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
+      : -1
 )
 const playlistCollaped = ref(false)
 </script>
