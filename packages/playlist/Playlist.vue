@@ -72,7 +72,7 @@
           </div>
         </div>
         <div class="pt-2 xl:pt-4">
-          <div
+          <RouterLink
             v-for="(video, index) in playlist.videos"
             :key="video.id.toHexString()"
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
@@ -94,7 +94,7 @@
               hover:odd:bg-pink-50
               dark:hover:odd:bg-gray-800
             "
-            @click="router.push('/video/' + video.id.toHexString())"
+            :to="'/video/' + video.id.toHexString() + '?list=' + pid"
           >
             <div
               class="
@@ -138,7 +138,7 @@
                 v-text="video.item.desc"
               ></div>
             </div>
-          </div>
+          </RouterLink>
           <div v-if="fetchingMore" class="flex justify-center pt-4">
             <icon-uil-spinner-alt class="text-xl animate-spin" />
           </div>

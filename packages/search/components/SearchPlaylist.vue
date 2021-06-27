@@ -93,11 +93,11 @@
     </div>
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
-      <div
+      <RouterLink
         v-for="playlist in playlists"
         :key="playlist.item.title"
         class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
-        @click="jumpToPlaylist(playlist.id.toHexString())"
+        :to="'/playlist/' + playlist.id.toHexString()"
       >
         <div class="w-2/5 mr-0.5">
           <div class="aspect-10/16 overflow-hidden rounded-sm">
@@ -114,7 +114,7 @@
             v-text="t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count })"
           ></div>
         </div>
-      </div>
+      </RouterLink>
     </div>
     <!-- Desktop View -->
     <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
@@ -164,7 +164,6 @@ import { defineProps, defineEmit, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
 import { useVModels } from '@vueuse/core'
-import { useRouter } from 'vue-router'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { useQuery, gql, useResult } from '@/graphql'
@@ -181,7 +180,6 @@ const props = defineProps({
 const emit = defineEmit()
 
 const { t } = useI18n()
-const router = useRouter()
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
@@ -253,14 +251,6 @@ onError((err) => {
   errMsg.value = err.message
   status.value = 'error'
 })
-
-/* Jump to detail page */
-function jumpToPlaylist(id: string): void {
-  const { href } = router.resolve({
-    path: '/playlist/' + id,
-  })
-  window.open(href, '_blank')
-}
 </script>
 
 <style lang="postcss" scoped>
