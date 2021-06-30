@@ -125,7 +125,7 @@
       </div>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
-      <div>© PatchyVideo 2020-2021</div>
+      <div>© VoileLabs 2020-2021</div>
     </div>
     <!-- Desktop view -->
     <div
@@ -228,7 +228,7 @@
       </div>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
-      <div>© PatchyVideo 2020-2021</div>
+      <div>© VoileLabs 2020-2021</div>
     </div>
   </div>
 </template>
