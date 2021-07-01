@@ -266,6 +266,14 @@ user:
       none: 暂无
 video:
   video:
+    repost-type:
+      official: 原始发布
+      official_repost: 官方再发布
+      authorized_repost: 授权转载
+      repost: 自发搬运
+      authorized_translation: 授权翻译
+      translation: 自发翻译
+      unknown: 其他
     uploader: 上传者
     no-desc: 这个人太懒啦，并没有写简介
   player:

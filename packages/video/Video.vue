@@ -9,7 +9,8 @@
           <div>
             <h1 class="mt-1 lg:text-lg" v-text="video.item.title"></h1>
             <div class="text-gray-600 dark:text-gray-300">
-              {{ video.item.repostType }} <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
+              {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType) }}
+              <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
             </div>
           </div>
           <!-- Video Player -->
