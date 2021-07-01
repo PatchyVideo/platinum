@@ -2,7 +2,7 @@
   <div class="max-w-screen-3xl mx-auto">
     <NavTop></NavTop>
     <!-- Main Object -->
-    <div v-if="video" class="mx-2">
+    <div v-if="video" class="xl:mx-2">
       <div class="grid grid-cols-12 grid-flow-row-dense">
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
@@ -16,7 +16,8 @@
           <Suspense>
             <Player :item="video.item" />
           </Suspense>
-          <div class="w-full border-t border-gray-300 my-2"></div>
+          <div class="<xl:hidden w-full border-t border-gray-300 my-2"></div>
+          <div ref="mobilePlaylistTarget"></div>
           <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-8">
             <!-- Video Tag -->
@@ -118,82 +119,92 @@
               </div>
             </div>
           </Teleport>
-          <div
-            v-if="playlist"
-            class="mx-2 border-gray-300 dark:border-gray-600 border-1 rounded-md mt-2 flex flex-col max-h-125"
-          >
-            <div class="mx-2 my-1 flex justify-between">
-              <div>
-                <RouterLink class="" :to="'/playlist/' + pid"
-                  ><icon-uil-list-ui-alt
-                    class="inline-block mr-1 align-middle text-sm text-gray-700 dark:text-gray-100"
-                  />{{ playlist.item.title }}</RouterLink
-                >
-                <div class="text-sm text-gray-800 dark:text-gray-200">
-                  {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
-                  }}{{ playlistIndex + ' / ' + playlist.item.count }}
-                </div>
-              </div>
-              <div class="flex flex-col justify-around">
-                <icon-uil-angle-up
-                  class="text-xl transform transition-transform duration-300 select-none cursor-pointer"
-                  :class="{ 'rotate-180': playlistCollaped }"
-                  @click="playlistCollaped = !playlistCollaped"
-                />
-              </div>
-            </div>
+          <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
             <div
-              v-show="!playlistCollaped"
+              v-if="playlist"
               class="
-                h-full
-                overflow-y-auto
-                scrollbar-thin scrollbar-thumb-gray-500
-                hover:scrollbar-thumb-gray-300
-                scrollbar-thumb-rounded-full
+                xl:mx-2
+                border-gray-300
+                dark:border-gray-600
+                border-b
+                xl:border-1 xl:rounded-md xl:mt-2
+                flex flex-col
+                max-h-125
               "
             >
-              <RouterLink
-                v-for="(plVideo, plIndex) in playlistVideos"
-                :key="plVideo.video.id.toHexString()"
-                class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
-                :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
-                :to="'/video/' + plVideo.video.id + '?list=' + pid"
-              >
-                <div
-                  class="
-                    flex flex-col flex-shrink-0 flex-grow-0
-                    justify-around
-                    text-xs
-                    w-4
-                    self-center
-                    text-center
-                    overflow-hidden
-                  "
-                >
-                  <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
-                  ><template v-else>{{ plVideo.rank + 1 }}</template>
-                </div>
-                <div class="flex-shrink-0 flex-grow-0 w-24">
-                  <div class="aspect-5/8">
-                    <img
-                      class="inline-block"
-                      width="96"
-                      height="54"
-                      :src="getCoverImage({ image: plVideo.video.item.coverImage })"
-                    />
+              <div class="mx-2 my-1 flex justify-between">
+                <div>
+                  <RouterLink class="" :to="'/playlist/' + pid"
+                    ><icon-uil-list-ui-alt
+                      class="inline-block mr-1 align-middle text-sm text-gray-700 dark:text-gray-100"
+                    />{{ playlist.item.title }}</RouterLink
+                  >
+                  <div class="text-sm text-gray-800 dark:text-gray-200">
+                    {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
+                    }}{{ playlistIndex + ' / ' + playlist.item.count }}
                   </div>
                 </div>
-                <div class="flex flex-col justify-between">
-                  <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
-                  <div
-                    v-if="plVideo.video.meta.createdBy"
-                    class="text-xs text-gray-800 dark:text-gray-200"
-                    v-text="plVideo.video.meta.createdBy.username"
-                  ></div>
+                <div class="flex flex-col justify-around">
+                  <icon-uil-angle-up
+                    class="text-xl transform transition-transform duration-300 select-none cursor-pointer"
+                    :class="{ 'rotate-180': playlistCollaped }"
+                    @click="playlistCollaped = !playlistCollaped"
+                  />
                 </div>
-              </RouterLink>
+              </div>
+              <div
+                v-show="!playlistCollaped"
+                class="
+                  h-full
+                  overflow-y-auto
+                  scrollbar-thin scrollbar-thumb-gray-500
+                  hover:scrollbar-thumb-gray-300
+                  scrollbar-thumb-rounded-full
+                "
+              >
+                <RouterLink
+                  v-for="(plVideo, plIndex) in playlistVideos"
+                  :key="plVideo.video.id.toHexString()"
+                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
+                  :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
+                  :to="'/video/' + plVideo.video.id + '?list=' + pid"
+                >
+                  <div
+                    class="
+                      flex flex-col flex-shrink-0 flex-grow-0
+                      justify-around
+                      text-xs
+                      w-4
+                      self-center
+                      text-center
+                      overflow-hidden
+                    "
+                  >
+                    <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
+                    ><template v-else>{{ plVideo.rank + 1 }}</template>
+                  </div>
+                  <div class="flex-shrink-0 flex-grow-0 w-24">
+                    <div class="aspect-5/8">
+                      <img
+                        class="inline-block"
+                        width="96"
+                        height="54"
+                        :src="getCoverImage({ image: plVideo.video.item.coverImage })"
+                      />
+                    </div>
+                  </div>
+                  <div class="flex flex-col justify-between">
+                    <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
+                    <div
+                      v-if="plVideo.video.meta.createdBy"
+                      class="text-xs text-gray-800 dark:text-gray-200"
+                      v-text="plVideo.video.meta.createdBy.username"
+                    ></div>
+                  </div>
+                </RouterLink>
+              </div>
             </div>
-          </div>
+          </Teleport>
         </div>
       </div>
     </div>
@@ -515,6 +526,7 @@ const comments = computed(() =>
 )
 
 const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
+const mobilePlaylistTarget = ref<HTMLDivElement | null>(null)
 
 const playlist = useResult(result, null, (data) => data.getPlaylist)
 const playlistVideos = useResult(result, null, (data) => data.listAdjacentVideos)
@@ -525,5 +537,5 @@ const playlistIndex = computed(
       ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
       : -1
 )
-const playlistCollaped = ref(false)
+const playlistCollaped = ref(!screenSizes.xl)
 </script>
