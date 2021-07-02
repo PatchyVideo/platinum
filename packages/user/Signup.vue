@@ -1,205 +1,121 @@
 <template>
-  <div class="sign-up-mobile h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80) md:sign-up-md">
-    <!-- Mobile view -->
+  <div class="sign-up h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80)">
     <div
-      v-if="screenSizes['<md']"
       class="
-        flex-wrap
+        flex flex-wrap
         content-between
         w-full
+        md:w-80
         h-full
         p-5
-        shadow
-        flex
+        text-white
+        <md:dark:text-white
+        md:text-black
+        bg-white bg-opacity-50
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        dark:text-white
-        flex
+        <md:shadow
+        md:mr-50
       "
     >
-      <div class="w-full text-center">
+      <div class="w-full <md:text-center">
         <Logo :larger="20"></Logo>
-        <div class="text-lg">{{ t('user.signup.title') }}</div>
+        <div class="text-lg text-center" v-text="t('user.signup.title')"></div>
       </div>
-      <div class="w-full space-y-2">
+      <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
+              type="text"
+              name="username"
+              autocomplete="username"
               class="
+                autofill
                 outline-none
                 w-full
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white dark:text-white
+                <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
+          <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
             <icon-uil-lock-open-alt class="align-middle w-7" />
             <input
               v-model="password"
               type="password"
+              name="password"
+              autocomplete="new-password"
               class="
+                autofill
                 outline-none
                 w-full
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white dark:text-white
+                <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
+          <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password2"
               type="password"
+              name="re-password"
+              autocomplete="new-password"
               class="
+                autofill
                 outline-none
                 w-full
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white dark:text-white
+                <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
+          <div class="text-red-500 text-sm h-4" v-text="password2Status"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
+              type="email"
+              name="email"
+              autocomplete="email"
               class="
+                autofill
                 outline-none
                 w-full
                 bg-transparent
                 placeholder-gray-900
                 text-gray-900
-                dark:placeholder-white dark:text-white
+                <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
+          <div class="text-red-500 text-sm h-4" v-text="emailStatus"></div>
         </div>
         <div class="space-y-1">
           <button
-            :disabled="signupStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300 disabled:focus:bg-blue-300
-            "
-            @click="signup"
-          >
-            {{
-              signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
-            }}
-          </button>
-          <div v-if="signupStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-right text-blue-600" to="/user/login">{{
-            '←' + t('user.signup.login')
-          }}</RouterLink>
-        </div>
-      </div>
-      <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
-      <div>© PatchyVideo 2020-2021</div>
-    </div>
-    <!-- Desktop view -->
-    <div
-      v-else
-      class="
-        flex-wrap
-        content-between
-        w-80
-        h-full
-        p-5
-        bg-white
-        text-gray-900
-        bg-opacity-50
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        mr-50
-        flex
-      "
-    >
-      <div class="w-full">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg text-center">{{ t('user.signup.title') }}</div>
-      </div>
-      <div class="w-full space-y-2">
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-user class="align-middle w-7" />
-            <input
-              v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900"
-              :placeholder="t('user.signup.username.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-lock-open-alt class="align-middle w-7" />
-            <input
-              v-model="password"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900"
-              :placeholder="t('user.signup.password.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-padlock class="align-middle w-7" />
-            <input
-              v-model="password2"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900"
-              :placeholder="t('user.signup.password2.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ password2Status }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-black">
-            <icon-uil-envelope class="align-middle w-7" />
-            <input
-              v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900"
-              :placeholder="t('user.signup.email.placeholder')"
-              @keydown.enter="signup"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
-        </div>
-        <div class="space-y-1">
-          <button
+            type="submit"
             :disabled="signupStatus === 'loading'"
             class="
               w-full
@@ -214,18 +130,18 @@
               disabled:hover:bg-blue-300
               disabled:hover:cursor-not-allowed
             "
-            @click="signup"
-          >
-            {{
+            v-text="
               signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
-            }}
-          </button>
-          <div v-if="signupStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
-            '←' + t('user.signup.login')
-          }}</RouterLink>
+            "
+          ></button>
+          <div v-if="signupStatus === 'error'" class="text-red-500" v-text="errmsg"></div>
+          <RouterLink
+            class="block text-blue-600 text-right hover:text-blue-800"
+            to="/user/login"
+            v-text="'←' + t('user.signup.login')"
+          ></RouterLink>
         </div>
-      </div>
+      </form>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
       <div>© PatchyVideo 2020-2021</div>
@@ -239,7 +155,6 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
-import { screenSizes } from '@/tailwindcss'
 import Logo from '@/common/components/Logo.vue'
 
 const { t } = useI18n()
@@ -448,18 +363,31 @@ async function signup(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.sign-up-mobile {
-  @apply bg-bottom;
-  @apply bg-no-repeat;
-  @apply bg-cover;
-  background-image: url('./assets/SignupMobile.jpg');
+.sign-up {
+  @apply bg-bottom bg-no-repeat bg-cover;
+}
+@variants <md {
+  .sign-up {
+    background-image: url('./assets/SignupMobile.jpg');
+  }
 }
 @variants md {
-  .md\:sign-up-md {
-    @apply bg-bottom;
-    @apply bg-no-repeat;
-    @apply bg-cover;
+  .sign-up {
     background-image: url('./assets/Signup.jpg');
+  }
+}
+
+.autofill:-webkit-autofill,
+.autofill:-webkit-autofill:hover,
+.autofill:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: theme('colors.light-blue.300');
+}
+@variants md {
+  .autofill:-webkit-autofill,
+  .autofill:-webkit-autofill:hover,
+  .autofill:-webkit-autofill:focus {
+    -webkit-text-fill-color: theme('colors.blue.900');
   }
 }
 </style>
