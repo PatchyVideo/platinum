@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick, watchEffect, defineProps, defineEmit, useContext } from 'vue'
+import { ref, reactive, nextTick, watchEffect, defineProps, defineEmits, defineExpose } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
@@ -138,7 +138,11 @@ const props = defineProps({
     default: false,
   },
 })
-const emit = defineEmit(['update:keyword', 'search', 'searching'])
+const emit = defineEmits<{
+  (event: 'update:keyword', value: string): void
+  (event: 'search', searchContent: string): void
+  (event: 'searching', searching: boolean): void
+}>()
 
 const { t } = useI18n()
 interface resultType {
@@ -378,8 +382,9 @@ const popularTags = useResult(
       .map((v) => behMostMatch(v.tag.languages)) ?? []
 )
 
-const { expose } = useContext()
-expose({ focus })
+defineExpose({
+  focus,
+})
 </script>
 
 <style lang="postcss" scoped></style>

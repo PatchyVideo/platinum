@@ -43,7 +43,7 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import { defineEmit, defineProps } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 
 const props = defineProps({
   size: {
@@ -57,7 +57,9 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmit(['update:check'])
+const emit = defineEmits<{
+  (event: 'update:check', value: boolean): void
+}>()
 
 const check = useVModel(props, 'check', emit)
 </script>
