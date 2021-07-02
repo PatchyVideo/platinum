@@ -32,7 +32,7 @@
       viewBox="0 1000 5000 1800"
       overflow="visible"
       :height="h2"
-      class="fill-current inline-block"
+      class="fill-current inline-block -my-4"
     >
       <path
         fill="#FCD34D"

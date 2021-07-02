@@ -44,10 +44,11 @@
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
 import { defineEmits, defineProps } from 'vue'
+import type { PropType } from 'vue'
 
 const props = defineProps({
   size: {
-    type: String,
+    type: String as PropType<'sm' | 'md'>,
     default: 'md',
     validator: (value: string) => ['sm', 'md'].indexOf(value) !== -1,
   },

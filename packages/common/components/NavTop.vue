@@ -11,7 +11,6 @@
         border-b border-gray-300
         bg-gray-50
         dark:bg-gray-700 dark:border-gray-800
-        md:p-2
       "
     >
       <!-- Logo & Slide Button -->
@@ -130,7 +129,7 @@
                   t('common.nav-top.user.userprofile')
                 }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
-                  {{ t('common.nav-top.user.logout') }}
+                  {{ t('common.nav-top.user.logout') }}<icon-uil-spinner-alt v-show="loggingOut" class="inline-block" />
                 </div>
               </div>
               <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
@@ -150,7 +149,6 @@
           z-50
           left-0
           overflow-auto
-          space-y-8
           bg-white
           transform-gpu
           transition-transform
@@ -163,11 +161,14 @@
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
-          <icon-uil-list-ul class="text-2xl cursor-pointer" @click="drawerOpen = false" />
+          <icon-uil-times
+            class="text-2xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 hover:dark:bg-gray-900"
+            @click="drawerOpen = false"
+          />
           <Logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></Logo>
         </div>
         <!-- Main List -->
-        <div class="space-y-3">
+        <div class="mt-4 space-y-2">
           <RouterLink to="/" class="block"
             ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.main-menu.home')
@@ -200,7 +201,7 @@
           >
         </div>
         <!-- User List -->
-        <div v-if="isLogin === IsLogin.yes" class="space-y-3">
+        <div v-if="isLogin === IsLogin.yes" class="mt-4 space-y-2">
           <a class="block" @click="progressing()"
             ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
               t('common.nav-top.user-operation.postvideo')
@@ -212,15 +213,15 @@
             }}</a
           >
         </div>
-        <div v-else-if="isLogin === IsLogin.loading">验证登录中...</div>
+        <div v-else-if="isLogin === IsLogin.loading" class="mt-8">验证登录中...</div>
         <!-- Super Admin -->
-        <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="w-full space-y-2">
+        <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="mt-8 w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.nav-top.admin.admin')"></div>
           <div v-text="t('common.nav-top.admin.who-am-I')"></div>
           <a class="block" v-text="t('common.nav-top.admin.super-admin')"></a>
         </div>
         <!-- Settings -->
-        <div class="w-full space-y-2">
+        <div class="mt-8 w-full space-y-2">
           <div class="text-gray-400 text-xs" v-text="t('common.nav-top.settings.settings')"></div>
           <div class="flex justify-between items-center">
             <label class="space-x-2">
@@ -312,7 +313,9 @@ function toHome(): void {
 }
 
 /* Log out */
+const loggingOut = ref(false)
 async function logout(): Promise<void> {
+  loggingOut.value = true
   await fetch('https://patchyvideo.com/be/logout.do', {
     method: 'POST',
     headers: new Headers({
@@ -322,6 +325,7 @@ async function logout(): Promise<void> {
     credentials: 'include',
   })
   clearUserDataFromLocalStorage()
+  loggingOut.value = false
   location.reload()
 }
 
