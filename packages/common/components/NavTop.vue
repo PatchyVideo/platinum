@@ -31,7 +31,7 @@
           :show-recommendations="true"
           @search="searchResult"
           @searching="searching = $event"
-          @click="screenSizes['<sm'] && (hidePage = true)"
+          @click="() => screenSizes['<sm'] && (hidePage = true)"
         ></AutoComplete>
         <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
       </div>
