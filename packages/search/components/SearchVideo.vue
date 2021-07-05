@@ -202,7 +202,7 @@ watch(
         order: order.value,
         additionalConstraint: visibleSite.value,
       },
-    }).then((v) => {
+    })?.then((v) => {
       result.value = v.data
     })
   },
@@ -254,7 +254,7 @@ watchEffect(() => {
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-const resultData = useResult(result, null, (data) => data.listVideo)
+const resultData = useResult(result, null, (data) => data?.listVideo)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count

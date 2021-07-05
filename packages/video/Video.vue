@@ -413,7 +413,7 @@ watchEffect(() => {
 })
 
 /* basic info */
-const video = useResult(result, null, (data) => data.getVideo)
+const video = useResult(result, null, (data) => data?.getVideo)
 // change title
 watchEffect(() => {
   if (video.value) setSiteTitle(video.value.item.title)
@@ -529,8 +529,8 @@ const comments = computed(() =>
 const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
 const mobilePlaylistTarget = ref<HTMLDivElement | null>(null)
 
-const playlist = useResult(result, null, (data) => data.getPlaylist)
-const playlistVideos = useResult(result, null, (data) => data.listAdjacentVideos)
+const playlist = useResult(result, null, (data) => data?.getPlaylist)
+const playlistVideos = useResult(result, null, (data) => data?.listAdjacentVideos)
 const playlistIndex = computed(
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   () =>

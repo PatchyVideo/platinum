@@ -230,7 +230,7 @@ watch(URLQuery, () => {
       limit: limit.value,
       query: '',
     },
-  }).then((v) => {
+  })?.then((v) => {
     result.value = v.data
   })
 })
@@ -271,7 +271,7 @@ watchEffect(() => {
   }
 })
 
-const resultData = useResult(result, null, (data) => data.listVideo)
+const resultData = useResult(result, null, (data) => data?.listVideo)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count

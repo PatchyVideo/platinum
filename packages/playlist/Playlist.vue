@@ -34,7 +34,7 @@
             <div v-if="playlist.meta.createdBy" class="mt-2">
               <UserAvatar
                 :image="playlist.meta.createdBy.image"
-                :gravatar="playlist.meta.createdBy.gravatar"
+                :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
                 class="inline-block w-8 rounded-full"
               />
               <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
@@ -158,7 +158,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { computed, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import NProgress from 'nprogress'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { gql, useQuery, useResult } from '@/graphql'
@@ -169,7 +169,6 @@ import { templateRef, useElementBounding, useIntersectionObserver } from '@vueus
 import { screenSizes } from '@/tailwindcss'
 
 const { t } = useI18n()
-const router = useRouter()
 
 const observerTarget = templateRef('observerTarget')
 const fetchingMore = ref(false)
@@ -184,8 +183,10 @@ const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isInt
       variables: {
         offset: playlist.value.videos.length,
       },
-    }).then((v) => {
-      result.value.getPlaylist.videos.concat(v.data.getPlaylist.videos)
+    })?.then((v) => {
+      // playlist is not null, so result must be not null.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      result.value!.getPlaylist.videos.concat(v.data.getPlaylist.videos)
       nextTick(() => {
         fetchingMore.value = false
       })
@@ -241,7 +242,7 @@ const { result, loading, fetchMore } = useQuery<Query>(
 )
 
 /* basic info */
-const playlist = useResult(result, null, (data) => data.getPlaylist)
+const playlist = useResult(result, null, (data) => data?.getPlaylist)
 // change title
 watchEffect(() => {
   if (playlist.value) setSiteTitle(playlist.value.item.title)

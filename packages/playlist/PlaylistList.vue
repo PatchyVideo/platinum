@@ -248,7 +248,7 @@ watch(URLQuery, () => {
       limit: limit.value,
       order: order.value,
     },
-  }).then((v) => {
+  })?.then((v) => {
     result.value = v.data
   })
 })
@@ -277,7 +277,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     order: order.value,
   }
 )
-const resultData = useResult(result, null, (data) => data.listPlaylist)
+const resultData = useResult(result, null, (data) => data?.listPlaylist)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count

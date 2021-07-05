@@ -10,7 +10,7 @@
         'border-red-600 bg-red-50': noti.type === 'error',
       }"
     >
-      {{ noti.message }}<span v-if="noti.endtime">({{ Math.round((noti.endtime - now) / 100) / 10 }}s)</span>
+      {{ noti.message }}<span v-if="noti.endtime">({{ Math.round((+noti.endtime - now) / 100) / 10 }}s)</span>
     </div>
   </div>
 </template>

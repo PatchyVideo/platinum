@@ -164,7 +164,11 @@ export const useQuery = function useQuery(this: never, ...args: never) {
   query.fetchMore = function (this: never, ...args: never) {
     query.loading.value = true
     const fm = fetchMore.apply(this, args)
-    fm.then(() => (query.loading.value = false))
+    if (fm) {
+      fm.then(() => (query.loading.value = false))
+    } else {
+      query.loading.value = false
+    }
     return fm
   } as typeof query.fetchMore
 

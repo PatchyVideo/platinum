@@ -4,7 +4,6 @@ import { ref, watchEffect } from 'vue'
 const htmlRoot = document.querySelector('html')
 const themeMeta = document.querySelector('meta[name="color-scheme"]')
 
-document.querySelector('body')?.classList.add('dark:bg-gray-700')
 function updateDOM(v: boolean) {
   if (v) {
     htmlRoot?.classList.contains('dark') || htmlRoot?.classList.add('dark')

@@ -377,7 +377,7 @@ const popularTags = useResult(
   result,
   [],
   (data) =>
-    [...(data.getPopularTags.popularTags ?? [])]
+    [...(data?.getPopularTags.popularTags ?? [])]
       .sort((a, b) => b.popluarity - a.popluarity)
       .map((v) => behMostMatch(v.tag.languages)) ?? []
 )

@@ -35,7 +35,7 @@ const { result } = useQuery<Query>(
 )
 
 /* basic info */
-const video = useResult(result, null, (data) => data.getVideo)
+const video = useResult(result, null, (data) => data?.getVideo)
 // change title
 watchEffect(() => {
   if (video.value) setSiteTitle(video.value.item.title)

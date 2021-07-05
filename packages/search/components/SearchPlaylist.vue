@@ -203,7 +203,7 @@ watch(
         query: query.value,
         order: order.value,
       },
-    }).then((v) => {
+    })?.then((v) => {
       result.value = v.data
     })
   },
@@ -244,7 +244,7 @@ watchEffect(() => {
   }
 })
 
-const resultData = useResult(result, null, (data) => data.listPlaylist)
+const resultData = useResult(result, null, (data) => data?.listPlaylist)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count
