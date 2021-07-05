@@ -1,3 +1,35 @@
+# [0.7.0-alpha.5](https://github.com/PatchyVideo/platinum/compare/v0.7.0-alpha.4...v0.7.0-alpha.5) (2021-07-05)
+
+### Bug Fixes
+
+- defineEmit -> defineEmits ([7f6f3c2](https://github.com/PatchyVideo/platinum/commit/7f6f3c2f84072aaef82e477bbe076ff98ff2d8d6))
+- **locales:** fix bug of default "undefined" String type value of key:lang in local storage ([8e228b2](https://github.com/PatchyVideo/platinum/commit/8e228b249af78bd269a239271fc77f57d70750b5))
+- **locales:** use undefined value for default locale, add 'undefined' and 'null' String check and catch RangeError when getBrowserLang() ([40dea48](https://github.com/PatchyVideo/platinum/commit/40dea48ae1976d406f22d2c6c7a9a70933f8de2b))
+- move to `as` since `<type>` is a jsx syntax ([5da19b1](https://github.com/PatchyVideo/platinum/commit/5da19b16a79efdf430aab628e431805889257cf7))
+- **nav:** fix hidePage ([73926de](https://github.com/PatchyVideo/platinum/commit/73926de52f7e1c56112e1811fbd7e768bd3c7eb1))
+- only apply polyfill during build ([5c7e8f0](https://github.com/PatchyVideo/platinum/commit/5c7e8f0471a8a8b6854b83ff2ed0452dd753bbe7))
+- **playlist:** fix self update during collapse ([72053a6](https://github.com/PatchyVideo/platinum/commit/72053a6c07e41a887b0ab9288af683f5f2e8710f))
+- **search:** :bug: fix image url ([d2f11c8](https://github.com/PatchyVideo/platinum/commit/d2f11c8e4163e1aa046ba612c7ad9fdcfdaf32ec))
+- **video:** `video` is possibly null ([d5b9382](https://github.com/PatchyVideo/platinum/commit/d5b9382cc1e92a70c44f78e1c35b1b1e45feeca3))
+- **video:** fix counter in VideoList ([cc83275](https://github.com/PatchyVideo/platinum/commit/cc83275894500e876d91830a98c3079421cbbd35))
+- **video:** fix currentTime applies when video playing ([ce7a63e](https://github.com/PatchyVideo/platinum/commit/ce7a63e20a71bdb1db095f4f97285ae233369f4d))
+- **video:** replace `templateRef` to `ref` ([55b83f8](https://github.com/PatchyVideo/platinum/commit/55b83f858b87d6a4cc9e205b01116f28dc97614d))
+
+### Features
+
+- comment face loader ([ae21417](https://github.com/PatchyVideo/platinum/commit/ae214176fc560d4d8b65a0ff57c1dc1db1df9b03))
+- **playlist:** show loading state ([f18f954](https://github.com/PatchyVideo/platinum/commit/f18f954c0f2c7dd824566d1d30bc768f0073e6a7))
+- **search:** placeholder in search page ([6848fa0](https://github.com/PatchyVideo/platinum/commit/6848fa027731797a86906b2e812fd381c4ab62e3))
+- use backend service to serve polyfill ([c445cb4](https://github.com/PatchyVideo/platinum/commit/c445cb402f94da5617d187594b8431c52e4b509b))
+- use fetchMore ([687ffa4](https://github.com/PatchyVideo/platinum/commit/687ffa4d98713d8d8d0e03a41dc18724f92a9e76))
+- **user,locales:** add pure UI and chinese scales for user page ([ae5df13](https://github.com/PatchyVideo/platinum/commit/ae5df1313dda9ca13c2126422244fd87304bf771))
+- **user:** :sparkles: add uid in local storage ([3451c7a](https://github.com/PatchyVideo/platinum/commit/3451c7a107238c1b361734c72501f778a8001850))
+- **video:** canvas view (wip) ([e1e1033](https://github.com/PatchyVideo/platinum/commit/e1e10330dbbae61b69ce85d30ff61cc980ae5d32))
+- **video:** playlist mobile view ([5523bd5](https://github.com/PatchyVideo/platinum/commit/5523bd5c6054ab650f378a7818702bc514f1e81e))
+- **video:** repost type i18n ([8f8a4cb](https://github.com/PatchyVideo/platinum/commit/8f8a4cb70c3c16bc5eb5e671da8470b41e4363f1))
+- **video:** support playlist in video ([#5](https://github.com/PatchyVideo/platinum/issues/5)) ([b2f6f88](https://github.com/PatchyVideo/platinum/commit/b2f6f88d0048ab97caf8d4697fc4104fd42bf810))
+- **video:** teleport mobile author ([fa2fb99](https://github.com/PatchyVideo/platinum/commit/fa2fb99d54ac26a946ce02eae8c17f046f67d06e))
+
 # [0.7.0-alpha.4](https://github.com/PatchyVideo/platinum/compare/v0.7.0-alpha.3...v0.7.0-alpha.4) (2021-05-29)
 
 ### Bug Fixes
