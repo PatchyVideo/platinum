@@ -3628,17 +3628,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-vue@npm:^7.12.1":
-  version: 7.12.1
-  resolution: "eslint-plugin-vue@npm:7.12.1"
+"eslint-plugin-vue@npm:^7.13.0":
+  version: 7.13.0
+  resolution: "eslint-plugin-vue@npm:7.13.0"
   dependencies:
     eslint-utils: ^2.1.0
     natural-compare: ^1.4.0
     semver: ^7.3.2
-    vue-eslint-parser: ^7.6.0
+    vue-eslint-parser: ^7.8.0
   peerDependencies:
     eslint: ^6.2.0 || ^7.0.0
-  checksum: 4fcf61f24fc35e3f017e0924ef5cac3ac6f5188be88f5b1edab036f5d25e52a0f05e0a73f632e55da77352ad96b3af492e911dc5f6e1b6da8d4fe9f29e400d02
+  checksum: 13bcf7d486516a821a45b4e3336e5f17010a195f751cda1a1f7c4efe8cfaf27edb95772356ec5546e9068b4e5efeaed598292d7b5e3baf45721f77a0bbeffd31
   languageName: node
   linkType: hard
 
@@ -6646,7 +6646,7 @@ fsevents@~2.3.2:
     eslint: ^7.30.0
     eslint-config-prettier: ^8.3.0
     eslint-plugin-prettier: ^3.4.0
-    eslint-plugin-vue: ^7.12.1
+    eslint-plugin-vue: ^7.13.0
     events: ^3.3.0
     flv.js: ^1.5.0
     graphql: ^15.5.1
@@ -6665,7 +6665,7 @@ fsevents@~2.3.2:
     tlds: ^1.221.1
     typed.js: ^2.0.12
     typescript: 4.3.5
-    vite: ^2.4.0
+    vite: ^2.4.1
     vite-plugin-components: ^0.12.0
     vite-plugin-icons: ^0.6.4
     vite-plugin-windicss: ^1.2.3
@@ -8438,9 +8438,9 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"vite@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "vite@npm:2.4.0"
+"vite@npm:^2.4.1":
+  version: 2.4.1
+  resolution: "vite@npm:2.4.1"
   dependencies:
     esbuild: ^0.12.8
     fsevents: ~2.3.2
@@ -8452,7 +8452,7 @@ typescript@4.3.5:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: ca7336ae31bd7f7d8c13a6814955755c9e72d514ed18309c7e26a3d0ff213b9c323ff7819b8469f56109e125854e5ad8b04bdfc6e13728b2508602099804a862
+  checksum: e982cc3b84677f2e6ee08cd19003bb938209e1081f169d9c62370e45f8bd8d1fd8e5b851d8f8d04167a7eb04aa8924221f8f98d6f99583df6dcee9b48461d153
   languageName: node
   linkType: hard
 
@@ -8483,7 +8483,7 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"vue-eslint-parser@npm:^7.6.0":
+"vue-eslint-parser@npm:^7.8.0":
   version: 7.8.0
   resolution: "vue-eslint-parser@npm:7.8.0"
   dependencies:
