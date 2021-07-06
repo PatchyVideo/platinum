@@ -11,6 +11,7 @@ generates:
       nonOptionalTypename: true
       scalars:
         DateTimeUtc: Date
+        UtcDateTime: Date
         ObjectId: 'bson-objectid#default as ObjectId'
   packages/graphql/__generated__/graphql.schema.json:
     plugins:

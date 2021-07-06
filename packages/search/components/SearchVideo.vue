@@ -93,7 +93,7 @@
           <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
-            <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
+            <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
           </div>
         </div>
       </RouterLink>
@@ -128,7 +128,7 @@
           }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
-            <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
+            <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
           </div>
         </div>
       </RouterLink>
@@ -136,13 +136,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineProps, defineEmits, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
 import { useVModels } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
-import { getCoverImage, imageMod } from '@/common/lib/imageUrl'
+import { getCoverImage, getSiteImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { useQuery, gql, useResult } from '@/graphql'

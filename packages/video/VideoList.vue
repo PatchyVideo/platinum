@@ -103,7 +103,7 @@
               <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover h-full" :src="imageMod[video.item.site]" :alt="video.item.site" />
+                <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
               </div>
             </div>
           </RouterLink>
@@ -146,7 +146,7 @@
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover" :src="imageMod[video.item.site]" :alt="video.item.site" />
+                <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
               </div>
             </div>
           </RouterLink>
@@ -198,7 +198,7 @@ import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { backTop } from '@/ui/lib/backTop'
-import { imageMod } from '@/common/lib/imageUrl'
+import { getSiteImage } from '@/common/lib/imageUrl'
 import { progressing } from '@/common/lib/progressing'
 import { screenSizes } from '@/tailwindcss'
 

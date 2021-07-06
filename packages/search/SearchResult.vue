@@ -86,7 +86,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'

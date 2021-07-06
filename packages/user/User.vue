@@ -147,7 +147,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'

@@ -88,7 +88,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { defineEmits, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useVModels } from '@vueuse/core'

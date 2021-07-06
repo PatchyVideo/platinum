@@ -38,6 +38,10 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       serialize: (parsed: Date) => parsed.toISOString(),
       parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
     },
+    UtcDateTime: {
+      serialize: (parsed: Date) => parsed.toISOString(),
+      parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
+    },
     ObjectId: {
       serialize: (parsed: ObjectID) => parsed.toHexString(),
       parseValue: (raw: string) => new ObjectID(raw),

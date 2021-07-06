@@ -149,7 +149,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
