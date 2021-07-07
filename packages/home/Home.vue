@@ -53,7 +53,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'

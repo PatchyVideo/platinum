@@ -41,24 +41,23 @@ const setFetching = useThrottleFn((v: boolean) => {
   fetching.value = v
 }, 600)
 
-const refetch = () => {
+const refetch = async () => {
   last.value = new Date()
   setFetching(true)
-  fetch('https://patchyvideo.com/be/alive.txt')
-    .then((res) => {
-      if (res.ok) {
-        window.location.reload()
-      } else {
-        code.value = res.status
-        text.value = res.statusText
-      }
-      setFetching(false)
-    })
-    .catch((e) => {
-      code.value = 502
-      text.value = e instanceof Error ? e.stack ?? e.message : String(e)
-      setFetching(false)
-    })
+  try {
+    const res = await fetch('https://patchyvideo.com/be/alive.txt')
+    if (res.ok) {
+      window.location.reload()
+      return
+    }
+    code.value = res.status
+    text.value = res.statusText
+  } catch (e) {
+    code.value = 502
+    text.value = e instanceof Error ? e.stack ?? e.message : String(e)
+  } finally {
+    setFetching(false)
+  }
 }
 
 useIntervalFn(refetch, 5000)

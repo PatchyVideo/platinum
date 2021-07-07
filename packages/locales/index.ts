@@ -5,9 +5,9 @@ import type { Locale } from '@formatjs/intl-locale'
 import { useLocalStorage } from '@vueuse/core'
 
 export const messages = Object.fromEntries(
-  Object.entries(import.meta.globEager('./*.{yml,yaml,json}')).map(([key, value]) => [
+  Object.entries(import.meta.globEagerDefault('./*.{yml,yaml,json}')).map(([key, value]) => [
     key.replace(/.+\/(.+)\.(?:ya?ml|json)/, '$1'),
-    value.default,
+    value as never,
   ])
 )
 

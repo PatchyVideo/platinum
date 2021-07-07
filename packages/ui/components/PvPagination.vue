@@ -88,8 +88,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineEmit, defineProps } from 'vue'
+<script lang="ts" setup>
+import { defineEmits, defineProps } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useVModels } from '@vueuse/core'
 
@@ -103,7 +103,13 @@ const props = defineProps({
     default: 1,
   },
 })
-const emit = defineEmit(['previous', 'next', 'change'])
+const emit = defineEmits<{
+  (event: 'previous'): void
+  (event: 'next'): void
+  (event: 'change', value: number): void
+  (event: 'update:page', value: number): void
+  (event: 'update:pageCount', value: number): void
+}>()
 const { t } = useI18n()
 const { page, pageCount } = useVModels(props, emit)
 function change(): void {

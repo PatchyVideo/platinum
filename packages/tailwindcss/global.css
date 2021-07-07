@@ -1,6 +1,3 @@
-body {
-  @apply dark:text-white;
-}
 a {
   @apply cursor-pointer;
 }

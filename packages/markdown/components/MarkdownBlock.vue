@@ -7,14 +7,14 @@
   ></article>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, defineProps } from 'vue'
 import { render } from '../lib/parser'
 
 const props = defineProps({
   text: {
     type: String,
-    default: '',
+    required: true,
   },
   size: {
     type: String,

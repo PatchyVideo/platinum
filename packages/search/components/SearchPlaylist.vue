@@ -159,8 +159,8 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { defineProps, defineEmit, ref, watch, watchEffect } from 'vue'
+<script lang="ts" setup>
+import { defineProps, defineEmits, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
 import { useVModels } from '@vueuse/core'
@@ -177,7 +177,13 @@ const props = defineProps({
   order: { type: String, required: true },
   pageCount: { type: Number, required: true },
 })
-const emit = defineEmit()
+const emit = defineEmits<{
+  (event: 'update:query', value: string): void
+  (event: 'update:limit', value: number): void
+  (event: 'update:offset', value: number): void
+  (event: 'update:order', value: string): void
+  (event: 'update:pageCount', value: number): void
+}>()
 
 const { t } = useI18n()
 const status = ref<'loading' | 'result' | 'error'>()
@@ -197,7 +203,7 @@ watch(
         query: query.value,
         order: order.value,
       },
-    }).then((v) => {
+    })?.then((v) => {
       result.value = v.data
     })
   },
@@ -238,7 +244,7 @@ watchEffect(() => {
   }
 })
 
-const resultData = useResult(result, null, (data) => data.listPlaylist)
+const resultData = useResult(result, null, (data) => data?.listPlaylist)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count

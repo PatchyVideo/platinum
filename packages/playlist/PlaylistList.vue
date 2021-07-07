@@ -199,7 +199,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
@@ -248,7 +248,7 @@ watch(URLQuery, () => {
       limit: limit.value,
       order: order.value,
     },
-  }).then((v) => {
+  })?.then((v) => {
     result.value = v.data
   })
 })
@@ -277,7 +277,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     order: order.value,
   }
 )
-const resultData = useResult(result, null, (data) => data.listPlaylist)
+const resultData = useResult(result, null, (data) => data?.listPlaylist)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count

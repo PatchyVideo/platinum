@@ -1,4 +1,5 @@
 // @ts-check
+import fs from 'fs'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
@@ -46,6 +47,12 @@ export default defineConfig(async ({ command, mode }) => {
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(version),
       'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
+      'import.meta.env.VITE_DATE_FNS_LOCALE': JSON.stringify(
+        fs
+          .readdirSync(path.resolve(__dirname, './node_modules/date-fns/esm/locale'), { withFileTypes: true })
+          .filter((file) => file.isDirectory() && !file.name.startsWith('_'))
+          .map((file) => file.name)
+      ),
     },
     optimizeDeps: {
       include: ['@apollo/client/core', '@apollo/client/utilities'],

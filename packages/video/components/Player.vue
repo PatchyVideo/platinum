@@ -669,12 +669,12 @@ useEventListener(progressbar, 'click', (e: MouseEvent) => {
   updateCurrentTime()
 })
 useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
-  const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
+  const stopMouseMove = useEventListener('mousemove', (e: MouseEvent) => {
     let percentage = (e.clientX - progressbar.value!.getBoundingClientRect().left) / progressbar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     currentTime.value = percentage * duration.value
   })
-  const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+  const stopMouseUp = useEventListener('mouseup', (e: MouseEvent) => {
     stopMouseMove()
     stopMouseUp()
     updateCurrentTime()
@@ -701,12 +701,12 @@ useEventListener(volumebar, 'click', (e: MouseEvent) => {
   volume.value = percentage
 })
 useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
-  const stopMouseMove = useEventListener('mousemove', (e: DragEvent) => {
+  const stopMouseMove = useEventListener('mousemove', (e: MouseEvent) => {
     let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
     volume.value = percentage
   })
-  const stopMouseUp = useEventListener('mouseup', (e: DragEvent) => {
+  const stopMouseUp = useEventListener('mouseup', (e: MouseEvent) => {
     stopMouseMove()
     stopMouseUp()
   })

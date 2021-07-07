@@ -38,6 +38,10 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       serialize: (parsed: Date) => parsed.toISOString(),
       parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
     },
+    UtcDateTime: {
+      serialize: (parsed: Date) => parsed.toISOString(),
+      parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
+    },
     ObjectId: {
       serialize: (parsed: ObjectID) => parsed.toHexString(),
       parseValue: (raw: string) => new ObjectID(raw),
@@ -164,7 +168,11 @@ export const useQuery = function useQuery(this: never, ...args: never) {
   query.fetchMore = function (this: never, ...args: never) {
     query.loading.value = true
     const fm = fetchMore.apply(this, args)
-    fm.then(() => (query.loading.value = false))
+    if (fm) {
+      fm.then(() => (query.loading.value = false))
+    } else {
+      query.loading.value = false
+    }
     return fm
   } as typeof query.fetchMore
 

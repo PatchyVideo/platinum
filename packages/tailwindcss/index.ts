@@ -1,5 +1,5 @@
 import 'virtual:windi.css'
-import '@/tailwindcss/global.css'
+import './global.css'
 
 import { useMediaQuery } from '@vueuse/core'
 import { computed, reactive } from 'vue'

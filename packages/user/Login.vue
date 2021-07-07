@@ -1,112 +1,48 @@
 <template>
-  <div class="log-in-mobile h-screen w-full md:min-h-xl dark:(filter brightness-80) md:log-in-md">
-    <!-- Mobile view -->
+  <div class="login h-screen w-full md:min-h-xl dark:(filter brightness-80)">
     <div
-      v-if="screenSizes['<md']"
       class="
-        flex-wrap
+        flex flex-wrap
         content-between
         w-full
+        md:w-80
         h-full
         p-5
-        shadow
-        flex
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
         text-white
-      "
-    >
-      <div class="w-full text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg">{{ t('user.login.title') }}</div>
-      </div>
-      <div class="w-full space-y-3">
-        <div>
-          <div class="flex w-full border-b-1 border-white">
-            <icon-uil-user class="align-middle w-7" />
-            <input
-              v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-white"
-              :placeholder="t('user.login.username.placeholder')"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
-        </div>
-        <div>
-          <div class="flex w-full border-b-1 border-white">
-            <icon-uil-padlock class="align-middle w-7" />
-            <input
-              v-model="password"
-              type="password"
-              class="outline-none w-full bg-transparent placeholder-white"
-              :placeholder="t('user.login.password.placeholder')"
-              @keydown.enter="login"
-            />
-          </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <RouterLink class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
-            t('user.login.forget-password')
-          }}</RouterLink>
-        </div>
-        <div class="space-y-1">
-          <button
-            :disabled="loginStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300 disabled:focus:bg-blue-300
-            "
-            @click="login"
-          >
-            {{ loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready') }}
-          </button>
-          <div v-if="loginStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-blue-600" to="/user/signup">{{ t('user.login.signup') + '→' }}</RouterLink>
-        </div>
-      </div>
-      <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
-      <div>© VoileLabs 2020-2021</div>
-    </div>
-    <!-- Desktop view -->
-    <div
-      v-else
-      class="
-        flex-wrap
-        content-between
-        w-80
-        h-full
-        p-5
+        md:text-black
         bg-white bg-opacity-50
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        ml-50
-        text-black
-        flex
+        <md:shadow
+        md:ml-50
       "
     >
-      <div class="w-full">
+      <div class="w-full <md:text-center">
         <Logo :larger="20"></Logo>
-        <div class="text-lg text-center">{{ t('user.login.title') }}</div>
+        <div class="text-lg md:text-center" v-text="t('user.login.title')"></div>
       </div>
-      <div class="w-full space-y-3">
+      <form class="w-full space-y-3" autocomplete="on" @submit.prevent="login">
         <div>
           <div class="flex w-full border-b-1 border-black">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              type="text"
+              name="username"
+              autocomplete="username"
+              class="
+                autofill
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-white
+                md:placeholder-gray-900 md:text-gray-900
+              "
               :placeholder="t('user.login.username.placeholder')"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ usernameStatus }}</div>
+          <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
           <div class="flex w-full border-b-1 border-black">
@@ -114,18 +50,30 @@
             <input
               v-model="password"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              name="password"
+              autocomplete="current-password"
+              class="
+                autofill
+                outline-none
+                w-full
+                bg-transparent
+                placeholder-white
+                md:placeholder-gray-900 md:text-gray-900
+              "
               :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"
             />
           </div>
-          <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
-          <RouterLink class="block text-right text-xs text-blue-600" to="/user/forget-password">{{
-            t('user.login.forget-password')
-          }}</RouterLink>
+          <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
+          <RouterLink
+            class="block text-right text-xs text-blue-600"
+            to="/user/forget-password"
+            v-text="t('user.login.forget-password')"
+          ></RouterLink>
         </div>
         <div class="space-y-1">
           <button
+            type="submit"
             :disabled="loginStatus === 'loading'"
             class="
               w-full
@@ -141,16 +89,18 @@
               disabled:hover:bg-blue-300
               disabled:hover:cursor-not-allowed
             "
-            @click="login"
-          >
-            {{ loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready') }}
-          </button>
-          <div v-if="loginStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-blue-600 hover:text-blue-800" to="/user/signup">{{
-            t('user.login.signup') + '→'
-          }}</RouterLink>
+            v-text="
+              loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready')
+            "
+          ></button>
+          <div v-if="loginStatus === 'error'" class="text-red-500" v-text="errmsg"></div>
+          <RouterLink
+            class="block text-blue-600 hover:text-blue-800"
+            to="/user/signup"
+            v-text="t('user.login.signup') + '→'"
+          ></RouterLink>
         </div>
-      </div>
+      </form>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
       <div>© VoileLabs 2020-2021</div>
@@ -158,13 +108,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
-import { screenSizes } from '@/tailwindcss'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
@@ -286,18 +235,31 @@ async function login(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.log-in-mobile {
-  @apply bg-bottom;
-  @apply bg-no-repeat;
-  @apply bg-cover;
-  background-image: url('./assets/LoginMobile.jpg');
+.login {
+  @apply bg-bottom bg-no-repeat bg-cover;
+}
+@variants <md {
+  .login {
+    background-image: url('./assets/LoginMobile.jpg');
+  }
 }
 @variants md {
-  .md\:log-in-md {
-    @apply bg-center;
-    @apply bg-no-repeat;
-    @apply bg-cover;
+  .login {
     background-image: url('./assets/Login.jpg');
+  }
+}
+
+.autofill:-webkit-autofill,
+.autofill:-webkit-autofill:hover,
+.autofill:-webkit-autofill:focus {
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-text-fill-color: theme('colors.light-blue.300');
+}
+@variants md {
+  .autofill:-webkit-autofill,
+  .autofill:-webkit-autofill:hover,
+  .autofill:-webkit-autofill:focus {
+    -webkit-text-fill-color: theme('colors.blue.900');
   }
 }
 </style>

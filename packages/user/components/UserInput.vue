@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmit, defineProps } from 'vue'
+import { defineEmits, defineProps } from 'vue'
 import type { PropType } from 'vue'
 import { useVModel } from '@vueuse/core'
 
@@ -44,7 +44,9 @@ const props = defineProps({
   },
 })
 
-const emit = defineEmit(['update:value'])
+const emit = defineEmits<{
+  (event: 'update:value', value: string): void
+}>()
 
 const localValue = useVModel(props, 'value', emit)
 </script>
