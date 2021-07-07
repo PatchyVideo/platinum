@@ -124,7 +124,12 @@
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
-                <RouterLink v-if="screenSizes['<sm']" class="block text-center" to=""> 我的消息 </RouterLink>
+                <RouterLink v-if="screenSizes['<sm']" class="block text-center" to="">
+                  <label>我的消息 </label
+                  ><label v-if="listMsgCount" class="bg-gray-600 text-white text-sm rounded-full px-1">{{
+                    listMsgCount
+                  }}</label></RouterLink
+                >
                 <RouterLink class="block text-center" to="/user/me">{{
                   t('common.nav-top.user.userprofile')
                 }}</RouterLink>
@@ -260,7 +265,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { ref, computed, defineProps, watchEffect } from 'vue'
+import { ref, computed, defineProps, watchEffect, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
@@ -269,6 +274,8 @@ import { locale, messages } from '@/locales'
 import { screenSizes } from '@/tailwindcss'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
+import { useQuery, gql, useResult } from '@/graphql'
+import type { schema, Query } from '@/graphql'
 
 defineProps({
   showSearchBar: {
@@ -306,6 +313,60 @@ function searchResult(searchContent: string): void {
   hidePage.value = false
   router.push({ path: '/search-result', query: { i: searchContent } })
 }
+
+/* List unread messages */
+const listMsgOffset = ref<number>(0)
+const listMsgLimit = ref<number>(10)
+const listMsg = ref<schema.NotificationObject[]>()
+const listMsgCount = ref<number>(0)
+const listMsgStatus = ref<'loading' | 'success' | 'error'>('loading')
+const { result, loading, onError, fetchMore } = useQuery<Query>(
+  gql`
+    query ($offset: Int, $limit: Int) {
+      listNotifications(para: { offset: $offset, limit: $limit }) {
+        notes {
+          id
+        }
+        count
+      }
+    }
+  `,
+  {
+    offset: listMsgOffset.value,
+    limit: listMsgLimit.value,
+  }
+)
+const resultData = useResult(result, null, (data) => data?.listNotifications)
+watchEffect(() => {
+  console.log('resultData: ' + resultData.value)
+  if (resultData.value) {
+    listMsgStatus.value = 'success'
+    listMsg.value = resultData.value.notes
+    listMsgCount.value = resultData.value.count
+  } else listMsgStatus.value = 'error'
+})
+watchEffect(() => {
+  if (loading.value) {
+    listMsgStatus.value = 'loading'
+  } else {
+    listMsgStatus.value = 'success'
+  }
+})
+onError((err) => {
+  // errMsg.value = err.message
+  listMsgStatus.value = 'error'
+})
+watch(isLogin, () => {
+  if (isLogin.value === IsLogin.yes)
+    fetchMore({
+      variables: {
+        offset: listMsgOffset.value,
+        limit: listMsgLimit.value,
+      },
+    })?.then((v) => {
+      result.value = v.data
+    })
+})
 
 /* Back to home page */
 function toHome(): void {
