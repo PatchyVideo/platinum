@@ -53,7 +53,10 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
       schema: buildClientSchema(jsonSchema as unknown as IntrospectionQuery),
       typesMap,
     }),
-    new HttpLink({ uri: 'https://patchyvideo.com/be/gql/graphql' }),
+    new HttpLink({
+      uri: 'https://patchyvideo.com/be/gql/graphql',
+      credentials: 'include',
+    }),
   ])
   const childOffsetLimitPara = (tagName: string) => ({
     read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
