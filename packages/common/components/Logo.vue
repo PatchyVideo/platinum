@@ -2,6 +2,7 @@
   <div class="md:mx-3">
     <svg
       v-if="showIcon"
+      version="1.2"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 2844 3778"
       class="fill-current inline-block"
@@ -20,10 +21,19 @@
         stroke-miterlimit="10"
       />
       <path
-        class="st2"
+        fill="none"
+        stroke="#000"
+        stroke-width="14"
+        stroke-miterlimit="10"
         d="M609.7 3238.6l67.8 60.2 12.1 10.6 43.9-25.8 53.1-33.2-42.7 97.8 74.8 75.8-101.8-9.9-4.4-.4-42.7 97.8-22.9-104.3-18.3-1.7-87.9-8.6 54.6-32.1 37.4-22z"
       />
-      <path class="st2" d="M712.5 3413.7l-65.6-6.5-14.2-64.4 61.9-38.4 49.3 43.8-31.4 65.5" />
+      <path
+        fill="none"
+        stroke="#000"
+        stroke-width="14"
+        stroke-miterlimit="10"
+        d="M712.5 3413.7l-65.6-6.5-14.2-64.4 61.9-38.4 49.3 43.8-31.4 65.5"
+      />
     </svg>
     <svg
       version="1.2"
@@ -110,12 +120,3 @@ const props = defineProps({
 const h1 = computed(() => props.larger + 30)
 const h2 = computed(() => props.larger + 48)
 </script>
-
-<style lang="postcss" scoped>
-.st2 {
-  fill: none;
-  stroke: #000;
-  stroke-width: 14;
-  stroke-miterlimit: 10;
-}
-</style>
