@@ -317,13 +317,14 @@ function searchResult(searchContent: string): void {
 /* List unread messages */
 const listMsgOffset = ref<number>(0)
 const listMsgLimit = ref<number>(10)
+const listMsgAll = ref<boolean>(true)
 const listMsg = ref<schema.NotificationObject[]>()
 const listMsgCount = ref<number>(0)
 const listMsgStatus = ref<'loading' | 'success' | 'error'>('loading')
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int, $limit: Int) {
-      listNotifications(para: { offset: $offset, limit: $limit }) {
+    query ($offset: Int, $limit: Int, $listAll: Boolean) {
+      listNotifications(para: { offset: $offset, limit: $limit, listAll: $listAll }) {
         notes {
           id
         }
@@ -334,12 +335,13 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   {
     offset: listMsgOffset.value,
     limit: listMsgLimit.value,
+    listAll: listMsgAll.value,
   }
 )
 const resultData = useResult(result, null, (data) => data?.listNotifications)
 watchEffect(() => {
-  console.log('resultData: ' + resultData.value)
   if (resultData.value) {
+    console.log('resultData: ' + resultData.value)
     listMsgStatus.value = 'success'
     listMsg.value = resultData.value.notes
     listMsgCount.value = resultData.value.count
