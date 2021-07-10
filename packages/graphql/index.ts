@@ -124,7 +124,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
             keyArgs: ['query', 'queryRegex', 'category', 'order'],
           },
           listNotifications: {
-            ...selfOffsetLimitPara(),
+            ...childOffsetLimitPara('notes'),
             keyArgs: ['listAll', 'noteType'],
           },
           listSubscriptionVideos: {
