@@ -61,6 +61,11 @@
               @click="msgBoxOpen = true"
             >
               <icon-uil-envelope />
+              <label
+                v-if="listMsgCount"
+                class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
+                >{{ listMsgCount > 99 ? '99+' : listMsgCount }}</label
+              >
             </div>
             <div ref="userListBtn">
               <UserAvatar
@@ -69,6 +74,10 @@
                 class="h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
                 @click="userListOpen = true"
               ></UserAvatar>
+              <label
+                v-if="listMsgCount && !userListOpen && screenSizes['<sm']"
+                class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
+              ></label>
             </div>
           </div>
           <!-- Message Box -->
@@ -93,6 +102,7 @@
               "
             >
               通知
+              <div v-if="loading">加载中</div>
             </div>
           </Transition>
           <!-- User List -->
@@ -125,9 +135,9 @@
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <RouterLink v-if="screenSizes['<sm']" class="block text-center" to="">
-                  <label>我的消息 </label
-                  ><label v-if="listMsgCount" class="bg-gray-600 text-white text-sm rounded-full px-1">{{
-                    listMsgCount
+                  <label>我的消息</label
+                  ><label v-if="listMsgCount" class="bg-red-500 text-white text-sm rounded-full px-2">{{
+                    listMsgCount > 99 ? '99+' : listMsgCount
                   }}</label></RouterLink
                 >
                 <RouterLink class="block text-center" to="/user/me">{{
@@ -276,6 +286,7 @@ import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
+import NProgress from 'nprogress'
 
 defineProps({
   showSearchBar: {
@@ -317,16 +328,33 @@ function searchResult(searchContent: string): void {
 /* List unread messages */
 const listMsgOffset = ref<number>(0)
 const listMsgLimit = ref<number>(10)
-const listMsgAll = ref<boolean>(true)
+const listMsgAll = ref<boolean>(false)
 const listMsg = ref<schema.NotificationObject[]>()
 const listMsgCount = ref<number>(0)
-const listMsgStatus = ref<'loading' | 'success' | 'error'>('loading')
+const listMsgStatus = ref<'loading' | 'result' | 'error'>()
+watch(
+  isLogin,
+  () => {
+    if (isLogin.value === IsLogin.yes)
+      fetchMore({
+        variables: {
+          offset: listMsgOffset.value,
+          limit: listMsgLimit.value,
+          listAll: listMsgAll.value,
+        },
+      })?.then((v) => {
+        result.value = v.data
+      })
+  },
+  { deep: true }
+)
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
     query ($offset: Int, $limit: Int, $listAll: Boolean) {
       listNotifications(para: { offset: $offset, limit: $limit, listAll: $listAll }) {
         notes {
           id
+          type
         }
         count
       }
@@ -338,36 +366,26 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     listAll: listMsgAll.value,
   }
 )
-const resultData = useResult(result, null, (data) => data?.listNotifications)
+watchEffect(() => {
+  if (loading.value) {
+    listMsgStatus.value = 'loading'
+    if (!NProgress.isStarted()) NProgress.start()
+  } else {
+    listMsgStatus.value = 'result'
+    if (NProgress.isStarted()) NProgress.done()
+  }
+})
+const resultData = useResult(result, null, (data) => data.listNotifications)
 watchEffect(() => {
   if (resultData.value) {
-    console.log('resultData: ' + resultData.value)
-    listMsgStatus.value = 'success'
+    console.log(resultData.value)
     listMsg.value = resultData.value.notes
     listMsgCount.value = resultData.value.count
   } else listMsgStatus.value = 'error'
 })
-watchEffect(() => {
-  if (loading.value) {
-    listMsgStatus.value = 'loading'
-  } else {
-    listMsgStatus.value = 'success'
-  }
-})
 onError((err) => {
   // errMsg.value = err.message
   listMsgStatus.value = 'error'
-})
-watch(isLogin, () => {
-  if (isLogin.value === IsLogin.yes)
-    fetchMore({
-      variables: {
-        offset: listMsgOffset.value,
-        limit: listMsgLimit.value,
-      },
-    })?.then((v) => {
-      result.value = v.data
-    })
 })
 
 /* Back to home page */
