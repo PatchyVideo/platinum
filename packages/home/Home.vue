@@ -1,7 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto">
-    <NavTop></NavTop>
-
+  <LayoutDefault>
     <!-- Introduction -->
     <div class="h-screen bg-gray-200 dark:bg-gray-700 dark:border-b dark:border-gray-500 md:text-center">
       <div class="p-4 pt-10 space-y-10 md:pt-24">
@@ -49,8 +47,7 @@
       <input v-model="addCompName" class="border rounded border-black mr-2" />
       <button type="button" class="border rounded border-black px-2" @click="addComp">add</button>
     </div>
-    <Footer></Footer>
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
@@ -58,8 +55,6 @@ import { reactive, ref } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import Footer from '@/common/components/Footer.vue'
-import NavTop from '@/common/components/NavTop.vue'
 
 const { t } = useI18n()
 setSiteTitle(t('home.home.title'))

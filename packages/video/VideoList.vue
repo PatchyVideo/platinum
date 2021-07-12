@@ -1,6 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
-    <NavTop></NavTop>
+  <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === 'loading'">
         <div v-text="t('video.video-list.main-body.loading.searching')"></div>
@@ -180,13 +179,10 @@
       <icon-uil-file-search-alt class="text-2xl" />
     </div>
     <BackTop></BackTop>
-    <Footer></Footer>
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import NavTop from '@/common/components/NavTop.vue'
-import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import { computed, ref, watch, watchEffect } from 'vue'

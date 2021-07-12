@@ -1,7 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto dark:bg-gray-700">
-    <NavTop :show-search-bar="!screenSizes.sm" />
-
+  <LayoutDefault :show-search-bar="!screenSizes.sm">
     <div class="text-center flex flex-col justify-start items-center">
       <h3 v-if="screenSizes.sm" class="text-lg font-semibold m-4 px-auto">
         {{ t('search.search-result.search-keywords') + queryWord }}
@@ -82,14 +80,11 @@
       @change="jumpToSelectedPage"
     />
     <BackTop />
-    <Footer />
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
 import AutoComplete from '@/search/components/AutoComplete.vue'
-import NavTop from '@/common/components/NavTop.vue'
-import Footer from '@/common/components/Footer.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import SearchVideo from '@/search/components/SearchVideo.vue'
 import SearchPlaylist from '@/search/components/SearchPlaylist.vue'

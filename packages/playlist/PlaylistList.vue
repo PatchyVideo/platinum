@@ -1,6 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto">
-    <NavTop></NavTop>
+  <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === 'loading'">
         <div class="border-b-1 pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
@@ -194,9 +193,8 @@
     >
       <icon-uil-file-search-alt class="text-2xl" />
     </div>
-    <BackTop></BackTop>
-    <Footer></Footer>
-  </div>
+    <BackTop />
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
@@ -207,8 +205,6 @@ import { screenSizes } from '@/tailwindcss'
 import { useRoute, useRouter } from 'vue-router'
 import { progressing } from '@/common/lib/progressing'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import Footer from '@/common/components/Footer.vue'
-import NavTop from '@/common/components/NavTop.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import { backTop } from '@/ui/lib/backTop'

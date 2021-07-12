@@ -30,7 +30,6 @@
           :teleport-result="teleportTo"
           :show-recommendations="true"
           @search="searchResult"
-          @searching="searching = $event"
           @click="() => screenSizes['<sm'] && (hidePage = true)"
         ></AutoComplete>
         <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
@@ -410,12 +409,13 @@ async function logout(): Promise<void> {
   location.reload()
 }
 
-const languageList = Object.entries(messages).map(([k, v]) => ({ name: v?._info?.name ?? k, value: k }))
+const languageList = Object.entries(messages).map(([k, v]) => ({
+  name: (v as { _info?: { name?: string } })?._info?.name ?? k,
+  value: k,
+}))
 
 const autoComplete = ref<InstanceType<typeof AutoComplete> | null>(null)
 const hidePage = ref(false)
-const searching = ref(false)
-watchEffect(() => console.log(searching.value))
 const keyword = ref(
   route.path === '/search-result'
     ? route.query.i

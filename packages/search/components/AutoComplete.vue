@@ -238,7 +238,7 @@ async function getSearchList(searchKeyword: string): Promise<void> {
   await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
     .then((data) => data.json())
     .then((res) => {
-      console.log(res)
+      // console.log(res)
       listData = listData.concat(res)
       loading.value = false
       activeSearchResult.value = -1

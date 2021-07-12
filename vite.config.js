@@ -1,5 +1,5 @@
 // @ts-check
-import fs from 'fs'
+import fs, { promises as fsp } from 'fs'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import windicss from 'vite-plugin-windicss'
@@ -36,6 +36,14 @@ export default defineConfig(async ({ command, mode }) => {
     ' */',
   ].join()
 
+  /* create __generated__ dir */
+  {
+    const list = ['dts']
+    const promises = []
+    for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, `./packages/${dir}/__generated__`)))
+    await Promise.allSettled(promises)
+  }
+
   return {
     resolve: {
       alias: [
@@ -63,12 +71,13 @@ export default defineConfig(async ({ command, mode }) => {
       vue(),
       windicss(),
       components({
-        dirs: [],
+        dirs: ['packages/layouts/components'],
         customComponentResolvers: [
           ViteIconsResolver({
             componentPrefix: 'icon',
           }),
         ],
+        globalComponentsDeclaration: 'packages/dts/__generated__/viteComponents.d.ts',
       }),
       viteIcons(),
       {

@@ -1,6 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto">
-    <NavTop></NavTop>
+  <LayoutDefault>
     <!-- Main Object -->
     <div v-if="video" class="xl:mx-2">
       <div class="grid grid-cols-12 grid-flow-row-dense">
@@ -266,16 +265,13 @@
         </div>
       </div>
     </div>
-    <Footer></Footer>
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
 import Player from './components/Player.vue'
 import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
-import NavTop from '@/common/components/NavTop.vue'
-import Footer from '@/common/components/Footer.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import { computed, ref, watchEffect } from 'vue'

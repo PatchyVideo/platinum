@@ -1,7 +1,5 @@
 <template>
-  <div class="max-w-screen-3xl mx-auto">
-    <NavTop />
-
+  <LayoutDefault>
     <div class="md:my-4 xl:my-6 max-w-screen-xl mx-auto">
       <template v-if="playlist">
         <div class="md:ml-4 md:flex justify-start space-x-2 md:space-x-4">
@@ -145,14 +143,10 @@
         </div>
       </template>
     </div>
-
-    <Footer />
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import NavTop from '@/common/components/NavTop.vue'
-import Footer from '@/common/components/Footer.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'

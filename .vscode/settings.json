@@ -16,6 +16,7 @@
     "search",
     "user",
     "ui",
-    "playlist"
+    "playlist",
+    "layout"
   ]
 }

@@ -1,6 +1,5 @@
 <template>
-  <div class="dark:bg-gray-700">
-    <NavTop :show-search-bar="false"></NavTop>
+  <LayoutDefault :show-search-bar="false">
     <!--个人中心-->
     <div v-if="isLoginStateYes" class="w-full h-full flex justify-start flex-col md:flex-row">
       <div class="half-container justify-center items-center">
@@ -143,13 +142,10 @@
         {{ t('user.user-page.not-logged-in') }}
       </RouterLink>
     </div>
-    <Footer></Footer>
-  </div>
+  </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import NavTop from '@/common/components/NavTop.vue'
-import Footer from '@/common/components/Footer.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
 import { computed, reactive, watch, ref } from 'vue'
