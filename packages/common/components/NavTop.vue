@@ -102,6 +102,40 @@
             >
               通知
               <div v-if="loading">加载中</div>
+              <div v-else>
+                <div class="divide-y-2 max-h-100 overflow-auto">
+                  <div v-for="Msg in listMsg" :key="Msg.id.id" class="hover:bg-gray-50 transition">
+                    <div v-if="Msg.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
+                      <router-link class="w-1/6 cursor-pointer" to>
+                        <UserAvatar
+                          :title="Msg.repliedBy.username"
+                          :image="Msg.repliedBy.image"
+                          class="rounded-full ring-2 ring-white"
+                        ></UserAvatar>
+                      </router-link>
+                      <router-link
+                        :to="
+                          (Msg.repliedType === 'forum' ? '' : Msg.repliedType === 'video' ? '/video/' : '/playlist/') +
+                          Msg.repliedObj +
+                          '#' +
+                          Msg.cid
+                        "
+                        tag="div"
+                        class="w-5/6"
+                      >
+                        <div>
+                          {{ Msg.repliedBy.username + ' 回复了你：' }}
+                        </div>
+                        <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate">
+                          {{ Msg.content }}
+                        </div>
+                        <div class="text-xs text-gray-600 text-right"><RelativeDate :date="Msg.time" /></div>
+                      </router-link>
+                    </div>
+                  </div>
+                </div>
+                <router-link to class="pt-1 text-center block">查看全部回复</router-link>
+              </div>
             </div>
           </Transition>
           <!-- User List -->
@@ -274,6 +308,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { ref, computed, defineProps, watchEffect, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -328,7 +363,7 @@ function searchResult(searchContent: string): void {
 const listMsgOffset = ref<number>(0)
 const listMsgLimit = ref<number>(10)
 const listMsgAll = ref<boolean>(false)
-const listMsg = ref<schema.NotificationObject[]>()
+const listMsg = ref<(schema.ReplyNotificationObject | schema.BaseNotificationObject)[]>([])
 const listMsgCount = ref<number>(0)
 const listMsgStatus = ref<'loading' | 'result' | 'error'>()
 watch(
@@ -353,7 +388,18 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
       listNotifications(para: { offset: $offset, limit: $limit, listAll: $listAll }) {
         notes {
           id
-          type
+          ... on ReplyNotificationObject {
+            cid
+            repliedBy {
+              id
+              username
+              image
+            }
+            time
+            repliedObj
+            repliedType
+            content
+          }
         }
         count
       }
