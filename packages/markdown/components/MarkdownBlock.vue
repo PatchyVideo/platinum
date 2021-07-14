@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <article
+    ref="root"
     class="prose break-all"
     :class="{ 'prose-sm': size === 'sm', 'prose-lg': size === 'lg', 'prose-xl': size === 'xl' }"
     v-html="html"
@@ -8,7 +9,8 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { defineProps, ref, watch } from 'vue'
+import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '../lib/parser'
 
 const props = defineProps({
@@ -22,7 +24,22 @@ const props = defineProps({
   },
 })
 
-const html = computed(() => render(props.text))
+const html = ref('')
+const waitingForRender = ref(true)
+watch(props, (p, op) => {
+  if (p.text !== op.text) waitingForRender.value = true
+})
+const root = ref<HTMLElement | null>(null)
+useIntersectionObserver(
+  root,
+  ([{ isIntersecting }]) => {
+    if (isIntersecting && waitingForRender.value) {
+      html.value = render(props.text)
+      waitingForRender.value = false
+    }
+  },
+  { rootMargin: '100px 100px 100px 100px' }
+)
 </script>
 
 <style lang="postcss" scoped>
