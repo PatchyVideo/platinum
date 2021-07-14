@@ -6,5 +6,5 @@ module.exports = {
       useESM: true,
     },
   },
-  watchPathIgnorePatterns: ['**/node_modules'],
+  watchPathIgnorePatterns: ['node_modules'],
 }
