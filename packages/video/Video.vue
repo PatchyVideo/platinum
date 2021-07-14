@@ -16,12 +16,22 @@
           <Suspense>
             <Player :item="video.item" />
           </Suspense>
-          <div class="<xl:hidden w-full border-t border-gray-300 my-2"></div>
+          <!-- <div class="<xl:hidden w-full border-t border-gray-300 my-2"></div> -->
+          <div class="my-1"></div>
           <div ref="mobilePlaylistTarget"></div>
           <div ref="mobileAuthorTarget"></div>
-          <div class="mx-1 md:mx-2 lg:mx-8">
+          <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
-            <Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag>
+            <template v-if="!renderTagAsPlainText"
+              ><Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag
+            ></template>
+            <template v-else>
+              <div class="text-sm">
+                <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="mr-2 text-blue-600"
+                  >#{{ behMostMatch(tag.languages) }}</span
+                >
+              </div></template
+            >
             <!-- Video Description -->
             <MarkdownBlock :text="video.item.desc" size="sm"></MarkdownBlock>
           </div>
@@ -41,10 +51,10 @@
                 <span class="text-sm font-medium" v-text="comment.author.username"></span
                 ><Suspense
                   ><RelativeDate
-                    class="text-sm font-light text-gray-600 dark:text-gray-300 ml-1.5"
+                    class="text-xs text-gray-500 dark:text-gray-400 ml-1.5"
                     :date="comment.createdAt" /></Suspense
                 ><br />
-                <MarkdownBlock class="min-h-8" :text="comment.content" size="sm" />
+                <MarkdownBlock class="min-h-8" :text="comment.content" size="md" />
                 <div
                   v-for="child in comment.children"
                   :key="child.id.toHexString()"
@@ -62,7 +72,7 @@
                     <span class="font-medium" v-text="child.author.username"></span
                     ><Suspense
                       ><RelativeDate
-                        class="text-sm text-gray-600 dark:text-gray-300 ml-2"
+                        class="text-xs text-gray-500 dark:text-gray-400 ml-2"
                         :date="child.createdAt" /></Suspense
                     ><br />
                     <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
@@ -284,6 +294,8 @@ import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/tailwindcss'
 import { getCoverImage } from '@/common/lib/imageUrl'
+import { behMostMatch } from '@/locales'
+import { useLocalStorage } from '@vueuse/core'
 
 const { t } = useI18n()
 
@@ -535,4 +547,6 @@ const playlistIndex = computed(
       : -1
 )
 const playlistCollaped = ref(!screenSizes.xl)
+
+const renderTagAsPlainText = useLocalStorage('video_tag_render_as_plain_text', false)
 </script>
