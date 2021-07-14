@@ -1,5 +1,6 @@
 import MarkdownIt from 'markdown-it'
-import DOMPurify from 'dompurify'
+import { Parser as HTMLParser } from 'htmlparser2'
+import { encode as encodeHTML } from 'html-entities'
 import hljs from 'highlight.js/lib/common'
 import tlds from 'tlds'
 
@@ -35,9 +36,13 @@ function val(reg: RegExp) {
 }
 
 markdownIt.linkify
+  .set({
+    fuzzyLink: true,
+    fuzzyEmail: false,
+    fuzzyIP: false,
+  })
   .tlds(tlds) // full tld list
   .tlds('onion', true)
-  .add('git:', 'http:')
   .add('ac', {
     validate: val(/\d+/),
     normalize(match) {
@@ -176,204 +181,266 @@ markdownIt.renderer.rules.face = function (tokens, idx) {
   return `<img class="face inline-block w-4 h-4" src="${token.attrGet('src')}" alt="${token.content}" />`
 }
 
-DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-  Array.prototype.forEach.call(node.attributes, (v: Attr) => {
-    try {
-      switch (node.tagName) {
-        case 'a': {
-          switch (v.name) {
-            case 'href':
-              if (new URL(v.value).protocol.match(/^(https?|mailto|xmpp|ircs?):$/)) return
-              break
+const allowedTags = [
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'h7',
+  'h8',
+  'br',
+  'b',
+  'i',
+  'strong',
+  'em',
+  'a',
+  'pre',
+  'code',
+  'img',
+  'tt',
+  'div',
+  'ins',
+  'del',
+  'sup',
+  'sub',
+  'p',
+  'ol',
+  'ul',
+  'table',
+  'thead',
+  'tbody',
+  'tfoot',
+  'blockquote',
+  'dl',
+  'dt',
+  'dd',
+  'kbd',
+  'q',
+  'samp',
+  'var',
+  'hr',
+  'ruby',
+  'rt',
+  'rp',
+  'li',
+  'tr',
+  'td',
+  'th',
+  's',
+  'strike',
+  'summary',
+  'details',
+  'caption',
+  'figure',
+  'figcaption',
+  'abbr',
+  'bdo',
+  'cite',
+  'dfn',
+  'mark',
+  'small',
+  'span',
+  'time',
+  'wbr',
+]
+const allowedAttributes = [
+  'abbr',
+  'accept',
+  'accept-charset',
+  'accesskey',
+  'action',
+  'align',
+  'alt',
+  'aria-describedby',
+  'aria-hidden',
+  'aria-label',
+  'aria-labelledby',
+  'axis',
+  'border',
+  'cellpadding',
+  'cellspacing',
+  'char',
+  'charoff',
+  'charset',
+  'checked',
+  'clear',
+  'cols',
+  'colspan',
+  'color',
+  'compact',
+  'coords',
+  'datetime',
+  'dir',
+  'disabled',
+  'enctype',
+  'for',
+  'frame',
+  'headers',
+  'height',
+  'hreflang',
+  'hspace',
+  'ismap',
+  'label',
+  'lang',
+  'maxlength',
+  'media',
+  'method',
+  'multiple',
+  'name',
+  'nohref',
+  'noshade',
+  'nowrap',
+  'open',
+  'progress',
+  'prompt',
+  'readonly',
+  'rel',
+  'rev',
+  'role',
+  'rows',
+  'rowspan',
+  'rules',
+  'scope',
+  'selected',
+  'shape',
+  'size',
+  'span',
+  'start',
+  'summary',
+  'tabindex',
+  'target',
+  'title',
+  'type',
+  'usemap',
+  'valign',
+  'value',
+  'vspace',
+  'width',
+  'itemprop',
+]
+const voidElements = [
+  'area',
+  'base',
+  'basefont',
+  'br',
+  'col',
+  'command',
+  'embed',
+  'frame',
+  'hr',
+  'img',
+  'input',
+  'isindex',
+  'keygen',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr',
+]
+
+function sanitizeHTML(src: string) {
+  const stack: string[] = []
+  let result = ''
+  const htmlParser = new HTMLParser({
+    onopentag(tagName, attribs) {
+      if (/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) && Object.keys(attribs).length === 1) {
+        result += `<${tagName}//${Object.keys(attribs).join(' ')}>`
+        return
+      } else if (!allowedTags.includes(tagName)) {
+        result += encodeHTML(
+          '<' +
+            tagName +
+            Object.entries(attribs)
+              .map(([k, v]) => ` ${k}="${v.replaceAll(/"/g, '&quot;')}"`)
+              .join('') +
+            '>'
+        )
+        return
+      } else {
+        result += '<' + tagName
+        Object.entries(attribs).forEach(([attrName, attrValue]) => {
+          const addAttr = (encode = false) => {
+            const v = encode ? attrValue.replaceAll(/"/g, '&quot;') : attrValue
+            result += attrValue ? ` ${attrName}="${v}"` : ` ${attrName}`
           }
-          break
-        }
-        case 'img': {
-          switch (v.name) {
-            case 'src':
-            case 'longdesc':
-              if (new URL(v.value).protocol.match(/^(https?):$/)) return
-              break
+          try {
+            switch (tagName) {
+              case 'a': {
+                switch (attrName) {
+                  case 'href':
+                    if (new URL(attrValue).protocol.match(/^(https?|ftps?|mailto|xmpp|ircs?):$/)) addAttr(true)
+                    break
+                }
+                break
+              }
+              case 'img': {
+                switch (attrName) {
+                  case 'src':
+                  case 'longdesc':
+                    if (new URL(attrValue).protocol.match(/^(https?):$/)) addAttr(true)
+                    break
+                }
+                break
+              }
+              case 'div': {
+                switch (attrName) {
+                  case 'itemscope':
+                  case 'itemtype':
+                    addAttr()
+                }
+                break
+              }
+              case 'blockquote':
+              case 'del':
+              case 'ins':
+              case 'q': {
+                switch (attrName) {
+                  case 'cite':
+                    if (new URL(attrValue).protocol.match(/^(https?):$/)) addAttr(true)
+                    break
+                }
+                break
+              }
+            }
+            if (allowedAttributes.includes(attrName)) addAttr(true)
+          } catch (e) {
+            // do nothing
           }
-          break
-        }
-        case 'div': {
-          switch (v.name) {
-            case 'itemscope':
-            case 'itemtype':
-              return
-          }
-          break
-        }
-        case 'blockquote':
-        case 'del':
-        case 'ins':
-        case 'q': {
-          switch (v.name) {
-            case 'cite':
-              if (new URL(v.value).protocol.match(/^(https?):$/)) return
-              break
-          }
-          break
+        })
+        if (voidElements.includes(tagName)) {
+          result += ' />'
+        } else {
+          result += '>'
+          stack.push(tagName)
         }
       }
-      if (
-        [
-          'abbr',
-          'accept',
-          'accept-charset',
-          'accesskey',
-          'action',
-          'align',
-          'alt',
-          'aria-describedby',
-          'aria-hidden',
-          'aria-label',
-          'aria-labelledby',
-          'axis',
-          'border',
-          'cellpadding',
-          'cellspacing',
-          'char',
-          'charoff',
-          'charset',
-          'checked',
-          'clear',
-          'cols',
-          'colspan',
-          'color',
-          'compact',
-          'coords',
-          'datetime',
-          'dir',
-          'disabled',
-          'enctype',
-          'for',
-          'frame',
-          'headers',
-          'height',
-          'hreflang',
-          'hspace',
-          'ismap',
-          'label',
-          'lang',
-          'maxlength',
-          'media',
-          'method',
-          'multiple',
-          'name',
-          'nohref',
-          'noshade',
-          'nowrap',
-          'open',
-          'progress',
-          'prompt',
-          'readonly',
-          'rel',
-          'rev',
-          'role',
-          'rows',
-          'rowspan',
-          'rules',
-          'scope',
-          'selected',
-          'shape',
-          'size',
-          'span',
-          'start',
-          'summary',
-          'tabindex',
-          'target',
-          'title',
-          'type',
-          'usemap',
-          'valign',
-          'value',
-          'vspace',
-          'width',
-          'itemprop',
-        ].includes(v.name)
-      )
-        return
-      node.removeAttribute(v.name)
-    } catch (_) {
-      node.removeAttribute(v.name)
-    }
+    },
+    ontext(data: string) {
+      result += data
+    },
+    onclosetag(tagName) {
+      const last = stack[stack.length - 1]
+      if (tagName === last) {
+        result += `</${tagName}>`
+        stack.pop()
+      } else if (!/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) && !voidElements.includes(tagName)) {
+        result += encodeHTML(`</${tagName}>`)
+      }
+    },
   })
-})
-
-DOMPurify.setConfig({
-  ALLOWED_TAGS: [
-    '#text',
-    'h1',
-    'h2',
-    'h3',
-    'h4',
-    'h5',
-    'h6',
-    'h7',
-    'h8',
-    'br',
-    'b',
-    'i',
-    'strong',
-    'em',
-    'a',
-    'pre',
-    'code',
-    'img',
-    'tt',
-    'div',
-    'ins',
-    'del',
-    'sup',
-    'sub',
-    'p',
-    'ol',
-    'ul',
-    'table',
-    'thead',
-    'tbody',
-    'tfoot',
-    'blockquote',
-    'dl',
-    'dt',
-    'dd',
-    'kbd',
-    'q',
-    'samp',
-    'var',
-    'hr',
-    'ruby',
-    'rt',
-    'rp',
-    'li',
-    'tr',
-    'td',
-    'th',
-    's',
-    'strike',
-    'summary',
-    'details',
-    'caption',
-    'figure',
-    'figcaption',
-    'abbr',
-    'bdo',
-    'cite',
-    'dfn',
-    'mark',
-    'small',
-    'span',
-    'time',
-    'wbr',
-  ],
-})
+  htmlParser.write(src)
+  htmlParser.end()
+  return result
+}
 
 export function render(src: string): string {
   let res
   try {
-    res = markdownIt.render(DOMPurify.sanitize(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face:$1]]'), { last: [] })
+    res = markdownIt.render(sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face:$1]]'), { last: [] })
   } catch (e) {
     res = `Error throwed from Markdown parser:\n${e.name}: ${e.message}`
   }
