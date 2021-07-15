@@ -31,7 +31,7 @@ export default defineConfig(async ({ command, mode }) => {
   const banner = [
     '/*!',
     ` * PatchyVideo/Platinum V${version}(${data.gitLatest.hash.slice(0, 7)})`,
-    ' * MIT License, Copyright (c) 2020-2021 PatchyVideo',
+    ' * MIT License, Copyright (c) 2020-2021 VoileLabs',
     ` * Generated: ${data.date.toISOString()}`,
     ' */',
   ].join()

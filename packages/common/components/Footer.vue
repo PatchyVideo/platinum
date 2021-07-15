@@ -40,7 +40,7 @@
           >({{ Object.values(extensions).length }} extension(s) installed)</span
         ></template
       ><br />
-      © 2020-2021 PatchyVideo
+      © 2020-2021 VoileLabs
     </div>
   </div>
 </template>
