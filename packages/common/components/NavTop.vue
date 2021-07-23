@@ -405,22 +405,18 @@ const listNotice = ref<
 >([])
 const listNoticeCount = ref<number>(0)
 const listNoticeStatus = ref<'loading' | 'result' | 'error'>()
-watch(
-  isLogin,
-  () => {
-    if (isLogin.value === IsLogin.yes && props.fetchNotice)
-      fetchMore({
-        variables: {
-          offset: listNoticeOffset.value,
-          limit: listNoticeLimit.value,
-          listAll: listNoticeAll.value,
-        },
-      })?.then((v) => {
-        result.value = v.data
-      })
-  },
-  { deep: true }
-)
+watch(isLogin, () => {
+  if (isLogin.value === IsLogin.yes)
+    fetchMore({
+      variables: {
+        offset: listNoticeOffset.value,
+        limit: listNoticeLimit.value,
+        listAll: listNoticeAll.value,
+      },
+    })?.then((v) => {
+      result.value = v.data
+    })
+})
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
     query ($offset: Int, $limit: Int, $listAll: Boolean) {
@@ -466,7 +462,7 @@ watchEffect(() => {
 })
 const resultData = useResult(result, null, (data) => data.listNotifications)
 watchEffect(() => {
-  if (resultData.value) {
+  if (resultData.value && props.fetchNotice) {
     listNotice.value = resultData.value.notes
     listNoticeCount.value = resultData.value.count
   } else listNoticeStatus.value = 'error'
@@ -474,9 +470,6 @@ watchEffect(() => {
 onError((err) => {
   // errNotice.value = err.message
   listNoticeStatus.value = 'error'
-})
-watch(listNoticeCount, () => {
-  console.log(listNoticeCount.value)
 })
 
 /* Back to home page */
