@@ -11,12 +11,16 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  fetchNotice: {
+    type: Boolean,
+    default: true,
+  },
   small: {
     type: Boolean,
     default: false,
   },
 })
 
-const navtopProps = reactivePick(props, 'showSearchBar')
+const navtopProps = reactivePick(props, 'showSearchBar', 'fetchNotice')
 const footerProps = reactivePick(props, 'small')
 </script>
