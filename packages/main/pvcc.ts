@@ -7,6 +7,19 @@ declare global {
 }
 
 const PatchyVideo = {
+  toString(): string {
+    return '[object PatchyVideo]'
+  },
+  meta: {
+    /**
+     * version defined in package.json
+     */
+    version: import.meta.env.VITE_APP_VERSION,
+    /**
+     * ISO format of the build timestamp
+     */
+    buildtime: import.meta.env.VITE_APP_BUILDTIME,
+  },
   extension: {
     /**
      * list of registered extension data

@@ -2,7 +2,7 @@
   <LayoutDefault>
     <!-- Main Object -->
     <div v-if="video" class="xl:mx-2">
-      <div class="grid grid-cols-12 grid-flow-row-dense">
+      <div class="grid grid-cols-12 space-x-2 grid-flow-row-dense">
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
@@ -94,19 +94,20 @@
                 <!-- Avatar -->
                 <div class="relative flex-shrink-0">
                   <UserAvatar
-                    class="inline w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-500 object-cover"
+                    class="inline w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                     :image="author.avatar"
                     :gravatar="author.gravatar"
                     :alt="author.name"
                   />
-                  <div
+                </div>
+                <div class="hidden sm:block ml-1.5 overflow-hidden">
+                  <span
                     class="
-                      absolute
+                      inline-block
+                      align-text-bottom
                       px-0.75
-                      -right-1.5
-                      top-0
+                      mr-0.5
                       rounded
-                      lg:transform-gpu lg:rotate-24
                       bg-fuchsia-600
                       text-xs
                       lg:text-sm
@@ -115,10 +116,8 @@
                       overflow-hidden
                     "
                     v-text="author.position"
-                  ></div>
-                </div>
-                <div class="hidden sm:block ml-3 overflow-hidden">
-                  {{ author.name }}
+                  ></span
+                  >{{ author.name }}
                   <br />
                   <div
                     class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
@@ -162,16 +161,7 @@
                   />
                 </div>
               </div>
-              <div
-                v-show="!playlistCollaped"
-                class="
-                  h-full
-                  overflow-y-auto
-                  scrollbar-thin scrollbar-thumb-gray-500
-                  hover:scrollbar-thumb-gray-300
-                  scrollbar-thumb-rounded-full
-                "
-              >
+              <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
                 <RouterLink
                   v-for="(plVideo, plIndex) in playlistVideos"
                   :key="plVideo.video.id.toHexString()"
@@ -215,9 +205,35 @@
               </div>
             </div>
           </Teleport>
+          <!-- Related Video -->
+          <div class="flex flex-col space-y-1 mt-2">
+            <RouterLink
+              v-for="rlVideo in video.relatedVideos"
+              :key="rlVideo.id.toHexString()"
+              :to="'/video/' + rlVideo.id.toHexString()"
+              class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800"
+            >
+              <div class="col-span-2">
+                <div class="aspect-10/16 overflow-hidden rounded-sm">
+                  <img
+                    class="object-cover h-full w-full dark:(filter brightness-80)"
+                    :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
+                  />
+                </div>
+              </div>
+              <div class="col-span-3 flex flex-wrap content-start text-sm">
+                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
+                <div
+                  class="text-sm inline-block w-full truncate text-gray-600 dark:text-gray-300"
+                  v-text="rlVideo.meta.createdBy?.username"
+                ></div>
+              </div>
+            </RouterLink>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Placeholder -->
     <div v-else class="mx-2">
       <div class="grid grid-cols-12 grid-flow-row-dense">
         <div class="col-span-full xl:col-span-9">
@@ -237,14 +253,14 @@
             </div>
           </div>
         </div>
-        <div class="col-span-full xl:col-span-3">
+        <div class="col-span-full xl:col-span-3 space-x-2">
           <!-- Author / Uploader -->
           <div class="flex xl:flex-col justify-start px-1 xl:pt-4">
             <div class="flex items-center flex-nowrap px-1 py-1 xl:w-full">
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
                 <div
-                  class="inline-block w-10 lg:w-16 h-10 lg:h-16 rounded-full bg-gray-400 dark:bg-gray-600 animate-pulse"
+                  class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-400 dark:bg-gray-600 animate-pulse"
                 >
                   &nbsp;
                 </div>
@@ -267,6 +283,26 @@
                     animate-pulse
                   "
                 >
+                  &nbsp;
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Related Video -->
+          <div class="flex flex-col space-y-1 mt-2">
+            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
+              <div class="col-span-2">
+                <div class="aspect-10/16 overflow-hidden rounded-sm">
+                  <div class="object-cover h-full w-full rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">
+                    &nbsp;
+                  </div>
+                </div>
+              </div>
+              <div class="col-span-3 flex flex-wrap content-start text-sm">
+                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600"
+                  >&nbsp;</a
+                >
+                <div class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-400 dark:bg-gray-600">
                   &nbsp;
                 </div>
               </div>
@@ -372,6 +408,18 @@ const { result, loading } = useQuery<Query>(
                   desc
                 }
               }
+            }
+          }
+        }
+        relatedVideos(topK: 20) {
+          id
+          item {
+            title
+            coverImage
+          }
+          meta {
+            createdBy {
+              username
             }
           }
         }
