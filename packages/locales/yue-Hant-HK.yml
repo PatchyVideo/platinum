@@ -268,6 +268,14 @@ video:
   video:
     uploader: 上传者
     no-desc: 呢个人太懒啦，冇写简介
+    repost-type:
+      authorized_repost: 授权转载
+      authorized_translation: 授权翻译
+      official: 原始发布
+      official_repost: 官方再发布
+      repost: 自发搬运
+      translation: 自发翻译
+      unknown: 其他
   player:
     settings:
       default:
