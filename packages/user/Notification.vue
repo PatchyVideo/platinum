@@ -54,11 +54,11 @@
           <div v-for="note in listNote" :key="note.id.id">
             <div
               v-if="note.__typename === 'SystemNotificationObject'"
-              class="m-1 p-2 shadow rounded-md"
+              class="m-1 p-2 shadow rounded-md space-y-2"
               :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
             >
-              <div class="truncate">{{ note.title }}</div>
-              <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
+              <div>{{ note.title }}</div>
+              <div class="text-sm">
                 {{ note.content }}
               </div>
               <div class="text-xs text-gray-600 dark:text-white">
@@ -118,7 +118,19 @@
             @click="changeNoteType('comment_reply')"
           >
             <icon-uil-comment-alt-dots class="inline align-middle w-7 text-lg text-center" />
-            <div>回复我的</div>
+            <div>
+              回复我的<label
+                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
+                class="bg-red-500 text-white text-sm rounded-full px-2"
+                >{{
+                  listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
+                    ? listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
+                    : 0 > 99
+                    ? '99+'
+                    : listNoteCountTypes.find((type) => type.msgtype === 'comment_reply')?.count
+                }}</label
+              >
+            </div>
           </div>
           <div
             class="flex align-middle p-2 rounded-md text-gray-500"
@@ -133,7 +145,19 @@
             @click="changeNoteType('system_message')"
           >
             <icon-uil-volume class="inline align-middle w-7 text-lg text-center" />
-            <div>系统通知</div>
+            <div>
+              系统通知<label
+                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
+                class="bg-red-500 text-white text-sm rounded-full px-2"
+                >{{
+                  listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
+                    ? listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
+                    : 0 > 99
+                    ? '99+'
+                    : listNoteCountTypes.find((type) => type.msgtype === 'system_message')?.count
+                }}</label
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -175,6 +199,7 @@ const listNote = ref<
 >([])
 const listNoteCountAll = ref<number>(0)
 const listNoteCountUnread = ref<number>(0)
+const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[]>([])
 const pageCount = ref<schema.Maybe<number> | undefined>(0)
 const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 
@@ -234,6 +259,12 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
         countUnread
         pageCount
       }
+      listUnreadNotificationsCount {
+        list {
+          msgtype
+          count
+        }
+      }
     }
   `,
   {
@@ -252,13 +283,14 @@ watchEffect(() => {
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-const resultData = useResult(result, null, (data) => data.listNotifications)
+const resultData = useResult(result, null, (data) => data)
 watchEffect(() => {
   if (resultData.value) {
-    listNote.value = resultData.value.notes
-    listNoteCountAll.value = resultData.value.countAll
-    listNoteCountUnread.value = resultData.value.countUnread
-    pageCount.value = resultData.value.pageCount
+    listNote.value = resultData.value.listNotifications.notes
+    listNoteCountAll.value = resultData.value.listNotifications.countAll
+    listNoteCountUnread.value = resultData.value.listNotifications.countUnread
+    listNoteCountTypes.value = resultData.value.listUnreadNotificationsCount.list
+    pageCount.value = resultData.value.listNotifications.pageCount
   } else listNoteStatus.value = 'error'
 })
 onError((err) => {
