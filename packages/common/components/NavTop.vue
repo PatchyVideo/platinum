@@ -43,7 +43,7 @@
           <div class="flex items-center space-x-3">
             <div
               v-if="!screenSizes['<sm']"
-              ref="NoticeBoxBtn"
+              ref="NoteBoxBtn"
               class="
                 flex
                 items-center
@@ -56,14 +56,14 @@
                 transition-colors
                 hover:bg-gray-200 hover:dark:bg-gray-900
               "
-              :class="{ 'bg-gray-200 dark:bg-gray-900': NoticeBoxOpen }"
-              @click="NoticeBoxOpen = true"
+              :class="{ 'bg-gray-200 dark:bg-gray-900': NoteBoxOpen }"
+              @click="NoteBoxOpen = true"
             >
               <icon-uil-envelope />
               <label
-                v-if="listNoticeCount"
+                v-if="listNoteCount"
                 class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
-                >{{ listNoticeCount > 99 ? '99+' : listNoticeCount }}</label
+                >{{ listNoteCount > 99 ? '99+' : listNoteCount }}</label
               >
             </div>
             <div ref="userListBtn">
@@ -74,16 +74,16 @@
                 @click="userListOpen = true"
               ></UserAvatar>
               <label
-                v-if="listNoticeCount && !userListOpen && screenSizes['<sm']"
+                v-if="listNoteCount && !userListOpen && screenSizes['<sm']"
                 class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
               ></label>
             </div>
           </div>
           <!-- Message Box -->
-          <Transition name="NoticeBox">
+          <Transition name="NoteBox">
             <div
-              v-if="NoticeBoxOpen"
-              ref="NoticeBox"
+              v-if="NoteBoxOpen"
+              ref="NoteBox"
               class="
                 z-999
                 absolute
@@ -102,65 +102,65 @@
             >
               通知
               <div v-if="loading">加载中</div>
-              <div v-else-if="listNoticeCount === 0"></div>
+              <div v-else-if="listNoteCount === 0"></div>
               <div v-else>
                 <div class="divide-y-2 max-h-100 overflow-auto">
                   <div
-                    v-for="Notice in listNotice"
-                    :key="Notice.id.id"
+                    v-for="Note in listNote"
+                    :key="Note.id.id"
                     class="hover:bg-gray-50 transition dark:hover:bg-gray-500"
                   >
-                    <div v-if="Notice.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
+                    <div v-if="Note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
                       <router-link class="w-1/6 cursor-pointer" to>
                         <UserAvatar
-                          :title="Notice.repliedBy.username"
-                          :image="Notice.repliedBy.image"
+                          :title="Note.repliedBy.username"
+                          :image="Note.repliedBy.image"
                           class="rounded-full ring-2 ring-white"
                         ></UserAvatar>
                       </router-link>
                       <router-link
                         :to="
-                          (Notice.repliedType === 'forum'
+                          (Note.repliedType === 'forum'
                             ? ''
-                            : Notice.repliedType === 'video'
+                            : Note.repliedType === 'video'
                             ? '/video/'
                             : '/playlist/') +
-                          Notice.repliedObj +
+                          Note.repliedObj +
                           '#' +
-                          Notice.cid
+                          Note.cid
                         "
                         tag="div"
                         class="w-5/6"
                       >
                         <div>
-                          {{ Notice.repliedBy.username + ' 回复了你：' }}
+                          {{ Note.repliedBy.username + ' 回复了你：' }}
                         </div>
                         <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                          {{ Notice.content }}
+                          {{ Note.content }}
                         </div>
                         <div class="text-xs text-gray-600 text-right dark:text-white">
-                          <RelativeDate :date="Notice.time" />
+                          <RelativeDate :date="Note.time" />
                         </div>
                       </router-link>
                     </div>
-                    <div v-else-if="Notice.__typename === 'SystemNotificationObject'" class="p-2">
+                    <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
                       <router-link tag="div" to class="flex items-center space-x-2">
                         <UserAvatar
-                          :title="Notice.title"
+                          :title="Note.title"
                           current="packages/user/assets/DefaultAvatar.jpg"
                           class="w-1/6 rounded-full ring-2 ring-white"
                         ></UserAvatar>
                         <div class="w-5/6">
                           <div class="truncate">
-                            {{ '系统通知：' + Notice.title }}
+                            {{ '系统通知：' + Note.title }}
                           </div>
                           <div
                             class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200"
                           >
-                            {{ Notice.content }}
+                            {{ Note.content }}
                           </div>
                           <div class="text-xs text-gray-600 text-right dark:text-white">
-                            <RelativeDate :date="Notice.time" />
+                            <RelativeDate :date="Note.time" />
                           </div>
                         </div>
                       </router-link>
@@ -202,8 +202,8 @@
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <RouterLink v-if="screenSizes['<sm']" class="block text-center" to="/user/notification">
                   <label>我的消息</label
-                  ><label v-if="listNoticeCount" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                    listNoticeCount > 99 ? '99+' : listNoticeCount
+                  ><label v-if="listNoteCount" class="bg-red-500 text-white text-sm rounded-full px-2">{{
+                    listNoteCount > 99 ? '99+' : listNoteCount
                   }}</label></RouterLink
                 >
                 <RouterLink class="block text-center" to="/user/me">{{
@@ -360,7 +360,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  fetchNotice: {
+  fetchNote: {
     type: Boolean,
     default: true,
   },
@@ -373,15 +373,15 @@ const route = useRoute()
 const userListOpen = ref<boolean>(false)
 const userListBtn = ref<HTMLDivElement | null>(null)
 const userList = ref<HTMLDivElement | null>(null)
-const NoticeBoxOpen = ref<boolean>(false)
-const NoticeBoxBtn = ref<HTMLDivElement | null>(null)
-const NoticeBox = ref<HTMLDivElement | null>(null)
+const NoteBoxOpen = ref<boolean>(false)
+const NoteBoxBtn = ref<HTMLDivElement | null>(null)
+const NoteBox = ref<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e: MouseEvent): void => {
   if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement))) {
     userListOpen.value = false
   }
-  if (!(NoticeBox.value?.contains(e.target as HTMLElement) || NoticeBoxBtn.value?.contains(e.target as HTMLElement))) {
-    NoticeBoxOpen.value = false
+  if (!(NoteBox.value?.contains(e.target as HTMLElement) || NoteBoxBtn.value?.contains(e.target as HTMLElement))) {
+    NoteBoxOpen.value = false
   }
 })
 
@@ -397,21 +397,21 @@ function searchResult(searchContent: string): void {
 }
 
 /* List unread messages */
-const listNoticeOffset = ref<number>(0)
-const listNoticeLimit = ref<number>(10)
-const listNoticeAll = ref<boolean>(false)
-const listNotice = ref<
+const listNoteOffset = ref<number>(0)
+const listNoteLimit = ref<number>(10)
+const listNoteAll = ref<boolean>(false)
+const listNote = ref<
   (schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
 >([])
-const listNoticeCount = ref<number>(0)
-const listNoticeStatus = ref<'loading' | 'result' | 'error'>()
+const listNoteCount = ref<number>(0)
+const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 watch(isLogin, () => {
   if (isLogin.value === IsLogin.yes)
     fetchMore({
       variables: {
-        offset: listNoticeOffset.value,
-        limit: listNoticeLimit.value,
-        listAll: listNoticeAll.value,
+        offset: listNoteOffset.value,
+        limit: listNoteLimit.value,
+        listAll: listNoteAll.value,
       },
     })?.then((v) => {
       result.value = v.data
@@ -446,30 +446,30 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     }
   `,
   {
-    offset: listNoticeOffset.value,
-    limit: listNoticeLimit.value,
-    listAll: listNoticeAll.value,
+    offset: listNoteOffset.value,
+    limit: listNoteLimit.value,
+    listAll: listNoteAll.value,
   }
 )
 watchEffect(() => {
   if (loading.value) {
-    listNoticeStatus.value = 'loading'
+    listNoteStatus.value = 'loading'
     if (!NProgress.isStarted()) NProgress.start()
   } else {
-    listNoticeStatus.value = 'result'
+    listNoteStatus.value = 'result'
     if (NProgress.isStarted()) NProgress.done()
   }
 })
 const resultData = useResult(result, null, (data) => data.listNotifications)
 watchEffect(() => {
-  if (resultData.value && props.fetchNotice) {
-    listNotice.value = resultData.value.notes
-    listNoticeCount.value = resultData.value.count
-  } else listNoticeStatus.value = 'error'
+  if (resultData.value && props.fetchNote) {
+    listNote.value = resultData.value.notes
+    listNoteCount.value = resultData.value.count
+  } else listNoteStatus.value = 'error'
 })
 onError((err) => {
-  // errNotice.value = err.message
-  listNoticeStatus.value = 'error'
+  // errNote.value = err.message
+  listNoteStatus.value = 'error'
 })
 
 /* Back to home page */
