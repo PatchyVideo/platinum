@@ -9,7 +9,7 @@
           <div>回复我的</div>
           <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
         </div>
-        <div v-for="note in listNote" :key="note.id.id">
+        <div v-for="note in listNote" :key="note.id.toHexString()">
           <div
             v-if="note.__typename === 'ReplyNotificationObject'"
             class="flex items-center m-1 p-2 shadow rounded-md"
@@ -31,6 +31,8 @@
               "
               tag="div"
               class="w-5/6"
+              @click="markAsRead(false, note.__typename, [note.id.toHexString()])"
+              @click.middle="markAsRead(false, note.__typename, [note.id.toHexString()])"
             >
               <div>
                 {{ note.repliedBy.username + ' 回复了你：' }}
@@ -51,7 +53,7 @@
           <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
         </div>
         <div class="divide-y-2">
-          <div v-for="note in listNote" :key="note.id.id">
+          <div v-for="note in listNote" :key="note.id.toHexString()">
             <div
               v-if="note.__typename === 'SystemNotificationObject'"
               class="m-1 p-2 shadow rounded-md space-y-2"
@@ -234,7 +236,7 @@
             <div>回复我的</div>
             <div class="text-sm cursor-pointer" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
           </div>
-          <div v-for="note in listNote" :key="note.id.id">
+          <div v-for="note in listNote" :key="note.id.toHexString()">
             <div
               v-if="note.__typename === 'ReplyNotificationObject'"
               class="flex items-center m-1 p-2 shadow rounded-md"
@@ -256,6 +258,8 @@
                 "
                 tag="div"
                 class="w-9/10 xl:w-14/15"
+                @click="markAsRead(false, note.__typename, [note.id.toHexString()])"
+                @click.middle="markAsRead(false, note.__typename, [note.id.toHexString()])"
               >
                 <div>
                   {{ note.repliedBy.username + ' 回复了你：' }}
@@ -276,10 +280,10 @@
             <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
           </div>
           <div class="divide-y-2">
-            <div v-for="note in listNote" :key="note.id.id">
+            <div v-for="note in listNote" :key="note.id.toHexString()">
               <div
                 v-if="note.__typename === 'SystemNotificationObject'"
-                class="m-1 p-2 shadow rounded-md space-y-2"
+                class="m-1 p-2 shadow rounded-md space-y-2 cursor-pointer"
                 :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
               >
                 <div>{{ note.title }}</div>
@@ -311,11 +315,12 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import { ref, watchEffect, computed, watch } from 'vue'
+import { markAsReadStatus } from './lib/markAsRead'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { useQuery, gql, useResult } from '@/graphql'
-import type { schema, Query } from '@/graphql'
+import { useQuery, useMutation, gql, useResult } from '@/graphql'
+import type { schema, Query, Mutation } from '@/graphql'
 import NProgress from 'nprogress'
 import { screenSizes } from '@/tailwindcss'
 
@@ -331,7 +336,7 @@ const listNote = ref<
 >([])
 const listNoteCountAll = ref<number>(0)
 const listNoteCountUnread = ref<number>(0)
-const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[]>([])
+const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[] | undefined>([])
 const pageCount = ref<schema.Maybe<number> | undefined>(0)
 const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 
@@ -349,8 +354,12 @@ const noteType = computed(() => {
   )
 })
 
+/* Query for notifications */
 const URLQuery = computed(() => route.query)
-watch(URLQuery, () => {
+watch(URLQuery, async () => {
+  await (() => {
+    markAsReadStatus.value === 'result'
+  })
   fetchMore({
     variables: {
       offset: offset.value * limit.value,
@@ -415,20 +424,39 @@ watchEffect(() => {
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-const resultData = useResult(result, null, (data) => data)
+const listNotifications = useResult(result, null, (data) => data?.listNotifications)
+const listUnreadNotificationsCount = useResult(result, null, (data) => data?.listUnreadNotificationsCount)
 watchEffect(() => {
-  if (resultData.value) {
-    listNote.value = resultData.value.listNotifications.notes
-    listNoteCountAll.value = resultData.value.listNotifications.countAll
-    listNoteCountUnread.value = resultData.value.listNotifications.countUnread
-    listNoteCountTypes.value = resultData.value.listUnreadNotificationsCount.list
-    pageCount.value = resultData.value.listNotifications.pageCount
+  if (listNotifications.value) {
+    listNote.value = listNotifications.value.notes
+    listNoteCountAll.value = listNotifications.value.countAll
+    listNoteCountUnread.value = listNotifications.value.countUnread
+    listNoteCountTypes.value = listUnreadNotificationsCount.value?.list
+    pageCount.value = listNotifications.value.pageCount
   } else listNoteStatus.value = 'error'
 })
 onError((err) => {
   // errNote.value = err.message
   listNoteStatus.value = 'error'
 })
+
+/* Mutation for notifications read */
+const { mutate } = useMutation<Mutation>(
+  gql`
+    mutation ($markAll: Boolean, $noteType: String, $noteIds: [String!]) {
+      markAsRead(para: { markAll: $markAll, noteType: $noteType, noteIds: $noteIds }) {
+        empty
+      }
+    }
+  `
+)
+function markAsRead(markAll = false, noteType: string, noteId: string[]): void {
+  // Because it doesn't matter wether it returns successful or not, we just assume that it returns success
+  // So that to avoid two 'loading' variables
+  // listNote.value.find((note) => note.id.toHexString() === noteId)!.read = true
+  mutate({ markAll: markAll, noteType: noteType, noteIds: noteId })
+  if (markAll) location.reload
+}
 
 /* Change the router query to trigger the search function */
 function jumpToPreviousPage(): void {
