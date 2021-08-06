@@ -12,16 +12,15 @@
               v-text="video.item.title"
             ></h1>
             <div class="text-gray-600 dark:text-gray-300">
-              {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType) }}
-              <span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span>
-              <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense
-              ><template v-if="user.isAdmin">
-                <icon-uil-eye-slash
+              {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)
+              }}<span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span
+              ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
+              ><template v-if="user.isAdmin"
+                ><icon-uil-eye-slash
                   v-if="isLogin === IsLogin.yes"
                   class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
-                  @click="hideVideo" /><span v-if="hideVideoResult" v-text="hideVideoResult"></span
-              ></template>
-              <icon-uil-pen
+                  @click="hideVideo" /><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
+              ><icon-uil-pen
                 v-if="isLogin === IsLogin.yes"
                 class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
                 @click="popEditVideoWindow"
