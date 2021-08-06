@@ -42,7 +42,7 @@
         <div v-else class="relative">
           <div class="flex items-center space-x-3">
             <div
-              v-if="!screenSizes['<sm']"
+              v-if="!screenSizes['<sm'] && props.fetchNote"
               ref="NoteBoxBtn"
               class="
                 flex
@@ -81,7 +81,9 @@
           </div>
           <!-- Note Box -->
           <Transition name="NoteBox">
-            <NoteBoxNavTop />
+            <div v-show="NoteBoxOpen" ref="NoteBox">
+              <NoteBoxNavTop v-model:list-note-count-unread="listNoteCountUnread" />
+            </div>
           </Transition>
           <!-- User List -->
           <Transition name="userList">
@@ -112,7 +114,11 @@
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
-                <RouterLink v-if="screenSizes['<sm']" class="block text-center" to="/user/notification">
+                <RouterLink
+                  v-if="screenSizes['<sm'] && props.fetchNote"
+                  class="block text-center"
+                  to="/user/notification"
+                >
                   <label>我的消息</label
                   ><label v-if="listNoteCountUnread" class="bg-red-500 text-white text-sm rounded-full px-2">{{
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
@@ -259,7 +265,6 @@ import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
 import { isDark } from '@/darkmode'
 import { locale, messages } from '@/locales'
-import { listNoteCountUnread } from '@/user-notification/lib/listNotifications'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { screenSizes } from '@/tailwindcss'
 import { progressing } from '@/common/lib/progressing'
@@ -294,6 +299,9 @@ useEventListener(document, 'click', (e: MouseEvent): void => {
     NoteBoxOpen.value = false
   }
 })
+
+/* Notifications */
+const listNoteCountUnread = ref(0)
 
 /* Drawer Operation */
 const drawerOpen = ref<boolean | undefined>()

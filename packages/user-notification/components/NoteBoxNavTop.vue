@@ -19,9 +19,10 @@
   >
     通知
     <div v-if="loading">加载中</div>
+    <div v-else-if="listNoteStatus === 'error'">{{ '加载出错了QAQ，错误原因：' + errMsg }}</div>
     <div v-else-if="listNoteCountUnread === 0">没有新消息哦</div>
     <div v-else>
-      <div class="divide-y-2 max-h-100 overflow-auto">
+      <div class="divide-y-2 max-h-110 overflow-auto">
         <div v-for="Note in listNote" :key="Note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
           <div v-if="Note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
             <router-link class="w-1/6 cursor-pointer" to>
@@ -81,5 +82,92 @@
 
 <script lang="ts" setup>
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import { loading, listNoteCountUnread, listNote } from '@/user-notification/lib/listNotifications'
+import UserAvatar from '@/user/components/UserAvatar.vue'
+import { isLogin, IsLogin } from '@/user'
+import { markAsReadStatus } from '@/user-notification/lib/markAsRead'
+import { useQuery, gql, useResult } from '@/graphql'
+import { ref, watchEffect, defineProps, defineEmits } from 'vue'
+import { useVModel } from '@vueuse/core'
+import type { schema, Query } from '@/graphql'
+
+const props = defineProps({
+  listNoteCountUnread: {
+    type: Number,
+    default: 0,
+  },
+})
+const emit = defineEmits<{
+  (event: 'update:listNoteCountUnread', value: number): void
+}>()
+
+const listNoteCountUnread = useVModel(props, 'listNoteCountUnread', emit)
+
+const listNoteAll = ref<boolean>(false)
+const listNote = ref<
+  (schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
+>([])
+const listNoteStatus = ref<'loading' | 'result' | 'error'>()
+
+/* Precess URL query */
+const limit = ref(5)
+const offset = ref(0)
+const noteType = ref('all')
+const { result, loading, onError } = useQuery<Query>(
+  gql`
+    query ($offset: Int, $limit: Int, $listAll: Boolean, $noteType: String) {
+      listNotifications(para: { offset: $offset, limit: $limit, listAll: $listAll, noteType: $noteType }) {
+        notes {
+          id
+          read
+          ... on ReplyNotificationObject {
+            cid
+            repliedBy {
+              id
+              username
+              image
+            }
+            time
+            repliedObj
+            repliedType
+            content
+          }
+          ... on SystemNotificationObject {
+            time
+            title
+            content
+          }
+        }
+        countUnread
+      }
+    }
+  `,
+  {
+    offset: offset.value * limit.value,
+    limit: limit.value,
+    listAll: listNoteAll.value,
+    noteType: noteType.value,
+  },
+  () => ({
+    enabled: isLogin.value === IsLogin.yes && markAsReadStatus.value != 'loading',
+  })
+)
+watchEffect(() => {
+  if (loading.value) {
+    listNoteStatus.value = 'loading'
+  } else {
+    listNoteStatus.value = 'result'
+  }
+})
+const listNotifications = useResult(result, null, (data) => data?.listNotifications)
+watchEffect(() => {
+  if (listNotifications.value) {
+    listNote.value = listNotifications.value.notes
+    listNoteCountUnread.value = listNotifications.value.countUnread
+  } else listNoteStatus.value = 'error'
+})
+const errMsg = ref('')
+onError((err) => {
+  errMsg.value = err.message
+  listNoteStatus.value = 'error'
+})
 </script>
