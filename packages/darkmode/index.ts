@@ -1,8 +1,11 @@
-import { usePreferredDark } from '@vueuse/core'
-import { ref, watchEffect } from 'vue'
+import { useLocalStorage, usePreferredDark } from '@vueuse/core'
+import { ref, watch } from 'vue'
 
 const htmlRoot = document.querySelector('html')
 const themeMeta = document.querySelector('meta[name="color-scheme"]')
+
+const themePreference = useLocalStorage('themePreference', '', { listenToStorageChanges: true, flush: 'post' })
+const themes = ['light', 'dark']
 
 function updateDOM(v: boolean) {
   if (v) {
@@ -16,25 +19,30 @@ function updateDOM(v: boolean) {
 
 export const isDark = ref(false)
 
-if ('themePreference' in localStorage) {
-  isDark.value = localStorage.getItem('themePreference') === 'dark'
-} else {
-  isDark.value = usePreferredDark().value
-}
-
-function setIsDark(v: boolean) {
-  if ('themePreference' in localStorage && v === usePreferredDark().value) {
-    localStorage.removeItem('themePreference')
-  } else if (v !== usePreferredDark().value) {
-    localStorage.setItem('themePreference', v ? 'dark' : 'light')
-  }
-  updateDOM(v)
-  isDark.value = v
-}
-
-watchEffect(
+watch(
+  [themePreference],
   () => {
-    setIsDark(isDark.value)
+    if (themes.includes(themePreference.value)) {
+      isDark.value = themePreference.value === 'dark'
+    } else {
+      isDark.value = usePreferredDark().value
+    }
+  },
+  {
+    flush: 'post',
+    immediate: true,
+  }
+)
+
+watch(
+  [isDark],
+  () => {
+    if (themes.includes(themePreference.value) && isDark.value === usePreferredDark().value) {
+      themePreference.value = ''
+    } else if (isDark.value !== usePreferredDark().value) {
+      themePreference.value = isDark.value ? 'dark' : 'light'
+    }
+    updateDOM(isDark.value)
   },
   {
     flush: 'post',

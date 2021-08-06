@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '../lib/parser'
 

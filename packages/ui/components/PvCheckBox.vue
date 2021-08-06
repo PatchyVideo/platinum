@@ -43,7 +43,6 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import { defineEmits, defineProps } from 'vue'
 import type { PropType } from 'vue'
 
 const props = defineProps({

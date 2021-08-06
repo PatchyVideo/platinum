@@ -274,6 +274,11 @@ video:
       authorized_translation: 授权翻译
       translation: 自发翻译
       unknown: 其他
+    ranks:
+      0: 仅管理员可见
+      1: 登录用户可见
+      2: 发布者和管理员可见
+      3: 所有人可见
     uploader: 上传者
     no-desc: 这个人太懒啦，并没有写简介
   player:

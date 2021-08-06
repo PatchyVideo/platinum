@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps, ref } from 'vue'
+import { computed, ref } from 'vue'
 import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
 
 const props = defineProps<{
@@ -17,8 +17,7 @@ const imgs = computed(() => {
   const imgs: string[] = []
   if (props.current) imgs.push(props.current)
   if (props.image && props.image !== 'default') imgs.push(`https://patchyvideo.com/be/images/userphotos/${props.image}`)
-  if (props.gravatar && props.gravatar.length === 32)
-    imgs.push(`https://gravatar.com/avatar/${props.gravatar}?d=404`)
+  if (props.gravatar && props.gravatar.length === 32) imgs.push(`https://gravatar.com/avatar/${props.gravatar}?d=404`)
   imgs.push(defaultAvatar)
   return imgs
 })

@@ -94,6 +94,9 @@
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+            <span v-if="video.clearence === 0" class="ml-2"
+              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
+            /></span>
           </div>
         </div>
       </RouterLink>
@@ -129,6 +132,9 @@
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+            <span v-if="video.clearence === 0" class="ml-2"
+              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
+            /></span>
           </div>
         </div>
       </RouterLink>
@@ -137,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, ref, watch, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'
 import { useVModels } from '@vueuse/core'
@@ -233,6 +239,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             partName
             url
           }
+          clearence
         }
       }
     }

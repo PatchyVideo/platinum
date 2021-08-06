@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, defineProps, computed } from 'vue'
+import { onMounted, onUnmounted, reactive, computed } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'

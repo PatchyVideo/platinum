@@ -3,7 +3,6 @@
 <script lang="ts" setup>
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import { defineProps } from 'vue'
 import { reactivePick } from '@vueuse/shared'
 
 const props = defineProps({

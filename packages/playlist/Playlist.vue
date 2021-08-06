@@ -179,7 +179,6 @@ const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isInt
       },
     })?.then((v) => {
       // playlist is not null, so result must be not null.
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       result.value!.getPlaylist.videos.concat(v.data.getPlaylist.videos)
       nextTick(() => {
         fetchingMore.value = false

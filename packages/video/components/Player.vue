@@ -206,9 +206,8 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
-import { computed, ref, nextTick, onMounted, watch, defineProps, watchEffect, onUnmounted } from 'vue'
+import { computed, ref, nextTick, onMounted, watch, watchEffect, onUnmounted } from 'vue'
 import {
   useElementBounding,
   useEventListener,

@@ -6,10 +6,26 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg" v-text="video.item.title"></h1>
+            <h1
+              class="mt-1 lg:text-lg"
+              :class="{ '-ml-2': video.item.title.startsWith('【') }"
+              v-text="video.item.title"
+            ></h1>
             <div class="text-gray-600 dark:text-gray-300">
               {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType) }}
-              <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
+              <span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span>
+              <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense
+              ><template v-if="user.isAdmin">
+                <icon-uil-eye-slash
+                  v-if="isLogin === IsLogin.yes"
+                  class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
+                  @click="hideVideo" /><span v-if="hideVideoResult" v-text="hideVideoResult"></span
+              ></template>
+              <icon-uil-pen
+                v-if="isLogin === IsLogin.yes"
+                class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
+                @click="popEditVideoWindow"
+              />
             </div>
           </div>
           <!-- Video Player -->
@@ -41,20 +57,21 @@
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
               <div class="mx-2">
                 <UserAvatar
-                  class="inline w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-                  :image="comment.author.image"
-                  :gravatar="comment.author.gravatar"
-                  :alt="comment.author.username"
+                  class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
+                  :image="comment.meta.createdBy.image"
+                  :gravatar="comment.meta.createdBy.gravatar"
+                  :alt="comment.meta.createdBy.username"
                 />
               </div>
               <div>
-                <span class="text-sm font-medium" v-text="comment.author.username"></span
-                ><Suspense
-                  ><RelativeDate
-                    class="text-xs text-gray-500 dark:text-gray-400 ml-1.5"
-                    :date="comment.createdAt" /></Suspense
-                ><br />
-                <MarkdownBlock class="min-h-8" :text="comment.content" size="md" />
+                <div>
+                  <span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span
+                  ><span class="text-xs text-gray-500 dark:text-gray-400"
+                    ><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense
+                    ><span v-if="comment.edited" class="ml-1.5">edited</span></span
+                  >
+                </div>
+                <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
                 <div
                   v-for="child in comment.children"
                   :key="child.id.toHexString()"
@@ -62,19 +79,21 @@
                 >
                   <div class="mt-1 mr-2">
                     <UserAvatar
-                      class="inline w-8 h-8 rounded-full object-cover"
-                      :image="child.author.image"
-                      :gravatar="child.author.gravatar"
-                      :alt="child.author.username"
+                      class="inline-block w-8 h-8 rounded-full object-cover"
+                      :image="child.meta.createdBy.image"
+                      :gravatar="child.meta.createdBy.gravatar"
+                      :alt="child.meta.createdBy.username"
                     />
                   </div>
                   <div>
-                    <span class="font-medium" v-text="child.author.username"></span
-                    ><Suspense
-                      ><RelativeDate
-                        class="text-xs text-gray-500 dark:text-gray-400 ml-2"
-                        :date="child.createdAt" /></Suspense
-                    ><br />
+                    <div>
+                      <span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span
+                      ><Suspense
+                        ><RelativeDate
+                          class="text-xs text-gray-500 dark:text-gray-400 ml-2"
+                          :date="child.meta.createdAt"
+                      /></Suspense>
+                    </div>
                     <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
                   </div>
                 </div>
@@ -325,18 +344,20 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
 import NProgress from 'nprogress'
-import { useQuery, gql, useResult } from '@/graphql'
-import type { schema, Query } from '@/graphql'
+import { useQuery, gql, useResult, useMutation } from '@/graphql'
+import type { schema, Query, Mutation } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/tailwindcss'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
 import { useLocalStorage } from '@vueuse/core'
+import { isLogin, IsLogin, user } from '@/user/index'
+import { openWindow } from '@/nested'
 
 const { t } = useI18n()
+const route = useRoute()
 
 /* submit query */
-const route = useRoute()
 const vid = computed(() => route.params.vid as string)
 const pid = computed(() => (Array.isArray(route.query.list) ? route.query.list[0] : route.query.list))
 const { result, loading } = useQuery<Query>(
@@ -385,6 +406,9 @@ const { result, loading } = useQuery<Query>(
           comments {
             id
             content
+            hidden
+            deleted
+            edited
             meta {
               createdAt
               createdBy {
@@ -398,6 +422,9 @@ const { result, loading } = useQuery<Query>(
             children {
               id
               content
+              hidden
+              deleted
+              edited
               meta {
                 createdAt
                 createdBy {
@@ -423,6 +450,7 @@ const { result, loading } = useQuery<Query>(
             }
           }
         }
+        clearence
       }
       listAdjacentVideos(para: { pid: $pid, vid: $vid, k: 200 }) @include(if: $fetchPlaylist) {
         video {
@@ -520,66 +548,21 @@ const regularTags = computed(() =>
 )
 
 /* comments */
-interface Comment {
-  id: ObjectID
-  createdAt: Date
-  content: string
-  author: {
-    id: ObjectID
-    username: string
-    image: string
-    gravatar?: string
-    desc: string
-  }
-  hidden?: boolean
+type Comment = schema.Comment & {
+  content: NonNullable<schema.Comment['content']>
+  meta: schema.Meta & { createdBy: NonNullable<schema.Meta['createdBy']> }
+  deleted: false
   children?: Comment[]
 }
-const comments = computed(() =>
-  video.value?.commentThread?.comments
-    ? (video.value.commentThread.comments
-        .map(
-          (comment) =>
-            comment.content &&
-            comment.meta.createdBy &&
-            !comment.deleted && {
-              id: comment.id,
-              createdAt: comment.meta.createdAt,
-              content: comment.content,
-              author: {
-                id: comment.meta.createdBy.id,
-                username: comment.meta.createdBy.username,
-                image: comment.meta.createdBy.image,
-                gravatar: comment.meta.createdBy.gravatar || undefined,
-                desc: comment.meta.createdBy.desc,
-              },
-              hidden: comment.hidden,
-              children: (() => {
-                const children: Comment[] = []
-
-                if (comment.children)
-                  comment.children.forEach((comment) => {
-                    if (comment.content && comment.meta.createdBy)
-                      children.push({
-                        id: comment.id,
-                        createdAt: comment.meta.createdAt,
-                        content: comment.content,
-                        author: {
-                          id: comment.meta.createdBy.id,
-                          username: comment.meta.createdBy.username,
-                          image: comment.meta.createdBy.image,
-                          gravatar: comment.meta.createdBy.gravatar || undefined,
-                          desc: comment.meta.createdBy.desc,
-                        },
-                        hidden: comment.hidden,
-                      })
-                  })
-
-                return children
-              })(),
-            }
-        )
-        .filter((v) => !!v) as Comment[])
-    : []
+const comments = computed(
+  () =>
+    (video.value?.commentThread?.comments
+      ?.filter((v) => v.content && v.meta.createdBy && !v.deleted)
+      .map((comment) => ({
+        ...comment,
+        children: comment.children?.filter((v) => v.content && v.meta.createdBy && !v.deleted),
+      }))
+      .filter((v) => !!v) as Comment[]) ?? []
 )
 
 const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
@@ -587,14 +570,43 @@ const mobilePlaylistTarget = ref<HTMLDivElement | null>(null)
 
 const playlist = useResult(result, null, (data) => data?.getPlaylist)
 const playlistVideos = useResult(result, null, (data) => data?.listAdjacentVideos)
-const playlistIndex = computed(
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  () =>
-    video.value && playlistVideos.value
-      ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
-      : -1
+const playlistIndex = computed(() =>
+  video.value && playlistVideos.value
+    ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
+    : -1
 )
 const playlistCollaped = ref(!screenSizes.xl)
 
 const renderTagAsPlainText = useLocalStorage('video_tag_render_as_plain_text', false)
+
+const editVideoWindow = ref<Window | null>(null)
+const popEditVideoWindow = () => {
+  if (editVideoWindow.value && !editVideoWindow.value.closed) {
+    editVideoWindow.value.focus()
+  }
+  const { window: win } = openWindow({
+    url: '/edit-video/' + vid.value,
+  })
+  editVideoWindow.value = win
+}
+
+const clearence = computed(() => video.value?.clearence ?? 3)
+
+const { mutate: mutateHideVideo } = useMutation<Mutation>(gql`
+  mutation ($vid: String!) {
+    setVideoClearence(para: { clearence: 0, vid: $vid })
+  }
+`)
+const hideVideoResult = ref('')
+const hideVideo = () => {
+  hideVideoResult.value = '保存中'
+  mutateHideVideo({ vid: vid.value })
+    .then(() => {
+      hideVideoResult.value = '保存成功!'
+    })
+    .catch((e) => {
+      console.error(e)
+      hideVideoResult.value = '保存失败:' + e.message ?? e
+    })
+}
 </script>
