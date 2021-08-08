@@ -276,6 +276,11 @@ video:
       repost: 自发搬运
       translation: 自发翻译
       unknown: 其他
+    ranks:
+      '0': 只有管理员先可以睇
+      '1': 登录咗嘅用户先可以睇
+      '2': 发布嘅人同管理员先可以睇
+      '3': 全部人都可以睇到
   player:
     settings:
       default:
