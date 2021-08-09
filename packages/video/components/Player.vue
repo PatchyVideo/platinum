@@ -303,6 +303,7 @@ type SettingsCheck = {
 type VideoItem = {
   title: string
   url: string
+  site: string
 }
 
 const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
@@ -715,25 +716,32 @@ useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
 const { isFullscreen, toggle: onFullscreen } = useFullscreen(root)
 
 /* iframe mode */
-const iframeUrl = computed(() => {
-  if (url.value) {
-    let regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
-    let regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
-    let regYtb = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
-    let regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
-    let r: RegExpExecArray | null
-    if ((r = regBili.exec(url.value))) return `//player.bilibili.com/player.html?aid=${r[2]}&page=${r[3]}`
-    if ((r = regNico.exec(url.value))) return `//embed.nicovideo.jp/watch/sm${r[2]}`
-    if ((r = regYtb.exec(url.value))) return `https://www.youtube.com/embed/${r[2]}`
-    if ((r = regAcf.exec(url.value)) !== null) return `https://www.acfun.cn/player/ac${r[2]}`
+const iframeUrl = ref('')
+function getIframeUrl(url: string) {
+  let regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
+  let regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
+  let regYtb = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
+  let regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
+  let r: RegExpExecArray | null
+  if ((r = regBili.exec(url))) return `//player.bilibili.com/player.html?aid=${r[2]}&page=${r[3]}`
+  if ((r = regNico.exec(url))) return `//embed.nicovideo.jp/watch/sm${r[2]}`
+  if ((r = regYtb.exec(url))) return `https://www.youtube.com/embed/${r[2]}`
+  if ((r = regAcf.exec(url))) return `https://www.acfun.cn/player/ac${r[2]}`
+  return
+}
+function loadIframe(url: string) {
+  log(t('video.player.iframe.enable') + '\n')
+  const iurl = getIframeUrl(url)
+  if (!iurl) {
+    log(t('video.player.iframe.failed') + '\n')
+    return false
   }
-  return ''
-})
-const enableIframe = () => {
-  log(t('video.player.enable-iframe') + '\n')
+  iframeUrl.value = iurl
   usePlayer.value = 'iframe'
+  return true
 }
 
+/* stream mode */
 const isContainerSupported = (container: string, codecs?: string, isAudio = false) => {
   if (['flv'].includes(container)) return true
   return window.MediaSource.isTypeSupported(getMIME(container, codecs, isAudio))
@@ -747,7 +755,7 @@ let flvPlayer: FlvJs.Player | undefined
 onUnmounted(() => {
   flvPlayer?.destroy()
 })
-const playStream = async (quality: string) => {
+async function playStream(quality: string) {
   if (!video.value || !audio.value)
     await new Promise<void>((r) => {
       watch(
@@ -766,8 +774,7 @@ const playStream = async (quality: string) => {
       streams.value.find((s) => isContainerSupported(s.container, s.vcodec))
     if (!stream) {
       log(t('video.player.play-stream.source.video.source-nothing') + '\n')
-      enableIframe()
-      return
+      return false
     }
     const audioStream = stream.audioStreams
       ? stream.audioStreams
@@ -778,38 +785,36 @@ const playStream = async (quality: string) => {
       : undefined
     if (stream.audioStreams && !audioStream) {
       log(t('video.player.play-stream.source.audio.source-nothing') + '\n')
-      enableIframe()
-      return
+      return false
     }
     console.log(stream, audioStream)
     try {
       switch (stream.container) {
         case 'flv': {
           log(t('video.player.play-stream.container.flv.player-loading') + '\n')
-          import('flv.js')
-            .then((module) => {
-              const flvjs = module.default
-              log(t('video.player.play-stream.container.flv.parse-creating') + '\n')
-              if ('createPlayer' in flvjs) {
-                flvPlayer = flvjs.createPlayer({
-                  type: 'flv',
-                  url: stream.src[0].replace(/^http:/, 'https:'),
-                })
-                flvPlayer.attachMediaElement(video.value!)
-                log(t('video.player.play-stream.container.flv.source-loading') + '\n')
-                flvPlayer.load()
-                flvPlayer.on('metadata_arrived', () => {
-                  log(t('video.player.play-stream.container.flv.player-loaded') + '\n')
-                  videoElementReady.value = true
-                })
-                hasAudioStream.value = false
-              }
-            })
-            .catch((e) => {
-              log(t('video.player.play-stream.container.flv.player-failed') + '\n' + e + '\n')
-              enableIframe()
-            })
-          break
+          try {
+            const module = await import('flv.js')
+            const flvjs = module.default
+            log(t('video.player.play-stream.container.flv.parse-creating') + '\n')
+            if ('createPlayer' in flvjs) {
+              flvPlayer = flvjs.createPlayer({
+                type: 'flv',
+                url: stream.src[0].replace(/^http:/, 'https:'),
+              })
+              flvPlayer.attachMediaElement(video.value!)
+              log(t('video.player.play-stream.container.flv.source-loading') + '\n')
+              flvPlayer.load()
+              flvPlayer.on('metadata_arrived', () => {
+                log(t('video.player.play-stream.container.flv.player-loaded') + '\n')
+                videoElementReady.value = true
+              })
+              hasAudioStream.value = false
+            }
+          } catch (e) {
+            log(t('video.player.play-stream.container.flv.player-failed') + '\n' + e + '\n')
+            return false
+          }
+          return true
         }
         case 'webm_dash':
         case 'mp4_dash': {
@@ -828,93 +833,107 @@ const playStream = async (quality: string) => {
             hasAudioStream.value = true
           }
           video.value.load()
-          break
+          return true
         }
       }
     } catch (e) {
       log(t('video.player.play-stream.container.failed') + '\n' + e + '\n')
-      enableIframe()
+      return false
     }
   }
 }
-
-const url = ref('')
-watch(
-  () => props.item.url,
-  () => {
-    if (!props.item.url) return
-    log(t('video.player.video.info-fetching') + '\n')
-    url.value = props.item.url
-    log(t('video.player.video.URL', { url: url.value }) + '\n')
+async function loadStream(url: string) {
+  try {
     log(t('video.player.video.address-parsing') + '\n')
-    fetch('https://patchyvideo.com/be/helper/get_video_stream', {
+    const res = await fetch('https://patchyvideo.com/be/helper/get_video_stream', {
       method: 'POST',
       credentials: 'include',
       headers: new Headers({
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify({
-        url: url.value,
+        url: url,
       }),
     })
-      .then((data) => data.json())
-      .then((result: FetchResult<VideoData>) => {
-        if (result.data) {
-          console.log(result.data)
-          switch (result.data.extractor) {
-            case 'BiliBili': {
-              streams.value = result.data.streams as VideoStream[]
-              const stream = streams.value[0]
-              log(
-                t('video.player.video.profile.known-source', {
-                  source: 'BiliBili',
-                  format: stream.container,
-                  quality: stream.quality,
-                }) + '\n'
-              )
-              videoHasCors.value = true
-              playStream(stream.quality)
-              break
-            }
-            case 'Youtube': {
-              let videoStreams: VideoStream[] = []
-              const audioStreams: AudioStream[] = []
-              result.data.streams.forEach((s) => {
-                if (s.quality === 'tiny') {
-                  audioStreams.push(s as AudioStream)
-                } else {
-                  videoStreams.push(s as VideoStream)
-                }
-              })
-              videoStreams = videoStreams
-                .map((v) => ({ ...v, audioStreams: audioStreams }))
-                .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
-                .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
-              streams.value = videoStreams
-              const stream = streams.value[0]
-              log(
-                t('video.player.video.profile.known-source', {
-                  source: 'Youtube',
-                  format: stream.container,
-                  quality: stream.quality,
-                }) + '\n'
-              )
-              console.log(streams)
-              playStream(stream.quality)
-              break
-            }
-            default: {
-              log(t('video.player.video.profile.unknown-source', { source: result.data.extractor }))
-              throw 'unknown extractor'
-            }
+    const result = (await res.json()) as FetchResult<VideoData>
+    if (!result.data) return false
+    console.log(result.data)
+    switch (result.data.extractor) {
+      case 'BiliBili': {
+        streams.value = result.data.streams as VideoStream[]
+        const stream = streams.value[0]
+        log(
+          t('video.player.video.profile.known-source', {
+            source: 'BiliBili',
+            format: stream.container,
+            quality: stream.quality,
+          }) + '\n'
+        )
+        videoHasCors.value = true
+        if (playStream(stream.quality)) return true
+        break
+      }
+      case 'Youtube': {
+        let videoStreams: VideoStream[] = []
+        const audioStreams: AudioStream[] = []
+        result.data.streams.forEach((s) => {
+          if (s.quality === 'tiny') {
+            audioStreams.push(s as AudioStream)
+          } else {
+            videoStreams.push(s as VideoStream)
           }
-        } else {
-          throw 'no data'
-        }
-      })
-      .catch(() => {
-        enableIframe()
-      })
+        })
+        videoStreams = videoStreams
+          .map((v) => ({ ...v, audioStreams: audioStreams }))
+          .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
+          .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
+        streams.value = videoStreams
+        const stream = streams.value[0]
+        log(
+          t('video.player.video.profile.known-source', {
+            source: 'Youtube',
+            format: stream.container,
+            quality: stream.quality,
+          }) + '\n'
+        )
+        console.log(streams)
+        if (playStream(stream.quality)) return true
+        break
+      }
+      default: {
+        log(t('video.player.video.profile.unknown-source', { source: result.data.extractor }))
+        break
+      }
+    }
+    return false
+  } catch (_) {
+    return false
+  }
+}
+
+const sitesWithStream = [
+  'youtube',
+  // zyddnys 2021/8/7 22:01:32
+  // 那这样的话国内还是先用内嵌播放器 这样编辑才好看视频是不是东方
+  // 'bilibili',
+]
+async function loadVideo(item: VideoItem) {
+  if (sitesWithStream.includes(item.site)) {
+    if (await loadStream(item.url)) return true
+  }
+  if (loadIframe(item.url)) return true
+  return false
+}
+
+const url = ref('')
+watch(
+  () => props.item.url,
+  async () => {
+    if (!props.item.url) return
+    log(t('video.player.video.info-fetching') + '\n')
+    url.value = props.item.url
+    log(t('video.player.video.URL', { url: url.value }) + '\n')
+    loadVideo(props.item)
   },
   {
     immediate: true,
@@ -932,7 +951,7 @@ const canvas = ref<HTMLCanvasElement | null>(null)
     if (useCanvas.value) {
       usePlayer.value = 'canvas'
     } else {
-      usePlayer.value = 'video'
+      if (usePlayer.value === 'canvas') usePlayer.value = 'video'
     }
   })
   let audioCtx: AudioContext | undefined

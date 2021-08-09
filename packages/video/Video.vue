@@ -369,6 +369,7 @@ const { result, loading } = useQuery<Query>(
           uploadTime
           url
           repostType
+          site
         }
         meta {
           createdBy {

@@ -25,6 +25,7 @@ const { result } = useQuery<Query>(
         item {
           title
           url
+          site
         }
       }
     }

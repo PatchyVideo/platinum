@@ -292,7 +292,9 @@ video:
         name: 清晰度
         items:
           current-codec: 当前格式：{container} ({codec})
-    enable-iframe: 切换视频播放至内嵌
+    iframe:
+      enable: 切换视频播放至内嵌
+      failed: 内嵌视频加载失败
     play-stream:
       source:
         video:
