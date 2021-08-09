@@ -86,7 +86,7 @@
             <div class="w-2/5 mr-0.5">
               <div class="aspect-10/16 overflow-hidden rounded-sm">
                 <img
-                  class="object-cover h-full w-full dark:(filter brightness-80)"
+                  class="object-cover h-full w-full dark:filter dark:brightness-80"
                   :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
                 />
               </div>
@@ -128,7 +128,7 @@
           >
             <div class="aspect-10/16 overflow-hidden rounded-sm">
               <img
-                class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
+                class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>

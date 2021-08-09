@@ -2,14 +2,13 @@
   <div
     class="
       forget-password-mobile
+      md:forget-password-md
       h-screen
       w-full
       md:min-h-xl
       flex
       justify-end
-      dark:(filter
-      brightness-80)
-      md:forget-password-md
+      dark:filter dark:brightness-80
     "
   >
     <!-- Mobile view -->

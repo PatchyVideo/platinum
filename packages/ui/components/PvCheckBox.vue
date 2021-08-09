@@ -19,22 +19,20 @@
         transition-colors
         ease-out
         duration-200
-        before:(content
-        absolute
-        w-8
-        inset-y-0
-        left-0
-        rounded-full
-        bg-white
-        shadow
-        transform-gpu
-        transition-all
-        duration-200)
-        checked:(bg-pink-300
-        border-pink-200)
-        checked:before:left-6
+        before:content
+        before:absolute
+        before:w-8
+        before:inset-y-0
+        before:left-0
+        before:rounded-full
+        before:bg-white
+        before:shadow
+        before:transform-gpu
+        before:transition-all
+        before:duration-200
+        checked:bg-pink-300 checked:border-pink-200 checked:before:left-6
       "
-      :class="{ 'h-6 w-12 before:(content w-6)': size === 'sm' }"
+      :class="{ 'h-6 w-12 before:content before:w-6': size === 'sm' }"
       type="checkbox"
       @change="check = !check"
     />

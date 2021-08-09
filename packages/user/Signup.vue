@@ -1,5 +1,5 @@
 <template>
-  <div class="sign-up h-screen w-full md:min-h-xl flex justify-end dark:(filter brightness-80)">
+  <div class="sign-up h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-80">
     <div
       class="
         flex flex-wrap
