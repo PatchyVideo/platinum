@@ -2,74 +2,13 @@
   <LayoutDefault :fetch-note="false">
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']" class="w-full p-2 dark:bg-gray-700 dark:border-black">
-      <div v-if="loading">加载中</div>
-      <div v-else-if="listNoteCountAll == 0"></div>
-      <div v-else-if="noteType === 'comment_reply'">
-        <div class="border-b flex justify-between p-1">
-          <div>回复我的</div>
-          <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
-        </div>
-        <div v-for="note in listNote" :key="note.id.id">
-          <div
-            v-if="note.__typename === 'ReplyNotificationObject'"
-            class="flex items-center m-1 p-2 shadow rounded-md"
-            :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
-          >
-            <router-link class="w-1/6 cursor-pointer" to>
-              <UserAvatar
-                :title="note.repliedBy.username"
-                :image="note.repliedBy.image"
-                class="rounded-full ring-2 ring-white"
-              ></UserAvatar>
-            </router-link>
-            <router-link
-              :to="
-                (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
-                note.repliedObj +
-                '#' +
-                note.cid
-              "
-              tag="div"
-              class="w-5/6"
-            >
-              <div>
-                {{ note.repliedBy.username + ' 回复了你：' }}
-              </div>
-              <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                {{ note.content }}
-              </div>
-              <div class="text-xs text-gray-600 dark:text-white">
-                <RelativeDate :date="note.time" />
-              </div>
-            </router-link>
-          </div>
-        </div>
+      <div v-if="noteType === 'comment_reply'">
+        <NoteBoxReplyComment v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
       <div v-else-if="noteType === 'system_message'">
-        <div class="border-b flex justify-between p-1">
-          <div>系统通知</div>
-          <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
-        </div>
-        <div class="divide-y-2">
-          <div v-for="note in listNote" :key="note.id.id">
-            <div
-              v-if="note.__typename === 'SystemNotificationObject'"
-              class="m-1 p-2 shadow rounded-md space-y-2"
-              :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
-            >
-              <div>{{ note.title }}</div>
-              <div class="text-sm">
-                {{ note.content }}
-              </div>
-              <div class="text-xs text-gray-600 dark:text-white">
-                <RelativeDate :date="note.time" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <NoteBoxSystemMessage v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
       <PvPagination
-        v-if="!loading"
         :page-count="Number(pageCount)"
         :page="page"
         @previous="jumpToPreviousPage"
@@ -171,6 +110,7 @@
     </div>
     <!-- Desktop View -->
     <div v-else class="p-5 flex space-x-3 min-h-screen w-9/10 m-auto xl:w-4/5">
+      <!-- Nav Left -->
       <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-700">
         <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
           <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 hover:dark:bg-gray-900" />
@@ -227,71 +167,11 @@
         </div>
       </div>
       <div class="w-3/4 p-2 bg-white rounded-md shadow xl:4/5 dark:bg-gray-600">
-        <div v-if="loading">加载中</div>
-        <div v-else-if="listNoteCountAll == 0"></div>
-        <div v-else-if="noteType === 'comment_reply'">
-          <div class="border-b flex justify-between p-1">
-            <div>回复我的</div>
-            <div class="text-sm cursor-pointer" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
-          </div>
-          <div v-for="note in listNote" :key="note.id.id">
-            <div
-              v-if="note.__typename === 'ReplyNotificationObject'"
-              class="flex items-center m-1 p-2 shadow rounded-md"
-              :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
-            >
-              <router-link class="w-1/10 cursor-pointer xl:w-1/15" to>
-                <UserAvatar
-                  :title="note.repliedBy.username"
-                  :image="note.repliedBy.image"
-                  class="rounded-full ring-2 ring-white"
-                ></UserAvatar>
-              </router-link>
-              <router-link
-                :to="
-                  (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
-                  note.repliedObj +
-                  '#' +
-                  note.cid
-                "
-                tag="div"
-                class="w-9/10 xl:w-14/15"
-              >
-                <div>
-                  {{ note.repliedBy.username + ' 回复了你：' }}
-                </div>
-                <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                  {{ note.content }}
-                </div>
-                <div class="text-xs text-gray-600 dark:text-white">
-                  <RelativeDate :date="note.time" />
-                </div>
-              </router-link>
-            </div>
-          </div>
+        <div v-if="noteType === 'comment_reply'">
+          <NoteBoxReplyComment v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
         </div>
         <div v-else-if="noteType === 'system_message'">
-          <div class="border-b flex justify-between p-1">
-            <div>系统通知</div>
-            <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
-          </div>
-          <div class="divide-y-2">
-            <div v-for="note in listNote" :key="note.id.id">
-              <div
-                v-if="note.__typename === 'SystemNotificationObject'"
-                class="m-1 p-2 shadow rounded-md space-y-2"
-                :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
-              >
-                <div>{{ note.title }}</div>
-                <div class="text-sm">
-                  {{ note.content }}
-                </div>
-                <div class="text-xs text-gray-600 dark:text-white">
-                  <RelativeDate :date="note.time" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <NoteBoxSystemMessage v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
         </div>
         <PvPagination
           v-if="!loading"
@@ -307,9 +187,9 @@
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from '@/user/components/UserAvatar.vue'
-import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
+import NoteBoxReplyComment from './components/NoteBoxReplyComment.vue'
+import NoteBoxSystemMessage from './components/NoteBoxSystemMessage.vue'
 import { ref, watchEffect, computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
@@ -325,15 +205,12 @@ const router = useRouter()
 setSiteTitle('消息中心' + ' - PatchyVideo')
 
 const noteDrawerOpen = ref<boolean | undefined>()
-const listNoteAll = ref<boolean>(true)
-const listNote = ref<
-  (schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
->([])
+const listAll = ref(true)
 const listNoteCountAll = ref<number>(0)
 const listNoteCountUnread = ref<number>(0)
-const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[]>([])
+const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[] | undefined>([])
+const listNoteCountStatus = ref<'loading' | 'result' | 'error'>()
 const pageCount = ref<schema.Maybe<number> | undefined>(0)
-const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 
 /* Precess URL query */
 const limit = computed(() => {
@@ -349,13 +226,14 @@ const noteType = computed(() => {
   )
 })
 
+/* Query for notifications */
 const URLQuery = computed(() => route.query)
 watch(URLQuery, () => {
   fetchMore({
     variables: {
       offset: offset.value * limit.value,
       limit: limit.value,
-      listAll: listNoteAll.value,
+      listAll: listAll.value,
       noteType: noteType.value,
     },
   })?.then((v) => {
@@ -368,24 +246,6 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
       listNotifications(para: { offset: $offset, limit: $limit, listAll: $listAll, noteType: $noteType }) {
         notes {
           id
-          read
-          ... on ReplyNotificationObject {
-            cid
-            repliedBy {
-              id
-              username
-              image
-            }
-            time
-            repliedObj
-            repliedType
-            content
-          }
-          ... on SystemNotificationObject {
-            time
-            title
-            content
-          }
         }
         countAll
         countUnread
@@ -402,32 +262,32 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   {
     offset: offset.value * limit.value,
     limit: limit.value,
-    listAll: listNoteAll.value,
+    listAll: listAll.value,
     noteType: noteType.value,
   }
 )
 watchEffect(() => {
   if (loading.value) {
-    listNoteStatus.value = 'loading'
+    listNoteCountStatus.value = 'loading'
     if (!NProgress.isStarted()) NProgress.start()
   } else {
-    listNoteStatus.value = 'result'
+    listNoteCountStatus.value = 'result'
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-const resultData = useResult(result, null, (data) => data)
+const listNotifications = useResult(result, null, (data) => data?.listNotifications)
+const listUnreadNotificationsCount = useResult(result, null, (data) => data?.listUnreadNotificationsCount)
 watchEffect(() => {
-  if (resultData.value) {
-    listNote.value = resultData.value.listNotifications.notes
-    listNoteCountAll.value = resultData.value.listNotifications.countAll
-    listNoteCountUnread.value = resultData.value.listNotifications.countUnread
-    listNoteCountTypes.value = resultData.value.listUnreadNotificationsCount.list
-    pageCount.value = resultData.value.listNotifications.pageCount
-  } else listNoteStatus.value = 'error'
+  if (listNotifications.value) {
+    listNoteCountAll.value = listNotifications.value.countAll
+    listNoteCountUnread.value = listNotifications.value.countUnread
+    listNoteCountTypes.value = listUnreadNotificationsCount.value?.list
+    pageCount.value = listNotifications.value.pageCount
+  } else listNoteCountStatus.value = 'error'
 })
 onError((err) => {
   // errNote.value = err.message
-  listNoteStatus.value = 'error'
+  listNoteCountStatus.value = 'error'
 })
 
 /* Change the router query to trigger the search function */

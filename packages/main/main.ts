@@ -87,7 +87,7 @@ const router = createRouter({
     },
     {
       path: '/user/notification',
-      component: () => import('@/user/Notification.vue'),
+      component: () => import('@/user-notification/Notification.vue'),
     },
     {
       path: '/user/login',
