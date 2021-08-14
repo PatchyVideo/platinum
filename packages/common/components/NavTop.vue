@@ -74,7 +74,7 @@
                 @click="userListOpen = true"
               ></UserAvatar>
               <label
-                v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm']"
+                v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm'] && props.fetchNote"
                 class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
               ></label>
             </div>

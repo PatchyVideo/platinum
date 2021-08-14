@@ -18,7 +18,7 @@
     "
   >
     通知
-    <div v-if="loading">加载中</div>
+    <div v-if="listNoteStatus === 'loading'">加载中</div>
     <div v-else-if="listNoteStatus === 'error'">{{ '加载出错了QAQ，错误原因：' + errMsg }}</div>
     <div v-else-if="listNoteCountUnread === 0">没有新消息哦</div>
     <div v-else>
@@ -55,11 +55,7 @@
           </div>
           <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
             <router-link tag="div" to class="flex items-center space-x-2">
-              <UserAvatar
-                :title="Note.title"
-                current="packages/user/assets/DefaultAvatar.jpg"
-                class="w-1/6 rounded-full ring-2 ring-white"
-              ></UserAvatar>
+              <UserAvatar :title="Note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
               <div class="w-5/6">
                 <div class="truncate">
                   {{ '系统通知：' + Note.title }}

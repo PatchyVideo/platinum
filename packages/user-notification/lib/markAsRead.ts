@@ -1,2 +1,6 @@
-import { ref } from 'vue'
-export const markAsReadStatus = ref<'ready' | 'loading' | 'result'>('ready')
+import { ref, computed } from 'vue'
+export const markAsReadStatus = computed<'ready' | 'loading'>(() => {
+  if (markAsReadMutationCount.value) return 'loading'
+  else return 'ready'
+})
+export const markAsReadMutationCount = ref<number>(0)
