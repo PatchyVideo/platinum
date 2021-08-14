@@ -25,7 +25,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits, defineProps } from 'vue'
 import type { PropType } from 'vue'
 import { useVModel } from '@vueuse/core'
 

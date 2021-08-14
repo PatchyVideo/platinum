@@ -86,7 +86,7 @@
             <div class="w-2/5 mr-0.5">
               <div class="aspect-10/16 overflow-hidden rounded-sm">
                 <img
-                  class="object-cover h-full w-full dark:(filter brightness-80)"
+                  class="object-cover h-full w-full dark:filter dark:brightness-80"
                   :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
                 />
               </div>
@@ -103,6 +103,9 @@
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+                <span v-if="video.clearence === 0" class="ml-2"
+                  >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
+                /></span>
               </div>
             </div>
           </RouterLink>
@@ -125,7 +128,7 @@
           >
             <div class="aspect-10/16 overflow-hidden rounded-sm">
               <img
-                class="object-cover h-full w-full rounded-lg dark:(filter brightness-80)"
+                class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
               />
             </div>
@@ -146,6 +149,9 @@
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+                <span v-if="video.clearence === 0" class="ml-2"
+                  >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
+                /></span>
               </div>
             </div>
           </RouterLink>
@@ -247,6 +253,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             partName
             url
           }
+          clearence
         }
       }
     }

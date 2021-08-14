@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useEventListener, useVModel } from '@vueuse/core'

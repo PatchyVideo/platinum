@@ -93,7 +93,7 @@
               <div
                 v-for="tag in popularTags"
                 :key="tag"
-                class="inline-block mx-1.5"
+                class="inline-block mx-1.5 cursor-pointer select-none"
                 @click="
                   () => {
                     if (
@@ -105,7 +105,7 @@
                     if (autoComplete) autoComplete.focus()
                   }
                 "
-                v-text="tag"
+                v-text="tag.replaceAll(/_/g, ' ')"
               ></div>
             </div>
           </div>
@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick, watchEffect, defineProps, defineEmits, defineExpose } from 'vue'
+import { ref, reactive, nextTick, watchEffect } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'

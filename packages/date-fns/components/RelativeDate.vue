@@ -1,9 +1,9 @@
 <template>
-  <span :title="date.toLocaleString()" v-text="relativeDate"></span>
+  <span :title="date.toString()" v-text="relativeDate"></span>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue'
+import { computed } from 'vue'
 import formatRelative from 'date-fns/formatRelative'
 import { dateFnsLocale } from '../'
 

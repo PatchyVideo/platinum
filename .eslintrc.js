@@ -44,6 +44,7 @@ module.exports = {
       extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
       },
     },
     {
@@ -64,6 +65,13 @@ module.exports = {
       ],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+      },
+      globals: {
+        defineProps: 'readonly',
+        defineEmits: 'readonly',
+        defineExpose: 'readonly',
+        withDefaults: 'readonly',
       },
     },
   ],

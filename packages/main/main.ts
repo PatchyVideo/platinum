@@ -21,11 +21,13 @@ NProgress.start()
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
 import AppRouterView from './components/AppRouterView.vue'
+import { provideSharedObject } from '@/nested'
 const app = createApp(
   defineComponent({
     render: () => [h(AppRouterView), h(Notification)],
     setup() {
       provideClient(client)
+      provideSharedObject()
     },
   })
 )
@@ -63,6 +65,11 @@ const router = createRouter({
     {
       path: '/embed/:vid',
       component: () => import('@/video/Embed.vue'),
+    },
+    {
+      path: '/edit-video/:vid',
+      component: () => import('@/video/EditVideo.vue'),
+      meta: { holdLoading: true },
     },
     {
       path: '/playlist-list',
