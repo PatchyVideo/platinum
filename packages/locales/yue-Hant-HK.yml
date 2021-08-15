@@ -319,6 +319,9 @@ video:
       profile:
         known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
         unknown-source: 未知嘅视频源：{source}
+    iframe:
+      enable: 切换视频播放到内嵌播放器
+      failed: 内嵌视频加载失败
   video-list:
     advanced-search:
       name: 高级搜索
