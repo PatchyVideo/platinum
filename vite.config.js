@@ -57,6 +57,7 @@ export default defineConfig(async ({ command, mode }) => {
       ],
     },
     define: {
+      __DEV__: JSON.stringify(mode !== 'production'),
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(version),
       'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
