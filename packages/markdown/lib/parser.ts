@@ -442,7 +442,7 @@ export function render(src: string): string {
   try {
     res = markdownIt.render(sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face:$1]]'), { last: [] })
   } catch (e) {
-    res = `Error throwed from Markdown parser:\n${e.name}: ${e.message}`
+    res = `Error throwed from Markdown parser:\n${e}`
   }
   return res
 }
