@@ -14,6 +14,8 @@ import simpleGit from 'simple-git'
 
 /**
  * Vite Configuration File
+ *
+ * Docs: https://vitejs.dev/config/
  */
 export default defineConfig(async ({ command, mode }) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -43,6 +45,9 @@ export default defineConfig(async ({ command, mode }) => {
     for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, `./packages/${dir}/__generated__`)))
     await Promise.allSettled(promises)
   }
+
+  /* copy license */
+  fs.copyFileSync(path.resolve(__dirname, './LICENSE'), path.resolve(__dirname, './public/LICENSE'))
 
   return {
     resolve: {
@@ -80,17 +85,6 @@ export default defineConfig(async ({ command, mode }) => {
         globalComponentsDeclaration: 'packages/dts/__generated__/viteComponents.d.ts',
       }),
       viteIcons(),
-      {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
-        ...require('rollup-plugin-copy')({
-          targets: [{ src: 'LICENSE', dest: 'dist' }],
-          hook: 'generateBundle',
-        }),
-        enforce: 'post',
-        apply: 'build',
-      },
       {
         ...visualizer({
           filename: 'dist/stats.html',

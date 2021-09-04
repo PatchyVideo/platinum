@@ -259,7 +259,7 @@ import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { ref, computed, defineProps } from 'vue'
+import { ref, computed, defineProps, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
@@ -286,11 +286,11 @@ const route = useRoute()
 
 /* User lists Operation */
 const userListOpen = ref<boolean>(false)
-const userListBtn = ref<HTMLDivElement | null>(null)
-const userList = ref<HTMLDivElement | null>(null)
+const userListBtn = shallowRef<HTMLDivElement | null>(null)
+const userList = shallowRef<HTMLDivElement | null>(null)
 const NoteBoxOpen = ref<boolean>(false)
-const NoteBoxBtn = ref<HTMLDivElement | null>(null)
-const NoteBox = ref<HTMLDivElement | null>(null)
+const NoteBoxBtn = shallowRef<HTMLDivElement | null>(null)
+const NoteBox = shallowRef<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e: MouseEvent): void => {
   if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement))) {
     userListOpen.value = false
@@ -353,7 +353,7 @@ const keyword = ref(
     : ''
 )
 
-const teleportTo = ref<HTMLElement>()
+const teleportTo = shallowRef<HTMLElement>()
 </script>
 
 <style lang="postcss" scoped>

@@ -169,8 +169,10 @@
           <div
             v-for="(settingsItem, index) in activeSettingsItem.items"
             :key="index"
-            class="px-2 py-1 whitespace-pre transform-gpu transition-all duration-100"
-            :class="{ 'hover:bg-gray-700': 'onClick' in settingsItem || 'to' in settingsItem }"
+            class="px-2 py-1 whitespace-pre transform-gpu transition-all ease-in-out duration-100"
+            :class="{
+              'hover:bg-gray-700 cursor-pointer': 'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
+            }"
           >
             <div
               v-if="settingsItem.type === 'text'"
@@ -188,9 +190,12 @@
                 ><icon-uil-arrow-right class="inline" />
               </div>
             </div>
-            <div v-else-if="settingsItem.type === 'check'" class="flex justify-between">
-              <span v-text="settingsItem.text"></span
-              ><PvCheckBox v-model:check="settingsItem.checked.value" size="sm" />
+            <div
+              v-else-if="settingsItem.type === 'check'"
+              class="flex justify-between"
+              @click="settingsItem.checked.value = !settingsItem.checked.value"
+            >
+              <span v-text="settingsItem.text"></span><PvCheckBox :check="settingsItem.checked.value" size="sm" />
             </div>
           </div>
         </div>
@@ -207,7 +212,7 @@
 
 <script lang="ts" setup>
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
-import { computed, ref, nextTick, onMounted, watch, watchEffect, onUnmounted } from 'vue'
+import { computed, ref, nextTick, onMounted, watch, watchEffect, onUnmounted, shallowRef } from 'vue'
 import {
   useElementBounding,
   useEventListener,
@@ -326,7 +331,7 @@ const props = defineProps({
 
 const { t } = useI18n()
 
-const root = ref<HTMLDivElement | null>(null)
+const root = shallowRef<HTMLDivElement | null>(null)
 const { width } = useElementBounding(root)
 const height = computed(() =>
   video.value && video.value.videoWidth > 0 && video.value.videoHeight > 0
@@ -335,7 +340,7 @@ const height = computed(() =>
 )
 
 const usePlayer = ref<'video' | 'iframe' | 'canvas'>('video')
-const video = ref<HTMLVideoElement | null>(null)
+const video = shallowRef<HTMLVideoElement | null>(null)
 
 const videoHasCors = ref(false)
 const crossorigin = computed(() => videoHasCors.value || extensionTweaks.value.includes('enable_cors_requests'))
@@ -447,7 +452,7 @@ const toSettingsParent = () => {
 
 /* loading log */
 const logText = ref('')
-const logEl = ref<HTMLParagraphElement | null>(null)
+const logEl = shallowRef<HTMLParagraphElement | null>(null)
 const log = (_log: string) => {
   console.log('[Player] > ' + _log)
   logText.value += _log
@@ -536,7 +541,7 @@ useEventListener(video, 'durationchange', () => {
 const videoElementReady = ref(false)
 
 /* dedicated audio track */
-const audio = ref<HTMLAudioElement | null>(null)
+const audio = shallowRef<HTMLAudioElement | null>(null)
 useEventListener(audio, 'timeupdate', () => {
   if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
     audio.value!.pause()
@@ -623,7 +628,7 @@ const computeLoadedRanges = (amount: TimeRanges | null) => {
 }
 // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
 const progress = computed(() => currentTime.value / duration.value)
-const progressbar = ref<HTMLDivElement | null>(null)
+const progressbar = shallowRef<HTMLDivElement | null>(null)
 useEventListener(video, 'timeupdate', () => {
   currentTime.value = video.value!.currentTime
   if (hasAudioStream.value) {
@@ -694,7 +699,7 @@ watch([volume, video, audio, keepElementVolume], () => {
   if (video.value && video.value.volume !== target) video.value.volume = target
   if (audio.value && audio.value.volume !== target) audio.value.volume = target
 })
-const volumebar = ref<HTMLDivElement | null>(null)
+const volumebar = shallowRef<HTMLDivElement | null>(null)
 useEventListener(volumebar, 'click', (e: MouseEvent) => {
   let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
   percentage = Math.max(0, Math.min(1, percentage))
@@ -870,7 +875,7 @@ async function loadStream(url: string) {
           }) + '\n'
         )
         videoHasCors.value = true
-        if (playStream(stream.quality)) return true
+        if (await playStream(stream.quality)) return true
         break
       }
       case 'Youtube': {
@@ -897,7 +902,7 @@ async function loadStream(url: string) {
           }) + '\n'
         )
         console.log(streams)
-        if (playStream(stream.quality)) return true
+        if (await playStream(stream.quality)) return true
         break
       }
       default: {
@@ -942,7 +947,7 @@ watch(
 
 const streams = ref<VideoStream[]>([])
 
-const canvas = ref<HTMLCanvasElement | null>(null)
+const canvas = shallowRef<HTMLCanvasElement | null>(null)
 {
   watchEffect(() => {
     if (!crossorigin.value && usePlayer.value === 'canvas') usePlayer.value = 'iframe'
@@ -1118,11 +1123,11 @@ const canvas = ref<HTMLCanvasElement | null>(null)
 
 .setting-right-enter-active,
 .setting-left-leave-active {
-  @apply absolute top-0 transition-all duration-300 transform-gpu;
+  @apply absolute top-0 transition-all duration-250 transform-gpu;
 }
 .setting-right-leave-active,
 .setting-left-enter-active {
-  @apply transition-all duration-300 transform-gpu;
+  @apply transition-all duration-250 transform-gpu;
 }
 .setting-right-leave-to,
 .setting-left-enter-from {

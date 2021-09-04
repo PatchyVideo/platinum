@@ -16,15 +16,18 @@
               }}<span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span
               ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
               ><template v-if="user.isAdmin"
-                ><icon-uil-eye-slash
+                ><span title="隐藏视频"
+                  ><icon-uil-eye-slash
+                    v-if="isLogin === IsLogin.yes"
+                    class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
+                    @click="hideVideo" /></span
+                ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
+              ><span title="编辑视频"
+                ><icon-uil-pen
                   v-if="isLogin === IsLogin.yes"
                   class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
-                  @click="hideVideo" /><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
-              ><icon-uil-pen
-                v-if="isLogin === IsLogin.yes"
-                class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
-                @click="popEditVideoWindow"
-              />
+                  @click="popEditVideoWindow"
+              /></span>
             </div>
           </div>
           <!-- Video Player -->
@@ -224,29 +227,41 @@
             </div>
           </Teleport>
           <!-- Related Video -->
-          <div class="flex flex-col space-y-1 mt-2">
-            <RouterLink
-              v-for="rlVideo in video.relatedVideos"
-              :key="rlVideo.id.toHexString()"
-              :to="'/video/' + rlVideo.id.toHexString()"
-              class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800"
-            >
-              <div class="col-span-2">
-                <div class="aspect-10/16 overflow-hidden rounded-sm">
-                  <img
-                    class="object-cover h-full w-full dark:filter dark:brightness-80"
-                    :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
-                  />
+          <div class="mt-2">
+            <span class="ml-1 font-light">相关视频</span>
+            <div class="flex flex-col">
+              <RouterLink
+                v-for="rlVideo in video.relatedVideos"
+                :key="rlVideo.id.toHexString()"
+                :to="'/video/' + rlVideo.id.toHexString()"
+                class="
+                  grid grid-cols-5
+                  space-x-1.5
+                  py-0.5
+                  rounded-md
+                  hover:bg-pink-50
+                  dark:hover:bg-gray-800
+                  transition-colors
+                  duration-100
+                "
+              >
+                <div class="col-span-2">
+                  <div class="aspect-10/16 overflow-hidden rounded-md">
+                    <img
+                      class="object-cover h-full w-full dark:filter dark:brightness-80"
+                      :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
+                    />
+                  </div>
                 </div>
-              </div>
-              <div class="col-span-3 flex flex-wrap content-start text-sm">
-                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
-                <div
-                  class="text-sm inline-block w-full truncate text-gray-600 dark:text-gray-300"
-                  v-text="rlVideo.meta.createdBy?.username"
-                ></div>
-              </div>
-            </RouterLink>
+                <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
+                  <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
+                  <div
+                    class="text-sm inline-block w-full mt-1 truncate font-light"
+                    v-text="rlVideo.meta.createdBy?.username"
+                  ></div>
+                </div>
+              </RouterLink>
+            </div>
           </div>
         </div>
       </div>
@@ -338,7 +353,7 @@ import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { computed, ref, watchEffect } from 'vue'
+import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
@@ -542,7 +557,6 @@ const authors = computed(() =>
         .filter((v) => !!v) as Author[])
     : []
 )
-
 const regularTags = computed(() =>
   video.value ? (video.value.tags.filter((v) => v.__typename === 'RegularTagObject') as schema.RegularTagObject[]) : []
 )
@@ -565,33 +579,46 @@ const comments = computed(
       .filter((v) => !!v) as Comment[]) ?? []
 )
 
-const mobileAuthorTarget = ref<HTMLDivElement | null>(null)
-const mobilePlaylistTarget = ref<HTMLDivElement | null>(null)
+/* mobile teleport targets */
+const mobileAuthorTarget = shallowRef<HTMLDivElement | null>(null)
+const mobilePlaylistTarget = shallowRef<HTMLDivElement | null>(null)
 
+/* video playlist, ?list=[PID] */
+// raw playlist
 const playlist = useResult(result, null, (data) => data?.getPlaylist)
+// videos in playlist
 const playlistVideos = useResult(result, null, (data) => data?.listAdjacentVideos)
+// the index that current video at
 const playlistIndex = computed(() =>
   video.value && playlistVideos.value
     ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
     : -1
 )
+// whither playlist is collaped
 const playlistCollaped = ref(!screenSizes.xl)
 
+// use plain text to render tags, just made it for fun.
 const renderTagAsPlainText = useLocalStorage('video_tag_render_as_plain_text', false)
 
-const editVideoWindow = ref<Window | null>(null)
+/* edit video */
+const editVideoWindow = shallowRef<Window | null>(null)
 const popEditVideoWindow = () => {
+  // check if there is already a window opened
   if (editVideoWindow.value && !editVideoWindow.value.closed) {
     editVideoWindow.value.focus()
   }
+  // create a new window
   const { window: win } = openWindow({
     url: '/edit-video/' + vid.value,
   })
   editVideoWindow.value = win
 }
 
+// video clearence
 const clearence = computed(() => video.value?.clearence ?? 3)
 
+/* hide video */
+// hide video mutation
 const { mutate: mutateHideVideo } = useMutation<Mutation>(gql`
   mutation ($vid: String!) {
     setVideoClearence(para: { clearence: 0, vid: $vid })

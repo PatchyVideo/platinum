@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from 'vue'
+import { ref, shallowRef, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '../lib/parser'
 
@@ -29,7 +29,7 @@ const waitingForRender = ref(true)
 watch(props, (p, op) => {
   if (p.text !== op.text) waitingForRender.value = true
 })
-const root = ref<HTMLElement | null>(null)
+const root = shallowRef<HTMLElement | null>(null)
 useIntersectionObserver(
   root,
   ([{ isIntersecting }]) => {

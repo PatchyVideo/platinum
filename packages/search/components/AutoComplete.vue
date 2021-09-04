@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick, watchEffect } from 'vue'
+import { ref, reactive, nextTick, watchEffect, shallowRef } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
@@ -193,7 +193,7 @@ const onSearchContentChange = () => {
 throttledWatch(searchContent, () => nextTick(onSearchContentChange), { throttle: 500 })
 
 // Slice the search key word
-const autoComplete = ref<HTMLInputElement | null>(null)
+const autoComplete = shallowRef<HTMLInputElement | null>(null)
 function getSearchKeyword(): string | null {
   let endlocation = autoComplete.value?.selectionStart || 0
   let query = searchContent.value?.slice(0, endlocation) || ''
@@ -275,7 +275,7 @@ function ConvertLangRes(langs: langs[], keyword = ''): { main: string; sub?: str
 }
 
 // Click to hide the list
-const autoCompleteRoot = ref<HTMLDivElement | null>()
+const autoCompleteRoot = shallowRef<HTMLDivElement | null>()
 const hideContainer = ref(true)
 useEventListener(document, 'click', (e: MouseEvent): void => {
   activeSearchResult.value = -1

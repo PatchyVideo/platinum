@@ -72,7 +72,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, shallowRef } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useEventListener, useVModel } from '@vueuse/core'
@@ -110,7 +110,7 @@ function getItemNameByValue(value: string): string {
 }
 
 // Click to hide the list
-const pvSelectRoot = ref<HTMLDivElement | null>(null)
+const pvSelectRoot = shallowRef<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e) => {
   if (!pvSelectRoot.value?.contains(e.target as HTMLElement)) {
     listHidden.value = true

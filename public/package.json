@@ -5,9 +5,9 @@
     "cross-fetch": "^3.1.4",
     "fake-tag": "^3.0.0",
     "html-entities": "^2.3.2",
-    "isbot": "^3.3.1"
+    "isbot": "^3.3.2"
   },
   "devDependencies": {
-    "@vercel/node": "^1.12.0"
+    "@vercel/node": "^1.12.1"
   }
 }
