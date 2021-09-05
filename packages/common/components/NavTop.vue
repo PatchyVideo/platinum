@@ -227,11 +227,11 @@
               <label v-text="t('common.nav-top.settings.darkmode')"></label>
               <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
             </label>
-            <PvCheckBox v-model:check="isDark"></PvCheckBox>
+            <PvCheckBox v-model:check="isDark" size="sm" />
           </div>
           <div class="flex justify-between items-center">
             <label v-text="t('common.nav-top.settings.lang')"></label>
-            <PvSelect v-model:selected="locale" :item-list="languageList"></PvSelect>
+            <PvSelect v-model:selected="locale" :item-list="languageList" />
           </div>
         </div>
       </div>

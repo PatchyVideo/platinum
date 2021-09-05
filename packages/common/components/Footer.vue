@@ -25,6 +25,7 @@
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
       Platinum v{{ version }}(<a
         :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
+        :title="commitHash"
         target="_blank"
         rel="noopener noreferrer"
         v-text="commitHash.slice(0, 7)"

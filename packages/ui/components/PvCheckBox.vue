@@ -11,8 +11,8 @@
         shadow-inner
         bg-clip-content
         align-middle
-        w-14
-        h-8
+        w-14.5
+        h-8.5
         inline-block
         relative
         transform-gpu
@@ -32,7 +32,7 @@
         before:duration-200
         checked:bg-pink-300 checked:border-pink-200 checked:before:left-6
       "
-      :class="{ 'h-6 w-12 before:w-6': size === 'sm' }"
+      :class="{ 'h-6.5 w-10.5 before:w-6 checked:before:left-4': size === 'sm' }"
       type="checkbox"
       @change="check = !check"
     />

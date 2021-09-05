@@ -86,8 +86,8 @@
           class="bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
         >
           <div>
-            <h4 class="mx-2">
-              热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
+            <h4 class="mx-2 font-light">
+              <icon-uil-tag-alt class="inline-block w-4 h-4 mr-0.5 align-middle text-gray-600 dark:text-gray-300" />热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
             </h4>
             <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-700 dark:text-gray-300">
               <div

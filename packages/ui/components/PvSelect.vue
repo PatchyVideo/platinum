@@ -4,7 +4,6 @@
     class="
       pl-4
       pr-8
-      m-1
       rounded-full
       cursor-pointer
       relative
