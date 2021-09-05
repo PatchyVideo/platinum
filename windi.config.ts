@@ -27,6 +27,9 @@ export default defineConfig({
         meta: '#f80',
         soundtrack: '#ff7792',
       },
+      content: {
+        empty: '""',
+      },
     },
   },
   plugins: [

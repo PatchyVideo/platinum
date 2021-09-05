@@ -19,7 +19,7 @@
         transition-colors
         ease-out
         duration-200
-        before:content
+        before:content-empty
         before:absolute
         before:w-8
         before:inset-y-0
@@ -32,7 +32,7 @@
         before:duration-200
         checked:bg-pink-300 checked:border-pink-200 checked:before:left-6
       "
-      :class="{ 'h-6 w-12 before:content before:w-6': size === 'sm' }"
+      :class="{ 'h-6 w-12 before:w-6': size === 'sm' }"
       type="checkbox"
       @change="check = !check"
     />
