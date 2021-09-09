@@ -94,7 +94,7 @@
                 z-999
                 absolute
                 -right-2
-                top-5
+                -top-6
                 w-40
                 p-2
                 mt-1/2
@@ -367,11 +367,11 @@ const teleportTo = shallowRef<HTMLElement>()
 }
 .userList-enter-active,
 .userList-leave-active {
-  transition: opacity 0.2s ease;
+  @apply transition transition-all duration-200;
 }
 
 .userList-enter-from,
 .userList-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>
