@@ -39,7 +39,7 @@
         <li
           v-for="item in itemList"
           :key="item.value"
-          class="p-2 select-none transition-colors hover:bg-gray-100 hover:bg-gray-100 hover:dark:bg-gray-900"
+          class="p-2 select-none transition-colors hover:bg-gray-100 hover:dark:bg-gray-900"
           @click="selected = item.value"
         >
           {{ item.name }}
@@ -101,7 +101,7 @@ const emit = defineEmits<{
 const selected = useVModel(props, 'selected', emit)
 
 const { t } = useI18n()
-let listHidden = ref<boolean>(true)
+const listHidden = ref<boolean>(true)
 
 // Get Item Name By Value
 function getItemNameByValue(value: string): string {
