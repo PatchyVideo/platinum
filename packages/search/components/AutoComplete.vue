@@ -84,7 +84,7 @@
         "
       >
         <div
-          v-show="!hideContainer"
+          v-show="!hideContainer && !teleportResult"
           ref="motionel"
           class="w-full rounded bg-white dark:bg-gray-700 shadow-lg border border-gray-300 dark:border-gray-600"
         >
