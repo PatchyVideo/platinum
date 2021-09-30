@@ -239,10 +239,15 @@ const onSearchContentChange = () => {
   if (!searchContent.value || !getSearchKeyword()) {
     activeSearchResult.value = -1
     listHidden.value = true
+    hideContainer.value = false
     return
   }
   const searchKeyword = getSearchKeyword() || ''
-  if (searchKeyword) getSearchList(searchKeyword)
+  if (searchKeyword) {
+    getSearchList(searchKeyword)
+  } else {
+    hideContainer.value = false
+  }
 }
 throttledWatch(searchContent, () => nextTick(onSearchContentChange), { throttle: 500 })
 
@@ -298,9 +303,11 @@ async function getSearchList(searchKeyword: string): Promise<void> {
       activeSearchResult.value = -1
       searchResult.value = listData
       listHidden.value = false
+      hideContainer.value = false
     })
     .catch(() => {
       searchSuccess.value = false
+      hideContainer.value = false
     })
 }
 function siteOrKeywordFilter(query: string) {
@@ -338,8 +345,6 @@ useEventListener(document, 'click', async (e: MouseEvent): Promise<void> => {
     await until(transitionStatus).toBe('leave')
     listHidden.value = true
     loading.value = false
-  } else {
-    hideContainer.value = false
   }
 })
 
