@@ -14,7 +14,7 @@
         dark:bg-gray-800
       "
     >
-      <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onInputClick()" />
+      <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onSearchContentChange()" />
       <input
         ref="autoComplete"
         v-model="searchContent"
@@ -23,7 +23,7 @@
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
-        @click="onInputClick()"
+        @click="onSearchContentChange()"
       />
       <div class="inline-block ml-1 mr-2" @click="searchContent = ''">
         <icon-uil-times-circle v-show="searchContent" class="flex-shrink-0 text-sm" />
@@ -235,15 +235,6 @@ let sitesAndKeywords: resultType[] = reactive([
 ])
 
 // Send query and show the list
-const onInputClick = () => {
-  if (searchResult.value.length === 0) {
-    onSearchContentChange()
-  } else {
-    activeSearchResult.value = -1
-    listHidden.value = false
-  }
-  focus()
-}
 const onSearchContentChange = () => {
   if (!searchContent.value || !getSearchKeyword()) {
     activeSearchResult.value = -1
