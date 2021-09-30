@@ -25,7 +25,7 @@
         absolute
         top-15/12
         left-0
-        z-2
+        z-[2]
         box-border
         min-w-full
         overflow-hidden
@@ -50,7 +50,7 @@
       class="
         absolute
         inline-block
-        z-1
+        z-[1]
         top-0
         right-0
         box-border

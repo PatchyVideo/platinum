@@ -7,7 +7,7 @@
 function exec(cmd) {
   const child_process = require('child_process')
   return new Promise((resolve) => {
-    const proc = child_process.spawn('yarn', [cmd], {
+    const proc = child_process.spawn('pnpm', ['exec ' + cmd], {
       stdio: 'inherit',
       shell: true,
     })

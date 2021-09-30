@@ -72,6 +72,11 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
+      path: '/tag-editor/:vid',
+      component: () => import('@/video/EditVideoTag.vue'),
+      meta: { holdLoading: true },
+    },
+    {
       path: '/playlist-list',
       component: () => import('@/playlist/PlaylistList.vue'),
       meta: { holdLoading: true },
@@ -136,6 +141,10 @@ app.use(router)
 /* Vue I18n */
 import i18n from '@/locales'
 app.use(i18n)
+
+/* Vue Motion */
+import { MotionPlugin } from '@vueuse/motion'
+app.use(MotionPlugin)
 
 /* Check if backend is alive */
 import BackendDown from './components/BackendDown.vue'

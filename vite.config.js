@@ -2,9 +2,9 @@
 import fs, { promises as fsp } from 'fs'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
-import windicss from 'vite-plugin-windicss'
-import components from 'vite-plugin-components'
-import viteIcons, { ViteIconsResolver } from 'vite-plugin-icons'
+import components from 'unplugin-vue-components/vite'
+import icons from 'unplugin-icons/vite'
+import iconsResolver from 'unplugin-icons/resolver'
 import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import { defineConfig } from 'vite'
@@ -32,17 +32,18 @@ export default defineConfig(async ({ command, mode }) => {
   // @type string
   const banner = [
     '/*!',
-    ` * PatchyVideo/Platinum V${version}(${data.gitLatest.hash.slice(0, 7)})`,
+    ` * PatchyVideo/Platinum v${version}(${data.gitLatest.hash.slice(0, 7)})`,
     ' * MIT License, Copyright (c) 2020-2021 VoileLabs',
     ` * Generated: ${data.date.toISOString()}`,
     ' */',
-  ].join()
+  ].join('\n')
 
   /* create __generated__ dir */
   {
-    const list = ['dts']
+    const list = []
     const promises = []
-    for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, `./packages/${dir}/__generated__`)))
+    for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, 'packages', dir, `__generated__`)))
+    promises.push(fsp.mkdir(path.resolve(__dirname, `__generated__`)))
     await Promise.allSettled(promises)
   }
 
@@ -75,17 +76,18 @@ export default defineConfig(async ({ command, mode }) => {
     plugins: [
       yaml(),
       vue(),
-      windicss(),
       components({
         dirs: ['packages/layouts/components'],
-        customComponentResolvers: [
-          ViteIconsResolver({
-            componentPrefix: 'icon',
+        resolvers: [
+          iconsResolver({
+            prefix: 'icon',
           }),
         ],
-        globalComponentsDeclaration: 'packages/dts/__generated__/viteComponents.d.ts',
+        dts: '__generated__/viteComponents.d.ts',
       }),
-      viteIcons(),
+      icons({
+        compiler: 'vue3',
+      }),
       {
         ...visualizer({
           filename: 'dist/stats.html',

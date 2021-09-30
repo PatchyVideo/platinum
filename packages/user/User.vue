@@ -34,7 +34,7 @@
               :value="username"
               type="singleLine"
               :placeholder="t('user.user-page.username.placeholder')"
-              class="w-full lg:w-6/10"
+              class="w-full lg:w-3/5"
               @update:value="tempUsername = $event"
             >
               <template #prepend>
@@ -252,7 +252,7 @@ const onBindEmail = () => {
   @apply h-10 rounded transition duration-300 focus:outline-none;
 }
 .btn-primary {
-  @apply bg-blue-500 border-1 border-solid border-blue-500 hover:bg-blue-400 hover:border-blue-400 text-white;
+  @apply bg-blue-500 border border-solid border-blue-500 hover:bg-blue-400 hover:border-blue-400 text-white;
   @apply dark:bg-white dark:bg-opacity-0 dark:text-blue-400 dark:hover:bg-opacity-20;
 }
 .btn-default {

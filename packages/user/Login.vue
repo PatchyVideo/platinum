@@ -15,7 +15,7 @@
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
         <md:shadow
-        md:ml-50
+        md:ml-48
       "
     >
       <div class="w-full <md:text-center">
@@ -24,7 +24,7 @@
       </div>
       <form class="w-full space-y-3" autocomplete="on" @submit.prevent="login">
         <div>
-          <div class="flex w-full border-b-1 border-black">
+          <div class="flex w-full border-b border-black">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
@@ -45,7 +45,7 @@
           <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black">
+          <div class="flex w-full border-b border-black">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password"
@@ -238,12 +238,12 @@ async function login(): Promise<void> {
 .login {
   @apply bg-bottom bg-no-repeat bg-cover;
 }
-@variants <md {
+@media screen(<md) {
   .login {
     background-image: url('./assets/LoginMobile.jpg');
   }
 }
-@variants md {
+@media screen(md) {
   .login {
     background-image: url('./assets/Login.jpg');
   }
@@ -253,9 +253,9 @@ async function login(): Promise<void> {
 .autofill:-webkit-autofill:hover,
 .autofill:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: theme('colors.light-blue.300');
+  -webkit-text-fill-color: theme('colors.blue.300');
 }
-@variants md {
+@media screen(md) {
   .autofill:-webkit-autofill,
   .autofill:-webkit-autofill:hover,
   .autofill:-webkit-autofill:focus {

@@ -15,6 +15,7 @@ module.exports = {
     require('postcss-mixins'),
     // Docs: https://github.com/postcss/postcss-nested#readme
     require('postcss-nested'),
+    require('tailwindcss'),
   ],
   preset: {
     stage: 1,

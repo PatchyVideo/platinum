@@ -4,7 +4,7 @@
       <template v-if="playlist">
         <div class="md:ml-4 md:flex justify-start space-x-2 md:space-x-4">
           <div class="flex-shrink-0 flex-grow-0 md:w-80 <md:h-30 overflow-hidden">
-            <div class="md:aspect-5/8 <md:relative <md:top-1/2 <md:transform <md:-translate-y-1/2">
+            <div class="md:aspect-w-8 md:aspect-h-5 <md:relative <md:top-1/2 <md:transform <md:-translate-y-1/2">
               <img
                 class="inline-block <md:w-full md:border-pink-300 md:rounded-xl md:border-4"
                 width="320"
@@ -52,10 +52,10 @@
                 w-full
                 rounded
                 text-sm text-gray-700
-                py-0.5
+                py-[0.125rem]
                 px-1
                 transition-color
-                duration-150
+                duration-[150ms]
                 dark:text-gray-200
                 hover:bg-gray-100
                 dark:hover:bg-gray-800
@@ -84,7 +84,7 @@
               xl:py-3
               md:px-2
               transition-color
-              duration-150
+              duration-[150ms]
               odd:bg-gray-50
               dark:odd:bg-gray-600
               hover:bg-pink-50
@@ -114,7 +114,7 @@
               </div>
             </div>
             <div class="flex-shrink-0 flex-grow-0 w-35 md:w-60">
-              <div class="aspect-5/8">
+              <div class="aspect-w-8 aspect-h-5">
                 <img
                   class="inline-block rounded-lg border-gray-200 border-2"
                   width="240"

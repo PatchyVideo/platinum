@@ -26,7 +26,17 @@
     <!-- top -->
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
-      class="absolute transform-gpu ease-in-out duration-300 top-0 left-0 right-0 bg-black bg-opacity-75 transition-all"
+      class="
+        absolute
+        top-0
+        left-0
+        right-0
+        bg-black bg-opcity-75
+        transform-gpu
+        transition-all
+        ease-in-out
+        duration-300
+      "
       :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
       <div class="m-2 flex justify-between">
@@ -43,14 +53,14 @@
       v-show="videoElementReady && !(usePlayer === 'iframe')"
       class="
         absolute
-        transform-gpu
-        ease-in-out
-        duration-300
         bottom-0
         left-0
         right-0
         bg-black bg-opacity-75
+        transform-gpu
         transition-all
+        ease-in-out
+        duration-300
       "
       :class="{ 'translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
@@ -86,7 +96,9 @@
             </div>
           </div>
           <div class="absolute h-full bg-pink-600" :style="{ width: progress * 100 + '%' }">
-            <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer"></span>
+            <span
+              class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-[0.375rem] bg-white rounded-full cursor-pointer"
+            ></span>
           </div>
         </div>
       </div>
@@ -97,7 +109,7 @@
               v-else-if="playing" /><icon-uil-play v-else /></span
           ><span class="px-1"></span>
           <div class="volume flex flex-row items-center">
-            <icon-uil-volume class="mr-0.5 text-xl" />
+            <icon-uil-volume class="mr-[0.125rem] text-xl" />
             <div class="inline-block h-full m-0 align-middle">
               <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
@@ -113,7 +125,7 @@
                       w-3
                       h-3
                       -mt-1
-                      -mr-1.5
+                      -mr-[0.375rem]
                       bg-white
                       rounded-full
                       transform-gpu
@@ -145,13 +157,12 @@
         absolute
         top-0
         bottom-0
-        left-auto
         right-0
         bg-black
         transform-gpu
+        transition-all
         duration-300
         ease-in-out
-        transition-all
         overflow-hidden
       "
       :class="{ 'translate-x-full': !showSettings }"
@@ -164,14 +175,15 @@
               class="absolute w-6 h-6 align-middle"
               @click="toSettingsParent"
             />
-            <div class="text-center" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
+            <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
           </div>
           <div
             v-for="(settingsItem, index) in activeSettingsItem.items"
             :key="index"
             class="px-2 py-1 whitespace-pre transform-gpu transition-all ease-in-out duration-100"
             :class="{
-              'hover:bg-gray-700 cursor-pointer': 'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
+              'hover:bg-gray-700 cursor-pointer':
+                'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
             }"
           >
             <div
@@ -1123,11 +1135,11 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
 
 .setting-right-enter-active,
 .setting-left-leave-active {
-  @apply absolute top-0 transition-all duration-250 transform-gpu;
+  @apply absolute top-0 transition-all duration-[250ms] transform-gpu;
 }
 .setting-right-leave-active,
 .setting-left-enter-active {
-  @apply transition-all duration-250 transform-gpu;
+  @apply transition-all duration-[250ms] transform-gpu;
 }
 .setting-right-leave-to,
 .setting-left-enter-from {

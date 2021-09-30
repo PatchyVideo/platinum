@@ -1,5 +1,5 @@
 <template>
-  <div class="md:mx-3">
+  <div>
     <svg
       v-if="showIcon"
       version="1.2"

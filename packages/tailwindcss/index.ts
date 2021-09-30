@@ -1,32 +1,28 @@
-import 'virtual:windi.css'
 import './global.css'
 
 import { useMediaQuery } from '@vueuse/core'
-import { computed, reactive } from 'vue'
+import { computed, reactive, Ref } from 'vue'
 
-const queries = {
-  sm: useMediaQuery('(min-width: 640px)'),
-  md: useMediaQuery('(min-width: 768px)'),
-  lg: useMediaQuery('(min-width: 1024px)'),
-  xl: useMediaQuery('(min-width: 1280px)'),
-  '2xl': useMediaQuery('(min-width: 1536px)'),
-  '3xl': useMediaQuery('(min-width: 1920px)'),
+const screens = {
+  sm: '576px',
+  md: '720px',
+  lg: '992px',
+  xl: '1200px',
+  '2xl': '1400px',
+  '3xl': '1540px',
+  '4xl': '1860px',
+  '5xl': '2480px',
 }
 
+const queries: [string, Ref<boolean>][] = Object.entries(screens).map(([k, v]) => [
+  k,
+  useMediaQuery(`(min-width: ${v})`),
+])
+
 export const screenSizes = reactive({
-  ...queries,
-
-  '<sm': computed(() => !queries.sm.value),
-  '<md': computed(() => !queries.md.value),
-  '<lg': computed(() => !queries.lg.value),
-  '<xl': computed(() => !queries.xl.value),
-  '<2xl': computed(() => !queries['2xl'].value),
-  '<3xl': computed(() => !queries['3xl'].value),
-
-  '@sm': computed(() => queries.sm.value && !queries.md.value),
-  '@md': computed(() => queries.md.value && !queries.lg.value),
-  '@lg': computed(() => queries.lg.value && !queries.xl.value),
-  '@xl': computed(() => queries.xl.value && !queries['2xl'].value),
-  '@2xl': computed(() => queries['2xl'].value && !queries['3xl'].value),
-  '@3xl': computed(() => queries['3xl'].value),
+  ...Object.fromEntries(queries),
+  ...Object.fromEntries(queries.map(([k, v]) => ['<' + k, computed(() => !v.value)])),
+  ...Object.fromEntries(
+    queries.map(([k, v], i) => ['@' + k, computed(() => v.value && !(queries[i + 1] ?? [])[1].value)])
+  ),
 })

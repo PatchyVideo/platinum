@@ -6,8 +6,8 @@
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
-            <div class="w-2/5 mr-0.5">
-              <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="w-2/5 mr-[0.125rem]">
+              <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div
@@ -35,7 +35,7 @@
             v-for="index in limit"
             :key="index"
             class="
-              w-21/100
+              w-[21%]
               my-5
               border
               shadow-sm
@@ -44,7 +44,7 @@
               dark:border-gray-500 dark:bg-gray-700
             "
           >
-            <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
             <div class="p-3 text-left text-sm lg:text-base">
               <div
                 class="
@@ -71,7 +71,7 @@
       </div>
       <div v-else-if="status === 'result'">
         <div
-          class="border-b-1 pb-1"
+          class="border-b pb-1"
           v-text="t('video.video-list.main-body.successful.search-result-count', { count })"
         ></div>
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
@@ -83,8 +83,8 @@
             class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="'/video/' + video.id.toHexString()"
           >
-            <div class="w-2/5 mr-0.5">
-              <div class="aspect-10/16 overflow-hidden rounded-sm">
+            <div class="w-2/5 mr-[0.125rem]">
+              <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
                 <img
                   class="object-cover h-full w-full dark:filter dark:brightness-80"
                   :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
@@ -116,7 +116,7 @@
             v-for="video in videos"
             :key="video.item.title"
             class="
-              w-21/100
+              w-[21%]
               my-5
               border
               shadow-sm
@@ -126,7 +126,7 @@
             "
             :to="'/video/' + video.id.toHexString()"
           >
-            <div class="aspect-10/16 overflow-hidden rounded-sm">
+            <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
               <img
                 class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80)"
                 :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"

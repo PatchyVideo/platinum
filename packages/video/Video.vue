@@ -40,7 +40,12 @@
           <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
-            <template v-if="!renderTagAsPlainText"
+            <span v-if="isLogin === IsLogin.yes" title="编辑标签"
+              ><icon-uil-tag-alt
+                class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300 cursor-pointer"
+                @click="popEditTagWindow" /></span
+            ><icon-uil-tag-alt v-else class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300" /><template
+              v-if="!renderTagAsPlainText"
               ><Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag
             ></template>
             <template v-else>
@@ -69,8 +74,8 @@
                 <div>
                   <span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span
                   ><span class="text-xs text-gray-500 dark:text-gray-400"
-                    ><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense
-                    ><span v-if="comment.edited" class="ml-1.5">edited</span></span
+                    ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
+                    ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
                   >
                 </div>
                 <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
@@ -121,15 +126,15 @@
                     :alt="author.name"
                   />
                 </div>
-                <div class="hidden sm:block ml-1.5 overflow-hidden">
+                <div class="hidden sm:block ml-[0.375rem] overflow-hidden">
                   <span
                     class="
                       inline-block
                       align-text-bottom
-                      px-0.75
-                      mr-0.5
+                      px-[0.1875rem]
+                      mr-[0.125rem]
                       rounded
-                      bg-fuchsia-600
+                      bg-pink-400
                       text-xs
                       lg:text-sm
                       text-white
@@ -157,7 +162,7 @@
                 border-gray-300
                 dark:border-gray-600
                 border-b
-                xl:border-1 xl:rounded-md xl:mt-2
+                xl:border xl:rounded-md xl:mt-2
                 flex flex-col
                 max-h-125
               "
@@ -205,7 +210,7 @@
                     ><template v-else>{{ plVideo.rank + 1 }}</template>
                   </div>
                   <div class="flex-shrink-0 flex-grow-0 w-24">
-                    <div class="aspect-5/8">
+                    <div class="aspect-w-8 aspect-h-5">
                       <img
                         class="inline-block"
                         width="96"
@@ -236,8 +241,8 @@
                 :to="'/video/' + rlVideo.id.toHexString()"
                 class="
                   grid grid-cols-5
-                  space-x-1.5
-                  py-0.5
+                  space-x-[0.375rem]
+                  py-[0.125rem]
                   rounded-md
                   hover:bg-pink-50
                   dark:hover:bg-gray-800
@@ -246,14 +251,14 @@
                 "
               >
                 <div class="col-span-2">
-                  <div class="aspect-10/16 overflow-hidden rounded-md">
+                  <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md">
                     <img
                       class="object-cover h-full w-full dark:filter dark:brightness-80"
                       :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
                     />
                   </div>
                 </div>
-                <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
+                <div class="col-span-3 flex mt-[0.125rem] flex-wrap content-start text-sm">
                   <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
                   <div
                     class="text-sm inline-block w-full mt-1 truncate font-light"
@@ -281,7 +286,7 @@
           </div>
           <!-- Video Player -->
           <div class="w-full mt-1">
-            <div class="aspect-9/16">
+            <div class="aspect-w-16 aspect-h-9">
               <div class="w-full h-full bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
             </div>
           </div>
@@ -325,7 +330,7 @@
           <div class="flex flex-col space-y-1 mt-2">
             <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
-                <div class="aspect-10/16 overflow-hidden rounded-sm">
+                <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
                   <div class="object-cover h-full w-full rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">
                     &nbsp;
                   </div>
@@ -364,7 +369,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/tailwindcss'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
-import { useLocalStorage } from '@vueuse/core'
+import { useLocalStorage, useMagicKeys, whenever } from '@vueuse/core'
 import { isLogin, IsLogin, user } from '@/user/index'
 import { openWindow } from '@/nested'
 
@@ -636,4 +641,20 @@ const hideVideo = () => {
       hideVideoResult.value = '保存失败:' + e.message ?? e
     })
 }
+
+/* edit tags */
+const editTagWindow = shallowRef<Window | null>(null)
+const popEditTagWindow = () => {
+  // check if there is already a window opened
+  if (editTagWindow.value && !editTagWindow.value.closed) {
+    editTagWindow.value.focus()
+  }
+  // create a new window
+  const { window: win } = openWindow({
+    url: '/tag-editor/' + vid.value,
+  })
+  editTagWindow.value = win
+}
+// listen to Ctrl+Alt+T
+whenever(useMagicKeys()['Ctrl+Alt+T'], popEditTagWindow)
 </script>

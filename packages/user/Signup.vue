@@ -25,7 +25,7 @@
       </div>
       <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
-          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black <md:dark:border-white">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
@@ -47,7 +47,7 @@
           <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black <md:dark:border-white">
             <icon-uil-lock-open-alt class="align-middle w-7" />
             <input
               v-model="password"
@@ -69,7 +69,7 @@
           <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black <md:dark:border-white">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password2"
@@ -91,7 +91,7 @@
           <div class="text-red-500 text-sm h-4" v-text="password2Status"></div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black <md:dark:border-white">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
@@ -366,12 +366,12 @@ async function signup(): Promise<void> {
 .sign-up {
   @apply bg-bottom bg-no-repeat bg-cover;
 }
-@variants <md {
+@media screen(<md) {
   .sign-up {
     background-image: url('./assets/SignupMobile.jpg');
   }
 }
-@variants md {
+@media screen(md) {
   .sign-up {
     background-image: url('./assets/Signup.jpg');
   }
@@ -381,9 +381,9 @@ async function signup(): Promise<void> {
 .autofill:-webkit-autofill:hover,
 .autofill:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: theme('colors.light-blue.300');
+  -webkit-text-fill-color: theme('colors.blue.300');
 }
-@variants md {
+@media screen(md) {
   .autofill:-webkit-autofill,
   .autofill:-webkit-autofill:hover,
   .autofill:-webkit-autofill:focus {

@@ -1,17 +1,29 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
-    <div class="shadow rounded-xl h-9 flex justify-start items-center bg-white dark:bg-gray-800">
-      <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" />
+    <div
+      class="
+        flex
+        h-9
+        justify-start
+        items-center
+        rounded-lg
+        border border-gray-300
+        dark:border-gray-600
+        bg-white
+        dark:bg-gray-800
+      "
+    >
+      <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onInputClick()" />
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-xl"
+        class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-lg"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
-        @click="onSearchContentChange()"
+        @click="onInputClick()"
       />
       <div class="inline-block ml-1 mr-2" @click="searchContent = ''">
         <icon-uil-times-circle v-show="searchContent" class="flex-shrink-0 text-sm" />
@@ -23,7 +35,7 @@
           bg-pink-300
           h-full
           px-3
-          rounded-r-xl
+          rounded-r-lg
           transition-colors
           focus:outline-none focus:ring focus:ring-pink-300
           hover:bg-pink-200
@@ -33,84 +45,125 @@
         v-text="t('search.auto-complete.search')"
       ></button>
     </div>
-    <div class="shadow rounded">
-      <Teleport :disabled="!teleportResult" :to="teleportResult">
+    <div class="absolute z-[11] top-full left-0 pt-1 w-full overflow-hidden pb-16">
+      <Transition
+        :css="false"
+        :persisted="true"
+        @enter="
+          (_, done) => {
+            if (motionel) {
+              motion.set({ y: -motionel.clientHeight - 20, opacity: 0.5 })
+              motion
+                .apply({ y: 0, opacity: 1, transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } } })
+                ?.then(() => done())
+            } else done()
+          }
+        "
+        @after-enter="
+          () => {
+            transitionStatus = 'enter'
+          }
+        "
+        @leave="
+          (_, done) => {
+            if (motionel) {
+              motion
+                .apply({
+                  y: -motionel.clientHeight - 20,
+                  opacity: 0.5,
+                  transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } },
+                })
+                ?.then(() => done())
+            } else done()
+          }
+        "
+        @after-leave="
+          () => {
+            transitionStatus = 'leave'
+          }
+        "
+      >
         <div
-          v-if="!listHidden"
-          role="listbox"
-          class="bg-white w-full absolute top-14/12 left-0 z-11 space-y-2 dark:bg-gray-800"
+          v-show="!hideContainer"
+          ref="motionel"
+          class="w-full rounded bg-white dark:bg-gray-700 shadow-lg border border-gray-300 dark:border-gray-600"
         >
-          <div
-            v-for="(item, index) in searchResult.map(lang2tag)"
-            :key="item.tag"
-            class="
-              px-3
-              py-1
-              transition-colors
-              cursor-pointer
-              hover:bg-gray-100
-              flex
-              justify-between
-              hover:dark:bg-gray-900
-            "
-            :class="{ 'bg-gray-100 dark:bg-gray-900': index === activeSearchResult }"
-            @click="clickAutocompleteKeyword(item.tag)"
-          >
-            <div class="text-left">
+          <Teleport :disabled="!teleportResult" :to="teleportResult">
+            <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">
               <div
-                :class="{
-                  'text-copyright': item.cat === 2,
-                  'text-language': item.cat === 5,
-                  'text-character': item.cat === 1,
-                  'text-author': item.cat === 3,
-                  'text-general': item.cat === 0,
-                  'text-meta': item.cat === 4,
-                  'text-soundtrack': item.cat === 6,
-                }"
-                v-text="item.tag"
-              ></div>
-              <template v-if="item.sub"
-                ><div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub"></div
-              ></template>
-            </div>
-            <div class="text-gray-400">{{ item.cnt || '' }}</div>
-          </div>
-        </div>
-        <div
-          v-else-if="loading"
-          class="p-3 text-center bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
-          v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
-        ></div>
-        <div
-          v-else-if="!hideContainer && showRecommendations"
-          class="bg-white w-full absolute top-14/12 left-0 z-10 dark:bg-gray-800"
-        >
-          <div>
-            <h4 class="mx-2 font-light">
-              <icon-uil-tag-alt class="inline-block w-4 h-4 mr-0.5 align-middle text-gray-600 dark:text-gray-300" />热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
-            </h4>
-            <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-700 dark:text-gray-300">
-              <div
-                v-for="tag in popularTags"
-                :key="tag"
-                class="inline-block mx-1.5 cursor-pointer select-none"
-                @click="
-                  () => {
-                    if (
-                      searchContent.length > 0 &&
-                      [' ', '\t', '\n', '\v', '\f', '\r'].indexOf(searchContent.charAt(searchContent.length - 1)) === -1
-                    )
-                      searchContent += ' '
-                    searchContent += tag + ' '
-                    if (autoComplete) autoComplete.focus()
-                  }
+                v-for="(item, index) in searchResult.map(lang2tag)"
+                :key="item.tag"
+                class="
+                  px-3
+                  py-1
+                  transition-colors
+                  cursor-pointer
+                  hover:bg-gray-100
+                  flex
+                  justify-between
+                  dark:hover:bg-gray-900
                 "
-                v-text="tag.replaceAll(/_/g, ' ')"
-              ></div>
+                :class="{ 'bg-gray-100 dark:bg-gray-900': index === activeSearchResult }"
+                @click="clickAutocompleteKeyword(item.tag)"
+              >
+                <div class="text-left">
+                  <div
+                    :class="{
+                      'text-copyright': item.cat === 2,
+                      'text-language': item.cat === 5,
+                      'text-character': item.cat === 1,
+                      'text-author': item.cat === 3,
+                      'text-general': item.cat === 0,
+                      'text-meta': item.cat === 4,
+                      'text-soundtrack': item.cat === 6,
+                    }"
+                    v-text="item.tag"
+                  ></div>
+                  <template v-if="item.sub"
+                    ><div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub"></div
+                  ></template>
+                </div>
+                <div class="text-gray-400">{{ item.cnt || '' }}</div>
+              </div>
             </div>
-          </div>
+            <div v-else-if="!listHidden" class="p-3 w-full text-center" v-text="'没有搜索建议'"></div>
+            <div
+              v-else-if="loading"
+              class="p-3 w-full text-center"
+              v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
+            ></div>
+            <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full">
+              <div>
+                <h4 class="mx-2 font-light">
+                  <icon-uil-tag-alt
+                    class="inline-block w-4 h-4 mr-[0.125rem] align-middle text-gray-600 dark:text-gray-300"
+                  />热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
+                </h4>
+                <div v-if="popularTags" class="mx-[0.125rem] line-clamp-4 text-gray-700 dark:text-gray-300">
+                  <div
+                    v-for="tag in popularTags"
+                    :key="tag"
+                    class="inline-block mx-[0.375rem] cursor-pointer select-none"
+                    @click="
+                      () => {
+                        if (
+                          searchContent.length > 0 &&
+                          [' ', '\t', '\n', '\v', '\f', '\r'].indexOf(
+                            searchContent.charAt(searchContent.length - 1)
+                          ) === -1
+                        )
+                          searchContent += ' '
+                        searchContent += tag + ' '
+                        if (autoComplete) autoComplete.focus()
+                      }
+                    "
+                    v-text="tag.replaceAll(/_/g, ' ')"
+                  ></div>
+                </div>
+              </div></div
+          ></Teleport>
         </div>
-      </Teleport>
+      </Transition>
     </div>
   </div>
 </template>
@@ -119,10 +172,11 @@
 import { ref, reactive, nextTick, watchEffect, shallowRef } from 'vue'
 import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { throttledWatch, useElementSize, useEventListener, useVModel } from '@vueuse/core'
+import { throttledWatch, until, useElementSize, useEventListener, useVModel } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
+import { useMotion } from '@vueuse/motion'
 
 const props = defineProps({
   keyword: {
@@ -181,6 +235,15 @@ let sitesAndKeywords: resultType[] = reactive([
 ])
 
 // Send query and show the list
+const onInputClick = () => {
+  if (searchResult.value.length === 0) {
+    onSearchContentChange()
+  } else {
+    activeSearchResult.value = -1
+    listHidden.value = false
+  }
+  focus()
+}
 const onSearchContentChange = () => {
   if (!searchContent.value || !getSearchKeyword()) {
     activeSearchResult.value = -1
@@ -277,11 +340,12 @@ function ConvertLangRes(langs: langs[], keyword = ''): { main: string; sub?: str
 // Click to hide the list
 const autoCompleteRoot = shallowRef<HTMLDivElement | null>()
 const hideContainer = ref(true)
-useEventListener(document, 'click', (e: MouseEvent): void => {
+useEventListener(document, 'click', async (e: MouseEvent): Promise<void> => {
   activeSearchResult.value = -1
   if (!autoCompleteRoot.value?.contains(e.target as HTMLElement)) {
-    listHidden.value = true
     hideContainer.value = true
+    await until(transitionStatus).toBe('leave')
+    listHidden.value = true
     loading.value = false
   } else {
     hideContainer.value = false
@@ -381,6 +445,10 @@ const popularTags = useResult(
       .sort((a, b) => b.popluarity - a.popluarity)
       .map((v) => behMostMatch(v.tag.languages)) ?? []
 )
+
+const motionel = shallowRef<HTMLElement | null>(null)
+const motion = useMotion(motionel)
+const transitionStatus = ref<'enter' | 'leave'>('leave')
 
 defineExpose({
   focus,

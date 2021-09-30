@@ -33,19 +33,19 @@
           fixed
           inset-y-0
           p-1
-          z-50
+          z-[50]
           right-0
           overflow-auto
           bg-white
           transform-gpu
           transition-transform
           duration-300
-          w-9/12
+          w-3/4
           dark:bg-gray-700
         "
         :class="{ 'translate-x-full': !noteDrawerOpen }"
       >
-        <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
+        <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
           <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 hover:dark:bg-gray-900" />
           <div class="text-lg ml-2">消息中心</div>
         </div>
@@ -103,16 +103,16 @@
       <Transition name="mask">
         <div
           v-if="noteDrawerOpen"
-          class="fixed inset-0 bg-black bg-opacity-20 z-49"
+          class="fixed inset-0 bg-black bg-opacity-20 z-[49]"
           @click="noteDrawerOpen = false"
         ></div>
       </Transition>
     </div>
     <!-- Desktop View -->
-    <div v-else class="p-5 flex space-x-3 min-h-screen w-9/10 m-auto xl:w-4/5">
+    <div v-else class="p-5 flex space-x-3 min-h-screen w-[90%] m-auto xl:w-4/5">
       <!-- Nav Left -->
       <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-700">
-        <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
+        <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
           <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 hover:dark:bg-gray-900" />
           <div class="text-lg ml-2">消息中心</div>
         </div>

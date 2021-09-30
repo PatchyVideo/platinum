@@ -1,11 +1,11 @@
 <template>
   <div v-if="status === 'loading'">
-    <div class="border-b-1 pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
+    <div class="border-b pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
       <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
-        <div class="w-2/5 mr-0.5">
-          <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+        <div class="w-2/5 mr-[0.125rem]">
+          <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
         </div>
         <div class="w-3/5 flex flex-wrap content-between">
           <div
@@ -35,7 +35,7 @@
         v-for="index in limit"
         :key="index"
         class="
-          w-48/100
+          w-[48%]
           my-5
           p-2
           border
@@ -48,7 +48,7 @@
         <div
           class="
             block
-            border-b-1
+            border-b
             py-3
             text-center text-xl
             truncate
@@ -64,7 +64,7 @@
         </div>
         <div class="flex p-2 pt-3">
           <div class="w-1/2 mr-5">
-            <div class="aspect-10/16 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
           </div>
           <div class="w-1/2 py-2 flex flex-wrap content-between">
             <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
@@ -88,7 +88,7 @@
     {{ t('search.search-result.playlist.main-body.successful.search-no-result') }}
   </div>
   <div v-else-if="status === 'result'">
-    <div class="border-b-1 pb-1">
+    <div class="border-b pb-1">
       {{ t('search.search-result.playlist.main-body.successful.search-result-count', { count: count }) }}
     </div>
     <!-- Mobile View -->
@@ -99,8 +99,8 @@
         class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="'/playlist/' + playlist.id.toHexString()"
       >
-        <div class="w-2/5 mr-0.5">
-          <div class="aspect-10/16 overflow-hidden rounded-sm">
+        <div class="w-2/5 mr-[0.125rem]">
+          <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
             <img
               class="object-cover h-full w-full dark:filter dark:brightness-80"
               :src="getCoverImage({ image: playlist.item.cover })"
@@ -122,7 +122,7 @@
         v-for="playlist in playlists"
         :key="playlist.item.title"
         class="
-          w-48/100
+          w-[48%]
           my-5
           p-2
           border
@@ -134,12 +134,12 @@
       >
         <RouterLink
           :to="'/playlist/' + playlist.id"
-          class="block border-b-1 py-3 text-center text-xl truncate font-semibold lg:text-2xl"
+          class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl"
           v-text="playlist.item.title"
         ></RouterLink>
         <div class="flex p-2 pt-3">
           <div class="w-1/2 mr-5">
-            <div class="aspect-10/16 overflow-hidden">
+            <div class="aspect-w-16 aspect-h-10 overflow-hidden">
               <img
                 class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80"
                 :src="getCoverImage({ image: playlist.item.cover })"

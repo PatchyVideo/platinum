@@ -3,7 +3,7 @@
 <script lang="ts" setup>
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import { reactivePick } from '@vueuse/shared'
+import { reactivePick } from '@vueuse/core'
 
 const props = defineProps({
   showSearchBar: {

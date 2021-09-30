@@ -1,8 +1,7 @@
 <template>
   <div
     class="
-      forget-password-mobile
-      md:forget-password-md
+      forget-password
       h-screen
       w-full
       md:min-h-xl
@@ -34,7 +33,7 @@
       </div>
       <div class="w-full space-y-2">
         <div>
-          <div class="flex w-full border-b-1 border-white">
+          <div class="flex w-full border-b border-white">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
@@ -100,7 +99,7 @@
       </div>
       <div class="w-full space-y-2">
         <div>
-          <div class="flex w-full border-b-1 border-black">
+          <div class="flex w-full border-b border-black">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
@@ -226,17 +225,16 @@ async function sendEmail(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.forget-password-mobile {
-  @apply bg-center;
-  @apply bg-no-repeat;
-  @apply bg-cover;
-  background-image: url('./assets/LoginMobile.jpg');
+.forget-password {
+  @apply bg-center bg-no-repeat bg-cover;
 }
-@variants md {
-  .md\:forget-password-md {
-    @apply bg-center;
-    @apply bg-no-repeat;
-    @apply bg-cover;
+@media screen(<md) {
+  .forget-password {
+    background-image: url('./assets/LoginMobile.jpg');
+  }
+}
+@media screen(md) {
+  .forget-password {
     background-image: url('./assets/Login.jpg');
   }
 }

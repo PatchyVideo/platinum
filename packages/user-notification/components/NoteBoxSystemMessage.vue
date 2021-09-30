@@ -40,7 +40,7 @@
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
 import { useQuery, useMutation, gql, useResult } from '@/graphql'
-import { ref, watch, watchEffect, defineProps, defineEmits } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import type { PropType } from 'vue'
 import { useVModels } from '@vueuse/core'
 import type { schema, Query, Mutation } from '@/graphql'

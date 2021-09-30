@@ -18,20 +18,23 @@ jobs:
           node-version: 16
           check-latest: true
 
-      - name: Install
-        run: yarn install --immutable
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.16.0
+          run_install: |
+            args: [--frozen-lockfile, --strict-peer-dependencies]
         timeout-minutes: 10
 
       - name: Codegen
-        run: yarn codegen
+        run: pnpm codegen
         timeout-minutes: 5
 
       - name: Test
-        run: yarn ci-test
+        run: pnpm ci-test
         timeout-minutes: 15
 
       - name: Build
-        run: yarn build
+        run: pnpm build
         timeout-minutes: 15
 
       - name: Deploy to Vercel (Staging)

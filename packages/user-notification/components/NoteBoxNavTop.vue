@@ -2,7 +2,7 @@
   <div
     ref="NoteBox"
     class="
-      z-999
+      z-[999]
       absolute
       right-0
       top-10
@@ -82,7 +82,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import { isLogin, IsLogin } from '@/user'
 import { markAsReadStatus } from '@/user-notification/lib/markAsRead'
 import { useQuery, gql, useResult } from '@/graphql'
-import { ref, watchEffect, defineProps, defineEmits } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
 import type { schema, Query } from '@/graphql'
 

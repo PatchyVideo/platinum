@@ -1,5 +1,5 @@
 <template>
-  <div class="reset-password-mobile md:reset-password-md h-screen w-full md:min-h-xl dark:filter dark:brightness-80">
+  <div class="reset-password h-screen w-full md:min-h-xl dark:filter dark:brightness-80">
     <!-- Mobile view -->
     <div
       v-if="screenSizes['<md']"
@@ -22,7 +22,7 @@
       </div>
       <div class="w-full space-y-3">
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b border-black dark:border-white">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="password"
@@ -41,7 +41,7 @@
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black dark:border-white">
+          <div class="flex w-full border-b border-black dark:border-white">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password2"
@@ -101,7 +101,7 @@
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        ml-50
+        ml-48
         text-black
         flex
       "
@@ -112,7 +112,7 @@
       </div>
       <div class="w-full space-y-3">
         <div>
-          <div class="flex w-full border-b-1 border-black">
+          <div class="flex w-full border-b border-black">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="password"
@@ -124,7 +124,7 @@
           <div class="text-red-500 text-sm h-4">{{ passwordStatus }}</div>
         </div>
         <div>
-          <div class="flex w-full border-b-1 border-black">
+          <div class="flex w-full border-b border-black">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password2"
@@ -268,17 +268,16 @@ async function reset(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.reset-password-mobile {
-  @apply bg-bottom;
-  @apply bg-no-repeat;
-  @apply bg-cover;
-  background-image: url('./assets/SignupMobile.jpg');
+.reset-password {
+  @apply bg-bottom bg-no-repeat bg-cover;
 }
-@variants md {
-  .md\:reset-password-md {
-    @apply bg-bottom;
-    @apply bg-no-repeat;
-    @apply bg-cover;
+@media screen(<md) {
+  .reset-password {
+    background-image: url('./assets/SignupMobile.jpg');
+  }
+}
+@media screen(md) {
+  .reset-password {
     background-image: url('./assets/Signup.jpg');
   }
 }

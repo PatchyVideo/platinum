@@ -12,7 +12,7 @@
       />
     </div>
 
-    <div class="p-2 md:m-auto xl:w-9/10 2xl:w-8/10">
+    <div class="p-2 md:m-auto xl:w-[90%] 2xl:w-4/5">
       <div class="my-2 md:m-0 md:flex md:justify-between">
         <div class="flex">
           <div
@@ -187,15 +187,9 @@ function changeOrder(value: string): void {
 
 <style lang="postcss" scoped>
 .active-tab {
-  @apply text-black;
-  @apply border-pink-300;
-  @apply dark:text-white;
+  @apply text-black border-pink-300 dark:text-white;
 }
 .active-opt {
-  @apply text-black;
-  @apply rounded-full;
-  @apply bg-gray-100;
-  @apply dark:text-white
-  @apply dark:bg-gray-500;
+  @apply text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500;
 }
 </style>

@@ -29,7 +29,7 @@ import { gql } from '@/graphql'
 import type { Query, Mutation } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useI18n } from 'vue-i18n'
-import { useTimeoutFn } from '@vueuse/shared'
+import { useTimeoutFn } from '@vueuse/core'
 import { user } from '@/user'
 
 const { t } = useI18n()
