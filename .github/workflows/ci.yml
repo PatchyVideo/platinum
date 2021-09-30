@@ -18,6 +18,14 @@ jobs:
           node-version: 16
           check-latest: true
 
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.16.0
