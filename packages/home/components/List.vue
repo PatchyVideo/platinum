@@ -25,5 +25,3 @@ const data: HomeCompDataList = reactive(JSON.parse(props.data))
 
 console.log(data.listID)
 </script>
-
-<style lang="postcss" scoped></style>

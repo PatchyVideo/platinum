@@ -19,7 +19,7 @@
         </ul>
       </div>
     </div>
-    <div v-if="!small" class="text-center text-sm text-gray-600 dark:text-gray-200 whitespace-nowrap overflow-hidden">
+    <div v-if="!small" class="text-center text-sm font-light whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
@@ -38,7 +38,7 @@
               .map(({ name, extVersion }) => name + '(' + extVersion + ')')
               .join(', ')
           "
-          >({{ Object.values(extensions).length }} extension(s) installed)</span
+          >({{ Object.values(extensions).length }} ext installed)</span
         ></template
       ><br />
       © 2020-2021 VoileLabs
@@ -106,9 +106,9 @@ onMounted(() => {
   if (!props.small)
     typed = new Typed('#footer-typed', {
       strings: getYiyanArray(true, true),
-      typeSpeed: 50,
-      backSpeed: 15,
-      backDelay: 2000,
+      typeSpeed: 30,
+      backSpeed: 10,
+      backDelay: 1600,
       loop: true,
       smartBackspace: false,
     })
@@ -122,5 +122,3 @@ const commitHash = import.meta.env.VITE_COMMIT_HASH
 
 const hasExtension = computed(() => Object.keys(extensions.value).length > 0)
 </script>
-
-<style lang="postcss" scoped></style>

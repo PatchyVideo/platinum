@@ -44,5 +44,3 @@ function backUp(): void {
   }
 }
 </script>
-
-<style lang="postcss" scoped></style>

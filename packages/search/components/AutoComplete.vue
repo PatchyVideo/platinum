@@ -450,5 +450,3 @@ defineExpose({
   focus,
 })
 </script>
-
-<style lang="postcss" scoped></style>

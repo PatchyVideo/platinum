@@ -17,7 +17,7 @@ let shortYiyan: string[] = []
 function getShortYiyan(): string[] {
   if (shortYiyan.length > 0) return shortYiyan
   const yy = [...yiyan]
-  shortYiyan = yy.filter((v) => getByteLen(v) <= 80)
+  shortYiyan = yy.filter((v) => getByteLen(v) <= 120)
   return shortYiyan
 }
 

@@ -2,6 +2,7 @@
 import fs, { promises as fsp } from 'fs'
 import path from 'path'
 import vue from '@vitejs/plugin-vue'
+import { VitePWA as pwa } from 'vite-plugin-pwa'
 import components from 'unplugin-vue-components/vite'
 import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'
@@ -87,6 +88,35 @@ export default defineConfig(async ({ command, mode }) => {
       }),
       icons({
         compiler: 'vue3',
+      }),
+      pwa({
+        strategies: 'injectManifest',
+        srcDir: 'packages/main',
+        filename: 'sw.ts',
+        includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+        injectManifest: {
+          globPatterns: ['LICENSE', 'index.html', 'assets/**'],
+        },
+        manifest: {
+          name: 'PatchyVideo',
+          short_name: 'PatchyVideo',
+          description: 'The video-indexing platform that helps you find your favorites.',
+          icons: [
+            {
+              src: '/android-chrome-192x192.png',
+              sizes: '192x192',
+              type: 'image/png',
+            },
+            {
+              src: '/android-chrome-512x512.png',
+              sizes: '512x512',
+              type: 'image/png',
+            },
+          ],
+          theme_color: '#ffffff',
+          background_color: '#ffffff',
+          display: 'standalone',
+        },
       }),
       {
         ...visualizer({

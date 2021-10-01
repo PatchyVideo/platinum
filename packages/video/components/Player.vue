@@ -26,17 +26,7 @@
     <!-- top -->
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
-      class="
-        absolute
-        top-0
-        left-0
-        right-0
-        bg-black bg-opcity-75
-        transform-gpu
-        transition-all
-        ease-in-out
-        duration-300
-      "
+      class="absolute top-0 left-0 right-0 bg-black bg-opcity-75 transform-gpu transition-all ease-in-out duration-300"
       :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
       <div class="m-2 flex justify-between">

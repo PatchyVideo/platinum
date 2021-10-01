@@ -1,16 +1,16 @@
 import { useLocalStorage, usePreferredDark } from '@vueuse/core'
 import { ref, watch } from 'vue'
 
-const body = document.body
+const html = document.documentElement
 
 const themePreference = useLocalStorage('themePreference', '', { listenToStorageChanges: true, flush: 'post' })
 const themes = ['light', 'dark']
 
 function updateDOM(v: boolean) {
   if (v) {
-    if (!body.classList.contains('dark')) body.classList.add('dark')
+    if (!html.classList.contains('dark')) html.classList.add('dark')
   } else {
-    if (body.classList.contains('dark')) body.classList.remove('dark')
+    if (html.classList.contains('dark')) html.classList.remove('dark')
   }
 }
 

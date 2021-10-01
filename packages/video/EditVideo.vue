@@ -4,10 +4,7 @@
       <div class="pl-2 text-gray-600 dark:text-gray-300 border-b border-gray-200 dark:border-gray-600">基本信息</div>
       <div class="mx-2 mt-1">
         <div class="">
-          <div>
-            <span>视频标题</span
-            ><span class="uline ml-4" v-text="video.item.title"></span>
-          </div>
+          <div><span>视频标题</span><span class="uline ml-4" v-text="video.item.title"></span></div>
           <div>
             <span>视频等级</span
             ><template v-if="user.isAdmin"

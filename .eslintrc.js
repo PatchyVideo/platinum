@@ -41,7 +41,7 @@ module.exports = {
         browser: true,
       },
       parser: '@typescript-eslint/parser',
-      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+      extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended'],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
@@ -61,7 +61,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
         'plugin:vue/vue3-recommended',
-        'prettier',
+        'plugin:prettier/recommended',
       ],
       rules: {
         '@typescript-eslint/no-unused-vars': 'off',

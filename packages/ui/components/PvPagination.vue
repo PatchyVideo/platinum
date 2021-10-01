@@ -119,5 +119,3 @@ function change(): void {
   emit('change', page.value)
 }
 </script>
-
-<style lang="postcss" scoped></style>

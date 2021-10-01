@@ -1,4 +1,4 @@
-import './global.css'
+import './global.postcss'
 
 import { useMediaQuery } from '@vueuse/core'
 import { computed, reactive, Ref } from 'vue'

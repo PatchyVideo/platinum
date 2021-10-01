@@ -45,5 +45,3 @@ watch(count, () => {
   if (!count.value) router.push('/user/login')
 })
 </script>
-
-<style lang="postcss" scoped></style>

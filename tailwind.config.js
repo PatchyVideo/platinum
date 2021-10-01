@@ -9,7 +9,7 @@ const aspectRatio = require('@tailwindcss/aspect-ratio')
  */
 module.exports = {
   mode: 'jit',
-  purge: ['./packages/**/*.{html,vue,ts,tsx,js,jsx,css}'],
+  purge: ['./packages/**/*.{html,vue,ts,tsx,js,jsx,css,postcss}'],
   darkMode: 'class',
   theme: {
     extend: {

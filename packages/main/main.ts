@@ -20,11 +20,12 @@ NProgress.start()
 
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
+import ReloadPrompt from './components/ReloadPrompt.vue'
 import AppRouterView from './components/AppRouterView.vue'
 import { provideSharedObject } from '@/nested'
 const app = createApp(
   defineComponent({
-    render: () => [h(AppRouterView), h(Notification)],
+    render: () => [h(AppRouterView), h(Notification), h(ReloadPrompt)],
     setup() {
       provideClient(client)
       provideSharedObject()
@@ -146,14 +147,28 @@ app.use(i18n)
 import { MotionPlugin } from '@vueuse/motion'
 app.use(MotionPlugin)
 
+/* Vite PWA */
+import { registerSW } from 'virtual:pwa-register'
+registerSW({})
+
 /* Check if backend is alive */
 import BackendDown from './components/BackendDown.vue'
+import BrowserOffline from './components/BrowserOffline.vue'
 async function loadBackendDown() {
-  const errorPageApp = createApp(
-    defineComponent({
-      render: () => h(BackendDown),
-    })
-  )
+  let errorPageApp
+  if (window.navigator.onLine) {
+    errorPageApp = createApp(
+      defineComponent({
+        render: () => h(BackendDown),
+      })
+    )
+  } else {
+    errorPageApp = createApp(
+      defineComponent({
+        render: () => h(BrowserOffline),
+      })
+    )
+  }
   await appPromisesFinish
   await router.isReady()
   await nextTick()

@@ -14,5 +14,3 @@ import { useRoute } from 'vue-router'
 const { t } = useI18n()
 const { fullPath } = useRoute()
 </script>
-
-<style lang="postcss" scoped></style>

@@ -4,8 +4,8 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Node",
-    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM"],
-    "types": ["vite/client", "jest", "unplugin-icons/types/vue"],
+    "lib": ["ESNext", "ESNext.AsyncIterable", "DOM", "WebWorker"],
+    "types": ["vite/client", "jest", "unplugin-icons/types/vue", "vite-plugin-pwa/client"],
     "jsx": "preserve",
     "target": "ESNext",
     "sourceMap": true,

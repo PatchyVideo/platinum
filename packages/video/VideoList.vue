@@ -7,7 +7,9 @@
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-[0.125rem]">
-              <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+              <div
+                class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+              ></div>
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div
@@ -44,7 +46,9 @@
               dark:border-gray-500 dark:bg-gray-700
             "
           >
-            <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div
+              class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+            ></div>
             <div class="p-3 text-left text-sm lg:text-base">
               <div
                 class="
@@ -305,5 +309,3 @@ function jumpToSelectedPage(page: number): void {
   router.push({ path: route.path, query })
 }
 </script>
-
-<style lang="postcss" scoped></style>

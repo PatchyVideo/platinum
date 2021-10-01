@@ -24,5 +24,3 @@ function searchResult(searchContent: string): void {
   router.push({ path: '/search-result', query: { i: searchContent } })
 }
 </script>
-
-<style lang="postcss" scoped></style>

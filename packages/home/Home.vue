@@ -75,5 +75,3 @@ const addComp = (): void => {
   })
 }
 </script>
-
-<style lang="postcss" scoped></style>
