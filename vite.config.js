@@ -101,6 +101,8 @@ export default defineConfig(async ({ command, mode }) => {
           name: 'PatchyVideo',
           short_name: 'PatchyVideo',
           description: 'The video-indexing platform that helps you find your favorites.',
+          start_url: 'index.html',
+          display: 'standalone',
           icons: [
             {
               src: '/android-chrome-192x192.png',
@@ -115,7 +117,6 @@ export default defineConfig(async ({ command, mode }) => {
           ],
           theme_color: '#ffffff',
           background_color: '#ffffff',
-          display: 'standalone',
         },
       }),
       {
