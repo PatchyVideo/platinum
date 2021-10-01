@@ -42,6 +42,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
+      alias: ['/index', '/index.html'],
       component: () => import('@/home/Home.vue'),
     },
     {
