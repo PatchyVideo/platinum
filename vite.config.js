@@ -95,7 +95,7 @@ export default defineConfig(async ({ command, mode }) => {
         filename: 'sw.ts',
         includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
         injectManifest: {
-          globPatterns: ['LICENSE', 'index.html', 'assets/**'],
+          globPatterns: ['LICENSE', 'index.html', 'assets/**.{js,css,jpg,png}'],
         },
         manifest: {
           name: 'PatchyVideo',
