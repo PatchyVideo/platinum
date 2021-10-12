@@ -84,6 +84,20 @@ playlist:
       edit-date: 'Edited on:'
       rating: Rating
       video-count: Videos
+leaderboard:
+  title: Leaderboard
+  loading: Loading......
+  failed:
+    load-failed: Failure
+    load-failed-reason: 'Reason:'
+  tag-contributions:
+    name: Tag contributions
+    edit-time: Total {count} edits
+    date-range:
+      all: All of history
+      last-month: Last month
+      last-week: Last week
+      last-day: Last day
 search:
   search-result:
     title: 'Result - '

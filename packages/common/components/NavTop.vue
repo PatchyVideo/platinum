@@ -198,10 +198,10 @@
             ></NavTopLink
           >
           <NavTopLink :index="4" :drawer-open="drawerOpen"
-            ><a class="block" @click="progressing()"
+            ><RouterLink to="/leaderboard" class="block"
               ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
                 t('common.nav-top.main-menu.leaderboard')
-              }}</a
+              }}</RouterLink
             ></NavTopLink
           >
           <NavTopLink :index="5" :drawer-open="drawerOpen"

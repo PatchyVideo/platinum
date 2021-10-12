@@ -82,6 +82,20 @@ playlist:
       playlist-count: 共{count}个视频
     advanced-search:
       name: 高级搜索
+leaderboard: 
+  title: 用户排行榜
+  loading: 少女祈祷中......
+  failed:
+    load-failed: 加载失败了QAQ
+    load-failed-reason: 错误原因：
+  tag-contributions:
+    name: 标签贡献排行榜
+    edit-time: 编辑次数：{count}
+    date-range:
+      all: 至今为止
+      last-month: 过去一个月
+      last-week: 过去一周
+      last-day: 过去一天
 search:
   search-result:
     title: '搜索结果 - '
