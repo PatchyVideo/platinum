@@ -11,6 +11,7 @@
         items-center
         box-border
         overflow-x-auto overflow-y-hidden
+        rounded-lg
       "
     >
       <div
@@ -29,6 +30,7 @@
           duration-300
           border border-solid
           whitespace-nowrap
+          rounded-lg
         "
         style="border-bottom-color: white; transition-property: color"
         :class="
