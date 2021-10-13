@@ -21,7 +21,7 @@
                     w-full
                     my-2
                     md:my-8
-                    h-44
+                    h-30
                     sm:h-36
                     md:h-24
                     flex flex-row
@@ -79,21 +79,19 @@
                       class="
                         w-full
                         md:w-1/3
-                        overflow-auto
+                        overflow-hidden overflow-ellipsis
+                        md:overflow-clip md:overflow-auto
                         my-2
                         md:my-0
                         ml-0
-                        md:ml-4
-                        max-h-28
-                        h-full
-                        md:h-min
+                        md:ml-4 md:max-h-28
+                        h-6
+                        md:h-auto
                         box-border
                         text-gray-500
-                        flex flex-row
-                        justify-start
-                        items-start
-                        md:items-center md:break-normal
-                        break-all
+                        md:break-normal
+                        whitespace-nowrap
+                        md:whitespace-normal
                       "
                     >
                       {{ rankItem.user_obj.profile.desc }}
