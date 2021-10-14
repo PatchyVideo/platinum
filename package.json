@@ -56,7 +56,7 @@
     "tlds": "^1.224.0",
     "typed.js": "^2.0.12",
     "vue": "^3.2.20",
-    "vue-i18n": "^9.2.0-beta.12",
+    "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
