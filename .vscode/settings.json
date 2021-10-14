@@ -15,6 +15,7 @@
     "user",
     "ui",
     "playlist",
-    "layout"
+    "layout",
+    "leaderboard"
   ]
 }

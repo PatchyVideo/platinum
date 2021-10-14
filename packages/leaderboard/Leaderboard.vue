@@ -6,119 +6,123 @@
         {{ errMsg }}
       </div>
       <div v-else-if="status === 'result'">
-        <PvTabs v-model:value="currentRankType">
-          <PvTabPane
-            :label="t('leaderboard.tag-contributions.name')"
-            :name="'tag-contributions'"
-            class="px-0 md:px-2 flex flex-nowrap flex-col justify-start items-center"
-          >
-            <PvSelect v-model:selected="selectedDateRange" class="md:w-1/4" :item-list="dateRangeList" />
-            <div class="rank-list w-full">
-              <div v-for="(rankItem, i) in rankList" :key="i" class="rank-item w-full">
-                <div
-                  class="
-                    rank-item-body
-                    w-full
-                    my-2
-                    md:my-8
-                    h-30
-                    sm:h-36
-                    md:h-24
-                    flex flex-row
-                    justify-between
-                    items-center
-                  "
-                >
-                  <div class="w-1/2 sm:w-1/3 md:w-1/5 flex flex-row justify-start items-center w-full h-full">
-                    <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
-                    <RouterLink
-                      :to="'/users/' + rankItem._id.$oid"
-                      class="
-                        relative
-                        h-auto
-                        md:h-24
-                        w-2/3
-                        md:w-auto md:min-w-max
-                        hover:opacity-70 hover:cursor-pointer
-                        transition-all
-                        duration-300
-                      "
-                      @click.prevent.capture=""
-                    >
-                      <UserAvatar
-                        class="rounded-full h-auto w-auto md:h-full md:w-full"
-                        :alt="rankItem.user_obj.profile.username"
-                        :image="rankItem.user_obj.profile.image"
-                      />
-                    </RouterLink>
-                  </div>
+        <PvTabs
+          v-model:value="currentRankType"
+          :tab-panes="[
+            { name: 'tag-contributions', label: t('leaderboard.tag-contributions.name') },
+            { name: 'others', label: '其他排行榜' },
+          ]"
+        >
+          <template #tag-contributions>
+            <div class="px-0 md:px-2 flex flex-nowrap flex-col justify-start items-center">
+              <PvSelect v-model:selected="selectedDateRange" class="md:w-1/4" :item-list="dateRangeList" />
+              <div class="rank-list w-full">
+                <div v-for="(rankItem, i) in rankList" :key="i" class="rank-item w-full">
                   <div
                     class="
-                      w-1/2
-                      sm:w-2/3
-                      md:w-4/5
-                      h-full
-                      ml-2
-                      md:ml-0
-                      flex flex-col
+                      rank-item-body
+                      w-full
+                      my-2
+                      md:my-8
+                      h-30
+                      sm:h-36
+                      md:h-24
+                      flex flex-row
                       justify-between
-                      items-start
-                      md:flex-row md:justify-between md:items-center
+                      items-center
                     "
                   >
-                    <RouterLink
-                      :to="'/users/' + rankItem._id.$oid"
-                      class="w-full md:w-1/4 ml-0 md:ml-8"
-                      @click.prevent.capture=""
-                    >
-                      <div class="rank-text overflow-hidden overflow-ellipsis whitespace-nowrap">
-                        {{ rankItem.user_obj.profile.username }}
-                      </div>
-                    </RouterLink>
-                    <div
-                      class="
-                        w-full
-                        md:w-1/3
-                        overflow-hidden overflow-ellipsis
-                        md:overflow-clip md:overflow-auto
-                        my-2
-                        md:my-0
-                        ml-0
-                        md:ml-4 md:max-h-28
-                        h-6
-                        md:h-auto
-                        box-border
-                        text-gray-500
-                        md:break-normal
-                        whitespace-nowrap
-                        md:whitespace-normal
-                      "
-                    >
-                      {{ rankItem.user_obj.profile.desc }}
+                    <div class="flex w-full sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
+                      <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
+                      <RouterLink
+                        :to="'/users/' + rankItem._id.$oid"
+                        class="
+                          relative
+                          h-auto
+                          md:h-24
+                          w-2/3
+                          md:w-auto md:min-w-max
+                          hover:opacity-70 hover:cursor-pointer
+                          transition-all
+                          duration-300
+                        "
+                        @click.prevent.capture=""
+                      >
+                        <UserAvatar
+                          class="rounded-full h-auto w-auto md:h-full md:w-full"
+                          :alt="rankItem.user_obj.profile.username"
+                          :image="rankItem.user_obj.profile.image"
+                        />
+                      </RouterLink>
                     </div>
                     <div
                       class="
-                        rank-text
-                        w-full
-                        md:w-5/12 md:w-auto
-                        flex-grow
-                        ml-0
-                        md:ml-8
-                        text-left
-                        md:text-right
-                        whitespace-normal
-                        md:whitespace-nowrap
+                        w-1/2
+                        sm:w-2/3
+                        md:w-4/5
+                        h-full
+                        ml-2
+                        md:ml-0
+                        flex flex-col
+                        justify-between
+                        items-start
+                        md:flex-row md:justify-between md:items-center
                       "
                     >
-                      {{ t('leaderboard.tag-contributions.edit-time', rankItem.count) }}
+                      <RouterLink
+                        :to="'/users/' + rankItem._id.$oid"
+                        class="w-full md:w-1/4 ml-0 md:ml-8"
+                        @click.prevent.capture=""
+                      >
+                        <div class="rank-text overflow-hidden overflow-ellipsis whitespace-nowrap">
+                          {{ rankItem.user_obj.profile.username }}
+                        </div>
+                      </RouterLink>
+                      <div
+                        class="
+                          w-full
+                          md:w-1/3
+                          overflow-hidden overflow-ellipsis
+                          md:overflow-clip md:overflow-auto
+                          my-2
+                          md:my-0
+                          ml-0
+                          md:ml-4 md:max-h-28
+                          h-6
+                          md:h-auto
+                          box-border
+                          text-gray-500
+                          md:break-normal
+                          whitespace-nowrap
+                          md:whitespace-normal
+                        "
+                      >
+                        {{ rankItem.user_obj.profile.desc }}
+                      </div>
+                      <div
+                        class="
+                          rank-text
+                          w-full
+                          md:w-5/12 md:w-auto
+                          flex-grow
+                          ml-0
+                          md:ml-8
+                          text-left
+                          md:text-right
+                          whitespace-normal
+                          md:whitespace-nowrap
+                        "
+                      >
+                        {{ t('leaderboard.tag-contributions.edit-time', rankItem.count) }}
+                      </div>
                     </div>
                   </div>
+                  <div class="w-full h-px my-4 md:my-8 bg-gray-400" />
                 </div>
-                <div class="w-full h-px my-4 md:my-8 bg-gray-400" />
               </div>
             </div>
-          </PvTabPane>
-          <PvTabPane :label="'其他排行榜'" :name="'others'">其他排行榜列表</PvTabPane>
+          </template>
+          <template #others>其他排行榜列表</template>
         </PvTabs>
       </div>
     </div>
@@ -127,16 +131,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import NProgress from 'nprogress'
-import { screenSizes } from '@/tailwindcss'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 
 import { useI18n } from 'vue-i18n'
 import BackTop from '@/ui/components/BackTop.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import PvTabs from '@/ui/components/PvTabs.vue'
-import PvTabPane from '@/ui/components/PvTabPane.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 
 const { t } = useI18n()

@@ -45,19 +45,23 @@
     </div>
     <div class="w-full px-0 py-4 md:p-4">
       <!--box-border border-gray-300 border-l border-b border-r-->
-      <slot></slot>
+      <slot :name="value"></slot>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useSlots, provide, toRef, computed } from 'vue'
+import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useVModels } from '@vueuse/core'
 const props = defineProps({
   value: {
     type: String,
     default: '',
+  },
+  tabPanes: {
+    type: Object as PropType<{ name: string; label: string }[]>,
+    required: true,
   },
 })
 const emit = defineEmits<{
@@ -66,7 +70,4 @@ const emit = defineEmits<{
 }>()
 const { t } = useI18n()
 const { value } = useVModels(props, emit)
-provide('selectedTab', toRef(props, 'value'))
-const slots = useSlots()
-const tabPanes: Array<{ label: string; name: string }> = computed(() => slots.default().map((item) => item.props))
 </script>
