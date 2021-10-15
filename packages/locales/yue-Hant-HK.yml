@@ -340,3 +340,17 @@ video:
 others:
   WIP1: 呢个
   WIP2: '{WIP1}功能净睇度完善紧，敬请期待！'
+leaderboard:
+  failed:
+    load-failed: 加载失败咗QAQ
+    load-failed-reason: 错误嘅原因：
+  loading: 少女祈祷中......
+  tag-contributions:
+    date-range:
+      all: 直到宜佳为止
+      last-day: 过去一日
+      last-month: 过去嘅一个月
+      last-week: 过去嘅一个星期
+    edit-time: 编辑咗嘅次数：{count}
+    name: 标签贡献排行榜
+  title: 用户排行榜
