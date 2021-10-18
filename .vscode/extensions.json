@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "csstools.postcss",
+    "johnsoncodehk.volar",
+    "johnsoncodehk.vscode-typescript-vue-plugin",
+    "cpylua.language-postcss",
+    "bradlc.vscode-tailwindcss",
+    "lokalise.i18n-ally",
+    "vivaxy.vscode-conventional-commits",
+    "apollographql.vscode-apollo"
+  ]
+}
