@@ -1,5 +1,5 @@
 <template>
-  <div class="forget-password h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-80">
+  <div class="forget-password h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-75">
     <!-- Mobile view -->
     <div
       v-if="screenSizes['<md']"

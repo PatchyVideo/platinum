@@ -1,5 +1,5 @@
 <template>
-  <div class="login h-screen w-full md:min-h-xl dark:filter dark:brightness-80">
+  <div class="login h-screen w-full md:min-h-xl dark:filter dark:brightness-75">
     <div
       class="
         flex flex-wrap

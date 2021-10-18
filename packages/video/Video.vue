@@ -253,7 +253,7 @@
                 <div class="col-span-2">
                   <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md">
                     <img
-                      class="object-cover h-full w-full dark:filter dark:brightness-80"
+                      class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
                       :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
                     />
                   </div>
@@ -277,9 +277,9 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">&nbsp;</h1>
+            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</h1>
             <div
-              class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+              class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
             >
               &nbsp;
             </div>
@@ -304,7 +304,7 @@
                 </div>
               </div>
               <div class="hidden sm:block w-full ml-3 overflow-hidden">
-                <div class="inline-block w-4/5 rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
                 <br />
                 <div
                   class="
@@ -331,16 +331,27 @@
             <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
                 <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
-                  <div class="object-cover h-full w-full rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">
+                  <div class="object-cover h-full w-full rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">
                     &nbsp;
                   </div>
                 </div>
               </div>
               <div class="col-span-3 flex flex-wrap content-start text-sm">
-                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600"
+                <a
+                  class="
+                    line-clamp-2
+                    overflow-ellipsis overflow-hidden
+                    w-4/5
+                    rounded-md
+                    bg-gray-400
+                    dark:bg-gray-600
+                    animate-pulse
+                  "
                   >&nbsp;</a
                 >
-                <div class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-400 dark:bg-gray-600">
+                <div
+                  class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
+                >
                   &nbsp;
                 </div>
               </div>

@@ -6,7 +6,7 @@
       <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-[0.125rem]">
           <div
-            class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+            class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
           ></div>
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
@@ -35,15 +35,15 @@
         class="w-[21%] my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
       >
         <div
-          class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+          class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
         ></div>
         <div class="p-3 text-left text-sm lg:text-base">
           <div
-            class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+            class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
           >
             &nbsp;
           </div>
-          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
         </div>
       </div>
     </div>
@@ -81,7 +81,7 @@
         <div class="w-2/5 mr-[0.125rem]">
           <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
             <img
-              class="object-cover h-full w-full dark:filter dark:brightness-80"
+              class="object-cover h-full w-full dark:filter dark:brightness-75"
               :src="getCoverImage({ image: video.item.coverImage })"
             />
           </div>
@@ -115,7 +115,7 @@
       >
         <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
           <img
-            class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80"
+            class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-75"
             :src="getCoverImage({ image: video.item.coverImage })"
           />
         </div>

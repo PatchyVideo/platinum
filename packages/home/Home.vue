@@ -1,8 +1,8 @@
 <template>
   <LayoutDefault>
     <!-- Introduction -->
-    <div class="h-screen bg-gray-200 dark:bg-gray-700 dark:border-b dark:border-gray-500 md:text-center">
-      <div class="p-4 pt-10 space-y-10 md:pt-24">
+    <div class="border-b border-gray-300 dark:border-gray-500 md:text-center">
+      <div class="p-4 py-10 space-y-4">
         <div>
           <div class="font-semibold md:text-lg">
             {{ t('home.home.intro') }}
@@ -38,23 +38,25 @@
     </div>
 
     <!-- Main Components -->
-    <div v-if="false">
+    <div v-if="screenSizes.md">
       <div v-for="(comp, index) in ucompList" :key="index">
-        <div class="border-b border-gray-200 h-px w-full mb-2"></div>
-        <Component :is="'comp_' + comp.name" :data="comp.data" class="mx-2"></Component>
-        <div class="w-full mt-2"></div>
+        <div class="w-full mb-8"></div>
+        <div class="mx-2">
+          <Component :is="homeComponents[comp.name] ?? homeComponents.fallback" :data="comp.data"></Component>
+        </div>
+        <div class="w-full mt-8"></div>
       </div>
-      <input v-model="addCompName" class="border rounded border-black mr-2" />
-      <button type="button" class="border rounded border-black px-2" @click="addComp">add</button>
     </div>
   </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { homeComponents } from '.'
+import { screenSizes } from '@/tailwindcss'
 
 const { t } = useI18n()
 setSiteTitle(t('home.home.title'))
@@ -64,14 +66,9 @@ interface HomeCompData {
   data?: string
 }
 
-const ucompList: HomeCompData[] = reactive([])
-
-const addCompName = ref('')
-
-const addComp = (): void => {
-  ucompList.push({
-    name: addCompName.value,
-    data: '{"listID":"5e057a1b31929c83a76d18a4"}',
-  })
-}
+const ucompList: HomeCompData[] = reactive([
+  { name: 'playlist', data: '{"playlist_id":"60453ee441928fe337b2ac13"}' },
+  { name: 'playlist', data: '{"playlist_id":"5dbd93c6de383eb9a3aa089e"}' },
+  { name: 'playlist', data: '{"playlist_id":"5f5871aef1017bad0f7f5165"}' },
+])
 </script>

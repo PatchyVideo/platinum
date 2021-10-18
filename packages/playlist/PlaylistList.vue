@@ -7,7 +7,7 @@
           <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-[0.125rem]">
               <div
-                class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+                class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
               ></div>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
@@ -76,7 +76,7 @@
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">
                 <div
-                  class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+                  class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
                 ></div>
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">
@@ -84,13 +84,13 @@
                   <div
                     v-for="i in 3"
                     :key="i"
-                    class="mb-1 w-full rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse"
+                    class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
                   >
                     &nbsp;
                   </div>
                 </div>
                 <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-                  <div class="w-2/5 float-right rounded-md bg-gray-400 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+                  <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
                 </div>
               </div>
             </div>
@@ -116,7 +116,7 @@
             <div class="w-2/5 mr-[0.125rem]">
               <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
                 <img
-                  class="object-cover h-full w-full dark:filter dark:brightness-80"
+                  class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
                   :src="'https://patchyvideo.com/images/covers/' + playlist.item.cover"
                 />
               </div>
@@ -154,7 +154,15 @@
               <div class="w-1/2 mr-5">
                 <div class="aspect-w-16 aspect-h-10 overflow-hidden">
                   <img
-                    class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-80)"
+                    class="
+                      object-cover
+                      h-full
+                      w-full
+                      rounded-lg
+                      dark:filter dark:brightness-75
+                      bg-gray-300
+                      dark:bg-gray-600
+                    "
                     :src="'https://patchyvideo.com/images/covers/' + playlist.item.cover"
                   />
                 </div>

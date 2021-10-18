@@ -1,5 +1,5 @@
 <template>
-  <div class="reset-password h-screen w-full md:min-h-xl dark:filter dark:brightness-80">
+  <div class="reset-password h-screen w-full md:min-h-xl dark:filter dark:brightness-75">
     <!-- Mobile view -->
     <div
       v-if="screenSizes['<md']"
