@@ -40,11 +40,11 @@
     <!-- Main Components -->
     <div v-if="screenSizes.md">
       <div v-for="(comp, index) in ucompList" :key="index">
-        <div class="w-full mb-8"></div>
+        <div class="w-full mb-12"></div>
         <div class="mx-2">
           <Component :is="homeComponents[comp.name] ?? homeComponents.fallback" :data="comp.data"></Component>
         </div>
-        <div class="w-full mt-8"></div>
+        <div class="w-full mt-12"></div>
       </div>
     </div>
   </LayoutDefault>
@@ -68,6 +68,7 @@ interface HomeCompData {
 
 const ucompList: HomeCompData[] = reactive([
   { name: 'playlist', data: '{"playlist_id":"60453ee441928fe337b2ac13"}' },
+  { name: 'query_video', data: '{"video_rows":2}' },
   { name: 'playlist', data: '{"playlist_id":"5dbd93c6de383eb9a3aa089e"}' },
   { name: 'playlist', data: '{"playlist_id":"5f5871aef1017bad0f7f5165"}' },
 ])

@@ -16,6 +16,10 @@ const PatchyVideo = {
      */
     version: import.meta.env.VITE_APP_VERSION,
     /**
+     * hash of the current commit
+     */
+    commitHash: import.meta.env.VITE_COMMIT_HASH,
+    /**
      * ISO format of the build timestamp
      */
     buildtime: import.meta.env.VITE_APP_BUILDTIME,

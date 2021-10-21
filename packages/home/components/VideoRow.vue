@@ -1,0 +1,90 @@
+<template>
+  <RouterLink v-if="titleLinksTo" :to="titleLinksTo"
+    ><h4 class="title inline-block text-xl">
+      <span class="title-text" v-text="name"></span>
+      <icon-uil-arrow-right
+        class="
+          title-arrow
+          inline-block
+          w-8
+          h-8
+          align-top
+          text-gray-600
+          dark:text-gray-300
+          transform-gpu
+          -translate-x-1
+          opacity-25
+          transition-all
+          duration-200
+        "
+      /></h4
+  ></RouterLink>
+  <h4 v-else class="inline-block text-xl" v-text="name"></h4>
+  <div
+    class="grid mt-2 grid-flow-row gap-4"
+    :style="{ gridTemplateColumns: 'repeat(' + count / (rows ?? 1) + ', minmax(0, 1fr))' }"
+  >
+    <RouterLink
+      v-for="video in videos.slice(0, count)"
+      :key="video.id.toHexString()"
+      :to="'/video/' + video.id.toHexString()"
+      class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
+    >
+      <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md border border-gray-200 dark:border-gray-500">
+        <img
+          class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
+          :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
+        />
+      </div>
+      <a
+        v-if="videoShowTitle"
+        :class="{ '-ml-2': video.item.title.startsWith('【') }"
+        class="w-full overflow-hidden line-clamp-2 overflow-ellipsis"
+        v-text="video.item.title"
+      ></a>
+      <div v-if="videoShowDate" class="w-full text-sm truncate text-gray-600 dark:text-gray-300 font-light">
+        <Suspense><RelativeDate :date="video.meta.createdAt" /></Suspense>&nbsp;
+      </div>
+    </RouterLink>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import RelativeDate from '@/date-fns/components/RelativeDate.vue'
+import type { schema } from '@/graphql'
+import type { RouteLocationRaw } from 'vue-router'
+
+defineProps<{
+  name: string
+  titleLinksTo?: RouteLocationRaw
+  count: number
+  rows?: number
+  videos: schema.Video[]
+  videoShowTitle?: boolean
+  videoShowDate?: boolean
+}>()
+</script>
+
+<style lang="postcss" scoped>
+.title {
+  .title-text {
+    display: inline-block;
+    padding-bottom: 2px;
+    background-image: linear-gradient(theme('colors.gray.400'), theme('colors.gray.400'));
+    background-position: bottom left;
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    transition: background-size 200ms, background-position 0s 200ms;
+  }
+}
+
+.title:hover {
+  .title-text {
+    background-position: bottom right;
+    background-size: 100% 2px;
+  }
+  .title-arrow {
+    @apply translate-x-0 opacity-50;
+  }
+}
+</style>

@@ -131,7 +131,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch, watchEffect } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import NProgress from 'nprogress'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 
@@ -147,7 +147,7 @@ const loading = ref(false)
 const errMsg = ref('')
 const rankList = ref([])
 const currentRankType = ref('tag-contributions')
-const dateRangeList = ref([
+const dateRangeList = computed(() => [
   { value: (24 * 7 * 52 * 10).toString(), name: t('leaderboard.tag-contributions.date-range.all') },
   { value: (24 * 30).toString(), name: t('leaderboard.tag-contributions.date-range.last-month') },
   { value: (24 * 7).toString(), name: t('leaderboard.tag-contributions.date-range.last-week') },

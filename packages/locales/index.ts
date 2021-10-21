@@ -53,7 +53,6 @@ export const locale = computed({
   set: (x: string) => {
     setBrowserLang(x)
     i18n.global.locale.value = x
-    if (confirm(i18n.global.t('locales.change-lang-reload-hint'))) location.reload()
   },
 })
 

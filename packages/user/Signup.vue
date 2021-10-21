@@ -150,7 +150,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -162,36 +162,36 @@ const router = useRouter()
 setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
 
 const signupStatus = ref<'ready' | 'loading' | 'error'>('ready')
-const UsernameStatus = {
+const UsernameStatus = computed(() => ({
   fine: t('user.signup.username.username-status.fine'),
   tip: t('user.signup.username.username-status.tip'),
   msg: t('user.signup.username.username-status.msg'),
   res: t('user.signup.username.username-status.res'),
   err: t('user.signup.username.username-status.err'),
-}
-const usernameStatus = ref<string>(UsernameStatus.fine)
-const PasswordStatus = {
+}))
+const usernameStatus = ref<string>(UsernameStatus.value.fine)
+const PasswordStatus = computed(() => ({
   fine: t('user.signup.password.password-status.fine'),
   tip: t('user.signup.password.password-status.tip'),
   msg: t('user.signup.password.password-status.msg'),
-}
-const passwordStatus = ref<string>(PasswordStatus.fine)
-const Password2Status = {
+}))
+const passwordStatus = ref<string>(PasswordStatus.value.fine)
+const Password2Status = computed(() => ({
   fine: t('user.signup.password2.password2-status.fine'),
   tip: t('user.signup.password2.password2-status.tip'),
   msg: t('user.signup.password2.password2-status.msg'),
-}
-const password2Status = ref<string>(Password2Status.fine)
+}))
+const password2Status = ref<string>(Password2Status.value.fine)
 const emailFormat =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-const EmailStatus = {
+const EmailStatus = computed(() => ({
   fine: t('user.signup.email.email-status.fine'),
   tip: t('user.signup.email.email-status.tip'),
   msg: t('user.signup.email.email-status.msg'),
   res: t('user.signup.email.email-status.res'),
   err: t('user.signup.email.email-status.err'),
-}
-const emailStatus = ref<string>(EmailStatus.fine)
+}))
+const emailStatus = ref<string>(EmailStatus.value.fine)
 
 const userName = ref<string>('')
 const password = ref<string>('')
@@ -207,39 +207,39 @@ async function signup(): Promise<void> {
   let valid = true
   if (!userName.value) {
     valid = false
-    usernameStatus.value = UsernameStatus.tip
+    usernameStatus.value = UsernameStatus.value.tip
   } else if (userName.value.length < 2 || userName.value.length > 32) {
     valid = false
-    usernameStatus.value = UsernameStatus.msg
+    usernameStatus.value = UsernameStatus.value.msg
   } else {
-    usernameStatus.value = UsernameStatus.fine
+    usernameStatus.value = UsernameStatus.value.fine
   }
   if (!password.value) {
     valid = false
-    passwordStatus.value = PasswordStatus.tip
+    passwordStatus.value = PasswordStatus.value.tip
   } else if (password.value.length < 6 || password.value.length > 64) {
     valid = false
-    passwordStatus.value = PasswordStatus.msg
+    passwordStatus.value = PasswordStatus.value.msg
   } else {
-    passwordStatus.value = PasswordStatus.fine
+    passwordStatus.value = PasswordStatus.value.fine
   }
   if (!password2.value) {
     valid = false
-    password2Status.value = Password2Status.tip
+    password2Status.value = Password2Status.value.tip
   } else if (password2.value != password.value) {
     valid = false
-    password2Status.value = Password2Status.msg
+    password2Status.value = Password2Status.value.msg
   } else {
-    password2Status.value = Password2Status.fine
+    password2Status.value = Password2Status.value.fine
   }
   if (!email.value) {
     valid = false
-    emailStatus.value = EmailStatus.tip
+    emailStatus.value = EmailStatus.value.tip
   } else if (!emailFormat.test(email.value)) {
     valid = false
-    emailStatus.value = EmailStatus.msg
+    emailStatus.value = EmailStatus.value.msg
   } else {
-    emailStatus.value = EmailStatus.fine
+    emailStatus.value = EmailStatus.value.fine
   }
   if (valid) {
     const fetchUser = fetch('https://patchyvideo.com/be/user/exists.do', {
@@ -256,18 +256,18 @@ async function signup(): Promise<void> {
       .then((res) => {
         // console.log(res)
         if (res.status != resDataStatus.SUCCEED) {
-          usernameStatus.value = UsernameStatus.err
+          usernameStatus.value = UsernameStatus.value.err
           valid = false
         }
         // 'res.data=true' means the user already exists
         else if (res.data) {
-          usernameStatus.value = UsernameStatus.res
+          usernameStatus.value = UsernameStatus.value.res
           valid = false
         }
       })
       .catch((err) => {
         // console.log(err)
-        usernameStatus.value = UsernameStatus.err
+        usernameStatus.value = UsernameStatus.value.err
         valid = false
       })
     const fetchEmail = fetch('https://patchyvideo.com/be/user/email_avail.do', {
@@ -284,18 +284,18 @@ async function signup(): Promise<void> {
       .then((res) => {
         // console.log(res)
         if (res.status != resDataStatus.SUCCEED) {
-          emailStatus.value = EmailStatus.err
+          emailStatus.value = EmailStatus.value.err
           valid = false
         }
         // 'res.data=true' means the user already exists
         else if (res.data) {
-          emailStatus.value = EmailStatus.res
+          emailStatus.value = EmailStatus.value.res
           valid = false
         }
       })
       .catch((err) => {
         // console.log(err)
-        emailStatus.value = EmailStatus.err
+        emailStatus.value = EmailStatus.value.err
         valid = false
       })
     await fetchUser

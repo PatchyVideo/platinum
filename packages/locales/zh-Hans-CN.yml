@@ -54,6 +54,9 @@ home:
     offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
     join: '当然了，新页面也意味着帕琪站需要更多热爱东方的大家来一起帮忙建设，如果大家有兴趣的话，可以先参考一下介个:'
     join2: 招募祈望 - PatchyVideo Wiki
+    components:
+      query-video:
+        default-title: 最新上传
   list:
     favorites: 收藏夹
 locales:
@@ -82,7 +85,7 @@ playlist:
       playlist-count: 共{count}个视频
     advanced-search:
       name: 高级搜索
-leaderboard: 
+leaderboard:
   title: 用户排行榜
   loading: 少女祈祷中......
   failed:

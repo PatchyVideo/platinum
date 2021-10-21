@@ -98,7 +98,7 @@
                 -top-6
                 w-40
                 p-2
-                mt-1/2
+                mt-[50%]
                 rounded
                 bg-white
                 border
@@ -110,7 +110,17 @@
               <UserAvatar
                 :title="user.name"
                 :image="user.avatar"
-                class="h-13 w-13 rounded-full ring-2 ring-white cursor-pointer absolute right-0 -top-5"
+                class="
+                  h-14
+                  w-14
+                  rounded-full
+                  ring-2 ring-gray-200
+                  dark:ring-gray-700
+                  cursor-pointer
+                  absolute
+                  right-0
+                  -top-5
+                "
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>

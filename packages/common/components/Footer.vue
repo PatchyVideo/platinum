@@ -19,7 +19,7 @@
         </ul>
       </div>
     </div>
-    <div v-if="!small" class="text-center text-sm font-light whitespace-nowrap overflow-hidden">
+    <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
@@ -41,13 +41,14 @@
           >({{ Object.values(extensions).length }} ext installed)</span
         ></template
       ><br />
-      © 2020-2021 VoileLabs
+      © 2020-2021 VoileLabs. Released under the
+      <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, computed } from 'vue'
+import { onMounted, onUnmounted, computed } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'
@@ -63,14 +64,16 @@ const props = defineProps({
 const { t } = useI18n()
 
 /* links */
-const links: {
-  key: string
-  links: {
+const links = computed<
+  {
     key: string
-    to?: string
-    href?: string
+    links: {
+      key: string
+      to?: string
+      href?: string
+    }[]
   }[]
-}[] = reactive([
+>(() => [
   {
     key: 'PatchyVideo',
     links: [
