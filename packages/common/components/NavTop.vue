@@ -71,6 +71,7 @@
               <UserAvatar
                 :title="user.name"
                 :image="user.avatar"
+                :email="user.email"
                 class="h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
                 @click="userListOpen = true"
               ></UserAvatar>
@@ -110,6 +111,7 @@
               <UserAvatar
                 :title="user.name"
                 :image="user.avatar"
+                :email="user.email"
                 class="
                   h-14
                   w-14

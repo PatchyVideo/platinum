@@ -209,12 +209,13 @@ async function login(): Promise<void> {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         loginStatus.value = 'ready'
-        setUserDataToLocalStorage(
-          res.data.username,
-          res.data.image,
-          res.data.access_control_status === 'admin' ? true : false,
-          res.data.uid
-        )
+        setUserDataToLocalStorage({
+          name: res.data.username,
+          avatar: res.data.image,
+          isAdmin: res.data.access_control_status === 'admin' ? true : false,
+          uid: res.data.uid,
+          email: res.data.email,
+        })
         getUserDataFromLocalStorage()
         router.push({ path: '/' })
         return

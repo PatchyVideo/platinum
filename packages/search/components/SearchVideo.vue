@@ -5,9 +5,7 @@
     <div v-if="screenSizes['<md']">
       <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-[0.125rem]">
-          <div
-            class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-          ></div>
+          <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
           <div
@@ -34,9 +32,7 @@
         :key="index"
         class="w-[21%] my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-700"
       >
-        <div
-          class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-        ></div>
+        <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         <div class="p-3 text-left text-sm lg:text-base">
           <div
             class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
@@ -147,17 +143,18 @@
 </template>
 
 <script lang="ts" setup>
+import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { screenSizes } from '@/tailwindcss'
-import { useVModels } from '@vueuse/core'
 import { useRoute, useRouter } from 'vue-router'
+import { useVModels } from '@vueuse/core'
+import NProgress from 'nprogress'
 import { getCoverImage, getSiteImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
-import NProgress from 'nprogress'
+import { screenSizes } from '@/tailwindcss'
 
 const props = defineProps({
   query: { type: String, required: true },

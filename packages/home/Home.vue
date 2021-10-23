@@ -14,15 +14,20 @@
               class="underline"
               href="https://github.com/PatchyVideo/PatchyVideo-docs/blob/main/%E7%AC%AC%E4%B8%89%E8%BD%AE%E5%AD%90-%E6%B5%8B%E8%AF%95%E7%89%88%E5%86%85%E5%AE%B9.md"
               target="_blank"
+              rel="noopener noreferrer"
               >{{ t('home.home.progress2') }}</a
             >
           </i18n-t>
           <i18n-t keypath="home.home.old-page" tag="div">
-            <a class="underline" href="https://patchyvideo.com/" target="_blank">{{ t('home.home.old-page2') }}</a>
+            <a class="underline" href="https://patchyvideo.com/" target="_blank" rel="noopener noreferrer">{{
+              t('home.home.old-page2')
+            }}</a>
           </i18n-t>
         </div>
         <div class="underline text-lg">
-          <a href="https://space.bilibili.com/515657675" target="_blank">{{ t('home.home.offical-account') }}</a>
+          <a href="https://space.bilibili.com/515657675" target="_blank" rel="noopener noreferrer">{{
+            t('home.home.offical-account')
+          }}</a>
         </div>
         <div class="font-semibold md:text-lg">
           {{ t('home.home.join') }}
@@ -31,6 +36,7 @@
             class="underline text-lg"
             :href="locale == 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
             target="_blank"
+            rel="noopener noreferrer"
             >{{ t('home.home.join2') }}</a
           >
         </div>

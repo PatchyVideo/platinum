@@ -29,6 +29,7 @@
               <UserAvatar
                 :title="Note.repliedBy.username"
                 :image="Note.repliedBy.image"
+                :gravatar="Note.repliedBy.gravatar"
                 class="rounded-full ring-2 ring-white"
               ></UserAvatar>
             </router-link>
@@ -121,6 +122,7 @@ const { result, loading, onError } = useQuery<Query>(
               id
               username
               image
+              gravatar
             }
             time
             repliedObj

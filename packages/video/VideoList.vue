@@ -7,9 +7,7 @@
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-[0.125rem]">
-              <div
-                class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-              ></div>
+              <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div
@@ -46,9 +44,7 @@
               dark:border-gray-500 dark:bg-gray-700
             "
           >
-            <div
-              class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-            ></div>
+            <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             <div class="p-3 text-left text-sm lg:text-base">
               <div
                 class="
@@ -88,12 +84,7 @@
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="w-2/5 mr-[0.125rem]">
-              <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
-                <img
-                  class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
-                  :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-                />
-              </div>
+              <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
               <div v-if="video.item.partName" class="overflow-hidden w-full">
@@ -130,20 +121,7 @@
             "
             :to="'/video/' + video.id.toHexString()"
           >
-            <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
-              <img
-                class="
-                  object-cover
-                  h-full
-                  w-full
-                  rounded-lg
-                  dark:filter dark:brightness-75
-                  bg-gray-300
-                  dark:bg-gray-600
-                "
-                :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-              />
-            </div>
+            <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
             <div class="p-3 text-left text-sm lg:text-base">
               <div v-if="video.item.partName">
                 <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
@@ -203,6 +181,8 @@
 <script lang="ts" setup>
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
+import Cover from './components/Cover.vue'
+import CoverPlaceholder from './components/CoverPlaceholder.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'

@@ -292,10 +292,10 @@ video:
       translation: 自发翻译
       unknown: 其他
     ranks:
-      0: 仅管理员可见
-      1: 登录用户可见
-      2: 发布者和管理员可见
-      3: 所有人可见
+      '0': 仅管理员可见
+      '1': 登录用户可见
+      '2': 发布者和管理员可见
+      '3': 所有人可见
     uploader: 上传者
     no-desc: 这个人太懒啦，并没有写简介
   player:
@@ -356,3 +356,6 @@ video:
 others:
   WIP1: 该
   WIP2: '{WIP1}功能正在完善中，敬请期待！'
+image:
+  cover:
+    alt: '{title} 的封面'

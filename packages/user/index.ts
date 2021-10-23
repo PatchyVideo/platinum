@@ -6,12 +6,14 @@ interface User {
   avatar: string
   isAdmin: boolean
   uid: string
+  email: string
 }
 const userDefault: User = {
   name: '',
   avatar: 'default',
   isAdmin: false,
   uid: '',
+  email: '',
 }
 export const user = ref<User>(userDefault)
 
@@ -50,12 +52,13 @@ export async function checkLoginStatus(needGetUserDataFromLocalStorage = false):
     })
 }
 
-export function setUserDataToLocalStorage(name: string, avatar: string, isAdmin: boolean, uid: string): void {
+export function setUserDataToLocalStorage({ name, avatar, isAdmin, uid, email }: User): void {
   const userData = JSON.parse(localStorage.getItem('userData') || '{}')
   userData.name = name
   userData.avatar = avatar
   userData.isAdmin = isAdmin
   userData.uid = uid
+  userData.email = email
   localStorage.setItem('userData', JSON.stringify(userData))
 }
 
@@ -71,6 +74,7 @@ export function getUserDataFromLocalStorage(): void {
       avatar: userData.avatar,
       isAdmin: userData.isAdmin,
       uid: userData.uid,
+      email: userData.email,
     }
   }
 }

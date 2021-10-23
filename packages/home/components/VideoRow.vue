@@ -30,12 +30,11 @@
       :to="'/video/' + video.id.toHexString()"
       class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
     >
-      <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md border border-gray-200 dark:border-gray-500">
-        <img
-          class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
-          :src="'https://patchyvideo.com/images/covers/' + video.item.coverImage"
-        />
-      </div>
+      <Cover
+        :title="video.item.title"
+        :cover-image="video.item.coverImage"
+        class="rounded-md border border-gray-200 dark:border-gray-500"
+      ></Cover>
       <a
         v-if="videoShowTitle"
         :class="{ '-ml-2': video.item.title.startsWith('【') }"
@@ -50,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+import Cover from '@/video/components/Cover.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import type { schema } from '@/graphql'
 import type { RouteLocationRaw } from 'vue-router'

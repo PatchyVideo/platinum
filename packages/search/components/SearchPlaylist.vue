@@ -5,9 +5,7 @@
     <div v-if="screenSizes['<md']">
       <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-[0.125rem]">
-          <div
-            class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-          ></div>
+          <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
         <div class="w-3/5 flex flex-wrap content-between">
           <div
@@ -66,9 +64,7 @@
         </div>
         <div class="flex p-2 pt-3">
           <div class="w-1/2 mr-5">
-            <div
-              class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-            ></div>
+            <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
           </div>
           <div class="w-1/2 py-2 flex flex-wrap content-between">
             <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
@@ -164,6 +160,7 @@
 </template>
 
 <script lang="ts" setup>
+import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/tailwindcss'

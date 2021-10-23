@@ -120,7 +120,7 @@
                 <!-- Avatar -->
                 <div class="relative flex-shrink-0">
                   <UserAvatar
-                    class="inline w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
+                    class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                     :image="author.avatar"
                     :gravatar="author.gravatar"
                     :alt="author.name"
@@ -251,12 +251,7 @@
                 "
               >
                 <div class="col-span-2">
-                  <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md">
-                    <img
-                      class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
-                      :src="'https://patchyvideo.com/images/covers/' + rlVideo.item.coverImage"
-                    />
-                  </div>
+                  <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
                 </div>
                 <div class="col-span-3 flex mt-[0.125rem] flex-wrap content-start text-sm">
                   <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
@@ -330,11 +325,7 @@
           <div class="flex flex-col space-y-1 mt-2">
             <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
-                <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
-                  <div class="object-cover h-full w-full rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">
-                    &nbsp;
-                  </div>
-                </div>
+                <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>
               <div class="col-span-3 flex flex-wrap content-start text-sm">
                 <a
@@ -369,6 +360,8 @@ import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import Cover from './components/Cover.vue'
+import CoverPlaceholder from './components/CoverPlaceholder.vue'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'

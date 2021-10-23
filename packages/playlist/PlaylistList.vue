@@ -6,9 +6,7 @@
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-[0.125rem]">
-              <div
-                class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-              ></div>
+              <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
               <div
@@ -75,9 +73,7 @@
             </div>
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">
-                <div
-                  class="aspect-w-16 aspect-h-10 overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-                ></div>
+                <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">
                 <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
@@ -114,12 +110,7 @@
             :to="'/playlist/' + playlist.id.toHexString()"
           >
             <div class="w-2/5 mr-[0.125rem]">
-              <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
-                <img
-                  class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
-                  :src="'https://patchyvideo.com/images/covers/' + playlist.item.cover"
-                />
-              </div>
+              <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm"></Cover>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
               <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
@@ -152,20 +143,11 @@
             >
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">
-                <div class="aspect-w-16 aspect-h-10 overflow-hidden">
-                  <img
-                    class="
-                      object-cover
-                      h-full
-                      w-full
-                      rounded-lg
-                      dark:filter dark:brightness-75
-                      bg-gray-300
-                      dark:bg-gray-600
-                    "
-                    :src="'https://patchyvideo.com/images/covers/' + playlist.item.cover"
-                  />
-                </div>
+                <Cover
+                  :title="playlist.item.title"
+                  :cover-image="playlist.item.cover"
+                  class="rounded-md border border-gray-200 dark:border-gray-500"
+                ></Cover>
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">
                 <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">{{ playlist.item.desc }}</div>
@@ -210,18 +192,20 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, watchEffect } from 'vue'
-import { useI18n } from 'vue-i18n'
-import NProgress from 'nprogress'
-import { screenSizes } from '@/tailwindcss'
-import { useRoute, useRouter } from 'vue-router'
-import { progressing } from '@/common/lib/progressing'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import Cover from '@/video/components/Cover.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { backTop } from '@/ui/lib/backTop'
+import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
+import { computed, ref, watch, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import NProgress from 'nprogress'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
+import { progressing } from '@/common/lib/progressing'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { backTop } from '@/ui/lib/backTop'
+import { screenSizes } from '@/tailwindcss'
 
 const { t } = useI18n()
 setSiteTitle(t('playlist.playlist-list.title') + ' - PatchyVideo')
