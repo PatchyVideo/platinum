@@ -20,12 +20,13 @@ NProgress.start()
 
 /* Vue App */
 import Notification from '@/notification/components/Notification.vue'
+import PvMessage from '@/ui/components/PvMessage.vue'
 import ReloadPrompt from './components/ReloadPrompt.vue'
 import AppRouterView from './components/AppRouterView.vue'
 import { provideSharedObject } from '@/nested'
 const app = createApp(
   defineComponent({
-    render: () => [h(AppRouterView), h(Notification), h(ReloadPrompt)],
+    render: () => [h(AppRouterView), h(Notification), h(PvMessage), h(ReloadPrompt)],
     setup() {
       provideClient(client)
       provideSharedObject()
