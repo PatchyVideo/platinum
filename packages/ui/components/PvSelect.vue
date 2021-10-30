@@ -39,7 +39,7 @@
         <li
           v-for="item in itemList"
           :key="item.value"
-          class="p-2 select-none transition-colors hover:bg-gray-100 hover:dark:bg-gray-900"
+          class="p-2 select-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-900"
           @click="selected = item.value"
         >
           {{ item.name }}

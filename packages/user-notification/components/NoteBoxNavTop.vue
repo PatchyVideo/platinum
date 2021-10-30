@@ -25,7 +25,7 @@
       <div class="divide-y-2 max-h-110 overflow-auto">
         <div v-for="Note in listNote" :key="Note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
           <div v-if="Note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
-            <router-link class="w-1/6 cursor-pointer" to>
+            <router-link class="w-1/6 cursor-pointer" :to="'/user/' + Note.repliedBy.id.toHexString()">
               <UserAvatar
                 :title="Note.repliedBy.username"
                 :image="Note.repliedBy.image"

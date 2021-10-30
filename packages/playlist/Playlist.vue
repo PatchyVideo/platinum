@@ -30,12 +30,14 @@
               ></span>
             </div>
             <div v-if="playlist.meta.createdBy" class="mt-2">
-              <UserAvatar
-                :image="playlist.meta.createdBy.image"
-                :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
-                class="inline-block w-8 rounded-full"
-              />
-              <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
+              <RouterLink :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
+                <UserAvatar
+                  :image="playlist.meta.createdBy.image"
+                  :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
+                  class="inline-block w-8 rounded-full"
+                />
+                <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
+              </RouterLink>
             </div>
             <div
               ref="descText"
@@ -216,6 +218,7 @@ const { result, loading, fetchMore } = useQuery<Query>(
         }
         meta {
           createdBy {
+            id
             username
             image
             gravatar

@@ -35,7 +35,7 @@
                     <div class="flex w-full sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
                       <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
                       <RouterLink
-                        :to="'/users/' + rankItem._id.$oid"
+                        :to="'/user/' + rankItem._id.$oid"
                         class="
                           relative
                           h-auto

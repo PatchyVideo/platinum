@@ -57,8 +57,8 @@ export const PvMessage = (options: string | Options): void => {
     }, duration)
   }
 }
-export const handleCloseMessage = (options: FullOptions) => {
-  let { id, onClose } = options
+export const handleCloseMessage = (options: FullOptions): void => {
+  const { id, onClose } = options
   for (let i = 0, l = fullMessageOptions.length; i < l; i++) {
     if (fullMessageOptions[i].id === id) {
       allMessageOptions.splice(i, 1)
@@ -67,7 +67,7 @@ export const handleCloseMessage = (options: FullOptions) => {
     }
   }
   setTimeout(() => {
-    if (typeof onClose === 'function') onClose()
+    if (onClose) onClose()
   }, PvMessageTransitionDuration.value)
 }
 

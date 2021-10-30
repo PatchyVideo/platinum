@@ -1,5 +1,11 @@
 <template>
-  <img ref="el" :alt="alt + '\'s avatar'" :src="[...imgs][currImg]" @error="onError" />
+  <img
+    ref="el"
+    class="dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
+    :alt="alt + '\'s avatar'"
+    :src="[...imgs][currImg]"
+    @error="onError"
+  />
 </template>
 
 <script lang="ts" setup>

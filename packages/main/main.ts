@@ -95,7 +95,7 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
-      path: '/user/:pid',
+      path: '/user/me',
       component: () => import('@/user/User.vue'),
     },
     {
@@ -121,6 +121,11 @@ const router = createRouter({
     {
       path: '/user/redirect',
       component: () => import('@/user/Redirect.vue'),
+    },
+    {
+      path: '/user/:uid',
+      component: () => import('@/user/Profile.vue'),
+      meta: { holdLoading: true },
     },
     {
       path: '/debug/error-pages/404',

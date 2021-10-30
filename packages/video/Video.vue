@@ -63,16 +63,19 @@
             <!-- Video Comments -->
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
               <div class="mx-2">
-                <UserAvatar
-                  class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-                  :image="comment.meta.createdBy.image"
-                  :gravatar="comment.meta.createdBy.gravatar"
-                  :alt="comment.meta.createdBy.username"
-                />
+                <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
+                  <UserAvatar
+                    class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
+                    :image="comment.meta.createdBy.image"
+                    :gravatar="comment.meta.createdBy.gravatar"
+                    :alt="comment.meta.createdBy.username"
+                  />
+                </RouterLink>
               </div>
               <div>
                 <div>
-                  <span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span
+                  <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
+                    ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
                   ><span class="text-xs text-gray-500 dark:text-gray-400"
                     ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
                     ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
@@ -85,16 +88,19 @@
                   class="flex flex-row flex-nowrap my-1"
                 >
                   <div class="mt-1 mr-2">
-                    <UserAvatar
-                      class="inline-block w-8 h-8 rounded-full object-cover"
-                      :image="child.meta.createdBy.image"
-                      :gravatar="child.meta.createdBy.gravatar"
-                      :alt="child.meta.createdBy.username"
-                    />
+                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
+                      <UserAvatar
+                        class="inline-block w-8 h-8 rounded-full object-cover"
+                        :image="child.meta.createdBy.image"
+                        :gravatar="child.meta.createdBy.gravatar"
+                        :alt="child.meta.createdBy.username"
+                      />
+                    </RouterLink>
                   </div>
                   <div>
                     <div>
-                      <span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span
+                      <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
+                        ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
                       ><Suspense
                         ><RelativeDate
                           class="text-xs text-gray-500 dark:text-gray-400 ml-2"
@@ -119,7 +125,16 @@
               >
                 <!-- Avatar -->
                 <div class="relative flex-shrink-0">
+                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
+                    <UserAvatar
+                      class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
+                      :image="author.avatar"
+                      :gravatar="author.gravatar"
+                      :alt="author.name"
+                    />
+                  </RouterLink>
                   <UserAvatar
+                    v-else
                     class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                     :image="author.avatar"
                     :gravatar="author.gravatar"
@@ -127,23 +142,43 @@
                   />
                 </div>
                 <div class="hidden sm:block ml-[0.375rem] overflow-hidden">
-                  <span
-                    class="
-                      inline-block
-                      align-text-bottom
-                      px-[0.1875rem]
-                      mr-[0.125rem]
-                      rounded
-                      bg-pink-400
-                      text-xs
-                      lg:text-sm
-                      text-white
-                      whitespace-nowrap
-                      overflow-hidden
-                    "
-                    v-text="author.position"
-                  ></span
-                  >{{ author.name }}
+                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
+                    ><span
+                      class="
+                        inline-block
+                        align-text-bottom
+                        px-[0.1875rem]
+                        mr-[0.125rem]
+                        rounded
+                        bg-pink-400
+                        text-xs
+                        lg:text-sm
+                        text-white
+                        whitespace-nowrap
+                        overflow-hidden
+                      "
+                      v-text="author.position"
+                    ></span
+                    >{{ author.name }}</RouterLink
+                  ><template v-else
+                    ><span
+                      class="
+                        inline-block
+                        align-text-bottom
+                        px-[0.1875rem]
+                        mr-[0.125rem]
+                        rounded
+                        bg-pink-400
+                        text-xs
+                        lg:text-sm
+                        text-white
+                        whitespace-nowrap
+                        overflow-hidden
+                      "
+                      v-text="author.position"
+                    ></span
+                    >{{ author.name }}</template
+                  >
                   <br />
                   <div
                     class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"

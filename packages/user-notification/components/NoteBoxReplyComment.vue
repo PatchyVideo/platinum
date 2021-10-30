@@ -19,7 +19,7 @@
         class="flex items-center m-1 p-2 shadow rounded-md"
         :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
       >
-        <router-link class="w-1/6 md:w-1/15 mr-2 cursor-pointer" to>
+        <router-link class="w-1/6 md:w-1/15 mr-2 cursor-pointer" :to="'/user/' + note.repliedBy.id.toHexString()">
           <UserAvatar
             :title="note.repliedBy.username"
             :image="note.repliedBy.image"
