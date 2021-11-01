@@ -18,9 +18,9 @@
         sm:px-6 sm:py-4
         rounded-md
         bg-white
-        dark:bg-gray-700
+        dark:bg-gray-800
         border border-gray-300
-        dark:border-gray-800
+        dark:border-gray-900
         shadow-lg
       "
     >

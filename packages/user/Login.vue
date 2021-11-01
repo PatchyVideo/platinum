@@ -37,7 +37,7 @@
                 w-full
                 bg-transparent
                 placeholder-white
-                md:placeholder-gray-900 md:text-gray-900
+                md:placeholder-gray-700 md:text-gray-700
               "
               :placeholder="t('user.login.username.placeholder')"
             />
@@ -58,7 +58,7 @@
                 w-full
                 bg-transparent
                 placeholder-white
-                md:placeholder-gray-900 md:text-gray-900
+                md:placeholder-gray-700 md:text-gray-700
               "
               :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"

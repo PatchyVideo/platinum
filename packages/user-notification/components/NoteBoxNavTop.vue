@@ -14,7 +14,7 @@
       border
       shadow
       overflow-visible
-      dark:bg-gray-700 dark:border-black
+      dark:bg-gray-800 dark:border-black
     "
   >
     通知

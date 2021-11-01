@@ -11,7 +11,7 @@
       p-2
       transition-opacity
       rounded-full
-      dark:bg-gray-800
+      dark:bg-gray-900
     "
     :class="{ 'opacity-50': !top }"
     :title="t('ui.back-top.back-top')"

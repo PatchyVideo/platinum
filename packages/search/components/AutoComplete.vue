@@ -11,14 +11,14 @@
         border border-gray-300
         dark:border-gray-600
         bg-white
-        dark:bg-gray-800
+        dark:bg-gray-900
       "
     >
       <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onSearchContentChange()" />
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-lg"
+        class="inline-block h-full outline-none dark:bg-gray-900 w-full rounded-lg"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
@@ -45,7 +45,10 @@
         v-text="t('search.auto-complete.search')"
       ></button>
     </div>
-    <div class="absolute z-[11] top-full left-0 pt-1 w-full overflow-hidden pb-16">
+    <div
+      class="absolute z-[11] top-full left-0 w-full overflow-hidden"
+      :class="{ 'pt-1': !hideContainer && !teleportResult }"
+    >
       <Transition
         :css="false"
         :persisted="true"
@@ -86,7 +89,7 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-700 shadow-lg border border-gray-300 dark:border-gray-600"
+          class="w-full rounded bg-white dark:bg-gray-800 shadow-lg border border-gray-300 dark:border-gray-600"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
             <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">
@@ -101,9 +104,9 @@
                   hover:bg-gray-100
                   flex
                   justify-between
-                  dark:hover:bg-gray-900
+                  dark:hover:bg-gray-700
                 "
-                :class="{ 'bg-gray-100 dark:bg-gray-900': index === activeSearchResult }"
+                :class="{ 'bg-gray-100 dark:bg-gray-700': index === activeSearchResult }"
                 @click="clickAutocompleteKeyword(item.tag)"
               >
                 <div class="text-left">
@@ -139,7 +142,7 @@
                     class="inline-block w-4 h-4 mr-[0.125rem] align-middle text-gray-600 dark:text-gray-300"
                   />热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
                 </h4>
-                <div v-if="popularTags" class="mx-[0.125rem] line-clamp-4 text-gray-700 dark:text-gray-300">
+                <div v-if="popularTags" class="mx-[0.125rem] line-clamp-4 text-gray-800 dark:text-gray-300">
                   <div
                     v-for="tag in popularTags"
                     :key="tag"

@@ -9,7 +9,7 @@
       relative
       inline-block
       border
-      dark:border-gray-800
+      dark:border-gray-900
       transition-shadow
       duration-200
     "
@@ -29,7 +29,7 @@
         box-border
         min-w-full
         overflow-hidden
-        dark:bg-gray-800
+        dark:bg-gray-900
       "
     >
       <ul
@@ -39,7 +39,7 @@
         <li
           v-for="item in itemList"
           :key="item.value"
-          class="p-2 select-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-900"
+          class="p-2 select-none transition-colors hover:bg-gray-100 dark:hover:bg-gray-700"
           @click="selected = item.value"
         >
           {{ item.name }}

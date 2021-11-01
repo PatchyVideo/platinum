@@ -5,7 +5,7 @@
         <div v-text="t('video.video-list.main-body.loading.searching')"></div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
-          <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
+          <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
             <div class="w-2/5 mr-[0.125rem]">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
@@ -41,7 +41,7 @@
               shadow-sm
               rounded-lg
               bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-700
+              dark:border-gray-500 dark:bg-gray-800
             "
           >
             <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
@@ -80,7 +80,7 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
+            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="w-2/5 mr-[0.125rem]">
@@ -117,7 +117,7 @@
               shadow-sm
               rounded-lg
               bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-700
+              dark:border-gray-500 dark:bg-gray-800
             "
             :to="'/video/' + video.id.toHexString()"
           >
@@ -167,7 +167,7 @@
         p-2
         transition-opacity
         rounded-full
-        dark:bg-gray-800
+        dark:bg-gray-900
       "
       :title="t('video.video-list.advanced-search.name')"
       @click="progressing(t('video.video-list.advanced-search.name'))"

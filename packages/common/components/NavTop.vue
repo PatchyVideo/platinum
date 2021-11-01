@@ -10,13 +10,13 @@
         justify-between
         border-b border-gray-300
         bg-gray-50
-        dark:bg-gray-700 dark:border-gray-800
+        dark:bg-gray-800 dark:border-gray-900
       "
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
         <icon-uil-list-ul
-          class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-900"
+          class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
           @click="drawerOpen = true"
         />
         <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer inline-block" @click="toHome()"></Logo>
@@ -55,9 +55,9 @@
                 rounded-full
                 transition-colors
                 hover:bg-gray-200
-                dark:hover:bg-gray-900
+                dark:hover:bg-gray-700
               "
-              :class="{ 'bg-gray-200 dark:bg-gray-900': NoteBoxOpen }"
+              :class="{ 'bg-gray-200 dark:bg-gray-700': NoteBoxOpen }"
               @click="NoteBoxOpen = true"
             >
               <icon-uil-envelope />
@@ -72,7 +72,7 @@
                 :title="user.name"
                 :image="user.avatar"
                 :email="user.email"
-                class="h-9 w-9 rounded-full ring-2 ring-white cursor-pointer"
+                class="h-9 w-9 rounded-full border border-white cursor-pointer"
                 @click="userListOpen = true"
               ></UserAvatar>
               <label
@@ -90,13 +90,13 @@
           <!-- User List -->
           <Transition name="userList">
             <div
-              v-if="userListOpen"
+              v-show="userListOpen"
               ref="userList"
               class="
                 z-[999]
                 absolute
-                -right-2
                 -top-6
+                -right-2
                 w-40
                 p-2
                 mt-[50%]
@@ -105,24 +105,14 @@
                 border
                 shadow
                 overflow-visible
-                dark:bg-gray-700 dark:border-black
+                dark:bg-gray-800 dark:border-black
               "
             >
               <UserAvatar
                 :title="user.name"
                 :image="user.avatar"
                 :email="user.email"
-                class="
-                  h-14
-                  w-14
-                  rounded-full
-                  ring-2 ring-gray-200
-                  dark:ring-gray-700
-                  cursor-pointer
-                  absolute
-                  right-0
-                  -top-5
-                "
+                class="absolute -top-5 right-0 w-14 h-14 rounded-full border border-white cursor-pointer"
               ></UserAvatar>
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
@@ -159,22 +149,23 @@
           z-[50]
           left-0
           p-1
-          md:px-2 md:w-auto
+          sm:px-2
+          w-3/4
+          sm:w-auto
           overflow-auto
           bg-white
+          dark:bg-gray-800
           transform-gpu
           transition-transform
           duration-[250ms]
           ease-in-out
-          w-3/4
-          dark:bg-gray-700
         "
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
           <icon-uil-times
-            class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-900"
+            class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
             @click="drawerOpen = false"
           />
           <Logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></Logo>
@@ -183,63 +174,63 @@
         <div class="mt-4 space-y-2">
           <NavTopLink :index="0" :drawer-open="drawerOpen"
             ><RouterLink to="/" class="block"
-              ><icon-uil-home-alt class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.home')
-              }}</RouterLink
-            ></NavTopLink
-          >
+              ><icon-uil-home-alt class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.home')"
+              ></span></RouterLink
+          ></NavTopLink>
           <NavTopLink :index="1" :drawer-open="drawerOpen"
             ><RouterLink to="/video-list" class="block"
-              ><icon-uil-play-circle class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.video')
-              }}</RouterLink
-            ></NavTopLink
-          >
+              ><icon-uil-play-circle class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.video')"
+              ></span></RouterLink
+          ></NavTopLink>
           <NavTopLink :index="2" :drawer-open="drawerOpen"
             ><RouterLink to="/playlist-list" class="block"
-              ><icon-uil-folder class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.list')
-              }}</RouterLink
-            ></NavTopLink
-          >
+              ><icon-uil-folder class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.list')"
+              ></span></RouterLink
+          ></NavTopLink>
           <NavTopLink :index="3" :drawer-open="drawerOpen"
             ><a class="block" @click="progressing()"
-              ><icon-uil-chat class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.discuss-board')
-              }}</a
-            ></NavTopLink
-          >
+              ><icon-uil-chat class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.discuss-board')"
+              ></span></a
+          ></NavTopLink>
           <NavTopLink :index="4" :drawer-open="drawerOpen"
             ><RouterLink to="/leaderboard" class="block"
-              ><icon-uil-list-ol-alt class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.leaderboard')
-              }}</RouterLink
-            ></NavTopLink
-          >
+              ><icon-uil-list-ol-alt class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.leaderboard')"
+              ></span></RouterLink
+          ></NavTopLink>
           <NavTopLink :index="5" :drawer-open="drawerOpen"
             ><a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
-              ><icon-carbon-wikis class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.main-menu.wiki')
-              }}</a
-            ></NavTopLink
-          >
+              ><icon-carbon-wikis class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.main-menu.wiki')"
+              ></span></a
+          ></NavTopLink>
         </div>
         <!-- User List -->
         <div v-if="isLogin === IsLogin.yes" class="mt-4 space-y-2">
           <NavTopLink :index="1" :drawer-open="drawerOpen"
             ><a class="block" @click="progressing()"
-              ><icon-uil-upload class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.user-operation.postvideo')
-              }}</a
-            ></NavTopLink
-          >
+              ><icon-uil-upload class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.user-operation.postvideo')"
+              ></span></a
+          ></NavTopLink>
           <NavTopLink :index="2" :drawer-open="drawerOpen"
             ><a class="block" @click="progressing()"
-              ><icon-uil-tag-alt class="inline align-middle w-7 text-lg text-center" />{{
-                t('common.nav-top.user-operation.tag')
-              }}</a
-            ></NavTopLink
-          >
+              ><icon-uil-tag-alt class="inline-block w-7 text-lg text-center" /><span
+                class="inline-block align-middle"
+                v-text="t('common.nav-top.user-operation.tag')"
+              ></span></a
+          ></NavTopLink>
         </div>
         <div v-else-if="isLogin === IsLogin.loading" class="mt-8">验证登录中...</div>
         <!-- Super Admin -->
@@ -287,7 +278,7 @@
   </div>
   <!-- eslint-disable-next-line vue/no-v-html -->
   <div class="hidden invisible" v-html="hiddenStyle"></div>
-  <div v-show="hidePage" class="absolute z-[50] w-full h-full bg-white dark:bg-gray-700">
+  <div v-show="hidePage" class="absolute z-[50] w-full h-full bg-white dark:bg-gray-800">
     <div ref="teleportTo" class="absolute w-full"></div>
   </div>
 </template>

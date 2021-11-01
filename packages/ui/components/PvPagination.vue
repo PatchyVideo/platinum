@@ -14,7 +14,7 @@
           font-medium
           rounded-lg
           hover:text-gray-500
-          dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black
+          dark:bg-gray-600 dark:border-gray-800 dark:hover:bg-black
           md:px-4 md:py-2
         "
         @click="$emit('previous')"
@@ -32,7 +32,7 @@
           text-sm
           font-medium
           rounded-lg
-          dark:bg-gray-600 dark:border-gray-700
+          dark:bg-gray-600 dark:border-gray-800
           md:px-4 md:py-2
         "
         v-text="t('ui.pv-pagination.page-previous')"
@@ -61,7 +61,7 @@
           font-medium
           rounded-lg
           hover:text-gray-500
-          dark:bg-gray-600 dark:border-gray-700 dark:hover:bg-black
+          dark:bg-gray-600 dark:border-gray-800 dark:hover:bg-black
           md:px-4 md:py-2
         "
         @click="$emit('next')"
@@ -79,7 +79,7 @@
           text-sm
           font-medium
           rounded-lg
-          dark:bg-gray-600 dark:border-gray-700
+          dark:bg-gray-600 dark:border-gray-800
           md:px-4 md:py-2
         "
         v-text="t('ui.pv-pagination.page-next')"

@@ -206,10 +206,10 @@
                 <div>
                   <RouterLink class="" :to="'/playlist/' + pid"
                     ><icon-uil-list-ui-alt
-                      class="inline-block mr-1 align-middle text-sm text-gray-700 dark:text-gray-100"
+                      class="inline-block mr-1 align-middle text-sm text-gray-800 dark:text-gray-100"
                     />{{ playlist.item.title }}</RouterLink
                   >
-                  <div class="text-sm text-gray-800 dark:text-gray-200">
+                  <div class="text-sm text-gray-900 dark:text-gray-200">
                     {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
                     }}{{ playlistIndex + ' / ' + playlist.item.count }}
                   </div>
@@ -226,8 +226,8 @@
                 <RouterLink
                   v-for="(plVideo, plIndex) in playlistVideos"
                   :key="plVideo.video.id.toHexString()"
-                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
-                  :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
+                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-900"
+                  :class="{ 'bg-pink-50 dark:bg-gray-900': plVideo.video.id.toHexString() === vid }"
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
@@ -258,7 +258,7 @@
                     <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
                     <div
                       v-if="plVideo.video.meta.createdBy"
-                      class="text-xs text-gray-800 dark:text-gray-200"
+                      class="text-xs text-gray-900 dark:text-gray-200"
                       v-text="plVideo.video.meta.createdBy.username"
                     ></div>
                   </div>
@@ -280,7 +280,7 @@
                   py-[0.125rem]
                   rounded-md
                   hover:bg-pink-50
-                  dark:hover:bg-gray-800
+                  dark:hover:bg-gray-900
                   transition-colors
                   duration-100
                 "
@@ -358,7 +358,7 @@
           </div>
           <!-- Related Video -->
           <div class="flex flex-col space-y-1 mt-2">
-            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
+            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-900">
               <div class="col-span-2">
                 <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>

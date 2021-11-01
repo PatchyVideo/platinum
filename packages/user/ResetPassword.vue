@@ -31,8 +31,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 dark:placeholder-white dark:text-white
               "
               :placeholder="t('user.reset-password.password.placeholder')"
@@ -50,8 +50,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 dark:placeholder-white dark:text-white
               "
               :placeholder="t('user.reset-password.password2.placeholder')"
@@ -117,7 +117,7 @@
             <input
               v-model="password"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"
               :placeholder="t('user.reset-password.password.placeholder')"
             />
           </div>
@@ -129,7 +129,7 @@
             <input
               v-model="password2"
               type="password"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"
               :placeholder="t('user.reset-password.password2.placeholder')"
               @keydown.enter="reset"
             />

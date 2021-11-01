@@ -37,8 +37,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.username.placeholder')"
@@ -59,8 +59,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.password.placeholder')"
@@ -81,8 +81,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.password2.placeholder')"
@@ -103,8 +103,8 @@
                 outline-none
                 w-full
                 bg-transparent
-                placeholder-gray-900
-                text-gray-900
+                placeholder-gray-700
+                text-gray-700
                 <md:dark:placeholder-white <md:dark:text-white
               "
               :placeholder="t('user.signup.email.placeholder')"

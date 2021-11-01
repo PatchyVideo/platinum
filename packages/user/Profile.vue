@@ -26,7 +26,7 @@
         <div class="mt-2 ml-6">
           <!-- username -->
           <h1 class="text-2xl font-bold" v-text="user.username"></h1>
-          <div class="text-sm text-gray-700 dark:text-gray-300">
+          <div class="text-sm text-gray-800 dark:text-gray-300">
             {{ t('user.profile.info.created-at', { date: user.meta.createdAt.toLocaleDateString() }) }}
           </div>
           <!-- bio -->

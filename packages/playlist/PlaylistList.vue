@@ -4,7 +4,7 @@
       <div v-if="status === 'loading'">
         <div class="border-b pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
         <div v-if="screenSizes['<md']">
-          <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
+          <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900">
             <div class="w-2/5 mr-[0.125rem]">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
@@ -51,7 +51,7 @@
               shadow-md
               rounded-lg
               bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-700
+              dark:border-gray-500 dark:bg-gray-800
             "
           >
             <div
@@ -106,7 +106,7 @@
           <RouterLink
             v-for="playlist in playlists"
             :key="playlist.item.title"
-            class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
+            class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900"
             :to="'/playlist/' + playlist.id.toHexString()"
           >
             <div class="w-2/5 mr-[0.125rem]">
@@ -133,7 +133,7 @@
               shadow-md
               rounded-lg
               bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-700
+              dark:border-gray-500 dark:bg-gray-800
             "
           >
             <RouterLink
@@ -180,7 +180,7 @@
         p-2
         transition-opacity
         rounded-full
-        dark:bg-gray-800
+        dark:bg-gray-900
       "
       :title="t('playlist.playlist-list.advanced-search.name')"
       @click="progressing(t('playlist.playlist-list.advanced-search.name'))"

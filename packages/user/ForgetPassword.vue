@@ -93,7 +93,7 @@
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
-              class="outline-none w-full bg-transparent placeholder-gray-900 text-gray-900"
+              class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"
               :placeholder="t('user.forget-password.email.placeholder')"
               @keydown.enter="sendEmail"
             />

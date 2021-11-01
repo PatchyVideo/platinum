@@ -15,7 +15,7 @@
           </div>
           <div class="mt-2">
             <h1 class="text-2xl font-semibold" v-text="playlist.item.title"></h1>
-            <div class="text-xs sm:text-sm text-gray-700 dark:text-gray-200">
+            <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-200">
               {{
                 t('playlist.playlist.info.video-count', {
                   count: playlist.item.count,
@@ -53,14 +53,14 @@
               class="
                 w-full
                 rounded
-                text-sm text-gray-700
+                text-sm text-gray-800
                 py-[0.125rem]
                 px-1
                 transition-color
                 duration-[150ms]
                 dark:text-gray-200
                 hover:bg-gray-100
-                dark:hover:bg-gray-800
+                dark:hover:bg-gray-900
                 hover:text-blue-600
               "
               @click="expandDesc = !expandDesc"
@@ -90,9 +90,9 @@
               odd:bg-gray-50
               dark:odd:bg-gray-600
               hover:bg-pink-50
-              dark:hover:bg-gray-800
+              dark:hover:bg-gray-900
               hover:odd:bg-pink-50
-              dark:hover:odd:bg-gray-800
+              dark:hover:odd:bg-gray-900
             "
             :to="'/video/' + video.id.toHexString() + '?list=' + pid"
           >
@@ -129,7 +129,7 @@
               <h1 class="text-sm md:text-lg font-semibold <md:line-clamp-2 md:truncate" v-text="video.item.title"></h1>
               <h2
                 v-if="video.item.partName"
-                class="-mt-1 text-sm text-gray-700 truncate dark:text-gray-200"
+                class="-mt-1 text-sm text-gray-800 truncate dark:text-gray-200"
                 v-text="`P${pageOfVideo(video.item.url)}: ${video.item.partName}`"
               ></h2>
               <div

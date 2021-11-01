@@ -10,7 +10,7 @@
           h-8
           align-top
           text-gray-600
-          dark:text-gray-300
+          dark:text-gray-200
           transform-gpu
           -translate-x-1
           opacity-25
@@ -28,7 +28,7 @@
       v-for="video in videos.slice(0, count)"
       :key="video.id.toHexString()"
       :to="'/video/' + video.id.toHexString()"
-      class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
+      class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-900 transition-colors duration-100"
     >
       <Cover
         :title="video.item.title"

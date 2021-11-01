@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault :fetch-note="false">
     <!-- Mobile View -->
-    <div v-if="screenSizes['<md']" class="w-full p-2 dark:bg-gray-700 dark:border-black">
+    <div v-if="screenSizes['<md']" class="w-full p-2 dark:bg-gray-800 dark:border-black">
       <div v-if="noteType === 'comment_reply'">
         <NoteBoxReplyComment v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
@@ -17,7 +17,7 @@
       ></PvPagination>
       <!-- DrawerLayout -->
       <div
-        class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-800"
+        class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-900"
         title="打开消息侧栏"
         @click="noteDrawerOpen = true"
       >
@@ -41,12 +41,12 @@
           transition-transform
           duration-300
           w-3/4
-          dark:bg-gray-700
+          dark:bg-gray-800
         "
         :class="{ 'translate-x-full': !noteDrawerOpen }"
       >
         <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 hover:dark:bg-gray-900" />
+          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -111,9 +111,9 @@
     <!-- Desktop View -->
     <div v-else class="p-5 flex space-x-3 min-h-screen w-[90%] m-auto xl:w-4/5">
       <!-- Nav Left -->
-      <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-700">
+      <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-800">
         <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 hover:dark:bg-gray-900" />
+          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
