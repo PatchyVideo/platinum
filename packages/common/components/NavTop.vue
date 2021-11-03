@@ -27,10 +27,10 @@
           ref="autoComplete"
           v-model:keyword="keyword"
           class="w-full max-w-2xl"
-          :teleport-result="screenSizes['<sm'] ? teleportTo : undefined"
+          :teleport-result="screenSizes['ltsm'] ? teleportTo : undefined"
           :show-recommendations="true"
           @search="searchResult"
-          @click="() => screenSizes['<sm'] && (hidePage = true)"
+          @click="() => screenSizes['ltsm'] && (hidePage = true)"
         ></AutoComplete>
         <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
       </div>
@@ -42,7 +42,7 @@
         <div v-else class="relative">
           <div class="flex items-center space-x-3">
             <div
-              v-if="!screenSizes['<sm'] && props.fetchNote"
+              v-if="!screenSizes['ltsm'] && props.fetchNote"
               ref="NoteBoxBtn"
               class="
                 flex
@@ -76,7 +76,7 @@
                 @click="userListOpen = true"
               ></UserAvatar>
               <label
-                v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm'] && props.fetchNote"
+                v-if="listNoteCountUnread && !userListOpen && screenSizes['ltsm'] && props.fetchNote"
                 class="absolute -top-[0.0625rem] -right-[0.125rem] bg-red-500 rounded-full p-[0.375rem]"
               ></label>
             </div>
@@ -93,7 +93,7 @@
               v-show="userListOpen"
               ref="userList"
               class="
-                z-[999]
+                z-[900]
                 absolute
                 -top-6
                 -right-2
@@ -117,7 +117,7 @@
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <RouterLink
-                  v-if="screenSizes['<sm'] && props.fetchNote"
+                  v-if="screenSizes['ltsm'] && props.fetchNote"
                   class="block text-center"
                   to="/user/notification"
                 >

@@ -9,23 +9,23 @@
         h-full
         p-5
         text-white
-        <md:dark:text-white
+        ltmd:dark:text-white
         md:text-black
         bg-white bg-opacity-50
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        <md:shadow
+        ltmd:shadow
         md:mr-50
       "
     >
-      <div class="w-full <md:text-center">
+      <div class="w-full ltmd:text-center">
         <Logo :larger="20"></Logo>
         <div class="text-lg text-center" v-text="t('user.signup.title')"></div>
       </div>
       <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
-          <div class="flex w-full border-b border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black ltmd:dark:border-white">
             <icon-uil-user class="align-middle w-7" />
             <input
               v-model="userName"
@@ -39,7 +39,7 @@
                 bg-transparent
                 placeholder-gray-700
                 text-gray-700
-                <md:dark:placeholder-white <md:dark:text-white
+                ltmd:dark:placeholder-white ltmd:dark:text-white
               "
               :placeholder="t('user.signup.username.placeholder')"
             />
@@ -47,7 +47,7 @@
           <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black ltmd:dark:border-white">
             <icon-uil-lock-open-alt class="align-middle w-7" />
             <input
               v-model="password"
@@ -61,7 +61,7 @@
                 bg-transparent
                 placeholder-gray-700
                 text-gray-700
-                <md:dark:placeholder-white <md:dark:text-white
+                ltmd:dark:placeholder-white ltmd:dark:text-white
               "
               :placeholder="t('user.signup.password.placeholder')"
             />
@@ -69,7 +69,7 @@
           <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black ltmd:dark:border-white">
             <icon-uil-padlock class="align-middle w-7" />
             <input
               v-model="password2"
@@ -83,7 +83,7 @@
                 bg-transparent
                 placeholder-gray-700
                 text-gray-700
-                <md:dark:placeholder-white <md:dark:text-white
+                ltmd:dark:placeholder-white ltmd:dark:text-white
               "
               :placeholder="t('user.signup.password2.placeholder')"
             />
@@ -91,7 +91,7 @@
           <div class="text-red-500 text-sm h-4" v-text="password2Status"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black <md:dark:border-white">
+          <div class="flex w-full border-b border-black ltmd:dark:border-white">
             <icon-uil-envelope class="align-middle w-7" />
             <input
               v-model="email"
@@ -105,7 +105,7 @@
                 bg-transparent
                 placeholder-gray-700
                 text-gray-700
-                <md:dark:placeholder-white <md:dark:text-white
+                ltmd:dark:placeholder-white ltmd:dark:text-white
               "
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
@@ -366,7 +366,7 @@ async function signup(): Promise<void> {
 .sign-up {
   @apply bg-bottom bg-no-repeat bg-cover;
 }
-@media screen(<md) {
+@media screen(ltmd) {
   .sign-up {
     background-image: url('./assets/SignupMobile.jpg');
   }

@@ -26,8 +26,8 @@ module.exports = {
         })
         return {
           ...Object.fromEntries(screens),
-          ...Object.fromEntries(screens.map(([k, v]) => ['<' + k, { max: v }])),
-          ...Object.fromEntries(screens.map(([k, v], i) => ['@' + k, { min: v, max: (screens[i + 1] ?? [])[1] }])),
+          ...Object.fromEntries(screens.map(([k, v]) => ['lt' + k, { max: v }])),
+          ...Object.fromEntries(screens.map(([k, v], i) => ['at' + k, { min: v, max: (screens[i + 1] ?? [])[1] }])),
         }
       })(),
       colors: {

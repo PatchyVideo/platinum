@@ -2,7 +2,7 @@
   <div class="reset-password h-screen w-full md:min-h-xl dark:filter dark:brightness-75">
     <!-- Mobile view -->
     <div
-      v-if="screenSizes['<md']"
+      v-if="screenSizes['ltmd']"
       class="
         flex-wrap
         content-between
@@ -271,7 +271,7 @@ async function reset(): Promise<void> {
 .reset-password {
   @apply bg-bottom bg-no-repeat bg-cover;
 }
-@media screen(<md) {
+@media screen(ltmd) {
   .reset-password {
     background-image: url('./assets/SignupMobile.jpg');
   }

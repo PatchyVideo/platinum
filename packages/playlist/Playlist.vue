@@ -3,10 +3,10 @@
     <div class="md:my-4 xl:my-6 max-w-screen-xl mx-auto">
       <template v-if="playlist">
         <div class="md:ml-4 md:flex justify-start space-x-2 md:space-x-4">
-          <div class="flex-shrink-0 flex-grow-0 md:w-80 <md:h-30 overflow-hidden">
-            <div class="md:aspect-w-8 md:aspect-h-5 <md:relative <md:top-1/2 <md:transform <md:-translate-y-1/2">
+          <div class="flex-shrink-0 flex-grow-0 md:w-80 ltmd:h-[7.5rem] overflow-hidden">
+            <div class="md:aspect-w-8 md:aspect-h-5 ltmd:relative ltmd:top-1/2 ltmd:transform ltmd:-translate-y-1/2">
               <img
-                class="inline-block <md:w-full md:border-pink-300 md:rounded-xl md:border-4"
+                class="inline-block ltmd:w-full md:border-pink-300 md:rounded-xl md:border-4"
                 width="320"
                 height="200"
                 :src="getCoverImage({ image: playlist.item.cover })"
@@ -31,11 +31,12 @@
             </div>
             <div v-if="playlist.meta.createdBy" class="mt-2">
               <RouterLink :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
-                <UserAvatar
-                  :image="playlist.meta.createdBy.image"
-                  :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
-                  class="inline-block w-8 rounded-full"
-                />
+                <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()"
+                  ><UserAvatar
+                    :image="playlist.meta.createdBy.image"
+                    :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
+                    class="inline-block w-8 rounded-full"
+                /></UserAvatarPopper>
                 <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
               </RouterLink>
             </div>
@@ -110,12 +111,12 @@
               <div v-if="playlist.editable" class="md:text-2xl transition-color duration-100 hover:text-blue-600">
                 <icon-uil-arrow-up />
               </div>
-              <div class="<md:text-xs" v-text="offset + index + 1"></div>
+              <div class="ltmd:text-xs" v-text="offset + index + 1"></div>
               <div v-if="playlist.editable" class="md:text-2xl transition-color duration-100 hover:text-blue-600">
                 <icon-uil-arrow-down />
               </div>
             </div>
-            <div class="flex-shrink-0 flex-grow-0 w-35 md:w-60">
+            <div class="flex-shrink-0 flex-grow-0 w-28 md:w-60">
               <div class="aspect-w-8 aspect-h-5">
                 <img
                   class="inline-block rounded-lg border-gray-200 border-2"
@@ -126,7 +127,7 @@
               </div>
             </div>
             <div class="overflow-hidden">
-              <h1 class="text-sm md:text-lg font-semibold <md:line-clamp-2 md:truncate" v-text="video.item.title"></h1>
+              <h1 class="text-sm md:text-lg font-semibold ltmd:line-clamp-2 md:truncate" v-text="video.item.title"></h1>
               <h2
                 v-if="video.item.partName"
                 class="-mt-1 text-sm text-gray-800 truncate dark:text-gray-200"
@@ -151,6 +152,7 @@
 <script lang="ts" setup>
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { computed, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
 import { useI18n } from 'vue-i18n'

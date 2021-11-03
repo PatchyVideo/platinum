@@ -2,7 +2,7 @@
   <div class="forget-password h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-75">
     <!-- Mobile view -->
     <div
-      v-if="screenSizes['<md']"
+      v-if="screenSizes['ltmd']"
       class="
         flex-wrap
         content-between
@@ -69,18 +69,18 @@
     <div
       v-else
       class="
-        flex-wrap
-        content-between
+        flex
+        mr-50
+        p-5
         w-80
         h-full
-        p-5
+        flex-wrap
+        content-between
+        text-black
         bg-white bg-opacity-50
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        mr-50
-        text-black
-        flex
       "
     >
       <div class="w-full">
@@ -218,7 +218,7 @@ async function sendEmail(): Promise<void> {
 .forget-password {
   @apply bg-center bg-no-repeat bg-cover;
 }
-@media screen(<md) {
+@media screen(ltmd) {
   .forget-password {
     background-image: url('./assets/LoginMobile.jpg');
   }

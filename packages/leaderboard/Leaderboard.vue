@@ -48,6 +48,7 @@
                         "
                         @click.prevent.capture=""
                       >
+                        <!-- TODO add UserAvatarPopper here -->
                         <UserAvatar
                           class="rounded-full h-auto w-auto md:h-full md:w-full"
                           :alt="rankItem.user_obj.profile.username"
@@ -138,6 +139,7 @@ import { resDataStatus } from '@/common/lib/resDataStatus'
 import { useI18n } from 'vue-i18n'
 import BackTop from '@/ui/components/BackTop.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+// import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import PvTabs from '@/ui/components/PvTabs.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 

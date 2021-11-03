@@ -14,11 +14,11 @@
         filter
         drop-shadow-md
         backdrop-filter backdrop-blur-sm
-        <md:shadow
+        ltmd:shadow
         md:ml-48
       "
     >
-      <div class="w-full <md:text-center">
+      <div class="w-full ltmd:text-center">
         <Logo :larger="20"></Logo>
         <div class="text-lg md:text-center" v-text="t('user.login.title')"></div>
       </div>
@@ -239,7 +239,7 @@ async function login(): Promise<void> {
 .login {
   @apply bg-bottom bg-no-repeat bg-cover;
 }
-@media screen(<md) {
+@media screen(ltmd) {
   .login {
     background-image: url('./assets/LoginMobile.jpg');
   }

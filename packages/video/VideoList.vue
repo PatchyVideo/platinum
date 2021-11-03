@@ -4,7 +4,7 @@
       <div v-if="status === 'loading'">
         <div v-text="t('video.video-list.main-body.loading.searching')"></div>
         <!-- Mobile View -->
-        <div v-if="screenSizes['<md']">
+        <div v-if="screenSizes['ltmd']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
             <div class="w-2/5 mr-[0.125rem]">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
@@ -76,7 +76,7 @@
         ></div>
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
-        <div v-if="screenSizes['<md']">
+        <div v-if="screenSizes['ltmd']">
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"

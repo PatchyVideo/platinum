@@ -2,12 +2,13 @@
   <LayoutDefault>
     <div v-if="user" class="max-w-screen-xl mx-auto">
       <!-- padding for profile background -->
-      <div class="w-full h-40 bg-gray-200 dark:bg-gray-600"></div>
+      <div class="w-full h-24 sm:h-32 md::h-40 bg-gray-200 dark:bg-gray-600"></div>
       <!-- basic info -->
-      <div class="flex flex-row ml-16">
+      <div class="flex flex-row ltsm:mt-2 ml-4 md:ml-16">
         <div
           class="
-            -mt-16
+            sm:-mt-16
+            flex-shrink-0 flex-grow-0
             rounded-full
             hover:rounded-none
             border-2 border-gray-300
@@ -18,15 +19,27 @@
           "
         >
           <UserAvatar
-            class="w-56 h-56 rounded-full hover:rounded-none transform-gpu transition-all duration-300"
+            class="
+              w-20
+              h-20
+              md:w-56 md:h-56
+              flex-shrink-0 flex-grow-0
+              rounded-full
+              hover:rounded-none
+              transform-gpu
+              transition-all
+              duration-300
+            "
+            openable
+            :alt="user.username"
             :image="user.image"
             :gravatar="user.gravatar"
           />
         </div>
-        <div class="mt-2 ml-6">
+        <div class="mt-1 sm:mt-2 ml-2 sm:ml-6">
           <!-- username -->
-          <h1 class="text-2xl font-bold" v-text="user.username"></h1>
-          <div class="text-sm text-gray-800 dark:text-gray-300">
+          <h1 class="text-lg sm:text-2xl font-bold" v-text="user.username"></h1>
+          <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-300">
             {{ t('user.profile.info.created-at', { date: user.meta.createdAt.toLocaleDateString() }) }}
           </div>
           <!-- bio -->
@@ -39,11 +52,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useQuery, useResult } from '@vue/apollo-composable'
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import NProgress from 'nprogress'
-import { gql } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import UserAvatar from './components/UserAvatar.vue'

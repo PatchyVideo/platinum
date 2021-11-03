@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault :fetch-note="false">
     <!-- Mobile View -->
-    <div v-if="screenSizes['<md']" class="w-full p-2 dark:bg-gray-800 dark:border-black">
+    <div v-if="screenSizes['ltmd']" class="w-full p-2 dark:bg-gray-800 dark:border-black">
       <div v-if="noteType === 'comment_reply'">
         <NoteBoxReplyComment v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
@@ -33,7 +33,7 @@
           fixed
           inset-y-0
           p-1
-          z-[50]
+          z-50
           right-0
           overflow-auto
           bg-white

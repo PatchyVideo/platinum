@@ -23,9 +23,8 @@
 <script lang="ts" setup>
 import VideoRow from './VideoRow.vue'
 import VideoRowPlaceholder from './VideoRowPlaceholder.vue'
-import { gql } from '@/graphql'
+import { gql, useLazyQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
-import { useLazyQuery, useResult } from '@vue/apollo-composable'
 import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useElementSize, useIntersectionObserver } from '@vueuse/core'

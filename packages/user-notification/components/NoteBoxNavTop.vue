@@ -2,7 +2,7 @@
   <div
     ref="NoteBox"
     class="
-      z-[999]
+      z-[900]
       absolute
       right-0
       top-10
@@ -25,15 +25,15 @@
       <div class="divide-y-2 max-h-110 overflow-auto">
         <div v-for="Note in listNote" :key="Note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
           <div v-if="Note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
-            <router-link class="w-1/6 cursor-pointer" :to="'/user/' + Note.repliedBy.id.toHexString()">
+            <RouterLink class="w-1/6 cursor-pointer" :to="'/user/' + Note.repliedBy.id.toHexString()">
               <UserAvatar
                 :title="Note.repliedBy.username"
                 :image="Note.repliedBy.image"
                 :gravatar="Note.repliedBy.gravatar"
                 class="rounded-full ring-2 ring-white"
               ></UserAvatar>
-            </router-link>
-            <router-link
+            </RouterLink>
+            <RouterLink
               :to="
                 (Note.repliedType === 'forum' ? '' : Note.repliedType === 'video' ? '/video/' : '/playlist/') +
                 Note.repliedObj +
@@ -52,10 +52,10 @@
               <div class="text-xs text-gray-600 text-right dark:text-white">
                 <RelativeDate :date="Note.time" />
               </div>
-            </router-link>
+            </RouterLink>
           </div>
           <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
-            <router-link tag="div" to class="flex items-center space-x-2">
+            <RouterLink tag="div" to class="flex items-center space-x-2">
               <UserAvatar :title="Note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
               <div class="w-5/6">
                 <div class="truncate">
@@ -68,11 +68,11 @@
                   <RelativeDate :date="Note.time" />
                 </div>
               </div>
-            </router-link>
+            </RouterLink>
           </div>
         </div>
       </div>
-      <router-link to="/user/notification" class="pt-1 text-center block">查看全部回复</router-link>
+      <RouterLink to="/user/notification" class="pt-1 text-center block">查看全部回复</RouterLink>
     </div>
   </div>
 </template>

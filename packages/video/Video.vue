@@ -34,7 +34,7 @@
           <Suspense>
             <Player :item="video.item" />
           </Suspense>
-          <!-- <div class="<xl:hidden w-full border-t border-gray-300 my-2"></div> -->
+          <!-- <div class="ltxl:hidden w-full border-t border-gray-300 my-2"></div> -->
           <div class="my-1"></div>
           <div ref="mobilePlaylistTarget"></div>
           <div ref="mobileAuthorTarget"></div>
@@ -64,12 +64,13 @@
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
               <div class="mx-2">
                 <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
-                  <UserAvatar
-                    class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-                    :image="comment.meta.createdBy.image"
-                    :gravatar="comment.meta.createdBy.gravatar"
-                    :alt="comment.meta.createdBy.username"
-                  />
+                  <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()"
+                    ><UserAvatar
+                      class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
+                      :image="comment.meta.createdBy.image"
+                      :gravatar="comment.meta.createdBy.gravatar"
+                      :alt="comment.meta.createdBy.username"
+                  /></UserAvatarPopper>
                 </RouterLink>
               </div>
               <div>
@@ -89,12 +90,13 @@
                 >
                   <div class="mt-1 mr-2">
                     <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
-                      <UserAvatar
-                        class="inline-block w-8 h-8 rounded-full object-cover"
-                        :image="child.meta.createdBy.image"
-                        :gravatar="child.meta.createdBy.gravatar"
-                        :alt="child.meta.createdBy.username"
-                      />
+                      <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
+                        ><UserAvatar
+                          class="inline-block w-8 h-8 rounded-full object-cover"
+                          :image="child.meta.createdBy.image"
+                          :gravatar="child.meta.createdBy.gravatar"
+                          :alt="child.meta.createdBy.username"
+                      /></UserAvatarPopper>
                     </RouterLink>
                   </div>
                   <div>
@@ -124,14 +126,15 @@
                 class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
               >
                 <!-- Avatar -->
-                <div class="relative flex-shrink-0">
+                <div class="flex-shrink-0">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
-                    <UserAvatar
-                      class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
-                      :image="author.avatar"
-                      :gravatar="author.gravatar"
-                      :alt="author.name"
-                    />
+                    <UserAvatarPopper :uid="author.id.toHexString()"
+                      ><UserAvatar
+                        class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
+                        :image="author.avatar"
+                        :gravatar="author.gravatar"
+                        :alt="author.name"
+                    /></UserAvatarPopper>
                   </RouterLink>
                   <UserAvatar
                     v-else
@@ -395,6 +398,7 @@ import Tag from './components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
