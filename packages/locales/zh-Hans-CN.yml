@@ -32,9 +32,9 @@ common:
     joinus: 招募祈愿
     code: 代码相关
     repositories: 项目仓库
-    feedback-issue: 反馈BUG
+    feedback-issue: 提交反馈
     contact: 联系我们
-    license: 项目开源许可
+    license: 开源许可
 darkmode:
   light: 浅色
   dark: 深色

@@ -32,9 +32,8 @@ common:
     joinus: 招募祈愿
     code: 同代码相关嘅啲嘢
     repositories: 项目嘅仓库
-    feedback-issue: 反馈啲BUG
     contact: 联系我们
-    license: 项目嘅开源许可
+    license: 开源许可
 darkmode:
   light: 浅色
   dark: 深色
@@ -292,7 +291,6 @@ video:
         name: 清晰度
         items:
           current-codec: 当前格式：{container} ({codec})
-    enable-iframe: 切换视频播放至内嵌嘅播放器
     play-stream:
       source:
         video:

@@ -12,7 +12,7 @@ specifiers:
   '@graphql-codegen/introspection': ^2.1.0
   '@graphql-codegen/schema-ast': ^2.3.0
   '@graphql-codegen/typescript': ^2.3.0
-  '@iconify/json': ^1.1.422
+  '@iconify/json': ^1.1.424
   '@popperjs/core': ^2.10.2
   '@rollup/plugin-yaml': ^3.1.0
   '@tailwindcss/aspect-ratio': ^0.2.2
@@ -30,8 +30,8 @@ specifiers:
   '@typescript-eslint/parser': ^4.33.0
   '@vitejs/plugin-vue': ^1.9.4
   '@vue/apollo-composable': ^4.0.0-alpha.15
-  '@vueuse/components': ^6.7.4
-  '@vueuse/core': ^6.7.4
+  '@vueuse/components': ^6.7.6
+  '@vueuse/core': ^6.7.6
   '@vueuse/motion': ^2.0.0-beta.4
   '@windicss/plugin-scrollbar': ^1.2.3
   apollo-link-scalars: ^3.0.0
@@ -88,8 +88,8 @@ dependencies:
   '@formatjs/intl-localematcher': 0.2.21
   '@popperjs/core': 2.10.2
   '@vue/apollo-composable': 4.0.0-alpha.15_25ebab6417954c01d607e516329f24ac
-  '@vueuse/components': 6.7.4_vue@3.2.21
-  '@vueuse/core': 6.7.4_vue@3.2.21
+  '@vueuse/components': 6.7.6_vue@3.2.21
+  '@vueuse/core': 6.7.6_vue@3.2.21
   '@vueuse/motion': 2.0.0-beta.4_vue@3.2.21
   apollo-link-scalars: 3.0.0_74e95491b23db4a394a8fe371de08a9c
   bson-objectid: 2.0.1
@@ -115,7 +115,7 @@ devDependencies:
   '@graphql-codegen/introspection': 2.1.0_graphql@15.7.2
   '@graphql-codegen/schema-ast': 2.3.0_graphql@15.7.2
   '@graphql-codegen/typescript': 2.3.0_graphql@15.7.2
-  '@iconify/json': 1.1.422
+  '@iconify/json': 1.1.424
   '@rollup/plugin-yaml': 3.1.0
   '@tailwindcss/aspect-ratio': 0.2.2_tailwindcss@2.2.19
   '@tailwindcss/line-clamp': 0.2.2_tailwindcss@2.2.19
@@ -152,7 +152,7 @@ devDependencies:
   tailwindcss: 2.2.19_0c54bdadaf9d9c9c6c134cb2c6c061a3
   ts-jest: 27.0.7_ea8eecb57f6c3978f25f89c419c42230
   typescript: 4.4.3
-  unplugin-icons: 0.11.4_705352fb9cd7c17e410158a615a932a5
+  unplugin-icons: 0.11.4_5e3edc98f56217b844236f31aa964eb8
   unplugin-vue-components: 0.15.6_vite@2.6.13+vue@3.2.21
   vite: 2.6.13
   vite-plugin-pwa: 0.11.3_vite@2.6.13
@@ -2650,8 +2650,8 @@ packages:
     resolution: {integrity: sha512-LFelJDOLZ6JHlmlAkgrvmcu4hpNPB91KYcr4f60D/exzU1eNOb4/KCVHIydGHIQFaOacIOD+Xy+B7P1z812cZg==}
     dev: true
 
-  /@iconify/json/1.1.422:
-    resolution: {integrity: sha512-yxIjzblsWIRZfXK+bfBWtm1LDD7+QlBXO/K7xnqU+LiOk6rJXvh+Veks/LgDD2wAi3PYQHVzCZBqp6OGGz6K/Q==}
+  /@iconify/json/1.1.424:
+    resolution: {integrity: sha512-cbcSSvrJJ2SEHRpukuq9HlcVUpWQDw1g4vEUC4mQGWmeQbKWu74NewkFoJFmTVj0IohUimetJwDkRTv6xXs0zw==}
     dev: true
 
   /@intlify/core-base/9.1.9:
@@ -3569,19 +3569,19 @@ packages:
     resolution: {integrity: sha512-5EQmIPK6gw4UVYUbM959B0uPsJ58+xoMESCZs3N89XyvJ9e+fX4pqEPrOGV8OroIk3SbEvJcC+eYc8BH9JQrHA==}
     dev: false
 
-  /@vueuse/components/6.7.4_vue@3.2.21:
-    resolution: {integrity: sha512-KFpmkOwq0Hc/S22Fq1Q/XBonOv51rnMwD40aCP/00K/f17Lof5qLFese/nzNna7O571uU/n0C9yP5C1QnDUCbQ==}
+  /@vueuse/components/6.7.6_vue@3.2.21:
+    resolution: {integrity: sha512-HwATXLPndyFWv2OTcy1vknZ0vzarZge9r/HY5yXvStOZPV0TKxl5tzYhH4C3KpN+Wbo9cdqJPY2ogUb0I9IGrQ==}
     dependencies:
-      '@vueuse/core': 6.7.4_vue@3.2.21
-      '@vueuse/shared': 6.7.4_vue@3.2.21
+      '@vueuse/core': 6.7.6_vue@3.2.21
+      '@vueuse/shared': 6.7.6_vue@3.2.21
       vue-demi: 0.11.4_vue@3.2.21
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
     dev: false
 
-  /@vueuse/core/6.7.4_vue@3.2.21:
-    resolution: {integrity: sha512-y39SD+pxDkv7/Fe369c02FQpr/148otQr64ScPDTpw4fGnspc8ONXCNU3gTrvDFRuiylirdPBpXgmt/GDQO7RA==}
+  /@vueuse/core/6.7.6_vue@3.2.21:
+    resolution: {integrity: sha512-oVyqARXnTvhf4m6xf/sHw+SNJWcRYJn8+L4TZTFBU9POf9GIzBN7iHD2Oc4K4rTWXGQzXfoFHgbrXyeMFCRoqA==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -3591,7 +3591,7 @@ packages:
       vue:
         optional: true
     dependencies:
-      '@vueuse/shared': 6.7.4_vue@3.2.21
+      '@vueuse/shared': 6.7.6_vue@3.2.21
       vue: 3.2.21
       vue-demi: 0.11.4_vue@3.2.21
     dev: false
@@ -3605,14 +3605,14 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
-      '@vueuse/core': 6.7.4_vue@3.2.21
+      '@vueuse/core': 6.7.6_vue@3.2.21
       popmotion: 10.0.1
       vue: 3.2.21
       vue-demi: 0.11.4_vue@3.2.21
     dev: false
 
-  /@vueuse/shared/6.7.4_vue@3.2.21:
-    resolution: {integrity: sha512-Lkm8myEiOj0sIqSXck5EXDbu0W705Q10BxydGLMfiV6wAY4U1zu+YgEgR37Wy2/mT1545pwQqiJ7bd3kQQFCMw==}
+  /@vueuse/shared/6.7.6_vue@3.2.21:
+    resolution: {integrity: sha512-MfzTKkFK63PcjDdTpJRuJqylpyUdXpic9ueTRcgpPizqFpoYIuI6DkdYjub2Ch5+OYYhVnCqe8ynW6WzYo7DGQ==}
     peerDependencies:
       '@vue/composition-api': ^1.1.0
       vue: ^2.6.0 || ^3.2.0
@@ -9568,7 +9568,7 @@ packages:
       normalize-path: 2.1.1
     dev: true
 
-  /unplugin-icons/0.11.4_705352fb9cd7c17e410158a615a932a5:
+  /unplugin-icons/0.11.4_5e3edc98f56217b844236f31aa964eb8:
     resolution: {integrity: sha512-vmUqYCf+uFZF33GyL5/1X3LqNJrn6RfI8K85EPs8PzTTqMF6lGnO9wERSo2yKt2wzkCye10urZFdaYrReheA8A==}
     peerDependencies:
       '@iconify/json': '*'
@@ -9587,7 +9587,7 @@ packages:
         optional: true
     dependencies:
       '@antfu/utils': 0.3.0
-      '@iconify/json': 1.1.422
+      '@iconify/json': 1.1.424
       '@iconify/json-tools': 1.0.10
       has-pkg: 0.0.1
       unplugin: 0.2.16_vite@2.6.13

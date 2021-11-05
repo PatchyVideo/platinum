@@ -251,15 +251,15 @@
             ><div class="text-gray-400 text-xs" v-text="t('common.nav-top.settings.settings')"></div
           ></NavTopLink>
           <NavTopLink :index="2" :drawer-open="drawerOpen"
-            ><div class="flex justify-between items-center">
+            ><div class="flex justify-between space-x-6 items-end">
               <label class="space-x-2 mr-2">
                 <label v-text="t('common.nav-top.settings.darkmode')"></label>
                 <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
               </label>
-              <PvCheckBox v-model:check="isDark" size="sm" /></div
+              <DarkModeSwitch /></div
           ></NavTopLink>
           <NavTopLink :index="3" :drawer-open="drawerOpen"
-            ><div class="flex justify-between items-center">
+            ><div class="flex justify-between space-x-6 items-center">
               <label class="mr-2" v-text="t('common.nav-top.settings.lang')"></label>
               <PvSelect v-model:selected="locale" :item-list="languageList" /></div
           ></NavTopLink>
@@ -287,20 +287,18 @@
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
-import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
+import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
 import { ref, computed, shallowRef } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
-import { isDark } from '@/darkmode'
 import { locale, messages } from '@/locales'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { screenSizes } from '@/tailwindcss'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
-
 const props = defineProps({
   showSearchBar: {
     type: Boolean,

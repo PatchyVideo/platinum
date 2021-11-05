@@ -23,7 +23,7 @@
         rounded
         bg-white
         absolute
-        top-15/12
+        top-[125%]
         left-0
         z-[2]
         box-border

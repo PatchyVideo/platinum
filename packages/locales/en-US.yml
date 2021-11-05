@@ -24,17 +24,17 @@ common:
       login: Login
       logout: Logout
       confirming: Logging in...
-      userprofile: 'Profile'
+      userprofile: Profile
   footer:
     wiki: Wiki
-    status: Site status
-    bl-account: Bilibili account
+    status: Status
+    bl-account: Bilibili
     joinus: Join Us
     code: Codes
     repositories: Repos
-    feedback-issue: Report bugs
+    feedback-issue: Submit feedback
     contact: Contact
-    license: Lincense
+    license: License
 darkmode:
   light: Light
   dark: Dark
@@ -58,6 +58,9 @@ home:
       Of course, we need help from the touhou community to make PatchyVideo
       better, which means you can be of help:
     join2: Join Us - PatchyVideo Wiki
+    components:
+      query-video:
+        default-title: Latest Uploads
   list:
     favorites: Playlist
 locales:
@@ -76,7 +79,7 @@ playlist:
         load-result-count: '{count} playlists found'
     playlist:
       playlist-count: '{count} videos'
-    title: 'Playlist'
+    title: Playlist
   playlist:
     collapse: Collapse
     expand: Expand
@@ -111,10 +114,10 @@ search:
           search-failed-reason: 'Reason:'
         successful:
           search-no-result: No match found
-          search-result-count: 'Total {count} video(s)'
+          search-result-count: Total {count} video(s)
       video:
         source-site: 'Source:'
-      tab: 'Video'
+      tab: Video
       visible-sites:
         abroad: Foreign site
         all: All
@@ -134,7 +137,7 @@ search:
           search-result-count: '{count} video(s) found'
       playlist:
         playlist-count: '{count} playlist(s) found'
-      tab: 'Playlist'
+      tab: Playlist
   search-page:
     title: Search
     search: Search
@@ -251,35 +254,40 @@ user:
     title: Reset your password
   user-page:
     avatar:
-      choose-image: 'Choose an image'
-      current: 'Your current avatar'
-      requirement: 'Choose an image to upload. The size of the avatar would be 256*256 pixels'
-      upload: 'Upload'
+      choose-image: Choose an image
+      current: Your current avatar
+      requirement: >-
+        Choose an image to upload. The size of the avatar would be 256*256
+        pixels
+      upload: Upload
     description:
-      placeholder: 'Change your description'
-      save: 'Save'
+      placeholder: Change your description
+      save: Save
     email:
-      bind: 'Bind'
-      boundEmail: 'E-mail bound to your account'
-      none: 'None'
-      placeholder: 'Please enter your e-mail address'
-      title: 'Bind your e-mail'
-    not-logged-in: 'User not logged in. Click here to log in'
+      bind: Bind
+      boundEmail: E-mail bound to your account
+      none: None
+      placeholder: Please enter your e-mail address
+      title: Bind your e-mail
+    not-logged-in: User not logged in. Click here to log in
     password:
-      commit: 'Commit'
-      confirmNew: 'Confirm your new password'
-      confirmNewPlaceholder: 'Please enter the new password again'
-      new: 'New password'
-      newPlaceholder: 'Please enter your new password'
-      old: 'Previous password'
-      oldPlaceholder: 'Please enter your previous password'
-      reset: 'Reset'
-      title: 'Change your password'
-    title: 'User page'
+      commit: Commit
+      confirmNew: Confirm your new password
+      confirmNewPlaceholder: Please enter the new password again
+      new: New password
+      newPlaceholder: Please enter your new password
+      old: Previous password
+      oldPlaceholder: Please enter your previous password
+      reset: Reset
+      title: Change your password
+    title: User page
     username:
-      cancel: 'Cancel'
-      modify: 'Submit'
-      placeholder: 'Change your username'
+      cancel: Cancel
+      modify: Submit
+      placeholder: Change your username
+  profile:
+    info:
+      created-at: Registed at {date}
 video:
   video:
     uploader: Uploader
@@ -295,7 +303,6 @@ video:
         name: Quality
         items:
           current-codec: current codec：{container} ({codec})
-    enable-iframe: Use source player
     play-stream:
       source:
         video:
@@ -340,3 +347,6 @@ video:
 others:
   WIP1: The function
   WIP2: '{WIP1} is under construction, please wait warmly'
+image:
+  cover:
+    alt: The cover of {title}
