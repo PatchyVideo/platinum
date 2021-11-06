@@ -6,11 +6,7 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1
-              class="mt-1 lg:text-lg"
-              :class="{ '-ml-2': video.item.title.startsWith('【') }"
-              v-text="video.item.title"
-            ></h1>
+            <h1 class="mt-1 lg:text-lg" v-text="video.item.title"></h1>
             <div class="text-gray-600 dark:text-gray-300">
               {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)
               }}<span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span
@@ -61,56 +57,67 @@
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div>
             <!-- Video Comments -->
-            <div v-for="comment in comments" :key="comment.id.toHexString()" class="flex flex-row flex-nowrap py-2">
-              <div class="mx-2">
-                <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
-                  <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()"
-                    ><UserAvatar
-                      class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-                      :image="comment.meta.createdBy.image"
-                      :gravatar="comment.meta.createdBy.gravatar"
-                      :alt="comment.meta.createdBy.username"
-                  /></UserAvatarPopper>
-                </RouterLink>
-              </div>
-              <div>
-                <div>
-                  <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
-                    ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
-                  ><span class="text-xs text-gray-500 dark:text-gray-400"
-                    ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
-                    ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
-                  >
+            <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
+              <div class="flex flex-row flex-nowrap">
+                <div class="mx-2">
+                  <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
+                    <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()"
+                      ><UserAvatar
+                        class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
+                        :image="comment.meta.createdBy.image"
+                        :gravatar="comment.meta.createdBy.gravatar"
+                        :alt="comment.meta.createdBy.username"
+                    /></UserAvatarPopper>
+                  </RouterLink>
+                  <div
+                    v-if="comment.children?.length ?? 0 > 0"
+                    class="w-px h-[calc(100%-2rem)] md:[calc(100%-3rem)] mt-1 mx-auto bg-gray-400"
+                  ></div>
                 </div>
-                <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
-                <div
-                  v-for="child in comment.children"
-                  :key="child.id.toHexString()"
-                  class="flex flex-row flex-nowrap my-1"
-                >
-                  <div class="mt-1 mr-2">
-                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
-                      <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
-                        ><UserAvatar
-                          class="inline-block w-8 h-8 rounded-full object-cover"
-                          :image="child.meta.createdBy.image"
-                          :gravatar="child.meta.createdBy.gravatar"
-                          :alt="child.meta.createdBy.username"
-                      /></UserAvatarPopper>
-                    </RouterLink>
-                  </div>
+                <div>
                   <div>
-                    <div>
-                      <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
-                        ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
-                      ><Suspense
-                        ><RelativeDate
-                          class="text-xs text-gray-500 dark:text-gray-400 ml-2"
-                          :date="child.meta.createdAt"
-                      /></Suspense>
-                    </div>
-                    <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
+                    <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
+                      ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
+                    ><span class="text-xs text-gray-500 dark:text-gray-400"
+                      ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
+                      ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
+                    >
                   </div>
+                  <MarkdownBlock class="min-h-[1.5rem]" :text="comment.content" size="md" />
+                </div>
+              </div>
+              <div
+                v-for="(child, cindex) in comment.children"
+                :key="child.id.toHexString()"
+                class="flex flex-row flex-nowrap"
+              >
+                <div class="w-10 md:w-14">
+                  <div class="flex flex-row w-full h-full ml-6 md:ml-8">
+                    <div v-if="cindex !== comment.children!.length! - 1" class="w-px h-full bg-gray-400"></div>
+                    <div v-else class="w-px h-5 bg-gray-400"></div>
+                    <div class="mt-5 w-3 md:w-5 h-px bg-gray-400"></div>
+                  </div>
+                </div>
+                <div class="mt-1 mr-2">
+                  <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
+                    <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
+                      ><UserAvatar
+                        class="inline-block w-8 h-8 rounded-full object-cover"
+                        :image="child.meta.createdBy.image"
+                        :gravatar="child.meta.createdBy.gravatar"
+                        :alt="child.meta.createdBy.username"
+                    /></UserAvatarPopper>
+                  </RouterLink>
+                </div>
+                <div>
+                  <div>
+                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
+                      ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
+                    ><Suspense
+                      ><RelativeDate class="text-xs text-gray-500 dark:text-gray-400 ml-2" :date="child.meta.createdAt"
+                    /></Suspense>
+                  </div>
+                  <MarkdownBlock class="min-h-[2rem]" :text="child.content" size="sm" />
                 </div>
               </div>
             </div>

@@ -316,20 +316,17 @@ type VideoItem = {
 const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
 const formats = ['webm_dash', 'mp4_dash', 'flv']
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<VideoItem>,
-    required: true,
-  },
-  fullHeight: {
-    type: Boolean,
-    default: false,
-  },
-  disableFullscreen: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    item: VideoItem
+    fullHeight?: boolean
+    disableFullscreen?: boolean
+  }>(),
+  {
+    fullHeight: false,
+    disableFullscreen: false,
+  }
+)
 
 const { t } = useI18n()
 

@@ -2,7 +2,8 @@
   <img
     ref="el"
     class="dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
-    :alt="alt + '\'s avatar'"
+    :alt="t('user.avatar.alt', { alt })"
+    :title="t('user.avatar.alt', { alt })"
     :src="currUrl"
     @error="onError"
     @click="onClick"
@@ -11,8 +12,11 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, ref, shallowRef, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { hash as md5 } from 'spark-md5'
 import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
+
+const { t } = useI18n()
 
 const props = defineProps<{
   current?: string

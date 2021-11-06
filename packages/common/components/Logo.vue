@@ -107,16 +107,16 @@
 <script lang="ts" setup>
 import { computed } from 'vue'
 
-const props = defineProps({
-  showIcon: {
-    type: Boolean,
-    default: true,
-  },
-  larger: {
-    type: Number,
-    default: 0,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    showIcon?: boolean
+    larger?: number
+  }>(),
+  {
+    showIcon: true,
+    larger: 0,
+  }
+)
 const h1 = computed(() => props.larger + 30)
 const h2 = computed(() => props.larger + 48)
 </script>

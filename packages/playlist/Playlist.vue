@@ -6,7 +6,7 @@
           <div class="flex-shrink-0 flex-grow-0 md:w-80 ltmd:h-[7.5rem] overflow-hidden">
             <div class="md:aspect-w-8 md:aspect-h-5 ltmd:relative ltmd:top-1/2 ltmd:transform ltmd:-translate-y-1/2">
               <img
-                class="inline-block ltmd:w-full md:border-pink-300 md:rounded-xl md:border-4"
+                class="inline-block ltmd:w-full md:border-pink-300 md:rounded-xl md:border-2"
                 width="320"
                 height="200"
                 :src="getCoverImage({ image: playlist.item.cover })"
@@ -30,7 +30,7 @@
               ></span>
             </div>
             <div v-if="playlist.meta.createdBy" class="mt-2">
-              <RouterLink :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
+              <RouterLink class="flex flex-row items-center" :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
                 <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()"
                   ><UserAvatar
                     :image="playlist.meta.createdBy.image"
@@ -108,11 +108,17 @@
                 md:space-y-1
               "
             >
-              <div v-if="playlist.editable" class="md:text-2xl transition-color duration-100 hover:text-blue-600">
+              <div
+                v-if="playlist.editable"
+                class="md:text-2xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+              >
                 <icon-uil-arrow-up />
               </div>
               <div class="ltmd:text-xs" v-text="offset + index + 1"></div>
-              <div v-if="playlist.editable" class="md:text-2xl transition-color duration-100 hover:text-blue-600">
+              <div
+                v-if="playlist.editable"
+                class="md:text-2xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+              >
                 <icon-uil-arrow-down />
               </div>
             </div>

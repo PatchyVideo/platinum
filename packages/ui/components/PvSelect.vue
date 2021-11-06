@@ -72,7 +72,6 @@
 
 <script lang="ts" setup>
 import { ref, shallowRef } from 'vue'
-import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useEventListener, useVModel } from '@vueuse/core'
 
@@ -81,18 +80,10 @@ interface SelectList {
   value: string
 }
 
-const props = defineProps({
-  itemList: {
-    type: Array as PropType<SelectList[]>,
-    default: () => [],
-    requred: true,
-  },
-  selected: {
-    type: String,
-    default: 'default',
-    requred: true,
-  },
-})
+const props = defineProps<{
+  itemList: SelectList[]
+  selected: string
+}>()
 
 const emit = defineEmits<{
   (event: 'update:selected', value: string): void

@@ -13,16 +13,15 @@ import { ref, shallowRef, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '../lib/parser'
 
-const props = defineProps({
-  text: {
-    type: String,
-    required: true,
-  },
-  size: {
-    type: String,
-    default: '',
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    text: string
+    size?: string
+  }>(),
+  {
+    size: '',
+  }
+)
 
 const html = ref('')
 const waitingForRender = ref(true)
@@ -38,7 +37,7 @@ useIntersectionObserver(
       waitingForRender.value = false
     }
   },
-  { rootMargin: '100px 100px 100px 100px' }
+  { rootMargin: '400px 400px 400px 400px' }
 )
 </script>
 

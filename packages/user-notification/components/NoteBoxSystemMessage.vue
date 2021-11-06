@@ -41,7 +41,6 @@ import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
 import { useQuery, useMutation, gql, useResult } from '@/graphql'
 import { ref, watch, watchEffect } from 'vue'
-import type { PropType } from 'vue'
 import { useVModels } from '@vueuse/core'
 import type { schema, Query, Mutation } from '@/graphql'
 import NProgress from 'nprogress'
@@ -49,11 +48,11 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const props = defineProps({
-  limit: { type: Number, required: true },
-  offset: { type: Number, required: true },
-  pageCount: { type: Number as PropType<schema.Maybe<number> | undefined>, required: true },
-})
+const props = defineProps<{
+  limit: number
+  offset: number
+  pageCount: schema.Maybe<number> | undefined
+}>()
 const emit = defineEmits<{
   (event: 'update:limit', value: number): void
   (event: 'update:offset', value: number): void

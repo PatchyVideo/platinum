@@ -299,16 +299,17 @@ import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { screenSizes } from '@/tailwindcss'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
-const props = defineProps({
-  showSearchBar: {
-    type: Boolean,
-    default: true,
-  },
-  fetchNote: {
-    type: Boolean,
-    default: true,
-  },
-})
+
+const props = withDefaults(
+  defineProps<{
+    showSearchBar?: boolean
+    fetchNote?: boolean
+  }>(),
+  {
+    showSearchBar: true,
+    fetchNote: true,
+  }
+)
 
 const { t } = useI18n()
 const route = useRoute()

@@ -29,12 +29,15 @@ import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useElementSize, useIntersectionObserver } from '@vueuse/core'
 
-const props = defineProps({
-  data: {
-    type: String,
-    default: '{}',
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    data?: string
+  }>(),
+  {
+    data: '{}',
+  }
+)
+
 const { t } = useI18n()
 
 interface HomeCompDataList {

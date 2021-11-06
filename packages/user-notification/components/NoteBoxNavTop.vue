@@ -87,12 +87,14 @@ import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
 import type { schema, Query } from '@/graphql'
 
-const props = defineProps({
-  listNoteCountUnread: {
-    type: Number,
-    default: 0,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    listNoteCountUnread?: number
+  }>(),
+  {
+    listNoteCountUnread: 0,
+  }
+)
 const emit = defineEmits<{
   (event: 'update:listNoteCountUnread', value: number): void
 }>()

@@ -51,23 +51,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useVModels } from '@vueuse/core'
-const props = defineProps({
-  value: {
-    type: String,
-    default: '',
-  },
+import { useVModel } from '@vueuse/core'
+
+const props = defineProps<{
+  value: string
   tabPanes: {
-    type: Object as PropType<{ name: string; label: string }[]>,
-    required: true,
-  },
-})
+    name: string
+    label: string
+  }[]
+}>()
+
 const emit = defineEmits<{
   (event: 'tab-click', value: string): void
   (event: 'update:value', value: string): void
 }>()
+
 const { t } = useI18n()
-const { value } = useVModels(props, emit)
+const value = useVModel(props, 'value', emit, { passive: true })
 </script>

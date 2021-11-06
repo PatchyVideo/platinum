@@ -19,7 +19,7 @@ const tag = computed(() => {
   return {
     id: props.tag.id,
     category: props.tag.category.toLowerCase(),
-    name: behMostMatch(props.tag.languages),
+    name: behMostMatch(props.tag.languages).replace(/_/g, ' '),
   }
 })
 </script>
@@ -31,27 +31,27 @@ const tag = computed(() => {
 .tag {
   border-width: 2px 2px 2px 15px;
   border-image-slice: 8 8 8 40 fill;
-  @mixin border %230073ff;
+  @mixin border %23003980;
 }
 .tag-copyright {
-  @mixin border %23a0a;
+  @mixin border %236B006B;
 }
 .tag-language {
-  @mixin border %23585455;
+  @mixin border %23666162;
 }
 .tag-character {
-  @mixin border %230a0;
+  @mixin border %23006B00;
 }
-/* .tag-author {
-  @mixin border %23a00;
-} */
-/* .tag-general {
+.tag-author {
+  @mixin border %236B0000;
+}
+.tag-general {
   @mixin border %230073ff;
-} */
+}
 .tag-meta {
-  @mixin border %23f80;
+  @mixin border %23804400;
 }
 .tag-soundtrack {
-  @mixin border %23ff7792;
+  @mixin border %23803C49;
 }
 </style>

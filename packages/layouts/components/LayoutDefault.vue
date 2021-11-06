@@ -5,20 +5,18 @@ import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
 import { reactivePick } from '@vueuse/core'
 
-const props = defineProps({
-  showSearchBar: {
-    type: Boolean,
-    default: true,
-  },
-  fetchNote: {
-    type: Boolean,
-    default: true,
-  },
-  small: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    showSearchBar?: boolean
+    fetchNote?: boolean
+    small?: boolean
+  }>(),
+  {
+    showSearchBar: true,
+    fetchNote: true,
+    small: false,
+  }
+)
 
 const navtopProps = reactivePick(props, 'showSearchBar', 'fetchNote')
 const footerProps = reactivePick(props, 'small')

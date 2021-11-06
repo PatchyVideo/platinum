@@ -19,6 +19,11 @@ import simpleGit from 'simple-git'
  * Docs: https://vitejs.dev/config/
  */
 export default defineConfig(async ({ command, mode }) => {
+  /**
+   * @type Promise<unknown>[]
+   */
+  const promises = []
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const data = {
@@ -30,26 +35,25 @@ export default defineConfig(async ({ command, mode }) => {
     date: new Date(),
   }
 
-  // @type string
-  const banner = [
-    '/*!',
-    ` * PatchyVideo/Platinum v${version}(${data.gitLatest.hash.slice(0, 7)})`,
-    ' * MIT License, Copyright (c) 2020-2021 VoileLabs',
-    ` * Generated: ${data.date.toISOString()}`,
-    ' */',
-  ].join('\n')
+  /**
+   * @type string
+   */
+  const banner = '/*! PatchyVideo/Platinum by VoileLabs */'
 
   /* create __generated__ dir */
   {
+    /**
+     * @type string[]
+     */
     const list = []
-    const promises = []
     for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, 'packages', dir, `__generated__`)))
     promises.push(fsp.mkdir(path.resolve(__dirname, `__generated__`)))
-    await Promise.allSettled(promises)
   }
 
   /* copy license */
-  fs.copyFileSync(path.resolve(__dirname, './LICENSE'), path.resolve(__dirname, './public/LICENSE'))
+  promises.push(fsp.copyFile(path.resolve(__dirname, './LICENSE'), path.resolve(__dirname, './public/LICENSE')))
+
+  await Promise.allSettled(promises)
 
   return {
     resolve: {

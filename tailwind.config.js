@@ -43,9 +43,9 @@ module.exports = {
         dark: {
           css: [
             {
-              color: theme('colors.gray.400'),
+              color: theme('colors.gray.100'),
               '[class~="lead"]': {
-                color: theme('colors.gray.300'),
+                color: theme('colors.gray.50'),
               },
               a: {
                 color: theme('colors.white'),
@@ -54,7 +54,7 @@ module.exports = {
                 color: theme('colors.white'),
               },
               'ol > li::before': {
-                color: theme('colors.gray.400'),
+                color: theme('colors.gray.200'),
               },
               'ul > li::before': {
                 backgroundColor: theme('colors.gray.600'),
@@ -63,8 +63,8 @@ module.exports = {
                 borderColor: theme('colors.gray.200'),
               },
               blockquote: {
-                color: theme('colors.gray.200'),
-                borderLeftColor: theme('colors.gray.600'),
+                color: theme('colors.gray.50'),
+                borderLeftColor: theme('colors.gray.200'),
               },
               h1: {
                 color: theme('colors.white'),
@@ -79,7 +79,7 @@ module.exports = {
                 color: theme('colors.white'),
               },
               'figure figcaption': {
-                color: theme('colors.gray.400'),
+                color: theme('colors.gray.200'),
               },
               code: {
                 color: theme('colors.white'),
@@ -88,7 +88,7 @@ module.exports = {
                 color: theme('colors.white'),
               },
               pre: {
-                color: theme('colors.gray.200'),
+                color: theme('colors.gray.100'),
                 backgroundColor: theme('colors.gray.800'),
               },
               thead: {

@@ -22,7 +22,7 @@
     <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
-    <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
+    <div class="text-center my-2 text-sm font-mono text-gray-600 dark:text-gray-200">
       Platinum v{{ version }}(<a
         :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
         :title="commitHash"
@@ -30,7 +30,7 @@
         rel="noopener noreferrer"
         v-text="commitHash.slice(0, 7)"
       ></a
-      >)<template v-if="hasExtension"
+      >, {{ distro }})<template v-if="hasExtension"
         >&nbsp;<span
           :title="
             'List: ' +
@@ -54,12 +54,16 @@ import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'
 import { extensions } from '@/main/extension'
 
-const props = defineProps({
-  small: {
-    type: Boolean,
-    default: false,
-  },
-})
+const distro = import.meta.env.MODE
+
+const props = withDefaults(
+  defineProps<{
+    small?: boolean
+  }>(),
+  {
+    small: false,
+  }
+)
 
 const { t } = useI18n()
 

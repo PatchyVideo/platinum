@@ -1,22 +1,22 @@
 <template>
   <div class="relative w-full">
     <template v-if="type === 'richText'">
-      <textarea v-model="localValue" class="input input-rich w-full" rows="4" :placeholder="placeholder" />
+      <textarea v-model="value" class="input input-rich w-full" rows="4" :placeholder="placeholder" />
     </template>
     <template v-else-if="type === 'singleLine'">
-      <input v-model="localValue" class="input input-single w-full" :placeholder="placeholder" />
+      <input v-model="value" class="input input-single w-full" :placeholder="placeholder" />
       <div class="text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1">
         <slot name="prepend" />
       </div>
     </template>
     <template v-else-if="type === 'password'">
-      <input v-model="localValue" class="input input-single w-full" type="password" :placeholder="placeholder" />
+      <input v-model="value" class="input input-single w-full" type="password" :placeholder="placeholder" />
       <div class="text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1">
         <icon-jam-padlock />
       </div>
     </template>
     <template v-else-if="type === 'email'">
-      <input v-model="localValue" class="input input-single w-full" type="email" :placeholder="placeholder" />
+      <input v-model="value" class="input input-single w-full" type="email" :placeholder="placeholder" />
       <div class="text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1">
         <icon-jam-envelope />
       </div>
@@ -25,29 +25,24 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
 import { useVModel } from '@vueuse/core'
 
-const props = defineProps({
-  value: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String as PropType<'singleLine' | 'richText' | 'password' | 'email'>,
-    default: 'singleLine',
-  },
-  placeholder: {
-    type: String,
-    default: '请输入内容',
-  },
-})
-
+const props = withDefaults(
+  defineProps<{
+    value: string
+    type?: 'richText' | 'singleLine' | 'password' | 'email'
+    placeholder?: string
+  }>(),
+  {
+    type: 'singleLine',
+    placeholder: '请输入内容',
+  }
+)
 const emit = defineEmits<{
   (event: 'update:value', value: string): void
 }>()
 
-const localValue = useVModel(props, 'value', emit)
+const value = useVModel(props, 'value', emit)
 </script>
 
 <style lang="postcss" scoped>

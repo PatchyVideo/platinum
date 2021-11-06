@@ -171,13 +171,14 @@ import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import NProgress from 'nprogress'
 
-const props = defineProps({
-  query: { type: String, required: true },
-  limit: { type: Number, required: true },
-  offset: { type: Number, required: true },
-  order: { type: String, required: true },
-  pageCount: { type: Number, required: true },
-})
+const props = defineProps<{
+  query: string
+  limit: number
+  offset: number
+  order: string
+  pageCount: number
+}>()
+
 const emit = defineEmits<{
   (event: 'update:query', value: string): void
   (event: 'update:limit', value: number): void

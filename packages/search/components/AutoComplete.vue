@@ -173,7 +173,6 @@
 
 <script lang="ts" setup>
 import { ref, reactive, nextTick, watchEffect, shallowRef } from 'vue'
-import type { PropType } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { throttledWatch, until, useElementSize, useEventListener, useVModel } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
@@ -181,20 +180,18 @@ import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { useMotion } from '@vueuse/motion'
 
-const props = defineProps({
-  keyword: {
-    type: String,
-    default: '',
-  },
-  teleportResult: {
-    type: Object as PropType<HTMLElement>,
-    default: undefined,
-  },
-  showRecommendations: {
-    type: Boolean,
-    default: false,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    keyword?: string
+    teleportResult?: HTMLElement
+    showRecommendations?: boolean
+  }>(),
+  {
+    keyword: '',
+    teleportResult: undefined,
+    showRecommendations: false,
+  }
+)
 const emit = defineEmits<{
   (event: 'update:keyword', value: string): void
   (event: 'search', searchContent: string): void

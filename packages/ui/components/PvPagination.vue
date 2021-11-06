@@ -92,16 +92,16 @@
 import { useI18n } from 'vue-i18n'
 import { useVModels } from '@vueuse/core'
 
-const props = defineProps({
-  page: {
-    type: Number,
-    default: 1,
-  },
-  pageCount: {
-    type: Number,
-    default: 1,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    page?: number
+    pageCount?: number
+  }>(),
+  {
+    page: 1,
+    pageCount: 1,
+  }
+)
 const emit = defineEmits<{
   (event: 'previous'): void
   (event: 'next'): void

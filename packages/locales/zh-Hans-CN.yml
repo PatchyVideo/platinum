@@ -36,6 +36,7 @@ common:
     contact: 联系我们
     license: 开源许可
 darkmode:
+  system: 跟随系统
   light: 浅色
   dark: 深色
 error-pages:
@@ -285,6 +286,8 @@ user:
     title: '{username} 的个人主页 - PatchyVideo'
     info:
       created-at: 注册于 {date}
+  avatar:
+    alt: '{alt}的头像'
 video:
   video:
     repost-type:

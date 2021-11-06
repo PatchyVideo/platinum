@@ -40,19 +40,16 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import type { PropType } from 'vue'
 
-const props = defineProps({
-  size: {
-    type: String as PropType<'sm' | 'md'>,
-    default: 'md',
-    validator: (value: string) => ['sm', 'md'].indexOf(value) !== -1,
-  },
-  check: {
-    type: Boolean,
-    required: true,
-  },
-})
+const props = withDefaults(
+  defineProps<{
+    size?: 'sm' | 'md'
+    check: boolean
+  }>(),
+  {
+    size: 'md',
+  }
+)
 
 const emit = defineEmits<{
   (event: 'update:check', value: boolean): void
