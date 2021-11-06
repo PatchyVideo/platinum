@@ -16,6 +16,7 @@
     "ui",
     "playlist",
     "layout",
-    "leaderboard"
+    "leaderboard",
+    "tag"
   ]
 }

@@ -90,6 +90,11 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
+      path: '/tag/author/:tid',
+      component: () => import('@/tag/Author.vue'),
+      meta: { holdLoading: true },
+    },
+    {
       path: '/leaderboard',
       component: () => import('@/leaderboard/Leaderboard.vue'),
       meta: { holdLoading: true },

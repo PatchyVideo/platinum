@@ -366,3 +366,9 @@ others:
 image:
   cover:
     alt: '{title} 的封面'
+tag:
+  author:
+    title: '{tagname} 的基本信息'
+    type: 
+      individual: 个人
+      group: 社团

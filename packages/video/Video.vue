@@ -134,15 +134,21 @@
               >
                 <!-- Avatar -->
                 <div class="flex-shrink-0">
-                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
-                    <UserAvatarPopper :uid="author.id.toHexString()"
+                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
+                    ><UserAvatarPopper :uid="author.id.toHexString()"
                       ><UserAvatar
                         class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                         :image="author.avatar"
                         :gravatar="author.gravatar"
-                        :alt="author.name"
-                    /></UserAvatarPopper>
-                  </RouterLink>
+                        :alt="author.name" /></UserAvatarPopper
+                  ></RouterLink>
+                  <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
+                    ><UserAvatar
+                      class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
+                      :image="author.avatar"
+                      :gravatar="author.gravatar"
+                      :alt="author.name"
+                  /></RouterLink>
                   <UserAvatar
                     v-else
                     class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
@@ -153,6 +159,24 @@
                 </div>
                 <div class="hidden sm:block ml-[0.375rem] overflow-hidden">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
+                    ><span
+                      class="
+                        inline-block
+                        align-text-bottom
+                        px-[0.1875rem]
+                        mr-[0.125rem]
+                        rounded
+                        bg-pink-400
+                        text-xs
+                        lg:text-sm
+                        text-white
+                        whitespace-nowrap
+                        overflow-hidden
+                      "
+                      v-text="author.position"
+                    ></span
+                    >{{ author.name }}</RouterLink
+                  ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><span
                       class="
                         inline-block
@@ -401,7 +425,7 @@
 
 <script lang="ts" setup>
 import Player from './components/Player.vue'
-import Tag from './components/Tag.vue'
+import Tag from '@/tag/components/Tag.vue'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
@@ -452,6 +476,7 @@ const { result, loading } = useQuery<Query>(
         }
         tags {
           __typename
+          tagid
           ... on AuthorTagObject {
             authorRole
             author {
@@ -578,6 +603,7 @@ type Author = {
   type: 'AuthorTag' | 'User'
   position: string
   id: ObjectID
+  tagid?: number
   name: string
   desc: string
   avatar: string
@@ -592,6 +618,7 @@ const authors = computed(() =>
             ({
               type: 'AuthorTag',
               id: tag.author.id,
+              tagid: tag.tagid,
               name: tag.author.tagname,
               desc: tag.author.desc,
               avatar: tag.author.avatar,

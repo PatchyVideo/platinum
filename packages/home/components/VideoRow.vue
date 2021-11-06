@@ -37,7 +37,6 @@
       ></Cover>
       <a
         v-if="videoShowTitle"
-        :class="{ '-ml-2': video.item.title.startsWith('【') }"
         class="w-full overflow-hidden line-clamp-2 overflow-ellipsis"
         v-text="video.item.title"
       ></a>
