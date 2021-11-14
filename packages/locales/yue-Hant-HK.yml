@@ -34,9 +34,11 @@ common:
     repositories: 项目嘅仓库
     contact: 联系我们
     license: 开源许可
+    feedback-issue: 提交反馈
 darkmode:
   light: 浅色
   dark: 深色
+  system: 跟随系统
 error-pages:
   N404:
     title: 巴瓦鲁魔法服务器并冇这个界面
@@ -53,6 +55,9 @@ home:
     offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
     join: '梗系，新页面都意味着帕琪站需要更多热爱东方的大家来一起帮手建设，如果大家有兴趣嘅话，可以先参考下呢个:'
     join2: 招募祈望 - PatchyVideo Wiki
+    components:
+      query-video:
+        default-title: 最新嘅上传
   list:
     favorites: 收藏夹
 locales:
@@ -263,6 +268,12 @@ user:
       cancel: 取消
       modify: 更改
       placeholder: 更改用户名
+  avatar:
+    alt: '{alt}嘅头像'
+  profile:
+    info:
+      created-at: 睇 {date} 注册
+    title: '{username} 嘅个人主页 - PatchyVideo'
 video:
   video:
     uploader: 上传者
@@ -352,3 +363,12 @@ leaderboard:
     edit-time: 编辑咗嘅次数：{count}
     name: 标签贡献排行榜
   title: 用户排行榜
+image:
+  cover:
+    alt: '{title} 嘅封面'
+tag:
+  author:
+    title: '{tagname} 嘅基础信息'
+    type:
+      group: 社团
+      individual: 个人
