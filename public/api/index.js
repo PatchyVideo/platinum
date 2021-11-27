@@ -14,6 +14,20 @@ const html = fs.readFileSync(path.join(__dirname, '../index.html')).toString()
  * @param {import('@vercel/node').VercelResponse} res
  */
 module.exports = async (req, res) => {
+  try {
+    processRequest(req, res)
+  } catch (e) {
+    res.status(200)
+    res.setHeader('Content-Type', 'text/html; charset=utf-8')
+    res.end(html)
+  }
+}
+
+/**
+ * @param {import('@vercel/node').VercelRequest} req
+ * @param {import('@vercel/node').VercelResponse} res
+ */
+async function processRequest(req, res) {
   let body = html
 
   const timeStart = Date.now()
@@ -56,8 +70,8 @@ module.exports = async (req, res) => {
       `<meta itemprop="image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
 
       // opengraph data
-      `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
       `<meta property="og:type" content="video.other" />`,
+      `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
       `<meta property="og:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
       `<meta property="og:description" content="${encodeHTML(data.item.desc)}" />`,
       `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
@@ -78,7 +92,7 @@ module.exports = async (req, res) => {
       `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
       `<meta name="twitter:player" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
     ].join('\n')
-    body = body.replace(/<!-- meta start -->[\S\s]*<!-- meta end -->/, og)
+    body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
   } else if (/\/playlist\/\w+/.test(req.url)) {
     const pid = req.url.match(/\/playlist\/(\w+)/)[1]
     const data = (
@@ -121,6 +135,50 @@ module.exports = async (req, res) => {
       `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
       `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
       `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
+    ].join('\n')
+    body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
+  } else if (/\/user\/\w+/.test(req.url)) {
+    const uid = req.url.match(/\/user\/(\w+)/)[1]
+    const data = (
+      await queryGraphQL(
+        gql`
+          query ($uid: String!) {
+            getUser(para: { uid: $uid }) {
+              username
+              desc
+              image
+              gravatar
+            }
+          }
+        `,
+        {
+          uid,
+        }
+      )
+    ).data.getUser
+    const og = [
+      // common data
+      `<title>${encode(data.username)} - PatchyVideo</title>`,
+      `<meta property="description" content="${encodeHTML(data.desc)}" />`,
+      `<meta itemprop="name" content="${encode(data.username)}" />`,
+      `<meta itemprop="description" content="${encodeHTML(data.desc)}" />`,
+      `<meta itemprop="image" content="https://patchyvideo.com/images/userphotos/${data.image}" />`,
+
+      // opengraph data
+      `<meta property="og:type" content="profile" />`,
+      `<meta property="og:profile:username" content="${encodeHTML(data.username)}" />`,
+      `<meta property="og:image" content="https://patchyvideo.com/images/userphotos/${data.image}" />`,
+      `<meta property="og:description" content="${encodeHTML(data.desc)}" />`,
+      `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
+      `<meta property="og:site_name" content="PatchyVideo" />`,
+
+      // twitter data
+      `<meta name="twitter:card" content="summary" />`,
+      `<meta name="twitter:site" content="@PatchyVideo" />`,
+      `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
+      `<meta name="twitter:title" content="${encodeHTML(data.username)}" />`,
+      `<meta name="twitter:description" content="${encodeHTML(data.desc)}" />`,
+      `<meta name="twitter:image" content="https://patchyvideo.com/images/userphotos/${data.image}" />`,
     ].join('\n')
     body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
   }
