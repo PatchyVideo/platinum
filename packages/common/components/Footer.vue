@@ -22,7 +22,7 @@
     <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
       <span id="footer-typed"></span>
     </div>
-    <div class="text-center my-2 text-sm font-mono text-gray-600 dark:text-gray-200">
+    <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
       Platinum v{{ version }}(<a
         :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
         :title="commitHash"
