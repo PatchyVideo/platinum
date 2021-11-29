@@ -29,7 +29,7 @@ watchEffect(
       metaTag.setAttribute('content', '#1f2937')
     } else {
       if (html.classList.contains('dark')) html.classList.remove('dark')
-      metaTag.setAttribute('content', '#000000')
+      metaTag.setAttribute('content', '#ffffff')
     }
   },
   {
