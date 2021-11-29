@@ -4,24 +4,7 @@
       <div
         v-for="(options, i) in fullMessageOptions"
         :key="options.id"
-        class="
-          pv-message
-          fixed
-          left-1/2
-          -translate-x-1/2
-          p-4
-          pl-5
-          border
-          rounded-md
-          border-solid
-          flex flex-row
-          justify-between
-          items-center
-          z-50
-          overflow-hidden
-          transition-all
-          h-20
-        "
+        class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-gray-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
         :style="{
           'transition-timing-function': 'ease',
           'transition-duration': PvMessageTransitionDuration.toString() + 'ms',
@@ -42,16 +25,7 @@
         </div>
         <IconClose
           v-if="options.showClose"
-          class="
-            absolute
-            top-1/2
-            -translate-y-1/2
-            right-4
-            hover:cursor-pointer hover:text-gray-600
-            text-gray-400
-            transition-all
-            duration-300
-          "
+          class="absolute top-1/2 -translate-y-1/2 right-4 hover:cursor-pointer hover:text-gray-600 text-gray-400 transition-all duration-300"
           @click="handleCloseMessage(options)"
         />
       </div>

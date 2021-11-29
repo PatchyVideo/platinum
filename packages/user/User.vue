@@ -245,6 +245,7 @@ const onBindEmail = () => {
 </script>
 
 <style lang="postcss" scoped>
+/* TODO remove apply, but user is also needed to rewrite too so... */
 .half-container {
   @apply w-full h-1/2 md:w-1/2 md:h-full flex flex-col;
 }

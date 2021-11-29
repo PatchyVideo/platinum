@@ -79,11 +79,11 @@
                     <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
                       ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
                     ><span class="text-xs text-gray-500 dark:text-gray-400"
-                      ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
-                      ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
+                      ><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense
+                      ><span v-if="comment.edited" class="ml-1.5">edited</span></span
                     >
                   </div>
-                  <MarkdownBlock class="min-h-[1.5rem]" :text="comment.content" size="md" />
+                  <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
                 </div>
               </div>
               <div
@@ -117,7 +117,7 @@
                       ><RelativeDate class="text-xs text-gray-500 dark:text-gray-400 ml-2" :date="child.meta.createdAt"
                     /></Suspense>
                   </div>
-                  <MarkdownBlock class="min-h-[2rem]" :text="child.content" size="sm" />
+                  <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
                 </div>
               </div>
             </div>
@@ -157,58 +157,22 @@
                     :alt="author.name"
                   />
                 </div>
-                <div class="hidden sm:block ml-[0.375rem] overflow-hidden">
+                <div class="hidden sm:block ml-1.5 overflow-hidden">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><template v-else
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</template
@@ -226,15 +190,7 @@
           <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
             <div
               v-if="playlist"
-              class="
-                xl:mx-2
-                border-gray-300
-                dark:border-gray-600
-                border-b
-                xl:border xl:rounded-md xl:mt-2
-                flex flex-col
-                max-h-125
-              "
+              class="xl:mx-2 border-gray-300 dark:border-gray-600 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
             >
               <div class="mx-2 my-1 flex justify-between">
                 <div>
@@ -265,21 +221,13 @@
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
-                    class="
-                      flex flex-col flex-shrink-0 flex-grow-0
-                      justify-around
-                      text-xs
-                      w-4
-                      self-center
-                      text-center
-                      overflow-hidden
-                    "
+                    class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-4 self-center text-center overflow-hidden"
                   >
                     <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
                     ><template v-else>{{ plVideo.rank + 1 }}</template>
                   </div>
                   <div class="flex-shrink-0 flex-grow-0 w-24">
-                    <div class="aspect-w-8 aspect-h-5">
+                    <div class="aspect-ratio-8/5">
                       <img
                         class="inline-block"
                         width="96"
@@ -308,21 +256,12 @@
                 v-for="rlVideo in video.relatedVideos"
                 :key="rlVideo.id.toHexString()"
                 :to="'/video/' + rlVideo.id.toHexString()"
-                class="
-                  grid grid-cols-5
-                  space-x-[0.375rem]
-                  py-[0.125rem]
-                  rounded-md
-                  hover:bg-pink-50
-                  dark:hover:bg-gray-900
-                  transition-colors
-                  duration-100
-                "
+                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-pink-50 dark:hover:bg-gray-900 transition-colors duration-100"
               >
                 <div class="col-span-2">
                   <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
                 </div>
-                <div class="col-span-3 flex mt-[0.125rem] flex-wrap content-start text-sm">
+                <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
                   <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
                   <div
                     class="text-sm inline-block w-full mt-1 truncate font-light"
@@ -341,17 +280,15 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</h1>
-            <div
-              class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-            >
+            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</h1>
+            <div class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600">
               &nbsp;
             </div>
           </div>
           <!-- Video Player -->
           <div class="w-full mt-1">
-            <div class="aspect-w-16 aspect-h-9">
-              <div class="w-full h-full bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="aspect-ratio-16/9">
+              <div class="w-full h-full bg-gray-400 dark:bg-gray-600"></div>
             </div>
           </div>
         </div>
@@ -361,29 +298,15 @@
             <div class="flex items-center flex-nowrap px-1 py-1 xl:w-full">
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
-                <div
-                  class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-400 dark:bg-gray-600 animate-pulse"
-                >
+                <div class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-400 dark:bg-gray-600">
                   &nbsp;
                 </div>
               </div>
               <div class="hidden sm:block w-full ml-3 overflow-hidden">
-                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
                 <br />
                 <div
-                  class="
-                    inline-block
-                    overflow-hidden
-                    whitespace-nowrap
-                    overflow-ellipsis
-                    text-sm
-                    w-2/5
-                    mt-1
-                    rounded-md
-                    bg-gray-400
-                    dark:bg-gray-600
-                    animate-pulse
-                  "
+                  class="inline-block overflow-hidden whitespace-nowrap overflow-ellipsis text-sm w-2/5 mt-1 rounded-md bg-gray-400 dark:bg-gray-600"
                 >
                   &nbsp;
                 </div>
@@ -397,21 +320,10 @@
                 <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>
               <div class="col-span-3 flex flex-wrap content-start text-sm">
-                <a
-                  class="
-                    line-clamp-2
-                    overflow-ellipsis overflow-hidden
-                    w-4/5
-                    rounded-md
-                    bg-gray-400
-                    dark:bg-gray-600
-                    animate-pulse
-                  "
+                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600"
                   >&nbsp;</a
                 >
-                <div
-                  class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-                >
+                <div class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600">
                   &nbsp;
                 </div>
               </div>
@@ -440,7 +352,7 @@ import NProgress from 'nprogress'
 import { useQuery, gql, useResult, useMutation } from '@/graphql'
 import type { schema, Query, Mutation } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
 import { useLocalStorage, useMagicKeys, whenever } from '@vueuse/core'

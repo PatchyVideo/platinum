@@ -62,7 +62,7 @@ import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { homeComponents } from '.'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 setSiteTitle(t('home.home.title'))

@@ -28,25 +28,39 @@
           ></UserAvatar>
         </router-link>
         <router-link
+          v-slot="{ href, navigate }"
           :to="
             (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
             note.repliedObj +
             '#' +
             note.cid
           "
-          tag="div"
-          class="w-5/6 md:w-14/15"
-          @click="markAsRead(false, note.__typename, [note.id.toHexString()], note.read)"
-          @click.middle="markAsRead(false, note.__typename, [note.id.toHexString()], note.read)"
+          custom
         >
-          <div>
-            {{ note.repliedBy.username + ' 回复了你：' }}
-          </div>
-          <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-            {{ note.content }}
-          </div>
-          <div class="text-xs text-gray-600 dark:text-white">
-            <RelativeDate :date="note.time" />
+          <div
+            class="w-5/6 md:w-14/15"
+            @click="
+              () => {
+                markAsRead(false, note.__typename, [note.id.toHexString()], note.read)
+                navigate()
+              }
+            "
+            @click.middle="
+              () => {
+                markAsRead(false, note.__typename, [note.id.toHexString()], note.read)
+                openInNewTab(href)
+              }
+            "
+          >
+            <div>
+              {{ note.repliedBy.username + ' 回复了你：' }}
+            </div>
+            <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
+              {{ note.content }}
+            </div>
+            <div class="text-xs text-gray-600 dark:text-white">
+              <RelativeDate :date="note.time" />
+            </div>
           </div>
         </router-link>
       </div>
@@ -64,6 +78,7 @@ import { useVModels } from '@vueuse/core'
 import type { schema, Query, Mutation } from '@/graphql'
 import NProgress from 'nprogress'
 import { useI18n } from 'vue-i18n'
+import { openInNewTab } from '@/common/lib/link'
 
 const { t } = useI18n()
 

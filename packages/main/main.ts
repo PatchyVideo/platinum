@@ -1,7 +1,7 @@
 import { createApp, defineComponent, h, nextTick } from 'vue'
 
-/* Tailwind CSS */
-import '@/tailwindcss'
+/* CSS */
+import '@/css'
 
 /* Dark Mode */
 import '@/darkmode'

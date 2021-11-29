@@ -1,9 +1,11 @@
+import '@unocss/reset/tailwind.css'
+import 'uno.css'
 import './global.postcss'
 
 import { useMediaQuery } from '@vueuse/core'
 import { computed, reactive, Ref } from 'vue'
 
-const screens = {
+export const screens = {
   sm: '576px',
   md: '720px',
   lg: '992px',

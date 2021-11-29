@@ -4,28 +4,18 @@
       <div v-if="status === 'loading'">
         <div v-text="t('video.video-list.main-body.loading.searching')"></div>
         <!-- Mobile View -->
-        <div v-if="screenSizes['ltmd']">
+        <div v-if="screenSizes['lt-md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
-            <div class="w-2/5 mr-[0.125rem]">
+            <div class="w-2/5 mr-0.5">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div
-                class="
-                  line-clamp-2
-                  overflow-ellipsis overflow-hidden
-                  rounded-md
-                  w-full
-                  bg-gray-400
-                  dark:bg-gray-600
-                  animate-pulse
-                "
+                class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md w-full bg-gray-400 dark:bg-gray-600"
               >
                 &nbsp;
               </div>
-              <div
-                class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600 animate-pulse"
-              ></div>
+              <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600"></div>
             </div>
           </div>
         </div>
@@ -34,33 +24,14 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="
-              w-[21%]
-              my-5
-              border
-              shadow-sm
-              rounded-lg
-              bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-800
-            "
+            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
           >
             <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             <div class="p-3 text-left text-sm lg:text-base">
-              <div
-                class="
-                  line-clamp-2
-                  overflow-ellipsis overflow-hidden
-                  rounded-md
-                  bg-gray-400
-                  dark:bg-gray-600
-                  animate-pulse
-                "
-              >
+              <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600">
                 &nbsp;
               </div>
-              <div
-                class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-              ></div>
+              <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600"></div>
             </div>
           </div>
         </div>
@@ -76,14 +47,14 @@
         ></div>
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
-        <div v-if="screenSizes['ltmd']">
+        <div v-if="screenSizes['lt-md']">
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
             class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
-            <div class="w-2/5 mr-[0.125rem]">
+            <div class="w-2/5 mr-0.5">
               <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
@@ -110,15 +81,7 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="
-              w-[21%]
-              my-5
-              border
-              shadow-sm
-              rounded-lg
-              bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-800
-            "
+            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
             :to="'/video/' + video.id.toHexString()"
           >
             <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
@@ -157,18 +120,7 @@
     </div>
     <!-- Advanced Search -->
     <div
-      class="
-        shadow
-        fixed
-        bottom-20
-        right-5
-        bg-gray-50
-        cursor-pointer
-        p-2
-        transition-opacity
-        rounded-full
-        dark:bg-gray-900
-      "
+      class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-900"
       :title="t('video.video-list.advanced-search.name')"
       @click="progressing(t('video.video-list.advanced-search.name'))"
     >
@@ -194,7 +146,7 @@ import { pageOfVideo } from '@/video/lib/biliHelper'
 import { backTop } from '@/ui/lib/backTop'
 import { getSiteImage } from '@/common/lib/imageUrl'
 import { progressing } from '@/common/lib/progressing'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')

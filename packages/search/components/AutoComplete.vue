@@ -2,17 +2,7 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="
-        flex
-        h-9
-        justify-start
-        items-center
-        rounded-lg
-        border border-gray-300
-        dark:border-gray-600
-        bg-white
-        dark:bg-gray-900
-      "
+      class="flex h-9 justify-start items-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
     >
       <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onSearchContentChange()" />
       <input
@@ -30,23 +20,13 @@
       </div>
       <button
         v-if="width > 500"
-        class="
-          flex-shrink-0
-          bg-pink-300
-          h-full
-          px-3
-          rounded-r-lg
-          transition-colors
-          focus:outline-none focus:ring focus:ring-pink-300
-          hover:bg-pink-200
-          w-20
-        "
+        class="flex-shrink-0 bg-pink-300 h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200 w-20"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
       ></button>
     </div>
     <div
-      class="absolute z-[11] top-full left-0 w-full overflow-hidden"
+      class="absolute z-11 top-full left-0 w-full overflow-hidden"
       :class="{ 'pt-1': !hideContainer && !teleportResult }"
     >
       <Transition
@@ -96,16 +76,7 @@
               <div
                 v-for="(item, index) in searchResult.map(lang2tag)"
                 :key="item.tag"
-                class="
-                  px-3
-                  py-1
-                  transition-colors
-                  cursor-pointer
-                  hover:bg-gray-100
-                  flex
-                  justify-between
-                  dark:hover:bg-gray-700
-                "
+                class="px-3 py-1 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between dark:hover:bg-gray-700"
                 :class="{ 'bg-gray-100 dark:bg-gray-700': index === activeSearchResult }"
                 @click="clickAutocompleteKeyword(item.tag)"
               >
@@ -139,14 +110,14 @@
               <div>
                 <h4 class="mx-2 font-light">
                   <icon-uil-tag-alt
-                    class="inline-block w-4 h-4 mr-[0.125rem] align-middle text-gray-600 dark:text-gray-300"
+                    class="inline-block w-4 h-4 mr-0.5 align-middle text-gray-600 dark:text-gray-300"
                   />热门标签<icon-uil-spinner-alt v-if="popularTags.length === 0" class="inline animate-spin" />
                 </h4>
-                <div v-if="popularTags" class="mx-[0.125rem] line-clamp-4 text-gray-800 dark:text-gray-300">
+                <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-800 dark:text-gray-300">
                   <div
                     v-for="tag in popularTags"
                     :key="tag"
-                    class="inline-block mx-[0.375rem] cursor-pointer select-none"
+                    class="inline-block mx-1.5 cursor-pointer select-none"
                     @click="
                       () => {
                         if (

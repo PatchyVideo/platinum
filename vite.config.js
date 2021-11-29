@@ -8,10 +8,13 @@ import icons from 'unplugin-icons/vite'
 import iconsResolver from 'unplugin-icons/resolver'
 import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
+import unocss from 'unocss/vite'
+import { presetUno, presetIcons } from 'unocss'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 import template from 'lodash.template'
 import simpleGit from 'simple-git'
+import { presetTypography } from 'unocss-preset-typography'
 
 /**
  * Vite Configuration File
@@ -92,6 +95,28 @@ export default defineConfig(async ({ command, mode }) => {
       }),
       icons({
         compiler: 'vue3',
+      }),
+      unocss({
+        include: [/\.vue$/, /\.vue\?vue/, /\.[jt]sx?$/, /.html$/],
+        presets: [
+          presetUno({
+            dark: 'class',
+          }),
+          presetTypography(),
+          presetIcons(),
+        ],
+        theme: {
+          breakpoints: {
+            sm: '576px',
+            md: '720px',
+            lg: '992px',
+            xl: '1200px',
+            '2xl': '1400px',
+            '3xl': '1540px',
+            '4xl': '1860px',
+            '5xl': '2480px',
+          },
+        },
       }),
       pwa({
         strategies: 'injectManifest',

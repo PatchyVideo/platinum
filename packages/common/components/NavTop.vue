@@ -2,16 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="
-        h-auto
-        p-1
-        flex
-        items-center
-        justify-between
-        border-b border-gray-300
-        bg-gray-50
-        dark:bg-gray-800 dark:border-gray-900
-      "
+      class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-800 dark:border-gray-900"
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
@@ -44,19 +35,7 @@
             <div
               v-if="!screenSizes['ltsm'] && props.fetchNote"
               ref="NoteBoxBtn"
-              class="
-                flex
-                items-center
-                justify-center
-                w-9
-                h-9
-                text-xl
-                cursor-pointer
-                rounded-full
-                transition-colors
-                hover:bg-gray-200
-                dark:hover:bg-gray-700
-              "
+              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
               :class="{ 'bg-gray-200 dark:bg-gray-700': NoteBoxOpen }"
               @click="NoteBoxOpen = true"
             >
@@ -77,7 +56,7 @@
               ></UserAvatar>
               <label
                 v-if="listNoteCountUnread && !userListOpen && screenSizes['ltsm'] && props.fetchNote"
-                class="absolute -top-[0.0625rem] -right-[0.125rem] bg-red-500 rounded-full p-[0.375rem]"
+                class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
               ></label>
             </div>
           </div>
@@ -88,25 +67,16 @@
             </div>
           </Transition>
           <!-- User List -->
-          <Transition name="userList">
+          <Transition
+            enter-active-class="transition-all duration-200"
+            enter-from-class="opacity-0"
+            leave-active-class="transition-all duration-200"
+            leave-to-class="opacity-0"
+          >
             <div
               v-show="userListOpen"
               ref="userList"
-              class="
-                z-[900]
-                absolute
-                -top-6
-                -right-2
-                w-40
-                p-2
-                mt-[50%]
-                rounded
-                bg-white
-                border
-                shadow
-                overflow-visible
-                dark:bg-gray-800 dark:border-black
-              "
+              class="z-900 absolute -top-6 -right-2 w-40 p-2 mt-1/2 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-800 dark:border-black"
             >
               <UserAvatar
                 :title="user.name"
@@ -143,23 +113,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="
-          absolute
-          inset-y-0
-          z-[50]
-          left-0
-          p-1
-          sm:px-2
-          w-3/4
-          sm:w-auto
-          overflow-auto
-          bg-white
-          dark:bg-gray-800
-          transform-gpu
-          transition-transform
-          duration-[250ms]
-          ease-in-out
-        "
+        class="absolute inset-y-0 z-50 left-0 p-1 sm:px-2 w-3/4 sm:w-auto overflow-auto bg-white dark:bg-gray-800 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
@@ -266,10 +220,15 @@
         </div>
       </div>
       <!-- Mask -->
-      <Transition name="mask">
+      <Transition
+        enter-active-class="transition-all duration-200"
+        enter-from-class="bg-opacity-0"
+        leave-active-class="transition-all duration-200"
+        leave-to-class="bg-opacity-0"
+      >
         <div
           v-if="drawerOpen"
-          class="absolute inset-0 bg-black/20 z-[49]"
+          class="absolute inset-0 bg-black/20 z-49"
           @click="drawerOpen = false"
           @touchmove.prevent.passive
         ></div>
@@ -278,7 +237,7 @@
   </div>
   <!-- eslint-disable-next-line vue/no-v-html -->
   <div class="hidden invisible" v-html="hiddenStyle"></div>
-  <div v-show="hidePage" class="absolute z-[50] w-full h-full bg-white dark:bg-gray-800">
+  <div v-show="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-800">
     <div ref="teleportTo" class="absolute w-full"></div>
   </div>
 </template>
@@ -296,7 +255,7 @@ import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
 import { locale, messages } from '@/locales'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
 
@@ -385,23 +344,3 @@ const keyword = ref(
 
 const teleportTo = shallowRef<HTMLElement>()
 </script>
-
-<style lang="postcss" scoped>
-.mask-enter-active,
-.mask-leave-active {
-  @apply transition-all duration-200;
-}
-.mask-enter-from,
-.mask-leave-to {
-  @apply bg-opacity-0;
-}
-.userList-enter-active,
-.userList-leave-active {
-  @apply transition-all duration-200;
-}
-
-.userList-enter-from,
-.userList-leave-to {
-  @apply opacity-0;
-}
-</style>

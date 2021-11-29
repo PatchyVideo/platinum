@@ -16,7 +16,7 @@
         <div>{{ note.title }}</div>
         <div class="relative overflow-hidden">
           <div
-            class="transform-gpu transition-all duration-200 text-sm"
+            class="transform transition-all duration-200 text-sm"
             :style="{ marginTop: note.id.toHexString() === listNoteOpenID ? '0' : '-100%' }"
           >
             {{ note.content }}

@@ -2,7 +2,7 @@
 <template>
   <article
     ref="root"
-    class="prose dark:prose-dark break-all"
+    class="prose dark:prose-invert break-all"
     :class="{ 'prose-sm': size === 'sm', 'prose-lg': size === 'lg', 'prose-xl': size === 'xl' }"
     v-html="html"
   ></article>

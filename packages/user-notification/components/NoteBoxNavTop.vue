@@ -1,21 +1,7 @@
 <template>
   <div
     ref="NoteBox"
-    class="
-      z-[900]
-      absolute
-      right-0
-      top-10
-      w-80
-      p-2
-      rounded
-      overflow-hidden
-      bg-white
-      border
-      shadow
-      overflow-visible
-      dark:bg-gray-800 dark:border-black
-    "
+    class="z-900 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-800 dark:border-black"
   >
     通知
     <div v-if="listNoteStatus === 'loading'">加载中</div>
@@ -34,38 +20,42 @@
               ></UserAvatar>
             </RouterLink>
             <RouterLink
+              v-slot="{ navigate }"
               :to="
                 (Note.repliedType === 'forum' ? '' : Note.repliedType === 'video' ? '/video/' : '/playlist/') +
                 Note.repliedObj +
                 '#' +
                 Note.cid
               "
-              tag="div"
-              class="w-5/6"
+              custom
             >
-              <div>
-                {{ Note.repliedBy.username + ' 回复了你：' }}
-              </div>
-              <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                {{ Note.content }}
-              </div>
-              <div class="text-xs text-gray-600 text-right dark:text-white">
-                <RelativeDate :date="Note.time" />
-              </div>
-            </RouterLink>
-          </div>
-          <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
-            <RouterLink tag="div" to class="flex items-center space-x-2">
-              <UserAvatar :title="Note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
-              <div class="w-5/6">
-                <div class="truncate">
-                  {{ '系统通知：' + Note.title }}
+              <div class="w-5/6" @click="navigate">
+                <div>
+                  {{ Note.repliedBy.username + ' 回复了你：' }}
                 </div>
                 <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
                   {{ Note.content }}
                 </div>
                 <div class="text-xs text-gray-600 text-right dark:text-white">
                   <RelativeDate :date="Note.time" />
+                </div>
+              </div>
+            </RouterLink>
+          </div>
+          <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
+            <RouterLink v-slot="{ navigate }" to custom>
+              <div class="flex items-center space-x-2" @click="navigate">
+                <UserAvatar :title="Note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
+                <div class="w-5/6">
+                  <div class="truncate">
+                    {{ '系统通知：' + Note.title }}
+                  </div>
+                  <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
+                    {{ Note.content }}
+                  </div>
+                  <div class="text-xs text-gray-600 text-right dark:text-white">
+                    <RelativeDate :date="Note.time" />
+                  </div>
                 </div>
               </div>
             </RouterLink>

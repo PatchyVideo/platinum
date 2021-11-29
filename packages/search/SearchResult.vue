@@ -12,22 +12,14 @@
       />
     </div>
 
-    <div class="p-2 md:m-auto xl:w-[90%] 2xl:w-4/5">
+    <div class="p-2 md:m-auto xl:w-9/10 2xl:w-4/5">
       <div class="my-2 md:m-0 md:flex md:justify-between">
         <div class="flex">
           <div
             v-for="tabs in Tabs"
             :key="tabs.value"
-            class="
-              px-5
-              py-2
-              cursor-pointer
-              text-gray-400 text-sm
-              font-semibold
-              border-t-4 border-transparent
-              md:text-base md:font-bold md:p-5 md:pt-3
-            "
-            :class="{ 'active-tab': tabs.value === tab }"
+            class="px-5 py-2 cursor-pointer text-gray-400 text-sm font-semibold border-t-4 border-transparent md:text-base md:font-bold md:p-5 md:pt-3"
+            :class="{ 'text-black border-pink-300 dark:text-white': tabs.value === tab }"
             @click="changeTab(tabs.value)"
             v-text="tabs.name"
           ></div>
@@ -36,15 +28,8 @@
           <label
             v-for="orders in Orders"
             :key="orders.value"
-            class="
-              px-2
-              py-1
-              cursor-pointer
-              text-gray-400 text-sm
-              font-semibold
-              md:text-base md:font-bold md:px-5 md:py-2
-            "
-            :class="{ 'active-opt': orders.value === order }"
+            class="px-2 py-1 cursor-pointer text-gray-400 text-sm font-semibold md:text-base md:font-bold md:px-5 md:py-2"
+            :class="{ 'text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500': orders.value === order }"
             @click="changeOrder(orders.value)"
             v-text="orders.name"
           ></label>
@@ -93,7 +78,7 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -184,12 +169,3 @@ function changeOrder(value: string): void {
   router.push({ path: route.path, query })
 }
 </script>
-
-<style lang="postcss" scoped>
-.active-tab {
-  @apply text-black border-pink-300 dark:text-white;
-}
-.active-opt {
-  @apply text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500;
-}
-</style>

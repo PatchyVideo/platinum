@@ -1,20 +1,11 @@
 <template>
-  <div class="reset-password h-screen w-full md:min-h-xl dark:filter dark:brightness-75">
+  <div
+    class="reset-password h-screen w-full md:min-h-xl bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75"
+  >
     <!-- Mobile view -->
     <div
-      v-if="screenSizes['ltmd']"
-      class="
-        flex-wrap
-        content-between
-        w-full
-        h-full
-        p-5
-        shadow
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        flex
-      "
+      v-if="screenSizes['lt-md']"
+      class="flex-wrap content-between w-full h-full p-5 shadow filter drop-shadow-md backdrop-filter backdrop-blur-sm flex"
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
@@ -27,14 +18,7 @@
             <input
               v-model="password"
               type="password"
-              class="
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                dark:placeholder-white dark:text-white
-              "
+              class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 dark:placeholder-white dark:text-white"
               :placeholder="t('user.reset-password.password.placeholder')"
             />
           </div>
@@ -46,14 +30,7 @@
             <input
               v-model="password2"
               type="password"
-              class="
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                dark:placeholder-white dark:text-white
-              "
+              class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 dark:placeholder-white dark:text-white"
               :placeholder="t('user.reset-password.password2.placeholder')"
               @keydown.enter="reset"
             />
@@ -63,16 +40,7 @@
         <div class="space-y-1">
           <button
             :disabled="resetStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300 disabled:focus:bg-blue-300
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="reset"
           >
             {{
@@ -91,20 +59,7 @@
     <!-- Desktop view -->
     <div
       v-else
-      class="
-        flex-wrap
-        content-between
-        w-80
-        h-full
-        p-5
-        bg-white bg-opacity-50
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        ml-48
-        text-black
-        flex
-      "
+      class="flex-wrap content-between w-80 h-full p-5 bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm ml-48 text-black flex"
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
@@ -139,20 +94,7 @@
         <div class="space-y-1">
           <button
             :disabled="resetStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              hover:bg-blue-700
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
-              disabled:hover:bg-blue-300
-              disabled:hover:cursor-not-allowed
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             @click="reset"
           >
             {{
@@ -175,7 +117,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
@@ -268,15 +210,12 @@ async function reset(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.reset-password {
-  @apply bg-bottom bg-no-repeat bg-cover;
-}
-@media screen(ltmd) {
+@media (max-width: 720px) {
   .reset-password {
     background-image: url('./assets/SignupMobile.jpg');
   }
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .reset-password {
     background-image: url('./assets/Signup.jpg');
   }
