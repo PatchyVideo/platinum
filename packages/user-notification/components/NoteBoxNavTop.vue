@@ -1,7 +1,7 @@
 <template>
   <div
     ref="NoteBox"
-    class="z-900 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-800 dark:border-black"
+    class="z-900 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
   >
     通知
     <div v-if="listNoteStatus === 'loading'">加载中</div>

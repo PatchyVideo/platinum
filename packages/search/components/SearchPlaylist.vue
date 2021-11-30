@@ -2,8 +2,8 @@
   <div v-if="status === 'loading'">
     <div class="border-b pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['lt-md']">
-      <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900">
+    <div v-if="screenSizes['<md']">
+      <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-0.5">
           <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
@@ -22,7 +22,7 @@
       <div
         v-for="index in limit"
         :key="index"
-        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <div
           class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
@@ -57,11 +57,11 @@
       {{ t('search.search-result.playlist.main-body.successful.search-result-count', { count: count }) }}
     </div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['lt-md']">
+    <div v-if="screenSizes['<md']">
       <RouterLink
         v-for="playlist in playlists"
         :key="playlist.item.title"
-        class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900"
+        class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="'/playlist/' + playlist.id.toHexString()"
       >
         <div class="w-2/5 mr-0.5">
@@ -86,7 +86,7 @@
       <div
         v-for="playlist in playlists"
         :key="playlist.item.title"
-        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <RouterLink
           :to="'/playlist/' + playlist.id"

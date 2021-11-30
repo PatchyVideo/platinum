@@ -4,14 +4,14 @@
     <div class="border-t pt-1 flex-1 flex justify-between items-center">
       <a
         v-if="page !== 1"
-        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-800 dark:hover:bg-black md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('previous')"
         v-text="t('ui.pv-pagination.page-previous')"
       ></a>
       <a
         v-else
         disabled
-        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-gray-800 md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-gray-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-previous')"
       ></a>
       <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
@@ -28,14 +28,14 @@
       </i18n-t>
       <a
         v-if="page !== pageCount"
-        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-800 dark:hover:bg-black md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-gray-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('next')"
         v-text="t('ui.pv-pagination.page-next')"
       ></a>
       <a
         v-else
         disabled
-        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-gray-800 md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-gray-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-next')"
       ></a>
     </div>

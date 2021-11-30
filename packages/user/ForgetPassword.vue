@@ -4,7 +4,7 @@
   >
     <!-- Mobile view -->
     <div
-      v-if="screenSizes['lt-md']"
+      v-if="screenSizes['<md']"
       class="flex-wrap content-between w-full h-full p-5 shadow text-white flex filter drop-shadow-md backdrop-filter backdrop-blur-sm"
     >
       <div class="w-full text-center">

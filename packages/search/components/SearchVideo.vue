@@ -2,8 +2,8 @@
   <div v-if="status === 'loading'">
     <div v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['lt-md']">
-      <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
+    <div v-if="screenSizes['<md']">
+      <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-0.5">
           <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
@@ -20,7 +20,7 @@
       <div
         v-for="index in limit"
         :key="index"
-        class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         <div class="p-3 text-left text-sm lg:text-base">
@@ -57,11 +57,11 @@
       </div>
     </div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['lt-md']">
+    <div v-if="screenSizes['<md']">
       <RouterLink
         v-for="video in videos"
         :key="video.item.title"
-        class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900"
+        class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="'/video/' + video.id.toHexString()"
       >
         <div class="w-2/5 mr-0.5">
@@ -96,7 +96,7 @@
       <RouterLink
         v-for="video in videos"
         :key="video.item.title"
-        class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
         :to="'/video/' + video.id.toHexString()"
       >
         <div class="aspect-ratio-16/10 overflow-hidden rounded-sm">

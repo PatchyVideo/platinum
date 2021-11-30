@@ -2,7 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
-      class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-800 dark:border-gray-900"
+      class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-900 dark:border-gray-800"
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
@@ -18,10 +18,10 @@
           ref="autoComplete"
           v-model:keyword="keyword"
           class="w-full max-w-2xl"
-          :teleport-result="screenSizes['ltsm'] ? teleportTo : undefined"
+          :teleport-result="screenSizes['<sm'] ? teleportTo : undefined"
           :show-recommendations="true"
           @search="searchResult"
-          @click="() => screenSizes['ltsm'] && (hidePage = true)"
+          @click="() => screenSizes['<sm'] && (hidePage = true)"
         ></AutoComplete>
         <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
       </div>
@@ -33,7 +33,7 @@
         <div v-else class="relative">
           <div class="flex items-center space-x-3">
             <div
-              v-if="!screenSizes['ltsm'] && props.fetchNote"
+              v-if="!screenSizes['<sm'] && props.fetchNote"
               ref="NoteBoxBtn"
               class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
               :class="{ 'bg-gray-200 dark:bg-gray-700': NoteBoxOpen }"
@@ -55,7 +55,7 @@
                 @click="userListOpen = true"
               ></UserAvatar>
               <label
-                v-if="listNoteCountUnread && !userListOpen && screenSizes['ltsm'] && props.fetchNote"
+                v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm'] && props.fetchNote"
                 class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
               ></label>
             </div>
@@ -76,7 +76,7 @@
             <div
               v-show="userListOpen"
               ref="userList"
-              class="z-900 absolute -top-6 -right-2 w-40 p-2 mt-1/2 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-800 dark:border-black"
+              class="z-900 absolute -top-6 -right-2 w-40 p-2 mt-1/2 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
             >
               <UserAvatar
                 :title="user.name"
@@ -87,7 +87,7 @@
               <div v-if="isLogin === IsLogin.yes" class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <RouterLink
-                  v-if="screenSizes['ltsm'] && props.fetchNote"
+                  v-if="screenSizes['<sm'] && props.fetchNote"
                   class="block text-center"
                   to="/user/notification"
                 >
@@ -113,7 +113,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 z-50 left-0 p-1 sm:px-2 w-3/4 sm:w-auto overflow-auto bg-white dark:bg-gray-800 transform transition-transform duration-250 ease-in-out"
+        class="absolute inset-y-0 z-50 left-0 p-1 sm:px-2 w-3/4 sm:w-auto overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
@@ -237,7 +237,7 @@
   </div>
   <!-- eslint-disable-next-line vue/no-v-html -->
   <div class="hidden invisible" v-html="hiddenStyle"></div>
-  <div v-show="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-800">
+  <div v-show="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-900">
     <div ref="teleportTo" class="absolute w-full"></div>
   </div>
 </template>

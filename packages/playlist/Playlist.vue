@@ -51,7 +51,7 @@
             </div>
             <div
               v-if="shouldClampDesc || expandDesc"
-              class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-color duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900 hover:text-blue-600"
+              class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-color duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600"
               @click="expandDesc = !expandDesc"
             >
               <icon-uil-arrow-down class="inline transform" :class="{ 'rotate-180': expandDesc }" />{{
@@ -65,7 +65,7 @@
             v-for="(video, index) in playlist.videos"
             :key="video.id.toHexString()"
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
-            class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-color duration-150 odd:bg-gray-50 dark:odd:bg-gray-600 hover:bg-pink-50 dark:hover:bg-gray-900 hover:odd:bg-pink-50 dark:hover:odd:bg-gray-900"
+            class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-color duration-150 odd:bg-gray-50 dark:odd:bg-gray-600 hover:bg-pink-50 dark:hover:bg-gray-800 hover:odd:bg-pink-50 dark:hover:odd:bg-gray-800"
             :to="'/video/' + video.id.toHexString() + '?list=' + pid"
           >
             <div

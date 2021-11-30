@@ -3,7 +3,7 @@
   <div
     v-show="popperShowing && user"
     ref="popper"
-    class="popper z-910 px-3 py-2 max-w-xs rounded-md border border-gray-300 shadow-md bg-white dark:bg-gray-800"
+    class="popper z-910 px-3 py-2 max-w-xs rounded-md border border-gray-300 shadow-md bg-white dark:bg-gray-900"
   >
     <RouterLink :to="'/user/' + uid">
       <div v-if="user" class="flex flex-row space-x-2">

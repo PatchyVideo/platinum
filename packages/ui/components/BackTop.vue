@@ -1,6 +1,6 @@
 <template>
   <div
-    class="shadow fixed bottom-5 right-5 bg-gray-50 cursor-pointer select-none p-2 transition-opacity rounded-full dark:bg-gray-900"
+    class="shadow fixed bottom-5 right-5 bg-gray-50 cursor-pointer select-none p-2 transition-opacity rounded-full dark:bg-gray-800"
     :class="{ 'opacity-50': !top }"
     :title="t('ui.back-top.back-top')"
     @click="backUp()"

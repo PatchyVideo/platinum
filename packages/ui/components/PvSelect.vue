@@ -1,13 +1,13 @@
 <template>
   <div
     ref="pvSelectRoot"
-    class="pl-4 pr-8 rounded-full cursor-pointer relative inline-block border border-gray-300 dark:border-gray-900 transition-shadow duration-200"
+    class="pl-4 pr-8 rounded-full cursor-pointer relative inline-block border border-gray-300 dark:border-gray-800 transition-shadow duration-200"
     :class="{ 'outline-none ring ring-pink-300': !listHidden }"
     @click="listHidden = !listHidden"
   >
     <div class="inline-block truncate align-top select-none" v-text="getItemNameByValue(selected)"></div>
     <div
-      class="shadow rounded bg-white absolute top-5/4 left-0 z-2 box-border border-gray-400 min-w-full overflow-hidden dark:bg-gray-900"
+      class="shadow rounded bg-white absolute top-5/4 left-0 z-2 box-border border-gray-400 min-w-full overflow-hidden dark:bg-gray-800"
     >
       <ul
         class="overflow-x-hidden overflow-y-auto transform transition-all duration-200"

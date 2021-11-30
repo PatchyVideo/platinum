@@ -2,13 +2,13 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="flex h-9 justify-start items-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900"
+      class="flex h-9 justify-start items-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
     >
       <icon-uil-search class="flex-shrink-0 inline ml-2 mr-1" @click="onSearchContentChange()" />
       <input
         ref="autoComplete"
         v-model="searchContent"
-        class="inline-block h-full outline-none dark:bg-gray-900 w-full rounded-lg"
+        class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-lg"
         placeholder="search!"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
@@ -69,7 +69,7 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-800 shadow-lg border border-gray-300 dark:border-gray-600"
+          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border border-gray-300 dark:border-gray-600"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
             <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">

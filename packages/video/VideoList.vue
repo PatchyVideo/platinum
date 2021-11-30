@@ -4,8 +4,8 @@
       <div v-if="status === 'loading'">
         <div v-text="t('video.video-list.main-body.loading.searching')"></div>
         <!-- Mobile View -->
-        <div v-if="screenSizes['lt-md']">
-          <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
+        <div v-if="screenSizes['<md']">
+          <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-0.5">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
@@ -24,7 +24,7 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
           >
             <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             <div class="p-3 text-left text-sm lg:text-base">
@@ -47,11 +47,11 @@
         ></div>
         <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
         <!-- Mobile View -->
-        <div v-if="screenSizes['lt-md']">
+        <div v-if="screenSizes['<md']">
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900"
+            class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="w-2/5 mr-0.5">
@@ -81,7 +81,7 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+            class="w-21/100 my-5 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
             <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
@@ -120,7 +120,7 @@
     </div>
     <!-- Advanced Search -->
     <div
-      class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-900"
+      class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-800"
       :title="t('video.video-list.advanced-search.name')"
       @click="progressing(t('video.video-list.advanced-search.name'))"
     >

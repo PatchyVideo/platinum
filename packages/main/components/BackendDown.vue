@@ -1,5 +1,5 @@
 <template>
-  <div class="background absolute w-full h-full grid place-content-center bg-gray-900">
+  <div class="background absolute w-full h-full grid place-content-center bg-gray-800">
     <div class="my-auto text-white text-center">
       <div class="relative">
         <h1 class="sm:text-xl lg:text-3xl" v-text="codeHint"></h1>

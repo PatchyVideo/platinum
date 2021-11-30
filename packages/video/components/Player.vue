@@ -148,7 +148,7 @@
             :key="index"
             class="px-2 py-1 whitespace-pre transform transition-all ease-in-out duration-100"
             :class="{
-              'hover:bg-gray-800 cursor-pointer':
+              'hover:bg-gray-900 cursor-pointer':
                 'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
             }"
           >

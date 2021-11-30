@@ -216,8 +216,8 @@
                 <RouterLink
                   v-for="(plVideo, plIndex) in playlistVideos"
                   :key="plVideo.video.id.toHexString()"
-                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-900"
-                  :class="{ 'bg-pink-50 dark:bg-gray-900': plVideo.video.id.toHexString() === vid }"
+                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
+                  :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
@@ -256,7 +256,7 @@
                 v-for="rlVideo in video.relatedVideos"
                 :key="rlVideo.id.toHexString()"
                 :to="'/video/' + rlVideo.id.toHexString()"
-                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-pink-50 dark:hover:bg-gray-900 transition-colors duration-100"
+                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
               >
                 <div class="col-span-2">
                   <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
@@ -315,7 +315,7 @@
           </div>
           <!-- Related Video -->
           <div class="flex flex-col space-y-1 mt-2">
-            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-900">
+            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
                 <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>

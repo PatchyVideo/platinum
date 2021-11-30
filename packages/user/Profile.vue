@@ -4,7 +4,7 @@
       <!-- padding for profile background -->
       <div class="w-full h-24 sm:h-32 md::h-40 bg-gray-200 dark:bg-gray-600"></div>
       <!-- basic info -->
-      <div class="flex flex-row ltsm:mt-2 ml-4 md:ml-16">
+      <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
           class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-gray-300 dark:border-gray-600 transform transition-all duration-300"
         >

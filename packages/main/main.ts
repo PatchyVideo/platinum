@@ -161,8 +161,8 @@ import i18n from '@/locales'
 app.use(i18n)
 
 /* Vue Motion */
-// import { MotionPlugin } from '@vueuse/motion'
-// app.use(MotionPlugin)
+import { MotionPlugin } from '@vueuse/motion'
+app.use(MotionPlugin)
 
 /* Vite PWA */
 import { registerSW } from 'virtual:pwa-register'
