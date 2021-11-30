@@ -169,6 +169,7 @@ const page = computed(() => offset.value + 1)
 /* Refresh query result for URL query change */
 const URLQuery = computed(() => route.query)
 watch(URLQuery, () => {
+  backTop()
   fetchMore({
     variables: {
       offset: offset.value * limit.value,
@@ -211,7 +212,6 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     playlists.value = resultData.value.playlists
   }
-  backTop()
 })
 watchEffect(() => {
   if (loading.value) {

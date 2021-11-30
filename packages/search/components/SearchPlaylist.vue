@@ -154,6 +154,7 @@ const { query, limit, offset, order, pageCount } = useVModels(props, emit)
 watch(
   props,
   () => {
+    backTop()
     fetchMore({
       variables: {
         offset: offset.value * limit.value,
@@ -209,7 +210,6 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     playlists.value = resultData.value.playlists
   }
-  backTop()
 })
 onError((err) => {
   errMsg.value = err.message
