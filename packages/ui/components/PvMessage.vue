@@ -1,27 +1,10 @@
 <template>
   <div>
-    <transition-group name="pv-message-transition">
+    <TransitionGroup name="pv-message-transition">
       <div
         v-for="(options, i) in fullMessageOptions"
         :key="options.id"
-        class="
-          pv-message
-          fixed
-          left-1/2
-          -translate-x-1/2
-          p-4
-          pl-5
-          border
-          rounded-md
-          border-solid
-          flex flex-row
-          justify-between
-          items-center
-          z-50
-          overflow-hidden
-          transition-all
-          h-20
-        "
+        class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-gray-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
         :style="{
           'transition-timing-function': 'ease',
           'transition-duration': PvMessageTransitionDuration.toString() + 'ms',
@@ -33,34 +16,24 @@
         }"
       >
         <div class="relative flex flex-row justify-start items-center" :class="{ 'mr-6': options.showClose }">
-          <component :is="options.iconComponent" class="absolute top-1/2 -translate-y-1/2 left-0" />
+          <div class="absolute top-1/2 -translate-y-1/2 left-0" :class="options.icon"></div>
           <div class="ml-6 w-auto inline-block" :style="{ textAlign: options.center ? 'center' : 'inherit' }">
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div v-if="options.dangerouslyUseHTMLString" v-html="options.message"></div>
             <div v-else>{{ options.message }}</div>
           </div>
         </div>
-        <IconClose
+        <div
           v-if="options.showClose"
-          class="
-            absolute
-            top-1/2
-            -translate-y-1/2
-            right-4
-            hover:cursor-pointer hover:text-gray-600
-            text-gray-400
-            transition-all
-            duration-300
-          "
+          class="i-uil-times absolute top-1/2 -translate-y-1/2 right-4 hover:cursor-pointer hover:text-gray-600 text-gray-400 transition-all duration-300"
           @click="handleCloseMessage(options)"
-        />
+        ></div>
       </div>
-    </transition-group>
+    </TransitionGroup>
   </div>
 </template>
 
 <script lang="ts" setup>
-import IconClose from '~icons/carbon/close'
 import { PvMessageTransitionDuration, fullMessageOptions, handleCloseMessage } from '@/ui/lib/PvMessage'
 </script>
 

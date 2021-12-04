@@ -2,44 +2,32 @@
   <div v-if="status === 'loading'">
     <div v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['ltmd']">
-      <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900">
-        <div class="w-2/5 mr-[0.125rem]">
+    <div v-if="screenSizes['<md']">
+      <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
+        <div class="w-2/5 mr-0.5">
           <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
-          <div
-            class="
-              line-clamp-2
-              overflow-ellipsis overflow-hidden
-              rounded-md
-              w-full
-              bg-gray-400
-              dark:bg-gray-600
-              animate-pulse
-            "
-          >
+          <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md w-full bg-gray-400 dark:bg-gray-600">
             &nbsp;
           </div>
-          <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+          <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600"></div>
         </div>
       </div>
     </div>
     <!-- Desktop View -->
-    <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+    <div v-else class="search-result-backimg flex flex-wrap justify-evenly bg-center bg-no-repeat bg-contain">
       <div
         v-for="index in limit"
         :key="index"
-        class="w-[21%] my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-12/50 my-2 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         <div class="p-3 text-left text-sm lg:text-base">
-          <div
-            class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-          >
+          <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600">
             &nbsp;
           </div>
-          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"></div>
+          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600"></div>
         </div>
       </div>
     </div>
@@ -60,22 +48,24 @@
           v-for="sites in VisibleSites"
           :key="sites.value"
           class="px-2 py-1 cursor-pointer text-gray-400 text-sm font-semibold md:text-base md:font-bold md:px-3 md:py-1"
-          :class="{ 'active-opt': sites.value === visibleSite }"
+          :class="{
+            'text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500': sites.value === visibleSite,
+          }"
           @click="changeVisibleSites(sites.value)"
           v-text="sites.name"
         ></label>
       </div>
     </div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['ltmd']">
+    <div v-if="screenSizes['<md']">
       <RouterLink
         v-for="video in videos"
         :key="video.item.title"
-        class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-900"
+        class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="'/video/' + video.id.toHexString()"
       >
-        <div class="w-2/5 mr-[0.125rem]">
-          <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
+        <div class="w-2/5 mr-0.5">
+          <div class="aspect-ratio-16/10 overflow-hidden rounded-sm">
             <img
               class="object-cover h-full w-full dark:filter dark:brightness-75"
               :src="getCoverImage({ image: video.item.coverImage })"
@@ -95,21 +85,22 @@
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
             <span v-if="video.clearence === 0" class="ml-2"
-              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
-            /></span>
+              >已隐藏
+              <div class="i-uil-eye-slash inline-block align-text-bottom"></div
+            ></span>
           </div>
         </div>
       </RouterLink>
     </div>
     <!-- Desktop View -->
-    <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+    <div v-else class="search-result-backimg flex flex-wrap justify-evenly bg-center bg-no-repeat bg-contain">
       <RouterLink
         v-for="video in videos"
         :key="video.item.title"
-        class="w-[21%] my-5 border shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-800"
+        class="w-12/50 my-2 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
         :to="'/video/' + video.id.toHexString()"
       >
-        <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
+        <div class="aspect-ratio-16/10 overflow-hidden rounded-sm">
           <img
             class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-75"
             :src="getCoverImage({ image: video.item.coverImage })"
@@ -133,8 +124,9 @@
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
             <span v-if="video.clearence === 0" class="ml-2"
-              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
-            /></span>
+              >已隐藏
+              <div class="i-uil-eye-slash inline-block align-text-bottom"></div
+            ></span>
           </div>
         </div>
       </RouterLink>
@@ -154,7 +146,7 @@ import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const props = defineProps<{
   query: string
@@ -201,6 +193,7 @@ const VisibleSites = [
 watch(
   props,
   () => {
+    backTop()
     fetchMore({
       variables: {
         offset: offset.value * limit.value,
@@ -269,7 +262,6 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     videos.value = resultData.value.videos
   }
-  backTop()
 })
 onError((err) => {
   errMsg.value = err.message
@@ -287,11 +279,7 @@ function changeVisibleSites(value: string): void {
 </script>
 
 <style lang="postcss" scoped>
-.active-opt {
-  @apply text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500;
-}
 .search-result-backimg {
   background-image: url('../assets/SearchResultBackImg.png');
-  @apply bg-center bg-no-repeat bg-contain;
 }
 </style>

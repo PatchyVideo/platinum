@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-50 dark:bg-gray-800">
+  <div class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-row flex-wrap justify-center py-8 mt-8">
       <div v-for="linkGroup in links" :key="linkGroup.key">
         <ul class="px-2 md:px-4 lg:px-8">
@@ -20,41 +20,47 @@
       </div>
     </div>
     <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
-      <span id="footer-typed"></span>
+      <span ref="typedEl"></span>
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
-      Platinum v{{ version }}(<a
-        :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
-        :title="commitHash"
-        target="_blank"
-        rel="noopener noreferrer"
-        v-text="commitHash.slice(0, 7)"
-      ></a
-      >, {{ distro }})<template v-if="hasExtension"
-        >&nbsp;<span
-          :title="
-            'List: ' +
-            Object.values(extensions)
-              .map(({ name, extVersion }) => name + '(' + extVersion + ')')
-              .join(', ')
-          "
-          >({{ Object.values(extensions).length }} ext installed)</span
-        ></template
-      ><br />
-      © 2020-2021 VoileLabs. Released under the
-      <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.
+      <span>PatchyVideo 正在为 {{ users }} 个像你一样的用户提供服务！</span><br />
+      <span
+        ><span>Platinum v{{ version }}</span
+        >(<a
+          :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
+          :title="commitHash"
+          target="_blank"
+          rel="noopener noreferrer"
+          v-text="commitHash.slice(0, 7)"
+        ></a
+        >, {{ isDev ? 'dev' : 'prod' }})<template v-if="hasExtension"
+          >&nbsp;<span
+            :title="
+              'List: ' +
+              Object.values(extensions)
+                .map(({ name, extVersion }) => name + '(' + extVersion + ')')
+                .join(', ')
+            "
+            >({{ Object.values(extensions).length }} ext installed)</span
+          ></template
+        >. </span
+      ><span>
+        © 2020-2021 VoileLabs. Released under the
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</span
+      >
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, computed } from 'vue'
+import { onMounted, onUnmounted, computed, shallowRef } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'
 import { extensions } from '@/main/extension'
+import { gql, Query, useQuery, useResult } from '@/graphql'
 
-const distro = import.meta.env.MODE
+const isDev = import.meta.env.DEV
 
 const props = withDefaults(
   defineProps<{
@@ -108,10 +114,11 @@ const links = computed<
 ])
 
 /* typed.js */
-let typed: Typed
+const typedEl = shallowRef<HTMLSpanElement | null>(null)
+let typed: Typed | undefined
 onMounted(() => {
-  if (!props.small)
-    typed = new Typed('#footer-typed', {
+  if (!props.small && typedEl.value)
+    typed = new Typed(typedEl.value, {
       strings: getYiyanArray(true, true),
       typeSpeed: 30,
       backSpeed: 10,
@@ -128,4 +135,13 @@ const version = import.meta.env.VITE_APP_VERSION
 const commitHash = import.meta.env.VITE_COMMIT_HASH
 
 const hasExtension = computed(() => Object.keys(extensions.value).length > 0)
+
+const { result } = useQuery<Query>(gql`
+  query {
+    getStats {
+      users
+    }
+  }
+`)
+const users = useResult(result, 0, (data) => data.getStats.users)
 </script>

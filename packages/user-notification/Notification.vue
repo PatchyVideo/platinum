@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault :fetch-note="false">
     <!-- Mobile View -->
-    <div v-if="screenSizes['ltmd']" class="w-full p-2 dark:bg-gray-800 dark:border-black">
+    <div v-if="screenSizes['<md']" class="w-full p-2 dark:bg-gray-900 dark:border-black">
       <div v-if="noteType === 'comment_reply'">
         <NoteBoxReplyComment v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
@@ -17,11 +17,11 @@
       ></PvPagination>
       <!-- DrawerLayout -->
       <div
-        class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-900"
+        class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-800"
         title="打开消息侧栏"
         @click="noteDrawerOpen = true"
       >
-        <icon-uil-chat class="text-2xl" />
+        <div class="i-uil-chat text-2xl"></div>
         <label
           v-if="listNoteCountUnread"
           class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
@@ -29,24 +29,11 @@
         >
       </div>
       <div
-        class="
-          fixed
-          inset-y-0
-          p-1
-          z-50
-          right-0
-          overflow-auto
-          bg-white
-          transform-gpu
-          transition-transform
-          duration-300
-          w-3/4
-          dark:bg-gray-800
-        "
+        class="fixed inset-y-0 p-1 z-50 right-0 overflow-auto bg-white transform transition-transform duration-300 w-3/4 dark:bg-gray-900"
         :class="{ 'translate-x-full': !noteDrawerOpen }"
       >
-        <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
+        <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
+          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -55,7 +42,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <icon-uil-comment-alt-dots class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
@@ -74,7 +61,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <icon-uil-at class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-at inline align-middle text-xl text-center"></div>
             <div>艾特我的（建设中）</div>
           </div>
           <div
@@ -82,7 +69,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <icon-uil-volume class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
@@ -100,20 +87,25 @@
         </div>
       </div>
       <!-- Mask -->
-      <Transition name="mask">
+      <Transition
+        enter-active-class="transition-all duration-200"
+        enter-from-class="bg-opacity-0"
+        leave-active-class="transition-all duration-200"
+        leave-to-class="bg-opacity-0"
+      >
         <div
           v-if="noteDrawerOpen"
-          class="fixed inset-0 bg-black bg-opacity-20 z-[49]"
+          class="fixed inset-0 bg-black bg-opacity-20 z-49"
           @click="noteDrawerOpen = false"
         ></div>
       </Transition>
     </div>
     <!-- Desktop View -->
-    <div v-else class="p-5 flex space-x-3 min-h-screen w-[90%] m-auto xl:w-4/5">
+    <div v-else class="p-5 flex space-x-3 min-h-screen w-9/10 m-auto xl:w-4/5">
       <!-- Nav Left -->
-      <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-800">
-        <div class="w-full border-b p-1 pb-[0.375rem] flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
+      <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-900">
+        <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
+          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -122,7 +114,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <icon-uil-comment-alt-dots class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
@@ -141,7 +133,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <icon-uil-at class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-at inline align-middle text-xl text-center"></div>
             <div>艾特我的（建设中）</div>
           </div>
           <div
@@ -149,7 +141,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <icon-uil-volume class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
@@ -197,7 +189,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import NProgress from 'nprogress'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -315,14 +307,3 @@ function changeNoteType(type: string): void {
   router.push({ path: route.path, query })
 }
 </script>
-
-<style lang="postcss" scoped>
-.mask-enter-active,
-.mask-leave-active {
-  @apply transition-all duration-200;
-}
-.mask-enter-from,
-.mask-leave-to {
-  @apply bg-opacity-0;
-}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="noti">
+  <div class="absolute top-0 right-0 z-10000">
     <div
       v-for="(noti, index) of notis"
       :key="index"
@@ -31,10 +31,3 @@ onUnmounted(() => {
   if (interval) clearInterval(interval)
 })
 </script>
-
-<style lang="postcss" scoped>
-.noti {
-  @apply absolute top-0 right-0;
-  z-index: 10000;
-}
-</style>

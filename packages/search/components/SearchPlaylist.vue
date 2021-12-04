@@ -2,63 +2,30 @@
   <div v-if="status === 'loading'">
     <div class="border-b pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['ltmd']">
-      <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900">
-        <div class="w-2/5 mr-[0.125rem]">
+    <div v-if="screenSizes['<md']">
+      <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
+        <div class="w-2/5 mr-0.5">
           <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
         </div>
         <div class="w-3/5 flex flex-wrap content-between">
-          <div
-            class="
-              line-clamp-2
-              overflow-ellipsis overflow-hidden
-              w-full
-              rounded-md
-              bg-gray-400
-              dark:bg-gray-600
-              animate-pulse
-            "
-          >
+          <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full rounded-md bg-gray-400 dark:bg-gray-600">
             &nbsp;
           </div>
-          <div
-            class="w-2/5 text-sm text-gray-600 dark:text-gray-300 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-          >
+          <div class="w-2/5 text-sm text-gray-600 dark:text-gray-300 rounded-md bg-gray-300 dark:bg-gray-600">
             &nbsp;
           </div>
         </div>
       </div>
     </div>
     <!-- Desktop View -->
-    <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+    <div v-else class="search-result-backimg flex flex-wrap justify-evenly bg-center bg-no-repeat bg-contain">
       <div
         v-for="index in limit"
         :key="index"
-        class="
-          w-[48%]
-          my-5
-          p-2
-          border
-          shadow-md
-          rounded-lg
-          bg-white bg-opacity-50
-          dark:border-gray-500 dark:bg-gray-800
-        "
+        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <div
-          class="
-            block
-            border-b
-            py-3
-            text-center text-xl
-            truncate
-            font-semibold
-            lg:text-2xl
-            rounded-md
-            bg-gray-400
-            dark:bg-gray-600
-            animate-pulse
-          "
+          class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
         >
           &nbsp;
         </div>
@@ -68,12 +35,10 @@
           </div>
           <div class="w-1/2 py-2 flex flex-wrap content-between">
             <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
-              <div v-for="i in 3" :key="i" class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">
-                &nbsp;
-              </div>
+              <div v-for="i in 3" :key="i" class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
             </div>
             <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-              <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+              <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
             </div>
           </div>
         </div>
@@ -92,15 +57,15 @@
       {{ t('search.search-result.playlist.main-body.successful.search-result-count', { count: count }) }}
     </div>
     <!-- Mobile View -->
-    <div v-if="screenSizes['ltmd']">
+    <div v-if="screenSizes['<md']">
       <RouterLink
         v-for="playlist in playlists"
         :key="playlist.item.title"
-        class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900"
+        class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="'/playlist/' + playlist.id.toHexString()"
       >
-        <div class="w-2/5 mr-[0.125rem]">
-          <div class="aspect-w-16 aspect-h-10 overflow-hidden rounded-sm">
+        <div class="w-2/5 mr-0.5">
+          <div class="aspect-ratio-16/10 overflow-hidden rounded-sm">
             <img
               class="object-cover h-full w-full dark:filter dark:brightness-75"
               :src="getCoverImage({ image: playlist.item.cover })"
@@ -117,20 +82,11 @@
       </RouterLink>
     </div>
     <!-- Desktop View -->
-    <div v-else class="search-result-backimg justify-evenly flex-wrap flex">
+    <div v-else class="search-result-backimg flex flex-wrap justify-evenly bg-center bg-no-repeat bg-contain">
       <div
         v-for="playlist in playlists"
         :key="playlist.item.title"
-        class="
-          w-[48%]
-          my-5
-          p-2
-          border
-          shadow-md
-          rounded-lg
-          bg-white bg-opacity-50
-          dark:border-gray-500 dark:bg-gray-800
-        "
+        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
       >
         <RouterLink
           :to="'/playlist/' + playlist.id"
@@ -139,7 +95,7 @@
         ></RouterLink>
         <div class="flex p-2 pt-3">
           <div class="w-1/2 mr-5">
-            <div class="aspect-w-16 aspect-h-10 overflow-hidden">
+            <div class="aspect-ratio-16/10 overflow-hidden">
               <img
                 class="object-cover h-full w-full rounded-lg dark:filter dark:brightness-75"
                 :src="getCoverImage({ image: playlist.item.cover })"
@@ -163,7 +119,7 @@
 import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 import { useVModels } from '@vueuse/core'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
@@ -198,6 +154,7 @@ const { query, limit, offset, order, pageCount } = useVModels(props, emit)
 watch(
   props,
   () => {
+    backTop()
     fetchMore({
       variables: {
         offset: offset.value * limit.value,
@@ -253,7 +210,6 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     playlists.value = resultData.value.playlists
   }
-  backTop()
 })
 onError((err) => {
   errMsg.value = err.message
@@ -263,9 +219,6 @@ onError((err) => {
 
 <style lang="postcss" scoped>
 .search-result-backimg {
-  @apply bg-center;
-  @apply bg-no-repeat;
-  @apply bg-contain;
   background-image: url('../assets/SearchResultBackImg.png');
 }
 </style>

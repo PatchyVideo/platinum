@@ -1,15 +1,17 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <article
-    ref="root"
-    class="prose dark:prose-dark break-all"
-    :class="{ 'prose-sm': size === 'sm', 'prose-lg': size === 'lg', 'prose-xl': size === 'xl' }"
-    v-html="html"
-  ></article>
+  <div class="-my-24">
+    <article
+      ref="root"
+      class="prose dark:prose-invert break-all my-24"
+      :class="{ 'text-sm': size === 'sm', 'text-lg': size === 'lg', 'text-xl': size === 'xl' }"
+      v-html="html"
+    ></article>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, shallowRef, watch } from 'vue'
+import { nextTick, ref, shallowRef, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '../lib/parser'
 
@@ -22,6 +24,9 @@ const props = withDefaults(
     size: '',
   }
 )
+const emit = defineEmits<{
+  (event: 'htmlChanged'): void
+}>()
 
 const html = ref('')
 const waitingForRender = ref(true)
@@ -34,6 +39,7 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     if (isIntersecting && waitingForRender.value) {
       html.value = render(props.text)
+      nextTick(() => emit('htmlChanged'))
       waitingForRender.value = false
     }
   },

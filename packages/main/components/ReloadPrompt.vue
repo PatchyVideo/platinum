@@ -6,23 +6,7 @@
       v-motion
       :initial="{ y: 100 }"
       :enter="{ y: 0 }"
-      class="
-        z-[10000]
-        fixed
-        bottom-0
-        right-0
-        left-0
-        sm:bottom-4 sm:right-3 sm:left-auto
-        px-3
-        py-2
-        sm:px-6 sm:py-4
-        rounded-md
-        bg-white
-        dark:bg-gray-800
-        border border-gray-300
-        dark:border-gray-900
-        shadow-lg
-      "
+      class="z-10000 fixed bottom-0 right-0 left-0 sm:bottom-4 sm:right-3 sm:left-auto px-3 py-2 sm:px-6 sm:py-4 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 shadow-lg"
     >
       <div class="font-light">有新内容更新，重新加载以应用更新</div>
       <button class="font-light border-b border-blue-600 dark:border-blue-400" @click="() => updateServiceWorker()">

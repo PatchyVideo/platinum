@@ -1,23 +1,11 @@
 <template>
   <div
-    class="
-      shadow
-      fixed
-      bottom-5
-      right-5
-      bg-gray-50
-      cursor-pointer
-      select-none
-      p-2
-      transition-opacity
-      rounded-full
-      dark:bg-gray-900
-    "
+    class="fixed bottom-5 right-5 p-2 cursor-pointer select-none bg-gray-50 dark:bg-gray-800 shadow transition-opacity rounded-full"
     :class="{ 'opacity-50': !top }"
     :title="t('ui.back-top.back-top')"
     @click="backUp()"
   >
-    <icon-uil-top-arrow-to-top class="text-2xl" />
+    <div class="i-uil-top-arrow-to-top text-3xl"></div>
   </div>
 </template>
 

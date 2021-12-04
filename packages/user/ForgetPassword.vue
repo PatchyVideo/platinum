@@ -1,21 +1,11 @@
 <template>
-  <div class="forget-password h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-75">
+  <div
+    class="forget-password h-screen w-full md:min-h-xl flex justify-end bg-center bg-no-repeat bg-cover dark:filter dark:brightness-75"
+  >
     <!-- Mobile view -->
     <div
-      v-if="screenSizes['ltmd']"
-      class="
-        flex-wrap
-        content-between
-        w-full
-        h-full
-        p-5
-        shadow
-        text-white
-        flex
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-      "
+      v-if="screenSizes['<md']"
+      class="flex-wrap content-between w-full h-full p-5 shadow text-white flex filter drop-shadow-md backdrop-filter backdrop-blur-sm"
     >
       <div class="w-full text-center">
         <Logo :larger="20"></Logo>
@@ -24,7 +14,7 @@
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-white">
-            <icon-uil-envelope class="align-middle w-7" />
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-white"
@@ -37,16 +27,7 @@
         <div class="space-y-1">
           <button
             :disabled="sendStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300 disabled:focus:bg-blue-300
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300"
             @click="sendEmail"
           >
             {{
@@ -68,20 +49,7 @@
     <!-- Desktop view -->
     <div
       v-else
-      class="
-        flex
-        mr-50
-        p-5
-        w-80
-        h-full
-        flex-wrap
-        content-between
-        text-black
-        bg-white bg-opacity-50
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-      "
+      class="flex mr-50 p-5 w-80 h-full flex-wrap content-between text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm"
     >
       <div class="w-full">
         <Logo :larger="20"></Logo>
@@ -90,7 +58,7 @@
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-black">
-            <icon-uil-envelope class="align-middle w-7" />
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"
@@ -103,19 +71,7 @@
         <div class="space-y-1">
           <button
             :disabled="sendStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
-              disabled:hover:bg-blue-300
-              disabled:hover:cursor-not-allowed
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             @click="sendEmail"
           >
             {{
@@ -144,7 +100,7 @@ import { useI18n } from 'vue-i18n'
 import { locale } from '@/locales'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 setSiteTitle(t('user.forget-password.title') + ' - PatchyVideo')
@@ -215,15 +171,12 @@ async function sendEmail(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.forget-password {
-  @apply bg-center bg-no-repeat bg-cover;
-}
-@media screen(ltmd) {
+@media (max-width: 720px) {
   .forget-password {
     background-image: url('./assets/LoginMobile.jpg');
   }
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .forget-password {
     background-image: url('./assets/Login.jpg');
   }

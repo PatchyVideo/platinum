@@ -26,7 +26,7 @@
     <!-- top -->
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
-      class="absolute top-0 left-0 right-0 bg-black bg-opcity-75 transform-gpu transition-all ease-in-out duration-300"
+      class="absolute top-0 left-0 right-0 bg-black bg-opcity-75 transform transition-all ease-in-out duration-300"
       :class="{ '-translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
       <div class="m-2 flex justify-between">
@@ -35,23 +35,13 @@
           :class="{ 'ml-2': !item.title.startsWith('【') }"
           v-text="item.title"
         ></div>
-        <div @click="showSettings = true"><icon-uil-setting class="text-white text-xl" /></div>
+        <div @click="showSettings = true"><div class="i-uil-setting text-white text-2xl"></div></div>
       </div>
     </div>
     <!-- bottom -->
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
-      class="
-        absolute
-        bottom-0
-        left-0
-        right-0
-        bg-black bg-opacity-75
-        transform-gpu
-        transition-all
-        ease-in-out
-        duration-300
-      "
+      class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-75 transform transition-all ease-in-out duration-300"
       :class="{ 'translate-y-3/2': !showSettings && !showControlBar && userClickedPlaying }"
     >
       <div class="h-full m-0 align-middle">
@@ -86,20 +76,19 @@
             </div>
           </div>
           <div class="absolute h-full bg-pink-600" :style="{ width: progress * 100 + '%' }">
-            <span
-              class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-[0.375rem] bg-white rounded-full cursor-pointer"
-            ></span>
+            <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer"></span>
           </div>
         </div>
       </div>
       <div class="flex flex-row justify-between flex-nowrap h-6 mx-6 my-1 text-white overflow-hidden">
         <div class="flex-grow-0 flex flex-row items-center">
-          <span class="text-xl" @click="onPlayPause"
-            ><icon-uil-spinner-alt v-if="!streamsReady" class="animate-spin" /><icon-uil-pause
-              v-else-if="playing" /><icon-uil-play v-else /></span
+          <span class="text-2xl" @click="onPlayPause"
+            ><div v-if="!streamsReady" class="i-uil-spinner-alt animate-spin"></div>
+            <div v-else-if="playing" class="i-uil-pause"></div>
+            <div v-else class="i-uil-play"></div></span
           ><span class="px-1"></span>
           <div class="volume flex flex-row items-center">
-            <icon-uil-volume class="mr-[0.125rem] text-xl" />
+            <div class="i-uil-volume mr-0.5 text-xl"></div>
             <div class="inline-block h-full m-0 align-middle">
               <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
@@ -107,21 +96,7 @@
                   :style="{ width: volume * 100 + '%' }"
                 >
                   <span
-                    class="
-                      volumedot
-                      absolute
-                      right-0
-                      top-0
-                      w-3
-                      h-3
-                      -mt-1
-                      -mr-[0.375rem]
-                      bg-white
-                      rounded-full
-                      transform-gpu
-                      scale-0
-                      cursor-pointer
-                    "
+                    class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform scale-0 cursor-pointer"
                   ></span>
                 </div>
               </div>
@@ -129,8 +104,9 @@
           </div>
         </div>
         <div class="flex-grow-0">
-          <span v-if="!disableFullscreen" class="text-xl" @click="onFullscreen"
-            ><icon-uil-expand-arrows-alt v-if="!isFullscreen" /><icon-uil-compress-arrows v-else /></span
+          <span v-if="!disableFullscreen" class="text-2xl" @click="onFullscreen"
+            ><div v-if="!isFullscreen" class="i-uil-expand-arrows-alt"></div>
+            <div v-else class="i-uil-compress-arrows"></div></span
           ><span class="px-1"></span>
         </div>
       </div>
@@ -143,36 +119,38 @@
     ></div>
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
-      class="
-        absolute
-        top-0
-        bottom-0
-        right-0
-        bg-black
-        transform-gpu
-        transition-all
-        duration-300
-        ease-in-out
-        overflow-hidden
-      "
+      class="absolute top-0 bottom-0 right-0 bg-black transform transition-all duration-300 ease-in-out overflow-hidden"
       :class="{ 'translate-x-full': !showSettings }"
     >
-      <Transition :name="transToParent ? 'setting-left' : 'setting-right'">
+      <Transition
+        :enter-active-class="
+          transToParent
+            ? 'transition-all duration-250 transform'
+            : 'absolute top-0 transform transition-all duration-250'
+        "
+        :leave-active-class="
+          transToParent
+            ? 'absolute top-0 transform transition-all duration-250'
+            : 'transition-all duration-250 transform'
+        "
+        :enter-from-class="transToParent ? '-translate-x-full' : 'translate-x-full'"
+        :leave-to-class="transToParent ? 'translate-x-full' : '-translate-x-full'"
+      >
         <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-600">
           <div class="px-2 pt-3 pb-2 font-medium">
-            <icon-uil-arrow-left
+            <div
               v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
-              class="absolute w-6 h-6 align-middle"
+              class="i-uil-arrow-left absolute text-2xl align-middle"
               @click="toSettingsParent"
-            />
+            ></div>
             <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
           </div>
           <div
             v-for="(settingsItem, index) in activeSettingsItem.items"
             :key="index"
-            class="px-2 py-1 whitespace-pre transform-gpu transition-all ease-in-out duration-100"
+            class="px-2 py-1 whitespace-pre transform transition-all ease-in-out duration-100"
             :class="{
-              'hover:bg-gray-800 cursor-pointer':
+              'hover:bg-gray-900 cursor-pointer':
                 'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
             }"
           >
@@ -188,8 +166,8 @@
             >
               <div class="inline-block" v-text="settingsItem.text"></div>
               <div class="inline-block float-right">
-                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span
-                ><icon-uil-arrow-right class="inline" />
+                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span>
+                <div class="i-uil-arrow-right inline-block text-2xl align-middle"></div>
               </div>
             </div>
             <div
@@ -226,7 +204,7 @@ import {
   useTimeoutFn,
 } from '@vueuse/core'
 import type { Fn, GeneralEventListener } from '@vueuse/core'
-import type { PropType, Ref } from 'vue'
+import type { Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FetchResult } from '@apollo/client/core'
 import { extensionTweaks } from '@/main/extension'
@@ -1113,27 +1091,12 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
 
 .volume:hover {
   .volumebar {
-    @apply w-16;
+    width: 4rem;
   }
   .volumedot {
-    @apply scale-100;
+    /* TODO find a better way to do this */
+    --un-translate-x: 0;
+    --un-translate-y: 0;
   }
-}
-
-.setting-right-enter-active,
-.setting-left-leave-active {
-  @apply absolute top-0 transition-all duration-[250ms] transform-gpu;
-}
-.setting-right-leave-active,
-.setting-left-enter-active {
-  @apply transition-all duration-[250ms] transform-gpu;
-}
-.setting-right-leave-to,
-.setting-left-enter-from {
-  @apply -translate-x-full;
-}
-.setting-right-enter-from,
-.setting-left-leave-to {
-  @apply translate-x-full;
 }
 </style>

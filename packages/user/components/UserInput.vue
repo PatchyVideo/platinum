@@ -11,15 +11,11 @@
     </template>
     <template v-else-if="type === 'password'">
       <input v-model="value" class="input input-single w-full" type="password" :placeholder="placeholder" />
-      <div class="text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1">
-        <icon-jam-padlock />
-      </div>
+      <div class="i-uil-padlock text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1"></div>
     </template>
     <template v-else-if="type === 'email'">
       <input v-model="value" class="input input-single w-full" type="email" :placeholder="placeholder" />
-      <div class="text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1">
-        <icon-jam-envelope />
-      </div>
+      <div class="i-uil-envelope text-gray-300 absolute top-1/2 transform -translate-y-1/2 left-1"></div>
     </template>
   </div>
 </template>

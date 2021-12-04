@@ -4,32 +4,12 @@
       <!-- padding for profile background -->
       <div class="w-full h-24 sm:h-32 md::h-40 bg-gray-200 dark:bg-gray-600"></div>
       <!-- basic info -->
-      <div class="flex flex-row ltsm:mt-2 ml-4 md:ml-16">
+      <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
-          class="
-            sm:-mt-16
-            flex-shrink-0 flex-grow-0
-            rounded-full
-            hover:rounded-none
-            border-2 border-gray-300
-            dark:border-gray-600
-            transform-gpu
-            transition-all
-            duration-300
-          "
+          class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-gray-300 dark:border-gray-600 transform transition-all duration-300"
         >
           <UserAvatar
-            class="
-              w-20
-              h-20
-              md:w-56 md:h-56
-              flex-shrink-0 flex-grow-0
-              rounded-full
-              hover:rounded-none
-              transform-gpu
-              transition-all
-              duration-300
-            "
+            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none transform transition-all duration-300"
             openable
             :alt="author.tagname"
             :image="author.avatar"
@@ -42,15 +22,16 @@
             {{ t('tag.author.type.' + author.type)
             }}<template v-if="author.urls.length > 0">
               &dot;
-              <div class="inline-flex flex-row space-x-1 flex-nowrap">
-                <template v-for="url in author.urls" :key="url"
-                  ><a target="_blank" rel="noopener noreferrer" :href="url"
-                    ><IconRiBilibiliLine v-if="getUrlSite(url) === 'bilibili'" class="inline-block" /><IconUilYoutubeAlt
-                      v-else-if="getUrlSite(url) === 'youtube'"
-                      class="inline-block" /><IconUilTwitterAlt
-                      v-else-if="getUrlSite(url) === 'twitter'"
-                      class="inline-block" /><IconUilLinkAlt v-else class="inline-block" /></a
-                ></template></div
+              <div class="inline-flex align-middle flex-row space-x-1 flex-nowrap">
+                <a
+                  v-for="url in author.urls"
+                  :key="url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :href="url"
+                  class="inline-block text-lg"
+                  :class="getIconForSite(getUrlSite(url))"
+                ></a></div
             ></template>
           </div>
           <!-- bio -->
@@ -123,5 +104,17 @@ const getUrlSite = (url: string): string => {
   // if (urlo.hostname.endsWith('nicovideo.jp')) return 'nicovideo'
   if (urlo.hostname.endsWith('twitter.com')) return 'twitter'
   return 'other'
+}
+const getIconForSite = (site: string): string => {
+  switch (site) {
+    case 'bilibili':
+      return 'i-ri-bilibili-line'
+    case 'youtube':
+      return 'i-uil-youtube-alt'
+    case 'twitter':
+      return 'i-uil-twitter-alt'
+    default:
+      return 'i-uil-link-alt'
+  }
 }
 </script>

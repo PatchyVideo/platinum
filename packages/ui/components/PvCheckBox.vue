@@ -2,36 +2,11 @@
   <div class="inline-block">
     <input
       :checked="check"
-      class="
-        appearance-none
-        outline-none
-        rounded-full
-        border border-solid border-gray-300
-        bg-gray-50
-        shadow-inner
-        bg-clip-content
-        align-middle
-        w-[3.625rem]
-        h-[2.125rem]
-        inline-block
-        relative
-        transform-gpu
-        transition-colors
-        ease-out
-        duration-200
-        before:absolute
-        before:w-8
-        before:inset-y-0
-        before:left-0
-        before:rounded-full
-        before:bg-white
-        before:shadow
-        before:transform-gpu
-        before:transition-all
-        before:duration-200
-        checked:bg-pink-300 checked:border-pink-200 checked:before:left-6
-      "
-      :class="{ 'h-[1.625rem] w-[2.625rem] before:w-6 checked:before:left-4': size === 'sm' }"
+      class="appearance-none outline-none rounded-full border border-solid border-gray-300 bg-gray-200 shadow-inner bg-clip-content align-middle inline-block relative transform transition-all ease-out duration-200 before:content-empty before:absolute before:inset-y-0 before:left-0 before:rounded-full before:bg-white before:shadow before:transform before:transition-all before:duration-200 checked:bg-pink-300 checked:border-pink-200"
+      :class="{
+        'h-6.5 w-10.5 before:w-6 checked:before:left-4': size === 'sm',
+        'w-14 h-8 before:w-8 checked:before:left-6': size !== 'sm',
+      }"
       type="checkbox"
       @change="check = !check"
     />

@@ -1,37 +1,12 @@
 <template>
   <div class="w-full">
     <div
-      class="
-        w-full
-        h-10
-        bg-gray-50
-        border border-solid border-gray-300
-        flex flex-row
-        justify-start
-        items-center
-        box-border
-        overflow-x-auto overflow-y-hidden
-        rounded-lg
-      "
+      class="w-full h-10 bg-gray-50 border border-solid border-gray-300 flex flex-row justify-start items-center box-border overflow-x-auto overflow-y-hidden rounded-lg"
     >
       <div
         v-for="(tabPane, i) in tabPanes"
         :key="i"
-        class="
-          h-10
-          px-4
-          -ml-px
-          flex flex-row
-          justify-center
-          items-center
-          hover:cursor-pointer hover:text-blue-400
-          select-none
-          transition-colors
-          duration-300
-          border border-solid
-          whitespace-nowrap
-          rounded-lg
-        "
+        class="h-10 px-4 -ml-px flex flex-row justify-center items-center hover:cursor-pointer hover:text-blue-400 select-none transition-colors duration-300 border border-solid whitespace-nowrap rounded-lg"
         style="border-bottom-color: white; transition-property: color"
         :class="
           value === tabPane.name

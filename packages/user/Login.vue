@@ -1,44 +1,22 @@
 <template>
-  <div class="login h-screen w-full md:min-h-xl dark:filter dark:brightness-75">
+  <div class="login h-screen w-full md:min-h-xl bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75">
     <div
-      class="
-        flex flex-wrap
-        content-between
-        w-full
-        md:w-80
-        h-full
-        p-5
-        text-white
-        md:text-black
-        bg-white bg-opacity-50
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        ltmd:shadow
-        md:ml-48
-      "
+      class="flex flex-wrap content-between w-full md:w-80 h-full p-5 text-white md:text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm lt-md:shadow md:ml-48"
     >
-      <div class="w-full ltmd:text-center">
+      <div class="w-full lt-md:text-center">
         <Logo :larger="20"></Logo>
         <div class="text-lg md:text-center" v-text="t('user.login.title')"></div>
       </div>
       <form class="w-full space-y-3" autocomplete="on" @submit.prevent="login">
         <div>
           <div class="flex w-full border-b border-black">
-            <icon-uil-user class="align-middle w-7" />
+            <div class="i-uil-user align-middle text-2xl"></div>
             <input
               v-model="userName"
               type="text"
               name="username"
               autocomplete="username"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-white
-                md:placeholder-gray-700 md:text-gray-700
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-white md:placeholder-gray-700 md:text-gray-700"
               :placeholder="t('user.login.username.placeholder')"
             />
           </div>
@@ -46,20 +24,13 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black">
-            <icon-uil-padlock class="align-middle w-7" />
+            <div class="i-uil-padlock align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"
               name="password"
               autocomplete="current-password"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-white
-                md:placeholder-gray-700 md:text-gray-700
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-white md:placeholder-gray-700 md:text-gray-700"
               :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"
             />
@@ -75,20 +46,7 @@
           <button
             type="submit"
             :disabled="loginStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              hover:bg-blue-700
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
-              disabled:hover:bg-blue-300
-              disabled:hover:cursor-not-allowed
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             v-text="
               loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready')
             "
@@ -236,15 +194,12 @@ async function login(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.login {
-  @apply bg-bottom bg-no-repeat bg-cover;
-}
-@media screen(ltmd) {
+@media (max-width: 720px) {
   .login {
     background-image: url('./assets/LoginMobile.jpg');
   }
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .login {
     background-image: url('./assets/Login.jpg');
   }
@@ -254,13 +209,15 @@ async function login(): Promise<void> {
 .autofill:-webkit-autofill:hover,
 .autofill:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: theme('colors.blue.300');
+  /* -webkit-text-fill-color: theme('colors.blue.300'); */
+  -webkit-text-fill-color: #93c5fd;
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .autofill:-webkit-autofill,
   .autofill:-webkit-autofill:hover,
   .autofill:-webkit-autofill:focus {
-    -webkit-text-fill-color: theme('colors.blue.900');
+    /* -webkit-text-fill-color: theme('colors.blue.900'); */
+    -webkit-text-fill-color: #1e3a8a;
   }
 }
 </style>

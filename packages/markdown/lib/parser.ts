@@ -442,7 +442,11 @@ export function render(src: string): string {
   try {
     res = markdownIt.render(sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face:$1]]'), { last: [] })
   } catch (e) {
-    res = `Error throwed from Markdown parser:\n${e}`
+    console.error(e)
+    res = `<div class="font-mono">Error throwed from Markdown parser: ${e}<br />${
+      // @ts-expect-error e might be a Error
+      'stack' in e ? e.stack.replaceAll('\n', '<br />') : ''
+    }</div>`
   }
   return res
 }

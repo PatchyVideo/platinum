@@ -3,10 +3,10 @@
     <div class="md:my-4 xl:my-6 max-w-screen-xl mx-auto">
       <template v-if="playlist">
         <div class="md:ml-4 md:flex justify-start space-x-2 md:space-x-4">
-          <div class="flex-shrink-0 flex-grow-0 md:w-80 ltmd:h-[7.5rem] overflow-hidden">
-            <div class="md:aspect-w-8 md:aspect-h-5 ltmd:relative ltmd:top-1/2 ltmd:transform ltmd:-translate-y-1/2">
+          <div class="flex-shrink-0 flex-grow-0 md:w-80 lt-md:h-30 overflow-hidden">
+            <div class="md:aspect-ratio-8/5 lt-md:relative lt-md:top-1/2 lt-md:transform lt-md:-translate-y-1/2">
               <img
-                class="inline-block ltmd:w-full md:border-pink-300 md:rounded-xl md:border-2"
+                class="inline-block lt-md:w-full md:border-pink-300 md:rounded-xl md:border-2"
                 width="320"
                 height="200"
                 :src="getCoverImage({ image: playlist.item.cover })"
@@ -40,35 +40,26 @@
                 <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
               </RouterLink>
             </div>
-            <div
-              ref="descText"
-              class="overflow-hidden transform-gpu transition-all duration-600 ease-in-out my-2"
-              :style="{
-                height: expandDesc && descScrollHeight > 0 ? descScrollHeight + 'px' : '96px',
-              }"
-            >
-              <MarkdownBlock size="sm" :text="playlist.item.desc" />
+            <div class="py-2">
+              <div
+                ref="descText"
+                class="overflow-hidden transform transition-all duration-600 ease-in-out"
+                :style="{
+                  height: expandDesc && descScrollHeight > 0 ? descScrollHeight + 'px' : '96px',
+                }"
+              >
+                <div ref="descBlock">
+                  <MarkdownBlock size="sm" :text="playlist.item.desc" @html-changed="updateScrollHeight" />
+                </div>
+              </div>
             </div>
             <div
               v-if="shouldClampDesc || expandDesc"
-              class="
-                w-full
-                rounded
-                text-sm text-gray-800
-                py-[0.125rem]
-                px-1
-                transition-color
-                duration-[150ms]
-                dark:text-gray-200
-                hover:bg-gray-100
-                dark:hover:bg-gray-900
-                hover:text-blue-600
-              "
+              class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-color duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600"
               @click="expandDesc = !expandDesc"
             >
-              <icon-uil-arrow-down class="inline transform" :class="{ 'rotate-180': expandDesc }" />{{
-                !expandDesc ? t('playlist.playlist.expand') : t('playlist.playlist.collapse')
-              }}
+              <div class="i-uil-arrow-down inline transform" :class="{ 'rotate-180': expandDesc }" />
+              {{ !expandDesc ? t('playlist.playlist.expand') : t('playlist.playlist.collapse') }}
             </div>
           </div>
         </div>
@@ -77,53 +68,24 @@
             v-for="(video, index) in playlist.videos"
             :key="video.id.toHexString()"
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
-            class="
-              flex
-              justify-start
-              space-x-1
-              md:space-x-2
-              xl:space-x-3
-              py-2
-              xl:py-3
-              md:px-2
-              transition-color
-              duration-[150ms]
-              odd:bg-gray-50
-              dark:odd:bg-gray-600
-              hover:bg-pink-50
-              dark:hover:bg-gray-900
-              hover:odd:bg-pink-50
-              dark:hover:odd:bg-gray-900
-            "
+            class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-color duration-150 odd:bg-gray-50 dark:odd:bg-gray-600 hover:bg-pink-50 dark:hover:bg-gray-800 hover:odd:bg-pink-50 dark:hover:odd:bg-gray-800"
             :to="'/video/' + video.id.toHexString() + '?list=' + pid"
           >
             <div
-              class="
-                flex flex-col flex-shrink-0 flex-grow-0
-                justify-around
-                w-8
-                self-center
-                items-center
-                text-center
-                md:space-y-1
-              "
+              class="flex flex-col flex-shrink-0 flex-grow-0 justify-around w-8 self-center items-center text-center md:space-y-1"
             >
               <div
                 v-if="playlist.editable"
-                class="md:text-2xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
-              >
-                <icon-uil-arrow-up />
-              </div>
-              <div class="ltmd:text-xs" v-text="offset + index + 1"></div>
+                class="i-uil-arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+              ></div>
+              <div class="lt-md:text-xs" v-text="offset + index + 1"></div>
               <div
                 v-if="playlist.editable"
-                class="md:text-2xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
-              >
-                <icon-uil-arrow-down />
-              </div>
+                class="i-uil-arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+              ></div>
             </div>
             <div class="flex-shrink-0 flex-grow-0 w-28 md:w-60">
-              <div class="aspect-w-8 aspect-h-5">
+              <div class="aspect-ratio-8/5">
                 <img
                   class="inline-block rounded-lg border-gray-200 border-2"
                   width="240"
@@ -133,7 +95,10 @@
               </div>
             </div>
             <div class="overflow-hidden">
-              <h1 class="text-sm md:text-lg font-semibold ltmd:line-clamp-2 md:truncate" v-text="video.item.title"></h1>
+              <h1
+                class="text-sm md:text-lg font-semibold lt-md:line-clamp-2 md:truncate"
+                v-text="video.item.title"
+              ></h1>
               <h2
                 v-if="video.item.partName"
                 class="-mt-1 text-sm text-gray-800 truncate dark:text-gray-200"
@@ -147,7 +112,7 @@
             </div>
           </RouterLink>
           <div v-if="fetchingMore" class="flex justify-center pt-4">
-            <icon-uil-spinner-alt class="text-xl animate-spin" />
+            <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
           </div>
         </div>
       </template>
@@ -160,7 +125,7 @@ import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import { computed, nextTick, ref, watchEffect, onMounted, onUpdated } from 'vue'
+import { computed, nextTick, ref, watchEffect, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import NProgress from 'nprogress'
@@ -169,12 +134,12 @@ import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { pageOfVideo } from '@/video/lib/biliHelper'
-import { templateRef, useElementBounding, useIntersectionObserver } from '@vueuse/core'
-import { screenSizes } from '@/tailwindcss'
+import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 
-const observerTarget = templateRef('observerTarget')
+const observerTarget = shallowRef<HTMLLinkElement | null>(null)
 const fetchingMore = ref(false)
 const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
   if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
@@ -259,14 +224,13 @@ watchEffect(() => {
   }
 })
 
-const descText = templateRef('descText')
+const descText = shallowRef<HTMLDivElement | null>(null)
+const descBlock = shallowRef<HTMLDivElement | null>(null)
 const { height: descBoundingHeight } = useElementBounding(descText)
 const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
 const expandDesc = ref(false)
 const descScrollHeight = ref(0)
 const updateScrollHeight = () => {
-  descScrollHeight.value = descText.value?.scrollHeight || 0
+  descScrollHeight.value = descBlock.value?.scrollHeight || 0
 }
-onMounted(updateScrollHeight)
-onUpdated(updateScrollHeight)
 </script>

@@ -13,17 +13,19 @@
               ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
               ><template v-if="user.isAdmin"
                 ><span title="隐藏视频"
-                  ><icon-uil-eye-slash
+                  ><div
                     v-if="isLogin === IsLogin.yes"
-                    class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
-                    @click="hideVideo" /></span
+                    class="i-uil-eye-slash inline-block ml-2 text-lg align-middle cursor-pointer select-none"
+                    @click="hideVideo"
+                  ></div></span
                 ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
               ><span title="编辑视频"
-                ><icon-uil-pen
+                ><div
                   v-if="isLogin === IsLogin.yes"
-                  class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
+                  class="i-uil-pen inline-block ml-2 text-lg align-middle cursor-pointer select-none"
                   @click="popEditVideoWindow"
-              /></span>
+                ></div
+              ></span>
             </div>
           </div>
           <!-- Video Player -->
@@ -37,11 +39,16 @@
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
             <span v-if="isLogin === IsLogin.yes" title="编辑标签"
-              ><icon-uil-tag-alt
-                class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300 cursor-pointer"
-                @click="popEditTagWindow" /></span
-            ><icon-uil-tag-alt v-else class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300" /><template
-              v-if="!renderTagAsPlainText"
+              ><div
+                class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
+                @click="popEditTagWindow"
+              ></div
+            ></span>
+            <div
+              v-else
+              class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300"
+            ></div>
+            <template v-if="!renderTagAsPlainText"
               ><Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag
             ></template>
             <template v-else>
@@ -71,7 +78,7 @@
                   </RouterLink>
                   <div
                     v-if="comment.children?.length ?? 0 > 0"
-                    class="w-px h-[calc(100%-2rem)] md:[calc(100%-3rem)] mt-1 mx-auto bg-gray-400"
+                    class="w-px h-[calc(100%-2rem)] mt-1 mx-auto bg-gray-400"
                   ></div>
                 </div>
                 <div>
@@ -79,11 +86,11 @@
                     <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
                       ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
                     ><span class="text-xs text-gray-500 dark:text-gray-400"
-                      ><Suspense><RelativeDate class="ml-[0.375rem]" :date="comment.meta.createdAt" /></Suspense
-                      ><span v-if="comment.edited" class="ml-[0.375rem]">edited</span></span
+                      ><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense
+                      ><span v-if="comment.edited" class="ml-1.5">edited</span></span
                     >
                   </div>
-                  <MarkdownBlock class="min-h-[1.5rem]" :text="comment.content" size="md" />
+                  <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
                 </div>
               </div>
               <div
@@ -117,7 +124,7 @@
                       ><RelativeDate class="text-xs text-gray-500 dark:text-gray-400 ml-2" :date="child.meta.createdAt"
                     /></Suspense>
                   </div>
-                  <MarkdownBlock class="min-h-[2rem]" :text="child.content" size="sm" />
+                  <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
                 </div>
               </div>
             </div>
@@ -157,58 +164,22 @@
                     :alt="author.name"
                   />
                 </div>
-                <div class="hidden sm:block ml-[0.375rem] overflow-hidden">
+                <div class="hidden sm:block ml-1.5 overflow-hidden">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><template v-else
                     ><span
-                      class="
-                        inline-block
-                        align-text-bottom
-                        px-[0.1875rem]
-                        mr-[0.125rem]
-                        rounded
-                        bg-pink-400
-                        text-xs
-                        lg:text-sm
-                        text-white
-                        whitespace-nowrap
-                        overflow-hidden
-                      "
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</template
@@ -226,22 +197,15 @@
           <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
             <div
               v-if="playlist"
-              class="
-                xl:mx-2
-                border-gray-300
-                dark:border-gray-600
-                border-b
-                xl:border xl:rounded-md xl:mt-2
-                flex flex-col
-                max-h-125
-              "
+              class="xl:mx-2 border-gray-300 dark:border-gray-600 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
             >
               <div class="mx-2 my-1 flex justify-between">
                 <div>
                   <RouterLink class="" :to="'/playlist/' + pid"
-                    ><icon-uil-list-ui-alt
-                      class="inline-block mr-1 align-middle text-sm text-gray-800 dark:text-gray-100"
-                    />{{ playlist.item.title }}</RouterLink
+                    ><div
+                      class="i-uil-list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
+                    ></div>
+                    {{ playlist.item.title }}</RouterLink
                   >
                   <div class="text-sm text-gray-900 dark:text-gray-200">
                     {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
@@ -249,37 +213,29 @@
                   </div>
                 </div>
                 <div class="flex flex-col justify-around">
-                  <icon-uil-angle-up
-                    class="text-xl transform transition-transform duration-300 select-none cursor-pointer"
+                  <div
+                    class="i-uil-angle-up text-2xl transform transition-transform duration-200 select-none cursor-pointer"
                     :class="{ 'rotate-180': playlistCollaped }"
                     @click="playlistCollaped = !playlistCollaped"
-                  />
+                  ></div>
                 </div>
               </div>
               <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
                 <RouterLink
                   v-for="(plVideo, plIndex) in playlistVideos"
                   :key="plVideo.video.id.toHexString()"
-                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-900"
-                  :class="{ 'bg-pink-50 dark:bg-gray-900': plVideo.video.id.toHexString() === vid }"
+                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
+                  :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
-                    class="
-                      flex flex-col flex-shrink-0 flex-grow-0
-                      justify-around
-                      text-xs
-                      w-4
-                      self-center
-                      text-center
-                      overflow-hidden
-                    "
+                    class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
                   >
-                    <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
+                    <template v-if="plIndex + 1 === playlistIndex"><div class="i-uil-play mx-auto"></div></template
                     ><template v-else>{{ plVideo.rank + 1 }}</template>
                   </div>
                   <div class="flex-shrink-0 flex-grow-0 w-24">
-                    <div class="aspect-w-8 aspect-h-5">
+                    <div class="aspect-ratio-8/5">
                       <img
                         class="inline-block"
                         width="96"
@@ -308,21 +264,12 @@
                 v-for="rlVideo in video.relatedVideos"
                 :key="rlVideo.id.toHexString()"
                 :to="'/video/' + rlVideo.id.toHexString()"
-                class="
-                  grid grid-cols-5
-                  space-x-[0.375rem]
-                  py-[0.125rem]
-                  rounded-md
-                  hover:bg-pink-50
-                  dark:hover:bg-gray-900
-                  transition-colors
-                  duration-100
-                "
+                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
               >
                 <div class="col-span-2">
                   <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
                 </div>
-                <div class="col-span-3 flex mt-[0.125rem] flex-wrap content-start text-sm">
+                <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
                   <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
                   <div
                     class="text-sm inline-block w-full mt-1 truncate font-light"
@@ -341,17 +288,15 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</h1>
-            <div
-              class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-            >
+            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</h1>
+            <div class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600">
               &nbsp;
             </div>
           </div>
           <!-- Video Player -->
           <div class="w-full mt-1">
-            <div class="aspect-w-16 aspect-h-9">
-              <div class="w-full h-full bg-gray-400 dark:bg-gray-600 animate-pulse"></div>
+            <div class="aspect-ratio-16/9">
+              <div class="w-full h-full bg-gray-400 dark:bg-gray-600"></div>
             </div>
           </div>
         </div>
@@ -361,29 +306,15 @@
             <div class="flex items-center flex-nowrap px-1 py-1 xl:w-full">
               <!-- Avatar -->
               <div class="relative flex-shrink-0">
-                <div
-                  class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-400 dark:bg-gray-600 animate-pulse"
-                >
+                <div class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-400 dark:bg-gray-600">
                   &nbsp;
                 </div>
               </div>
               <div class="hidden sm:block w-full ml-3 overflow-hidden">
-                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
                 <br />
                 <div
-                  class="
-                    inline-block
-                    overflow-hidden
-                    whitespace-nowrap
-                    overflow-ellipsis
-                    text-sm
-                    w-2/5
-                    mt-1
-                    rounded-md
-                    bg-gray-400
-                    dark:bg-gray-600
-                    animate-pulse
-                  "
+                  class="inline-block overflow-hidden whitespace-nowrap overflow-ellipsis text-sm w-2/5 mt-1 rounded-md bg-gray-400 dark:bg-gray-600"
                 >
                   &nbsp;
                 </div>
@@ -392,26 +323,15 @@
           </div>
           <!-- Related Video -->
           <div class="flex flex-col space-y-1 mt-2">
-            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-900">
+            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
                 <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>
               <div class="col-span-3 flex flex-wrap content-start text-sm">
-                <a
-                  class="
-                    line-clamp-2
-                    overflow-ellipsis overflow-hidden
-                    w-4/5
-                    rounded-md
-                    bg-gray-400
-                    dark:bg-gray-600
-                    animate-pulse
-                  "
+                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600"
                   >&nbsp;</a
                 >
-                <div
-                  class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-                >
+                <div class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600">
                   &nbsp;
                 </div>
               </div>
@@ -440,7 +360,7 @@ import NProgress from 'nprogress'
 import { useQuery, gql, useResult, useMutation } from '@/graphql'
 import type { schema, Query, Mutation } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
 import { useLocalStorage, useMagicKeys, whenever } from '@vueuse/core'

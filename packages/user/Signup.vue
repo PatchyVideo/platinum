@@ -1,112 +1,66 @@
 <template>
-  <div class="sign-up h-screen w-full md:min-h-xl flex justify-end dark:filter dark:brightness-75">
+  <div
+    class="sign-up h-screen w-full md:min-h-xl flex justify-end bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75"
+  >
     <div
-      class="
-        flex flex-wrap
-        content-between
-        w-full
-        md:w-80
-        h-full
-        p-5
-        text-white
-        ltmd:dark:text-white
-        md:text-black
-        bg-white bg-opacity-50
-        filter
-        drop-shadow-md
-        backdrop-filter backdrop-blur-sm
-        ltmd:shadow
-        md:mr-50
-      "
+      class="flex flex-wrap content-between w-full md:w-80 h-full p-5 text-white lt-md:dark:text-white md:text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm lt-md:shadow md:mr-50"
     >
-      <div class="w-full ltmd:text-center">
+      <div class="w-full lt-md:text-center">
         <Logo :larger="20"></Logo>
         <div class="text-lg text-center" v-text="t('user.signup.title')"></div>
       </div>
       <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
-          <div class="flex w-full border-b border-black ltmd:dark:border-white">
-            <icon-uil-user class="align-middle w-7" />
+          <div class="flex w-full border-b border-black lt-md:dark:border-white">
+            <div class="i-uil-user align-middle text-2xl"></div>
             <input
               v-model="userName"
               type="text"
               name="username"
               autocomplete="username"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                ltmd:dark:placeholder-white ltmd:dark:text-white
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.username.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black ltmd:dark:border-white">
-            <icon-uil-lock-open-alt class="align-middle w-7" />
+          <div class="flex w-full border-b border-black lt-md:dark:border-white">
+            <div class="i-uil-lock-open-alt align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"
               name="password"
               autocomplete="new-password"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                ltmd:dark:placeholder-white ltmd:dark:text-white
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.password.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black ltmd:dark:border-white">
-            <icon-uil-padlock class="align-middle w-7" />
+          <div class="flex w-full border-b border-black lt-md:dark:border-white">
+            <div class="i-uil-padlock align-middle text-2xl"></div>
             <input
               v-model="password2"
               type="password"
               name="re-password"
               autocomplete="new-password"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                ltmd:dark:placeholder-white ltmd:dark:text-white
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.password2.placeholder')"
             />
           </div>
           <div class="text-red-500 text-sm h-4" v-text="password2Status"></div>
         </div>
         <div>
-          <div class="flex w-full border-b border-black ltmd:dark:border-white">
-            <icon-uil-envelope class="align-middle w-7" />
+          <div class="flex w-full border-b border-black lt-md:dark:border-white">
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               type="email"
               name="email"
               autocomplete="email"
-              class="
-                autofill
-                outline-none
-                w-full
-                bg-transparent
-                placeholder-gray-700
-                text-gray-700
-                ltmd:dark:placeholder-white ltmd:dark:text-white
-              "
+              class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
             />
@@ -117,19 +71,7 @@
           <button
             type="submit"
             :disabled="signupStatus === 'loading'"
-            class="
-              w-full
-              py-2
-              border border-transparent
-              rounded-md
-              text-white
-              bg-blue-600
-              focus:outline-none focus:ring-2 focus:bg-blue-700
-              disabled:bg-blue-300
-              disabled:focus:bg-blue-300
-              disabled:hover:bg-blue-300
-              disabled:hover:cursor-not-allowed
-            "
+            class="w-full py-2 border border-transparent rounded-md text-white bg-blue-600 focus:outline-none focus:ring-2 focus:bg-blue-700 disabled:bg-blue-300 disabled:focus:bg-blue-300 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed"
             v-text="
               signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
             "
@@ -363,15 +305,12 @@ async function signup(): Promise<void> {
 </script>
 
 <style lang="postcss" scoped>
-.sign-up {
-  @apply bg-bottom bg-no-repeat bg-cover;
-}
-@media screen(ltmd) {
+@media (max-width: 720px) {
   .sign-up {
     background-image: url('./assets/SignupMobile.jpg');
   }
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .sign-up {
     background-image: url('./assets/Signup.jpg');
   }
@@ -381,13 +320,15 @@ async function signup(): Promise<void> {
 .autofill:-webkit-autofill:hover,
 .autofill:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: theme('colors.blue.300');
+  /* -webkit-text-fill-color: theme('colors.blue.300'); */
+  -webkit-text-fill-color: #93c5fd;
 }
-@media screen(md) {
+@media (min-width: 720px) {
   .autofill:-webkit-autofill,
   .autofill:-webkit-autofill:hover,
   .autofill:-webkit-autofill:focus {
-    -webkit-text-fill-color: theme('colors.blue.900');
+    /* -webkit-text-fill-color: theme('colors.blue.900'); */
+    -webkit-text-fill-color: #1e3a8a;
   }
 }
 </style>

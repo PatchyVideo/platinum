@@ -2,21 +2,8 @@
   <RouterLink v-if="titleLinksTo" :to="titleLinksTo"
     ><h4 class="title inline-block text-xl">
       <span class="title-text" v-text="name"></span>
-      <icon-uil-arrow-right
-        class="
-          title-arrow
-          inline-block
-          w-8
-          h-8
-          align-top
-          text-gray-600
-          dark:text-gray-200
-          transform-gpu
-          -translate-x-1
-          opacity-25
-          transition-all
-          duration-200
-        "
+      <div
+        class="title-arrow i-uil-arrow-right inline-block w-8 h-8 align-top text-gray-600 dark:text-gray-200 transform -translate-x-1 opacity-25 transition-all duration-200"
       /></h4
   ></RouterLink>
   <h4 v-else class="inline-block text-xl" v-text="name"></h4>
@@ -28,7 +15,7 @@
       v-for="video in videos.slice(0, count)"
       :key="video.id.toHexString()"
       :to="'/video/' + video.id.toHexString()"
-      class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-900 transition-colors duration-100"
+      class="rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
     >
       <Cover
         :title="video.item.title"
@@ -69,7 +56,8 @@ defineProps<{
   .title-text {
     display: inline-block;
     padding-bottom: 2px;
-    background-image: linear-gradient(theme('colors.gray.400'), theme('colors.gray.400'));
+    /* background-image: linear-gradient(theme('colors.gray.400'), theme('colors.gray.400')); */
+    background-image: linear-gradient(#9ca3af, #9ca3af);
     background-position: bottom left;
     background-size: 0% 2px;
     background-repeat: no-repeat;
@@ -83,7 +71,9 @@ defineProps<{
     background-size: 100% 2px;
   }
   .title-arrow {
-    @apply translate-x-0 opacity-50;
+    /* TODO find a better way to do this */
+    --un-translate-x: 0;
+    opacity: 50%;
   }
 }
 </style>

@@ -1,38 +1,20 @@
 <template>
   <LayoutDefault>
-    <div class="p-2 md:p-10 md:m-auto xl:w-[90%] 2xl:w-4/5">
+    <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-4/5">
       <div v-if="status === 'loading'">
         <div class="border-b pb-1" v-text="t('search.search-result.video.main-body.loading.searching')"></div>
-        <div v-if="screenSizes['ltmd']">
-          <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900">
-            <div class="w-2/5 mr-[0.125rem]">
+        <div v-if="screenSizes['<md']">
+          <div v-for="index in limit" :key="index" class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800">
+            <div class="w-2/5 mr-0.5">
               <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
               <div
-                class="
-                  line-clamp-2
-                  overflow-ellipsis overflow-hidden
-                  w-full
-                  rounded-md
-                  bg-gray-400
-                  dark:bg-gray-600
-                  animate-pulse
-                "
+                class="line-clamp-2 overflow-ellipsis overflow-hidden w-full rounded-md bg-gray-400 dark:bg-gray-600"
               >
                 &nbsp;
               </div>
-              <div
-                class="
-                  w-2/5
-                  text-sm text-gray-600
-                  dark:text-gray-300
-                  rounded-md
-                  bg-gray-400
-                  dark:bg-gray-600
-                  animate-pulse
-                "
-              >
+              <div class="w-2/5 text-sm text-gray-600 dark:text-gray-300 rounded-md bg-gray-400 dark:bg-gray-600">
                 &nbsp;
               </div>
             </div>
@@ -43,31 +25,10 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="
-              w-[48%]
-              my-5
-              p-2
-              border
-              shadow-md
-              rounded-lg
-              bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-800
-            "
+            class="w-12/25 my-5 p-2 border border-gray-300 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
           >
             <div
-              class="
-                block
-                border-b
-                py-3
-                text-center text-xl
-                truncate
-                font-semibold
-                lg:text-2xl
-                rounded-md
-                bg-gray-400
-                dark:bg-gray-600
-                animate-pulse
-              "
+              class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
             >
               &nbsp;
             </div>
@@ -77,16 +38,10 @@
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">
                 <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
-                  <div
-                    v-for="i in 3"
-                    :key="i"
-                    class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse"
-                  >
-                    &nbsp;
-                  </div>
+                  <div v-for="i in 3" :key="i" class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
                 </div>
                 <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
-                  <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600 animate-pulse">&nbsp;</div>
+                  <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
                 </div>
               </div>
             </div>
@@ -102,14 +57,14 @@
           {{ t('playlist.playlist-list.main-body.successful.load-result-count', { count: count }) }}
         </div>
         <!-- Mobile View -->
-        <div v-if="screenSizes['ltmd']">
+        <div v-if="screenSizes['<md']">
           <RouterLink
             v-for="playlist in playlists"
             :key="playlist.item.title"
-            class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-900"
+            class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="'/playlist/' + playlist.id.toHexString()"
           >
-            <div class="w-2/5 mr-[0.125rem]">
+            <div class="w-2/5 mr-0.5">
               <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm"></Cover>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
@@ -125,16 +80,7 @@
           <div
             v-for="playlist in playlists"
             :key="playlist.item.title"
-            class="
-              w-[48%]
-              my-5
-              p-2
-              border
-              shadow-md
-              rounded-lg
-              bg-white bg-opacity-50
-              dark:border-gray-500 dark:bg-gray-800
-            "
+            class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
           >
             <RouterLink
               :to="'/playlist/' + playlist.id"
@@ -170,23 +116,10 @@
 
     <!-- Advanced Search -->
     <div
-      class="
-        shadow
-        fixed
-        bottom-20
-        right-5
-        bg-gray-50
-        cursor-pointer
-        p-2
-        transition-opacity
-        rounded-full
-        dark:bg-gray-900
-      "
+      class="i-uil-file-search-alt text-3xl fixed bottom-20 right-5 p-2 rounded-full cursor-pointer bg-gray-50 dark:bg-gray-800 shadow transition-opacity"
       :title="t('playlist.playlist-list.advanced-search.name')"
       @click="progressing(t('playlist.playlist-list.advanced-search.name'))"
-    >
-      <icon-uil-file-search-alt class="text-2xl" />
-    </div>
+    ></div>
     <BackTop />
   </LayoutDefault>
 </template>
@@ -205,7 +138,7 @@ import type { schema, Query } from '@/graphql'
 import { progressing } from '@/common/lib/progressing'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { backTop } from '@/ui/lib/backTop'
-import { screenSizes } from '@/tailwindcss'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 setSiteTitle(t('playlist.playlist-list.title') + ' - PatchyVideo')
@@ -234,6 +167,7 @@ const page = computed(() => offset.value + 1)
 /* Refresh query result for URL query change */
 const URLQuery = computed(() => route.query)
 watch(URLQuery, () => {
+  backTop()
   fetchMore({
     variables: {
       offset: offset.value * limit.value,
@@ -276,7 +210,6 @@ watchEffect(() => {
     pageCount.value = resultData.value.pageCount
     playlists.value = resultData.value.playlists
   }
-  backTop()
 })
 watchEffect(() => {
   if (loading.value) {

@@ -38,7 +38,7 @@
               @update:value="tempUsername = $event"
             >
               <template #prepend>
-                <icon-jam-user />
+                <div class="i-uil-user"></div>
               </template>
             </UserInput>
             <div class="w-full lg:w-2/5 flex justify-evenly mt-5 lg:mt-0">
@@ -46,7 +46,7 @@
                 class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5 flex justify-evenly items-center"
                 @click="onUpdateUsername"
               >
-                <icon-ic-baseline-edit />
+                <div class="i-uil-edit-alt"></div>
                 {{ t('user.user-page.username.modify') }}
               </button>
               <button class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5" @click="isEditingUsername = false">
@@ -56,10 +56,10 @@
           </div>
           <div v-else class="flex flex-row justify-start">
             <div>{{ username }}</div>
-            <icon-ic-baseline-edit
-              class="ml-2 cursor-pointer hover:text-blue-400 transition duration-300"
+            <div
+              class="i-uil-edit-alt ml-2 cursor-pointer hover:text-blue-400 transition duration-300"
               @click="onOpenUsernameEditor"
-            />
+            ></div>
           </div>
         </div>
         <!--description input-->
@@ -245,6 +245,7 @@ const onBindEmail = () => {
 </script>
 
 <style lang="postcss" scoped>
+/* TODO remove apply, but user is also needed to rewrite too so... */
 .half-container {
   @apply w-full h-1/2 md:w-1/2 md:h-full flex flex-col;
 }

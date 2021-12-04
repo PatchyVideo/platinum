@@ -4,10 +4,9 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 import components from 'unplugin-vue-components/vite'
-import icons from 'unplugin-icons/vite'
-import iconsResolver from 'unplugin-icons/resolver'
 import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
+import unocss from 'unocss/vite'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 import template from 'lodash.template'
@@ -83,16 +82,9 @@ export default defineConfig(async ({ command, mode }) => {
       vue(),
       components({
         dirs: ['packages/layouts/components'],
-        resolvers: [
-          iconsResolver({
-            prefix: 'icon',
-          }),
-        ],
         dts: '__generated__/viteComponents.d.ts',
       }),
-      icons({
-        compiler: 'vue3',
-      }),
+      unocss(),
       pwa({
         strategies: 'injectManifest',
         srcDir: 'packages/main',
