@@ -22,15 +22,16 @@
             {{ t('tag.author.type.' + author.type)
             }}<template v-if="author.urls.length > 0">
               &dot;
-              <div class="inline-flex flex-row space-x-1 flex-nowrap">
-                <template v-for="url in author.urls" :key="url"
-                  ><a target="_blank" rel="noopener noreferrer" :href="url"
-                    ><IconRiBilibiliLine v-if="getUrlSite(url) === 'bilibili'" class="inline-block" /><IconUilYoutubeAlt
-                      v-else-if="getUrlSite(url) === 'youtube'"
-                      class="inline-block" /><IconUilTwitterAlt
-                      v-else-if="getUrlSite(url) === 'twitter'"
-                      class="inline-block" /><IconUilLinkAlt v-else class="inline-block" /></a
-                ></template></div
+              <div class="inline-flex align-middle flex-row space-x-1 flex-nowrap">
+                <a
+                  v-for="url in author.urls"
+                  :key="url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  :href="url"
+                  class="inline-block text-lg"
+                  :class="getIconForSite(getUrlSite(url))"
+                ></a></div
             ></template>
           </div>
           <!-- bio -->
@@ -103,5 +104,17 @@ const getUrlSite = (url: string): string => {
   // if (urlo.hostname.endsWith('nicovideo.jp')) return 'nicovideo'
   if (urlo.hostname.endsWith('twitter.com')) return 'twitter'
   return 'other'
+}
+const getIconForSite = (site: string): string => {
+  switch (site) {
+    case 'bilibili':
+      return 'i-ri-bilibili-line'
+    case 'youtube':
+      return 'i-uil-youtube-alt'
+    case 'twitter':
+      return 'i-uil-twitter-alt'
+    default:
+      return 'i-uil-link-alt'
+  }
 }
 </script>

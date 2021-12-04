@@ -116,12 +116,10 @@
 
     <!-- Advanced Search -->
     <div
-      class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-800"
+      class="i-uil-file-search-alt text-3xl fixed bottom-20 right-5 p-2 rounded-full cursor-pointer bg-gray-50 dark:bg-gray-800 shadow transition-opacity"
       :title="t('playlist.playlist-list.advanced-search.name')"
       @click="progressing(t('playlist.playlist-list.advanced-search.name'))"
-    >
-      <icon-uil-file-search-alt class="text-2xl" />
-    </div>
+    ></div>
     <BackTop />
   </LayoutDefault>
 </template>

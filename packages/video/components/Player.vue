@@ -35,7 +35,7 @@
           :class="{ 'ml-2': !item.title.startsWith('【') }"
           v-text="item.title"
         ></div>
-        <div @click="showSettings = true"><icon-uil-setting class="text-white text-xl" /></div>
+        <div @click="showSettings = true"><div class="i-uil-setting text-white text-2xl"></div></div>
       </div>
     </div>
     <!-- bottom -->
@@ -82,12 +82,13 @@
       </div>
       <div class="flex flex-row justify-between flex-nowrap h-6 mx-6 my-1 text-white overflow-hidden">
         <div class="flex-grow-0 flex flex-row items-center">
-          <span class="text-xl" @click="onPlayPause"
-            ><icon-uil-spinner-alt v-if="!streamsReady" class="animate-spin" /><icon-uil-pause
-              v-else-if="playing" /><icon-uil-play v-else /></span
+          <span class="text-2xl" @click="onPlayPause"
+            ><div v-if="!streamsReady" class="i-uil-spinner-alt animate-spin"></div>
+            <div v-else-if="playing" class="i-uil-pause"></div>
+            <div v-else class="i-uil-play"></div></span
           ><span class="px-1"></span>
           <div class="volume flex flex-row items-center">
-            <icon-uil-volume class="mr-0.5 text-xl" />
+            <div class="i-uil-volume mr-0.5 text-xl"></div>
             <div class="inline-block h-full m-0 align-middle">
               <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
@@ -103,8 +104,9 @@
           </div>
         </div>
         <div class="flex-grow-0">
-          <span v-if="!disableFullscreen" class="text-xl" @click="onFullscreen"
-            ><icon-uil-expand-arrows-alt v-if="!isFullscreen" /><icon-uil-compress-arrows v-else /></span
+          <span v-if="!disableFullscreen" class="text-2xl" @click="onFullscreen"
+            ><div v-if="!isFullscreen" class="i-uil-expand-arrows-alt"></div>
+            <div v-else class="i-uil-compress-arrows"></div></span
           ><span class="px-1"></span>
         </div>
       </div>
@@ -136,11 +138,11 @@
       >
         <div :key="activeSettingsItemName" class="text-white w-72 overflow-x-hidden divide-y-1 divide-gray-600">
           <div class="px-2 pt-3 pb-2 font-medium">
-            <icon-uil-arrow-left
+            <div
               v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
-              class="absolute w-6 h-6 align-middle"
+              class="i-uil-arrow-left absolute text-2xl align-middle"
               @click="toSettingsParent"
-            />
+            ></div>
             <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
           </div>
           <div
@@ -164,8 +166,8 @@
             >
               <div class="inline-block" v-text="settingsItem.text"></div>
               <div class="inline-block float-right">
-                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span
-                ><icon-uil-arrow-right class="inline" />
+                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span>
+                <div class="i-uil-arrow-right inline-block text-2xl align-middle"></div>
               </div>
             </div>
             <div
@@ -202,7 +204,7 @@ import {
   useTimeoutFn,
 } from '@vueuse/core'
 import type { Fn, GeneralEventListener } from '@vueuse/core'
-import type { PropType, Ref } from 'vue'
+import type { Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FetchResult } from '@apollo/client/core'
 import { extensionTweaks } from '@/main/extension'

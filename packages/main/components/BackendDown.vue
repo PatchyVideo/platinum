@@ -4,7 +4,9 @@
       <div class="relative">
         <h1 class="sm:text-xl lg:text-3xl" v-text="codeHint"></h1>
         <span class="text-xs lg:text-base text-gray-200"
-          ><template v-if="fetching">Fetching <icon-uil-spinner class="inline animate-spin" /></template
+          ><template v-if="fetching"
+            >Fetching
+            <div class="i-uil-spinner inline animate-spin" /></template
           ><template v-else>Last fetched at {{ last.toLocaleTimeString('en-US') }}</template></span
         >
       </div>

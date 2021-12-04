@@ -71,7 +71,7 @@ playlist:
     info:
       video-count: '{count}个视频'
       rating: 评分{rating}
-      edit-date: 最后更新于 {date}
+      edit-date: 更新于 {date}
   playlist-list:
     title: 播放列表
     main-body:

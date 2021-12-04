@@ -21,7 +21,7 @@
         title="打开消息侧栏"
         @click="noteDrawerOpen = true"
       >
-        <icon-uil-chat class="text-2xl" />
+        <div class="i-uil-chat text-2xl"></div>
         <label
           v-if="listNoteCountUnread"
           class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
@@ -33,7 +33,7 @@
         :class="{ 'translate-x-full': !noteDrawerOpen }"
       >
         <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
+          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -42,7 +42,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <icon-uil-comment-alt-dots class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
@@ -61,7 +61,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <icon-uil-at class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-at inline align-middle text-xl text-center"></div>
             <div>艾特我的（建设中）</div>
           </div>
           <div
@@ -69,7 +69,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <icon-uil-volume class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
@@ -105,7 +105,7 @@
       <!-- Nav Left -->
       <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-900">
         <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
-          <icon-uil-telegram-alt class="text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700" />
+          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
           <div class="text-lg ml-2">消息中心</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -114,7 +114,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <icon-uil-comment-alt-dots class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
@@ -133,7 +133,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <icon-uil-at class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-at inline align-middle text-xl text-center"></div>
             <div>艾特我的（建设中）</div>
           </div>
           <div
@@ -141,7 +141,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <icon-uil-volume class="inline align-middle w-7 text-lg text-center" />
+            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
                 v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"

@@ -13,17 +13,19 @@
               ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
               ><template v-if="user.isAdmin"
                 ><span title="隐藏视频"
-                  ><icon-uil-eye-slash
+                  ><div
                     v-if="isLogin === IsLogin.yes"
-                    class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
-                    @click="hideVideo" /></span
+                    class="i-uil-eye-slash inline-block ml-2 text-lg align-middle cursor-pointer select-none"
+                    @click="hideVideo"
+                  ></div></span
                 ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
               ><span title="编辑视频"
-                ><icon-uil-pen
+                ><div
                   v-if="isLogin === IsLogin.yes"
-                  class="inline-block ml-2 align-text-bottom cursor-pointer select-none"
+                  class="i-uil-pen inline-block ml-2 text-lg align-middle cursor-pointer select-none"
                   @click="popEditVideoWindow"
-              /></span>
+                ></div
+              ></span>
             </div>
           </div>
           <!-- Video Player -->
@@ -37,11 +39,16 @@
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
             <span v-if="isLogin === IsLogin.yes" title="编辑标签"
-              ><icon-uil-tag-alt
-                class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300 cursor-pointer"
-                @click="popEditTagWindow" /></span
-            ><icon-uil-tag-alt v-else class="inline-block w-6 h-6 mr-1 text-gray-600 dark:text-gray-300" /><template
-              v-if="!renderTagAsPlainText"
+              ><div
+                class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
+                @click="popEditTagWindow"
+              ></div
+            ></span>
+            <div
+              v-else
+              class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300"
+            ></div>
+            <template v-if="!renderTagAsPlainText"
               ><Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag
             ></template>
             <template v-else>
@@ -71,7 +78,7 @@
                   </RouterLink>
                   <div
                     v-if="comment.children?.length ?? 0 > 0"
-                    class="w-px h-[calc(100%-2rem)] md:[calc(100%-3rem)] mt-1 mx-auto bg-gray-400"
+                    class="w-px h-[calc(100%-2rem)] mt-1 mx-auto bg-gray-400"
                   ></div>
                 </div>
                 <div>
@@ -195,9 +202,10 @@
               <div class="mx-2 my-1 flex justify-between">
                 <div>
                   <RouterLink class="" :to="'/playlist/' + pid"
-                    ><icon-uil-list-ui-alt
-                      class="inline-block mr-1 align-middle text-sm text-gray-800 dark:text-gray-100"
-                    />{{ playlist.item.title }}</RouterLink
+                    ><div
+                      class="i-uil-list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
+                    ></div>
+                    {{ playlist.item.title }}</RouterLink
                   >
                   <div class="text-sm text-gray-900 dark:text-gray-200">
                     {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
@@ -205,11 +213,11 @@
                   </div>
                 </div>
                 <div class="flex flex-col justify-around">
-                  <icon-uil-angle-up
-                    class="text-xl transform transition-transform duration-300 select-none cursor-pointer"
+                  <div
+                    class="i-uil-angle-up text-2xl transform transition-transform duration-200 select-none cursor-pointer"
                     :class="{ 'rotate-180': playlistCollaped }"
                     @click="playlistCollaped = !playlistCollaped"
-                  />
+                  ></div>
                 </div>
               </div>
               <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
@@ -221,9 +229,9 @@
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
-                    class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-4 self-center text-center overflow-hidden"
+                    class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
                   >
-                    <template v-if="plIndex + 1 === playlistIndex"><icon-uil-play /></template
+                    <template v-if="plIndex + 1 === playlistIndex"><div class="i-uil-play mx-auto"></div></template
                     ><template v-else>{{ plVideo.rank + 1 }}</template>
                   </div>
                   <div class="flex-shrink-0 flex-grow-0 w-24">

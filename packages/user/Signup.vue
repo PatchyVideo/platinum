@@ -12,7 +12,7 @@
       <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <icon-uil-user class="align-middle w-7" />
+            <div class="i-uil-user align-middle text-2xl"></div>
             <input
               v-model="userName"
               type="text"
@@ -26,7 +26,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <icon-uil-lock-open-alt class="align-middle w-7" />
+            <div class="i-uil-lock-open-alt align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"
@@ -40,7 +40,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <icon-uil-padlock class="align-middle w-7" />
+            <div class="i-uil-padlock align-middle text-2xl"></div>
             <input
               v-model="password2"
               type="password"
@@ -54,7 +54,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <icon-uil-envelope class="align-middle w-7" />
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               type="email"

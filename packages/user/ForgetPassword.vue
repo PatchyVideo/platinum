@@ -14,7 +14,7 @@
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-white">
-            <icon-uil-envelope class="align-middle w-7" />
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-white"
@@ -58,7 +58,7 @@
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-black">
-            <icon-uil-envelope class="align-middle w-7" />
+            <div class="i-uil-envelope align-middle text-2xl"></div>
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"

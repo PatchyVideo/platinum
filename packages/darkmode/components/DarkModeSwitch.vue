@@ -1,26 +1,23 @@
 <template>
-  <div class="flex flex-row space-x-1 text-lg">
-    <div :title="t('darkmode.system')">
-      <IconUilDesktop
-        class="cursor-pointer"
-        :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'system' }"
-        @click="changeTheme('system')"
-      />
-    </div>
-    <div :title="t('darkmode.light')">
-      <IconUilSun
-        class="cursor-pointer"
-        :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'light' }"
-        @click="changeTheme('light')"
-      />
-    </div>
-    <div :title="t('darkmode.dark')">
-      <IconUilMoon
-        class="cursor-pointer"
-        :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'dark' }"
-        @click="changeTheme('dark')"
-      />
-    </div>
+  <div class="flex flex-row space-x-1 text-xl">
+    <div
+      class="i-uil-desktop cursor-pointer"
+      :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'system' }"
+      :title="t('darkmode.system')"
+      @click="changeTheme('system')"
+    />
+    <div
+      class="i-uil-sun cursor-pointer"
+      :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'light' }"
+      :title="t('darkmode.light')"
+      @click="changeTheme('light')"
+    />
+    <div
+      class="i-uil-moon cursor-pointer"
+      :class="{ 'text-gray-400 dark:text-gray-600': themePreference !== 'dark' }"
+      :title="t('darkmode.dark')"
+      @click="changeTheme('dark')"
+    />
   </div>
 </template>
 

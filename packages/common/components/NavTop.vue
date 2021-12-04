@@ -6,11 +6,10 @@
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
-        <icon-uil-list-ul
-          class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
-          @click="drawerOpen = true"
-        />
-        <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer inline-block" @click="toHome()"></Logo>
+        <div class="p-1 rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700">
+          <div class="i-uil-list-ul text-3xl cursor-pointer rounded-full" @click="drawerOpen = true" />
+        </div>
+        <Logo v-if="screenSizes.md" class="inline-block ml-2 cursor-pointer" @click="toHome()"></Logo>
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar" class="flex flex-auto flex-nowrap items-center justify-center mx-2">
@@ -23,10 +22,14 @@
           @search="searchResult"
           @click="() => screenSizes['<sm'] && (hidePage = true)"
         ></AutoComplete>
-        <div v-if="hidePage === true" class="ml-2 whitespace-nowrap" @click="hidePage = false">取消</div>
+        <div
+          v-if="hidePage === true"
+          class="i-uil-corner-up-left ml-2 text-2xl cursor-pointer select-none whitespace-nowrap transform rotate-90"
+          @click="hidePage = false"
+        ></div>
       </div>
       <!-- User Box -->
-      <div v-show="!hidePage" class="mr-2">
+      <div v-show="!hidePage" class="flex-shrink-0 mr-2">
         <div v-if="isLogin === IsLogin.no" class="whitespace-nowrap">
           <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')"></RouterLink>
         </div>
@@ -39,7 +42,7 @@
               :class="{ 'bg-gray-200 dark:bg-gray-700': NoteBoxOpen }"
               @click="NoteBoxOpen = true"
             >
-              <icon-uil-envelope />
+              <div class="inline-block i-uil-envelope"></div>
               <label
                 v-if="listNoteCountUnread"
                 class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
@@ -100,7 +103,8 @@
                   t('common.nav-top.user.userprofile')
                 }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
-                  {{ t('common.nav-top.user.logout') }}<icon-uil-spinner-alt v-show="loggingOut" class="inline-block" />
+                  {{ t('common.nav-top.user.logout') }}
+                  <div v-show="loggingOut" class="i-uil-spinner-alt inline-block text-2xl animate-spin"></div>
                 </div>
               </div>
               <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
@@ -118,106 +122,61 @@
       >
         <!-- Title & Slide Button -->
         <div class="flex items-center flex-nowrap">
-          <icon-uil-times
-            class="text-3xl p-1 cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
-            @click="drawerOpen = false"
-          />
+          <div class="inline-block rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700">
+            <div class="i-uil-times text-3xl p-1 cursor-pointer rounded-full" @click="drawerOpen = false"></div>
+          </div>
           <Logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></Logo>
         </div>
-        <!-- Main List -->
-        <div class="mt-4 space-y-2">
-          <NavTopLink :index="0" :drawer-open="drawerOpen"
-            ><RouterLink to="/" class="block"
-              ><icon-uil-home-alt class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.home')"
-              ></span></RouterLink
-          ></NavTopLink>
-          <NavTopLink :index="1" :drawer-open="drawerOpen"
-            ><RouterLink to="/video-list" class="block"
-              ><icon-uil-play-circle class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.video')"
-              ></span></RouterLink
-          ></NavTopLink>
-          <NavTopLink :index="2" :drawer-open="drawerOpen"
-            ><RouterLink to="/playlist-list" class="block"
-              ><icon-uil-folder class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.list')"
-              ></span></RouterLink
-          ></NavTopLink>
-          <NavTopLink :index="3" :drawer-open="drawerOpen"
-            ><a class="block" @click="progressing()"
-              ><icon-uil-chat class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.discuss-board')"
-              ></span></a
-          ></NavTopLink>
-          <NavTopLink :index="4" :drawer-open="drawerOpen"
-            ><RouterLink to="/leaderboard" class="block"
-              ><icon-uil-list-ol-alt class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.leaderboard')"
-              ></span></RouterLink
-          ></NavTopLink>
-          <NavTopLink :index="5" :drawer-open="drawerOpen"
-            ><a class="block" href="https://patchyvideo.wiki/" target="_blank" rel="noopener noreferrer"
-              ><icon-carbon-wikis class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.main-menu.wiki')"
-              ></span></a
-          ></NavTopLink>
-        </div>
-        <!-- User List -->
-        <div v-if="isLogin === IsLogin.yes" class="mt-4 space-y-2">
-          <NavTopLink :index="1" :drawer-open="drawerOpen"
-            ><a class="block" @click="progressing()"
-              ><icon-uil-upload class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.user-operation.postvideo')"
-              ></span></a
-          ></NavTopLink>
-          <NavTopLink :index="2" :drawer-open="drawerOpen"
-            ><a class="block" @click="progressing()"
-              ><icon-uil-tag-alt class="inline-block w-7 text-lg text-center" /><span
-                class="inline-block align-middle"
-                v-text="t('common.nav-top.user-operation.tag')"
-              ></span></a
-          ></NavTopLink>
-        </div>
-        <div v-else-if="isLogin === IsLogin.loading" class="mt-8">验证登录中...</div>
-        <!-- Super Admin -->
-        <div v-if="isLogin === IsLogin.yes && user.isAdmin" class="mt-8 w-full space-y-2">
-          <NavTopLink :index="1" :drawer-open="drawerOpen"
-            ><div class="text-gray-400 text-xs" v-text="t('common.nav-top.admin.admin')"></div
-          ></NavTopLink>
-          <NavTopLink :index="2" :drawer-open="drawerOpen"
-            ><div v-text="t('common.nav-top.admin.who-am-I')"></div
-          ></NavTopLink>
-          <NavTopLink :index="3" :drawer-open="drawerOpen"
-            ><a class="block" v-text="t('common.nav-top.admin.super-admin')"></a
-          ></NavTopLink>
-        </div>
-        <!-- Settings -->
-        <div class="mt-8 w-full space-y-2">
-          <NavTopLink :index="1" :drawer-open="drawerOpen"
-            ><div class="text-gray-400 text-xs" v-text="t('common.nav-top.settings.settings')"></div
-          ></NavTopLink>
-          <NavTopLink :index="2" :drawer-open="drawerOpen"
-            ><div class="flex justify-between space-x-6 items-end">
-              <label class="space-x-2 mr-2">
-                <label v-text="t('common.nav-top.settings.darkmode')"></label>
-                <label class="bg-gray-600 text-white text-xs rounded-full px-1">Beta</label>
+        <!-- Nav Items -->
+        <template v-for="(link, index) in links" :key="link.key">
+          <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6"></div>
+          <NavTopLink v-else :index="index" :drawer-open="drawerOpen" class="mt-1.5">
+            <div v-if="link.type === 'catogory'" class="block text-gray-400 text-sm -mb-1" v-text="link.text"></div>
+            <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="block">
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
+              <div class="inline-block align-middle" v-text="link.text"></div>
+            </RouterLink>
+            <a v-else-if="link.type === 'a'" class="block" target="_blank" rel="noopener noreferrer" :href="link.href">
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
+              <div class="inline-block align-middle" v-text="link.text"></div>
+            </a>
+            <a v-else-if="link.type === 'click'" class="block" @click="link.onClick">
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
+              <div class="inline-block align-middle" v-text="link.text"></div>
+            </a>
+            <div v-else-if="link.type === 'select'" class="flex justify-between space-x-6 items-end">
+              <label>
+                <div
+                  v-if="link.icon"
+                  class="inline-block mr-1 text-xl text-center align-middle"
+                  :class="link.icon"
+                ></div>
+                <div class="inline-block align-middle" v-text="link.text"></div>
               </label>
-              <DarkModeSwitch /></div
-          ></NavTopLink>
-          <NavTopLink :index="3" :drawer-open="drawerOpen"
-            ><div class="flex justify-between space-x-6 items-center">
-              <label class="mr-2" v-text="t('common.nav-top.settings.lang')"></label>
-              <PvSelect v-model:selected="locale" :item-list="languageList" /></div
-          ></NavTopLink>
-        </div>
+              <!-- TODO find a better way to do this -->
+              <PvSelect
+                :selected="link.selected.value"
+                :item-list="link.options"
+                @update:selected="(v) => (link.selected.value = v)"
+              />
+            </div>
+            <div v-else-if="link.type === 'component'" class="flex justify-between space-x-6 items-end">
+              <label>
+                <div
+                  v-if="link.icon"
+                  class="inline-block mr-1 text-xl text-center align-middle"
+                  :class="link.icon"
+                ></div>
+                <div class="inline-block align-middle" v-text="link.text"></div>
+              </label>
+              <Component :is="link.component" />
+            </div>
+            <div v-else class="block">
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
+              <div class="inline-block align-middle" v-text="link.text"></div>
+            </div>
+          </NavTopLink>
+        </template>
       </div>
       <!-- Mask -->
       <Transition
@@ -249,7 +208,8 @@ import PvSelect from '@/ui/components/PvSelect.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, Ref } from 'vue'
+import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
@@ -343,4 +303,189 @@ const keyword = ref(
 )
 
 const teleportTo = shallowRef<HTMLElement>()
+
+type NavLink = (
+  | NavLinkRouter
+  | NavLinkA
+  | NavLinkClick
+  | NavLinkBlank
+  | NavLinkCatogory
+  | NavLinkComponent
+  | NavLinkSelect
+) & {
+  key: string
+  text: string
+  icon?: string
+  if?: () => boolean
+}
+interface NavLinkRouter {
+  type: 'router'
+  path: string
+  query?: Record<string, string | string[]>
+}
+interface NavLinkA {
+  type: 'a'
+  href: string
+}
+interface NavLinkClick {
+  type: 'click'
+  onClick: () => void
+}
+interface NavLinkBlank {
+  type: 'blank'
+}
+interface NavLinkCatogory {
+  type: 'catogory'
+}
+interface NavLinkComponent {
+  type: 'component'
+  component: Component
+}
+interface NavLinkSelect {
+  type: 'select'
+  options: {
+    name: string
+    value: string
+  }[]
+  selected: Ref<string>
+}
+const links = computed(() => {
+  const links: NavLink[] = [
+    {
+      key: 'top-padding',
+      type: 'blank',
+      text: '',
+    },
+    {
+      key: 'home',
+      type: 'router',
+      icon: 'i-uil-home-alt',
+      text: t('common.nav-top.main-menu.home'),
+      path: '/',
+    },
+    {
+      key: 'video-list',
+      type: 'router',
+      icon: 'i-uil-play-circle',
+      text: t('common.nav-top.main-menu.video'),
+      path: '/video-list',
+    },
+    {
+      key: 'playlist-list',
+      type: 'router',
+      icon: 'i-uil-folder',
+      text: t('common.nav-top.main-menu.list'),
+      path: '/playlist-list',
+    },
+    {
+      key: 'discuss-board',
+      type: 'click',
+      icon: 'i-uil-chat',
+      text: t('common.nav-top.main-menu.discuss-board'),
+      onClick: () => progressing(t('common.nav-top.main-menu.discuss-board')),
+    },
+    {
+      key: 'leaderboard',
+      type: 'router',
+      icon: 'i-uil-list-ol-alt',
+      text: t('common.nav-top.main-menu.leaderboard'),
+      path: '/leaderboard',
+    },
+    {
+      key: 'wiki',
+      type: 'a',
+      icon: 'i-carbon-wikis',
+      text: t('common.nav-top.main-menu.wiki'),
+      href: 'https://patchyvideo.wiki/',
+    },
+  ]
+
+  if (isLogin.value === IsLogin.yes)
+    links.push(
+      {
+        key: 'user-padding',
+        type: 'blank',
+        text: '',
+      },
+      {
+        key: 'postvideo',
+        type: 'click',
+        icon: 'i-uil-upload',
+        text: t('common.nav-top.user-operation.postvideo'),
+        onClick: () => progressing(t('common.nav-top.user-operation.postvideo')),
+      },
+      {
+        key: 'edittag',
+        type: 'click',
+        icon: 'i-uil-tag-alt',
+        text: t('common.nav-top.user-operation.tag'),
+        onClick: () => progressing(t('common.nav-top.user-operation.tag')),
+      }
+    )
+  if (isLogin.value === IsLogin.loading)
+    links.push(
+      {
+        key: 'user-padding',
+        type: 'blank',
+        text: '',
+      },
+      {
+        key: 'user-verify',
+        type: 'blank',
+        text: '验证登录中……',
+      }
+    )
+
+  if (isLogin.value === IsLogin.yes && user.value.isAdmin)
+    links.push(
+      {
+        key: 'admin-padding',
+        type: 'blank',
+        text: '',
+      },
+      {
+        key: 'admin',
+        type: 'catogory',
+        text: t('common.nav-top.admin.admin'),
+      },
+      {
+        key: 'who-am-I',
+        type: 'blank',
+        text: t('common.nav-top.admin.who-am-I'),
+      },
+      {
+        key: 'super-admin',
+        type: 'blank',
+        text: t('common.nav-top.admin.super-admin'),
+      }
+    )
+
+  links.push(
+    {
+      key: 'settings-padding',
+      type: 'blank',
+      text: '',
+    },
+    {
+      key: 'settings',
+      type: 'catogory',
+      text: t('common.nav-top.settings.settings'),
+    },
+    {
+      key: 'settings-darkmode',
+      type: 'component',
+      text: t('common.nav-top.settings.darkmode'),
+      component: DarkModeSwitch,
+    },
+    {
+      key: 'settings-language',
+      type: 'select',
+      text: t('common.nav-top.settings.lang'),
+      options: languageList,
+      selected: locale,
+    }
+  )
+
+  return links
+})
 </script>

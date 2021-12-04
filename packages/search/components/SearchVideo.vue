@@ -85,8 +85,9 @@
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
             <span v-if="video.clearence === 0" class="ml-2"
-              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
-            /></span>
+              >已隐藏
+              <div class="i-uil-eye-slash inline-block align-text-bottom"></div
+            ></span>
           </div>
         </div>
       </RouterLink>
@@ -123,8 +124,9 @@
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
             <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
             <span v-if="video.clearence === 0" class="ml-2"
-              >已隐藏<icon-uil-eye-slash class="inline-block align-text-bottom"
-            /></span>
+              >已隐藏
+              <div class="i-uil-eye-slash inline-block align-text-bottom"></div
+            ></span>
           </div>
         </div>
       </RouterLink>

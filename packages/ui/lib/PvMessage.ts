@@ -1,8 +1,4 @@
-import { VNode, reactive, FunctionalComponent, ref, shallowReactive } from 'vue'
-import IconInfo from '~icons/ph/info-fill'
-import IconCheck from '~icons/ic/round-check-circle'
-import IconWarn from '~icons/ph/warning-circle-fill'
-import IconError from '~icons/gridicons/cross-circle'
+import { VNode, reactive, ref, shallowReactive } from 'vue'
 
 export enum MessageType {
   success = 'success',
@@ -13,10 +9,30 @@ export enum MessageType {
 
 export const PvMessageTransitionDuration = ref(400)
 const typeToStyle: Record<MessageType, OtherOptions> = {
-  [MessageType.success]: { color: '#67C23A', bgColor: '#f0f9eb', borderColor: '#e1f3d8', iconComponent: IconCheck },
-  [MessageType.warning]: { color: '#e6a23c', bgColor: '#fdf6ec', borderColor: '#faecd8', iconComponent: IconWarn },
-  [MessageType.info]: { color: '#909399', bgColor: '#edf2fc', borderColor: '#ebeef5', iconComponent: IconInfo },
-  [MessageType.error]: { color: '#f56c6c', bgColor: '#fef0f0', borderColor: '#fde2e2', iconComponent: IconError },
+  [MessageType.success]: {
+    color: '#67C23A',
+    bgColor: '#f0f9eb',
+    borderColor: '#e1f3d8',
+    icon: 'i-uil-check-circle',
+  },
+  [MessageType.warning]: {
+    color: '#e6a23c',
+    bgColor: '#fdf6ec',
+    borderColor: '#faecd8',
+    icon: 'i-uil-exclamation-triangle',
+  },
+  [MessageType.info]: {
+    color: '#909399',
+    bgColor: '#edf2fc',
+    borderColor: '#ebeef5',
+    icon: 'i-uil-info-circle',
+  },
+  [MessageType.error]: {
+    color: '#f56c6c',
+    bgColor: '#fef0f0',
+    borderColor: '#fde2e2',
+    icon: 'i-uil-times-circle',
+  },
 }
 const OptionsDefaultValue: Options = {
   message: '',
@@ -92,7 +108,7 @@ export interface OtherOptions {
   color: string
   bgColor: string
   borderColor: string
-  iconComponent: FunctionalComponent
+  icon: string
 }
 export interface FullOptions extends Options, OtherOptions {
   id: number
