@@ -104,7 +104,7 @@
                 }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
                   {{ t('common.nav-top.user.logout') }}
-                  <div v-show="loggingOut" class="i-uil-spinner-alt inline-block text-2xl animate-spin"></div>
+                  <div v-show="loggingOut" class="i-uil-spinner-alt inline-block text-2xl align-middle animate-spin"></div>
                 </div>
               </div>
               <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
@@ -208,13 +208,13 @@ import PvSelect from '@/ui/components/PvSelect.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
+import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { ref, computed, shallowRef, Ref } from 'vue'
 import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
 import { locale, messages } from '@/locales'
-import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
