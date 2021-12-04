@@ -6,9 +6,9 @@
     "johnsoncodehk.volar",
     "johnsoncodehk.vscode-typescript-vue-plugin",
     "cpylua.language-postcss",
-    "bradlc.vscode-tailwindcss",
     "lokalise.i18n-ally",
     "vivaxy.vscode-conventional-commits",
-    "apollographql.vscode-apollo"
+    "apollographql.vscode-apollo",
+    "antfu.unocss"
   ]
 }
