@@ -382,11 +382,13 @@ settings:
     language:
       desc: 如果你乐于帮助 PatchyVideo 的翻译工作，欢迎加入我们！
       browser-default: 浏览器建议：{preferred}
+    name: 常规
   appearance:
     theme:
       name: 主题
       color:
         name: 主题颜色
+    name: 外观
   account:
     profile:
       name: 个人信息
@@ -396,3 +398,4 @@ settings:
       description:
         label: 简介
     loading: 正在拉取个人信息
+    name: 账户

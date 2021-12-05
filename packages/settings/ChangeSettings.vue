@@ -52,13 +52,13 @@ const catogories = computed(() => {
   const catogories: SettingsCategory[] = [
     {
       name: 'general',
-      text: '常规',
+      text: t('settings.general.name'),
       icon: 'i-mdi-light-cog',
       component: defineAsyncComponent(() => import('./components/SettingsGeneral.vue')),
     },
     {
       name: 'appearance',
-      text: '主题',
+      text: t('settings.appearance.name'),
       icon: 'i-ph-magic-wand-light',
       component: defineAsyncComponent(() => import('./components/SettingsAppearance.vue')),
     },
@@ -67,7 +67,7 @@ const catogories = computed(() => {
   if (isLogin.value === IsLogin.yes)
     catogories.push({
       name: 'account',
-      text: '账户',
+      text: t('settings.account.name'),
       icon: 'i-ph-user-circle-light',
       component: defineAsyncComponent(() => import('./components/SettingsAccount.vue')),
     })
