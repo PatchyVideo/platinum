@@ -2,7 +2,7 @@
   <h3 class="font-medium mb-1" v-text="t('settings.appearance.theme.color.name')"></h3>
   <div class="flex flex-row flex-nowrap space-x-4">
     <div
-      class="w-56 rounded-lg cursor-pointer select-none overflow-hidden border"
+      class="w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
         'border-gray-400 dark:border-gray-500': themePreference !== 'system',
         'border-pink-300 dark:border-pink-400': themePreference === 'system',
@@ -25,7 +25,7 @@
       </div>
     </div>
     <div
-      class="w-56 rounded-lg cursor-pointer select-none overflow-hidden border"
+      class="w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
         'border-gray-400 dark:border-gray-500': themePreference !== 'light',
         'border-pink-300 dark:border-pink-400': themePreference === 'light',
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div
-      class="w-56 rounded-lg cursor-pointer select-none overflow-hidden border"
+      class="w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
         'border-gray-400 dark:border-gray-500': themePreference !== 'dark',
         'border-pink-300 dark:border-pink-400': themePreference === 'dark',

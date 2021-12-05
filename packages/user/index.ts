@@ -48,7 +48,7 @@ export async function checkLoginStatus(needGetUserDataFromLocalStorage = false):
     .catch((err) => {
       // console.log(err)
       isLogin.value = IsLogin.no
-      clearUserDataFromLocalStorage()
+      // clearUserDataFromLocalStorage()
     })
 }
 
