@@ -369,6 +369,30 @@ image:
 tag:
   author:
     title: '{tagname} 的基本信息'
-    type: 
+    type:
       individual: 个人
       group: 社团
+settings:
+  settings: 设置
+  general:
+    quick-settings:
+      name: 快捷设置
+    general:
+      name: 常规
+    language:
+      desc: 如果你乐于帮助 PatchyVideo 的翻译工作，欢迎加入我们！
+      browser-default: 浏览器建议：{preferred}
+  appearance:
+    theme:
+      name: 主题
+      color:
+        name: 主题颜色
+  account:
+    profile:
+      name: 个人信息
+      username:
+        label: 用户名
+        desc: 此用户名全站唯一，你可以随时更改你的用户名。
+      description:
+        label: 简介
+    loading: 正在拉取个人信息

@@ -3,7 +3,7 @@
     ><h4 class="title inline-block text-xl">
       <span class="title-text" v-text="name"></span>
       <div
-        class="title-arrow i-uil-arrow-right inline-block w-8 h-8 align-top text-gray-600 dark:text-gray-200 transform -translate-x-1 opacity-25 transition-all duration-200"
+        class="title-arrow i-uil-arrow-right inline-block w-8 h-8 align-top text-gray-600 dark:text-gray-300 transform -translate-x-1 opacity-25 transition-all duration-200"
       /></h4
   ></RouterLink>
   <h4 v-else class="inline-block text-xl" v-text="name"></h4>

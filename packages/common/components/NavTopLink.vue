@@ -11,6 +11,7 @@ import { ref, watch } from 'vue'
 
 const props = defineProps<{
   index: number
+  itemLength: number
   drawerOpen: boolean
 }>()
 
@@ -23,7 +24,7 @@ const motion = useMotion(el, {
   },
 })
 
-const { drawerOpen, index } = toRefs(props)
+const { drawerOpen, index, itemLength } = toRefs(props)
 
 watch(drawerOpen, (n, o) => {
   if (n) {
@@ -31,7 +32,7 @@ watch(drawerOpen, (n, o) => {
       opacity: 1,
       x: 0,
       transition: {
-        delay: 100 + index.value * 20,
+        delay: 100 + (200 / itemLength.value) * index.value,
       },
     })
   } else {

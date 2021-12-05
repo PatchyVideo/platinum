@@ -8,7 +8,12 @@ export default defineConfig({
       dark: 'class',
     }),
     presetTypography(),
-    presetIcons(),
+    presetIcons({
+      extraProperties: {
+        display: 'inline-block',
+        'vertical-align': 'middle',
+      },
+    }),
   ],
   theme: {
     colors: {

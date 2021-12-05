@@ -104,7 +104,10 @@
                 }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
                   {{ t('common.nav-top.user.logout') }}
-                  <div v-show="loggingOut" class="i-uil-spinner-alt inline-block text-2xl align-middle animate-spin"></div>
+                  <div
+                    v-show="loggingOut"
+                    class="i-uil-spinner-alt inline-block text-2xl align-middle animate-spin"
+                  ></div>
                 </div>
               </div>
               <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
@@ -130,7 +133,7 @@
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
           <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6"></div>
-          <NavTopLink v-else :index="index" :drawer-open="drawerOpen" class="mt-1.5">
+          <NavTopLink v-else :index="index" :drawer-open="drawerOpen" :item-length="links.length" class="mt-1.5">
             <div v-if="link.type === 'catogory'" class="block text-gray-400 text-sm -mb-1" v-text="link.text"></div>
             <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="block">
               <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
@@ -470,6 +473,13 @@ const links = computed(() => {
       key: 'settings',
       type: 'catogory',
       text: t('common.nav-top.settings.settings'),
+    },
+    {
+      key: 'settings-other',
+      type: 'router',
+      text: '更改其它设置',
+      icon: 'i-uil-cog',
+      path: '/settings',
     },
     {
       key: 'settings-darkmode',

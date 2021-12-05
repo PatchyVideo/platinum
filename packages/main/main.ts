@@ -133,6 +133,14 @@ const router = createRouter({
       meta: { holdLoading: true },
     },
     {
+      path: '/settings',
+      redirect: '/settings/general',
+    },
+    {
+      path: '/settings/:catogory',
+      component: () => import('@/settings/ChangeSettings.vue'),
+    },
+    {
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },
@@ -142,15 +150,23 @@ const router = createRouter({
     },
   ],
 })
+let pendingNProgress: number | undefined
 router.beforeEach(() => {
-  if (!NProgress.isStarted()) NProgress.start()
+  if (pendingNProgress === undefined)
+    pendingNProgress = setTimeout(() => {
+      if (!NProgress.isStarted()) NProgress.start()
+    }, 100)
 })
 router.afterEach((guard) => {
   incProcess()
   checkIfBackendDown()
   appPromisesFinish.then(() => {
-    if (!guard.meta.holdLoading && NProgress.isStarted()) {
-      NProgress.done()
+    if (pendingNProgress) {
+      clearTimeout(pendingNProgress)
+      pendingNProgress = undefined
+    }
+    if (!guard.meta.holdLoading) {
+      if (NProgress.isStarted()) NProgress.done()
     }
   })
 })

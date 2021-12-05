@@ -22,7 +22,7 @@
     <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
       <span ref="typedEl"></span>
     </div>
-    <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-200">
+    <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-300">
       <span>PatchyVideo 正在为 {{ users }} 个像你一样的用户提供服务！</span><br />
       <span
         ><span>Platinum v{{ version }}</span

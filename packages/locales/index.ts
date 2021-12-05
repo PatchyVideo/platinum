@@ -25,9 +25,21 @@ const i18n = createI18n({
 
 export default i18n
 
-function getBrowserLang(): string | undefined {
+function getBrowserLang(): string {
   const userLangs = [...navigator.languages]
   if (lslang.value && lslang.value !== 'undefined' && lslang.value !== 'null') userLangs.unshift(lslang.value)
+  let result
+  try {
+    result = match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
+  } catch (e) {
+    result = 'zh-Hans-CN'
+    if (!(e instanceof RangeError)) throw e
+  }
+  return result
+}
+
+export function getBrowserPreferredLang(): string {
+  const userLangs = [...navigator.languages]
   let result
   try {
     result = match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
