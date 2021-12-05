@@ -184,7 +184,7 @@ async function processRequest(req, res) {
       body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
     }
   } catch (e) {
-    body += '\n<!--\nServer responsed with error:\n' + encodeHTML(e, false) + '\n-->'
+    body += '\n<!--\nServer responsed with error:\n' + encodeHTML(String(e), false) + '\n-->'
   }
 
   body = body.replace('<!-- TIMING -->', `<!-- RENDER: ${Date.now() - timeStart}ms -->`)
