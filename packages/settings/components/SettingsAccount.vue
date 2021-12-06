@@ -1,6 +1,12 @@
 <template>
   <div v-if="!loading">
-    <h2 class="text-2xl font-light" v-text="t('settings.account.profile.name')"></h2>
+    <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')"></h2>
+    <RouterLink
+      class="ml-2 px-1 pb-0.5 rounded-lg border border-gray-400 dark:border-gray-500"
+      :to="'/user/' + user.uid"
+      >{{ t('common.nav-top.user.userprofile') }}
+      <div class="i-uil-external-link-alt text-lg"></div
+    ></RouterLink>
     <div class="w-full h-px my-2 bg-gray-300"></div>
     <div>
       <div class="mb-1">
@@ -28,10 +34,10 @@
     </div>
   </div>
   <div v-else class="flex">
-    <div
-      class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300"
-      v-text="t('settings.account.loading')"
-    ></div>
+    <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
+      <div class="inline-block align-middle" v-text="t('settings.account.loading')"></div>
+      <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
+    </div>
   </div>
 </template>
 
@@ -46,8 +52,6 @@ const { t } = useI18n()
 
 const name = ref('')
 const desc = ref('')
-
-console.log({ ...user.value })
 
 const { result, loading } = useQuery<Query>(
   gql`

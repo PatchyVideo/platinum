@@ -6,10 +6,13 @@
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
-          class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-gray-300 dark:border-gray-600 transform transition-all duration-300"
+          class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-gray-300 dark:border-gray-600 transform transition-all ease duration-300"
+          :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
+          @mouseenter="() => (isHoveringAvatar = true)"
+          @mouseleave="() => (isHoveringAvatar = false)"
         >
           <UserAvatar
-            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none transform transition-all duration-300"
+            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 cursor-pointer"
             openable
             :alt="user.username"
             :image="user.image"
@@ -18,7 +21,12 @@
         </div>
         <div class="mt-1 sm:mt-2 ml-2 sm:ml-6">
           <!-- username -->
-          <h1 class="text-lg sm:text-2xl font-bold" v-text="user.username"></h1>
+          <h1 class="inline-block text-lg sm:text-2xl font-bold" v-text="user.username"></h1>
+          <RouterLink
+            v-if="isMe"
+            class="i-uil-edit-alt ml-1 text-2xl align-text-bottom text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200 transition-color duration-100"
+            to="/settings/account"
+          ></RouterLink>
           <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-300">
             {{ t('user.profile.info.created-at', { date: user.meta.createdAt.toLocaleDateString() }) }}
           </div>
@@ -32,19 +40,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watchEffect } from 'vue'
+import UserAvatar from './components/UserAvatar.vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import UserAvatar from './components/UserAvatar.vue'
-import { useI18n } from 'vue-i18n'
+import { user as localUser } from '@/user'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 const route = useRoute()
 
 const uid = computed(() => route.params.uid as string)
+const isMe = computed(() => uid.value === localUser.value.uid)
 const { result, loading } = useQuery<Query>(
   gql`
     query ($uid: String!) {
@@ -80,4 +91,6 @@ const user = useResult(result, null, (data) => data?.getUser)
 watchEffect(() => {
   if (user.value) setSiteTitle(t('user.profile.title', { username: user.value.username }))
 })
+
+const isHoveringAvatar = ref(false)
 </script>

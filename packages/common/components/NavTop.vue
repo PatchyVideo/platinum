@@ -99,7 +99,7 @@
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
                   }}</label></RouterLink
                 >
-                <RouterLink class="block text-center" to="/user/me">{{
+                <RouterLink class="block text-center" :to="'/user/' + user.uid">{{
                   t('common.nav-top.user.userprofile')
                 }}</RouterLink>
                 <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">

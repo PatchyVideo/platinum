@@ -283,7 +283,7 @@ user:
       boundEmail: 已绑定的邮箱
       none: 暂无
   profile:
-    title: '{username} 的个人主页 - PatchyVideo'
+    title: '{username} 的个人中心 - PatchyVideo'
     info:
       created-at: 注册于 {date}
   avatar:

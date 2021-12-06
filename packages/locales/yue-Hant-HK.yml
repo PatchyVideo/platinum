@@ -273,7 +273,7 @@ user:
   profile:
     info:
       created-at: 睇 {date} 注册
-    title: '{username} 嘅个人主页 - PatchyVideo'
+    title: '{username} 嘅个人中心 - PatchyVideo'
 video:
   video:
     uploader: 上传者

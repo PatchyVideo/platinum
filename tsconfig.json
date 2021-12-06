@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM", "WebWorker"],
-    "types": ["vite/client", "jest", "unplugin-icons/types/vue", "vite-plugin-pwa/client"],
+    "types": ["vite/client", "jest", "vite-plugin-pwa/client"],
     "jsx": "preserve",
     "target": "ESNext",
     "sourceMap": true,
