@@ -1,7 +1,6 @@
 import { computed } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { match } from '@formatjs/intl-localematcher/lib'
-import type { Locale } from '@formatjs/intl-locale'
 import { useLocalStorage } from '@vueuse/core'
 
 export const messages = Object.fromEntries(
@@ -72,10 +71,7 @@ export const userPreferredLocales = computed(() => [locale.value, ...navigator.l
 
 export function BCP47ToISO639(code: string): string {
   try {
-    // https://github.com/microsoft/TypeScript/pull/39664
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const lo = new Intl.Locale(code) as Locale
+    const lo = new Intl.Locale(code)
     switch (lo.language) {
       case 'yue':
         return 'CHT'

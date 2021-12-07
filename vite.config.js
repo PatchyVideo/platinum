@@ -23,8 +23,6 @@ export default defineConfig(async ({ command, mode }) => {
    */
   const promises = []
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   const data = {
     mode,
     isDev: mode !== 'production',
@@ -140,6 +138,10 @@ export default defineConfig(async ({ command, mode }) => {
           banner,
         },
       },
+    },
+    esbuild: {
+      // to reduce code size (~50KiB decrease, what??)
+      charset: 'utf8',
     },
   }
 })

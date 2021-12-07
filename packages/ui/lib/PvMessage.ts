@@ -53,11 +53,10 @@ export const PvMessage = (options: string | Options): void => {
       message: options,
     }
   }
-  /*默认值赋值*/
-  for (const [k, v] of Object.entries(OptionsDefaultValue)) {
-    // eslint-disable-next-line
-    // @ts-ignore
-    if (options[k] === undefined) options[k] = v
+  /* 默认值赋值 */
+  options = {
+    ...OptionsDefaultValue,
+    ...options,
   }
   allMessageOptions.push(options)
   const fullOptions = Object.assign({}, options, typeToStyle[options.type as MessageType], {
@@ -65,7 +64,7 @@ export const PvMessage = (options: string | Options): void => {
   })
   fullMessageOptions.push(fullOptions)
 
-  /*设置延时关闭*/
+  /* 设置延时关闭 */
   const { duration } = fullOptions
   if ((duration as number) > 0) {
     setTimeout(() => {

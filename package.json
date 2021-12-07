@@ -36,7 +36,6 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.5",
-    "@formatjs/intl-locale": "^2.4.41",
     "@formatjs/intl-localematcher": "^0.2.21",
     "@popperjs/core": "^2.11.0",
     "@vue/apollo-composable": "^4.0.0-alpha.16",
@@ -80,15 +79,15 @@
     "@types/markdown-it": "^12.2.3",
     "@types/nprogress": "^0.2.0",
     "@types/spark-md5": "^3.0.2",
-    "@typescript-eslint/eslint-plugin": "^5.5.0",
-    "@typescript-eslint/parser": "^5.5.0",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
     "@unocss/reset": "^0.15.5",
-    "@vitejs/plugin-vue": "^1.10.1",
+    "@vitejs/plugin-vue": "^1.10.2",
     "@windicss/plugin-scrollbar": "^1.2.3",
     "autoprefixer": "^10.4.0",
     "conventional-changelog-cli": "^2.1.1",
     "cross-fetch": "^3.1.4",
-    "eslint": "^8.4.0",
+    "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.2.0",
@@ -107,8 +106,8 @@
     "typescript": "^4.5.2",
     "unocss": "^0.15.5",
     "unocss-preset-typography": "^0.3.0",
-    "unplugin-vue-components": "^0.17.5",
-    "vite": "^2.6.14",
+    "unplugin-vue-components": "^0.17.6",
+    "vite": "^2.7.0",
     "vite-plugin-pwa": "^0.11.10",
     "workbox-cacheable-response": "^6.4.2",
     "workbox-expiration": "^6.4.2",
@@ -117,5 +116,10 @@
     "workbox-strategies": "^6.4.2",
     "workbox-window": "^6.4.2"
   },
-  "packageManager": "pnpm"
+  "packageManager": "pnpm",
+  "pnpm": {
+    "overrides": {
+      "entities": "^3.0.1"
+    }
+  }
 }
