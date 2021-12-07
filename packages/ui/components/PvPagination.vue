@@ -17,9 +17,10 @@
       <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
         <template #count>
           <input
-            v-model="page"
+            v-model.number="currentPage"
             class="w-12 border rounded-md border-gray-400 p-1 shadow-inner dark:bg-gray-500"
             @keydown.enter="change"
+            @blur="change"
           />
         </template>
         <template #total>
@@ -44,7 +45,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { useVModels } from '@vueuse/core'
+import { ref, watchEffect } from 'vue'
+import { useVModel } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -64,12 +66,30 @@ const emit = defineEmits<{
   (event: 'update:pageCount', value: number): void
 }>()
 const { t } = useI18n()
-const { page, pageCount } = useVModels(props, emit)
+const page = useVModel(props, 'page', emit)
+const currentPage = ref(page.value)
 function change(): void {
-  if (isNaN(page.value) || page.value <= 0 || page.value > props.pageCount) {
+  console.log(currentPage.value)
+  if (
+    // page must not be NaN-like
+    isNaN(currentPage.value) ||
+    // page must be a integer
+    !Number.isSafeInteger(currentPage.value) ||
+    // page must be greater than 0
+    currentPage.value <= 0 ||
+    // page must be lesser than page count
+    currentPage.value > props.pageCount
+  ) {
     alert(t('ui.pv-pagination.alert'))
     return
   }
-  emit('change', page.value)
+  // change page only if currentPage really changed
+  if (page.value !== currentPage.value) {
+    page.value = currentPage.value
+    emit('change', currentPage.value)
+  }
 }
+watchEffect(() => {
+  currentPage.value = page.value
+})
 </script>
