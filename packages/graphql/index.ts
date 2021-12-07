@@ -35,16 +35,16 @@ disableFragmentWarnings()
 export function createApollo(): ApolloClient<NormalizedCacheObject> {
   const typesMap = {
     DateTimeUtc: {
-      serialize: (parsed: Date) => parsed.toISOString(),
-      parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
+      serialize: (parsed: unknown) => (parsed instanceof Date ? parsed.toISOString() : parsed),
+      parseValue: (raw: unknown): Date | null => (typeof raw === 'string' ? new Date(raw) : null),
     },
     UtcDateTime: {
-      serialize: (parsed: Date) => parsed.toISOString(),
-      parseValue: (raw: string | null): Date | null => (raw ? new Date(raw) : null),
+      serialize: (parsed: unknown) => (parsed instanceof Date ? parsed.toISOString() : parsed),
+      parseValue: (raw: unknown): Date | null => (typeof raw === 'string' ? new Date(raw) : null),
     },
     ObjectId: {
-      serialize: (parsed: ObjectID) => parsed.toHexString(),
-      parseValue: (raw: string) => new ObjectID(raw),
+      serialize: (parsed: unknown) => (parsed instanceof ObjectID ? parsed.toHexString() : parsed),
+      parseValue: (raw: unknown) => (typeof raw === 'string' ? new ObjectID(raw) : null),
     },
   }
   const link = from([
