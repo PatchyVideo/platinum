@@ -39,6 +39,7 @@
     "@formatjs/intl-localematcher": "^0.2.21",
     "@popperjs/core": "^2.11.0",
     "@vue/apollo-composable": "^4.0.0-alpha.16",
+    "@vue/apollo-util": "^4.0.0-alpha.16",
     "@vueuse/components": "^7.1.2",
     "@vueuse/core": "^7.1.2",
     "@vueuse/motion": "^2.0.0-beta.4",

@@ -13,6 +13,7 @@ import type { SafeReadonly } from '@apollo/client/cache/core/types/common'
 import { offsetLimitPagination } from '@apollo/client/utilities'
 import ObjectID from 'bson-objectid'
 import { DefaultApolloClient } from '@vue/apollo-composable'
+import { logErrorMessages } from '@vue/apollo-util'
 
 import { withScalars } from 'apollo-link-scalars'
 import { buildClientSchema, IntrospectionQuery } from 'graphql'
@@ -48,11 +49,12 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
     },
   }
   const link = from([
-    // Backend Server
+    // Scalars
     withScalars({
       schema: buildClientSchema(jsonSchema as unknown as IntrospectionQuery),
       typesMap,
     }),
+    // Backend Server
     new HttpLink({
       uri: 'https://patchyvideo.com/be/gql/graphql',
       credentials: 'include',
@@ -113,23 +115,26 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
         fields: {
           listPlaylist: {
             ...childOffsetLimitPara('playlists'),
-            keyArgs: ['query', 'order', 'additionalConstraint'],
+            keyArgs: ['para', ['query', 'order', 'additionalConstraint']],
           },
           listVideo: {
             ...childOffsetLimitPara('videos'),
-            keyArgs: ['query', 'qtype', 'order', 'additionalConstraint', 'hidePlaceholder', 'lang', 'humanReadableTag'],
+            keyArgs: [
+              'para',
+              ['query', 'qtype', 'order', 'additionalConstraint', 'hidePlaceholder', 'lang', 'humanReadableTag'],
+            ],
           },
           listTagObjects: {
             ...childOffsetLimitPara('tags'),
-            keyArgs: ['query', 'queryRegex', 'category', 'order'],
+            keyArgs: ['para', ['query', 'queryRegex', 'category', 'order']],
           },
           listNotifications: {
             ...childOffsetLimitPara('notes'),
-            keyArgs: ['listAll', 'noteType'],
+            keyArgs: ['para', ['listAll', 'noteType']],
           },
           listSubscriptionVideos: {
             ...childOffsetLimitPara('videos'),
-            keyArgs: ['query', 'queryRegex', 'category', 'order'],
+            keyArgs: ['para', ['query', 'queryRegex', 'category', 'order']],
           },
         },
       },
@@ -183,6 +188,11 @@ export const useQuery = function useQuery(this: never, ...args: never) {
   query.result.value = undefined
   query.loading.value = true
   query.restart()
+
+  // log all errors
+  query.onError((error) => {
+    logErrorMessages(error)
+  })
 
   return query
 } as typeof vUseQuery

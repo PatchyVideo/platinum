@@ -30,6 +30,7 @@ specifiers:
   '@unocss/reset': ^0.15.5
   '@vitejs/plugin-vue': ^1.10.2
   '@vue/apollo-composable': ^4.0.0-alpha.16
+  '@vue/apollo-util': ^4.0.0-alpha.16
   '@vueuse/components': ^7.1.2
   '@vueuse/core': ^7.1.2
   '@vueuse/motion': ^2.0.0-beta.4
@@ -88,6 +89,7 @@ dependencies:
   '@formatjs/intl-localematcher': 0.2.21
   '@popperjs/core': 2.11.0
   '@vue/apollo-composable': 4.0.0-alpha.16_7139ad1409419aa0b09a25951ffc016b
+  '@vue/apollo-util': 4.0.0-alpha.16
   '@vueuse/components': 7.1.2_vue@3.2.21
   '@vueuse/core': 7.1.2_vue@3.2.21
   '@vueuse/motion': 2.0.0-beta.4_vue@3.2.21
@@ -2925,6 +2927,10 @@ packages:
       vue-demi: 0.12.1_vue@3.2.21
     transitivePeerDependencies:
       - typescript
+    dev: false
+
+  /@vue/apollo-util/4.0.0-alpha.16:
+    resolution: {integrity: sha512-ElZ/wP9Io35TkqoUV7AYO/kFw9MiSNXWmLKitLMHT5VdQFKv60ZwohMtWm8DS1OwJ1P0GwoJWeEQUSr294LDqw==}
     dev: false
 
   /@vue/compiler-core/3.2.21:
