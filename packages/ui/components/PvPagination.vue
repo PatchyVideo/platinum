@@ -1,6 +1,5 @@
 <template>
   <div v-if="pageCount - 1 && pageCount" class="xs:text-xs">
-    <!-- Mobile View -->
     <div class="border-t pt-1 flex-1 flex justify-between items-center">
       <a
         v-if="page !== 1"
@@ -69,7 +68,6 @@ const { t } = useI18n()
 const page = useVModel(props, 'page', emit)
 const currentPage = ref(page.value)
 function change(): void {
-  console.log(currentPage.value)
   if (
     // page must not be NaN-like
     isNaN(currentPage.value) ||
