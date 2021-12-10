@@ -3,12 +3,8 @@ import { createI18n } from 'vue-i18n'
 import { match } from '@formatjs/intl-localematcher/lib'
 import { useLocalStorage } from '@vueuse/core'
 
-export const messages = Object.fromEntries(
-  Object.entries(import.meta.globEagerDefault('./*.{yml,yaml,json}')).map(([key, value]) => [
-    key.replace(/.+\/(.+)\.(?:ya?ml|json)/, '$1'),
-    value as never,
-  ])
-)
+import messages from '@intlify/vite-plugin-vue-i18n/messages'
+export { messages }
 
 export const langs = Object.keys(messages)
 
@@ -21,6 +17,11 @@ const i18n = createI18n({
   fallbackLocale: 'zh-Hans-CN',
   messages,
 })
+
+export const languageList = langs.map((locale) => ({
+  name: i18n.global.t('_info.name', locale, { locale }),
+  value: locale,
+}))
 
 export default i18n
 
@@ -131,7 +132,7 @@ export function BCP47ToISO639(code: string): string {
 export const iso639locale = computed(() => BCP47ToISO639(locale.value))
 export const iso639nav = computed(() => BCP47ToISO639(navigator.language))
 
-export const languagesList = [
+export const beLanguagesList = [
   { id: 1, value: 'CHS', label: '简体中文' },
   { id: 2, value: 'CHT', label: '繁體中文' },
   { id: 3, value: 'CSY', label: 'čeština' },
@@ -152,7 +153,7 @@ export const languagesList = [
   { id: 18, value: 'VIN', label: 'Tiếng Việt' },
 ]
 function IDToISO639(id: number): string {
-  return languagesList.find((item) => item.id === id)?.value || 'NAL'
+  return beLanguagesList.find((item) => item.id === id)?.value || 'NAL'
 }
 
 interface LangItemWithName {

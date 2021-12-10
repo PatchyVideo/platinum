@@ -12,14 +12,10 @@
 
 <script lang="ts" setup>
 import PvSelect from '@/ui/components/PvSelect.vue'
-import { getBrowserPreferredLang, locale, messages } from '@/locales'
+import { getBrowserPreferredLang, languageList, locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const languageList = Object.entries(messages).map(([k, v]) => ({
-  name: (v as { _info?: { name?: string } })?._info?.name ?? k,
-  value: k,
-}))
 const browserPreferredLang = languageList.find(({ value }) => value === getBrowserPreferredLang())!.name
 </script>

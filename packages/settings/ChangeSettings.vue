@@ -1,8 +1,8 @@
 <template>
   <LayoutDefault>
-    <div class="flex flex-row space-x-8 max-w-screen-xl mx-auto mt-4">
+    <div class="flex flex-col sm:flex-row gap-8 max-w-screen-xl mx-4 sm:mx-auto mt-4">
       <!-- Left Sidebar -->
-      <div class="flex-shrink-0 w-48">
+      <div class="flex-shrink-0 w-full sm:w-48">
         <h1 class="text-2xl mb-3" v-text="t('settings.settings')"></h1>
         <div class="flex flex-col space-y-1">
           <div

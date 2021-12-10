@@ -16,7 +16,7 @@
           v-text="t('settings.account.profile.username.desc')"
         ></div>
       </div>
-      <div class="w-112 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800">
+      <div class="w-full max-w-112 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800">
         <input v-model="name" class="inline-block px-2 py-1 w-full rounded-lg outline-none dark:bg-gray-800" />
       </div>
     </div>
@@ -24,7 +24,7 @@
       <div class="mb-1">
         <h3 class="font-medium" v-text="t('settings.account.profile.description.label')"></h3>
       </div>
-      <div class="w-112 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800">
+      <div class="w-full max-w-112 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800">
         <textarea
           v-model="desc"
           rows="4"

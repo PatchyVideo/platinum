@@ -217,7 +217,7 @@ import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
-import { locale, messages } from '@/locales'
+import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
 import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
@@ -287,11 +287,6 @@ async function logout(): Promise<void> {
   loggingOut.value = false
   location.reload()
 }
-
-const languageList = Object.entries(messages).map(([k, v]) => ({
-  name: (v as { _info?: { name?: string } })?._info?.name ?? k,
-  value: k,
-}))
 
 const autoComplete = ref<InstanceType<typeof AutoComplete> | null>(null)
 const hidePage = ref(false)

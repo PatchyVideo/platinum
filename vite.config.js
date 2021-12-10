@@ -7,6 +7,7 @@ import components from 'unplugin-vue-components/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import unocss from 'unocss/vite'
+import i18n from '@intlify/vite-plugin-vue-i18n'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 import template from 'lodash.template'
@@ -78,6 +79,9 @@ export default defineConfig(async ({ command, mode }) => {
     plugins: [
       yaml(),
       vue(),
+      i18n({
+        include: path.join(__dirname, 'packages/locales/**.{json,yml}'),
+      }),
       components({
         dirs: ['packages/layouts/components'],
         dts: '__generated__/viteComponents.d.ts',
