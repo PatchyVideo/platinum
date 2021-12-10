@@ -399,3 +399,4 @@ settings:
         label: 简介
     loading: 正在拉取个人信息
     name: 账户
+  loading: 正在加载设置

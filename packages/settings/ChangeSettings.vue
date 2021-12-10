@@ -32,7 +32,17 @@
       </div>
       <!-- Settings -->
       <div class="flex-1 flex-shrink-0">
-        <Component :is="activeCatogory?.component"></Component>
+        <Suspense timeout="150">
+          <template #default>
+            <Component :is="activeCatogory?.component"></Component>
+          </template>
+          <template #fallback>
+            <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
+              <div class="inline-block align-middle" v-text="t('settings.loading')"></div>
+              <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
+            </div>
+          </template>
+        </Suspense>
       </div>
     </div>
   </LayoutDefault>
