@@ -372,3 +372,31 @@ tag:
     type:
       group: 社团
       individual: 个人
+settings:
+  account:
+    loading: 睇度拉取个人嘅信息
+    name: 账户
+    profile:
+      description:
+        label: 简介
+      name: 个人嘅信息
+      username:
+        desc: 呢个用户名全站唯一一个，你可以随时修改你嘅用户名。
+        label: 用户名
+  appearance:
+    name: 外观
+    theme:
+      color:
+        name: 主题嘅颜色
+      name: 主题
+  general:
+    general:
+      name: 常规
+    language:
+      browser-default: 浏览器嘅建议：{preferred}
+      desc: 如果你肯帮助 PatchyVideo 嘅翻译工作，欢迎加入我哋！
+    name: 常规
+    quick-settings:
+      name: 快捷设置
+  loading: 睇度加载紧设置
+  settings: 设置
