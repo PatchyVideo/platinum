@@ -66,7 +66,7 @@
             <!-- Video Comments -->
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
               <div class="flex flex-row flex-nowrap">
-                <div class="mx-2">
+                <div class="flex-none mx-2">
                   <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
                     <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()"
                       ><UserAvatar
@@ -98,14 +98,14 @@
                 :key="child.id.toHexString()"
                 class="flex flex-row flex-nowrap"
               >
-                <div class="w-10 md:w-14">
+                <div class="flex-none w-10 md:w-14">
                   <div class="flex flex-row w-full h-full ml-6 md:ml-8">
                     <div v-if="cindex !== comment.children!.length! - 1" class="w-px h-full bg-gray-400"></div>
                     <div v-else class="w-px h-5 bg-gray-400"></div>
                     <div class="mt-5 w-3 md:w-5 h-px bg-gray-400"></div>
                   </div>
                 </div>
-                <div class="mt-1 mr-2">
+                <div class="flex-none mt-1 mr-2">
                   <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
                     <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
                       ><UserAvatar
@@ -116,7 +116,7 @@
                     /></UserAvatarPopper>
                   </RouterLink>
                 </div>
-                <div>
+                <div class="flex flex-col">
                   <div>
                     <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
                       ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink

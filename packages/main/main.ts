@@ -7,7 +7,7 @@ import '@/css'
 import '@/darkmode'
 
 /* GraphQL */
-import { createApollo, provideClient } from '@/graphql'
+import { createApollo, provideClient as provideGraphQLClient } from '@/graphql'
 const client = createApollo()
 
 /* NProgress */
@@ -28,7 +28,7 @@ const app = createApp(
   defineComponent({
     render: () => [h(AppRouterView), h(Notification), h(PvMessage), h(ReloadPrompt)],
     setup() {
-      provideClient(client)
+      provideGraphQLClient(client)
       provideSharedObject()
     },
   })
@@ -179,10 +179,6 @@ app.use(i18n)
 /* Vue Motion */
 import { MotionPlugin } from '@vueuse/motion'
 app.use(MotionPlugin)
-
-/* Vite PWA */
-import { registerSW } from 'virtual:pwa-register'
-registerSW({})
 
 /* Check if backend is alive */
 import BackendDown from './components/BackendDown.vue'

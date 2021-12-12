@@ -14,7 +14,6 @@
       <!-- Search Bar -->
       <div v-if="showSearchBar" class="flex flex-auto flex-nowrap items-center justify-center mx-2">
         <AutoComplete
-          ref="autoComplete"
           v-model:keyword="keyword"
           class="w-full max-w-2xl"
           :teleport-result="screenSizes['<sm'] ? teleportTo : undefined"
@@ -212,8 +211,8 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
-import { ref, computed, shallowRef, Ref } from 'vue'
-import type { Component } from 'vue'
+import { ref, computed, shallowRef } from 'vue'
+import type { Component, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
@@ -288,7 +287,6 @@ async function logout(): Promise<void> {
   location.reload()
 }
 
-const autoComplete = ref<InstanceType<typeof AutoComplete> | null>(null)
 const hidePage = ref(false)
 const keyword = ref(
   route.path === '/search-result'

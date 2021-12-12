@@ -1,4 +1,4 @@
-import { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
+import type { AllowedComponentProps, ComponentCustomProps, VNodeProps } from 'vue'
 
 declare module 'vue' {
   export interface GlobalComponents {

@@ -1,14 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { provide, inject } from 'vue'
-import {
-  ApolloClient,
-  InMemoryCache,
-  NormalizedCacheObject,
-  from,
-  HttpLink,
-  disableFragmentWarnings,
-  FieldFunctionOptions,
-} from '@apollo/client/core'
+import type { NormalizedCacheObject, FieldFunctionOptions } from '@apollo/client/core'
+import { ApolloClient, InMemoryCache, from, HttpLink, disableFragmentWarnings } from '@apollo/client/core'
 import type { SafeReadonly } from '@apollo/client/cache/core/types/common'
 import { offsetLimitPagination } from '@apollo/client/utilities'
 import ObjectID from 'bson-objectid'
@@ -16,7 +9,8 @@ import { DefaultApolloClient } from '@vue/apollo-composable'
 import { logErrorMessages } from '@vue/apollo-util'
 
 import { withScalars } from 'apollo-link-scalars'
-import { buildClientSchema, IntrospectionQuery } from 'graphql'
+import type { IntrospectionQuery } from 'graphql'
+import { buildClientSchema } from 'graphql'
 import jsonSchema from './__generated__/graphql.schema.json'
 import generatedIntrospection from './__generated__/graphql.fragment'
 

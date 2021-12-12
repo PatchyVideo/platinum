@@ -12,15 +12,15 @@
       <button class="font-light border-b border-blue-600 dark:border-blue-400" @click="() => updateServiceWorker()">
         重新加载
       </button>
-      <button class="font-light ml-2 border-b border-gray-600 dark:border-gray-400" @click="() => close()">忽略</button>
+      <button class="font-light ml-2 border-b border-gray-600 dark:border-gray-400" @click="close">忽略</button>
     </div>
   </Transition>
 </template>
 
 <script lang="ts" setup>
-import { useMotion } from '@vueuse/motion'
-import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { shallowRef } from 'vue'
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { useMotion } from '@vueuse/motion'
 
 const { needRefresh, updateServiceWorker } = useRegisterSW()
 

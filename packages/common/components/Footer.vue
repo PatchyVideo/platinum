@@ -58,7 +58,8 @@ import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'
 import { extensions } from '@/main/extension'
-import { gql, Query, useQuery, useResult } from '@/graphql'
+import type { Query } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
 
 const isDev = import.meta.env.DEV
 

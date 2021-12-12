@@ -3,7 +3,8 @@ import 'uno.css'
 import './global.postcss'
 
 import { useMediaQuery } from '@vueuse/core'
-import { computed, reactive, Ref } from 'vue'
+import type { Ref } from 'vue'
+import { computed, reactive } from 'vue'
 
 export const screens = {
   sm: '576px',

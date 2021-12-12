@@ -23,7 +23,8 @@
 
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { themePreference, Themes } from '..'
+import type { Themes } from '..'
+import { themePreference } from '..'
 
 const { t } = useI18n()
 

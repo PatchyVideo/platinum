@@ -1,4 +1,5 @@
-import { VNode, reactive, ref, shallowReactive } from 'vue'
+import type { VNode } from 'vue'
+import { reactive, ref, shallowReactive } from 'vue'
 
 export enum MessageType {
   success = 'success',
