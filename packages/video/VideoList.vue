@@ -54,8 +54,15 @@
             class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="'/video/' + video.id.toHexString()"
           >
-            <div class="w-2/5 mr-0.5">
+            <div class="relative w-2/5 mr-0.5">
               <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
+              <div
+                v-if="video.clearence === 0"
+                class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
+              >
+                <div class="i-uil-eye-slash text-4xl"></div>
+                <div class="text-lg">已隐藏</div>
+              </div>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
               <div v-if="video.item.partName" class="overflow-hidden w-full">
@@ -69,10 +76,6 @@
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
-                <span v-if="video.clearence === 0" class="ml-2"
-                  >已隐藏
-                  <div class="i-uil-eye-slash inline-block align-text-bottom"></div
-                ></span>
               </div>
             </div>
           </RouterLink>
@@ -82,10 +85,19 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="w-12/50 my-2 border border-gray-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
+            class="w-12/50 my-2 border border-gray-400 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
-            <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
+            <div class="relative">
+              <Cover :title="video.item.title" :cover-image="video.item.coverImage"></Cover>
+              <div
+                v-if="video.clearence === 0"
+                class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
+              >
+                <div class="i-uil-eye-slash text-8xl"></div>
+                <div class="text-2xl">已隐藏</div>
+              </div>
+            </div>
             <div class="p-3 text-left text-sm lg:text-base">
               <div v-if="video.item.partName">
                 <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
@@ -103,10 +115,6 @@
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
                 <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
-                <span v-if="video.clearence === 0" class="ml-2"
-                  >已隐藏
-                  <div class="i-uil-eye-slash inline-block align-text-bottom"></div
-                ></span>
               </div>
             </div>
           </RouterLink>
