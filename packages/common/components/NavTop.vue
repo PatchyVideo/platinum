@@ -36,10 +36,10 @@
           <div class="flex items-center space-x-3">
             <div
               v-if="!screenSizes['<sm'] && props.fetchNote"
-              ref="NoteBoxBtn"
+              ref="noteBoxBtn"
               class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
-              :class="{ 'bg-gray-200 dark:bg-gray-700': NoteBoxOpen }"
-              @click="NoteBoxOpen = true"
+              :class="{ 'bg-gray-200 dark:bg-gray-700': noteBoxOpen }"
+              @click="noteBoxOpen = true"
             >
               <div class="inline-block i-uil-envelope"></div>
               <label
@@ -63,8 +63,8 @@
             </div>
           </div>
           <!-- Note Box -->
-          <Transition name="NoteBox">
-            <div v-show="NoteBoxOpen" ref="NoteBox">
+          <Transition name="noteBox">
+            <div v-show="noteBoxOpen" ref="noteBox">
               <NoteBoxNavTop v-model:list-note-count-unread="listNoteCountUnread" />
             </div>
           </Transition>
@@ -78,7 +78,7 @@
             <div
               v-show="userListOpen"
               ref="userList"
-              class="z-900 absolute -top-6 -right-2 w-40 p-2 mt-1/2 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
+              class="z-50 absolute -top-6 -right-2 w-40 p-2 mt-10 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
             >
               <UserAvatar
                 :title="user.name"
@@ -86,7 +86,7 @@
                 :email="user.email"
                 class="absolute -top-5 right-0 w-14 h-14 rounded-full border border-white cursor-pointer"
               ></UserAvatar>
-              <div v-if="isLogin === IsLogin.yes" class="space-y-3">
+              <div class="space-y-3">
                 <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
                 <RouterLink
                   v-if="screenSizes['<sm'] && props.fetchNote"
@@ -109,7 +109,6 @@
                   ></div>
                 </div>
               </div>
-              <div v-else class="p-5">{{ t('common.nav-top.user.confirming') }}</div>
             </div>
           </Transition>
         </div>
@@ -188,8 +187,9 @@
         leave-to-class="bg-opacity-0"
       >
         <div
-          v-if="drawerOpen"
-          class="absolute inset-0 bg-black/20 z-49"
+          v-if="drawerOpen || userListOpen || noteBoxOpen"
+          class="absolute inset-0 z-49"
+          :class="{ 'bg-black/20': drawerOpen }"
           @click="drawerOpen = false"
           @touchmove.prevent.passive
         ></div>
@@ -239,15 +239,15 @@ const route = useRoute()
 const userListOpen = ref<boolean>(false)
 const userListBtn = shallowRef<HTMLDivElement | null>(null)
 const userList = shallowRef<HTMLDivElement | null>(null)
-const NoteBoxOpen = ref<boolean>(false)
-const NoteBoxBtn = shallowRef<HTMLDivElement | null>(null)
-const NoteBox = shallowRef<HTMLDivElement | null>(null)
+const noteBoxOpen = ref<boolean>(false)
+const noteBoxBtn = shallowRef<HTMLDivElement | null>(null)
+const noteBox = shallowRef<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e: MouseEvent): void => {
   if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement))) {
     userListOpen.value = false
   }
-  if (!(NoteBox.value?.contains(e.target as HTMLElement) || NoteBoxBtn.value?.contains(e.target as HTMLElement))) {
-    NoteBoxOpen.value = false
+  if (!(noteBox.value?.contains(e.target as HTMLElement) || noteBoxBtn.value?.contains(e.target as HTMLElement))) {
+    noteBoxOpen.value = false
   }
 })
 
@@ -416,19 +416,6 @@ const links = computed(() => {
         icon: 'i-uil-tag-alt',
         text: t('common.nav-top.user-operation.tag'),
         onClick: () => progressing(t('common.nav-top.user-operation.tag')),
-      }
-    )
-  if (isLogin.value === IsLogin.loading)
-    links.push(
-      {
-        key: 'user-padding',
-        type: 'blank',
-        text: '',
-      },
-      {
-        key: 'user-verify',
-        type: 'blank',
-        text: '验证登录中……',
       }
     )
 
