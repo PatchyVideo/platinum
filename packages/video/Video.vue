@@ -360,13 +360,13 @@ import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
 import NProgress from 'nprogress'
-import { useQuery, gql, useResult, useMutation } from '@/graphql'
-import type { schema, Query, Mutation } from '@/graphql'
+import { useQuery, gql, useResult } from '@/graphql'
+import type { schema, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
-import { useLocalStorage, useMagicKeys, whenever } from '@vueuse/core'
+import { useEventListener, useLocalStorage } from '@vueuse/core'
 import { isLogin, IsLogin, user } from '@/user/index'
 import { openWindow } from '@/nested'
 
@@ -623,18 +623,27 @@ const popEditVideoWindow = () => {
 const clearence = computed(() => video.value?.clearence ?? 3)
 
 /* hide video */
-// hide video mutation
-const { mutate: mutateHideVideo } = useMutation<Mutation>(gql`
-  mutation ($vid: String!) {
-    setVideoClearence(para: { clearence: 0, vid: $vid })
-  }
-`)
 const hideVideoResult = ref('')
 const hideVideo = () => {
   hideVideoResult.value = '保存中'
-  mutateHideVideo({ vid: vid.value })
-    .then(() => {
-      hideVideoResult.value = '保存成功!'
+  fetch('https://patchyvideo.com/be/videos/condemn_video.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      vid: vid.value,
+    }),
+    credentials: 'include',
+  })
+    .then((data) => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === 'SUCCEED') {
+        hideVideoResult.value = '保存成功!'
+      } else {
+        throw 'failed'
+      }
     })
     .catch((e) => {
       console.error(e)
@@ -656,5 +665,10 @@ const popEditTagWindow = () => {
   editTagWindow.value = win
 }
 // listen to Ctrl+Alt+T
-whenever(useMagicKeys()['Ctrl+Alt+T'], popEditTagWindow)
+useEventListener(document, 'keydown', (e) => {
+  if (e.ctrlKey && e.key === 'e') {
+    e.preventDefault()
+    popEditTagWindow()
+  }
+})
 </script>
