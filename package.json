@@ -37,7 +37,6 @@
   "dependencies": {
     "@apollo/client": "^3.5.6",
     "@formatjs/intl-localematcher": "^0.2.21",
-    "@intlify/vite-plugin-vue-i18n": "^3.2.1",
     "@popperjs/core": "^2.11.0",
     "@vue/apollo-composable": "^4.0.0-alpha.16",
     "@vue/apollo-util": "^4.0.0-alpha.16",
@@ -69,6 +68,7 @@
     "@graphql-codegen/schema-ast": "^2.4.0",
     "@graphql-codegen/typescript": "^2.4.1",
     "@iconify/json": "^1.1.442",
+    "@intlify/vite-plugin-vue-i18n": "^3.2.1",
     "@rollup/plugin-yaml": "^3.1.0",
     "@types/eslint": "^8.2.1",
     "@types/events": "^3.0.0",
