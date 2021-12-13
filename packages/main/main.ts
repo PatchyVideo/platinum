@@ -151,11 +151,14 @@ const router = createRouter({
   ],
 })
 let pendingNProgress: number | undefined
-router.beforeEach(() => {
+router.beforeEach(async (to, from, next) => {
   if (pendingNProgress === undefined)
     pendingNProgress = setTimeout(() => {
       if (!NProgress.isStarted()) NProgress.start()
     }, 100)
+  await appPromisesFinish
+  if (to.path === '/user/notification' && isLogin.value != IsLogin.yes) next({ path: '/' })
+  else next()
 })
 router.afterEach((guard) => {
   incProcess()
@@ -215,7 +218,7 @@ const checkIfBackendDown = () =>
 appPromises.push(checkIfBackendDown())
 
 /* Login authentication & user data filling */
-import { checkLoginStatus } from '@/user'
+import { checkLoginStatus, isLogin, IsLogin } from '@/user'
 appPromises.push(checkLoginStatus(true))
 
 const appPromisesFinish = Promise.allSettled(appPromises.map((v) => v.then(incProcess))).then(() => {
