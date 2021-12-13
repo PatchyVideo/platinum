@@ -3,7 +3,7 @@
     ref="el"
     class="dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
     :alt="t('user.avatar.alt', { alt })"
-    :title="t('user.avatar.alt', { alt })"
+    :title="hideTitle ? undefined : t('user.avatar.alt', { alt })"
     :src="currUrl"
     @error="onError"
     @click="onClick"
@@ -25,6 +25,7 @@ const props = defineProps<{
   email?: string | null
   alt?: string
   openable?: boolean
+  hideTitle?: boolean
 }>()
 
 const el = shallowRef<HTMLImageElement | null>(null)

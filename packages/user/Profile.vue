@@ -2,7 +2,7 @@
   <LayoutDefault>
     <div v-if="user" class="max-w-screen-xl mx-auto">
       <!-- padding for profile background -->
-      <div class="w-full h-24 sm:h-32 md::h-40 bg-gray-200 dark:bg-gray-600"></div>
+      <div class="w-full aspect-ratio-6/1 bg-gray-200 dark:bg-gray-600"></div>
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
@@ -72,7 +72,7 @@ const { result, loading } = useQuery<Query>(
     }
   `,
   {
-    uid: uid.value,
+    uid,
   }
 )
 

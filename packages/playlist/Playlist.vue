@@ -33,9 +33,10 @@
               <RouterLink class="flex flex-row items-center" :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
                 <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()"
                   ><UserAvatar
+                    class="inline-block w-8 rounded-full"
                     :image="playlist.meta.createdBy.image"
                     :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
-                    class="inline-block w-8 rounded-full"
+                    hide-title
                 /></UserAvatarPopper>
                 <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
               </RouterLink>

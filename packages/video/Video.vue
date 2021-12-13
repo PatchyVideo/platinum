@@ -74,6 +74,7 @@
                         :image="comment.meta.createdBy.image"
                         :gravatar="comment.meta.createdBy.gravatar"
                         :alt="comment.meta.createdBy.username"
+                        hide-title
                     /></UserAvatarPopper>
                   </RouterLink>
                   <div
@@ -113,6 +114,7 @@
                         :image="child.meta.createdBy.image"
                         :gravatar="child.meta.createdBy.gravatar"
                         :alt="child.meta.createdBy.username"
+                        hide-title
                     /></UserAvatarPopper>
                   </RouterLink>
                 </div>
@@ -147,7 +149,8 @@
                         class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                         :image="author.avatar"
                         :gravatar="author.gravatar"
-                        :alt="author.name" /></UserAvatarPopper
+                        :alt="author.name"
+                        hide-title /></UserAvatarPopper
                   ></RouterLink>
                   <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><UserAvatar
