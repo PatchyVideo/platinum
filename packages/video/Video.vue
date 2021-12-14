@@ -15,14 +15,14 @@
                 ><span title="隐藏视频"
                   ><div
                     v-if="isLogin === IsLogin.yes"
-                    class="i-uil-eye-slash inline-block ml-2 text-lg align-middle cursor-pointer select-none"
+                    class="i-uil-eye-slash inline-block ml-2 text-lg cursor-pointer select-none"
                     @click="hideVideo"
                   ></div></span
                 ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
               ><span title="编辑视频"
                 ><div
                   v-if="isLogin === IsLogin.yes"
-                  class="i-uil-pen inline-block ml-2 text-lg align-middle cursor-pointer select-none"
+                  class="i-uil-pen inline-block ml-2 text-lg cursor-pointer select-none"
                   @click="popEditVideoWindow"
                 ></div
               ></span>
@@ -664,11 +664,4 @@ const popEditTagWindow = () => {
   })
   editTagWindow.value = win
 }
-// listen to Ctrl+Alt+T
-useEventListener(document, 'keydown', (e) => {
-  if (e.ctrlKey && e.key === 'e') {
-    e.preventDefault()
-    popEditTagWindow()
-  }
-})
 </script>

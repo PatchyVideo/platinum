@@ -80,15 +80,16 @@
           </div>
         </div>
       </div>
-      <div class="flex flex-row justify-between flex-nowrap h-6 mx-6 my-1 text-white overflow-hidden">
+      <div class="flex flex-row justify-between flex-nowrap h-8 mx-4 my-1 text-white overflow-hidden">
         <div class="flex-grow-0 flex flex-row items-center">
-          <span class="text-2xl" @click="onPlayPause"
-            ><div v-if="!streamsReady" class="i-uil-spinner-alt animate-spin"></div>
-            <div v-else-if="playing" class="i-uil-pause"></div>
-            <div v-else class="i-uil-play"></div></span
-          ><span class="px-1"></span>
+          <div class="flex" @click="onPlayPause">
+            <div v-if="!streamsReady" class="i-uil-spinner-alt text-2xl animate-spin"></div>
+            <div v-else-if="playing" class="i-uil-pause text-2xl"></div>
+            <div v-else class="i-uil-play text-2xl"></div>
+          </div>
+          <div class="px-1"></div>
           <div class="volume flex flex-row items-center">
-            <div class="i-uil-volume mr-0.5 text-xl"></div>
+            <div class="i-uil-volume mr-0.5 text-2xl"></div>
             <div class="inline-block h-full m-0 align-middle">
               <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
@@ -103,10 +104,10 @@
             </div>
           </div>
         </div>
-        <div class="flex-grow-0">
-          <span v-if="!disableFullscreen" class="text-2xl" @click="onFullscreen"
-            ><div v-if="!isFullscreen" class="i-uil-expand-arrows-alt"></div>
-            <div v-else class="i-uil-compress-arrows"></div></span
+        <div class="flex-grow-0 flex items-center">
+          <span v-if="!disableFullscreen" class="flex" @click="onFullscreen"
+            ><div v-if="!isFullscreen" class="i-uil-expand-arrows-alt text-2xl"></div>
+            <div v-else class="i-uil-compress-arrows text-2xl"></div></span
           ><span class="px-1"></span>
         </div>
       </div>
@@ -680,13 +681,13 @@ const volumebar = shallowRef<HTMLDivElement | null>(null)
 useEventListener(volumebar, 'click', (e: MouseEvent) => {
   let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
   percentage = Math.max(0, Math.min(1, percentage))
-  volume.value = percentage
+  if (Number.isFinite(percentage)) volume.value = percentage
 })
 useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
   const stopMouseMove = useEventListener('mousemove', (e: MouseEvent) => {
     let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
-    volume.value = percentage
+    if (Number.isFinite(percentage)) volume.value = percentage
   })
   const stopMouseUp = useEventListener('mouseup', (e: MouseEvent) => {
     stopMouseMove()
@@ -749,6 +750,9 @@ async function playStream(quality: string) {
       )
     })
   streamQuality.value = quality
+
+  flvPlayer?.destroy()
+
   if (video.value) {
     log(t('video.player.play-stream.source.video.source-changing') + '\n')
     const stream =
@@ -770,6 +774,7 @@ async function playStream(quality: string) {
       return false
     }
     console.log(stream, audioStream)
+
     try {
       switch (stream.container) {
         case 'flv': {
@@ -802,12 +807,16 @@ async function playStream(quality: string) {
         case 'mp4_dash': {
           log(t('video.player.play-stream.container.mp4_dash.source-loading') + '\n')
           video.value.src = stream.src[0]
-          const stopOnVideoCanPlay = useEventListener(video, 'canplay', () => {
-            log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
-            currentStream.value = stream
-            videoElementReady.value = true
-            stopOnVideoCanPlay()
-          })
+          useEventListener(
+            video,
+            'canplay',
+            () => {
+              log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
+              currentStream.value = stream
+              videoElementReady.value = true
+            },
+            { once: true }
+          )
           if (stream.audioStreams) {
             audio.value!.src = stream.audioStreams[0].src[0]
             audio.value!.currentTime = video.value.currentTime
@@ -1095,8 +1104,8 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
   }
   .volumedot {
     /* TODO find a better way to do this */
-    --un-translate-x: 0;
-    --un-translate-y: 0;
+    --un-scale-x: 1;
+    --un-scale-y: 1;
   }
 }
 </style>
