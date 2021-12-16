@@ -9,52 +9,52 @@
     <div v-else-if="listNoteCountUnread === 0">没有新消息哦</div>
     <div v-else>
       <div class="divide-y-2 max-h-110 overflow-auto">
-        <div v-for="Note in listNote" :key="Note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
-          <div v-if="Note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
-            <RouterLink class="w-1/6 cursor-pointer" :to="'/user/' + Note.repliedBy.id.toHexString()">
+        <div v-for="note in listNote" :key="note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
+          <div v-if="note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
+            <RouterLink class="w-1/6 cursor-pointer" :to="'/user/' + note.repliedBy.id.toHexString()">
               <UserAvatar
-                :title="Note.repliedBy.username"
-                :image="Note.repliedBy.image"
-                :gravatar="Note.repliedBy.gravatar"
+                :title="note.repliedBy.username"
+                :image="note.repliedBy.image"
+                :gravatar="note.repliedBy.gravatar"
                 class="rounded-full ring-2 ring-white"
               ></UserAvatar>
             </RouterLink>
             <RouterLink
               v-slot="{ navigate }"
               :to="
-                (Note.repliedType === 'forum' ? '' : Note.repliedType === 'video' ? '/video/' : '/playlist/') +
-                Note.repliedObj +
+                (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
+                note.repliedObj +
                 '#' +
-                Note.cid
+                note.cid
               "
               custom
             >
               <div class="w-5/6" @click="navigate">
                 <div>
-                  {{ Note.repliedBy.username + ' 回复了你：' }}
+                  {{ note.repliedBy.username + ' 回复了你：' }}
                 </div>
                 <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                  {{ Note.content }}
+                  {{ note.content }}
                 </div>
                 <div class="text-xs text-gray-600 text-right dark:text-white">
-                  <RelativeDate :date="Note.time" />
+                  <RelativeDate :date="note.time" />
                 </div>
               </div>
             </RouterLink>
           </div>
-          <div v-else-if="Note.__typename === 'SystemNotificationObject'" class="p-2">
+          <div v-else-if="note.__typename === 'SystemNotificationObject'" class="p-2">
             <RouterLink v-slot="{ navigate }" to custom>
               <div class="flex items-center space-x-2" @click="navigate">
-                <UserAvatar :title="Note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
+                <UserAvatar :title="note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
                 <div class="w-5/6">
                   <div class="truncate">
-                    {{ '系统通知：' + Note.title }}
+                    {{ '系统通知：' + note.title }}
                   </div>
                   <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
-                    {{ Note.content }}
+                    {{ note.content }}
                   </div>
                   <div class="text-xs text-gray-600 text-right dark:text-white">
-                    <RelativeDate :date="Note.time" />
+                    <RelativeDate :date="note.time" />
                   </div>
                 </div>
               </div>
