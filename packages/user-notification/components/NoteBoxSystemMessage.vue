@@ -142,6 +142,7 @@ const {
   mutate,
   loading: markAsReadLoading,
   onDone,
+  onError: markAsReadError,
 } = useMutation<Mutation>(
   gql`
     mutation ($markAll: Boolean, $noteType: String, $noteIds: [String!]) {
@@ -155,6 +156,9 @@ watchEffect(() => {
   if (markAsReadLoading.value) markAsReadMutationCount.value++
 })
 onDone(() => {
+  markAsReadMutationCount.value--
+})
+markAsReadError(() => {
   markAsReadMutationCount.value--
 })
 function markAsRead(markAll = false, noteType2 = noteType.value, noteId: string[], noteIsRead = false): void {

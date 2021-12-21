@@ -31,7 +31,15 @@
               "
               custom
             >
-              <div class="w-5/6" @click="navigate">
+              <div
+                class="w-5/6"
+                @click="
+                  () => {
+                    markAsRead(note.type, [note.id.toHexString()])
+                    navigate()
+                  }
+                "
+              >
                 <div>
                   {{ note.repliedBy.username + ' 回复了你：' }}
                 </div>
@@ -45,7 +53,7 @@
             </RouterLink>
           </div>
           <div v-else-if="note.__typename === 'SystemNotificationObject'" class="p-2">
-            <RouterLink v-slot="{ navigate }" to="" custom>
+            <RouterLink v-slot="{ navigate }" to="/user/notification?type=system_message" custom>
               <div class="flex items-center space-x-2" @click="navigate">
                 <UserAvatar :title="note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
                 <div class="w-5/6">
@@ -73,11 +81,11 @@
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import { isLogin, IsLogin } from '@/user'
-import { markAsReadStatus } from '@/user-notification/lib/markAsRead'
-import { useQuery, gql, useResult } from '@/graphql'
+import { markAsReadStatus, markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
+import { useQuery, useMutation, gql, useResult } from '@/graphql'
 import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
-import type { schema, Query } from '@/graphql'
+import type { schema, Query, Mutation } from '@/graphql'
 
 const props = withDefaults(
   defineProps<{
@@ -110,6 +118,7 @@ const { result, loading, onError } = useQuery<Query>(
         notes {
           id
           read
+          type
           ... on ReplyNotificationObject {
             cid
             repliedBy {
@@ -141,6 +150,7 @@ const { result, loading, onError } = useQuery<Query>(
   },
   () => ({
     enabled: isLogin.value === IsLogin.yes && markAsReadStatus.value != 'loading',
+    fetchPolicy: 'network-only',
   })
 )
 watchEffect(() => {
@@ -162,4 +172,29 @@ onError((err) => {
   errMsg.value = err.message
   listNoteStatus.value = 'error'
 })
+
+/* Mutation for notifications read */
+const {
+  mutate,
+  onDone,
+  onError: markAsReadMutationError,
+} = useMutation<Mutation>(
+  gql`
+    mutation ($markAll: Boolean, $noteType: String, $noteIds: [String!]) {
+      markAsRead(para: { markAll: $markAll, noteType: $noteType, noteIds: $noteIds }) {
+        empty
+      }
+    }
+  `
+)
+onDone(() => {
+  markAsReadMutationCount.value--
+})
+markAsReadMutationError(() => {
+  markAsReadMutationCount.value--
+})
+function markAsRead(noteType2: string, noteId: string[]): void {
+  markAsReadMutationCount.value++
+  mutate({ markAll: false, noteType: noteType2, noteIds: noteId })
+}
 </script>
