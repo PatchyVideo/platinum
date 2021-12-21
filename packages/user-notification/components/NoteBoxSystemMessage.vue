@@ -94,18 +94,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
         notes {
           id
           read
-          ... on ReplyNotificationObject {
-            cid
-            repliedBy {
-              id
-              username
-              image
-            }
-            time
-            repliedObj
-            repliedType
-            content
-          }
+          type
           ... on SystemNotificationObject {
             time
             title
@@ -137,7 +126,7 @@ watchEffect(() => {
 const listNotifications = useResult(result, null, (data) => data?.listNotifications)
 watchEffect(() => {
   if (listNotifications.value) {
-    listNote.value = listNotifications.value.notes
+    listNote.value = JSON.parse(JSON.stringify(listNotifications.value.notes))
     listNoteCountAll.value = listNotifications.value.countAll
     listNoteCountUnread.value = listNotifications.value.countUnread
     pageCount.value = listNotifications.value.pageCount
@@ -168,12 +157,12 @@ watchEffect(() => {
 onDone(() => {
   markAsReadMutationCount.value--
 })
-function markAsRead(markAll = false, noteType = 'comment_reply', noteId: string[], noteIsRead = false): void {
+function markAsRead(markAll = false, noteType2 = noteType.value, noteId: string[], noteIsRead = false): void {
   listNoteOpenID.value === noteId[0] ? (listNoteOpenID.value = undefined) : (listNoteOpenID.value = noteId[0])
   if (!listNoteCountUnread.value || noteIsRead) return
   listNote.value[listNote.value.findIndex((note) => note.id.toHexString() === noteId[0])].read = true
   return
-  mutate({ markAll: markAll, noteType: noteType, noteIds: noteId })
+  mutate({ markAll: markAll, noteType: noteType2, noteIds: noteId })
   if (markAll) location.reload
 }
 </script>

@@ -140,11 +140,6 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             repliedType
             content
           }
-          ... on SystemNotificationObject {
-            time
-            title
-            content
-          }
         }
         countAll
         countUnread
