@@ -2,7 +2,7 @@
   <div class="border-b flex justify-between p-1">
     <div>回复我的</div>
     <div
-      class="text-sm"
+      class="text-sm cursor-pointer"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'comment_reply'), [])"
     >

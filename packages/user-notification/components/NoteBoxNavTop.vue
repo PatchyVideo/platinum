@@ -9,7 +9,11 @@
     <div v-else-if="listNoteCountUnread === 0">没有新消息哦</div>
     <div v-else>
       <div class="divide-y-2 max-h-110 overflow-auto">
-        <div v-for="note in listNote" :key="note.id.id" class="hover:bg-gray-50 transition dark:hover:bg-gray-500">
+        <div
+          v-for="note in listNote"
+          :key="note.id.id"
+          class="hover:bg-gray-100 transition cursor-pointer dark:hover:bg-gray-500"
+        >
           <div v-if="note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
             <RouterLink class="w-1/6 cursor-pointer" :to="'/user/' + note.repliedBy.id.toHexString()">
               <UserAvatar
@@ -23,9 +27,7 @@
               v-slot="{ navigate }"
               :to="
                 (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
-                note.repliedObj +
-                '#' +
-                note.cid
+                note.repliedObj
               "
               custom
             >

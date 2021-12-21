@@ -38,7 +38,7 @@
         </div>
         <div class="mt-4 space-y-2">
           <div
-            class="flex align-middle p-2 rounded-md"
+            class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
@@ -58,14 +58,14 @@
             </div>
           </div>
           <div
-            class="flex align-middle p-2 rounded-md text-gray-500"
+            class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
             <div class="i-uil-at inline align-middle text-xl text-center"></div>
             <div>艾特我的（建设中）</div>
           </div>
           <div
-            class="flex align-middle p-2 rounded-md"
+            class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
