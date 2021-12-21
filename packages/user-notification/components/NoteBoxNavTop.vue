@@ -55,7 +55,11 @@
           <div v-else-if="note.__typename === 'SystemNotificationObject'" class="p-2">
             <RouterLink v-slot="{ navigate }" to="/user/notification?type=system_message" custom>
               <div class="flex items-center space-x-2" @click="navigate">
-                <UserAvatar :title="note.title" class="w-1/6 rounded-full ring-2 ring-white"></UserAvatar>
+                <UserAvatar
+                  :title="note.title"
+                  current="packages/common/assets/systemNoitficationIcon.png"
+                  class="w-1/6 rounded-full ring-2 ring-white"
+                ></UserAvatar>
                 <div class="w-5/6">
                   <div class="truncate">
                     {{ '系统通知：' + note.title }}
