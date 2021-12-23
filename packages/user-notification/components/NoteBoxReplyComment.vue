@@ -2,7 +2,7 @@
   <div class="border-b flex justify-between p-1">
     <div>回复我的</div>
     <div
-      class="text-sm cursor-pointer"
+      class="text-sm cursor-pointer transition transition-colors hover:text-pink-300"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'comment_reply'), [])"
     >
@@ -198,13 +198,15 @@ watchEffect(() => {
 })
 onDone(() => {
   markAsReadMutationCount.value--
+  if (isMarkAll) location.reload()
 })
 markAsReadError(() => {
   markAsReadMutationCount.value--
 })
+let isMarkAll = false
 function markAsRead(markAll = false, noteType = 'comment_reply', noteId: string[], noteIsRead = false): void {
   if (!listNoteCountUnread.value || noteIsRead) return
+  isMarkAll = markAll
   mutate({ markAll: markAll, noteType: noteType, noteIds: noteId })
-  if (markAll) location.reload
 }
 </script>

@@ -45,14 +45,14 @@
             <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
-                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
+                v-if="listNoteCountTypesCommentReply"
                 class="bg-red-500 text-white text-sm rounded-full px-2"
                 >{{
-                  listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
-                    ? listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
+                  listNoteCountTypesCommentReply
+                    ? listNoteCountTypesCommentReply
                     : 0 > 99
                     ? '99+'
-                    : listNoteCountTypes.find((type) => type.msgtype === 'comment_reply')?.count
+                    : listNoteCountTypesCommentReply
                 }}</label
               >
             </div>
@@ -72,14 +72,14 @@
             <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
-                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
+                v-if="listNoteCountTypesSystemMessage"
                 class="bg-red-500 text-white text-sm rounded-full px-2"
                 >{{
-                  listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
-                    ? listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
+                  listNoteCountTypesSystemMessage
+                    ? listNoteCountTypesSystemMessage
                     : 0 > 99
                     ? '99+'
-                    : listNoteCountTypes.find((type) => type.msgtype === 'system_message')?.count
+                    : listNoteCountTypesSystemMessage
                 }}</label
               >
             </div>
@@ -117,14 +117,14 @@
             <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               回复我的<label
-                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count"
+                v-if="listNoteCountTypesCommentReply"
                 class="bg-red-500 text-white text-sm rounded-full px-2"
                 >{{
-                  listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
-                    ? listNoteCountTypes?.find((type) => type.msgtype === 'comment_reply')?.count
+                  listNoteCountTypesCommentReply
+                    ? listNoteCountTypesCommentReply
                     : 0 > 99
                     ? '99+'
-                    : listNoteCountTypes.find((type) => type.msgtype === 'comment_reply')?.count
+                    : listNoteCountTypesCommentReply
                 }}</label
               >
             </div>
@@ -144,14 +144,14 @@
             <div class="i-uil-volume inline align-middle text-xl text-center"></div>
             <div>
               系统通知<label
-                v-if="listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count"
+                v-if="listNoteCountTypesSystemMessage"
                 class="bg-red-500 text-white text-sm rounded-full px-2"
                 >{{
-                  listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
-                    ? listNoteCountTypes?.find((type) => type.msgtype === 'system_message')?.count
+                  listNoteCountTypesSystemMessage
+                    ? listNoteCountTypesSystemMessage
                     : 0 > 99
                     ? '99+'
-                    : listNoteCountTypes.find((type) => type.msgtype === 'system_message')?.count
+                    : listNoteCountTypesSystemMessage
                 }}</label
               >
             </div>
@@ -190,6 +190,11 @@ import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
 import NProgress from 'nprogress'
 import { screenSizes } from '@/css'
+import {
+  listNoteCountTypes,
+  listNoteCountTypesSystemMessage,
+  listNoteCountTypesCommentReply,
+} from '@/user-notification/lib/listNoteCountTypes'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -200,7 +205,6 @@ const noteDrawerOpen = ref<boolean | undefined>()
 const listAll = ref(true)
 const listNoteCountAll = ref<number>(0)
 const listNoteCountUnread = ref<number>(0)
-const listNoteCountTypes = ref<schema.ListUnreadNotificationCountGqlResultItem[] | undefined>([])
 const listNoteCountStatus = ref<'loading' | 'result' | 'error'>()
 const pageCount = ref<schema.Maybe<number> | undefined>(0)
 
@@ -273,7 +277,12 @@ watchEffect(() => {
   if (listNotifications.value) {
     listNoteCountAll.value = listNotifications.value.countAll
     listNoteCountUnread.value = listNotifications.value.countUnread
-    listNoteCountTypes.value = listUnreadNotificationsCount.value?.list
+    if (listUnreadNotificationsCount.value) {
+      listUnreadNotificationsCount.value.list.map((item) => {
+        if (item.msgtype === 'system_message') listNoteCountTypes.value.systemMessage = item.count
+        else if (item.msgtype === 'comment_reply') listNoteCountTypes.value.commentReply = item.count
+      })
+    }
     pageCount.value = listNotifications.value.pageCount
   } else listNoteCountStatus.value = 'error'
 })

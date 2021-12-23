@@ -1,17 +1,23 @@
 <template>
   <div class="border-b flex justify-between p-1">
     <div>系统通知</div>
-    <div class="text-sm" :class="{ 'text-gray-500': !listNoteCountUnread }">全部标为已读</div>
+    <div
+      class="text-sm cursor-pointer transition transition-colors hover:text-pink-300"
+      :class="{ 'text-gray-500': !listNoteCountUnread }"
+      @click="markAsRead(true, (noteType = 'system_message'), [])"
+    >
+      全部标为已读
+    </div>
   </div>
   <div v-if="listNoteStatus === 'loading'">加载中</div>
   <div v-else-if="listNoteStatus === 'error'"></div>
   <div v-else-if="listNoteCountAll == 0">您还没有收到过回复消息哦</div>
   <div v-else class="space-y-2">
-    <div v-for="note in listNote" :key="note.id.toHexString()">
+    <div v-for="(note, index) in listNote" :key="note.id.toHexString()">
       <div
         v-if="note.__typename === 'SystemNotificationObject'"
         class="m-1 p-2 shadow rounded-md space-y-2"
-        :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
+        :class="{ 'bg-gray-100 dark:bg-gray-500': !listNoteRead[index] }"
       >
         <div>{{ note.title }}</div>
         <div class="relative overflow-hidden">
@@ -26,7 +32,7 @@
           <RelativeDate :date="note.time" />
           <div
             class="cursor-pointer text-pink-300"
-            @click="markAsRead(false, note.type, [note.id.toHexString()], note.read)"
+            @click="markAsRead(false, note.type, [note.id.toHexString()], listNoteRead[index])"
           >
             {{ note.id.toHexString() === listNoteOpenID ? '折叠' : '展开' }}
           </div>
@@ -39,6 +45,7 @@
 <script lang="ts" setup>
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
+import { listNoteCountTypes } from '@/user-notification/lib/listNoteCountTypes'
 import { useQuery, useMutation, gql, useResult } from '@/graphql'
 import { ref, watch, watchEffect } from 'vue'
 import { useVModels } from '@vueuse/core'
@@ -66,6 +73,8 @@ const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 const listNote = ref<
   (schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
 >([])
+// Unknown bug: listNote.value canoot be changed, so use listNoteRead to present wether the note is read or not
+const listNoteRead = ref<boolean[]>([])
 const listNoteOpenID = ref<string>()
 const listNoteCountAll = ref(0)
 const listNoteCountUnread = ref(0)
@@ -126,7 +135,8 @@ watchEffect(() => {
 const listNotifications = useResult(result, null, (data) => data?.listNotifications)
 watchEffect(() => {
   if (listNotifications.value) {
-    listNote.value = JSON.parse(JSON.stringify(listNotifications.value.notes))
+    listNoteRead.value = listNotifications.value.notes.map((item) => item.read)
+    listNote.value = listNotifications.value.notes
     listNoteCountAll.value = listNotifications.value.countAll
     listNoteCountUnread.value = listNotifications.value.countUnread
     pageCount.value = listNotifications.value.pageCount
@@ -157,16 +167,19 @@ watchEffect(() => {
 })
 onDone(() => {
   markAsReadMutationCount.value--
+  if (isMarkAll) location.reload()
+  listNoteCountTypes.value.systemMessage--
 })
-markAsReadError(() => {
+markAsReadError((error) => {
+  console.log(error)
   markAsReadMutationCount.value--
 })
+let isMarkAll = false
 function markAsRead(markAll = false, noteType2 = noteType.value, noteId: string[], noteIsRead = false): void {
   listNoteOpenID.value === noteId[0] ? (listNoteOpenID.value = undefined) : (listNoteOpenID.value = noteId[0])
   if (!listNoteCountUnread.value || noteIsRead) return
-  listNote.value[listNote.value.findIndex((note) => note.id.toHexString() === noteId[0])].read = true
-  return
+  if (noteId[0]) listNoteRead.value[listNote.value.findIndex((note) => note.id.toHexString() === noteId[0])] = true
+  isMarkAll = markAll
   mutate({ markAll: markAll, noteType: noteType2, noteIds: noteId })
-  if (markAll) location.reload
 }
 </script>
