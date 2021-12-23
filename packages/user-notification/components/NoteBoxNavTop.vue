@@ -6,7 +6,10 @@
     通知
     <div v-if="listNoteStatus === 'loading'">加载中</div>
     <div v-else-if="listNoteStatus === 'error'">{{ '加载出错了QAQ，错误原因：' + errMsg }}</div>
-    <div v-else-if="listNoteCountUnread === 0">没有新消息哦</div>
+    <div v-else-if="listNoteCountUnread === 0" class="divide-y-1">
+      <div class="py-2">没有新消息哦</div>
+      <RouterLink to="/user/notification" class="pt-1 text-center block">查看全部回复</RouterLink>
+    </div>
     <div v-else>
       <div class="divide-y-2 max-h-110 overflow-auto">
         <div
