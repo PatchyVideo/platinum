@@ -112,7 +112,7 @@
               <div>
                 <h4 class="mx-2 font-light">
                   <div class="i-uil-tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300"></div>
-                  热门标签
+                  {{ t('search.auto-complete.hot-tags') }}
                   <div v-if="popularTags.length === 0" class="i-uil-spinner-alt inline animate-spin"></div>
                 </h4>
                 <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-800 dark:text-gray-300">

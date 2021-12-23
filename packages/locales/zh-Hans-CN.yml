@@ -21,11 +21,13 @@ common:
       darkmode: 深色模式
       lang: 显示语言
     user:
+      my-message: 我的消息
       login: 登录
       logout: 退出登录
       userprofile: 个人中心
       confirming: 验证登录中...
   footer:
+    user-number: PatchyVideo 正在为 {users} 个像你一样的用户提供服务！
     wiki: 网站维基
     status: 网站状态
     bl-account: B站官方帐户
@@ -64,6 +66,12 @@ locales:
   change-lang-reload-hint: |-
     部分语言修改需要刷新页面才能生效
     现在刷新页面吗？
+main:
+  browser-offline: 网络连接不可用，请检查网络设置
+  reload-prompt:
+    tips: 有新内容更新，重新加载以应用更新
+    reload: 重新加载
+    dismiss: 忽略
 playlist:
   playlist:
     collapse: 收起
@@ -120,6 +128,7 @@ search:
           search-result-count: 共搜索到{count}个视频
       video:
         source-site: 源网站：
+        hidden: 已隐藏
       visible-sites:
         all: 全部
         home: 国内网站
@@ -144,6 +153,7 @@ search:
     search: 搜索
     loading: 少女祈祷中......
     loading-failed: 加载失败了QAQ
+    hot-tags: 热门标签
 ui:
   back-top:
     back-top: 回到顶部

@@ -71,7 +71,7 @@
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
             <div class="i-uil-eye-slash text-4xl"></div>
-            <div class="text-lg">已隐藏</div>
+            <div class="text-lg">{{ t('search.search-result.video.video.hidden') }}</div>
           </div>
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
@@ -105,7 +105,7 @@
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
             <div class="i-uil-eye-slash text-8xl"></div>
-            <div class="text-2xl">已隐藏</div>
+            <div class="text-2xl">{{ t('search.search-result.video.video.hidden') }}</div>
           </div>
         </div>
         <div class="p-3 text-left text-sm lg:text-base">
@@ -140,7 +140,7 @@ import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useVModels } from '@vueuse/core'
 import NProgress from 'nprogress'
-import { getCoverImage, getSiteImage } from '@/common/lib/imageUrl'
+import { getSiteImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { useQuery, gql, useResult } from '@/graphql'

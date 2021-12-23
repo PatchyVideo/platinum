@@ -4,8 +4,4 @@ export function backTop(): void {
     window.requestAnimationFrame(backTop)
     window.scrollTo(0, top - top / 5)
   }
-  //   if ($("html").scrollTop()) {
-  //     //动画效果
-  //     $("html").animate({ scrollTop: 0 }, 100);
-  //   }
 }

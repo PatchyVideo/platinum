@@ -23,7 +23,8 @@
       <span ref="typedEl"></span>
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-300">
-      <span>PatchyVideo 正在为 {{ users }} 个像你一样的用户提供服务！</span><br />
+      <span>{{ t('common.footer.user-number', { users: users }) }}</span
+      ><br />
       <span
         ><span>Platinum v{{ version }}</span
         >(<a

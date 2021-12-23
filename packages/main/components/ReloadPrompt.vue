@@ -8,11 +8,13 @@
       :enter="{ y: 0 }"
       class="z-10000 fixed bottom-0 right-0 left-0 sm:bottom-4 sm:right-3 sm:left-auto px-3 py-2 sm:px-6 sm:py-4 rounded-md bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-800 shadow-lg"
     >
-      <div class="font-light">有新内容更新，重新加载以应用更新</div>
+      <div class="font-light">{{ t('main.reload-prompt.tips') }}</div>
       <button class="font-light border-b border-blue-600 dark:border-blue-400" @click="() => updateServiceWorker()">
-        重新加载
+        {{ t('main.reload-prompt.reload') }}
       </button>
-      <button class="font-light ml-2 border-b border-gray-600 dark:border-gray-400" @click="close">忽略</button>
+      <button class="font-light ml-2 border-b border-gray-600 dark:border-gray-400" @click="close">
+        {{ t('main.reload-prompt.dismiss') }}
+      </button>
     </div>
   </Transition>
 </template>
@@ -21,6 +23,9 @@
 import { shallowRef } from 'vue'
 import { useRegisterSW } from 'virtual:pwa-register/vue'
 import { useMotion } from '@vueuse/motion'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const { needRefresh, updateServiceWorker } = useRegisterSW()
 

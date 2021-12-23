@@ -93,7 +93,7 @@
                   class="block text-center"
                   to="/user/notification"
                 >
-                  <label>我的消息</label
+                  <label>{{ t('common.nav-top.user.my-message') }}</label
                   ><label v-if="listNoteCountUnread" class="bg-red-500 text-white text-sm rounded-full px-2">{{
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
                   }}</label></RouterLink

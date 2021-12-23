@@ -26,7 +26,6 @@
 </template>
 
 <script lang="ts" setup>
-import { useI18n } from 'vue-i18n'
 import { useVModel } from '@vueuse/core'
 
 const props = defineProps<{
@@ -42,6 +41,5 @@ const emit = defineEmits<{
   (event: 'update:value', value: string): void
 }>()
 
-const { t } = useI18n()
 const value = useVModel(props, 'value', emit, { passive: true })
 </script>
