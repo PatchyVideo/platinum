@@ -43,7 +43,7 @@ const emit = defineEmits<{
 
 const value = useVModel(props, 'value', emit)
 
-const placeholder = computed(() => props.placeholder ?? t('user.input.placeholder')
+const placeholder = computed(() => props.placeholder ?? t('user.input.placeholder'))
 </script>
 
 <style lang="postcss" scoped>
