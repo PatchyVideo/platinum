@@ -23,6 +23,7 @@
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 
 const { t } = useI18n()
 
@@ -34,7 +35,6 @@ const props = withDefaults(
   }>(),
   {
     type: 'singleLine',
-    placeholder: t('user.input.placeholder'),
   }
 )
 const emit = defineEmits<{
@@ -42,6 +42,8 @@ const emit = defineEmits<{
 }>()
 
 const value = useVModel(props, 'value', emit)
+
+const placeholder = computed(() => props.placeholder ?? t('user.input.placeholder')
 </script>
 
 <style lang="postcss" scoped>
