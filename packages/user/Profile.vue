@@ -34,7 +34,7 @@
           <p class="whitespace-pre break-normal line-clamp-4" v-text="user.desc"></p>
         </div>
       </div>
-      <div class="mt-4 ml-8">这里还什么都没有哦……</div>
+      <div class="mt-4 ml-8">{{ t('user.profile.nothing') }}</div>
     </div>
   </LayoutDefault>
 </template>

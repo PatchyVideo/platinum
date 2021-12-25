@@ -3,12 +3,16 @@
     ref="NoteBox"
     class="z-50 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
   >
-    通知
-    <div v-if="listNoteStatus === 'loading'">加载中</div>
-    <div v-else-if="listNoteStatus === 'error'">{{ '加载出错了QAQ，错误原因：' + errMsg }}</div>
+    {{ t('user-notification.notification-navtop.title') }}
+    <div v-if="listNoteStatus === 'loading'">{{ t('user-notification.notification-navtop.loading') }}</div>
+    <div v-else-if="listNoteStatus === 'error'">
+      {{ t('user-notification.notification-navtop.error', { error: errMsg }) }}
+    </div>
     <div v-else-if="listNoteCountUnread === 0" class="divide-y-1">
-      <div class="py-2">没有新消息哦</div>
-      <RouterLink to="/user/notification" class="pt-1 text-center block">查看全部回复</RouterLink>
+      <div class="py-2">{{ t('user-notification.notification-navtop.no-message') }}</div>
+      <RouterLink to="/user/notification" class="pt-1 text-center block">{{
+        t('user-notification.notification-navtop.show-all')
+      }}</RouterLink>
     </div>
     <div v-else>
       <div class="divide-y-2 max-h-110 overflow-auto">
@@ -44,7 +48,7 @@
                 "
               >
                 <div>
-                  {{ note.repliedBy.username + ' 回复了你：' }}
+                  {{ t('user-notification.notification-navtop.reply', { username: note.repliedBy.username }) }}
                 </div>
                 <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
                   {{ note.content }}
@@ -65,7 +69,7 @@
                 ></UserAvatar>
                 <div class="w-5/6">
                   <div class="truncate">
-                    {{ '系统通知：' + note.title }}
+                    {{ t('user-notification.notification-navtop.system', { title: note.title }) }}
                   </div>
                   <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
                     {{ note.content }}
@@ -79,7 +83,9 @@
           </div>
         </div>
       </div>
-      <RouterLink to="/user/notification" class="pt-1 text-center block">查看全部回复</RouterLink>
+      <RouterLink to="/user/notification" class="pt-1 text-center block">{{
+        t('user-notification.notification-navtop.show-all')
+      }}</RouterLink>
     </div>
   </div>
 </template>
@@ -93,6 +99,9 @@ import { useQuery, useMutation, gql, useResult } from '@/graphql'
 import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
 import type { schema, Query, Mutation } from '@/graphql'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{

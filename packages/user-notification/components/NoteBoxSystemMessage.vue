@@ -1,17 +1,17 @@
 <template>
   <div class="border-b flex justify-between p-1">
-    <div>系统通知</div>
+    <div>{{ t('user-notification.notification-system.title') }}</div>
     <div
       class="text-sm cursor-pointer transition transition-colors hover:text-pink-300"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'system_message'), [])"
     >
-      全部标为已读
+      {{ t('user-notification.notification-system.mark-all-as-read') }}
     </div>
   </div>
-  <div v-if="listNoteStatus === 'loading'">加载中</div>
+  <div v-if="listNoteStatus === 'loading'">{{ t('user-notification.notification-system.loading') }}</div>
   <div v-else-if="listNoteStatus === 'error'"></div>
-  <div v-else-if="listNoteCountAll == 0">您还没有收到过回复消息哦</div>
+  <div v-else-if="listNoteCountAll == 0">{{ t('user-notification.notification-system.no-message') }}</div>
   <div v-else class="space-y-2">
     <div v-for="(note, index) in listNote" :key="note.id.toHexString()">
       <div
@@ -34,7 +34,11 @@
             class="cursor-pointer text-pink-300"
             @click="markAsRead(false, note.type, [note.id.toHexString()], listNoteRead[index])"
           >
-            {{ note.id.toHexString() === listNoteOpenID ? '折叠' : '展开' }}
+            {{
+              note.id.toHexString() === listNoteOpenID
+                ? t('user-notification.notification-system.fold')
+                : t('user-notification.notification-system.unfold')
+            }}
           </div>
         </div>
       </div>

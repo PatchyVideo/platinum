@@ -376,12 +376,12 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
           ? ([
               {
                 type: 'check',
-                text: 'Canvas',
+                text: t('video.player.settings.default.items.canvas'),
                 checked: useCanvas,
               },
               {
                 type: 'check',
-                text: 'Canvas 透明',
+                text: t('video.player.settings.default.items.canvas-transparent'),
                 checked: canvasTransparent,
               },
             ] as SettingItem[])

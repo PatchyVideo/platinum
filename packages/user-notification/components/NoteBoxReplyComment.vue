@@ -1,17 +1,17 @@
 <template>
   <div class="border-b flex justify-between p-1">
-    <div>回复我的</div>
+    <div>{{ t('user-notification.notification-reply.title') }}</div>
     <div
       class="text-sm cursor-pointer transition transition-colors hover:text-pink-300"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'comment_reply'), [])"
     >
-      全部标为已读
+      {{ t('user-notification.notification-reply.mark-all-as-read') }}
     </div>
   </div>
-  <div v-if="listNoteStatus === 'loading'">加载中</div>
+  <div v-if="listNoteStatus === 'loading'">{{ t('user-notification.notification-reply.loading') }}</div>
   <div v-else-if="listNoteStatus === 'error'"></div>
-  <div v-else-if="listNoteCountAll == 0">您还没有收到过回复消息哦</div>
+  <div v-else-if="listNoteCountAll == 0">{{ t('user-notification.notification-reply.no-message') }}</div>
   <div v-else>
     <div v-for="note in listNote" :key="note.id.toHexString()">
       <div
@@ -53,7 +53,7 @@
             "
           >
             <div>
-              {{ note.repliedBy.username + ' 回复了你：' }}
+              {{ t('user-notification.notification-reply.reply', { username: note.repliedBy.username }) }}
             </div>
             <div class="text-xs bg-gray-100 text-gray-400 p-1 truncate dark:bg-gray-500 dark:text-gray-200">
               {{ note.content }}

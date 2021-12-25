@@ -12,14 +12,14 @@
               }}<span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span
               ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
               ><template v-if="user.isAdmin"
-                ><span title="隐藏视频"
+                ><span :title="t('video.video.edit.hide-video.title')"
                   ><div
                     v-if="isLogin === IsLogin.yes"
                     class="i-uil-eye-slash inline-block ml-2 text-lg cursor-pointer select-none"
                     @click="hideVideo"
                   ></div></span
                 ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
-              ><span title="编辑视频"
+              ><span :title="t('video.video.edit.edit-video')"
                 ><div
                   v-if="isLogin === IsLogin.yes"
                   class="i-uil-pen inline-block ml-2 text-lg cursor-pointer select-none"
@@ -38,7 +38,7 @@
           <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
-            <span v-if="isLogin === IsLogin.yes" title="编辑标签"
+            <span v-if="isLogin === IsLogin.yes" :title="t('video.video.edit.edit-tags')"
               ><div
                 class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
                 @click="popEditTagWindow"
@@ -261,7 +261,7 @@
           </Teleport>
           <!-- Related Video -->
           <div class="mt-2">
-            <span class="ml-1 font-light">相关视频</span>
+            <span class="ml-1 font-light">{{ t('video.video.related-video') }}</span>
             <div class="flex flex-col">
               <RouterLink
                 v-for="rlVideo in video.relatedVideos"
@@ -366,7 +366,7 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
-import { useEventListener, useLocalStorage } from '@vueuse/core'
+import { useLocalStorage } from '@vueuse/core'
 import { isLogin, IsLogin, user } from '@/user/index'
 import { openWindow } from '@/nested'
 
@@ -625,7 +625,7 @@ const clearence = computed(() => video.value?.clearence ?? 3)
 /* hide video */
 const hideVideoResult = ref('')
 const hideVideo = () => {
-  hideVideoResult.value = '保存中'
+  hideVideoResult.value = t('video.video.edit.hide-video.saving')
   fetch('https://patchyvideo.com/be/videos/condemn_video.do', {
     method: 'POST',
     headers: new Headers({
@@ -640,14 +640,14 @@ const hideVideo = () => {
     .then((res) => {
       // console.log(res)
       if (res.status === 'SUCCEED') {
-        hideVideoResult.value = '保存成功!'
+        hideVideoResult.value = t('video.video.edit.hide-video.succeed')
       } else {
         throw 'failed'
       }
     })
     .catch((e) => {
       console.error(e)
-      hideVideoResult.value = '保存失败:' + e.message ?? e
+      hideVideoResult.value = t('video.video.edit.hide-video.failed', { error: e.message ?? e })
     })
 }
 

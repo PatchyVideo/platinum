@@ -22,6 +22,9 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const props = withDefaults(
   defineProps<{
@@ -31,7 +34,7 @@ const props = withDefaults(
   }>(),
   {
     type: 'singleLine',
-    placeholder: '请输入内容',
+    placeholder: t('user.input.placeholder'),
   }
 )
 const emit = defineEmits<{

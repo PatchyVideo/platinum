@@ -294,10 +294,41 @@ user:
       none: 暂无
   profile:
     title: '{username} 的个人中心 - PatchyVideo'
+    nothing: 这里还什么都没有哦……
     info:
       created-at: 注册于 {date}
   avatar:
     alt: '{alt}的头像'
+  input:
+    placeholder: 请输入内容
+user-notification:
+  notification:
+    title: 消息中心
+    slide-open: 打开消息侧栏
+    relpy: 回复我的
+    at: 艾特我的（建设中）
+    system: 系统通知
+  notification-system:
+    title: 系统通知
+    mark-all-as-read: 全部标为已读
+    loading: 加载中
+    no-message: 您还没有收到过系统通知哦
+    fold: 折叠
+    unfold: 展开
+  notification-reply:
+    title: 回复我的
+    mark-all-as-read: 全部标为已读
+    loading: 加载中
+    no-message: 您还没有收到过回复消息哦
+    reply: '{username}回复了你：'
+  notification-navtop:
+    title: 消息和通知
+    loading: 加载中
+    error: 加载出错了QAQ，错误原因：{error}
+    no-message: 没有新消息哦
+    show-all: 查看全部回复
+    reply: '{username} 回复了你：'
+    system: 系统通知：{title}
 video:
   video:
     repost-type:
@@ -308,13 +339,17 @@ video:
       authorized_translation: 授权翻译
       translation: 自发翻译
       unknown: 其他
-    ranks:
-      '0': 仅管理员可见
-      '1': 登录用户可见
-      '2': 发布者和管理员可见
-      '3': 所有人可见
     uploader: 上传者
     no-desc: 这个人太懒啦，并没有写简介
+    edit:
+      hide-video:
+        title: 隐藏视频
+        saving: 保存中
+        succeed: 保存成功！
+        failed: 保存失败：{error}
+      edit-video: 编辑视频
+      edit-tags: 编辑标签
+    related-video: 相关视频
   player:
     settings:
       default:
@@ -322,6 +357,8 @@ video:
         items:
           quality: 清晰度
           audio: 同步音频
+          canvas: Canvas
+          canvas-transparent: Canvas 透明
       quality:
         name: 清晰度
         items:
@@ -355,6 +392,21 @@ video:
       profile:
         known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
         unknown-source: 未知的视频源：{source}
+  edit-video:
+    title: 编辑视频 - {videoname}
+    profile:
+      profile: 基本信息
+      title: 视频标题
+      ranks:
+        rank: 视频登记
+        '0': 仅管理员可见
+        '1': 登录用户可见
+        '2': 发布者和管理员可见
+        '3': 所有人可见
+      edit:
+        saving: 保存中 - 编辑视频 - {videoname}
+        saved: 已保存! - 编辑视频 - {videoname}
+        failed: 保存失败 - 编辑视频 - {videoname}
   video-list:
     title: 视频列表
     main-body:
@@ -366,7 +418,9 @@ video:
       successful:
         search-no-result: 没有搜索到视频QAQ
         search-result-count: 共{count}个视频
+      tips: '*已屏蔽含有敏感标签的视频'
     video:
+      hidden: 已隐藏
       source-site: 源网站：
     advanced-search:
       name: 高级搜索

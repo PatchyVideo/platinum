@@ -45,7 +45,7 @@
           class="border-b pb-1"
           v-text="t('video.video-list.main-body.successful.search-result-count', { count })"
         ></div>
-        <!-- <div class="p-1 text-xs text-right md:text-sm">*已屏蔽含有敏感标签的视频</div> -->
+        <div class="p-1 text-xs text-right md:text-sm">{{ t('video.video-list.main-body.tips') }}</div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <RouterLink
@@ -61,7 +61,7 @@
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
                 <div class="i-uil-eye-slash text-4xl"></div>
-                <div class="text-lg">已隐藏</div>
+                <div class="text-lg">{{ t('video.video-list.video.hidden') }}</div>
               </div>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
@@ -95,7 +95,7 @@
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
                 <div class="i-uil-eye-slash text-8xl"></div>
-                <div class="text-2xl">已隐藏</div>
+                <div class="text-2xl">{{ t('video.video-list.video.hidden') }}</div>
               </div>
             </div>
             <div class="p-3 text-left text-sm lg:text-base">
