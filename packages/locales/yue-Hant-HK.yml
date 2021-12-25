@@ -21,24 +21,26 @@ common:
       darkmode: 深色模式
       lang: 显示语言
     user:
+      my-message: 我的消息
       login: 登录
       logout: 退出登录
-      confirming: 系度验证登录紧...
       userprofile: 个人中心
+      confirming: 系度验证登录紧...
   footer:
+    user-number: PatchyVideo 正在为 {users} 个像你一样的用户提供服务！
     wiki: 网站嘅维基
     status: 网站嘅状态
     bl-account: B站嘅官方帐户
     joinus: 招募祈愿
     code: 同代码相关嘅啲嘢
     repositories: 项目嘅仓库
+    feedback-issue: 提交反馈
     contact: 联系我们
     license: 开源许可
-    feedback-issue: 提交反馈
 darkmode:
+  system: 跟随系统
   light: 浅色
   dark: 深色
-  system: 跟随系统
 error-pages:
   N404:
     title: 巴瓦鲁魔法服务器并冇这个界面
@@ -64,33 +66,57 @@ locales:
   change-lang-reload-hint: |-
     部分嘅语言修改需要刷新下页面先至生效
     想宜家刷新页面吗？
+main:
+  browser-offline: 网络连接不可用，请检查网络设置
+  reload-prompt:
+    tips: 有新内容更新，重新加载以应用更新
+    reload: 重新加载
+    dismiss: 忽略
 playlist:
   playlist:
     collapse: 收起
     expand: 展开
     info:
-      edit-date: 最后睇{date}更新
-      rating: 评分{rating}
       video-count: '{count}个视频'
+      rating: 评分{rating}
+      edit-date: 最后睇{date}更新
   playlist-list:
-    advanced-search:
-      name: 高级搜索
+    title: 播放列表
     main-body:
+      loading:
+        searching: 少女祈祷中......
       failed:
         load-failed: 加载失败了QAQ
         load-failed-reason: 错误嘅原因：
-      loading:
-        searching: 少女祈祷中......
       successful:
         load-result-count: 一共有{count}个播放列表
     playlist:
       playlist-count: 一共{count}个视频
-    title: 播放列表
+    advanced-search:
+      name: 高级搜索
+leaderboard:
+  title: 用户排行榜
+  loading: 少女祈祷中......
+  failed:
+    load-failed: 加载失败咗QAQ
+    load-failed-reason: 错误嘅原因：
+  tag-contributions:
+    name: 标签贡献排行榜
+    edit-time: 编辑咗嘅次数：{count}
+    date-range:
+      all: 直到宜佳为止
+      last-month: 过去嘅一个月
+      last-week: 过去嘅一个星期
+      last-day: 过去一日
 search:
   search-result:
     title: '揾到嘅结果 - '
     search-keywords: '揾到嘅结果 - '
+    order:
+      last-modified: 最新嘅修改
+      video-oldest: 时间倒序
     video:
+      tab: 视频
       main-body:
         loading:
           searching: 揾紧......
@@ -102,27 +128,24 @@ search:
           search-result-count: 一共揾到咗{count}个视频
       video:
         source-site: 源网站：
-      tab: 视频
+        hidden: 已隐藏
       visible-sites:
-        abroad: 国外嘅网站
         all: 全部
         home: 国内嘅网站
-    order:
-      last-modified: 最新嘅修改
-      video-oldest: 时间倒序
+        abroad: 国外嘅网站
     playlist:
+      tab: 播放列表
       main-body:
+        loading:
+          searching: 少女祈祷中......
         failed:
           search-failed: 加载失败了QAQ
           search-failed-reason: 错误嘅原因：
-        loading:
-          searching: 少女祈祷中......
         successful:
           search-no-result: 冇揾到播放列表QAQ
           search-result-count: 揾到{count}个播放列表
       playlist:
         playlist-count: 一共{count}个视频
-      tab: 播放列表
   search-page:
     title: 搜索
     search: 搜索
@@ -130,6 +153,7 @@ search:
     search: 搜索
     loading: 加载中...
     loading-failed: 加载失败咗QAQ
+    hot-tags: 热门标签
 ui:
   back-top:
     back-top: 番到顶部
@@ -137,9 +161,9 @@ ui:
     select: 请选择
   pv-pagination:
     alert: 请输入一个有效嘅页数！
+    page-previous: 上一页
     page-next: 下一页
     page-number: 第{count}/{total}页
-    page-previous: 上一页
 user:
   login:
     title: 登录
@@ -238,46 +262,75 @@ user:
     log: '{fromWord}成功，{count}秒后跳番登录页面'
     jump: 冇反应？点我手动跳转
   user-page:
+    title: 个人中心
+    not-logged-in: 你净未登陆，点我登陆
     avatar:
-      choose-image: 选择图片
       current: 当前嘅图片
       requirement: 选择一张图片上传：大小系256 * 256像素
+      choose-image: 选择图片
       upload: 上传
+    username:
+      placeholder: 更改用户名
+      modify: 更改
+      cancel: 取消
     description:
       placeholder: 更改个人描述
       save: 保存
+    password:
+      title: 更改密码
+      old: 旧密码
+      oldPlaceholder: 请输入旧密码
+      new: 新密码
+      newPlaceholder: 请输入新密码
+      confirmNew: 确认密码
+      confirmNewPlaceholder: 请重新输入新密码
+      commit: 提交
+      reset: 重置
     email:
+      title: 绑定邮箱
+      placeholder: 请输入邮箱
       bind: 绑定
       boundEmail: 已经绑定咗嘅邮箱
       none: 暂时冇有
-      placeholder: 请输入邮箱
-      title: 绑定邮箱
-    not-logged-in: 你净未登陆，点我登陆
-    password:
-      commit: 提交
-      confirmNew: 确认密码
-      confirmNewPlaceholder: 请重新输入新密码
-      new: 新密码
-      newPlaceholder: 请输入新密码
-      old: 旧密码
-      oldPlaceholder: 请输入旧密码
-      reset: 重置
-      title: 更改密码
-    title: 个人中心
-    username:
-      cancel: 取消
-      modify: 更改
-      placeholder: 更改用户名
+  profile:
+    title: '{username} 的个人中心 - PatchyVideo'
+    nothing: 这里还什么都没有哦……
+    info:
+      created-at: 注册于 {date}
   avatar:
     alt: '{alt}嘅头像'
-  profile:
-    info:
-      created-at: 睇 {date} 注册
-    title: '{username} 嘅个人中心 - PatchyVideo'
+  input:
+    placeholder: 请输入内容
+user-notification:
+  notification:
+    title: 消息中心
+    slide-open: 打开消息侧栏
+    relpy: 回复我的
+    at: 艾特我的（建设中）
+    system: 系统通知
+  notification-system:
+    title: 系统通知
+    mark-all-as-read: 全部标为已读
+    loading: 加载中
+    no-message: 您还没有收到过系统通知哦
+    fold: 折叠
+    unfold: 展开
+  notification-reply:
+    title: 回复我的
+    mark-all-as-read: 全部标为已读
+    loading: 加载中
+    no-message: 您还没有收到过回复消息哦
+    reply: '{username}回复了你：'
+  notification-navtop:
+    title: 消息和通知
+    loading: 加载中
+    error: 加载出错了QAQ，错误原因：{error}
+    no-message: 没有新消息哦
+    show-all: 查看全部回复
+    reply: '{username} 回复了你：'
+    system: 系统通知：{title}
 video:
   video:
-    uploader: 上传者
-    no-desc: 呢个人太懒啦，冇写简介
     repost-type:
       authorized_repost: 授权转载
       authorized_translation: 授权翻译
@@ -286,11 +339,17 @@ video:
       repost: 自发搬运
       translation: 自发翻译
       unknown: 其他
-    ranks:
-      '0': 只有管理员先可以睇
-      '1': 登录咗嘅用户先可以睇
-      '2': 发布嘅人同管理员先可以睇
-      '3': 全部人都可以睇到
+    uploader: 上传者
+    no-desc: 呢个人太懒啦，冇写简介
+    edit:
+      hide-video:
+        title: 隐藏视频
+        saving: 保存中
+        succeed: 保存成功！
+        failed: 保存失败：{error}
+      edit-video: 编辑视频
+      edit-tags: 编辑标签
+    related-video: 相关视频
   player:
     settings:
       default:
@@ -298,10 +357,15 @@ video:
         items:
           quality: 清晰度
           audio: 同步音频
+          canvas: Canvas
+          canvas-transparent: Canvas 透明
       quality:
         name: 清晰度
         items:
           current-codec: 当前格式：{container} ({codec})
+    iframe:
+      enable: 切换视频播放到内嵌播放器
+      failed: 内嵌视频加载失败
     play-stream:
       source:
         video:
@@ -328,41 +392,41 @@ video:
       profile:
         known-source: 视频源：{source}，视频格式：{format}，视频清晰度：{quality}
         unknown-source: 未知嘅视频源：{source}
-    iframe:
-      enable: 切换视频播放到内嵌播放器
-      failed: 内嵌视频加载失败
+  edit-video:
+    title: 编辑视频 - {videoname}
+    profile:
+      profile: 基本信息
+      title: 视频标题
+      ranks:
+        '0': 仅管理员可见
+        '1': 登录用户可见
+        '2': 发布者和管理员可见
+        '3': 所有人可见
+        rank: 视频登记
+      edit:
+        saving: 保存中 - 编辑视频 - {videoname}
+        saved: 已保存! - 编辑视频 - {videoname}
+        failed: 保存失败 - 编辑视频 - {videoname}
   video-list:
-    advanced-search:
-      name: 高级搜索
+    title: 视频嘅列表
     main-body:
+      loading:
+        searching: 少女祈祷中......
       failed:
         search-failed: 加载失败咗QAQ
         search-failed-reason: 错误嘅原因：
-      loading:
-        searching: 少女祈祷中......
       successful:
         search-no-result: 冇揾到视频QAQ
         search-result-count: 一共{count}个视频
-    title: 视频嘅列表
+      tips: '*已屏蔽含有敏感标签的视频'
     video:
+      hidden: 已隐藏
       source-site: 源网站：
+    advanced-search:
+      name: 高级搜索
 others:
   WIP1: 呢个
   WIP2: '{WIP1}功能净睇度完善紧，敬请期待！'
-leaderboard:
-  failed:
-    load-failed: 加载失败咗QAQ
-    load-failed-reason: 错误嘅原因：
-  loading: 少女祈祷中......
-  tag-contributions:
-    date-range:
-      all: 直到宜佳为止
-      last-day: 过去一日
-      last-month: 过去嘅一个月
-      last-week: 过去嘅一个星期
-    edit-time: 编辑咗嘅次数：{count}
-    name: 标签贡献排行榜
-  title: 用户排行榜
 image:
   cover:
     alt: '{title} 嘅封面'
@@ -370,33 +434,33 @@ tag:
   author:
     title: '{tagname} 嘅基础信息'
     type:
-      group: 社团
       individual: 个人
+      group: 社团
 settings:
-  account:
-    loading: 睇度拉取个人嘅信息
-    name: 账户
-    profile:
-      description:
-        label: 简介
-      name: 个人嘅信息
-      username:
-        desc: 呢个用户名全站唯一一个，你可以随时修改你嘅用户名。
-        label: 用户名
-  appearance:
-    name: 外观
-    theme:
-      color:
-        name: 主题嘅颜色
-      name: 主题
+  settings: 设置
   general:
+    quick-settings:
+      name: 快捷设置
     general:
       name: 常规
     language:
-      browser-default: 浏览器嘅建议：{preferred}
       desc: 如果你肯帮助 PatchyVideo 嘅翻译工作，欢迎加入我哋！
+      browser-default: 浏览器嘅建议：{preferred}
     name: 常规
-    quick-settings:
-      name: 快捷设置
+  appearance:
+    theme:
+      name: 主题
+      color:
+        name: 主题嘅颜色
+    name: 外观
+  account:
+    profile:
+      name: 个人嘅信息
+      username:
+        label: 用户名
+        desc: 呢个用户名全站唯一一个，你可以随时修改你嘅用户名。
+      description:
+        label: 简介
+    loading: 睇度拉取个人嘅信息
+    name: 账户
   loading: 睇度加载紧设置
-  settings: 设置

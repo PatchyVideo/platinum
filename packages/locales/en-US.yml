@@ -21,11 +21,13 @@ common:
       darkmode: Darkmode
       lang: Language
     user:
+      my-message: ''
       login: Login
       logout: Logout
-      confirming: Logging in...
       userprofile: Profile
+      confirming: Logging in...
   footer:
+    user-number: ''
     wiki: Wiki
     status: Status
     bl-account: Bilibili
@@ -36,6 +38,7 @@ common:
     contact: Contact
     license: License
 darkmode:
+  system: ''
   light: Light
   dark: Dark
 error-pages:
@@ -65,28 +68,34 @@ home:
     favorites: Playlist
 locales:
   change-lang-reload-hint: Some changes are only visible after reloading, do you wish to reload now?
+main:
+  browser-offline: ''
+  reload-prompt:
+    tips: ''
+    reload: ''
+    dismiss: ''
 playlist:
-  playlist-list:
-    advanced-search:
-      name: Advanced search
-    main-body:
-      failed:
-        load-failed: Failure
-        load-failed-reason: 'Reason:'
-      loading:
-        searching: Searching...
-      successful:
-        load-result-count: '{count} playlists found'
-    playlist:
-      playlist-count: '{count} videos'
-    title: Playlist
   playlist:
     collapse: Collapse
     expand: Expand
     info:
-      edit-date: 'Edited on:'
-      rating: Rating
-      video-count: Videos
+      video-count: ''
+      rating: ''
+      edit-date: ''
+  playlist-list:
+    title: Playlist
+    main-body:
+      loading:
+        searching: Searching...
+      failed:
+        load-failed: Failure
+        load-failed-reason: 'Reason:'
+      successful:
+        load-result-count: '{count} playlists found'
+    playlist:
+      playlist-count: '{count} videos'
+    advanced-search:
+      name: Advanced search
 leaderboard:
   title: Leaderboard
   loading: Loading......
@@ -105,7 +114,11 @@ search:
   search-result:
     title: 'Result - '
     search-keywords: 'Result - '
+    order:
+      last-modified: Last modified
+      video-oldest: Oldest
     video:
+      tab: Video
       main-body:
         loading:
           searching: Searching......
@@ -116,16 +129,14 @@ search:
           search-no-result: No match found
           search-result-count: Total {count} video(s)
       video:
+        hidden: ''
         source-site: 'Source:'
-      tab: Video
       visible-sites:
-        abroad: Foreign site
         all: All
         home: Domestic site
-    order:
-      last-modified: Last modified
-      video-oldest: Oldest
+        abroad: Foreign site
     playlist:
+      tab: Playlist
       main-body:
         loading:
           searching: Searching...
@@ -137,7 +148,6 @@ search:
           search-result-count: '{count} video(s) found'
       playlist:
         playlist-count: '{count} playlist(s) found'
-      tab: Playlist
   search-page:
     title: Search
     search: Search
@@ -145,6 +155,7 @@ search:
     search: Search
     loading: Loading...
     loading-failed: autocomplete unavailable
+    hot-tags: ''
 ui:
   back-top:
     back-top: Back to top
@@ -153,8 +164,8 @@ ui:
   pv-pagination:
     alert: Please enter a valid number of page
     page-next: Next page
-    page-number: Page{count}/{total}
     page-previous: Previous page
+    page-number: Page{count}/{total}
 user:
   login:
     title: Login
@@ -212,86 +223,137 @@ user:
       loading: Please wait...
       error: Unknown error
     login: Login
-  redirect:
-    title: Redirecting...
-    log: '{fromWord} succeed, {count} seconds to home page'
-    jump: Home page
-    from:
-      reset-password: Reset your password
-      sign-up: Sign up
   forget-password:
+    title: Reset password
     email:
+      placeholder: Please enter the e-mail bound to your account
       email-status:
         fine: ' '
-        msg: Please enter the e-mail address with the right form
         tip: Please enter your e-mail address
-      placeholder: Please enter the e-mail bound to your account
-    login: Return to login page
+        msg: Please enter the e-mail address with the right form
     send-status:
-      error: Unknown error
-      failed: This e-mail address is not bound to an account
-      loading: Sending the e-mail for resetting password...
       ready: send e-mail
+      loading: Sending the e-mail for resetting password...
       successful: The e-mail has successfully sent to the address, please check it
-    title: Reset password
+      failed: This e-mail address is not bound to an account
+      error: Unknown error
+    login: Return to login page
   reset-password:
+    title: Reset your password
     password:
+      placeholder: Set your new password
       password-status:
         fine: ' '
-        msg: Please enter your new password
         tip: The length of your new password should between 4 to 64 characters
-      placeholder: Set your new password
+        msg: Please enter your new password
     password2:
+      placeholder: Please repeat your new password
       password2-status:
         fine: ' '
-        msg: The password entered was not identical
         tip: Please enter your new password again
-      placeholder: Please repeat your new password
+        msg: The password entered was not identical
     reset-status:
-      error: Invalid password
-      loading: Resetting your password...
       ready: Reset
-    title: Reset your password
+      loading: Resetting your password...
+      error: Invalid password
+  redirect:
+    title: Redirecting...
+    from:
+      sign-up: Sign up
+      reset-password: Reset your password
+    log: '{fromWord} succeed, {count} seconds to home page'
+    jump: Home page
   user-page:
+    title: User page
+    not-logged-in: User not logged in. Click here to log in
     avatar:
-      choose-image: Choose an image
       current: Your current avatar
       requirement: >-
         Choose an image to upload. The size of the avatar would be 256*256
         pixels
+      choose-image: Choose an image
       upload: Upload
+    username:
+      placeholder: Change your username
+      modify: Submit
+      cancel: Cancel
     description:
       placeholder: Change your description
       save: Save
+    password:
+      title: Change your password
+      old: Previous password
+      oldPlaceholder: Please enter your previous password
+      new: New password
+      newPlaceholder: Please enter your new password
+      confirmNew: Confirm your new password
+      confirmNewPlaceholder: Please enter the new password again
+      commit: Commit
+      reset: Reset
     email:
+      title: Bind your e-mail
+      placeholder: Please enter your e-mail address
       bind: Bind
       boundEmail: E-mail bound to your account
       none: None
-      placeholder: Please enter your e-mail address
-      title: Bind your e-mail
-    not-logged-in: User not logged in. Click here to log in
-    password:
-      commit: Commit
-      confirmNew: Confirm your new password
-      confirmNewPlaceholder: Please enter the new password again
-      new: New password
-      newPlaceholder: Please enter your new password
-      old: Previous password
-      oldPlaceholder: Please enter your previous password
-      reset: Reset
-      title: Change your password
-    title: User page
-    username:
-      cancel: Cancel
-      modify: Submit
-      placeholder: Change your username
   profile:
+    title: ''
+    nothing: ''
     info:
       created-at: Registed at {date}
+  avatar:
+    alt: ''
+  input:
+    placeholder: ''
+user-notification:
+  notification:
+    title: ''
+    slide-open: ''
+    relpy: ''
+    at: ''
+    system: ''
+  notification-system:
+    title: ''
+    mark-all-as-read: ''
+    loading: ''
+    no-message: ''
+    fold: ''
+    unfold: ''
+  notification-reply:
+    title: ''
+    mark-all-as-read: ''
+    loading: ''
+    no-message: ''
+    reply: ''
+  notification-navtop:
+    title: ''
+    loading: ''
+    error: ''
+    no-message: ''
+    show-all: ''
+    reply: ''
+    system: ''
 video:
   video:
+    repost-type:
+      official: ''
+      official_repost: ''
+      authorized_repost: ''
+      repost: ''
+      authorized_translation: ''
+      translation: ''
+      unknown: ''
     uploader: Uploader
     no-desc: <No description provided>
+    edit:
+      hide-video:
+        title: ''
+        saving: ''
+        succeed: ''
+        failed: ''
+      edit-video: ''
+      edit-tags: ''
+    related-video: ''
   player:
     settings:
       default:
@@ -299,10 +361,15 @@ video:
         items:
           quality: Quality
           audio: Sync audio
+          canvas: ''
+          canvas-transparent: ''
       quality:
         name: Quality
         items:
           current-codec: current codec：{container} ({codec})
+    iframe:
+      enable: ''
+      failed: ''
     play-stream:
       source:
         video:
@@ -329,24 +396,75 @@ video:
       profile:
         known-source: source：{source}，format：{format}，quality：{quality}
         unknown-source: unknown source：{source}
+  edit-video:
+    title: ''
+    profile:
+      profile: ''
+      title: ''
+      ranks:
+        rank: ''
+        '0': ''
+        '1': ''
+        '2': ''
+        '3': ''
+      edit:
+        saving: ''
+        saved: ''
+        failed: ''
   video-list:
-    advanced-search:
-      name: Advanced search
+    title: Video list
     main-body:
+      loading:
+        searching: Searching...
       failed:
         search-failed: Failure
         search-failed-reason: 'Reason:'
-      loading:
-        searching: Searching...
       successful:
         search-no-result: No playlist found
         search-result-count: '{count}  playlists found'
-    title: Video list
+      tips: ''
     video:
+      hidden: ''
       source-site: 'Source site:'
+    advanced-search:
+      name: Advanced search
 others:
   WIP1: The function
   WIP2: '{WIP1} is under construction, please wait warmly'
 image:
   cover:
     alt: The cover of {title}
+tag:
+  author:
+    title: ''
+    type:
+      individual: ''
+      group: ''
+settings:
+  settings: ''
+  general:
+    quick-settings:
+      name: ''
+    general:
+      name: ''
+    language:
+      desc: ''
+      browser-default: ''
+    name: ''
+  appearance:
+    theme:
+      name: ''
+      color:
+        name: ''
+    name: ''
+  account:
+    profile:
+      name: ''
+      username:
+        label: ''
+        desc: ''
+      description:
+        label: ''
+    loading: ''
+    name: ''
+  loading: ''
