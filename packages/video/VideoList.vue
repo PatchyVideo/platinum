@@ -132,16 +132,18 @@
     <div
       class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-800"
       :title="t('video.video-list.advanced-search.name')"
-      @click="progressing(t('video.video-list.advanced-search.name'))"
+      @click="openAdvancedSearch()"
     >
       <div class="i-uil-file-search-alt text-2xl"></div>
     </div>
+    <AdvancedSearch v-model:open="advancedSearch" />
     <BackTop></BackTop>
   </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
 import BackTop from '@/ui/components/BackTop.vue'
+import AdvancedSearch from '@/video/components/AdvancedSearch.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
@@ -155,7 +157,6 @@ import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { backTop } from '@/ui/lib/backTop'
 import { getSiteImage } from '@/common/lib/imageUrl'
-import { progressing } from '@/common/lib/progressing'
 import { screenSizes } from '@/css'
 
 const { t } = useI18n()
@@ -241,6 +242,12 @@ onError((err) => {
   errMsg.value = err.message
   status.value = 'error'
 })
+
+/* Show advanced search */
+const advancedSearch = ref(false)
+function openAdvancedSearch() {
+  advancedSearch.value = true
+}
 
 /* Change the router query to trigger the search function */
 function jumpToPreviousPage(): void {
