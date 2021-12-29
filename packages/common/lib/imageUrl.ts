@@ -8,7 +8,6 @@ export function getCoverImage(meta: CoverImageMeta): string {
 }
 
 const siteImages = import.meta.globEager('../assets/WebIcons/*.png')
-console.log(siteImages)
 export function getSiteImage(name: string): string {
   return siteImages[`../assets/WebIcons/${name}.png`].default
 }

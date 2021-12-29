@@ -175,7 +175,7 @@ onDone(() => {
   listNoteCountTypes.value.systemMessage--
 })
 markAsReadError((error) => {
-  console.log(error)
+  // console.log(error)
   markAsReadMutationCount.value--
 })
 let isMarkAll = false
