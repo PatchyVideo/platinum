@@ -1,6 +1,6 @@
 <template>
   <div
-    class="inline-block tag text-sm text-white whitespace-nowrap pr-1 mr-1"
+    class="inline-block tag pr-1 mr-1 text-sm text-white whitespace-nowrap"
     :class="'tag-' + tag.category.toLowerCase()"
     v-text="tag.name"
   ></div>

@@ -112,7 +112,7 @@ watchEffect(() => {
       query: config.query,
       order: config.order,
       additionalConstraint: config.additionalConstraint,
-      limit: Math.ceil(count.value * 1.5),
+      limit: count.value,
     })
   } else {
     fetchMore({
@@ -120,7 +120,7 @@ watchEffect(() => {
         query: config.query,
         order: config.order,
         additionalConstraint: config.additionalConstraint,
-        limit: Math.ceil(count.value * 1.5),
+        limit: count.value,
       },
     })?.then((res) => {
       result.value = res.data

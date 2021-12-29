@@ -97,13 +97,18 @@
                 </div>
               </div>
               <div
-                v-for="(child, cindex) in comment.children"
+                v-for="(child, cindex) in comment.children
+                  ? sliceCommentChildren(comment.id.toHexString(), comment.children)
+                  : undefined"
                 :key="child.id.toHexString()"
                 class="flex flex-row flex-nowrap"
               >
                 <div class="flex-none w-10 md:w-14">
                   <div class="flex flex-row w-full h-full ml-6 md:ml-8">
-                    <div v-if="cindex !== comment.children!.length! - 1" class="w-px h-full bg-gray-400"></div>
+                    <div
+                      v-if="comment.children!.length > 3 || cindex !== comment.children!.length! - 1"
+                      class="w-px h-full bg-gray-400"
+                    ></div>
                     <div v-else class="w-px h-5 bg-gray-400"></div>
                     <div class="mt-5 w-3 md:w-5 h-px bg-gray-400"></div>
                   </div>
@@ -129,6 +134,34 @@
                     /></Suspense>
                   </div>
                   <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
+                </div>
+              </div>
+              <div
+                v-if="comment.children && comment.children.length > 3"
+                class="flex flex-row flex-nowrap cursor-pointer"
+                @click="
+                  () => {
+                    commentChildrenExpaneded[comment.id.toHexString()] =
+                      !commentChildrenExpaneded[comment.id.toHexString()]
+                  }
+                "
+              >
+                <div class="flex-none w-10 md:w-14">
+                  <div class="flex flex-row w-full h-full ml-6 md:ml-8">
+                    <div class="w-px h-3 bg-gray-400"></div>
+                    <div class="mt-3 w-3 md:w-5 h-px bg-gray-400"></div>
+                  </div>
+                </div>
+                <div
+                  v-if="commentChildrenExpaneded[comment.id.toHexString()]"
+                  class="flex flex-row items-center text-blue-600"
+                >
+                  <div class="i-uil-arrow-to-bottom text-lg transform rotate-180"></div>
+                  收起楼中楼
+                </div>
+                <div v-else class="flex flex-row items-center text-blue-600">
+                  <div class="i-uil-arrow-from-top text-lg"></div>
+                  展开楼中楼
                 </div>
               </div>
             </div>
@@ -357,7 +390,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
-import { computed, ref, shallowRef, watchEffect } from 'vue'
+import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
@@ -585,6 +618,9 @@ const comments = computed(
       }))
       .filter((v) => !!v) as Comment[]) ?? []
 )
+const commentChildrenExpaneded = reactive<Record<string, boolean>>({})
+const sliceCommentChildren = (id: string, children: Comment[]) =>
+  commentChildrenExpaneded[id] ? children : children.slice(0, 3)
 
 /* mobile teleport targets */
 const mobileAuthorTarget = shallowRef<HTMLDivElement | null>(null)
