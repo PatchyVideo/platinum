@@ -118,7 +118,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 z-50 left-0 p-1 sm:px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
+        class="absolute inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
