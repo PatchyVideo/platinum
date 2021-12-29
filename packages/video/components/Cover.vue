@@ -3,7 +3,7 @@
     <img
       class="object-cover h-full w-full dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
       :alt="t('image.cover.alt', { title: title.slice(0, 40) })"
-      :src="'https://static.patchyvideo.com/images/covers/' + coverImage"
+      :src="'https://patchyvideo.com/images/covers/' + coverImage"
     />
   </div>
 </template>

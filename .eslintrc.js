@@ -22,6 +22,7 @@ module.exports = {
     {
       files: ['./*.config.js', './*rc.js', '**/scripts/**/*.js', './public/**/*.js'],
       env: {
+        es2020: true,
         node: true,
       },
       extends: ['eslint:recommended', 'plugin:prettier/recommended'],

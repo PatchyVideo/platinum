@@ -68,12 +68,12 @@ async function processRequest(req, res) {
         )}" />`,
         `<meta itemprop="name" content="${encode(data.item.title)}" />`,
         `<meta itemprop="description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta itemprop="image" content="https://static.patchyvideo.com/images/covers/${data.item.coverImage}" />`,
+        `<meta itemprop="image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
 
         // opengraph data
         `<meta property="og:type" content="video.other" />`,
         `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
-        `<meta property="og:image" content="https://static.patchyvideo.com/images/covers/${data.item.coverImage}" />`,
+        `<meta property="og:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
         `<meta property="og:description" content="${encodeHTML(data.item.desc)}" />`,
         `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta property="og:site_name" content="PatchyVideo" />`,
@@ -90,7 +90,7 @@ async function processRequest(req, res) {
         `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta name="twitter:image" content="https://static.patchyvideo.com/images/covers/${data.item.coverImage}" />`,
+        `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.coverImage}" />`,
         `<meta name="twitter:player" content="https://${process.env.VERCEL_URL}/embed/${vid}" />`,
       ].join('\n')
       body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
@@ -120,11 +120,11 @@ async function processRequest(req, res) {
         `<meta property="description" content="${encodeHTML(data.item.desc)}" />`,
         `<meta itemprop="name" content="${encode(data.item.title)}" />`,
         `<meta itemprop="description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta itemprop="image" content="https://static.patchyvideo.com/images/covers/${data.item.cover}" />`,
+        `<meta itemprop="image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
 
         // opengraph data
         `<meta property="og:title" content="${encodeHTML(data.item.title)}" />`,
-        `<meta property="og:image" content="https://static.patchyvideo.com/images/covers/${data.item.cover}" />`,
+        `<meta property="og:image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
         `<meta property="og:description" content="${encodeHTML(data.item.desc)}" />`,
         `<meta property="og:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta property="og:site_name" content="PatchyVideo" />`,
@@ -135,7 +135,7 @@ async function processRequest(req, res) {
         `<meta name="twitter:url" content="https://${process.env.VERCEL_URL}${req.url}" />`,
         `<meta name="twitter:title" content="${encodeHTML(data.item.title)}" />`,
         `<meta name="twitter:description" content="${encodeHTML(data.item.desc)}" />`,
-        `<meta name="twitter:image" content="https://static.patchyvideo.com/images/covers/${data.item.cover}" />`,
+        `<meta name="twitter:image" content="https://patchyvideo.com/images/covers/${data.item.cover}" />`,
       ].join('\n')
       body = body.replace(/<!-- META-START -->[\S\s]*<!-- META-END -->/, og)
     } else if (/\/user\/\w+/.test(req.url)) {

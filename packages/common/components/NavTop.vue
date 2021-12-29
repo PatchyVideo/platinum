@@ -2,6 +2,7 @@
   <div>
     <!-- Top Nav -->
     <div
+      ref="nav"
       class="h-auto p-1 flex items-center justify-between border-b border-gray-300 bg-gray-50 dark:bg-gray-900 dark:border-gray-800"
     >
       <!-- Logo & Slide Button -->
@@ -191,13 +192,10 @@
           class="fixed inset-0 z-49"
           :class="{ 'bg-black/20': drawerOpen }"
           @click="drawerOpen = false"
-          @touchmove.prevent.passive
         ></div>
       </Transition>
     </div>
   </div>
-  <!-- eslint-disable-next-line vue/no-v-html -->
-  <div class="hidden invisible" v-html="hiddenStyle"></div>
   <div v-show="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-900">
     <div ref="teleportTo" class="absolute w-full"></div>
   </div>
@@ -211,11 +209,12 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, watch, onUnmounted } from 'vue'
 import type { Component, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
+import { clearBodyLocks, lock, unlock } from 'tua-body-scroll-lock'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
@@ -234,6 +233,8 @@ const props = withDefaults(
 
 const { t } = useI18n()
 const route = useRoute()
+
+const nav = shallowRef<HTMLDivElement | null>(null)
 
 /* User lists Operation */
 const userListOpen = ref<boolean>(false)
@@ -256,7 +257,13 @@ const listNoteCountUnread = ref(0)
 
 /* Drawer Operation */
 const drawerOpen = ref(false)
-const hiddenStyle = computed(() => (drawerOpen.value ? '<style>body{overflow:hidden;}</style>' : ''))
+watch(drawerOpen, (open) => {
+  if (open) lock(nav.value)
+  else unlock()
+})
+onUnmounted(() => {
+  clearBodyLocks()
+})
 
 /* Search */
 const router = useRouter()
