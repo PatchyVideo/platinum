@@ -1,18 +1,18 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`Markdown Parser can add hint to link 1`] = `
+exports[`Markdown Parser > can add hint to link 1`] = `
 "<p><a href=\\"https://example.com/foo\\">Example</a><span class=\\"text-xs text-gray-600 dark:text-gray-300\\">[example.com]</span></p>
 "
 `;
 
-exports[`Markdown Parser can filter xss dom 1`] = `
+exports[`Markdown Parser > can filter xss dom 1`] = `
 "<p>&lt;script&gt;alert(1)&lt;/script&gt;<br>
 &lt;style&gt;body{color:red}&lt;/style&gt;<br>
 <img /></p>
 "
 `;
 
-exports[`Markdown Parser can render allowed dom 1`] = `
+exports[`Markdown Parser > can render allowed dom 1`] = `
 "<p>plain text</p>
 <h1>h1</h1>
 <br />
@@ -20,7 +20,7 @@ exports[`Markdown Parser can render allowed dom 1`] = `
 <img src=\\"https://example.com/example.png\\" />"
 `;
 
-exports[`Markdown Parser can render pure link 1`] = `
+exports[`Markdown Parser > can render pure link 1`] = `
 "<p><a href=\\"https://example.com\\">https://example.com</a><br>
 <a href=\\"https://www.bilibili.com/video/av926598384\\">av926598384</a><span class=\\"text-xs text-gray-600 dark:text-gray-300\\">[bilibili.com]</span><br>
 <a href=\\"https://www.bilibili.com/video/BV11T4y1j7ni\\">BV11T4y1j7ni</a><span class=\\"text-xs text-gray-600 dark:text-gray-300\\">[bilibili.com]</span><br>
@@ -31,7 +31,7 @@ exports[`Markdown Parser can render pure link 1`] = `
 "
 `;
 
-exports[`Markdown Parser should not filter <link> 1`] = `
+exports[`Markdown Parser > should not filter <link> 1`] = `
 "<p><a href=\\"https://example.com\\">https://example.com</a></p>
 "
 `;

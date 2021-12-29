@@ -38,7 +38,7 @@ jobs:
         timeout-minutes: 5
 
       - name: Test
-        run: pnpm ci-test
+        run: pnpm test
         timeout-minutes: 15
 
       - name: Build

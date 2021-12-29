@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest'
 import { render } from '../lib/parser'
 
 describe('Markdown Parser', () => {
