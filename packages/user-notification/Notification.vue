@@ -29,12 +29,15 @@
         >
       </div>
       <div
-        class="fixed inset-y-0 p-1 z-50 right-0 overflow-auto bg-white transform transition-transform duration-300 w-3/4 dark:bg-gray-900"
-        :class="{ 'translate-x-full': !noteDrawerOpen }"
+        class="fixed inset-x-0 border-t rounded-t border-gray-400 p-1 z-50 bottom-0 overflow-auto bg-white transform transition-transform duration-300 dark:bg-gray-900"
+        :class="{ 'translate-y-full': !noteDrawerOpen }"
       >
-        <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
-          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
-          <div class="text-lg ml-2">{{ t('user-notification.notification.title') }}</div>
+        <div class="w-full border-b p-1 pb-1.5 flex justify-between">
+          <div class="flex items-center flex-nowrap">
+            <div class="i-uil-telegram-alt text-2xl transition-colors"></div>
+            <div class="text-lg ml-2">{{ t('user-notification.notification.title') }}</div>
+          </div>
+          <div class="i-uil-times text-2xl transition-colors" @click="noteDrawerOpen = false"></div>
         </div>
         <div class="mt-4 space-y-2">
           <div
@@ -87,11 +90,7 @@
         leave-active-class="transition-all duration-200"
         leave-to-class="bg-opacity-0"
       >
-        <div
-          v-if="noteDrawerOpen"
-          class="fixed inset-0 bg-black bg-opacity-20 z-49"
-          @click="noteDrawerOpen = false"
-        ></div>
+        <div v-if="noteDrawerOpen" class="fixed inset-0 z-49" @click="noteDrawerOpen = false"></div>
       </Transition>
     </div>
     <!-- Desktop View -->

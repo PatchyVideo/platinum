@@ -118,7 +118,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="absolute inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
+        class="fixed rounded-r border-r border-gray-400 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->
@@ -188,7 +188,7 @@
       >
         <div
           v-if="drawerOpen || userListOpen || noteBoxOpen"
-          class="absolute inset-0 z-49"
+          class="fixed inset-0 z-49"
           :class="{ 'bg-black/20': drawerOpen }"
           @click="drawerOpen = false"
           @touchmove.prevent.passive
