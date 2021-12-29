@@ -4,7 +4,7 @@
     :class="{ 'sm:translate-x-full translate-y-full sm:translate-y-0': !open }"
   >
     <div
-      class="w-full h-full border-t border-gray-400 shadow p-1 rounded-t overflow-auto bg-white dark:bg-gray-900 sm:rounded sm:border"
+      class="w-full h-full border-t border-gray-400 shadow p-3 rounded-t overflow-auto bg-white dark:bg-gray-900 sm:rounded sm:border"
     >
       <div class="w-full border-b p-1 pb-1.5 flex justify-between">
         <div class="flex items-center flex-nowrap">
@@ -13,19 +13,65 @@
         </div>
         <div class="i-uil-times text-2xl transition-colors" @click="open = false"></div>
       </div>
-      <div class="mt-4 space-y-2">
+      <div class="mt-4 space-y-3">
         <!-- Tag only or text and tag -->
-        <div></div>
+        <div class="flex justify-between space-x-6 items-end">
+          <div>{{ '搜索类型' }}</div>
+          <PvSelect :selected="qtype" :item-list="qtypeList" @update:selected="(v) => (qtype = v)" />
+        </div>
         <!-- AND or OR -->
-        <div></div>
+        <div>
+          <div>{{ '关键字：' }}</div>
+        </div>
         <!-- NOT -->
-        <div></div>
+        <div>
+          <div>{{ '排除标签：' }}</div>
+        </div>
+        <!-- Order -->
+        <div>
+          <div>{{ '排序方式：' }}</div>
+        </div>
         <!-- Site -->
-        <div></div>
+        <div>
+          <div>{{ '源网站：' }}</div>
+        </div>
+        <!-- Rank -->
+        <div>
+          <div>{{ '视频等级：' }}</div>
+        </div>
         <!-- Date -->
-        <div></div>
+        <div>
+          <div>{{ '原视频上传时间：' }}</div>
+        </div>
         <!-- Tags number -->
-        <div></div>
+        <div>
+          <div>{{ '标签数量：' }}</div>
+        </div>
+        <!-- Show blocked videos -->
+        <div>
+          <div>{{ '展示被屏蔽的视频' }}</div>
+        </div>
+        <!-- Only show autotaged videos -->
+        <div>
+          <div>{{ '仅展示待人工整理标签的视频' }}</div>
+        </div>
+        <!-- Reset or search -->
+        <div class="flex justify-around border-t pt-3">
+          <PvBotton>{{ '重置' }}</PvBotton>
+          <PvBotton>{{ '搜索' }}</PvBotton>
+        </div>
+        <!-- More infomation -->
+        <div>
+          <div class="text-xs italic">
+            <div>{{ '#更多高级筛选功能请参考：' }}</div>
+            <a
+              href="https://patchyvideo.wiki/zh/SearchSystem"
+              target="_blank"
+              class="text-pink-300 hover:text-pink-500 transition transition-colors"
+              >{{ '搜索系统 - PatchyVideo Wiki' }}</a
+            >
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -41,6 +87,9 @@
 </template>
 
 <script lang="ts" setup>
+import PvSelect from '@/ui/components/PvSelect.vue'
+import PvBotton from '@/ui/components/PvBotton.vue'
+import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useVModel } from '@vueuse/core'
 
@@ -52,10 +101,21 @@ const props = defineProps({
     requred: true,
   },
 })
-
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
 }>()
 
 const open = useVModel(props, 'open', emit)
+
+const qtype = ref('tag')
+const qtypeList = [
+  {
+    name: '标签/文本模式',
+    value: 'tag',
+  },
+  {
+    name: '仅文本模式',
+    value: 'text',
+  },
+]
 </script>
