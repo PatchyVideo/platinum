@@ -88,17 +88,25 @@
             <div v-else class="i-uil-play text-2xl"></div>
           </div>
           <div class="px-1"></div>
-          <div class="volume flex flex-row items-center">
-            <div class="i-uil-volume mr-0.5 text-2xl"></div>
-            <div class="inline-block h-full m-0 align-middle">
-              <div ref="volumebar" class="volumebar w-0 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
+          <div class="flex flex-row items-center gap-2">
+            <div
+              class="flex items-center text-2xl"
+              @click="
+                () => {
+                  volume = volume ? 0 : 1
+                }
+              "
+            >
+              <div v-if="volume > 0" class="i-uil-volume"></div>
+              <div v-else class="i-uil-volume-mute"></div>
+            </div>
+            <div class="lt-sm:hidden h-full m-0">
+              <div ref="volumebar" class="w-16 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
                   class="relative h-full left-0 bottom-0 bg-pink-600 rounded-l-full"
                   :style="{ width: volume * 100 + '%' }"
                 >
-                  <span
-                    class="volumedot absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full transform scale-0 cursor-pointer"
-                  ></span>
+                  <span class="absolute -right-1.5 -top-1 w-3 h-3 bg-white rounded-full cursor-pointer"></span>
                 </div>
               </div>
             </div>
@@ -1096,16 +1104,5 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
 .log {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-.volume:hover {
-  .volumebar {
-    width: 4rem;
-  }
-  .volumedot {
-    /* TODO find a better way to do this */
-    --un-scale-x: 1;
-    --un-scale-y: 1;
-  }
 }
 </style>

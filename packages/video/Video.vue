@@ -6,26 +6,28 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg" v-text="video.item.title"></h1>
-            <div class="text-gray-600 dark:text-gray-300">
-              {{ t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)
-              }}<span v-if="clearence !== 3" class="ml-2" v-text="t('video.video.ranks.' + clearence)"></span
-              ><Suspense><RelativeDate class="ml-2" :date="video.item.uploadTime" /></Suspense
-              ><template v-if="user.isAdmin"
-                ><span :title="t('video.video.edit.hide-video.title')"
-                  ><div
-                    v-if="isLogin === IsLogin.yes"
-                    class="i-uil-eye-slash inline-block ml-2 text-lg cursor-pointer select-none"
-                    @click="hideVideo"
-                  ></div></span
-                ><span v-if="hideVideoResult" v-text="hideVideoResult"></span></template
-              ><span :title="t('video.video.edit.edit-video')"
-                ><div
-                  v-if="isLogin === IsLogin.yes"
-                  class="i-uil-pen inline-block ml-2 text-lg cursor-pointer select-none"
-                  @click="popEditVideoWindow"
-                ></div
-              ></span>
+            <h1
+              class="mt-1 sm:text-lg lg:text-xl font-semibold sm:font-medium lg:font-normal"
+              v-text="video.item.title"
+            ></h1>
+            <div class="flex flex-row items-center gap-2 text-gray-600 dark:text-gray-300">
+              <div v-text="t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)"></div>
+              <div v-if="clearence !== 3" v-text="t('video.video.ranks.' + clearence)"></div>
+              <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
+              <template v-if="user.isAdmin">
+                <div
+                  :title="t('video.video.edit.hide-video.title')"
+                  class="i-uil-eye-slash text-lg cursor-pointer select-none"
+                  @click="hideVideo"
+                ></div>
+                <div v-if="hideVideoResult" v-text="hideVideoResult"></div>
+              </template>
+              <div
+                v-if="isLogin === IsLogin.yes"
+                :title="t('video.video.edit.edit-video')"
+                class="i-uil-pen text-lg cursor-pointer select-none"
+                @click="popEditVideoWindow"
+              ></div>
             </div>
           </div>
           <!-- Video Player -->
@@ -291,7 +293,7 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 lg:text-lg w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</h1>
+            <h1 class="mt-1 sm:text-lg lg:text-xl w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</h1>
             <div class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600">
               &nbsp;
             </div>
