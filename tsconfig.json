@@ -4,7 +4,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM", "WebWorker"],
-    "types": ["vite/client", "vite-plugin-pwa/client", "@intlify/vite-plugin-vue-i18n/client"],
+    "types": ["vite/client", "vite-plugin-pwa/client"],
     "jsx": "preserve",
     "target": "ESNext",
     "sourceMap": true,

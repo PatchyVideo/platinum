@@ -81,7 +81,7 @@
                   </RouterLink>
                   <div
                     v-if="comment.children?.length ?? 0 > 0"
-                    class="w-px h-[calc(100%-2rem)] mt-1 mx-auto bg-gray-400"
+                    class="w-px h-[calc(100%-2rem)] mt-1 mx-auto bg-gray-200 dark:bg-gray-700"
                   ></div>
                 </div>
                 <div>
@@ -107,13 +107,20 @@
                   <div class="flex flex-row w-full h-full ml-6 md:ml-8">
                     <div
                       v-if="comment.children!.length > 3 || cindex !== comment.children!.length! - 1"
-                      class="w-px h-full bg-gray-400"
+                      class="w-px h-full bg-gray-200 dark:bg-gray-700"
                     ></div>
-                    <div v-else class="w-px h-5 bg-gray-400"></div>
-                    <div class="mt-5 w-3 md:w-5 h-px bg-gray-400"></div>
+                    <div
+                      v-else
+                      class="w-px bg-gray-200 dark:bg-gray-700"
+                      :class="isCommentChildrenCollapsed(comment) ? 'h-3' : 'h-5'"
+                    ></div>
+                    <div
+                      class="w-3 md:w-5 h-px bg-gray-200 dark:bg-gray-700"
+                      :class="isCommentChildrenCollapsed(comment) ? 'mt-3' : 'mt-5'"
+                    ></div>
                   </div>
                 </div>
-                <div class="flex-none mt-1 mr-2">
+                <div v-if="!isCommentChildrenCollapsed(comment)" class="flex-none mt-1 mr-2">
                   <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
                     <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
                       ><UserAvatar
@@ -125,8 +132,13 @@
                     /></UserAvatarPopper>
                   </RouterLink>
                 </div>
-                <div class="flex flex-col">
-                  <div>
+                <div class="flex" :class="{ 'flex-col': !isCommentChildrenCollapsed(comment) }">
+                  <div v-if="isCommentChildrenCollapsed(comment)" class="mr-1">
+                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
+                      ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
+                    >:
+                  </div>
+                  <div v-else>
                     <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
                       ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
                     ><Suspense
@@ -148,19 +160,19 @@
               >
                 <div class="flex-none w-10 md:w-14">
                   <div class="flex flex-row w-full h-full ml-6 md:ml-8">
-                    <div class="w-px h-3 bg-gray-400"></div>
-                    <div class="mt-3 w-3 md:w-5 h-px bg-gray-400"></div>
+                    <div class="w-px h-3 bg-gray-200 dark:bg-gray-700"></div>
+                    <div class="mt-3 w-3 md:w-5 h-px bg-gray-200 dark:bg-gray-700"></div>
                   </div>
                 </div>
                 <div
                   v-if="commentChildrenExpaneded[comment.id.toHexString()]"
-                  class="flex flex-row items-center text-blue-600"
+                  class="flex flex-row text-sm items-center text-blue-600"
                 >
-                  <div class="i-uil-arrow-to-bottom text-lg transform rotate-180"></div>
+                  <div class="i-uil-arrow-to-bottom text-base transform rotate-180"></div>
                   收起楼中楼
                 </div>
-                <div v-else class="flex flex-row items-center text-blue-600">
-                  <div class="i-uil-arrow-from-top text-lg"></div>
+                <div v-else class="flex flex-row text-sm items-center text-blue-600">
+                  <div class="i-uil-arrow-from-top text-base"></div>
                   展开楼中楼
                 </div>
               </div>
@@ -621,6 +633,8 @@ const comments = computed(
 const commentChildrenExpaneded = reactive<Record<string, boolean>>({})
 const sliceCommentChildren = (id: string, children: Comment[]) =>
   commentChildrenExpaneded[id] ? children : children.slice(0, 3)
+const isCommentChildrenCollapsed = (comment: Comment) =>
+  comment.children && comment.children.length > 3 && !commentChildrenExpaneded[comment.id.toHexString()]
 
 /* mobile teleport targets */
 const mobileAuthorTarget = shallowRef<HTMLDivElement | null>(null)

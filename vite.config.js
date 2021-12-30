@@ -7,7 +7,6 @@ import components from 'unplugin-vue-components/vite'
 import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import unocss from 'unocss/vite'
-import i18n from '@intlify/vite-plugin-vue-i18n'
 import { defineConfig } from 'vite'
 import { version } from './package.json'
 import template from 'lodash.template'
@@ -18,7 +17,7 @@ import simpleGit from 'simple-git'
  *
  * Docs: https://vitejs.dev/config/
  */
-export default defineConfig(async ({ command, mode }) => {
+export default defineConfig(async ({ mode }) => {
   /**
    * @type Promise<unknown>[]
    */
@@ -53,7 +52,7 @@ export default defineConfig(async ({ command, mode }) => {
 
   await Promise.allSettled(promises)
 
-  return {
+  return defineConfig({
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(__dirname, './packages/') },
@@ -77,11 +76,9 @@ export default defineConfig(async ({ command, mode }) => {
       exclude: ['@apollo/client'],
     },
     plugins: [
+      // @ts-ignore
       yaml(),
       vue(),
-      i18n({
-        include: path.join(__dirname, 'packages/locales/**.{json,yml}'),
-      }),
       components({
         dirs: ['packages/layouts/components'],
         dts: '__generated__/viteComponents.d.ts',
@@ -117,6 +114,7 @@ export default defineConfig(async ({ command, mode }) => {
           background_color: '#ffffff',
         },
       }),
+      // @ts-ignore
       {
         ...visualizer({
           filename: 'dist/stats.html',
@@ -147,5 +145,5 @@ export default defineConfig(async ({ command, mode }) => {
       // to reduce code size (~50KiB decrease, what??)
       charset: 'utf8',
     },
-  }
+  })
 })

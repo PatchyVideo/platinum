@@ -1,27 +1,34 @@
-import { computed } from 'vue'
+import { computed, nextTick } from 'vue'
 import { createI18n } from 'vue-i18n'
 import { match } from '@formatjs/intl-localematcher/lib'
 import { useLocalStorage } from '@vueuse/core'
 
-import messages from '@intlify/vite-plugin-vue-i18n/messages'
-export { messages }
-
-export const langs = Object.keys(messages)
+export const langs = ['zh-Hans-CN', 'en-US', 'yue-Hant-HK']
 
 const lslang = useLocalStorage<string | undefined>('lang', undefined)
 
 const i18n = createI18n({
   legacy: false,
   locale: getBrowserLang() || 'zh-Hans-CN',
-  availableLocales: langs,
   fallbackLocale: 'zh-Hans-CN',
-  messages,
 })
 
-export const languageList = langs.map((locale) => ({
-  name: i18n.global.t('_info.name', locale, { locale }),
-  value: locale,
-}))
+await loadLocaleMessages(i18n.global.locale.value)
+
+export const languageList = [
+  {
+    name: '简体中文',
+    value: 'zh-Hans-CN',
+  },
+  {
+    name: 'English',
+    value: 'en-US',
+  },
+  {
+    name: '粵語中文',
+    value: 'yue-Hant-HK',
+  },
+]
 
 export default i18n
 
@@ -58,12 +65,25 @@ function setBrowserLang(lang: string) {
   lslang.value = lang
 }
 
+async function loadLocaleMessages(locale: string) {
+  const messages = await import(/* @vite-ignore */ `./assets/${locale}.yml`)
+  i18n.global.setLocaleMessage(locale, messages.default)
+  return nextTick()
+}
+
+function setI18nLang(locale: string) {
+  i18n.global.locale.value = locale
+}
+
 export const locale = computed({
   get: () => {
     return i18n.global.locale.value
   },
-  set: (x: string) => {
+  set: async (x: string) => {
+    if (!langs.includes(x)) return false
     setBrowserLang(x)
+    await loadLocaleMessages(x)
+    setI18nLang(x)
     i18n.global.locale.value = x
   },
 })
