@@ -13,7 +13,7 @@ const i18n = createI18n({
   fallbackLocale: 'zh-Hans-CN',
 })
 
-await loadLocaleMessages(i18n.global.locale.value)
+export const loadI18nPromise = loadLocaleMessages(i18n.global.locale.value)
 
 export const languageList = [
   {

@@ -245,8 +245,9 @@ router.afterEach((guard) => {
 app.use(router)
 
 /* Vue I18n */
-import i18n from '@/locales'
+import i18n, { loadI18nPromise } from '@/locales'
 app.use(i18n)
+appPromises.push(loadI18nPromise)
 
 /* Vue Motion */
 import { MotionPlugin } from '@vueuse/motion'
