@@ -46,7 +46,7 @@
           ></template
         >. </span
       ><span>
-        © 2020-2021 VoileLabs. Released under the
+        © 2020-2022 VoileLabs. Released under the
         <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</span
       >
     </div>
