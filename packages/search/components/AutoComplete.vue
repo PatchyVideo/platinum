@@ -9,7 +9,7 @@
         ref="autoComplete"
         v-model="searchContent"
         class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-lg"
-        placeholder="search!"
+        :placeholder="defaultPlaceholder"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
@@ -29,7 +29,7 @@
     </div>
     <div
       class="absolute z-11 top-full left-0 w-full overflow-hidden"
-      :class="{ 'pt-1': !hideContainer && !teleportResult }"
+      :class="{ 'pt-1': !hideContainer && !teleportResult && listHidden }"
     >
       <Transition
         :css="false"
@@ -71,7 +71,8 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border border-gray-300 dark:border-gray-600"
+          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-gray-300 dark:border-gray-600"
+          :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
             <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">
@@ -99,10 +100,14 @@
                     ><div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub"></div
                   ></template>
                 </div>
-                <div class="text-gray-400">{{ item.cnt || '' }}</div>
+                <div v-if="showTagCnt" class="text-gray-400">{{ item.cnt || '' }}</div>
               </div>
             </div>
-            <div v-else-if="!listHidden" class="p-3 w-full text-center" v-text="'没有搜索建议'"></div>
+            <div
+              v-else-if="!listHidden"
+              class="p-3 w-full text-center"
+              v-text="t('search.auto-complete.loading-nothing')"
+            ></div>
             <div
               v-else-if="loading"
               class="p-3 w-full text-center"
@@ -156,13 +161,17 @@ import { useMotion } from '@vueuse/motion'
 const props = withDefaults(
   defineProps<{
     keyword?: string
+    defaultPlaceholder?: string
     teleportResult?: HTMLElement
     showRecommendations?: boolean
+    showTagCnt?: boolean
   }>(),
   {
     keyword: '',
+    defaultPlaceholder: 'search!',
     teleportResult: undefined,
     showRecommendations: false,
+    showTagCnt: true,
   }
 )
 const emit = defineEmits<{
