@@ -152,6 +152,7 @@ search:
   auto-complete:
     search: 搜索
     loading: 加载中...
+    loading-nothing: 没有搜索建议
     loading-failed: 加载失败咗QAQ
     hot-tags: 热门标签
 ui:

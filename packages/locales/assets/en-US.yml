@@ -21,13 +21,13 @@ common:
       darkmode: Darkmode
       lang: Language
     user:
-      my-message: ''
+      my-message: My message
       login: Login
       logout: Logout
       userprofile: Profile
       confirming: Logging in...
   footer:
-    user-number: ''
+    user-number: PatchyVideo is servicing for {users} users like you currently!
     wiki: Wiki
     status: Status
     bl-account: Bilibili
@@ -38,7 +38,7 @@ common:
     contact: Contact
     license: License
 darkmode:
-  system: ''
+  system: Follow system settings
   light: Light
   dark: Dark
 error-pages:
@@ -69,19 +69,19 @@ home:
 locales:
   change-lang-reload-hint: Some changes are only visible after reloading, do you wish to reload now?
 main:
-  browser-offline: ''
+  browser-offline: Connection not avaliable, please check you internet settings
   reload-prompt:
-    tips: ''
-    reload: ''
-    dismiss: ''
+    tips: New contents avaliable, please reload the page to see them
+    reload: Reload
+    dismiss: Dismiss
 playlist:
   playlist:
     collapse: Collapse
     expand: Expand
     info:
-      video-count: ''
-      rating: ''
-      edit-date: ''
+      video-count: {count} videos
+      rating: 'Rate: {rating}'
+      edit-date: Last edited on {date}
   playlist-list:
     title: Playlist
     main-body:
@@ -129,7 +129,7 @@ search:
           search-no-result: No match found
           search-result-count: Total {count} video(s)
       video:
-        hidden: ''
+        hidden: Hidden
         source-site: 'Source:'
       visible-sites:
         all: All
@@ -154,8 +154,9 @@ search:
   auto-complete:
     search: Search
     loading: Loading...
-    loading-failed: autocomplete unavailable
-    hot-tags: ''
+    loading-nothing: Nothing to recommend
+    loading-failed: Autocomplete unavailable
+    hot-tags: Hot tags
 ui:
   back-top:
     back-top: Back to top
@@ -297,63 +298,63 @@ user:
       boundEmail: E-mail bound to your account
       none: None
   profile:
-    title: ''
-    nothing: ''
+    title: Userpage for {username} - PatchyVideo
+    nothing: Nothing here
     info:
       created-at: Registed at {date}
   avatar:
-    alt: ''
+    alt: Avatar of {alt}
   input:
-    placeholder: ''
+    placeholder: Please enter the contents here
 user-notification:
   notification:
-    title: ''
-    slide-open: ''
-    relpy: ''
-    at: ''
-    system: ''
+    title: Messages
+    slide-open: Open the slide of messages
+    reply: Reply to me
+    at: Mentioned me (under construction)
+    system: System notifications
   notification-system:
-    title: ''
-    mark-all-as-read: ''
-    loading: ''
-    no-message: ''
-    fold: ''
-    unfold: ''
+    title: System notifications
+    mark-all-as-read: Mark all as read
+    loading: Now loading
+    no-message: No notification avaliable
+    fold: Fold
+    unfold: Unfold
   notification-reply:
-    title: ''
-    mark-all-as-read: ''
-    loading: ''
-    no-message: ''
-    reply: ''
+    title: Reply to me
+    mark-all-as-read: Mark all as read
+    loading: Now loading
+    no-message: No reply avaliable
+    reply: '{username} replied to you: '
   notification-navtop:
-    title: ''
-    loading: ''
-    error: ''
-    no-message: ''
-    show-all: ''
-    reply: ''
-    system: ''
+    title: Messages and notifications
+    loading: Now loading
+    error: 'Loading failed. Reason: {error}'
+    no-message: No new message
+    show-all: Show all replies
+    reply: '{username} replied to you'
+    system: 'System notification: {title}'
 video:
   video:
     repost-type:
-      official: ''
-      official_repost: ''
-      authorized_repost: ''
-      repost: ''
-      authorized_translation: ''
-      translation: ''
-      unknown: ''
+      official: Original release
+      official_repost: Official repost
+      authorized_repost: Authorized repost
+      repost: Voluntary repost
+      authorized_translation: Authorized translation
+      translation: Voluntary translation
+      unknown: Other
     uploader: Uploader
     no-desc: <No description provided>
     edit:
       hide-video:
-        title: ''
-        saving: ''
-        succeed: ''
-        failed: ''
-      edit-video: ''
-      edit-tags: ''
-    related-video: ''
+        title: Hide the video
+        saving: Saving
+        succeed: Successfully saved
+        failed: 'Saving failed. Reason: {error}'
+      edit-video: Edit video
+      edit-tags: Edit tags
+    related-video: Videos related
   player:
     settings:
       default:
@@ -361,15 +362,15 @@ video:
         items:
           quality: Quality
           audio: Sync audio
-          canvas: ''
-          canvas-transparent: ''
+          canvas: Canvas
+          canvas-transparent: Canvas transparent
       quality:
         name: Quality
         items:
           current-codec: current codec：{container} ({codec})
     iframe:
-      enable: ''
-      failed: ''
+      enable: Switch to embedded player
+      failed: Fail to load the embedded player
     play-stream:
       source:
         video:
@@ -397,20 +398,20 @@ video:
         known-source: source：{source}，format：{format}，quality：{quality}
         unknown-source: unknown source：{source}
   edit-video:
-    title: ''
+    title: Edit video - {videoname}
     profile:
-      profile: ''
-      title: ''
+      profile: Profile
+      title: Title
       ranks:
-        rank: ''
-        '0': ''
-        '1': ''
-        '2': ''
-        '3': ''
+        rank: Rank of the video
+        '0': Only visible to administrators
+        '1': Visible to login users
+        '2': Visible to uploader and administrators
+        '3': Visible to all
       edit:
-        saving: ''
-        saved: ''
-        failed: ''
+        saving: Saving - Edit video - {videoname}
+        saved: Successfully saved! - Edit video - {videoname}
+        failed: Fail to save - Edit video - {videoname}
   video-list:
     title: Video list
     main-body:
@@ -422,9 +423,9 @@ video:
       successful:
         search-no-result: No playlist found
         search-result-count: '{count}  playlists found'
-      tips: ''
+      tips: '*Videos with sensitive tags are hidden'
     video:
-      hidden: ''
+      hidden: Hidden
       source-site: 'Source site:'
     advanced-search:
       name: Advanced search
@@ -436,35 +437,35 @@ image:
     alt: The cover of {title}
 tag:
   author:
-    title: ''
+    title: Profile of {tagname}
     type:
-      individual: ''
-      group: ''
+      individual: Individual
+      group: Group
 settings:
-  settings: ''
+  settings: Settings
   general:
     quick-settings:
-      name: ''
+      name: Quick settings
     general:
-      name: ''
+      name: General
     language:
-      desc: ''
-      browser-default: ''
-    name: ''
+      desc: If you wish to help translate pages of PatchyVideo, you are welcomed to join us!
+      browser-default: Preferred browsers: {preferred}
+    name: General
   appearance:
     theme:
-      name: ''
+      name: Theme
       color:
-        name: ''
-    name: ''
+        name: Theme color
+    name: Appearance
   account:
     profile:
-      name: ''
+      name: User profile
       username:
-        label: ''
-        desc: ''
+        label: Username
+        desc: You may change you username anytime. Usernames may not be identical to another.
       description:
-        label: ''
-    loading: ''
-    name: ''
-  loading: ''
+        label: Description
+    loading: Loading user profiles
+    name: Account
+  loading: Loading the settings

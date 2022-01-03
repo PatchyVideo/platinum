@@ -152,6 +152,7 @@ search:
   auto-complete:
     search: 搜索
     loading: 少女祈祷中......
+    loading-nothing: 没有搜索建议
     loading-failed: 加载失败了QAQ
     hot-tags: 热门标签
 ui:
@@ -305,7 +306,7 @@ user-notification:
   notification:
     title: 消息中心
     slide-open: 打开消息侧栏
-    relpy: 回复我的
+    reply: 回复我的
     at: 艾特我的（建设中）
     system: 系统通知
   notification-system:
