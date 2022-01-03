@@ -47,7 +47,7 @@
           >
             <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
-              {{ t('user-notification.notification.relpy') }}
+              {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
                 listNoteCountTypesCommentReply
                   ? listNoteCountTypesCommentReply
@@ -109,7 +109,7 @@
           >
             <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
-              {{ t('user-notification.notification.relpy') }}
+              {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
                 listNoteCountTypesCommentReply
                   ? listNoteCountTypesCommentReply
