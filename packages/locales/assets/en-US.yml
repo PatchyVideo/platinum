@@ -79,7 +79,7 @@ playlist:
     collapse: Collapse
     expand: Expand
     info:
-      video-count: {count} videos
+      video-count: '{count} videos'
       rating: 'Rate: {rating}'
       edit-date: Last edited on {date}
   playlist-list:
@@ -450,7 +450,7 @@ settings:
       name: General
     language:
       desc: If you wish to help translate pages of PatchyVideo, you are welcomed to join us!
-      browser-default: Preferred browsers: {preferred}
+      browser-default: 'Preferred browsers: {preferred}'
     name: General
   appearance:
     theme:
