@@ -20,8 +20,16 @@
           <PvSelect :selected="qtype" :item-list="qtypeList" @update:selected="(v) => (qtype = v)" />
         </div>
         <!-- AND or OR -->
-        <div>
-          <div>{{ '关键字：' }}</div>
+        <!-- TODO: add OR function -->
+        <div class="space-y-1">
+          <div>{{ '包含关键字：' }}</div>
+          <AutoComplete
+            v-model:keyword="searchContentAndOrNot"
+            default-placeholder="输入标签或文本"
+            class="w-full max-w-125"
+            :show-tag-cnt="false"
+            @search="addsearchContentAndOrNot"
+          ></AutoComplete>
         </div>
         <!-- NOT -->
         <div>
@@ -88,12 +96,13 @@
 
 <script lang="ts" setup>
 import PvSelect from '@/ui/components/PvSelect.vue'
+import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
+// import { useI18n } from 'vue-i18n'
 import { useVModel } from '@vueuse/core'
 
-const { t } = useI18n()
+// const { t } = useI18n()
 const props = defineProps({
   open: {
     type: Boolean,
@@ -106,6 +115,10 @@ const emit = defineEmits<{
 }>()
 
 const open = useVModel(props, 'open', emit)
+
+/* AND or OR */
+const searchContentAndOrNot = ref('')
+function addsearchContentAndOrNot(): void {}
 
 const qtype = ref('tag')
 const qtypeList = [
