@@ -12,7 +12,7 @@ specifiers:
   '@graphql-codegen/schema-ast': ^2.4.1
   '@graphql-codegen/typescript': ^2.4.2
   '@iconify-json/carbon': ^1.0.12
-  '@iconify-json/mdi': ^1.0.12
+  '@iconify-json/mdi-light': ^1.0.1
   '@iconify-json/ph': ^1.0.4
   '@iconify-json/ri': ^1.0.2
   '@iconify-json/uil': ^1.0.2
@@ -114,7 +114,7 @@ devDependencies:
   '@graphql-codegen/schema-ast': 2.4.1_graphql@16.2.0
   '@graphql-codegen/typescript': 2.4.2_graphql@16.2.0
   '@iconify-json/carbon': 1.0.12
-  '@iconify-json/mdi': 1.0.12
+  '@iconify-json/mdi-light': 1.0.1
   '@iconify-json/ph': 1.0.4
   '@iconify-json/ri': 1.0.2
   '@iconify-json/uil': 1.0.2
@@ -1915,8 +1915,8 @@ packages:
       '@iconify/types': 1.0.12
     dev: true
 
-  /@iconify-json/mdi/1.0.12:
-    resolution: {integrity: sha512-smYQpxDqSCUdySFSYZpH0BAEVbgFnU4IE/Hb36zavseOl3zFlKDvGOEFPC7djkEabrIWi9KDAUdbtIREcgVE8A==}
+  /@iconify-json/mdi-light/1.0.1:
+    resolution: {integrity: sha512-lbucb1t36lRRxEHNnJcROt0SRRRQgI6gmzj1Pv2qadrw/5mjLN6+OzOOCAIwCLDu//hU7xMkXDCw47aWtbRHaA==}
     dependencies:
       '@iconify/types': 1.0.12
     dev: true
