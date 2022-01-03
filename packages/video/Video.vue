@@ -61,7 +61,7 @@
               </div></template
             >
             <!-- Video Description -->
-            <MarkdownBlock :text="video.item.desc" size="sm"></MarkdownBlock>
+            <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
           <div class="w-full border-t border-gray-300 my-2"></div>
           <div>
@@ -93,7 +93,7 @@
                       ><span v-if="comment.edited" class="ml-1.5">edited</span></span
                     >
                   </div>
-                  <MarkdownBlock class="min-h-6" :text="comment.content" size="md" />
+                  <MarkdownCommentBlock class="min-h-6" :text="comment.content" size="md" />
                 </div>
               </div>
               <div
@@ -145,7 +145,7 @@
                       ><RelativeDate class="text-xs text-gray-500 dark:text-gray-400 ml-2" :date="child.meta.createdAt"
                     /></Suspense>
                   </div>
-                  <MarkdownBlock class="min-h-8" :text="child.content" size="sm" />
+                  <MarkdownCommentBlock class="min-h-8" :text="child.content" size="sm" />
                 </div>
               </div>
               <div
@@ -396,7 +396,7 @@
 <script lang="ts" setup>
 import Player from './components/Player.vue'
 import Tag from '@/tag/components/Tag.vue'
-import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
+import MarkdownCommentBlock from '@/markdown/components/MarkdownCommentBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
