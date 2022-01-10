@@ -6,7 +6,7 @@
     "lib": ["ESNext", "ESNext.AsyncIterable", "DOM", "WebWorker"],
     "types": ["vite/client", "vite-plugin-pwa/client"],
     "jsx": "preserve",
-    "target": "ESNext",
+    "target": "ES2018",
     "sourceMap": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
