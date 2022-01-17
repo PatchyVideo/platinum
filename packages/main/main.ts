@@ -77,10 +77,12 @@ appPromises.push(checkLoginStatusPromise)
 
 /* Vue Router */
 import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     holdLoading?: boolean
     requireLogin?: boolean
+    hashKey?: (route: RouteLocationNormalizedLoaded) => string | undefined
   }
 }
 const router = createRouter({
@@ -89,6 +91,7 @@ const router = createRouter({
   routes: [
     // Home
     {
+      name: 'home',
       path: '/',
       alias: ['/index', '/index.html'],
       component: () => import('@/home/Home.vue'),
@@ -96,10 +99,12 @@ const router = createRouter({
 
     // Search
     {
+      name: 'search-page',
       path: '/search-page',
       component: () => import('@/search/SearchPage.vue'),
     },
     {
+      name: 'search-result',
       path: '/search-result',
       component: () => import('@/search/SearchResult.vue'),
       meta: { holdLoading: true },
@@ -107,25 +112,35 @@ const router = createRouter({
 
     // Video
     {
+      name: 'video-list',
       path: '/video-list',
       component: () => import('@/video/VideoList.vue'),
       meta: { holdLoading: true },
     },
     {
+      name: 'video-detail',
       path: '/video/:vid',
       component: () => import('@/video/Video.vue'),
-      meta: { holdLoading: true },
+      meta: {
+        holdLoading: true,
+        hashKey(route) {
+          return `video-${route.params.vid}`
+        },
+      },
     },
     {
+      name: 'video-embed',
       path: '/embed/:vid',
       component: () => import('@/video/Embed.vue'),
     },
     {
+      name: 'video-edit',
       path: '/edit-video/:vid',
       component: () => import('@/video/EditVideo.vue'),
       meta: { holdLoading: true },
     },
     {
+      name: 'video-edit-tag',
       path: '/tag-editor/:vid',
       component: () => import('@/video/EditVideoTag.vue'),
       meta: { holdLoading: true },
@@ -133,11 +148,13 @@ const router = createRouter({
 
     // Playlist
     {
+      name: 'playlist-list',
       path: '/playlist-list',
       component: () => import('@/playlist/PlaylistList.vue'),
       meta: { holdLoading: true },
     },
     {
+      name: 'playlist-detail',
       path: '/playlist/:pid',
       component: () => import('@/playlist/Playlist.vue'),
       meta: { holdLoading: true },
@@ -145,6 +162,7 @@ const router = createRouter({
 
     // Tag
     {
+      name: 'tag-author-detail',
       path: '/tag/author/:tid',
       component: () => import('@/tag/Author.vue'),
       meta: { holdLoading: true },
@@ -152,6 +170,7 @@ const router = createRouter({
 
     // LeaderBoard
     {
+      name: 'leaderboard',
       path: '/leaderboard',
       component: () => import('@/leaderboard/Leaderboard.vue'),
       meta: { holdLoading: true },
@@ -159,35 +178,43 @@ const router = createRouter({
 
     // User
     {
+      name: 'user-settings',
       path: '/user/me',
       component: () => import('@/user/User.vue'),
     },
     {
+      name: 'user-notification',
       path: '/user/notification',
       component: () => import('@/user-notification/Notification.vue'),
       meta: { requireLogin: true },
     },
     {
+      name: 'user-login',
       path: '/user/login',
       component: () => import('@/user/Login.vue'),
     },
     {
+      name: 'user-signup',
       path: '/user/signup',
       component: () => import('@/user/Signup.vue'),
     },
     {
+      name: 'user-forgot-password',
       path: '/user/forget-password',
       component: () => import('@/user/ForgetPassword.vue'),
     },
     {
+      name: 'user-reset-password',
       path: '/user/reset-password',
       component: () => import('@/user/ResetPassword.vue'),
     },
     {
+      name: 'user-redirect',
       path: '/user/redirect',
       component: () => import('@/user/Redirect.vue'),
     },
     {
+      name: 'user-profile',
       path: '/user/:uid',
       component: () => import('@/user/Profile.vue'),
       meta: { holdLoading: true },
@@ -195,20 +222,24 @@ const router = createRouter({
 
     // Settings
     {
+      name: 'settings-redirect',
       path: '/settings',
       redirect: '/settings/general',
     },
     {
+      name: 'settings',
       path: '/settings/:catogory',
       component: () => import('@/settings/ChangeSettings.vue'),
     },
 
     // Error
     {
+      name: '404',
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },
     {
+      name: '404',
       path: '/:url+',
       component: () => import('@/error-pages/components/404.vue'),
     },
