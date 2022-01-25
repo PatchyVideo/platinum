@@ -22,7 +22,7 @@
       <div
         v-for="index in limit"
         :key="index"
-        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
+        class="w-12/25 my-5 p-2 border border-violet-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-violet-500 dark:bg-gray-900"
       >
         <div
           class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
@@ -86,7 +86,7 @@
       <div
         v-for="playlist in playlists"
         :key="playlist.item.title"
-        class="w-12/25 my-5 p-2 border border-gray-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-500 dark:bg-gray-900"
+        class="w-12/25 my-5 p-2 border border-violet-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-violet-500 dark:bg-gray-900"
       >
         <RouterLink
           :to="'/playlist/' + playlist.id"

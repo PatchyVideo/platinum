@@ -4,7 +4,7 @@
     :class="{ 'sm:translate-x-full translate-y-full sm:translate-y-0': !open }"
   >
     <div
-      class="w-full h-full border-t border-gray-400 shadow p-3 rounded-t overflow-auto bg-white dark:bg-gray-900 sm:rounded sm:border"
+      class="w-full h-full border-t border-violet-400 shadow p-3 rounded-t overflow-auto bg-white dark:bg-gray-900 sm:rounded sm:border"
     >
       <div class="w-full border-b p-1 pb-1.5 flex justify-between">
         <div class="flex items-center flex-nowrap">
@@ -75,7 +75,7 @@
             <a
               href="https://patchyvideo.wiki/zh/SearchSystem"
               target="_blank"
-              class="text-pink-300 hover:text-pink-500 transition transition-colors"
+              class="text-violet-300 hover:text-violet-500 transition transition-colors"
               >{{ '搜索系统 - PatchyVideo Wiki' }}</a
             >
           </div>

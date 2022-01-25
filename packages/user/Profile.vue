@@ -6,7 +6,7 @@
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
-          class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-gray-300 dark:border-gray-600 transform transition-all ease duration-300"
+          class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-violet-300 dark:border-violet-600 transform transition-all ease duration-300"
           :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
           @mouseenter="() => (isHoveringAvatar = true)"
           @mouseleave="() => (isHoveringAvatar = false)"

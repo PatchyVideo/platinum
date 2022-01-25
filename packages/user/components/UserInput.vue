@@ -48,7 +48,7 @@ const placeholder = computed(() => props.placeholder ?? t('user.input.placeholde
 
 <style lang="postcss" scoped>
 .input {
-  @apply border-gray-300 text-gray-500 dark:text-gray-200 border border-solid focus:outline-none bg-white dark:bg-opacity-5 rounded hover:border-gray-400 transition duration-300 focus:border-blue-300 placeholder-gray-300;
+  @apply border-violet-300 text-gray-500 dark:text-gray-200 border border-solid focus:outline-none bg-white dark:bg-opacity-5 rounded hover:border-violet-400 transition duration-300 focus:border-blue-300 placeholder-gray-300;
 }
 .input-single {
   @apply h-10 pl-7 pr-3 py-2;

@@ -2,7 +2,7 @@
   <div class="border-b flex justify-between p-1">
     <div>{{ t('user-notification.notification-system.title') }}</div>
     <div
-      class="text-sm cursor-pointer transition transition-colors hover:text-pink-300"
+      class="text-sm cursor-pointer transition transition-colors hover:text-violet-300"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'system_message'), [])"
     >
@@ -31,7 +31,7 @@
         <div class="flex justify-between text-xs text-gray-600 dark:text-white">
           <RelativeDate :date="note.time" />
           <div
-            class="cursor-pointer text-pink-300"
+            class="cursor-pointer text-violet-300"
             @click="markAsRead(false, note.type, [note.id.toHexString()], listNoteRead[index])"
           >
             {{

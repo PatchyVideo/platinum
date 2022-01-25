@@ -2,7 +2,7 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="flex h-9 justify-start items-center rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
+      class="flex h-9 justify-start items-center rounded-lg border border-violet-300 dark:border-violet-600 bg-white dark:bg-gray-800"
     >
       <div class="flex-shrink-0 inline i-uil-search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
       <input
@@ -22,7 +22,7 @@
       ></div>
       <button
         v-if="width > 500"
-        class="flex-shrink-0 bg-pink-300 h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-pink-300 hover:bg-pink-200 w-20"
+        class="flex-shrink-0 bg-violet-300 h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-violet-300 hover:bg-violet-200 w-20"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
       ></button>
@@ -71,7 +71,7 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-gray-300 dark:border-gray-600"
+          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-violet-300 dark:border-violet-600"
           :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">

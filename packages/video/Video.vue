@@ -34,7 +34,7 @@
           <Suspense>
             <Player :item="video.item" />
           </Suspense>
-          <!-- <div class="ltxl:hidden w-full border-t border-gray-300 my-2"></div> -->
+          <!-- <div class="ltxl:hidden w-full border-t border-violet-300 my-2"></div> -->
           <div class="my-1"></div>
           <div ref="mobilePlaylistTarget"></div>
           <div ref="mobileAuthorTarget"></div>
@@ -63,7 +63,7 @@
             <!-- Video Description -->
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
-          <div class="w-full border-t border-gray-300 my-2"></div>
+          <div class="w-full border-t border-violet-300 my-2"></div>
           <div>
             <!-- Video Comments -->
             <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
@@ -217,19 +217,19 @@
                 <div class="hidden sm:block ml-1.5 overflow-hidden">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-violet-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-violet-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><template v-else
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-pink-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-violet-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</template
@@ -247,7 +247,7 @@
           <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
             <div
               v-if="playlist"
-              class="xl:mx-2 border-gray-300 dark:border-gray-600 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
+              class="xl:mx-2 border-violet-300 dark:border-violet-600 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
             >
               <div class="mx-2 my-1 flex justify-between">
                 <div>
@@ -274,8 +274,8 @@
                 <RouterLink
                   v-for="(plVideo, plIndex) in playlistVideos"
                   :key="plVideo.video.id.toHexString()"
-                  class="flex justify-start space-x-1 py-1 hover:bg-pink-50 dark:hover:bg-gray-800"
-                  :class="{ 'bg-pink-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
+                  class="flex justify-start space-x-1 py-1 hover:bg-violet-50 dark:hover:bg-gray-800"
+                  :class="{ 'bg-violet-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
                   :to="'/video/' + plVideo.video.id + '?list=' + pid"
                 >
                   <div
@@ -314,7 +314,7 @@
                 v-for="rlVideo in video.relatedVideos"
                 :key="rlVideo.id.toHexString()"
                 :to="'/video/' + rlVideo.id.toHexString()"
-                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-pink-50 dark:hover:bg-gray-800 transition-colors duration-100"
+                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-violet-50 dark:hover:bg-gray-800 transition-colors duration-100"
               >
                 <div class="col-span-2">
                   <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
@@ -373,7 +373,7 @@
           </div>
           <!-- Related Video -->
           <div class="flex flex-col space-y-1 mt-2">
-            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-pink-50 dark:hover:bg-gray-800">
+            <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-violet-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
                 <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
               </div>

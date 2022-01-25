@@ -19,7 +19,8 @@
               :key="catogory.name"
               class="pl-2 py-1 rounded-full"
               :class="{
-                'cursor-default text-pink-800 dark:text-white bg-pink-100 dark:bg-gray-700': active === catogory.name,
+                'cursor-default text-violet-800 dark:text-white bg-violet-100 dark:bg-gray-700':
+                  active === catogory.name,
                 'cursor-pointer select-none': active !== catogory.name,
               }"
               @click="() => active !== catogory.name && router.push('/settings/' + catogory.name)"

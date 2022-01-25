@@ -4,8 +4,8 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-gray-400 dark:border-gray-500': themePreference !== 'system',
-        'border-pink-300 dark:border-pink-400': themePreference === 'system',
+        'border-violet-400 dark:border-violet-500': themePreference !== 'system',
+        'border-violet-300 dark:border-violet-400': themePreference === 'system',
       }"
       @click="changeTheme('system')"
     >
@@ -14,8 +14,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-gray-400 dark:border-gray-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
-          'border-pink-300 dark:border-pink-400 bg-pink-50 dark:bg-gray-800': themePreference === 'system',
+          'border-violet-400 dark:border-violet-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
+          'border-violet-300 dark:border-violet-400 bg-violet-50 dark:bg-gray-800': themePreference === 'system',
         }"
       >
         <div class="i-uil-desktop mr-1 text-lg"></div>
@@ -27,8 +27,8 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-gray-400 dark:border-gray-500': themePreference !== 'light',
-        'border-pink-300 dark:border-pink-400': themePreference === 'light',
+        'border-violet-400 dark:border-violet-500': themePreference !== 'light',
+        'border-violet-300 dark:border-violet-400': themePreference === 'light',
       }"
       @click="changeTheme('light')"
     >
@@ -36,8 +36,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-gray-400 dark:border-gray-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
-          'border-pink-300 dark:border-pink-400 bg-pink-50 dark:bg-gray-800': themePreference === 'light',
+          'border-violet-400 dark:border-violet-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
+          'border-violet-300 dark:border-violet-400 bg-violet-50 dark:bg-gray-800': themePreference === 'light',
         }"
       >
         <div class="i-uil-sun mr-1 text-lg"></div>
@@ -47,8 +47,8 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-gray-400 dark:border-gray-500': themePreference !== 'dark',
-        'border-pink-300 dark:border-pink-400': themePreference === 'dark',
+        'border-violet-400 dark:border-violet-500': themePreference !== 'dark',
+        'border-violet-300 dark:border-violet-400': themePreference === 'dark',
       }"
       @click="changeTheme('dark')"
     >
@@ -56,8 +56,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-gray-400 dark:border-gray-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
-          'border-pink-300 dark:border-pink-400 bg-pink-50 dark:bg-gray-800': themePreference === 'dark',
+          'border-violet-400 dark:border-violet-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
+          'border-violet-300 dark:border-violet-400 bg-violet-50 dark:bg-gray-800': themePreference === 'dark',
         }"
       >
         <div class="i-uil-moon mr-1 text-lg"></div>

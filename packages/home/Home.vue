@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault>
     <!-- Introduction -->
-    <div class="border-b border-gray-300 dark:border-gray-500 md:text-center">
+    <div class="border-b border-violet-300 dark:border-violet-500 md:text-center">
       <div class="p-4 py-10 space-y-4">
         <div>
           <div class="font-semibold md:text-lg">

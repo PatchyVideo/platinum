@@ -29,7 +29,7 @@
         >
       </div>
       <div
-        class="fixed inset-x-0 border-t rounded-t border-gray-400 p-1 z-50 bottom-0 overflow-auto bg-white transform transition-transform duration-300 dark:bg-gray-900"
+        class="fixed inset-x-0 border-t rounded-t border-violet-400 p-1 z-50 bottom-0 overflow-auto bg-white transform transition-transform duration-300 dark:bg-gray-900"
         :class="{ 'translate-y-full': !noteDrawerOpen }"
       >
         <div class="w-full border-b p-1 pb-1.5 flex justify-between">
