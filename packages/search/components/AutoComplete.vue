@@ -22,7 +22,7 @@
       ></div>
       <button
         v-if="width > 500"
-        class="flex-shrink-0 bg-purple-300 h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-purple-300 hover:bg-purple-200 w-20"
+        class="flex-shrink-0 bg-purple-400 text-white h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-purple-300 hover:bg-purple-300 w-20"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
       ></button>

@@ -7,7 +7,7 @@
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
-        <div class="p-1 rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700">
+        <div class="p-1 rounded-full transition-colors hover:bg-purple-200 dark:hover:bg-purple-700">
           <div class="i-uil-list-ul text-3xl cursor-pointer rounded-full" @click="drawerOpen = true" />
         </div>
         <Logo v-if="screenSizes.md" class="inline-block ml-2 cursor-pointer" @click="toHome()"></Logo>
@@ -38,8 +38,7 @@
             <div
               v-if="!screenSizes['<sm'] && props.fetchNote"
               ref="noteBoxBtn"
-              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"
-              :class="{ 'bg-gray-200 dark:bg-gray-700': noteBoxOpen }"
+              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-purple-200 dark:hover:bg-purple-700"
               @click="noteBoxOpen = true"
             >
               <div class="inline-block i-uil-envelope"></div>
@@ -99,10 +98,15 @@
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
                   }}</label></RouterLink
                 >
-                <RouterLink class="block text-center" :to="'/user/' + user.uid">{{
-                  t('common.nav-top.user.userprofile')
-                }}</RouterLink>
-                <div class="text-center cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" @click="logout">
+                <RouterLink :to="'/user/' + user.uid"
+                  ><div class="block text-center transition-colors hover:bg-purple-100 dark:hover:bg-purple-500">
+                    {{ t('common.nav-top.user.userprofile') }}
+                  </div>
+                </RouterLink>
+                <div
+                  class="text-center cursor-pointer transition-colors hover:bg-purple-100 dark:hover:bg-purple-500"
+                  @click="logout"
+                >
                   {{ t('common.nav-top.user.logout') }}
                   <div
                     v-show="loggingOut"
