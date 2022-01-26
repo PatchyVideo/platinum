@@ -3,7 +3,7 @@
     <!-- Top Nav -->
     <div
       ref="nav"
-      class="h-auto p-1 flex items-center justify-between border-b border-violet-300 bg-gray-50 dark:bg-gray-900 dark:border-violet-800"
+      class="h-auto p-1 flex items-center justify-between border-b border-purple-300 bg-gray-50 dark:bg-gray-900 dark:border-purple-800"
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
@@ -79,7 +79,7 @@
             <div
               v-show="userListOpen"
               ref="userList"
-              class="z-50 absolute -top-6 -right-2 w-40 p-2 mt-10 rounded bg-white border border-violet-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
+              class="z-50 absolute -top-6 -right-2 w-40 p-2 mt-10 rounded bg-white border border-purple-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
             >
               <UserAvatar
                 :title="user.name"
@@ -119,7 +119,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="fixed rounded-r border-r border-violet-400 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
+        class="fixed rounded-r border-r border-purple-400 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->

@@ -3,21 +3,21 @@
     <div class="border-t pt-1 flex-1 flex justify-between items-center">
       <a
         v-if="page !== 1"
-        class="inline-flex items-center px-2 py-1 border border-violet-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-violet-900 dark:hover:bg-black md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-purple-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('previous')"
         v-text="t('ui.pv-pagination.page-previous')"
       ></a>
       <a
         v-else
         disabled
-        class="inline-flex items-center px-2 py-1 border border-violet-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-violet-900 md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-purple-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-previous')"
       ></a>
       <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
         <template #count>
           <input
             v-model.number="currentPage"
-            class="w-12 border rounded-md border-violet-400 p-1 shadow-inner dark:bg-gray-500"
+            class="w-12 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
             @keydown.enter="change"
             @blur="change"
           />
@@ -28,14 +28,14 @@
       </i18n-t>
       <a
         v-if="page !== pageCount"
-        class="inline-flex items-center px-2 py-1 border border-violet-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-violet-900 dark:hover:bg-black md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-purple-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('next')"
         v-text="t('ui.pv-pagination.page-next')"
       ></a>
       <a
         v-else
         disabled
-        class="inline-flex items-center px-2 py-1 border border-violet-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-violet-900 md:px-4 md:py-2"
+        class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-purple-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-next')"
       ></a>
     </div>

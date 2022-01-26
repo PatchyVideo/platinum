@@ -75,7 +75,7 @@
               ></div>
             </div>
           </div>
-          <div class="absolute h-full bg-violet-600" :style="{ width: progress * 100 + '%' }">
+          <div class="absolute h-full bg-purple-600" :style="{ width: progress * 100 + '%' }">
             <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer"></span>
           </div>
         </div>
@@ -103,7 +103,7 @@
             <div class="lt-sm:hidden h-full m-0">
               <div ref="volumebar" class="w-16 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
-                  class="relative h-full left-0 bottom-0 bg-violet-600 rounded-l-full"
+                  class="relative h-full left-0 bottom-0 bg-purple-600 rounded-l-full"
                   :style="{ width: volume * 100 + '%' }"
                 >
                   <span class="absolute -right-1.5 -top-1 w-3 h-3 bg-white rounded-full cursor-pointer"></span>

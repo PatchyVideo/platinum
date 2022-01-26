@@ -2,7 +2,7 @@
   <div class="border-b flex justify-between p-1">
     <div>{{ t('user-notification.notification-reply.title') }}</div>
     <div
-      class="text-sm cursor-pointer transition transition-colors hover:text-violet-300"
+      class="text-sm cursor-pointer transition transition-colors hover:text-purple-300"
       :class="{ 'text-gray-500': !listNoteCountUnread }"
       @click="markAsRead(true, (noteType = 'comment_reply'), [])"
     >

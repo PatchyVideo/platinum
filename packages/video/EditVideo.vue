@@ -1,14 +1,14 @@
 <template>
   <template v-if="video"
     ><div class="mx-2">
-      <div class="pl-2 text-gray-600 dark:text-gray-300 border-b border-violet-200 dark:border-violet-600">
+      <div class="pl-2 text-gray-600 dark:text-gray-300 border-b border-purple-200 dark:border-purple-600">
         {{ t('video.edit-video.profile.profile') }}
       </div>
       <div class="mx-2 mt-1">
         <div class="flex flex-col gap-2">
           <div class="flex">
             <span>{{ t('video.edit-video.profile.title') }}</span
-            ><span class="ml-4 border-b border-violet-400 dark:border-violet-500" v-text="video.item.title"></span>
+            ><span class="ml-4 border-b border-purple-400 dark:border-purple-500" v-text="video.item.title"></span>
           </div>
           <div class="flex">
             <span>{{ t('video.edit-video.profile.ranks.rank') }}</span
@@ -16,7 +16,7 @@
               ><PvSelect v-model:selected="clearence" class="ml-4" :item-list="clearences" /></template
             ><template v-else
               ><span
-                class="ml-4 border-b border-violet-400 dark:border-violet-500"
+                class="ml-4 border-b border-purple-400 dark:border-purple-500"
                 v-text="clearences[Number(clearence)].name"
               ></span
             ></template>

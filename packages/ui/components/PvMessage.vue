@@ -4,7 +4,7 @@
       <div
         v-for="(options, i) in fullMessageOptions"
         :key="options.id"
-        class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-violet-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
+        class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-purple-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
         :style="{
           'transition-timing-function': 'ease',
           'transition-duration': PvMessageTransitionDuration.toString() + 'ms',

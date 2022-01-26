@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div
-      class="w-full h-10 bg-gray-50 border border-solid border-violet-300 flex flex-row justify-start items-center box-border overflow-x-auto overflow-y-hidden rounded-lg"
+      class="w-full h-10 bg-gray-50 border border-solid border-purple-300 flex flex-row justify-start items-center box-border overflow-x-auto overflow-y-hidden rounded-lg"
     >
       <div
         v-for="(tabPane, i) in tabPanes"
@@ -10,7 +10,7 @@
         style="border-bottom-color: white; transition-property: color"
         :class="
           value === tabPane.name
-            ? ['text-blue-400', 'bg-white', 'border-violet-300', 'border-white', 'box-content']
+            ? ['text-blue-400', 'bg-white', 'border-purple-300', 'border-white', 'box-content']
             : ['text-gray-400', 'border-transparent', 'box-border']
         "
         @click="$emit('update:value', tabPane.name)"
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="w-full px-0 py-4 md:p-4">
-      <!--box-border border-violet-300 border-l border-b border-r-->
+      <!--box-border border-purple-300 border-l border-b border-r-->
       <slot :name="value"></slot>
     </div>
   </div>

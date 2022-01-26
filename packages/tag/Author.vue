@@ -6,7 +6,7 @@
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
-          class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-violet-300 dark:border-violet-600 transform transition-all duration-300"
+          class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-purple-300 dark:border-purple-600 transform transition-all duration-300"
         >
           <UserAvatar
             class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none transform transition-all duration-300"

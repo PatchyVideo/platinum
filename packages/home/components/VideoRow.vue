@@ -15,12 +15,12 @@
       v-for="video in videos.slice(0, count)"
       :key="video.id.toHexString()"
       :to="'/video/' + video.id.toHexString()"
-      class="rounded-md hover:bg-violet-50 dark:hover:bg-gray-800 transition-colors duration-100"
+      class="rounded-md hover:bg-purple-50 dark:hover:bg-gray-800 transition-colors duration-100"
     >
       <Cover
         :title="video.item.title"
         :cover-image="video.item.coverImage"
-        class="rounded-md border border-violet-200 dark:border-violet-500"
+        class="rounded-md border border-purple-200 dark:border-purple-500"
       ></Cover>
       <a
         v-if="videoShowTitle"

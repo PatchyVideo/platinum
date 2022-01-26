@@ -257,8 +257,8 @@ const onBindEmail = () => {
   @apply dark:bg-white dark:bg-opacity-0 dark:text-blue-400 dark:hover:bg-opacity-20;
 }
 .btn-default {
-  @apply border-violet-400 border-double border-2 bg-white hover:border-violet-600 text-gray-400 hover:text-gray-600;
-  @apply dark:bg-opacity-0 dark:border-white dark:hover:border-violet-400 dark:text-white dark:hover:text-gray-400;
+  @apply border-purple-400 border-double border-2 bg-white hover:border-purple-600 text-gray-400 hover:text-gray-600;
+  @apply dark:bg-opacity-0 dark:border-white dark:hover:border-purple-400 dark:text-white dark:hover:text-gray-400;
 }
 .password-row {
   @apply w-full lg:w-4/5 flex flex-row justify-start items-center;

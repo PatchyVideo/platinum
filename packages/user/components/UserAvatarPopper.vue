@@ -3,11 +3,11 @@
   <div
     v-show="popperShowing && user"
     ref="popper"
-    class="popper z-910 px-3 py-2 max-w-xs rounded-md border border-violet-300 shadow-md bg-white dark:bg-gray-900"
+    class="popper z-910 px-3 py-2 max-w-xs rounded-md border border-purple-300 shadow-md bg-white dark:bg-gray-900"
   >
     <RouterLink :to="'/user/' + uid">
       <div v-if="user" class="flex flex-row space-x-2">
-        <div class="flex-shrink-0 flex-grow-0 rounded-full border border-violet-300 dark:border-violet-600">
+        <div class="flex-shrink-0 flex-grow-0 rounded-full border border-purple-300 dark:border-purple-600">
           <UserAvatar
             class="inline-block w-16 h-16 rounded-full object-cover"
             :alt="user.username"

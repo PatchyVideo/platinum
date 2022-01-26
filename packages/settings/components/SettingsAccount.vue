@@ -2,7 +2,7 @@
   <div v-if="!loading">
     <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')"></h2>
     <RouterLink
-      class="ml-2 px-1 pb-0.5 rounded-lg border border-violet-400 dark:border-violet-500"
+      class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-purple-500"
       :to="'/user/' + user.uid"
       >{{ t('common.nav-top.user.userprofile') }}
       <div class="i-uil-external-link-alt text-lg"></div
@@ -17,7 +17,7 @@
         ></div>
       </div>
       <div
-        class="w-full max-w-112 rounded-lg border border-violet-300 dark:border-violet-600 bg-white dark:bg-gray-800"
+        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-purple-600 bg-white dark:bg-gray-800"
       >
         <input v-model="name" class="inline-block px-2 py-1 w-full rounded-lg outline-none dark:bg-gray-800" />
       </div>
@@ -27,7 +27,7 @@
         <h3 class="font-medium" v-text="t('settings.account.profile.description.label')"></h3>
       </div>
       <div
-        class="w-full max-w-112 rounded-lg border border-violet-300 dark:border-violet-600 bg-white dark:bg-gray-800"
+        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-purple-600 bg-white dark:bg-gray-800"
       >
         <textarea
           v-model="desc"

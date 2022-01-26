@@ -24,7 +24,7 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="w-12/50 my-2 border border-violet-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-violet-500 dark:bg-gray-900"
+            class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-purple-500 dark:bg-gray-900"
           >
             <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
             <div class="p-3 text-left text-sm lg:text-base">
@@ -85,7 +85,7 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="w-12/50 my-2 border border-violet-400 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-violet-500 dark:bg-gray-900"
+            class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-purple-500 dark:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="relative">

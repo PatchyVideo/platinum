@@ -19,7 +19,7 @@
             v-for="tabs in Tabs"
             :key="tabs.value"
             class="px-5 py-2 cursor-pointer text-gray-400 text-sm font-semibold border-t-4 border-transparent md:text-base md:font-bold md:p-5 md:pt-3"
-            :class="{ 'text-black border-violet-300 dark:text-white': tabs.value === tab }"
+            :class="{ 'text-black border-purple-300 dark:text-white': tabs.value === tab }"
             @click="changeTab(tabs.value)"
             v-text="tabs.name"
           ></div>
