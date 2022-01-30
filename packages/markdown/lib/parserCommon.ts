@@ -102,7 +102,7 @@ export function facePlugin(markdownIt: MarkdownIt) {
 
     if (face in faces) {
       const token = state.push('face', '', 0)
-      token.attrSet('href', faces['face'])
+      token.attrSet('src', faces[face])
       token.content = face
     } else {
       const token = state.push('text', '', 0)

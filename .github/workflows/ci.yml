@@ -28,7 +28,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.23.6
+          version: 6.29.0
           run_install: |
             args: [--frozen-lockfile, --strict-peer-dependencies]
         timeout-minutes: 10
