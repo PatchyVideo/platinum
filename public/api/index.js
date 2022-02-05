@@ -80,9 +80,9 @@ async function processRequest(req, res) {
         `<meta property="og:video:url" content="https://${req.headers.host}/embed/${vid}" />`,
         `<meta property="og:video:secure_url" content="https://${req.headers.host}/embed/${vid}" />`,
         `<meta property="og:video:type" content="text/html" />`,
-        ...data.tags
-          .reduce((pv, cv) => [...pv, ...cv.languages.map((v) => v.value)], [])
-          .map((v) => `<meta property="og:video:tag" content="${encodeHTML(v)}" />`),
+        ...[...new Set(data.tags.reduce((pv, cv) => [...pv, ...cv.languages.map((v) => v.value)], []))].map(
+          (v) => `<meta property="og:video:tag" content="${encodeHTML(v)}" />`
+        ),
 
         // twitter data
         `<meta name="twitter:card" content="player" />`,
