@@ -187,6 +187,8 @@ watch(URLQuery, () => {
       offset: offset.value * limit.value,
       limit: limit.value,
       query: '',
+      order: 'last_modified',
+      additionalConstraint: ' ',
     },
   })?.then((v) => {
     result.value = v.data
@@ -195,8 +197,17 @@ watch(URLQuery, () => {
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int, $limit: Int, $query: String) {
-      listVideo(para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query }) {
+    query ($offset: Int!, $limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
+      listVideo(
+        para: {
+          offset: $offset
+          limit: $limit
+          humanReadableTag: true
+          query: $query
+          order: $order
+          additionalConstraint: $additionalConstraint
+        }
+      ) {
         count
         pageCount
         videos {
@@ -218,6 +229,8 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     offset: offset.value * limit.value,
     limit: limit.value,
     query: '',
+    order: 'last_modified',
+    additionalConstraint: '',
   }
 )
 watchEffect(() => {
