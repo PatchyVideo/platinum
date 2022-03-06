@@ -158,6 +158,7 @@ import { pageOfVideo } from '@/video/lib/biliHelper'
 import { backTop } from '@/ui/lib/backTop'
 import { getSiteImage } from '@/common/lib/imageUrl'
 import { screenSizes } from '@/css'
+import { getAdditionalConstraintString } from '@/video/lib/decodeAdditionalConstraint'
 
 const { t } = useI18n()
 setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
@@ -177,6 +178,15 @@ const offset = computed(() =>
   Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
 )
 const page = computed(() => offset.value + 1)
+const qtype = computed(() =>
+  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 0)
+)
+const order = computed(() =>
+  String(route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 0)
+)
+const additionalConstraint = computed(() =>
+  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
+)
 
 /* Refresh query result for URL query change */
 const URLQuery = computed(() => route.query)
@@ -187,8 +197,9 @@ watch(URLQuery, () => {
       offset: offset.value * limit.value,
       limit: limit.value,
       query: '',
-      order: 'last_modified',
-      additionalConstraint: ' ',
+      qtype: qtype.value,
+      order: order.value,
+      additionalConstraint: getAdditionalConstraintString(additionalConstraint.value),
     },
   })?.then((v) => {
     result.value = v.data
@@ -197,13 +208,21 @@ watch(URLQuery, () => {
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int!, $limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
+    query (
+      $offset: Int!
+      $limit: Int!
+      $query: String!
+      $qtype: String
+      $order: String!
+      $additionalConstraint: String
+    ) {
       listVideo(
         para: {
           offset: $offset
           limit: $limit
           humanReadableTag: true
           query: $query
+          qtype: $qtype
           order: $order
           additionalConstraint: $additionalConstraint
         }
@@ -229,8 +248,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     offset: offset.value * limit.value,
     limit: limit.value,
     query: '',
-    order: 'last_modified',
-    additionalConstraint: '',
+    qtype: qtype.value,
+    order: order.value,
+    additionalConstraint: getAdditionalConstraintString(additionalConstraint.value),
   }
 )
 watchEffect(() => {
