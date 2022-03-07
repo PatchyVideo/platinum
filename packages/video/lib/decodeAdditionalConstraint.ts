@@ -1,13 +1,13 @@
 export function getAdditionalConstraintString(additionalConstraintUrl: string): string {
   console.log(additionalConstraintUrl)
   if (additionalConstraintUrl === '') return ''
-  const additionalConstraintObject = JSON.parse(window.atob(additionalConstraintUrl))
+  const additionalConstraintObject = JSON.parse(decodeURI(window.atob(additionalConstraintUrl)))
   console.log(additionalConstraintObject)
   let additionalConstraintString: string = ''
   if (additionalConstraintObject.searchContentAndOrNot)
     additionalConstraintString += additionalConstraintObject.searchContentAndOrNot
   if (additionalConstraintObject.exceptContent) {
-    const exceptContentArray = additionalConstraintObject.exceptContent.split(' ')
+    const exceptContentArray = additionalConstraintObject.exceptContent.trim().split(' ')
     for (let i = 0; i < exceptContentArray.length; i++) {
       additionalConstraintString += 'NOT(' + exceptContentArray[i] + ') '
     }
@@ -25,7 +25,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
     additionalConstraintObject.date1.beforeAfterEqualDate1 &&
     additionalConstraintObject.date1.beforeAfterEqualDate1 != ''
   ) {
-    additionalConstraintString =
+    additionalConstraintString +=
       'date:' +
       additionalConstraintObject.date1.beforeAfterEqualDate1 +
       additionalConstraintObject.date1.year1 +
@@ -39,7 +39,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
     additionalConstraintObject.date2.beforeAfterEqualDate2 &&
     additionalConstraintObject.date2.beforeAfterEqualDate2 != ''
   ) {
-    additionalConstraintString =
+    additionalConstraintString +=
       'date:' +
       additionalConstraintObject.date2.beforeAfterEqualDate2 +
       additionalConstraintObject.date1.year2 +
@@ -50,7 +50,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
       ' '
   }
   if (additionalConstraintObject.tag.moreLessEqualTagNum && additionalConstraintObject.tag.moreLessEqualTagNum != '') {
-    additionalConstraintString =
+    additionalConstraintString +=
       'tags:' + additionalConstraintObject.tag.moreLessEqualTagNum + additionalConstraintObject.tag.tagNum + ' '
   }
   if (

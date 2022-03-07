@@ -352,34 +352,37 @@ const onlyShowAutotagedVideos = ref(false)
 
 const additionalConstraintBase64 = computed(() => {
   return window.btoa(
-    JSON.stringify({
-      qtype: qtype.value,
-      searchContentAndOrNot: searchContentAndOrNot.value,
-      exceptContent: exceptContent.value,
-      order: order.value,
-      visibleSites: visibleSites.value,
-      date1: {
-        beforeAfterEqualDate1: beforeAfterEqualDate1.value,
-        year1: year1.value,
-        month1: month1.value,
-        day1: day1.value,
-      },
-      date2: {
-        beforeAfterEqualDate2: beforeAfterEqualDate2.value,
-        year2: year2.value,
-        month2: month2.value,
-        day2: day2.value,
-      },
-      tag: {
-        moreLessEqualTagNum: moreLessEqualTagNum.value,
-        tagNum: tagNum.value,
-      },
-      onlyShowAutotagedVideos: onlyShowAutotagedVideos.value,
-    })
+    encodeURI(
+      JSON.stringify({
+        qtype: qtype.value,
+        searchContentAndOrNot: searchContentAndOrNot.value,
+        exceptContent: exceptContent.value,
+        order: order.value,
+        visibleSites: visibleSites.value,
+        date1: {
+          beforeAfterEqualDate1: beforeAfterEqualDate1.value,
+          year1: year1.value,
+          month1: month1.value,
+          day1: day1.value,
+        },
+        date2: {
+          beforeAfterEqualDate2: beforeAfterEqualDate2.value,
+          year2: year2.value,
+          month2: month2.value,
+          day2: day2.value,
+        },
+        tag: {
+          moreLessEqualTagNum: moreLessEqualTagNum.value,
+          tagNum: tagNum.value,
+        },
+        onlyShowAutotagedVideos: onlyShowAutotagedVideos.value,
+      })
+    )
   )
 })
 function search(): void {
   const query = { qtype: qtype.value, order: order.value, a: additionalConstraintBase64.value }
   router.push({ path: route.path, query })
+  open.value = false
 }
 </script>
