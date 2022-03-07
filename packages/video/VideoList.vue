@@ -179,10 +179,12 @@ const offset = computed(() =>
 )
 const page = computed(() => offset.value + 1)
 const qtype = computed(() =>
-  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 0)
+  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag')
 )
 const order = computed(() =>
-  String(route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 0)
+  String(
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified'
+  )
 )
 const additionalConstraint = computed(() =>
   String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
