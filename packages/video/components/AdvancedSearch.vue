@@ -302,8 +302,8 @@ function changeVisibleSites(
 
 /* Date */
 const beforeAfterEqualList = [
-  { name: '早于', value: '>' },
-  { name: '晚于', value: '<' },
+  { name: '晚于', value: '>' },
+  { name: '早于', value: '<' },
   { name: '等于', value: '=' },
   { name: '不计', value: '' },
 ]
@@ -350,6 +350,49 @@ const tagNum = ref('')
 /* Only show autotaged videos */
 const onlyShowAutotagedVideos = ref(false)
 
+/* Search */
+function checkSubmitContent(): boolean {
+  // Check date
+  if (
+    beforeAfterEqualDate1.value != '' &&
+    (isNaN(Number(year1.value)) ||
+      !Number.isSafeInteger(year1.value) ||
+      Number(year1.value) <= 0 ||
+      isNaN(Number(month1.value)) ||
+      !Number.isSafeInteger(month1.value) ||
+      Number(month1.value) <= 0 ||
+      isNaN(Number(day1.value)) ||
+      !Number.isSafeInteger(day1.value) ||
+      Number(day1.value) <= 0)
+  ) {
+    alert('请检查原视频发布时间项的填写是否正确！')
+    return false
+  }
+  if (
+    beforeAfterEqualDate2.value != '' &&
+    (isNaN(Number(year2.value)) ||
+      !Number.isSafeInteger(year2.value) ||
+      Number(year2.value) <= 0 ||
+      isNaN(Number(month2.value)) ||
+      !Number.isSafeInteger(month2.value) ||
+      Number(month2.value) <= 0 ||
+      isNaN(Number(day2.value)) ||
+      !Number.isSafeInteger(day2.value) ||
+      Number(day2.value) <= 0)
+  ) {
+    alert('请检查原视频发布时间项的填写是否正确！')
+    return false
+  }
+  // Check tag
+  if (
+    moreLessEqualTagNum.value != '' &&
+    (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) <= 0)
+  ) {
+    alert('请检查标签数量项的填写是否正确！')
+    return false
+  }
+  return true
+}
 const additionalConstraintBase64 = computed(() => {
   return window.btoa(
     encodeURI(
@@ -381,6 +424,7 @@ const additionalConstraintBase64 = computed(() => {
   )
 })
 function search(): void {
+  if (!checkSubmitContent()) return
   const query = { qtype: qtype.value, order: order.value, a: additionalConstraintBase64.value }
   router.push({ path: route.path, query })
   open.value = false
