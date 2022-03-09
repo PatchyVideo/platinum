@@ -165,7 +165,7 @@
       </div>
       <!-- Reset or search -->
       <div class="flex justify-around border-t pt-3">
-        <PvBotton>{{ '重置' }}</PvBotton>
+        <PvBotton @click="reset()">{{ '重置' }}</PvBotton>
         <PvBotton @click="search()">{{ '搜索' }}</PvBotton>
       </div>
       <!-- More infomation -->
@@ -220,8 +220,41 @@ const emit = defineEmits<{
 
 const open = useVModel(props, 'open', emit)
 
+/* initialize additional constraint with url */
+const additionalConstraintUrl = ref(
+  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
+)
+const additionalConstraintObject = ref(
+  additionalConstraintUrl.value === ''
+    ? {
+        searchContentAndOrNot: '',
+        exceptContent: '',
+        visibleSites: [''],
+        date1: {
+          beforeAfterEqualDate1: '',
+          year1: '',
+          month1: '',
+          day1: '',
+        },
+        date2: {
+          beforeAfterEqualDate2: '',
+          year2: '',
+          month2: '',
+          day2: '',
+        },
+        tag: {
+          moreLessEqualTagNum: '',
+          tagNum: '',
+        },
+        onlyShowAutotagedVideos: false,
+      }
+    : JSON.parse(decodeURI(window.atob(additionalConstraintUrl.value)))
+)
+
 /* Qtype */
-const qtype = ref('tag')
+const qtype = ref(
+  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag')
+)
 const qtypeList = [
   {
     name: '标签/文本模式',
@@ -234,15 +267,19 @@ const qtypeList = [
 ]
 
 /* AND or OR */
-const searchContentAndOrNot = ref('')
+const searchContentAndOrNot = ref(additionalConstraintObject.value.searchContentAndOrNot)
 function addsearchContentAndOrNot(): void {}
 
 /* Except */
-const exceptContent = ref('')
+const exceptContent = ref(additionalConstraintObject.value.exceptContent)
 function addexceptContent(): void {}
 
 /* Order */
-const order = ref('last_modified')
+const order = ref(
+  String(
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified'
+  )
+)
 const orderList = [
   { value: 'latest', name: '索引时间正序' },
   { value: 'oldest', name: '索引时间倒序' },
@@ -252,9 +289,9 @@ const orderList = [
 ]
 
 /* Site */
-const visibleSites = ref<('' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile')[]>([
-  '',
-])
+const visibleSites = ref<('' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile')[]>(
+  additionalConstraintObject.value.visibleSites
+)
 const siteList: {
   name: string
   value: '' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile'
@@ -307,7 +344,7 @@ const beforeAfterEqualList = [
   { name: '等于', value: '=' },
   { name: '不计', value: '' },
 ]
-const beforeAfterEqualDate1 = ref('')
+const beforeAfterEqualDate1 = ref<string>(additionalConstraintObject.value.date1.beforeAfterEqualDate1)
 watch(beforeAfterEqualDate1, (newv) => {
   if (newv === '') {
     year1.value = ''
@@ -315,10 +352,10 @@ watch(beforeAfterEqualDate1, (newv) => {
     day1.value = ''
   }
 })
-const year1 = ref('')
-const month1 = ref('')
-const day1 = ref('')
-const beforeAfterEqualDate2 = ref('')
+const year1 = ref(additionalConstraintObject.value.date1.year1)
+const month1 = ref(additionalConstraintObject.value.date1.month1)
+const day1 = ref(additionalConstraintObject.value.date1.day1)
+const beforeAfterEqualDate2 = ref<string>(additionalConstraintObject.value.date2.beforeAfterEqualDate2)
 watch(beforeAfterEqualDate2, (newv) => {
   if (newv === '') {
     year2.value = ''
@@ -326,9 +363,9 @@ watch(beforeAfterEqualDate2, (newv) => {
     day2.value = ''
   }
 })
-const year2 = ref('')
-const month2 = ref('')
-const day2 = ref('')
+const year2 = ref(additionalConstraintObject.value.date2.year2)
+const month2 = ref(additionalConstraintObject.value.date2.month2)
+const day2 = ref(additionalConstraintObject.value.date2.day2)
 
 /* Tag number */
 const moreLessEqualList = [
@@ -337,18 +374,38 @@ const moreLessEqualList = [
   { name: '等于', value: '=' },
   { name: '不计', value: '' },
 ]
-const moreLessEqualTagNum = ref('')
+const moreLessEqualTagNum = ref<string>(additionalConstraintObject.value.tag.moreLessEqualTagNum)
 watch(moreLessEqualTagNum, (newv) => {
   if (newv === '') tagNum.value = ''
 })
-const tagNum = ref('')
+const tagNum = ref(additionalConstraintObject.value.tag.tagNum)
 
 /* Show blocked videos */
 /* TODO: search for showing block videos is not supposed */
 // const showBlockedVideos = ref(false)
 
 /* Only show autotaged videos */
-const onlyShowAutotagedVideos = ref(false)
+const onlyShowAutotagedVideos = ref(additionalConstraintObject.value.onlyShowAutotagedVideos)
+
+/* Reset */
+function reset() {
+  qtype.value = 'tag'
+  searchContentAndOrNot.value = ''
+  exceptContent.value = ''
+  order.value = 'last_modified'
+  visibleSites.value = ['']
+  beforeAfterEqualDate1.value = ''
+  year1.value = ''
+  month1.value = ''
+  day1.value = ''
+  beforeAfterEqualDate2.value = ''
+  year2.value = ''
+  month2.value = ''
+  day2.value = ''
+  moreLessEqualTagNum.value = ''
+  tagNum.value = ''
+  onlyShowAutotagedVideos.value = false
+}
 
 /* Search */
 function checkSubmitContent(): boolean {
@@ -365,7 +422,7 @@ function checkSubmitContent(): boolean {
       !Number.isSafeInteger(day1.value) ||
       Number(day1.value) <= 0)
   ) {
-    alert('请检查原视频发布时间项的填写是否正确！')
+    alert('请检查原视频发布时间项1的填写是否正确！')
     return false
   }
   if (
@@ -380,13 +437,13 @@ function checkSubmitContent(): boolean {
       !Number.isSafeInteger(day2.value) ||
       Number(day2.value) <= 0)
   ) {
-    alert('请检查原视频发布时间项的填写是否正确！')
+    alert('请检查原视频发布时间项2的填写是否正确！')
     return false
   }
   // Check tag
   if (
     moreLessEqualTagNum.value != '' &&
-    (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) <= 0)
+    (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
     alert('请检查标签数量项的填写是否正确！')
     return false
@@ -397,10 +454,8 @@ const additionalConstraintBase64 = computed(() => {
   return window.btoa(
     encodeURI(
       JSON.stringify({
-        qtype: qtype.value,
         searchContentAndOrNot: searchContentAndOrNot.value,
         exceptContent: exceptContent.value,
-        order: order.value,
         visibleSites: visibleSites.value,
         date1: {
           beforeAfterEqualDate1: beforeAfterEqualDate1.value,
