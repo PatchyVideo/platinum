@@ -1,8 +1,6 @@
 export function getAdditionalConstraintString(additionalConstraintUrl: string): string {
-  console.log(additionalConstraintUrl)
   if (additionalConstraintUrl === '') return ''
   const additionalConstraintObject = JSON.parse(decodeURI(window.atob(additionalConstraintUrl)))
-  console.log(additionalConstraintObject)
   let additionalConstraintString: string = ''
   if (additionalConstraintObject.searchContentAndOrNot)
     additionalConstraintString += additionalConstraintObject.searchContentAndOrNot
@@ -13,7 +11,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
     }
   }
   if (additionalConstraintObject.visibleSites.length) {
-    if (!additionalConstraintObject.visibleSites.find((item: string) => item === '')) {
+    if (additionalConstraintObject.visibleSites.findIndex((item: string) => item === '') === -1) {
       let sites = ''
       for (let i = 0; i < additionalConstraintObject.visibleSites.length; i++) {
         sites += 'site:' + additionalConstraintObject.visibleSites[i] + ' '
