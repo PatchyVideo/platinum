@@ -20,7 +20,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
     }
   }
   if (
-    additionalConstraintObject.date1.beforeAfterEqualDate1 &&
+    additionalConstraintObject.date1?.beforeAfterEqualDate1 &&
     additionalConstraintObject.date1.beforeAfterEqualDate1 != ''
   ) {
     additionalConstraintString +=
@@ -34,17 +34,17 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
       ' '
   }
   if (
-    additionalConstraintObject.date2.beforeAfterEqualDate2 &&
+    additionalConstraintObject.date2?.beforeAfterEqualDate2 &&
     additionalConstraintObject.date2.beforeAfterEqualDate2 != ''
   ) {
     additionalConstraintString +=
       'date:' +
       additionalConstraintObject.date2.beforeAfterEqualDate2 +
-      additionalConstraintObject.date1.year2 +
+      additionalConstraintObject.date2.year2 +
       '-' +
-      additionalConstraintObject.date1.month2 +
+      additionalConstraintObject.date2.month2 +
       '-' +
-      additionalConstraintObject.date1.day2 +
+      additionalConstraintObject.date2.day2 +
       ' '
   }
   if (additionalConstraintObject.tag.moreLessEqualTagNum && additionalConstraintObject.tag.moreLessEqualTagNum != '') {
