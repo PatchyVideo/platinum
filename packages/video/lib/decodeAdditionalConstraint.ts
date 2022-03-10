@@ -10,7 +10,7 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
       additionalConstraintString += 'NOT(' + exceptContentArray[i] + ') '
     }
   }
-  if (additionalConstraintObject.visibleSites.length) {
+  if (additionalConstraintObject.visibleSites?.length) {
     if (additionalConstraintObject.visibleSites.findIndex((item: string) => item === '') === -1) {
       let sites = ''
       for (let i = 0; i < additionalConstraintObject.visibleSites.length; i++) {

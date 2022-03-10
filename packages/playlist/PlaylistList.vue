@@ -116,10 +116,13 @@
 
     <!-- Advanced Search -->
     <div
-      class="i-uil-file-search-alt text-3xl fixed bottom-20 right-5 p-2 rounded-full cursor-pointer bg-gray-50 dark:bg-gray-800 shadow transition-opacity"
+      class="shadow fixed bottom-20 right-5 bg-gray-50 cursor-pointer p-2 transition-opacity rounded-full dark:bg-gray-800"
       :title="t('playlist.playlist-list.advanced-search.name')"
-      @click="progressing(t('playlist.playlist-list.advanced-search.name'))"
-    ></div>
+      @click="openAdvancedSearch()"
+    >
+      <div class="i-uil-file-search-alt text-2xl"></div>
+    </div>
+    <AdvancedSearch v-model:open="advancedSearch" />
     <BackTop />
   </LayoutDefault>
 </template>
@@ -127,6 +130,7 @@
 <script lang="ts" setup>
 import Cover from '@/video/components/Cover.vue'
 import BackTop from '@/ui/components/BackTop.vue'
+import AdvancedSearch from '@/playlist/components/AdvancedSearch.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
@@ -135,10 +139,10 @@ import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
 import { useQuery, gql, useResult } from '@/graphql'
 import type { schema, Query } from '@/graphql'
-import { progressing } from '@/common/lib/progressing'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { backTop } from '@/ui/lib/backTop'
 import { screenSizes } from '@/css'
+import { getAdditionalConstraintString } from '@/video/lib/decodeAdditionalConstraint'
 
 const { t } = useI18n()
 setSiteTitle(t('playlist.playlist-list.title') + ' - PatchyVideo')
@@ -154,15 +158,19 @@ const playlists = ref<schema.Playlist[]>()
 const limit = computed(() => {
   return Number(route.query.limit ? (Array.isArray(route.query.limit) ? route.query.limit[0] : route.query.limit) : 20)
 })
+
+const offset = computed(() =>
+  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
+)
+const page = computed(() => offset.value + 1)
 const order = computed(() =>
   String(
     route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified'
   )
 )
-const offset = computed(() =>
-  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
+const additionalConstraint = computed(() =>
+  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
 )
-const page = computed(() => offset.value + 1)
 
 /* Refresh query result for URL query change */
 const URLQuery = computed(() => route.query)
@@ -173,6 +181,7 @@ watch(URLQuery, () => {
       offset: offset.value * limit.value,
       limit: limit.value,
       order: order.value,
+      query: getAdditionalConstraintString(additionalConstraint.value),
     },
   })?.then((v) => {
     result.value = v.data
@@ -181,8 +190,8 @@ watch(URLQuery, () => {
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query ($offset: Int, $limit: Int, $order: String) {
-      listPlaylist(para: { offset: $offset, limit: $limit, order: $order }) {
+    query ($offset: Int, $limit: Int, $order: String, $query: String) {
+      listPlaylist(para: { offset: $offset, limit: $limit, order: $order, query: $query }) {
         playlists {
           id
           item {
@@ -201,6 +210,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     offset: offset.value * limit.value,
     limit: limit.value,
     order: order.value,
+    query: getAdditionalConstraintString(additionalConstraint.value),
   }
 )
 const resultData = useResult(result, null, (data) => data?.listPlaylist)
@@ -224,6 +234,12 @@ onError((err) => {
   errMsg.value = err.message
   status.value = 'error'
 })
+
+/* Show advanced search */
+const advancedSearch = ref(false)
+function openAdvancedSearch() {
+  advancedSearch.value = true
+}
 
 /* Change the router query to trigger the search function */
 function jumpToPreviousPage(): void {
