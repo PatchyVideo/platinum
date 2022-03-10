@@ -198,10 +198,9 @@ watch(URLQuery, () => {
     variables: {
       offset: offset.value * limit.value,
       limit: limit.value,
-      query: '',
+      query: getAdditionalConstraintString(additionalConstraint.value),
       qtype: qtype.value,
       order: order.value,
-      additionalConstraint: getAdditionalConstraintString(additionalConstraint.value),
     },
   })?.then((v) => {
     result.value = v.data
@@ -210,24 +209,9 @@ watch(URLQuery, () => {
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
-    query (
-      $offset: Int!
-      $limit: Int!
-      $query: String!
-      $qtype: String
-      $order: String!
-      $additionalConstraint: String
-    ) {
+    query ($offset: Int!, $limit: Int!, $query: String!, $qtype: String, $order: String!) {
       listVideo(
-        para: {
-          offset: $offset
-          limit: $limit
-          humanReadableTag: true
-          query: $query
-          qtype: $qtype
-          order: $order
-          additionalConstraint: $additionalConstraint
-        }
+        para: { offset: $offset, limit: $limit, humanReadableTag: true, query: $query, qtype: $qtype, order: $order }
       ) {
         count
         pageCount
@@ -249,10 +233,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   {
     offset: offset.value * limit.value,
     limit: limit.value,
-    query: '',
+    query: getAdditionalConstraintString(additionalConstraint.value),
     qtype: qtype.value,
     order: order.value,
-    additionalConstraint: getAdditionalConstraintString(additionalConstraint.value),
   }
 )
 watchEffect(() => {
