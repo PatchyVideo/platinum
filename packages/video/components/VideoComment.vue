@@ -301,7 +301,7 @@ const comments = computed(
 )
 const commentChildrenExpaneded = reactive<Record<string, boolean>>({})
 const sliceCommentChildren = (id: string, children: Comment[]) =>
-  commentChildrenExpaneded[id] ? children : children.filter((v) => !v.hidden).slice(0, 3)
+  commentChildrenExpaneded[id] ? children : children.slice(0, 3)
 const isCommentChildrenCollapsed = (comment: Comment) =>
   comment.children && comment.children.length > 3 && !commentChildrenExpaneded[comment.id.toHexString()]
 const commentHiddenOverrides = reactive<Record<string, boolean>>({})
