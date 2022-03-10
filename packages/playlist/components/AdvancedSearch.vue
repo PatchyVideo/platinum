@@ -39,70 +39,6 @@
         <div class="whitespace-nowrap">{{ '排序方式：' }}</div>
         <PvSelect :selected="order" :item-list="orderList" @update:selected="(v) => (order = v)" />
       </div>
-      <!-- Date -->
-      <div>
-        <div class="whitespace-nowrap">{{ '播放列表创建时间：' }}</div>
-        <div class="flex flex-col space-y-0.5">
-          <div class="flex justify-between items-center">
-            <PvSelect
-              :selected="beforeAfterEqualDate1"
-              :item-list="beforeAfterEqualList"
-              @update:selected="(v) => (beforeAfterEqualDate1 = v)"
-            />
-            <div class="space-x-0.5">
-              <input
-                :disabled="beforeAfterEqualDate1 === ''"
-                placeholder="年"
-                v-model.number="year1"
-                class="w-15 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-              <label>-</label>
-              <input
-                :disabled="beforeAfterEqualDate1 === ''"
-                placeholder="月"
-                v-model.number="month1"
-                class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-              <label>-</label>
-              <input
-                :disabled="beforeAfterEqualDate1 === ''"
-                placeholder="日"
-                v-model.number="day1"
-                class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-            </div>
-          </div>
-          <div class="flex justify-between items-center">
-            <PvSelect
-              :selected="beforeAfterEqualDate2"
-              :item-list="beforeAfterEqualList"
-              @update:selected="(v) => (beforeAfterEqualDate2 = v)"
-            />
-            <div class="space-x-0.5">
-              <input
-                :disabled="beforeAfterEqualDate2 === ''"
-                placeholder="年"
-                v-model.number="year2"
-                class="w-15 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-              <label>-</label>
-              <input
-                :disabled="beforeAfterEqualDate2 === ''"
-                placeholder="月"
-                v-model.number="month2"
-                class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-              <label>-</label>
-              <input
-                :disabled="beforeAfterEqualDate2 === ''"
-                placeholder="日"
-                v-model.number="day2"
-                class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
       <!-- Tags number -->
       <div class="flex justify-between items-center">
         <div class="whitespace-nowrap">{{ '标签数量：' }}</div>
@@ -184,18 +120,6 @@ const additionalConstraintObject = ref(
     ? {
         searchContentAndOrNot: '',
         exceptContent: '',
-        date1: {
-          beforeAfterEqualDate1: '',
-          year1: '',
-          month1: '',
-          day1: '',
-        },
-        date2: {
-          beforeAfterEqualDate2: '',
-          year2: '',
-          month2: '',
-          day2: '',
-        },
         tag: {
           moreLessEqualTagNum: '',
           tagNum: '',
@@ -224,36 +148,6 @@ const orderList = [
   { value: 'last_modified', name: '最近修改顺序' },
 ]
 
-/* Date */
-const beforeAfterEqualList = [
-  { name: '晚于', value: '>' },
-  { name: '早于', value: '<' },
-  { name: '等于', value: '=' },
-  { name: '不计', value: '' },
-]
-const beforeAfterEqualDate1 = ref<string>(additionalConstraintObject.value.date1.beforeAfterEqualDate1)
-watch(beforeAfterEqualDate1, (newv) => {
-  if (newv === '') {
-    year1.value = ''
-    month1.value = ''
-    day1.value = ''
-  }
-})
-const year1 = ref(additionalConstraintObject.value.date1.year1)
-const month1 = ref(additionalConstraintObject.value.date1.month1)
-const day1 = ref(additionalConstraintObject.value.date1.day1)
-const beforeAfterEqualDate2 = ref<string>(additionalConstraintObject.value.date2.beforeAfterEqualDate2)
-watch(beforeAfterEqualDate2, (newv) => {
-  if (newv === '') {
-    year2.value = ''
-    month2.value = ''
-    day2.value = ''
-  }
-})
-const year2 = ref(additionalConstraintObject.value.date2.year2)
-const month2 = ref(additionalConstraintObject.value.date2.month2)
-const day2 = ref(additionalConstraintObject.value.date2.day2)
-
 /* Tag number */
 const moreLessEqualList = [
   { name: '大于', value: '>' },
@@ -272,51 +166,12 @@ function reset() {
   searchContentAndOrNot.value = ''
   exceptContent.value = ''
   order.value = 'last_modified'
-  beforeAfterEqualDate1.value = ''
-  year1.value = ''
-  month1.value = ''
-  day1.value = ''
-  beforeAfterEqualDate2.value = ''
-  year2.value = ''
-  month2.value = ''
-  day2.value = ''
   moreLessEqualTagNum.value = ''
   tagNum.value = ''
 }
 
 /* Search */
 function checkSubmitContent(): boolean {
-  // Check date
-  if (
-    beforeAfterEqualDate1.value != '' &&
-    (isNaN(Number(year1.value)) ||
-      !Number.isSafeInteger(year1.value) ||
-      Number(year1.value) <= 0 ||
-      isNaN(Number(month1.value)) ||
-      !Number.isSafeInteger(month1.value) ||
-      Number(month1.value) <= 0 ||
-      isNaN(Number(day1.value)) ||
-      !Number.isSafeInteger(day1.value) ||
-      Number(day1.value) <= 0)
-  ) {
-    alert('请检查播放列表创建时间项1的填写是否正确！')
-    return false
-  }
-  if (
-    beforeAfterEqualDate2.value != '' &&
-    (isNaN(Number(year2.value)) ||
-      !Number.isSafeInteger(year2.value) ||
-      Number(year2.value) <= 0 ||
-      isNaN(Number(month2.value)) ||
-      !Number.isSafeInteger(month2.value) ||
-      Number(month2.value) <= 0 ||
-      isNaN(Number(day2.value)) ||
-      !Number.isSafeInteger(day2.value) ||
-      Number(day2.value) <= 0)
-  ) {
-    alert('请检查播放列表创建时间项2的填写是否正确！')
-    return false
-  }
   // Check tag
   if (
     moreLessEqualTagNum.value != '' &&
@@ -333,18 +188,6 @@ const additionalConstraintBase64 = computed(() => {
       JSON.stringify({
         searchContentAndOrNot: searchContentAndOrNot.value,
         exceptContent: exceptContent.value,
-        date1: {
-          beforeAfterEqualDate1: beforeAfterEqualDate1.value,
-          year1: year1.value,
-          month1: month1.value,
-          day1: day1.value,
-        },
-        date2: {
-          beforeAfterEqualDate2: beforeAfterEqualDate2.value,
-          year2: year2.value,
-          month2: month2.value,
-          day2: day2.value,
-        },
         tag: {
           moreLessEqualTagNum: moreLessEqualTagNum.value,
           tagNum: tagNum.value,
