@@ -2,7 +2,7 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="flex h-9 justify-start items-center rounded-lg border border-purple-300 dark:border-purple-600 bg-white dark:bg-gray-800"
+      class="flex h-9 justify-start items-center rounded-lg border border-purple-300 dark:border-purple-800 bg-white dark:bg-gray-800"
     >
       <div class="flex-shrink-0 inline i-uil-search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
       <input
@@ -71,7 +71,7 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-purple-300 dark:border-purple-600"
+          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-purple-300 dark:border-gray-700"
           :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">

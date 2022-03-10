@@ -20,7 +20,7 @@
       <Cover
         :title="video.item.title"
         :cover-image="video.item.coverImage"
-        class="rounded-md border border-purple-200 dark:border-purple-500"
+        class="rounded-md border border-purple-200 dark:border-purple-800"
       ></Cover>
       <a
         v-if="videoShowTitle"

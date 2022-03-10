@@ -13,7 +13,7 @@ markdownIt.block.ruler.enableOnly(['paragraph'])
 export function render(src: string): string {
   let res
   try {
-    res = markdownIt.render(src.replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' + /* escape unocss */ +':$1]]'), {
+    res = markdownIt.render(src.replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' /* escape unocss */ + ':$1]]'), {
       last: [],
     })
   } catch (e) {

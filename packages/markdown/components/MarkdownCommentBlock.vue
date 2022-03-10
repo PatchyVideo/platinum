@@ -1,12 +1,14 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-  <div class="-my-24">
-    <article
-      ref="root"
-      class="prose dark:prose-invert break-all my-24"
-      :class="{ 'text-sm': size === 'sm', 'text-lg': size === 'lg', 'text-xl': size === 'xl' }"
-      v-html="html"
-    ></article>
+  <div class="overflow-hidden">
+    <div class="-my-24">
+      <article
+        ref="root"
+        class="prose dark:prose-invert break-all my-24"
+        :class="{ 'text-sm': size === 'sm', 'text-lg': size === 'lg', 'text-xl': size === 'xl' }"
+        v-html="html"
+      ></article>
+    </div>
   </div>
 </template>
 

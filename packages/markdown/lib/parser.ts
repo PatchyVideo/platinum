@@ -236,7 +236,7 @@ function sanitizeHTML(src: string) {
       if (/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) && Object.keys(attribs).length === 1) {
         result += `<${tagName}//${Object.keys(attribs).join(' ')}>`
         return
-      } else if (!allowedTags.includes(tagName)) {
+      } else if (!allowedTags.includes(tagName.toLowerCase())) {
         result += encodeHTML(
           '<' +
             tagName +
@@ -292,12 +292,12 @@ function sanitizeHTML(src: string) {
                 break
               }
             }
-            if (allowedAttributes.includes(attrName)) addAttr(true)
+            if (allowedAttributes.includes(attrName.toLowerCase())) addAttr(true)
           } catch (e) {
             // do nothing
           }
         })
-        if (voidElements.includes(tagName)) {
+        if (voidElements.includes(tagName.toLowerCase())) {
           result += ' />'
         } else {
           result += '>'
@@ -307,13 +307,17 @@ function sanitizeHTML(src: string) {
     },
     ontext(data: string) {
       result += data
+      console.log(data)
     },
     onclosetag(tagName) {
       const last = stack[stack.length - 1]
       if (tagName === last) {
         result += `</${tagName}>`
         stack.pop()
-      } else if (!/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) && !voidElements.includes(tagName)) {
+      } else if (
+        !/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) &&
+        !voidElements.includes(tagName.toLowerCase())
+      ) {
         result += encodeHTML(`</${tagName}>`)
       }
     },
@@ -327,7 +331,7 @@ export function render(src: string): string {
   let res
   try {
     res = markdownIt.render(
-      sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' + /* escape unocss */ +':$1]]'),
+      sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' /* escape unocss */ + ':$1]]'),
       { last: [] }
     )
   } catch (e) {

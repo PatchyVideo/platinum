@@ -56,7 +56,7 @@
             </div>
             <div
               v-if="shouldClampDesc || expandDesc"
-              class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-color duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600"
+              class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-colors duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600"
               @click="expandDesc = !expandDesc"
             >
               <div class="i-uil-arrow-down inline transform" :class="{ 'rotate-180': expandDesc }" />
@@ -69,7 +69,7 @@
             v-for="(video, index) in playlist.videos"
             :key="video.id.toHexString()"
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
-            class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-color duration-150 odd:bg-gray-50 dark:odd:bg-gray-600 hover:bg-purple-50 dark:hover:bg-gray-800 hover:odd:bg-purple-50 dark:hover:odd:bg-gray-800"
+            class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-colors duration-150 odd:bg-gray-50 dark:odd:bg-gray-800 hover:bg-purple-50 dark:hover:bg-gray-700 hover:odd:bg-purple-50 dark:hover:odd:bg-gray-700"
             :to="'/video/' + video.id.toHexString() + '?list=' + pid"
           >
             <div
@@ -77,12 +77,12 @@
             >
               <div
                 v-if="playlist.editable"
-                class="i-uil-arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+                class="i-uil-arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
               ></div>
               <div class="lt-md:text-xs" v-text="offset + index + 1"></div>
               <div
                 v-if="playlist.editable"
-                class="i-uil-arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-color duration-100 hover:text-blue-600"
+                class="i-uil-arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
               ></div>
             </div>
             <div class="flex-shrink-0 flex-grow-0 w-28 md:w-60">
@@ -141,10 +141,13 @@ import { screenSizes } from '@/css'
 const { t } = useI18n()
 
 const observerTarget = shallowRef<HTMLLinkElement | null>(null)
+watchEffect(() => {
+  console.log(observerTarget.value)
+})
 const fetchingMore = ref(false)
-const { stop: stopObserber } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
+const { stop: stopObserver } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
   if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
-    stopObserber()
+    stopObserver()
     return
   }
   if (isIntersecting && !fetchingMore.value && playlist.value) {

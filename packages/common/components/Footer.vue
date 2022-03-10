@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-gray-50 border-t border-purple-300 dark:border-purple-800 dark:bg-gray-900">
+  <div class="bg-gray-50 border-t border-purple-300 dark:border-gray-800 dark:bg-gray-900">
     <div class="flex flex-row flex-wrap justify-center py-8 mt-8">
       <div v-for="linkGroup in links" :key="linkGroup.key">
         <ul class="px-2 md:px-4 lg:px-8">
@@ -46,7 +46,7 @@
           ></template
         >. </span
       ><span>
-        © 2020-2022 VoileLabs. Released under the
+        © 2019-2022 VoileLabs. Released under the
         <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</span
       >
     </div>

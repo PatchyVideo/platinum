@@ -403,7 +403,6 @@ video:
         '1': 登录用户可见
         '2': 发布者和管理员可见
         '3': 所有人可见
-        rank: 视频登记
       edit:
         saving: 保存中 - 编辑视频 - {videoname}
         saved: 已保存! - 编辑视频 - {videoname}

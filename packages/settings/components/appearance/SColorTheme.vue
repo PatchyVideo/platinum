@@ -4,7 +4,7 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-500': themePreference !== 'system',
+        'border-purple-400 dark:border-purple-800': themePreference !== 'system',
         'border-purple-300 dark:border-purple-400': themePreference === 'system',
       }"
       @click="changeTheme('system')"
@@ -14,7 +14,7 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
+          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'system',
         }"
       >
@@ -27,7 +27,7 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-500': themePreference !== 'light',
+        'border-purple-400 dark:border-purple-800': themePreference !== 'light',
         'border-purple-300 dark:border-purple-400': themePreference === 'light',
       }"
       @click="changeTheme('light')"
@@ -36,7 +36,7 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
+          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'light',
         }"
       >
@@ -47,7 +47,7 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-500': themePreference !== 'dark',
+        'border-purple-400 dark:border-purple-800': themePreference !== 'dark',
         'border-purple-300 dark:border-purple-400': themePreference === 'dark',
       }"
       @click="changeTheme('dark')"
@@ -56,7 +56,7 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-500 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
+          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'dark',
         }"
       >

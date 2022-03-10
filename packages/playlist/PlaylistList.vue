@@ -25,7 +25,7 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="w-12/25 my-5 p-2 border border-purple-300 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-500 dark:bg-gray-900"
+            class="w-12/25 my-5 p-2 border border-purple-300 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
           >
             <div
               class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
@@ -80,7 +80,7 @@
           <div
             v-for="playlist in playlists"
             :key="playlist.item.title"
-            class="w-12/25 my-5 p-2 border border-purple-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-500 dark:bg-gray-900"
+            class="w-12/25 my-5 p-2 border border-purple-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
           >
             <RouterLink
               :to="'/playlist/' + playlist.id"
@@ -92,7 +92,7 @@
                 <Cover
                   :title="playlist.item.title"
                   :cover-image="playlist.item.cover"
-                  class="rounded-md border border-purple-200 dark:border-purple-500"
+                  class="rounded-md border border-purple-200 dark:border-purple-800"
                 ></Cover>
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">

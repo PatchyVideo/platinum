@@ -1,5 +1,5 @@
-import { defineConfig, presetUno, presetIcons } from 'unocss'
-import { presetTypography } from 'unocss-preset-typography'
+import { defineConfig, presetUno, presetIcons, transformerDirectives } from 'unocss'
+import { presetTypography } from '@unocss/preset-typography'
 
 export default defineConfig({
   include: [/\.vue$/, /\.vue\?vue/, /\.[jt]sx?$/, /.html$/],
@@ -15,6 +15,7 @@ export default defineConfig({
       },
     }),
   ],
+  transformers: [transformerDirectives()],
   theme: {
     colors: {
       // copyright: '#a0a',

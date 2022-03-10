@@ -403,7 +403,7 @@ video:
       profile: Profile
       title: Title
       ranks:
-        rank: Rank of the video
+        rank: Video visibility
         '0': Only visible to administrators
         '1': Visible to login users
         '2': Visible to uploader and administrators

@@ -63,121 +63,8 @@
             <!-- Video Description -->
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
-          <div class="w-full border-t border-purple-300 my-2"></div>
-          <div>
-            <!-- Video Comments -->
-            <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
-              <div class="flex flex-row flex-nowrap">
-                <div class="flex-none mx-2">
-                  <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
-                    <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()"
-                      ><UserAvatar
-                        class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-                        :image="comment.meta.createdBy.image"
-                        :gravatar="comment.meta.createdBy.gravatar"
-                        :alt="comment.meta.createdBy.username"
-                        hide-title
-                    /></UserAvatarPopper>
-                  </RouterLink>
-                  <div
-                    v-if="comment.children?.length ?? 0 > 0"
-                    class="w-px h-[calc(100%-2rem)] mt-1 mx-auto bg-gray-200 dark:bg-gray-700"
-                  ></div>
-                </div>
-                <div>
-                  <div>
-                    <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()"
-                      ><span class="text-sm font-medium" v-text="comment.meta.createdBy.username"></span></RouterLink
-                    ><span class="text-xs text-gray-500 dark:text-gray-400"
-                      ><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense
-                      ><span v-if="comment.edited" class="ml-1.5">edited</span></span
-                    >
-                  </div>
-                  <MarkdownCommentBlock class="min-h-6" :text="comment.content" size="md" />
-                </div>
-              </div>
-              <div
-                v-for="(child, cindex) in comment.children
-                  ? sliceCommentChildren(comment.id.toHexString(), comment.children)
-                  : undefined"
-                :key="child.id.toHexString()"
-                class="flex flex-row flex-nowrap"
-              >
-                <div class="flex-none w-10 md:w-14">
-                  <div class="flex flex-row w-full h-full ml-6 md:ml-8">
-                    <div
-                      v-if="comment.children!.length > 3 || cindex !== comment.children!.length! - 1"
-                      class="w-px h-full bg-gray-200 dark:bg-gray-700"
-                    ></div>
-                    <div
-                      v-else
-                      class="w-px bg-gray-200 dark:bg-gray-700"
-                      :class="isCommentChildrenCollapsed(comment) ? 'h-3' : 'h-5'"
-                    ></div>
-                    <div
-                      class="w-3 md:w-5 h-px bg-gray-200 dark:bg-gray-700"
-                      :class="isCommentChildrenCollapsed(comment) ? 'mt-3' : 'mt-5'"
-                    ></div>
-                  </div>
-                </div>
-                <div v-if="!isCommentChildrenCollapsed(comment)" class="flex-none mt-1 mr-2">
-                  <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
-                    <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()"
-                      ><UserAvatar
-                        class="inline-block w-8 h-8 rounded-full object-cover"
-                        :image="child.meta.createdBy.image"
-                        :gravatar="child.meta.createdBy.gravatar"
-                        :alt="child.meta.createdBy.username"
-                        hide-title
-                    /></UserAvatarPopper>
-                  </RouterLink>
-                </div>
-                <div class="flex" :class="{ 'flex-col': !isCommentChildrenCollapsed(comment) }">
-                  <div v-if="isCommentChildrenCollapsed(comment)" class="mr-1">
-                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
-                      ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
-                    >:
-                  </div>
-                  <div v-else>
-                    <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()"
-                      ><span class="text-sm font-medium" v-text="child.meta.createdBy.username"></span></RouterLink
-                    ><Suspense
-                      ><RelativeDate class="text-xs text-gray-500 dark:text-gray-400 ml-2" :date="child.meta.createdAt"
-                    /></Suspense>
-                  </div>
-                  <MarkdownCommentBlock class="min-h-8" :text="child.content" size="sm" />
-                </div>
-              </div>
-              <div
-                v-if="comment.children && comment.children.length > 3"
-                class="flex flex-row flex-nowrap cursor-pointer"
-                @click="
-                  () => {
-                    commentChildrenExpaneded[comment.id.toHexString()] =
-                      !commentChildrenExpaneded[comment.id.toHexString()]
-                  }
-                "
-              >
-                <div class="flex-none w-10 md:w-14">
-                  <div class="flex flex-row w-full h-full ml-6 md:ml-8">
-                    <div class="w-px h-3 bg-gray-200 dark:bg-gray-700"></div>
-                    <div class="mt-3 w-3 md:w-5 h-px bg-gray-200 dark:bg-gray-700"></div>
-                  </div>
-                </div>
-                <div
-                  v-if="commentChildrenExpaneded[comment.id.toHexString()]"
-                  class="flex flex-row text-sm items-center text-blue-600"
-                >
-                  <div class="i-uil-arrow-to-bottom text-base transform rotate-180"></div>
-                  收起楼中楼
-                </div>
-                <div v-else class="flex flex-row text-sm items-center text-blue-600">
-                  <div class="i-uil-arrow-from-top text-base"></div>
-                  展开楼中楼
-                </div>
-              </div>
-            </div>
-          </div>
+          <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2"></div>
+          <div><VideoComment :comment-thread-id="video.commentThread.id.toHexString()" :video-id="vid" /></div>
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
@@ -217,19 +104,19 @@
                 <div class="hidden sm:block ml-1.5 overflow-hidden">
                   <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</RouterLink
                   ><template v-else
                     ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                       v-text="author.position"
                     ></span
                     >{{ author.name }}</template
@@ -247,7 +134,7 @@
           <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
             <div
               v-if="playlist"
-              class="xl:mx-2 border-purple-300 dark:border-purple-600 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
+              class="xl:mx-2 border-purple-300 dark:border-purple-800 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
             >
               <div class="mx-2 my-1 flex justify-between">
                 <div>
@@ -402,7 +289,8 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
-import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
+import VideoComment from './components/VideoComment.vue'
+import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import type ObjectID from 'bson-objectid'
@@ -467,41 +355,6 @@ const { result, loading } = useQuery<Query>(
         }
         commentThread {
           id
-          count
-          comments {
-            id
-            content
-            hidden
-            deleted
-            edited
-            meta {
-              createdAt
-              createdBy {
-                id
-                username
-                image
-                gravatar
-                desc
-              }
-            }
-            children {
-              id
-              content
-              hidden
-              deleted
-              edited
-              meta {
-                createdAt
-                createdBy {
-                  id
-                  username
-                  image
-                  gravatar
-                  desc
-                }
-              }
-            }
-          }
         }
         relatedVideos(topK: 20) {
           id
@@ -565,7 +418,7 @@ watchEffect(() => {
 const video = useResult(result, null, (data) => data?.getVideo)
 // change title
 watchEffect(() => {
-  if (video.value) setSiteTitle(video.value.item.title)
+  if (video.value) setSiteTitle(video.value.item.title + ' - PatchyVideo')
 })
 
 /* tags */
@@ -612,29 +465,6 @@ const authors = computed(() =>
 const regularTags = computed(() =>
   video.value ? (video.value.tags.filter((v) => v.__typename === 'RegularTagObject') as schema.RegularTagObject[]) : []
 )
-
-/* comments */
-type Comment = schema.Comment & {
-  content: NonNullable<schema.Comment['content']>
-  meta: schema.Meta & { createdBy: NonNullable<schema.Meta['createdBy']> }
-  deleted: false
-  children?: Comment[]
-}
-const comments = computed(
-  () =>
-    (video.value?.commentThread?.comments
-      ?.filter((v) => v.content && v.meta.createdBy && !v.deleted)
-      .map((comment) => ({
-        ...comment,
-        children: comment.children?.filter((v) => v.content && v.meta.createdBy && !v.deleted),
-      }))
-      .filter((v) => !!v) as Comment[]) ?? []
-)
-const commentChildrenExpaneded = reactive<Record<string, boolean>>({})
-const sliceCommentChildren = (id: string, children: Comment[]) =>
-  commentChildrenExpaneded[id] ? children : children.slice(0, 3)
-const isCommentChildrenCollapsed = (comment: Comment) =>
-  comment.children && comment.children.length > 3 && !commentChildrenExpaneded[comment.id.toHexString()]
 
 /* mobile teleport targets */
 const mobileAuthorTarget = shallowRef<HTMLDivElement | null>(null)

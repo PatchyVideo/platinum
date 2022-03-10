@@ -26,9 +26,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - uses: pnpm/action-setup@v2.0.1
+      - uses: pnpm/action-setup@v2.2.1
         with:
-          version: 6.29.0
+          version: 6.32.3
           run_install: |
             args: [--frozen-lockfile, --strict-peer-dependencies]
         timeout-minutes: 10

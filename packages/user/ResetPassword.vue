@@ -54,7 +54,7 @@
       </div>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
-      <div>© VoileLabs 2020-2022</div>
+      <div>© VoileLabs 2019-2022</div>
     </div>
     <!-- Desktop view -->
     <div
@@ -108,7 +108,7 @@
       </div>
       <!-- This div is only for placeholder  -->
       <div class="h-20 w-full"></div>
-      <div>© VoileLabs 2020-2022</div>
+      <div>© VoileLabs 2019-2022</div>
     </div>
   </div>
 </template>

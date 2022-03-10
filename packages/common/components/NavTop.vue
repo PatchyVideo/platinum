@@ -3,7 +3,7 @@
     <!-- Top Nav -->
     <div
       ref="nav"
-      class="h-auto p-1 flex items-center justify-between border-b border-purple-300 bg-gray-50 dark:bg-gray-900 dark:border-purple-800"
+      class="h-auto p-1 flex items-center justify-between border-b border-purple-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
     >
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
@@ -123,7 +123,7 @@
     <div>
       <!-- Drawer -->
       <div
-        class="fixed rounded-r border-r border-purple-400 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
+        class="fixed rounded-r border-r border-gray-200 dark:border-gray-700 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
         :class="{ '-translate-x-full': !drawerOpen }"
       >
         <!-- Title & Slide Button -->

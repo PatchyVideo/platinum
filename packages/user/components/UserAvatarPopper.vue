@@ -7,7 +7,7 @@
   >
     <RouterLink :to="'/user/' + uid">
       <div v-if="user" class="flex flex-row space-x-2">
-        <div class="flex-shrink-0 flex-grow-0 rounded-full border border-purple-300 dark:border-purple-600">
+        <div class="flex-shrink-0 flex-grow-0 rounded-full border border-purple-300 dark:border-purple-800">
           <UserAvatar
             class="inline-block w-16 h-16 rounded-full object-cover"
             :alt="user.username"

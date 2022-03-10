@@ -4,7 +4,7 @@
 ![Version](https://img.shields.io/github/package-json/v/PatchyVideo/platinum)
 ![License](https://img.shields.io/github/license/PatchyVideo/platinum)
 ![Commit activity](https://img.shields.io/github/commit-activity/m/PatchyVideo/platinum)
-![Code size](https://img.shields.io/github/languages/code-size/PatchyVideo/platinum)
+![Lines of code](https://tokei.rs/b1/github/PatchyVideo/platinum?category=code)
 ![Contributors](https://img.shields.io/github/contributors/PatchyVideo/platinum)
 
 > An always-experimental frontend for [PatchyVideo/PatchyVideo](https://github.com/PatchyVideo/PatchyVideo).

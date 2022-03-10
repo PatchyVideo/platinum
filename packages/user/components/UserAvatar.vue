@@ -1,7 +1,7 @@
 <template>
   <img
     ref="el"
-    class="dark:filter dark:brightness-75 bg-gray-300 dark:bg-gray-600"
+    class="dark:filter dark:brightness-90 bg-gray-300 dark:bg-gray-600"
     :alt="t('user.avatar.alt', { alt })"
     :title="hideTitle ? undefined : t('user.avatar.alt', { alt })"
     :src="currUrl"
