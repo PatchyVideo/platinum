@@ -64,7 +64,7 @@
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
           <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2"></div>
-          <div><VideoComment :comment-thread-id="video.commentThread.id.toHexString()" :video-id="vid" /></div>
+          <div><CommentList :comment-thread-id="video.commentThread?.id.toHexString()" :video-id="vid" /></div>
         </div>
         <div class="col-span-full xl:col-span-3">
           <!-- Author / Uploader -->
@@ -289,7 +289,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
-import VideoComment from './components/VideoComment.vue'
+import CommentList from './components/CommentList.vue'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'

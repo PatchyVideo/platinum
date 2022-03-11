@@ -152,7 +152,7 @@
 <script lang="ts" setup>
 import { ref, reactive, nextTick, watchEffect, shallowRef } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { debouncedWatch, until, useElementSize, useEventListener, useVModel } from '@vueuse/core'
+import { watchDebounced, until, useElementSize, useEventListener, useVModel } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
@@ -231,7 +231,7 @@ const onSearchContentChange = () => {
     hideContainer.value = false
   }
 }
-debouncedWatch(searchContent, () => nextTick(onSearchContentChange), { debounce: 500 })
+watchDebounced(searchContent, () => nextTick(onSearchContentChange), { debounce: 500 })
 
 // Slice the search key word
 const autoComplete = shallowRef<HTMLInputElement | null>(null)

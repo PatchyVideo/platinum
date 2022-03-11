@@ -1,69 +1,27 @@
 <template>
   <!-- Video Comments -->
   <div class="mx-1 md:mx-2 lg:mx-4">
-    <template v-if="loadingThread">正在加载评论区<i class="i-uil-spinner-alt text-lg animate-spin"></i></template>
-    <template v-else>共 {{ commentThread?.count }} 条评论</template>
+    <template v-if="loadingThread && !threadDisabled"
+      >正在加载评论区<i class="i-uil-spinner-alt text-lg animate-spin"></i
+    ></template>
+    <template v-else>共 {{ commentThread?.count || 0 }} 条评论</template>
   </div>
-  <div v-if="isLogin === IsLogin.yes && screenSizes.md" class="py-2">
-    <div class="flex flex-row flex-nowrap">
-      <div class="flex-none mx-2">
-        <UserAvatar
-          class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-          :image="user.avatar"
-          :email="user.email"
-          :alt="user.name"
-          hide-title
-        />
+  <div v-if="isLogin === IsLogin.yes && screenSizes.md" class="flex flex-row flex-nowrap py-2">
+    <div class="flex-none mx-2">
+      <UserAvatar
+        class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
+        :image="user.avatar"
+        :email="user.email"
+        :alt="user.name"
+        hide-title
+      />
+    </div>
+    <div class="flex-1">
+      <div>
+        <span class="text-sm font-medium" v-text="user.name"></span
+        ><span class="text-xs text-gray-500 dark:text-gray-400"><span class="ml-1.5">发表一条友善的评论</span></span>
       </div>
-      <div class="flex-1">
-        <div>
-          <span class="text-sm font-medium" v-text="user.name"></span
-          ><span class="text-xs text-gray-500 dark:text-gray-400"><span class="ml-1.5">发表一条友善的评论</span></span>
-        </div>
-        <div class="w-full max-w-75ch rounded border border-gray-300 dark:border-gray-600 overflow-hidden">
-          <div
-            class="flex flex-row flex-nowrap justify-between items-center px-1 py-0.5 w-full text-sm border-b border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
-          >
-            <div class="flex flex-row flex-nowrap items-center text-gray-800 dark:text-gray-300">
-              富文本编辑正在制作中
-            </div>
-            <div class="flex flex-row flex-nowrap items-center">
-              <button @click="togglePreview" v-text="enablePreview ? '编辑' : '预览'"></button>
-            </div>
-          </div>
-          <div v-show="!enablePreview" class="w-full p-0.5 -my-24">
-            <div
-              ref="inputEl"
-              class="prose dark:prose-invert break-all min-h-24 my-24 focus-visible:outline-none"
-              contenteditable="true"
-              @input="onInput"
-            ></div>
-          </div>
-          <MarkdownCommentBlock v-if="enablePreview && inputEl" class="p-0.5" :text="inputContent" />
-          <div
-            class="px-1 py-0.5 w-full text-xs text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
-          >
-            请遵守<a
-              class="text-blue-600 dark:text-blue-500"
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://patchyvideo.wiki/zh/Comments"
-              >评论规则</a
-            >！评论区支持部分 Markdown 语法，点击右上角的预览按钮预览渲染效果。
-          </div>
-        </div>
-        <form class="flex flex-row items-center gap-2 mt-1" @submit.prevent="onSubmit" @reset.prevent="onReset">
-          <button
-            type="submit"
-            class="px-4 py-1 rounded-md text-purple-800 dark:text-purple-300 border-2 border-purple-300 dark:border-purple-800"
-          >
-            发表
-          </button>
-          <button type="reset" class="px-4 py-1 rounded-md border-2 border-gray-300 dark:border-gray-600">清空</button>
-          <div v-if="postingComment"><i class="i-uil-spinner-alt animate-spin"></i>正在发表评论……</div>
-          <div v-if="postingCommentError">评论发表失败：{{ postingCommentError }}</div>
-        </form>
-      </div>
+      <CommentPost :video-id="videoId" :playlist-id="playlistId" @refetch-thread="onRefetchThread" />
     </div>
   </div>
   <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
@@ -205,12 +163,11 @@ import MarkdownCommentBlock from '@/markdown/components/MarkdownCommentBlock.vue
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
-import { computed, reactive, ref } from 'vue'
+import CommentPost from './CommentPost.vue'
+import { computed, reactive, ref, watch } from 'vue'
 import type { Query, schema } from '@/graphql'
-import { useMutation } from '@/graphql'
 import { gql, useQuery, useResult } from '@/graphql'
 import { IsLogin, isLogin, user } from '@/user'
-import { CommentType } from '@/graphql/__generated__/graphql'
 import { screenSizes } from '@/css'
 
 const props = defineProps<{
@@ -219,10 +176,16 @@ const props = defineProps<{
   playlistId?: string
 }>()
 
+const threadDisabled = computed(() => !props.commentThreadId)
+const threadIdOverride = ref<string | null>(null)
+const tid = computed(() => threadIdOverride.value ?? props.commentThreadId)
+
 const {
   result,
   loading: loadingThread,
   refetch: refetchThread,
+  start,
+  stop,
 } = useQuery<Query>(
   gql`
     query ($tid: String!) {
@@ -266,9 +229,16 @@ const {
     }
   `,
   {
-    tid: props.commentThreadId,
+    tid,
+  },
+  {
+    enabled: !threadDisabled.value,
   }
 )
+watch(threadDisabled, (n) => {
+  if (n) stop()
+  else start()
+})
 const commentThread = useResult(result, null, (data) => data?.getThread)
 
 // comments
@@ -306,63 +276,12 @@ const isCommentChildrenCollapsed = (comment: Comment) =>
   comment.children && comment.children.length > 3 && !commentChildrenExpaneded[comment.id.toHexString()]
 const commentHiddenOverrides = reactive<Record<string, boolean>>({})
 
-// submit mutation
-const commentParentType = computed(() =>
-  props.videoId ? CommentType.Video : props.playlistId ? CommentType.Playlist : null
-)
-const commentParentId = computed(() => props.videoId ?? props.playlistId ?? null)
-const { mutate: mutatePostComment } = useMutation(gql`
-  mutation ($type: CommentType!, $id: String!, $content: String!) {
-    postComment(para: { commentType: $type, targetId: $id, content: $content, filter: false }) {
-      commentId
-    }
+const onRefetchThread = (newThreadId: string) => {
+  if (newThreadId !== tid.value) {
+    // changing the variable will trigger a refetch, so no need to do a refetchThread here
+    threadIdOverride.value = newThreadId
+  } else {
+    refetchThread()
   }
-`)
-
-// comment input
-const inputEl = ref<HTMLDivElement | null>(null)
-const inputContent = ref('')
-const onInput = () => {
-  if (!inputEl.value) return
-  // TODO read html
-  // inputContent.value = inputEl.value.innerHTML
-  inputContent.value = inputEl.value.innerText
-}
-const onReset = () => {
-  if (!inputEl.value) return
-  inputEl.value.innerHTML = ''
-  inputContent.value = ''
-}
-const postingComment = ref(false)
-const postingCommentError = ref('')
-const onSubmit = async () => {
-  // reject if not login
-  if (!isLogin.value) return
-  // reject if no content provided
-  if (!inputContent.value) return
-  // reject if the comment thread parent id isn't provided
-  if (!commentParentId.value) return
-
-  postingComment.value = true
-  await mutatePostComment({
-    type: commentParentType.value!,
-    id: commentParentId.value,
-    content: inputContent.value,
-  }).catch((e) => {
-    postingComment.value = false
-    postingCommentError.value = String(e)
-  })
-  postingComment.value = false
-
-  onReset()
-  refetchThread()
-}
-
-// preview
-const enablePreview = ref(false)
-const togglePreview = () => {
-  if (!inputEl.value) return
-  enablePreview.value = !enablePreview.value
-  console.log(inputContent.value)
 }
 </script>

@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import UserAvatar from './UserAvatar.vue'
 import { onMounted, onUnmounted, ref, shallowRef, watchEffect } from 'vue'
-import { useEventListener, debouncedWatch, until } from '@vueuse/core'
+import { useEventListener, watchDebounced, until } from '@vueuse/core'
 import { createPopper } from '@popperjs/core'
 import type { Instance as PopperInstance } from '@popperjs/core'
 import { gql, useLazyQuery, useResult } from '@/graphql'
@@ -120,7 +120,7 @@ onMounted(() => {
     popperHovering.value = false
   })
 
-  debouncedWatch(
+  watchDebounced(
     popperHovering,
     (v) => {
       if (v) showPopper()

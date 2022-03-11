@@ -5,8 +5,8 @@
 
 <script lang="ts" setup>
 import { ref, nextTick } from 'vue'
-import { debouncedWatch } from '@vueuse/core'
+import { watchDebounced } from '@vueuse/core'
 
 const test = ref(0)
-debouncedWatch(test, () => nextTick(() => console.log('hi')), { debounce: 500 })
+watchDebounced(test, () => nextTick(() => console.log('hi')), { debounce: 500 })
 </script>
