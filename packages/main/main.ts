@@ -232,6 +232,13 @@ const router = createRouter({
       component: () => import('@/settings/ChangeSettings.vue'),
     },
 
+    // Test
+    {
+      name: 'test',
+      path: '/test',
+      component: () => import('@/common/test.vue'),
+    },
+
     // Error
     {
       name: '404',
