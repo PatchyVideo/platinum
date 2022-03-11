@@ -156,9 +156,18 @@ const { stop: stopObserver } = useIntersectionObserver(observerTarget, ([{ isInt
       variables: {
         offset: playlist.value.videos.length,
       },
+      // TODO remove it
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult) return previousQueryResult
+        return {
+          ...previousQueryResult,
+          getPlaylist: {
+            ...previousQueryResult.getPlaylist,
+            videos: [...previousQueryResult.getPlaylist.videos, ...fetchMoreResult.getPlaylist.videos],
+          },
+        }
+      },
     })?.then((v) => {
-      // playlist is not null, so result must be not null.
-      result.value!.getPlaylist.videos.concat(v.data.getPlaylist.videos)
       nextTick(() => {
         fetchingMore.value = false
       })

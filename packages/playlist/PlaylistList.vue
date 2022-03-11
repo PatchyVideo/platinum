@@ -197,8 +197,10 @@ watch(URLQuery, () => {
       order: order.value,
       query: getAdditionalConstraintString(additionalConstraint.value),
     },
-  })?.then((v) => {
-    result.value = v.data
+    updateQuery(previousQueryResult, { fetchMoreResult }) {
+      if (!fetchMoreResult) return previousQueryResult
+      return fetchMoreResult
+    },
   })
 })
 
@@ -226,6 +228,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     limit: limit.value,
     order: order.value,
     query: getAdditionalConstraintString(additionalConstraint.value),
+  },
+  {
+    notifyOnNetworkStatusChange: true,
   }
 )
 const resultData = useResult(result, null, (data) => data?.listPlaylist)

@@ -201,8 +201,10 @@ watch(
         order: order.value,
         additionalConstraint: visibleSite.value,
       },
-    })?.then((v) => {
-      result.value = v.data
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult) return previousQueryResult
+        return fetchMoreResult
+      },
     })
   },
   { deep: true }
@@ -243,6 +245,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     query: query.value,
     order: order.value,
     additionalConstraint: visibleSite.value,
+  },
+  {
+    notifyOnNetworkStatusChange: true,
   }
 )
 watchEffect(() => {

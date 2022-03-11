@@ -219,8 +219,10 @@ watch(URLQuery, () => {
       listAll: listAll.value,
       noteType: noteType.value,
     },
-  })?.then((v) => {
-    result.value = v.data
+    updateQuery(previousQueryResult, { fetchMoreResult }) {
+      if (!fetchMoreResult) return previousQueryResult
+      return fetchMoreResult
+    },
   })
 })
 const { result, loading, onError, fetchMore } = useQuery<Query>(
@@ -247,6 +249,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     limit: limit.value,
     listAll: listAll.value,
     noteType: noteType.value,
+  },
+  {
+    notifyOnNetworkStatusChange: true,
   }
 )
 watchEffect(() => {

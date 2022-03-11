@@ -171,8 +171,10 @@ watch(
         query: query.value,
         order: order.value,
       },
-    })?.then((v) => {
-      result.value = v.data
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult) return previousQueryResult
+        return fetchMoreResult
+      },
     })
   },
   { deep: true }
@@ -201,6 +203,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     limit: limit.value,
     query: query.value,
     order: order.value,
+  },
+  {
+    notifyOnNetworkStatusChange: true,
   }
 )
 watchEffect(() => {

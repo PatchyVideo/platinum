@@ -88,7 +88,11 @@ const { result, load, fetchMore, forceDisabled } = useLazyQuery<Query>(
         }
       }
     }
-  `
+  `,
+  {},
+  {
+    notifyOnNetworkStatusChange: true,
+  }
 )
 
 const el = shallowRef<HTMLElement | null>(null)
@@ -122,8 +126,10 @@ watchEffect(() => {
         additionalConstraint: config.additionalConstraint,
         limit: count.value,
       },
-    })?.then((res) => {
-      result.value = res.data
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult) return previousQueryResult
+        return fetchMoreResult
+      },
     })
   }
 })

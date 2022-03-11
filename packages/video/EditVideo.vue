@@ -43,7 +43,7 @@ const route = useRoute()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)
-const { result, loading, fetchMore } = useQuery<Query>(
+const { result, loading, refetch } = useQuery<Query>(
   gql`
     query ($vid: String!) {
       getVideo(para: { vid: $vid, lang: "CHS" }) {
@@ -131,7 +131,7 @@ const loadingMutateClearence = ref(false)
       })
         .then(() => {
           loadingMutateClearence.value = false
-          fetchMore({ variables: { vid: vid.value } })
+          refetch()
         })
         .catch((e) => {
           console.log(e)

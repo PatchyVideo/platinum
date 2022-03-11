@@ -79,7 +79,11 @@ const { result, load, fetchMore, forceDisabled } = useLazyQuery<Query>(
         }
       }
     }
-  `
+  `,
+  {},
+  {
+    notifyOnNetworkStatusChange: true,
+  }
 )
 
 const el = shallowRef<HTMLElement | null>(null)
@@ -101,8 +105,12 @@ watchEffect(() => {
   if (forceDisabled.value) {
     load(undefined, { pid: config.playlist_id, limit: count.value })
   } else {
-    fetchMore({ variables: { pid: config.playlist_id, limit: count.value } })?.then((res) => {
-      result.value = res.data
+    fetchMore({
+      variables: { pid: config.playlist_id, limit: count.value },
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult) return previousQueryResult
+        return fetchMoreResult
+      },
     })
   }
 })

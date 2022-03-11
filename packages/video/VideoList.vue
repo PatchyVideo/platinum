@@ -202,8 +202,10 @@ watch(URLQuery, () => {
       qtype: qtype.value,
       order: order.value,
     },
-  })?.then((v) => {
-    result.value = v.data
+    updateQuery(previousQueryResult, { fetchMoreResult }) {
+      if (!fetchMoreResult) return previousQueryResult
+      return fetchMoreResult
+    },
   })
 })
 
@@ -236,6 +238,9 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
     query: getAdditionalConstraintString(additionalConstraint.value),
     qtype: qtype.value,
     order: order.value,
+  },
+  {
+    notifyOnNetworkStatusChange: true,
   }
 )
 watchEffect(() => {
