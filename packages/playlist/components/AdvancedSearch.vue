@@ -1,12 +1,12 @@
 <template>
   <div
-    class="fixed max-h-full z-50 transform transition-transform duration-300 inset-x-0 bottom-0 overflow-auto p-3 bg-white dark:bg-gray-900 shadow rounded-t border-t border-purple-400 sm:rounded sm:border sm:right-0 sm:inset-y-0 sm:left-auto sm:p-2 sm:max-w-100"
+    class="fixed max-h-full z-50 transform transition-transform duration-300 inset-x-0 bottom-0 overflow-auto p-3 bg-white dark:bg-gray-900 shadow rounded-t border-t border-purple-400 sm:rounded sm:border sm:right-0 sm:inset-y-0 sm:left-auto sm:p-2 sm:w-95"
     :class="{ 'sm:translate-x-full translate-y-full sm:translate-y-0': !open }"
   >
     <div class="w-full border-b p-1 pb-1.5 flex justify-between">
-      <div class="flex items-center flex-nowrap">
+      <div class="flex items-center flex-nowrap space-x-1">
         <div class="i-uil-search text-2xl transition-colors"></div>
-        <div class="text-lg mr-30">{{ '高级搜索' }}</div>
+        <div class="text-lg">{{ '高级搜索' }}</div>
       </div>
       <div class="i-uil-times text-2xl transition-colors" @click="open = false"></div>
     </div>
@@ -18,7 +18,7 @@
         <AutoComplete
           v-model:keyword="searchContentAndOrNot"
           default-placeholder="输入标签或文本，用空格隔开"
-          class="w-full max-w-125"
+          class="w-full"
           :show-tag-cnt="false"
           @search="addsearchContentAndOrNot()"
         ></AutoComplete>
@@ -29,7 +29,7 @@
         <AutoComplete
           v-model:keyword="exceptContent"
           default-placeholder="只能输入标签哦，用空格隔开"
-          class="w-full max-w-125"
+          class="w-full"
           :show-tag-cnt="false"
           @search="addexceptContent()"
         ></AutoComplete>

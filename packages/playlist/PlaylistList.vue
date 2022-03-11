@@ -68,14 +68,16 @@
               <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm"></Cover>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
-              <div>
+              <div class="w-full">
                 <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full flex items-center">
                   <label class="bg-purple-400 text-white text-xs rounded px-1" v-if="playlist.item.private"
                     >Private</label
                   >
                   {{ playlist.item.title }}
                 </div>
-                <div class="truncate text-xs text-gray-500">{{ playlist.item.desc }}</div>
+                <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full text-xs text-gray-500">
+                  {{ playlist.item.desc }}
+                </div>
               </div>
               <div class="w-full text-sm text-gray-600 dark:text-gray-300">
                 {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
