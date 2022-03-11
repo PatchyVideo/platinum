@@ -4,7 +4,12 @@
   "github": {
     "enabled": false
   },
-  "rewrites": [{ "source": "/(.*)", "destination": "/api" }],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ],
   "headers": [
     {
       "source": "/manifest.webmanifest",
@@ -12,6 +17,15 @@
         {
           "key": "content-type",
           "value": "application/manifest+json"
+        }
+      ]
+    },
+    {
+      "source": "/LICENSE",
+      "headers": [
+        {
+          "key": "content-type",
+          "value": "text/plain"
         }
       ]
     }
