@@ -3,11 +3,11 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
   const additionalConstraintObject = JSON.parse(decodeURI(window.atob(additionalConstraintUrl)))
   let additionalConstraintString: string = ''
   if (additionalConstraintObject.searchContentAndOrNot)
-    additionalConstraintString += additionalConstraintObject.searchContentAndOrNot
+    additionalConstraintString += additionalConstraintObject.searchContentAndOrNot + ' '
   if (additionalConstraintObject.exceptContent) {
     const exceptContentArray = additionalConstraintObject.exceptContent.trim().split(' ')
     for (let i = 0; i < exceptContentArray.length; i++) {
-      additionalConstraintString += 'NOT(' + exceptContentArray[i] + ') '
+      additionalConstraintString += 'NOT ' + exceptContentArray[i] + ' '
     }
   }
   if (additionalConstraintObject.visibleSites?.length) {
