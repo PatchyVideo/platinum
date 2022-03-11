@@ -73,7 +73,13 @@
           </div>
         </div>
         <div class="w-3/5 flex flex-wrap content-between">
-          <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="playlist.item.title"></div>
+          <div>
+            <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full flex items-center">
+              <label class="bg-purple-400 text-white text-xs rounded px-1" v-if="playlist.item.private">Private</label>
+              {{ playlist.item.title }}
+            </div>
+            <div class="truncate text-xs text-gray-500">{{ playlist.item.desc }}</div>
+          </div>
           <div
             class="w-full text-sm text-gray-600 dark:text-gray-300"
             v-text="t('search.search-result.playlist.playlist.playlist-count', { count: playlist.item.count })"
@@ -88,11 +94,12 @@
         :key="playlist.item.title"
         class="w-12/25 my-5 p-2 border border-purple-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
       >
-        <RouterLink
-          :to="'/playlist/' + playlist.id"
-          class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl"
-          v-text="playlist.item.title"
-        ></RouterLink>
+        <RouterLink :to="'/playlist/' + playlist.id" class="flex justify-center items-center space-x-1 border-b py-3">
+          <label class="bg-purple-400 text-white text-xs rounded px-1 py-0.5" v-if="playlist.item.private"
+            >Private</label
+          >
+          <div class="text-xl truncate font-semibold lg:text-2xl">{{ playlist.item.title }}</div>
+        </RouterLink>
         <div class="flex p-2 pt-3">
           <div class="w-1/2 mr-5">
             <div class="aspect-ratio-16/10 overflow-hidden">
@@ -179,6 +186,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             title
             desc
             count
+            private
           }
         }
         count

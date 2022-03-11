@@ -68,7 +68,15 @@
               <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm"></Cover>
             </div>
             <div class="w-3/5 flex flex-wrap content-between">
-              <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ playlist.item.title }}</div>
+              <div>
+                <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full flex items-center">
+                  <label class="bg-purple-400 text-white text-xs rounded px-1" v-if="playlist.item.private"
+                    >Private</label
+                  >
+                  {{ playlist.item.title }}
+                </div>
+                <div class="truncate text-xs text-gray-500">{{ playlist.item.desc }}</div>
+              </div>
               <div class="w-full text-sm text-gray-600 dark:text-gray-300">
                 {{ t('playlist.playlist-list.playlist.playlist-count', { count: playlist.item.count }) }}
               </div>
@@ -84,9 +92,13 @@
           >
             <RouterLink
               :to="'/playlist/' + playlist.id"
-              class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl"
-              >{{ playlist.item.title }}</RouterLink
+              class="flex justify-center items-center space-x-1 border-b py-3"
             >
+              <label class="bg-purple-400 text-white text-xs rounded px-1 py-0.5" v-if="playlist.item.private"
+                >Private</label
+              >
+              <div class="text-xl truncate font-semibold lg:text-2xl">{{ playlist.item.title }}</div>
+            </RouterLink>
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">
                 <Cover
@@ -199,6 +211,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             title
             desc
             count
+            private
           }
         }
         count
