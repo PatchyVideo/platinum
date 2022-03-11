@@ -3,15 +3,12 @@ import { provide, inject } from 'vue'
 import type { NormalizedCacheObject, FieldFunctionOptions } from '@apollo/client/core'
 import { ApolloClient, InMemoryCache, from, HttpLink, disableFragmentWarnings } from '@apollo/client/core'
 import type { SafeReadonly } from '@apollo/client/cache/core/types/common'
-import { offsetLimitPagination } from '@apollo/client/utilities'
-import ObjectID from 'bson-objectid'
+import { mergeDeep, offsetLimitPagination } from '@apollo/client/utilities'
+import RawObjectID from 'bson-objectid'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import { logErrorMessages } from '@vue/apollo-util'
 
-import { withScalars } from 'apollo-link-scalars'
-import type { IntrospectionQuery } from 'graphql'
-import { buildClientSchema } from 'graphql'
-import jsonSchema from './__generated__/graphql.schema.json'
+import scalarTypePolicies from './__generated__/typePolicies'
 import generatedIntrospection from './__generated__/graphql.fragment'
 
 import type * as schema from './__generated__/graphql'
@@ -27,27 +24,14 @@ export * from '@vue/apollo-composable'
 
 disableFragmentWarnings()
 
-export function createApollo(): ApolloClient<NormalizedCacheObject> {
-  const typesMap = {
-    DateTimeUtc: {
-      serialize: (parsed: unknown) => (parsed instanceof Date ? parsed.toISOString() : parsed),
-      parseValue: (raw: unknown): Date | null => (typeof raw === 'string' ? new Date(raw) : null),
-    },
-    UtcDateTime: {
-      serialize: (parsed: unknown) => (parsed instanceof Date ? parsed.toISOString() : parsed),
-      parseValue: (raw: unknown): Date | null => (typeof raw === 'string' ? new Date(raw) : null),
-    },
-    ObjectId: {
-      serialize: (parsed: unknown) => (parsed instanceof ObjectID ? parsed.toHexString() : parsed),
-      parseValue: (raw: unknown) => (typeof raw === 'string' ? new ObjectID(raw) : null),
-    },
+export class ObjectID extends RawObjectID {
+  toJSON() {
+    return this.toHexString()
   }
+}
+
+export function createApollo(): ApolloClient<NormalizedCacheObject> {
   const link = from([
-    // Scalars
-    withScalars({
-      schema: buildClientSchema(jsonSchema as unknown as IntrospectionQuery),
-      typesMap,
-    }),
     // Backend Server
     new HttpLink({
       uri: 'https://patchyvideo.com/be/gql/graphql',
@@ -104,7 +88,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
   })
   const cache = new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,
-    typePolicies: {
+    typePolicies: mergeDeep(scalarTypePolicies, {
       Query: {
         fields: {
           listPlaylist: {
@@ -139,7 +123,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
           },
         },
       },
-    },
+    }),
   })
   const client = new ApolloClient({
     link,
