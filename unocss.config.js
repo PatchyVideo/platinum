@@ -1,4 +1,4 @@
-import { defineConfig, presetUno, presetIcons, transformerDirectives } from 'unocss'
+import { defineConfig, presetIcons, presetUno, transformerDirectives } from 'unocss'
 import { presetTypography } from '@unocss/preset-typography'
 
 export default defineConfig({

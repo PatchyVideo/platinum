@@ -169,18 +169,18 @@
 import PvPagination from '@/ui/components/PvPagination.vue'
 import NoteBoxReplyComment from './components/NoteBoxReplyComment.vue'
 import NoteBoxSystemMessage from './components/NoteBoxSystemMessage.vue'
-import { ref, watchEffect, computed, watch } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { useQuery, gql, useResult } from '@/graphql'
-import type { schema, Query } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
+import type { Query, schema } from '@/graphql'
 import NProgress from 'nprogress'
 import { screenSizes } from '@/css'
 import {
   listNoteCountTypes,
-  listNoteCountTypesSystemMessage,
   listNoteCountTypesCommentReply,
+  listNoteCountTypesSystemMessage,
 } from '@/user-notification/lib/listNoteCountTypes'
 
 const { t } = useI18n()

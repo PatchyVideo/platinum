@@ -201,7 +201,7 @@
 
 <script lang="ts" setup>
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
-import { computed, ref, nextTick, onMounted, watch, watchEffect, onUnmounted, shallowRef } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
   useElementBounding,
   useEventListener,

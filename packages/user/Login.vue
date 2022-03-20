@@ -71,7 +71,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { resDataStatus } from '@/common/lib/resDataStatus'
-import { setUserDataToLocalStorage, getUserDataFromLocalStorage } from '@/user'
+import { getUserDataFromLocalStorage, setUserDataToLocalStorage } from '@/user'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 

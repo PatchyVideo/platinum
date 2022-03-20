@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { provide, inject } from 'vue'
-import type { NormalizedCacheObject, FieldFunctionOptions } from '@apollo/client/core'
-import { ApolloClient, InMemoryCache, from, HttpLink, disableFragmentWarnings } from '@apollo/client/core'
+import { inject, provide } from 'vue'
+import type { FieldFunctionOptions, NormalizedCacheObject } from '@apollo/client/core'
+import { ApolloClient, HttpLink, InMemoryCache, disableFragmentWarnings, from } from '@apollo/client/core'
 import type { SafeReadonly } from '@apollo/client/cache/core/types/common'
 import { mergeDeep, offsetLimitPagination } from '@apollo/client/utilities'
 import RawObjectID from 'bson-objectid'
-import { DefaultApolloClient } from '@vue/apollo-composable'
+import { DefaultApolloClient, useQuery as vUseQuery } from '@vue/apollo-composable'
 import { logErrorMessages } from '@vue/apollo-util'
 
 import scalarTypePolicies from './__generated__/typePolicies'
@@ -19,7 +19,7 @@ export type Subscription = schema.Subscription
 
 export { gql } from '@apollo/client/core'
 
-import { useQuery as vUseQuery } from '@vue/apollo-composable'
+// eslint-disable-next-line import/export
 export * from '@vue/apollo-composable'
 
 disableFragmentWarnings()
@@ -146,6 +146,7 @@ export function useApollo(): ApolloClient<NormalizedCacheObject> {
   return client
 }
 
+// eslint-disable-next-line import/export
 export const useQuery = function useQuery(this: never, ...args: never) {
   const query = vUseQuery.apply(this, args)
 

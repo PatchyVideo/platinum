@@ -4,7 +4,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import { watchDebounced } from '@vueuse/core'
 
 const test = ref(0)

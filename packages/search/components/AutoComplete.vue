@@ -150,9 +150,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick, watchEffect, shallowRef } from 'vue'
+import { nextTick, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { watchDebounced, until, useElementSize, useEventListener, useVModel } from '@vueuse/core'
+import { until, useElementSize, useEventListener, useVModel, watchDebounced } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'

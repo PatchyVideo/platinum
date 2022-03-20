@@ -1,7 +1,7 @@
 export function getAdditionalConstraintString(additionalConstraintUrl: string): string {
   if (additionalConstraintUrl === '') return ''
   const additionalConstraintObject = JSON.parse(decodeURI(window.atob(additionalConstraintUrl)))
-  let additionalConstraintString: string = ''
+  let additionalConstraintString = ''
   if (additionalConstraintObject.searchContentAndOrNot)
     additionalConstraintString += additionalConstraintObject.searchContentAndOrNot + ' '
   if (additionalConstraintObject.exceptContent) {

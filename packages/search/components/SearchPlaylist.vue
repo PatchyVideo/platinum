@@ -132,8 +132,8 @@ import { screenSizes } from '@/css'
 import { useVModels } from '@vueuse/core'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
-import { useQuery, gql, useResult } from '@/graphql'
-import type { schema, Query } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
+import type { Query, schema } from '@/graphql'
 import NProgress from 'nprogress'
 
 const props = defineProps<{

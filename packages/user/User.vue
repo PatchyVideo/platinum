@@ -148,10 +148,10 @@
 <script lang="ts" setup>
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
-import { computed, reactive, watch, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { gql, injectClient } from '@/graphql'
-import { isLogin, IsLogin, user } from '@/user/index'
+import { IsLogin, isLogin, user } from '@/user/index'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { templateRef } from '@vueuse/core'
 

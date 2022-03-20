@@ -1,4 +1,4 @@
-import { extensions, extensionTweaks } from './extension'
+import { extensionTweaks, extensions } from './extension'
 
 declare global {
   interface Window {

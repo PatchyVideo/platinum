@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, computed, shallowRef } from 'vue'
+import { computed, onMounted, onUnmounted, shallowRef } from 'vue'
 import Typed from 'typed.js'
 import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'

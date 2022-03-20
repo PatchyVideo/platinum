@@ -76,6 +76,7 @@ export default defineConfig(async ({ mode }) => {
       exclude: ['@apollo/client'],
     },
     plugins: [
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       yaml(),
       vue(),
@@ -114,6 +115,7 @@ export default defineConfig(async ({ mode }) => {
           background_color: '#ffffff',
         },
       }),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       {
         ...visualizer({

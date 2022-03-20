@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 export const markAsReadStatus = computed<'ready' | 'loading'>(() => {
   if (markAsReadMutationCount.value) return 'loading'
   else return 'ready'

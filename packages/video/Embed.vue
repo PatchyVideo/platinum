@@ -11,7 +11,7 @@
 import Player from './components/Player.vue'
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import { useQuery, gql, useResult } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 

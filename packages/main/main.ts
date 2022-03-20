@@ -71,7 +71,7 @@ const checkIfBackendDown = () =>
 appPromises.push(checkIfBackendDown())
 
 /* Login authentication & user data filling */
-import { checkLoginStatus, isLogin, IsLogin } from '@/user'
+import { IsLogin, checkLoginStatus, isLogin } from '@/user'
 const checkLoginStatusPromise = checkLoginStatus(true)
 appPromises.push(checkLoginStatusPromise)
 

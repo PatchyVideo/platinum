@@ -50,10 +50,10 @@
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
 import { listNoteCountTypes } from '@/user-notification/lib/listNoteCountTypes'
-import { useQuery, useMutation, gql, useResult } from '@/graphql'
+import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import { ref, watch, watchEffect } from 'vue'
 import { useVModels } from '@vueuse/core'
-import type { schema, Query, Mutation } from '@/graphql'
+import type { Mutation, Query, schema } from '@/graphql'
 import NProgress from 'nprogress'
 import { useI18n } from 'vue-i18n'
 

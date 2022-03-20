@@ -213,7 +213,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
-import { ref, computed, shallowRef, watch, onUnmounted } from 'vue'
+import { computed, onUnmounted, ref, shallowRef, watch } from 'vue'
 import type { Component, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -222,7 +222,7 @@ import { clearBodyLocks, lock, unlock } from 'tua-body-scroll-lock'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
-import { user, isLogin, IsLogin, clearUserDataFromLocalStorage } from '@/user'
+import { IsLogin, clearUserDataFromLocalStorage, isLogin, user } from '@/user'
 
 const props = withDefaults(
   defineProps<{

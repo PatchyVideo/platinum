@@ -53,7 +53,7 @@
 import { computed, defineAsyncComponent, ref, watchEffect } from 'vue'
 import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { isLogin, IsLogin } from '@/user'
+import { IsLogin, isLogin } from '@/user'
 import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useThrottleFn } from '@vueuse/core'

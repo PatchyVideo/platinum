@@ -143,8 +143,8 @@ import NProgress from 'nprogress'
 import { getSiteImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
-import { useQuery, gql, useResult } from '@/graphql'
-import type { schema, Query } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
+import type { Query, schema } from '@/graphql'
 import { screenSizes } from '@/css'
 
 const props = defineProps<{

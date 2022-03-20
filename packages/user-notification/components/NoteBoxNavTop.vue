@@ -93,12 +93,12 @@
 <script lang="ts" setup>
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { isLogin, IsLogin } from '@/user'
-import { markAsReadStatus, markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
-import { useQuery, useMutation, gql, useResult } from '@/graphql'
+import { IsLogin, isLogin } from '@/user'
+import { markAsReadMutationCount, markAsReadStatus } from '@/user-notification/lib/markAsRead'
+import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
-import type { schema, Query, Mutation } from '@/graphql'
+import type { Mutation, Query, schema } from '@/graphql'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
