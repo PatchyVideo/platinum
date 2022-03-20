@@ -83,7 +83,6 @@ dependencies:
   '@apollo/client': 3.5.10_graphql@16.3.0
   '@formatjs/intl-localematcher': 0.2.24
   '@popperjs/core': 2.11.4
-  '@unocss/preset-typography': 0.29.4
   '@vue/apollo-composable': 4.0.0-alpha.16_cb0af929ecdd7bfbaaa3731f9cc57deb
   '@vue/apollo-util': 4.0.0-alpha.16
   '@vueuse/components': 8.1.2_vue@3.2.31
@@ -128,6 +127,7 @@ devDependencies:
   '@types/spark-md5': 3.0.2
   '@typescript-eslint/eslint-plugin': 5.15.0_f2c49ce7d0e93ebcfdb4b7d25b131b28
   '@typescript-eslint/parser': 5.15.0_eslint@8.11.0+typescript@4.6.2
+  '@unocss/preset-typography': 0.29.4
   '@unocss/reset': 0.29.4
   '@vitejs/plugin-vue': 2.2.4_vite@2.9.0-beta.0+vue@3.2.31
   autoprefixer: 10.4.4_postcss@8.4.12
@@ -3051,6 +3051,7 @@ packages:
 
   /@unocss/core/0.29.4:
     resolution: {integrity: sha512-OGsJU68meq9GKyJcYn3Zw8VGT0lbh4jF0VEq7lm+oPuLj6bECgwEyadFFz8iFZtTG0xi4EZrGJDCYnFoMc+JMQ==}
+    dev: true
 
   /@unocss/inspector/0.29.4:
     resolution: {integrity: sha512-RLFmW48j6KWRWahNMYsVRSnYide6NBKpgXVhmEMnNsjo9I4nrTPP4WgrReMFpP03P5OoUFOBlMZw+HJhjmlFlw==}
@@ -3085,6 +3086,7 @@ packages:
     resolution: {integrity: sha512-VxyN3bV1phUtHmuBqG+Bqf8G0MXRNWgEATRhHb5slUO+QSBVOCIxc5SxSP6CmkiTZWyE7XiJakwmTeNvTHdB7w==}
     dependencies:
       '@unocss/core': 0.29.4
+    dev: true
 
   /@unocss/preset-uno/0.29.4:
     resolution: {integrity: sha512-jhECFn7haNYrSvda7VQClZJb4VLWTylTQrNK+IyQnL7lTH32AlNIKVCPRQ2aMT2FUMRzfJ8EZSMzwIBhfqwwFw==}
