@@ -21,7 +21,7 @@
                   <div
                     class="rank-item-body w-full my-2 md:my-8 h-30 sm:h-36 md:h-24 flex flex-row justify-between items-center"
                   >
-                    <div class="flex w-full sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
+                    <div class="flex w-1/2 sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
                       <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
                       <RouterLink
                         :to="'/user/' + rankItem._id.$oid"
