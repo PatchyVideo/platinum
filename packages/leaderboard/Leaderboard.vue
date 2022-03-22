@@ -1,9 +1,9 @@
 <template>
   <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-4/5">
-      <div v-if="status === 'loading'" />
+      <div v-if="status === 'loading'">{{ t('leaderboard.loading') }}</div>
       <div v-else-if="status === 'error'">
-        {{ errMsg }}
+        {{ error.message }}
       </div>
       <div v-else-if="status === 'result'">
         <PvTabs
@@ -24,15 +24,15 @@
                     <div class="flex w-1/2 sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
                       <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
                       <RouterLink
-                        :to="'/user/' + rankItem._id.$oid"
+                        :to="'/user/' + rankItem.user.id"
                         class="relative h-auto md:h-24 w-2/3 md:w-auto md:min-w-max hover:opacity-70 hover:cursor-pointer transition-all duration-300"
                         @click.prevent.capture=""
                       >
                         <!-- TODO add UserAvatarPopper here -->
                         <UserAvatar
                           class="rounded-full h-auto w-auto md:h-full md:w-full"
-                          :alt="rankItem.user_obj.profile.username"
-                          :image="rankItem.user_obj.profile.image"
+                          :alt="rankItem.user.username"
+                          :image="rankItem.user.image"
                         />
                       </RouterLink>
                     </div>
@@ -40,18 +40,18 @@
                       class="w-1/2 sm:w-2/3 md:w-4/5 h-full ml-2 md:ml-0 flex flex-col justify-between items-start md:flex-row md:justify-between md:items-center"
                     >
                       <RouterLink
-                        :to="'/users/' + rankItem._id.$oid"
+                        :to="'/users/' + rankItem.user.id"
                         class="w-full md:w-1/4 ml-0 md:ml-8"
                         @click.prevent.capture=""
                       >
                         <div class="rank-text overflow-hidden overflow-ellipsis whitespace-nowrap">
-                          {{ rankItem.user_obj.profile.username }}
+                          {{ rankItem.user.username }}
                         </div>
                       </RouterLink>
                       <div
                         class="w-full md:w-1/3 overflow-hidden overflow-ellipsis md:overflow-clip md:overflow-auto my-2 md:my-0 ml-0 md:ml-4 md:max-h-28 h-6 md:h-auto box-border text-gray-500 md:break-normal whitespace-nowrap md:whitespace-normal"
                       >
-                        {{ rankItem.user_obj.profile.desc }}
+                        {{ rankItem.user.desc }}
                       </div>
                       <div
                         class="rank-text w-full md:w-5/12 md:w-auto flex-grow ml-0 md:ml-8 text-left md:text-right whitespace-normal md:whitespace-nowrap"
@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import NProgress from 'nprogress'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 
@@ -84,12 +84,11 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 // import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import PvTabs from '@/ui/components/PvTabs.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
+import type { Query } from '@/graphql'
+import { gql, useQuery } from '@/graphql'
 
 const { t } = useI18n()
 const status = ref<'loading' | 'result' | 'error'>()
-const loading = ref(false)
-const errMsg = ref('')
-const rankList = ref([])
 const currentRankType = ref('tag-contributions')
 const dateRangeList = computed(() => [
   { value: (24 * 7 * 52 * 10).toString(), name: t('leaderboard.tag-contributions.date-range.all') },
@@ -99,34 +98,39 @@ const dateRangeList = computed(() => [
 ])
 const selectedDateRange = ref(dateRangeList.value[0].value)
 
-watch(
-  selectedDateRange,
-  async (newValue) => {
-    let res = await fetch('https://patchyvideo.com/be/ranking/tag_contributor.do', {
-      method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify({
-        hrs: newValue,
-        size: 30,
-      }),
-      credentials: 'include',
-    })
-      .then((data) => data.json())
-      .catch((err) => {
-        errMsg.value = err
-        status.value = 'error'
-      })
-    if (res.status === resDataStatus.SUCCEED) rankList.value = res.data
-    else {
-      status.value = 'error'
-      errMsg.value = t('leaderboard.failed.load-failed')
+const {
+  result: rankListResult,
+  loading,
+  error,
+  onError,
+} = useQuery<Query>(
+  gql`
+    query ($dateRangeNumber: Int!) {
+      getLeaderboard(hrs: $dateRangeNumber, k: 30) {
+        items {
+          count
+          user {
+            id
+            username
+            desc
+            image
+          }
+        }
+      }
     }
-  },
-  { immediate: true }
+  `,
+  () => ({
+    dateRangeNumber: parseInt(selectedDateRange.value),
+  }),
+  { fetchPolicy: 'no-cache' }
 )
-
+const rankList = computed(() => {
+  return rankListResult.value ? rankListResult.value.getLeaderboard.items : []
+})
+onError(() => {
+  status.value = 'error'
+})
+//watch(selectedDateRange, { immediate: true })
 watchEffect(() => {
   if (loading.value) {
     status.value = 'loading'
