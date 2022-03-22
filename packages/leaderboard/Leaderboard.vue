@@ -19,10 +19,15 @@
               <div class="rank-list w-full">
                 <div v-for="(rankItem, i) in rankList" :key="i" class="rank-item w-full">
                   <div
-                    class="rank-item-body w-full my-2 md:my-8 h-30 sm:h-36 md:h-24 flex flex-row justify-between items-center"
+                    class="w-full my-2 h-auto p-4 box-border flex flex-row justify-between items-center transition-all duration-300 shadow-gray-500/20 hover:bg-[#f4f4f5] hover:shadow-xl hover:rounded-xl hover:cursor-pointer md:my-4 sm:h-36 md:h-30"
                   >
                     <div class="flex w-1/2 sm:w-1/3 md:w-1/5 h-full flex-row justify-start items-center">
-                      <div class="rank-number w-1/3 md:w-14 text-center md:text-left">{{ i + 1 }}</div>
+                      <div
+                        class="w-1/3 text-center transition-all duration-300 text-3xl font-bold text-gray-600 hover:opacity-70 hover:cursor-pointer md:w-14 md:text-left"
+                        :class="rankNumberTextIndexToClasses[i]"
+                      >
+                        {{ i + 1 }}
+                      </div>
                       <RouterLink
                         :to="'/user/' + rankItem.user.id"
                         class="relative h-auto md:h-24 w-2/3 md:w-auto md:min-w-max hover:opacity-70 hover:cursor-pointer transition-all duration-300"
@@ -44,23 +49,27 @@
                         class="w-full md:w-1/4 ml-0 md:ml-8"
                         @click.prevent.capture=""
                       >
-                        <div class="rank-text overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        <div
+                          class="overflow-hidden overflow-ellipsis whitespace-nowrap transition-all duration-300 text-xl font-bold text-gray-600 hover:opacity-70 hover:cursor-pointer"
+                          :class="rankNumberTextIndexToClasses[i]"
+                        >
                           {{ rankItem.user.username }}
                         </div>
                       </RouterLink>
                       <div
-                        class="w-full md:w-1/3 overflow-hidden overflow-ellipsis md:overflow-clip md:overflow-auto my-2 md:my-0 ml-0 md:ml-4 md:max-h-28 h-6 md:h-auto box-border text-gray-500 md:break-normal whitespace-nowrap md:whitespace-normal"
+                        class="w-full md:w-1/3 overflow-hidden overflow-ellipsis md:overflow-clip md:overflow-auto my-2 md:my-0 ml-0 md:ml-4 md:max-h-28 h-6 md:h-auto box-border text-gray-500 md:break-normal whitespace-nowrap md:whitespace-normal overflow-hidden text-ellipsis"
                       >
                         {{ rankItem.user.desc }}
                       </div>
                       <div
-                        class="rank-text w-full md:w-5/12 md:w-auto flex-grow ml-0 md:ml-8 text-left md:text-right whitespace-normal md:whitespace-nowrap"
+                        class="w-full flex-grow ml-0 text-left transition-all duration-300 whitespace-normal text-xl font-bold text-gray-600 hover:opacity-70 hover:cursor-pointer md:whitespace-nowrap md:text-right md:ml-8 md:w-5/12 md:w-auto"
+                        :class="rankNumberTextIndexToClasses[i]"
                       >
                         {{ t('leaderboard.tag-contributions.edit-time', rankItem.count) }}
                       </div>
                     </div>
                   </div>
-                  <div class="w-full h-px my-4 md:my-8 bg-gray-400" />
+                  <div class="w-full h-px my-4 bg-gray-400 md:my-8" />
                 </div>
               </div>
             </div>
@@ -76,12 +85,10 @@
 <script lang="ts" setup>
 import { computed, reactive, ref, watch, watchEffect } from 'vue'
 import NProgress from 'nprogress'
-import { resDataStatus } from '@/common/lib/resDataStatus'
 
 import { useI18n } from 'vue-i18n'
 import BackTop from '@/ui/components/BackTop.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-// import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import PvTabs from '@/ui/components/PvTabs.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import type { Query } from '@/graphql'
@@ -97,7 +104,11 @@ const dateRangeList = computed(() => [
   { value: (24).toString(), name: t('leaderboard.tag-contributions.date-range.last-day') },
 ])
 const selectedDateRange = ref(dateRangeList.value[0].value)
-
+const rankNumberTextIndexToClasses = reactive({
+  0: 'text-shadow-xl text-[#f77]',
+  1: 'text-shadow-xl text-[#228dff]',
+  2: 'text-shadow-xl text-[#54df31]',
+})
 const {
   result: rankListResult,
   loading,
@@ -127,10 +138,10 @@ const {
 const rankList = computed(() => {
   return rankListResult.value ? rankListResult.value.getLeaderboard.items : []
 })
+
 onError(() => {
   status.value = 'error'
 })
-//watch(selectedDateRange, { immediate: true })
 watchEffect(() => {
   if (loading.value) {
     status.value = 'loading'
@@ -140,53 +151,6 @@ watchEffect(() => {
     if (NProgress.isStarted()) NProgress.done()
   }
 })
-/*setInterval(() => {
-  currentRankType.value = currentRankType.value === '1' ? '2' : '1'
-  test.value = test.value + 1
-}, 1000)*/
 </script>
 
-<style lang="postcss" scoped>
-.rank-list {
-  > .rank-item > .rank-item-body {
-    transition: all 0.3s ease;
-    &:hover {
-      background-color: #f4f4f5;
-      -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    }
-    .rank-number,
-    .rank-text {
-      transition: all 0.3s ease;
-    }
-    .rank-number {
-      /* TODO remove apply, but rewriting leaderboard is absolutely going to happened */
-      @apply text-3xl font-bold text-gray-600 hover:opacity-70 hover:cursor-pointer;
-    }
-    .rank-text {
-      @apply text-xl font-bold text-gray-600 hover:opacity-70 hover:cursor-pointer;
-    }
-  }
-  > .rank-item:nth-child(1) > .rank-item-body {
-    .rank-number,
-    .rank-text {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 5px #f77;
-      color: #f77 !important;
-    }
-  }
-  > .rank-item:nth-child(2) > .rank-item-body {
-    .rank-number,
-    .rank-text {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 5px #228dff;
-      color: #228dff !important;
-    }
-  }
-  > .rank-item:nth-child(3) > .rank-item-body {
-    .rank-number,
-    .rank-text {
-      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 5px #54df31;
-      color: #54df31 !important;
-    }
-  }
-}
-</style>
+<style lang="postcss" scoped></style>
