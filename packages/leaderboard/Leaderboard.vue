@@ -3,7 +3,7 @@
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-4/5">
       <div v-if="status === 'loading'">{{ t('leaderboard.loading') }}</div>
       <div v-else-if="status === 'error'">
-        {{ error.message }}
+        {{ error?.message }}
       </div>
       <div v-else-if="status === 'result'">
         <PvTabs
@@ -83,7 +83,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive, ref, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, watchEffect } from 'vue'
 import NProgress from 'nprogress'
 
 import { useI18n } from 'vue-i18n'
@@ -104,7 +104,7 @@ const dateRangeList = computed(() => [
   { value: (24).toString(), name: t('leaderboard.tag-contributions.date-range.last-day') },
 ])
 const selectedDateRange = ref(dateRangeList.value[0].value)
-const rankNumberTextIndexToClasses = reactive({
+const rankNumberTextIndexToClasses = reactive<{[propName:number]:string}>({
   0: 'text-shadow-xl text-[#f77]',
   1: 'text-shadow-xl text-[#228dff]',
   2: 'text-shadow-xl text-[#54df31]',
