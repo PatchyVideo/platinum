@@ -2,15 +2,19 @@
   <LayoutDefault>
     <div v-if="author" class="max-w-screen-xl mx-auto">
       <!-- padding for profile background -->
-      <div class="w-full h-24 sm:h-32 md::h-40 bg-gray-200 dark:bg-gray-600"></div>
+      <div class="w-full aspect-ratio-6/1 bg-gray-200 dark:bg-gray-600"></div>
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
-          class="sm:-mt-16 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none border-2 border-purple-300 dark:border-purple-800 transform transition-all duration-300"
+          class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-purple-300 dark:border-purple-800 transform transition-all ease duration-300"
+          :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
+          @mouseenter="() => (isHoveringAvatar = true)"
+          @mouseleave="() => (isHoveringAvatar = false)"
         >
           <UserAvatar
-            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 rounded-full hover:rounded-none transform transition-all duration-300"
+            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 cursor-pointer"
             openable
+            hide-title
             :alt="author.tagname"
             :image="author.avatar"
           />
@@ -43,14 +47,15 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import NProgress from 'nprogress'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { useI18n } from 'vue-i18n'
+import { screenSizes } from '@/css'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -76,7 +81,7 @@ const { result, loading } = useQuery<Query>(
     }
   `,
   {
-    tid: tid.value,
+    tid,
   }
 )
 
@@ -117,4 +122,6 @@ const getIconForSite = (site: string): string => {
       return 'i-uil-link-alt'
   }
 }
+
+const isHoveringAvatar = ref(false)
 </script>
