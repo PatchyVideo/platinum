@@ -1,19 +1,25 @@
 <template>
-  <div>
+  <div ref="navContainer">
     <!-- Top Nav -->
     <div
       ref="nav"
-      class="h-auto p-1 flex items-center justify-between border-b border-purple-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
+      class="z-49 fixed flex inset-x-0 h-12 p-1 items-center border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
     >
       <!-- Logo & Slide Button -->
-      <div v-show="!hidePage" class="flex items-center flex-nowrap ml-2">
-        <div class="p-1 rounded-full transition-colors hover:bg-purple-200 dark:hover:bg-purple-700">
-          <div class="i-uil-list-ul text-3xl cursor-pointer rounded-full" @click="drawerOpen = true" />
+      <div v-show="!hidePage" class="flex-1 inline-flex items-center flex-nowrap mr-auto">
+        <div
+          class="p-0.5 rounded-full transition-colors border-2 border-transparent hover:border-purple-200 dark:hover:border-purple-900"
+        >
+          <div
+            class="text-3xl cursor-pointer rounded-full"
+            :class="drawerOpen ? 'i-uil-times' : 'i-uil-list-ul'"
+            @click="drawerOpen = !drawerOpen"
+          />
         </div>
-        <Logo v-if="screenSizes.md" class="inline-block ml-2 cursor-pointer" @click="toHome()"></Logo>
+        <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer" @click="toHome()"></Logo>
       </div>
       <!-- Search Bar -->
-      <div v-if="showSearchBar" class="flex flex-auto flex-nowrap items-center justify-center mx-2">
+      <div v-if="showSearchBar" class="flex-1 inline-flex flex-auto flex-nowrap items-center justify-center mx-2">
         <AutoComplete
           v-model:keyword="keyword"
           class="w-full max-w-2xl"
@@ -29,7 +35,7 @@
         ></div>
       </div>
       <!-- User Box -->
-      <div v-show="!hidePage" class="flex-shrink-0 mr-2">
+      <div v-show="!hidePage" class="flex-1 inline-flex justify-end ml-auto mr-2 min-w-9">
         <div v-if="isLogin === IsLogin.no" class="whitespace-nowrap">
           <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')"></RouterLink>
         </div>
@@ -119,20 +125,17 @@
         </div>
       </div>
     </div>
-    <!-- DrawerLayout -->
-    <div>
-      <!-- Drawer -->
-      <div
-        class="fixed rounded-r border-r border-gray-200 dark:border-gray-700 inset-y-0 z-50 left-0 px-2 overflow-auto bg-white dark:bg-gray-900 transform transition-transform duration-250 ease-in-out"
-        :class="{ '-translate-x-full': !drawerOpen }"
-      >
-        <!-- Title & Slide Button -->
-        <div class="flex items-center flex-nowrap">
-          <div class="inline-block rounded-full transition-colors hover:bg-gray-200 dark:hover:bg-gray-700">
-            <div class="i-uil-times text-3xl p-1 cursor-pointer rounded-full" @click="drawerOpen = false"></div>
-          </div>
-          <Logo class="md:mr-15 cursor-pointer" :show-icon="false" @click="toHome()"></Logo>
-        </div>
+
+    <!-- Padding -->
+    <div class="h-12"></div>
+
+    <!-- Drawer -->
+    <div
+      class="z-50 fixed flex top-12 bottom-0 transform transition-transform ease-in-out"
+      :class="{ '-translate-x-full': !drawerOpen }"
+    >
+      <!-- Menu -->
+      <div class="px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
           <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6"></div>
@@ -184,24 +187,11 @@
           </NavTopLink>
         </template>
       </div>
-      <!-- Mask -->
-      <Transition
-        enter-active-class="transition-all duration-200"
-        enter-from-class="bg-opacity-0"
-        leave-active-class="transition-all duration-200"
-        leave-to-class="bg-opacity-0"
-      >
-        <div
-          v-if="drawerOpen || userListOpen || noteBoxOpen"
-          class="fixed inset-0 z-49"
-          :class="{ 'bg-black/20': drawerOpen }"
-          @click="drawerOpen = false"
-        ></div>
-      </Transition>
     </div>
-  </div>
-  <div v-show="hidePage" class="absolute z-50 w-full h-full bg-white dark:bg-gray-900">
-    <div ref="teleportTo" class="absolute w-full"></div>
+
+    <div v-show="hidePage" class="z-49 fixed flex top-12 bottom-0 w-full h-full bg-white dark:bg-gray-900">
+      <div ref="teleportTo" class="absolute w-full"></div>
+    </div>
   </div>
 </template>
 
@@ -213,12 +203,11 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NavTopLink from './NavTopLink.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
-import { computed, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import type { Component, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
-import { clearBodyLocks, lock, unlock } from 'tua-body-scroll-lock'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
@@ -239,6 +228,7 @@ const { t } = useI18n()
 const route = useRoute()
 
 const nav = shallowRef<HTMLDivElement | null>(null)
+const navContainer = shallowRef<HTMLDivElement | null>(null)
 
 /* User lists Operation */
 const userListOpen = ref<boolean>(false)
@@ -261,13 +251,18 @@ const listNoteCountUnread = ref(0)
 
 /* Drawer Operation */
 const drawerOpen = ref(false)
-watch(drawerOpen, (open) => {
-  if (open) lock(nav.value)
-  else unlock()
-})
-onUnmounted(() => {
-  clearBodyLocks()
-})
+useEventListener(
+  document,
+  'click',
+  (e: MouseEvent) => {
+    if (!navContainer.value) return
+    const target = e.target as HTMLElement
+    if (!navContainer.value.contains(target)) {
+      drawerOpen.value = false
+    }
+  },
+  { passive: true }
+)
 
 /* Search */
 const router = useRouter()
@@ -358,11 +353,6 @@ interface NavLinkSelect {
 }
 const links = computed(() => {
   const links: NavLink[] = [
-    {
-      key: 'top-padding',
-      type: 'blank',
-      text: '',
-    },
     {
       key: 'home',
       type: 'router',

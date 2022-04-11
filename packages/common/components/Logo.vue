@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="inline-flex flex-row items-center flex-nowrap">
     <svg
       v-if="showIcon"
       version="1.2"
@@ -42,7 +42,7 @@
       viewBox="0 1000 5000 1800"
       overflow="visible"
       :height="h2"
-      class="fill-current inline-block -my-4"
+      class="fill-current inline-block -ml-2"
     >
       <path
         fill="#FCD34D"

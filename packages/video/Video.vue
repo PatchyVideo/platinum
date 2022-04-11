@@ -40,26 +40,27 @@
           <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
-            <span v-if="isLogin === IsLogin.yes" :title="t('video.video.edit.edit-tags')"
-              ><div
-                class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
-                @click="popEditTagWindow"
-              ></div
-            ></span>
-            <div
-              v-else
-              class="i-uil-tag-alt inline-block text-2xl mr-1 align-middle text-gray-600 dark:text-gray-300"
-            ></div>
-            <template v-if="!renderTagAsPlainText"
-              ><Tag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></Tag
-            ></template>
-            <template v-else>
-              <div class="text-sm">
+            <div class="flex gap-1 items-center flex-wrap">
+              <span v-if="isLogin === IsLogin.yes" :title="t('video.video.edit.edit-tags')"
+                ><div
+                  class="i-uil-tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
+                  @click="popEditTagWindow"
+                ></div
+              ></span>
+              <div
+                v-else
+                class="i-uil-tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300"
+              ></div>
+
+              <template v-if="!renderTagAsPlainText"
+                ><RoundTag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></RoundTag
+              ></template>
+              <div v-else>
                 <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="mr-2 text-blue-600"
                   >#{{ behMostMatch(tag.languages) }}</span
                 >
-              </div></template
-            >
+              </div>
+            </div>
             <!-- Video Description -->
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
@@ -282,7 +283,7 @@
 
 <script lang="ts" setup>
 import Player from './components/Player.vue'
-import Tag from '@/tag/components/Tag.vue'
+import RoundTag from '@/tag/components/RoundTag.vue'
 import MarkdownCommentBlock from '@/markdown/components/MarkdownCommentBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'

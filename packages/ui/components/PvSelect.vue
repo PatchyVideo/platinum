@@ -1,7 +1,7 @@
 <template>
   <div
     ref="pvSelectRoot"
-    class="pl-4 pr-8 rounded-full cursor-pointer relative inline-block border border-purple-300 dark:border-purple-800 transition-shadow duration-200"
+    class="pl-4 pr-8 rounded-full cursor-pointer relative inline-block border border-purple-300 dark:border-gray-600 transition-shadow duration-200"
     :class="{ 'outline-none ring ring-purple-300': !listHidden }"
     @click="listHidden = !listHidden"
   >

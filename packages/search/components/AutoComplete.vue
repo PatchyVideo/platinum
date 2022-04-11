@@ -2,7 +2,7 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="flex h-9 justify-start items-center rounded-lg border border-purple-300 dark:border-purple-800 bg-white dark:bg-gray-800"
+      class="flex h-9 justify-start items-center rounded-lg border border-purple-200 dark:border-gray-700 bg-white dark:bg-gray-800"
     >
       <div class="flex-shrink-0 inline i-uil-search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
       <input
@@ -22,7 +22,7 @@
       ></div>
       <button
         v-if="width > 500"
-        class="flex-shrink-0 bg-purple-400 text-white h-full px-3 rounded-r-lg transition-colors focus:outline-none focus:ring focus:ring-purple-300 hover:bg-purple-300 w-20"
+        class="flex-shrink-0 text-purple-900 dark:text-white h-full px-3 rounded-r-lg border-l-1 border-l-purple-200 dark:border-l-gray-700 bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 focus:outline-none focus:ring focus:ring-purple-300 transition-colors"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
       ></button>

@@ -32,7 +32,8 @@ watch(drawerOpen, (n, o) => {
       opacity: 1,
       x: 0,
       transition: {
-        delay: 50 + (150 / itemLength.value) * index.value,
+        delay: (100 / itemLength.value) * index.value,
+        duration: 250,
         type: 'tween',
       },
     })
