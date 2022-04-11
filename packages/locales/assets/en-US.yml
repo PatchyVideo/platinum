@@ -27,16 +27,17 @@ common:
       userprofile: Profile
       confirming: Logging in...
   footer:
-    user-number: PatchyVideo is servicing for {users} users like you currently!
+    user-number: PatchyVideo is currently servicing {users} users just like you!
     wiki: Wiki
     status: Status
     bl-account: Bilibili
     joinus: Join Us
     code: Codes
-    repositories: Repos
-    feedback-issue: Submit feedback
+    repositories: Repositories
+    feedback-issue: Feedback
     contact: Contact
     license: License
+    sponsor: Donate
 darkmode:
   system: Follow system settings
   light: Light
@@ -403,11 +404,11 @@ video:
       profile: Profile
       title: Title
       ranks:
-        rank: Video visibility
         '0': Only visible to administrators
         '1': Visible to login users
         '2': Visible to uploader and administrators
         '3': Visible to all
+        rank: Video visibility
       edit:
         saving: Saving - Edit video - {videoname}
         saved: Successfully saved! - Edit video - {videoname}
@@ -449,7 +450,9 @@ settings:
     general:
       name: General
     language:
-      desc: If you wish to help translate pages of PatchyVideo, you are welcomed to join us!
+      desc: >-
+        If you wish to help translate pages of PatchyVideo, you are welcomed to
+        join us!
       browser-default: 'Preferred browsers: {preferred}'
     name: General
   appearance:
@@ -463,7 +466,9 @@ settings:
       name: User profile
       username:
         label: Username
-        desc: You may change you username anytime. Usernames may not be identical to another.
+        desc: >-
+          You may change you username anytime. Usernames may not be identical to
+          another.
       description:
         label: Description
     loading: Loading user profiles

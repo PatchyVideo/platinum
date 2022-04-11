@@ -37,6 +37,7 @@ common:
     feedback-issue: 提交反馈
     contact: 联系我们
     license: 开源许可
+    sponsor: 赞助我们
 darkmode:
   system: 跟随系统
   light: 浅色
@@ -399,11 +400,11 @@ video:
       profile: 基本信息
       title: 视频标题
       ranks:
-        rank: 视频可见性
         '0': 仅管理员可见
         '1': 登录用户可见
         '2': 发布者和管理员可见
         '3': 所有人可见
+        rank: 视频可见性
       edit:
         saving: 保存中 - 编辑视频 - {videoname}
         saved: 已保存! - 编辑视频 - {videoname}
