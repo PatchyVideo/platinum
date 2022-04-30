@@ -25,7 +25,7 @@
         </div>
         <div
           v-if="options.showClose"
-          class="i-uil-times absolute top-1/2 -translate-y-1/2 right-4 hover:cursor-pointer hover:text-gray-600 text-gray-400 transition-all duration-300"
+          class="i-uil:times absolute top-1/2 -translate-y-1/2 right-4 hover:cursor-pointer hover:text-gray-600 text-gray-400 transition-all duration-300"
           @click="handleCloseMessage(options)"
         ></div>
       </div>

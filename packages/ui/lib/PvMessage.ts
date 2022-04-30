@@ -14,25 +14,25 @@ const typeToStyle: Record<MessageType, OtherOptions> = {
     color: '#67C23A',
     bgColor: '#f0f9eb',
     borderColor: '#e1f3d8',
-    icon: 'i-uil-check-circle',
+    icon: 'i-uil:check-circle',
   },
   [MessageType.warning]: {
     color: '#e6a23c',
     bgColor: '#fdf6ec',
     borderColor: '#faecd8',
-    icon: 'i-uil-exclamation-triangle',
+    icon: 'i-uil:exclamation-triangle',
   },
   [MessageType.info]: {
     color: '#909399',
     bgColor: '#edf2fc',
     borderColor: '#ebeef5',
-    icon: 'i-uil-info-circle',
+    icon: 'i-uil:info-circle',
   },
   [MessageType.error]: {
     color: '#f56c6c',
     bgColor: '#fef0f0',
     borderColor: '#fde2e2',
-    icon: 'i-uil-times-circle',
+    icon: 'i-uil:times-circle',
   },
 }
 const OptionsDefaultValue: Options = {

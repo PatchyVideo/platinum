@@ -8,7 +8,7 @@
           <!-- Mobile Collapse -->
           <div
             class="sm:hidden text-3xl"
-            :class="{ 'i-uil-arrow-from-top': collapsed, 'i-uil-arrow-to-bottom transform rotate-180': !collapsed }"
+            :class="{ 'i-uil:arrow-from-top': collapsed, 'i-uil:arrow-to-bottom transform rotate-180': !collapsed }"
             @click="onCollapse"
           ></div>
         </div>
@@ -40,7 +40,7 @@
           <template #fallback>
             <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
               <div class="inline-block align-middle" v-text="t('settings.loading')"></div>
-              <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
+              <div class="i-uil:spinner-alt text-2xl animate-spin"></div>
             </div>
           </template>
         </Suspense>
@@ -75,13 +75,13 @@ const catogories = computed(() => {
     {
       name: 'general',
       text: t('settings.general.name'),
-      icon: 'i-mdi-light-cog',
+      icon: 'i-mdi-light:cog',
       component: defineAsyncComponent(() => import('./components/SettingsGeneral.vue')),
     },
     {
       name: 'appearance',
       text: t('settings.appearance.name'),
-      icon: 'i-ph-magic-wand-light',
+      icon: 'i-ph:magic-wand-light',
       component: defineAsyncComponent(() => import('./components/SettingsAppearance.vue')),
     },
   ]
@@ -90,7 +90,7 @@ const catogories = computed(() => {
     catogories.push({
       name: 'account',
       text: t('settings.account.name'),
-      icon: 'i-ph-user-circle-light',
+      icon: 'i-ph:user-circle-light',
       component: defineAsyncComponent(() => import('./components/SettingsAccount.vue')),
     })
 

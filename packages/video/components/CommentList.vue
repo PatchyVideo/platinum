@@ -2,7 +2,7 @@
   <!-- Video Comments -->
   <div class="mx-1 md:mx-2 lg:mx-4">
     <template v-if="loadingThread && !threadDisabled"
-      >正在加载评论区<i class="i-uil-spinner-alt text-lg animate-spin"></i
+      >正在加载评论区<i class="i-uil:spinner-alt text-lg animate-spin"></i
     ></template>
     <template v-else>共 {{ commentThread?.count || 0 }} 条评论</template>
   </div>
@@ -147,11 +147,11 @@
         v-if="commentChildrenExpaneded[comment.id.toHexString()]"
         class="flex flex-row text-sm items-center text-blue-600 dark:text-blue-300"
       >
-        <div class="i-uil-arrow-to-bottom text-base transform rotate-180"></div>
+        <div class="i-uil:arrow-to-bottom text-base transform rotate-180"></div>
         收起楼中楼
       </div>
       <div v-else class="flex flex-row text-sm items-center text-blue-600 dark:text-blue-300">
-        <div class="i-uil-arrow-from-top text-base"></div>
+        <div class="i-uil:arrow-from-top text-base"></div>
         展开楼中楼
       </div>
     </div>

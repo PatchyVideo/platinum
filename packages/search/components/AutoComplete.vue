@@ -4,7 +4,7 @@
     <div
       class="flex h-9 justify-start items-center rounded-lg border border-purple-200 dark:border-gray-700 bg-white dark:bg-gray-800"
     >
-      <div class="flex-shrink-0 inline i-uil-search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
+      <div class="flex-shrink-0 inline i-uil:search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
       <input
         ref="autoComplete"
         v-model="searchContent"
@@ -17,7 +17,7 @@
       />
       <div
         v-show="searchContent"
-        class="i-uil-times-circle flex-shrink-0 inline-block ml-1 mr-2"
+        class="i-uil:times-circle flex-shrink-0 inline-block ml-1 mr-2"
         @click="searchContent = ''"
       ></div>
       <button
@@ -116,9 +116,9 @@
             <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full">
               <div>
                 <h4 class="mx-2 font-light">
-                  <div class="i-uil-tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300"></div>
+                  <div class="i-uil:tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300"></div>
                   {{ t('search.auto-complete.hot-tags') }}
-                  <div v-if="popularTags.length === 0" class="i-uil-spinner-alt inline animate-spin"></div>
+                  <div v-if="popularTags.length === 0" class="i-uil:spinner-alt inline animate-spin"></div>
                 </h4>
                 <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-800 dark:text-gray-300">
                   <div
@@ -178,30 +178,33 @@ const emit = defineEmits<{
   (event: 'update:keyword', value: string): void
   (event: 'search', searchContent: string): void
   (event: 'searching', searching: boolean): void
+  (event: 'suggestionClick', tag: string): void
 }>()
 
 const { t } = useI18n()
-interface resultType {
+
+interface AutoCompleteResult {
   tag?: string
   sub?: string
   cat: number
   cnt: null | string
-  langs?: langs[]
+  langs?: AutoCompleteLangs[]
   keyword?: string
 }
-interface langs {
+interface AutoCompleteLangs {
   l: number
   w: string
 }
-const listHidden = ref<boolean>(true)
-const loading = ref<boolean>(false)
-const searchSuccess = ref<boolean>(true)
+
+const listHidden = ref(true)
+const loading = ref(false)
+const searchSuccess = ref(true)
 const searchContent = useVModel(props, 'keyword', emit, { passive: true })
 let cutHeadSearchContent: string
 let cutTailSearchContent: string
-const searchResult = ref<resultType[]>([])
+const searchResult = ref<AutoCompleteResult[]>([])
 const activeSearchResult = ref(-1)
-let sitesAndKeywords: resultType[] = reactive([
+let sitesAndKeywords: AutoCompleteResult[] = reactive([
   { tag: 'site:acfun', cat: 6, cnt: null, active: false },
   { tag: 'site:bilibili', cat: 6, cnt: null, active: false },
   { tag: 'site:nicovideo', cat: 6, cnt: null, active: false },
@@ -275,7 +278,7 @@ async function getSearchList(searchKeyword: string): Promise<void> {
   activeSearchResult.value = -1
   listHidden.value = true
   loading.value = true
-  let listData: resultType[] = sitesAndKeywords.filter(siteOrKeywordFilter(searchKeyword))
+  let listData: AutoCompleteResult[] = sitesAndKeywords.filter(siteOrKeywordFilter(searchKeyword))
   await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
     .then((data) => data.json())
     .then((res) => {
@@ -293,9 +296,9 @@ async function getSearchList(searchKeyword: string): Promise<void> {
     })
 }
 function siteOrKeywordFilter(query: string) {
-  return (siteOrKeyword: resultType): boolean => siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
+  return (siteOrKeyword: AutoCompleteResult): boolean => siteOrKeyword.tag?.toLowerCase().indexOf(query.toLowerCase()) === 0
 }
-function ConvertLangRes(langs: langs[], keyword = ''): { main: string; sub?: string } {
+function convertLangRes(langs: AutoCompleteLangs[], keyword = ''): { main: string; sub?: string } {
   const level = [10, 5, 1, 2]
 
   // Fetch the sub language
@@ -353,6 +356,7 @@ function clickAutocompleteKeyword(tag: string): void {
   activeSearchResult.value = -1
   listHidden.value = true
   autoComplete.value?.focus()
+  emit('suggestionClick', tag)
 }
 
 //  Select the keyword from the search list with keyboard or search
@@ -363,10 +367,12 @@ function completeKeywordOrSearch(usingSearchButton = false): void {
     return
   } else {
     const item = searchResult.value[activeSearchResult.value]
+    const tag = lang2tag(item).tag
     searchContent.value = formatSearchContent(
-      cutHeadSearchContent + lang2tag(item).tag.replace(/ /g, '_') + ' ' + cutTailSearchContent
+      cutHeadSearchContent + tag.replace(/ /g, '_') + ' ' + cutTailSearchContent
     )
     searchResult.value = []
+    emit('suggestionClick', tag)
   }
 }
 
@@ -376,8 +382,8 @@ function formatSearchContent(content: string): string {
   return content
 }
 
-const lang2tag = (item: resultType) => {
-  const l = ConvertLangRes(item.langs || [], item.keyword)
+const lang2tag = (item: AutoCompleteResult) => {
+  const l = convertLangRes(item.langs || [], item.keyword)
   return { ...item, tag: item.tag || l.main, sub: l.sub }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <div
     ref="NoteBox"
-    class="z-50 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-purple-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
+    class="z-50 absolute right-0 top-10 w-80 p-2 rounded overflow-hidden bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
   >
     {{ t('user-notification.notification-navtop.title') }}
     <div v-if="listNoteStatus === 'loading'">{{ t('user-notification.notification-navtop.loading') }}</div>

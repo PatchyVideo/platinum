@@ -3,7 +3,7 @@
   <div
     v-show="popperShowing && user"
     ref="popper"
-    class="popper z-910 px-3 py-2 max-w-xs rounded-md border border-purple-300 shadow-md bg-white dark:bg-gray-900"
+    class="popper z-910 px-3 py-2 max-w-72 rounded-md border border-purple-300 shadow-md bg-white dark:bg-gray-900"
   >
     <RouterLink :to="'/user/' + uid">
       <div v-if="user" class="flex flex-row space-x-2">
@@ -17,7 +17,7 @@
         </div>
         <div class="min-w-0 mt-1">
           <div class="truncate font-medium" :title="user.username" v-text="user.username"></div>
-          <div class="truncate text-sm text-gray-800 dark:text-gray-300" :title="user.desc" v-text="user.desc"></div>
+          <div class="line-clamp-2 text-sm text-gray-800 dark:text-gray-300" :title="user.desc" v-text="user.desc"></div>
         </div>
       </div>
     </RouterLink>

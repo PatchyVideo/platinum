@@ -3,6 +3,7 @@
     <!-- Main Object -->
     <div v-if="video" class="xl:mx-2">
       <div class="grid grid-cols-12 space-x-2 grid-flow-row-dense">
+        <!-- Left Column -->
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
@@ -17,7 +18,7 @@
               <template v-if="user.isAdmin">
                 <div
                   :title="t('video.video.edit.hide-video.title')"
-                  class="i-uil-eye-slash text-lg cursor-pointer select-none"
+                  class="i-uil:eye-slash text-lg cursor-pointer select-none"
                   @click="hideVideo"
                 ></div>
                 <div v-if="hideVideoResult" v-text="hideVideoResult"></div>
@@ -25,7 +26,7 @@
               <div
                 v-if="isLogin === IsLogin.yes"
                 :title="t('video.video.edit.edit-video')"
-                class="i-uil-pen text-lg cursor-pointer select-none"
+                class="i-uil:pen text-lg cursor-pointer select-none"
                 @click="popEditVideoWindow"
               ></div>
             </div>
@@ -40,21 +41,18 @@
           <div ref="mobileAuthorTarget"></div>
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
-            <div class="flex gap-1 items-center flex-wrap">
-              <span v-if="isLogin === IsLogin.yes" :title="t('video.video.edit.edit-tags')"
-                ><div
-                  class="i-uil-tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300 cursor-pointer"
-                  @click="popEditTagWindow"
-                ></div
-              ></span>
-              <div
-                v-else
-                class="i-uil-tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300"
-              ></div>
+            <div class="flex mb-1 gap-1 items-center flex-wrap">
+              <span :title="isLogin === IsLogin.yes ? t('video.video.edit.edit-tags') : undefined">
+                <div
+                  class="i-uil:tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300"
+                  :class="{ 'cursor-pointer': isLogin === IsLogin.yes }"
+                  @click="() => isLogin === IsLogin.yes && (editTagOpened = true)"
+                ></div>
+              </span>
 
               <template v-if="!renderTagAsPlainText"
-                ><RoundTag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"></RoundTag
-              ></template>
+                ><RoundTag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"
+              /></template>
               <div v-else>
                 <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="mr-2 text-blue-600"
                   >#{{ behMostMatch(tag.languages) }}</span
@@ -65,158 +63,177 @@
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
           <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2"></div>
+          <!-- Comments -->
           <div><CommentList :comment-thread-id="video.commentThread?.id.toHexString()" :video-id="vid" /></div>
         </div>
+
+        <!-- Right Column -->
         <div class="col-span-full xl:col-span-3">
-          <!-- Author / Uploader -->
-          <Teleport :to="mobileAuthorTarget" :disabled="!mobileAuthorTarget || screenSizes.xl">
-            <div class="flex xl:flex-col justify-start px-1 xl:pt-4">
-              <div
-                v-for="author of authors"
-                :key="author.id.toHexString()"
-                class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
-              >
-                <!-- Avatar -->
-                <div class="flex-shrink-0">
-                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
-                    ><UserAvatarPopper :uid="author.id.toHexString()"
+          <!-- Edit Tag View -->
+          <div v-if="editTagOpened" class="flex flex-col mt-2 gap-1">
+            <!-- Banner -->
+            <button class="flex items-center text-blue-500" @click="() => (editTagOpened = false)">
+              <div class="i-uil:arrow-left text-xl"></div>
+              返回详情
+            </button>
+            <EditTags :key="vid" :vid="vid" :tags="video.tags" @refetch="refetch" />
+          </div>
+          <!-- Recomendation View -->
+          <template v-else>
+            <!-- Author / Uploader -->
+            <Teleport :to="mobileAuthorTarget" :disabled="!mobileAuthorTarget || screenSizes.xl">
+              <div class="flex xl:flex-col justify-start px-1 xl:pt-4">
+                <div
+                  v-for="author of authors"
+                  :key="author.id.toHexString()"
+                  class="flex items-center flex-nowrap px-1 py-1 xl:w-full"
+                >
+                  <!-- Avatar -->
+                  <div class="flex-shrink-0">
+                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
+                      ><UserAvatarPopper :uid="author.id.toHexString()"
+                        ><UserAvatar
+                          class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
+                          :image="author.avatar"
+                          :gravatar="author.gravatar"
+                          :alt="author.name"
+                          hide-title /></UserAvatarPopper
+                    ></RouterLink>
+                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
                       ><UserAvatar
                         class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                         :image="author.avatar"
                         :gravatar="author.gravatar"
                         :alt="author.name"
-                        hide-title /></UserAvatarPopper
-                  ></RouterLink>
-                  <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
-                    ><UserAvatar
+                    /></RouterLink>
+                    <UserAvatar
+                      v-else
                       class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                       :image="author.avatar"
                       :gravatar="author.gravatar"
                       :alt="author.name"
-                  /></RouterLink>
-                  <UserAvatar
-                    v-else
-                    class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
-                    :image="author.avatar"
-                    :gravatar="author.gravatar"
-                    :alt="author.name"
-                  />
-                </div>
-                <div class="hidden sm:block ml-1.5 overflow-hidden">
-                  <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
-                    ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
-                      v-text="author.position"
-                    ></span
-                    >{{ author.name }}</RouterLink
-                  ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
-                    ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
-                      v-text="author.position"
-                    ></span
-                    >{{ author.name }}</RouterLink
-                  ><template v-else
-                    ><span
-                      class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
-                      v-text="author.position"
-                    ></span
-                    >{{ author.name }}</template
-                  >
-                  <br />
-                  <div
-                    class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
-                  >
-                    {{ author.desc || t('video.video.no-desc') }}
+                    />
                   </div>
-                </div>
-              </div>
-            </div>
-          </Teleport>
-          <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
-            <div
-              v-if="playlist"
-              class="xl:mx-2 border-purple-300 dark:border-purple-800 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
-            >
-              <div class="mx-2 my-1 flex justify-between">
-                <div>
-                  <RouterLink class="" :to="'/playlist/' + pid"
-                    ><div
-                      class="i-uil-list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
-                    ></div>
-                    {{ playlist.item.title }}</RouterLink
-                  >
-                  <div class="text-sm text-gray-900 dark:text-gray-200">
-                    {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
-                    }}{{ playlistIndex + ' / ' + playlist.item.count }}
-                  </div>
-                </div>
-                <div class="flex flex-col justify-around">
-                  <div
-                    class="i-uil-angle-up text-2xl transform transition-transform duration-200 select-none cursor-pointer"
-                    :class="{ 'rotate-180': playlistCollaped }"
-                    @click="playlistCollaped = !playlistCollaped"
-                  ></div>
-                </div>
-              </div>
-              <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
-                <RouterLink
-                  v-for="(plVideo, plIndex) in playlistVideos"
-                  :key="plVideo.video.id.toHexString()"
-                  class="flex justify-start space-x-1 py-1 hover:bg-purple-50 dark:hover:bg-gray-800"
-                  :class="{ 'bg-purple-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
-                  :to="'/video/' + plVideo.video.id + '?list=' + pid"
-                >
-                  <div
-                    class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
-                  >
-                    <template v-if="plIndex + 1 === playlistIndex"><div class="i-uil-play mx-auto"></div></template
-                    ><template v-else>{{ plVideo.rank + 1 }}</template>
-                  </div>
-                  <div class="flex-shrink-0 flex-grow-0 w-24">
-                    <div class="aspect-ratio-8/5">
-                      <img
-                        class="inline-block"
-                        width="96"
-                        height="54"
-                        :src="getCoverImage({ image: plVideo.video.item.coverImage })"
-                      />
+                  <div class="hidden sm:block ml-1.5 overflow-hidden">
+                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
+                      ><span
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        v-text="author.position"
+                      ></span
+                      >{{ author.name }}</RouterLink
+                    ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
+                      ><span
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        v-text="author.position"
+                      ></span
+                      >{{ author.name }}</RouterLink
+                    ><template v-else
+                      ><span
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        v-text="author.position"
+                      ></span
+                      >{{ author.name }}</template
+                    >
+                    <br />
+                    <div
+                      class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      {{ author.desc || t('video.video.no-desc') }}
                     </div>
                   </div>
-                  <div class="flex flex-col justify-between">
-                    <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
+                </div>
+              </div>
+            </Teleport>
+            <Teleport :to="mobilePlaylistTarget" :disabled="!mobilePlaylistTarget || screenSizes.xl">
+              <div
+                v-if="playlist"
+                class="xl:mx-2 border-purple-300 dark:border-purple-800 border-b xl:border xl:rounded-md xl:mt-2 flex flex-col max-h-125"
+              >
+                <div class="mx-2 my-1 flex justify-between">
+                  <div>
+                    <RouterLink class="" :to="'/playlist/' + pid"
+                      ><div
+                        class="i-uil:list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
+                      ></div>
+                      {{ playlist.item.title }}</RouterLink
+                    >
+                    <div class="text-sm text-gray-900 dark:text-gray-200">
+                      {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
+                      }}{{ playlistIndex + ' / ' + playlist.item.count }}
+                    </div>
+                  </div>
+                  <div class="flex flex-col justify-around">
                     <div
-                      v-if="plVideo.video.meta.createdBy"
-                      class="text-xs text-gray-900 dark:text-gray-200"
-                      v-text="plVideo.video.meta.createdBy.username"
+                      class="i-uil:angle-up text-2xl transform transition-transform duration-200 select-none cursor-pointer"
+                      :class="{ 'rotate-180': playlistCollaped }"
+                      @click="playlistCollaped = !playlistCollaped"
+                    ></div>
+                  </div>
+                </div>
+                <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
+                  <RouterLink
+                    v-for="(plVideo, plIndex) in playlistVideos"
+                    :key="plVideo.video.id.toHexString()"
+                    class="flex justify-start space-x-1 py-1 hover:bg-purple-50 dark:hover:bg-gray-800"
+                    :class="{ 'bg-purple-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
+                    :to="'/video/' + plVideo.video.id + '?list=' + pid"
+                  >
+                    <div
+                      class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
+                    >
+                      <template v-if="plIndex + 1 === playlistIndex"><div class="i-uil:play mx-auto"></div></template
+                      ><template v-else>{{ plVideo.rank + 1 }}</template>
+                    </div>
+                    <div class="flex-shrink-0 flex-grow-0 w-24">
+                      <div class="aspect-ratio-8/5">
+                        <img
+                          class="inline-block"
+                          width="96"
+                          height="54"
+                          :src="getCoverImage({ image: plVideo.video.item.coverImage })"
+                        />
+                      </div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                      <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
+                      <div
+                        v-if="plVideo.video.meta.createdBy"
+                        class="text-xs text-gray-900 dark:text-gray-200"
+                        v-text="plVideo.video.meta.createdBy.username"
+                      ></div>
+                    </div>
+                  </RouterLink>
+                </div>
+              </div>
+            </Teleport>
+            <!-- Related Video -->
+            <div class="mt-2">
+              <span class="ml-1 font-light">{{ t('video.video.related-video') }}</span>
+              <div class="flex flex-col">
+                <RouterLink
+                  v-for="rlVideo in video.relatedVideos"
+                  :key="rlVideo.id.toHexString()"
+                  :to="'/video/' + rlVideo.id.toHexString()"
+                  class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-purple-50 dark:hover:bg-gray-800 transition-colors duration-100"
+                >
+                  <div class="col-span-2">
+                    <Cover
+                      :title="rlVideo.item.title"
+                      :cover-image="rlVideo.item.coverImage"
+                      class="rounded-md"
+                    ></Cover>
+                  </div>
+                  <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
+                    <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
+                    <div
+                      class="text-sm inline-block w-full mt-1 truncate font-light"
+                      v-text="rlVideo.meta.createdBy?.username"
                     ></div>
                   </div>
                 </RouterLink>
               </div>
             </div>
-          </Teleport>
-          <!-- Related Video -->
-          <div class="mt-2">
-            <span class="ml-1 font-light">{{ t('video.video.related-video') }}</span>
-            <div class="flex flex-col">
-              <RouterLink
-                v-for="rlVideo in video.relatedVideos"
-                :key="rlVideo.id.toHexString()"
-                :to="'/video/' + rlVideo.id.toHexString()"
-                class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-purple-50 dark:hover:bg-gray-800 transition-colors duration-100"
-              >
-                <div class="col-span-2">
-                  <Cover :title="rlVideo.item.title" :cover-image="rlVideo.item.coverImage" class="rounded-md"></Cover>
-                </div>
-                <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
-                  <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
-                  <div
-                    class="text-sm inline-block w-full mt-1 truncate font-light"
-                    v-text="rlVideo.meta.createdBy?.username"
-                  ></div>
-                </div>
-              </RouterLink>
-            </div>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -291,6 +308,7 @@ import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import Cover from './components/Cover.vue'
 import CoverPlaceholder from './components/CoverPlaceholder.vue'
 import CommentList from './components/CommentList.vue'
+import EditTags from './components/EditTags.vue'
 import { computed, ref, shallowRef, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
@@ -311,7 +329,7 @@ const route = useRoute()
 /* submit query */
 const vid = computed(() => route.params.vid as string)
 const pid = computed(() => (Array.isArray(route.query.list) ? route.query.list[0] : route.query.list))
-const { result, loading } = useQuery<Query>(
+const { result, loading, refetch } = useQuery<Query>(
   gql`
     query ($vid: String!, $fetchPlaylist: Boolean!, $pid: String = "") {
       getVideo(para: { vid: $vid, lang: "CHS" }) {
@@ -334,7 +352,13 @@ const { result, loading } = useQuery<Query>(
         }
         tags {
           __typename
+          id
           tagid
+          category
+          languages {
+            lang
+            value
+          }
           ... on AuthorTagObject {
             authorRole
             author {
@@ -342,14 +366,6 @@ const { result, loading } = useQuery<Query>(
               tagname
               avatar
               desc
-            }
-          }
-          ... on RegularTagObject {
-            id
-            category
-            languages {
-              lang
-              value
             }
           }
         }
@@ -534,16 +550,5 @@ const hideVideo = () => {
 }
 
 /* edit tags */
-const editTagWindow = shallowRef<Window | null>(null)
-const popEditTagWindow = () => {
-  // check if there is already a window opened
-  if (editTagWindow.value && !editTagWindow.value.closed) {
-    editTagWindow.value.focus()
-  }
-  // create a new window
-  const { window: win } = openWindow({
-    url: '/tag-editor/' + vid.value,
-  })
-  editTagWindow.value = win
-}
+const editTagOpened = ref(false)
 </script>

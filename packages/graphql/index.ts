@@ -13,6 +13,7 @@ import generatedIntrospection from './__generated__/graphql.fragment'
 
 import type * as schema from './__generated__/graphql'
 export type { schema }
+export { TagCategoryEnum } from './__generated__/graphql'
 export type Query = schema.Query
 export type Mutation = schema.Mutation
 export type Subscription = schema.Subscription
@@ -139,11 +140,6 @@ export function provideClient(client: ApolloClient<NormalizedCacheObject>): void
 export function injectClient(): ApolloClient<NormalizedCacheObject> {
   const client = inject<ApolloClient<NormalizedCacheObject>>(DefaultApolloClient)
   return client || createApollo()
-}
-
-export function useApollo(): ApolloClient<NormalizedCacheObject> {
-  const client = injectClient()
-  return client
 }
 
 // eslint-disable-next-line import/export

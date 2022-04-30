@@ -70,7 +70,7 @@
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
-            <div class="i-uil-eye-slash text-4xl"></div>
+            <div class="i-uil:eye-slash text-4xl"></div>
             <div class="text-lg">{{ t('search.search-result.video.video.hidden') }}</div>
           </div>
         </div>
@@ -104,7 +104,7 @@
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
-            <div class="i-uil-eye-slash text-8xl"></div>
+            <div class="i-uil:eye-slash text-8xl"></div>
             <div class="text-2xl">{{ t('search.search-result.video.video.hidden') }}</div>
           </div>
         </div>

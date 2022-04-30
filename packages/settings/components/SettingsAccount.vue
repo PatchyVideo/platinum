@@ -1,13 +1,13 @@
 <template>
-  <div v-if="!loading">
-    <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')"></h2>
-    <RouterLink
-      class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-purple-800"
-      :to="'/user/' + user.uid"
-      >{{ t('common.nav-top.user.userprofile') }}
-      <div class="i-uil-external-link-alt text-lg"></div
-    ></RouterLink>
-    <div class="w-full h-px my-2 bg-gray-300"></div>
+  <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')"></h2>
+  <RouterLink
+    class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-purple-800"
+    :to="'/user/' + user.uid"
+    >{{ t('common.nav-top.user.userprofile') }}
+    <div class="i-uil:external-link-alt text-lg"></div
+  ></RouterLink>
+  <div class="w-full h-px my-2 bg-gray-300"></div>
+  <div v-if="!loading" class="flex flex-col">
     <div>
       <div class="mb-1">
         <h3 class="font-medium" v-text="t('settings.account.profile.username.label')"></h3>
@@ -40,7 +40,7 @@
   <div v-else class="flex">
     <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
       <div class="inline-block align-middle" v-text="t('settings.account.loading')"></div>
-      <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
+      <div class="i-uil:spinner-alt text-2xl animate-spin"></div>
     </div>
   </div>
 </template>

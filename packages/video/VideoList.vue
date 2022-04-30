@@ -60,7 +60,7 @@
                 v-if="video.clearence === 0"
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
-                <div class="i-uil-eye-slash text-4xl"></div>
+                <div class="i-uil:eye-slash text-4xl"></div>
                 <div class="text-lg">{{ t('video.video-list.video.hidden') }}</div>
               </div>
             </div>
@@ -94,7 +94,7 @@
                 v-if="video.clearence === 0"
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
-                <div class="i-uil-eye-slash text-8xl"></div>
+                <div class="i-uil:eye-slash text-8xl"></div>
                 <div class="text-2xl">{{ t('video.video-list.video.hidden') }}</div>
               </div>
             </div>
@@ -134,7 +134,7 @@
       :title="t('video.video-list.advanced-search.name')"
       @click="openAdvancedSearch()"
     >
-      <div class="i-uil-file-search-alt text-2xl"></div>
+      <div class="i-uil:file-search-alt text-2xl"></div>
     </div>
     <AdvancedSearch v-model:open="advancedSearch" />
     <BackTop />

@@ -6,7 +6,8 @@
     :title="hideTitle ? undefined : t('user.avatar.alt', { alt })"
     :src="currUrl"
     @error="onError"
-    @click="onClick"
+    @click.prevent="onClick"
+    @auxclick.prevent="onAuxClick"
   />
 </template>
 
@@ -56,6 +57,16 @@ const setImgs = () => {
   if (props.image && props.image !== 'default') pushImg(`https://patchyvideo.com/be/images/userphotos/${props.image}`)
   if (props.gravatar && props.gravatar.length === 32)
     pushImg(
+      `https://gravatar.loli.net/avatar/${props.gravatar}?s=${s}&d=404`,
+      `https://gravatar.loli.net/avatar/${props.gravatar}?s=512&d=404`
+    )
+  if (props.email)
+    pushImg(
+      `https://gravatar.loli.net/avatar/${md5(props.email)}?s=${s}&d=404`,
+      `https://gravatar.loli.net/avatar/${md5(props.email)}?s=512&d=404`
+    )
+  if (props.gravatar && props.gravatar.length === 32)
+    pushImg(
       `https://gravatar.com/avatar/${props.gravatar}?s=${s}&d=404`,
       `https://gravatar.com/avatar/${props.gravatar}?s=512&d=404`
     )
@@ -73,11 +84,16 @@ const currImg = ref(0)
 const currUrl = computed(() => [...imgs.value][currImg.value])
 const currOriginalUrl = computed(() => [...originalImgs.value][currImg.value])
 const onError = (e: Event) => {
-  if (imgs.value.size >= currImg.value) currImg.value++
+  if (currImg.value < imgs.value.size - 1) currImg.value++
 }
 
 const onClick = () => {
   // use a `window.open` to open link here since this component should expose an `img` element
   if (props.openable) window.open(currOriginalUrl.value, '_blank')
+}
+const onAuxClick = (e: MouseEvent) => {
+  if (e.button === 1) {
+    onClick()
+  }
 }
 </script>

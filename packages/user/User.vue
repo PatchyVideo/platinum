@@ -38,7 +38,7 @@
               @update:value="tempUsername = $event"
             >
               <template #prepend>
-                <div class="i-uil-user"></div>
+                <div class="i-uil:user"></div>
               </template>
             </UserInput>
             <div class="w-full lg:w-2/5 flex justify-evenly mt-5 lg:mt-0">
@@ -46,7 +46,7 @@
                 class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5 flex justify-evenly items-center"
                 @click="onUpdateUsername"
               >
-                <div class="i-uil-edit-alt"></div>
+                <div class="i-uil:edit-alt"></div>
                 {{ t('user.user-page.username.modify') }}
               </button>
               <button class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5" @click="isEditingUsername = false">
@@ -57,7 +57,7 @@
           <div v-else class="flex flex-row justify-start">
             <div>{{ username }}</div>
             <div
-              class="i-uil-edit-alt ml-2 cursor-pointer hover:text-blue-400 transition duration-300"
+              class="i-uil:edit-alt ml-2 cursor-pointer hover:text-blue-400 transition duration-300"
               @click="onOpenUsernameEditor"
             ></div>
           </div>

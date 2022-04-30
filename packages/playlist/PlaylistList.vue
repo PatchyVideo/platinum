@@ -134,7 +134,7 @@
       :title="t('playlist.playlist-list.advanced-search.name')"
       @click="openAdvancedSearch()"
     >
-      <div class="i-uil-file-search-alt text-2xl"></div>
+      <div class="i-uil:file-search-alt text-2xl"></div>
     </div>
     <AdvancedSearch v-model:open="advancedSearch" />
     <BackTop />

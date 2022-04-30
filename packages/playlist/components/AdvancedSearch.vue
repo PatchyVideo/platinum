@@ -5,10 +5,10 @@
   >
     <div class="w-full border-b p-1 pb-1.5 flex justify-between">
       <div class="flex items-center flex-nowrap space-x-1">
-        <div class="i-uil-search text-2xl transition-colors"></div>
+        <div class="i-uil:search text-2xl transition-colors"></div>
         <div class="text-lg">{{ '高级搜索' }}</div>
       </div>
-      <div class="i-uil-times text-2xl transition-colors" @click="open = false"></div>
+      <div class="i-uil:times text-2xl transition-colors" @click="open = false"></div>
     </div>
     <div class="mt-4 space-y-3">
       <!-- AND or OR -->

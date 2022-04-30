@@ -10,7 +10,7 @@
       <form class="w-full space-y-3" autocomplete="on" @submit.prevent="login">
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil-user align-middle text-2xl"></div>
+            <div class="i-uil:user align-middle text-2xl"></div>
             <input
               v-model="userName"
               type="text"
@@ -24,7 +24,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil-padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"

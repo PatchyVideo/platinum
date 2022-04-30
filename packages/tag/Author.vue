@@ -113,13 +113,13 @@ const getUrlSite = (url: string): string => {
 const getIconForSite = (site: string): string => {
   switch (site) {
     case 'bilibili':
-      return 'i-ri-bilibili-line'
+      return 'i-ri:bilibili-line'
     case 'youtube':
-      return 'i-uil-youtube-alt'
+      return 'i-uil:youtube-alt'
     case 'twitter':
-      return 'i-uil-twitter-alt'
+      return 'i-uil:twitter-alt'
     default:
-      return 'i-uil-link-alt'
+      return 'i-uil:link-alt'
   }
 }
 

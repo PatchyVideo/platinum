@@ -21,7 +21,7 @@
         :title="t('user-notification.notification.slide-open')"
         @click="noteDrawerOpen = true"
       >
-        <div class="i-uil-chat text-2xl"></div>
+        <div class="i-uil:chat text-2xl"></div>
         <label
           v-if="listNoteCountUnread"
           class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
@@ -34,10 +34,10 @@
       >
         <div class="w-full border-b p-1 pb-1.5 flex justify-between">
           <div class="flex items-center flex-nowrap">
-            <div class="i-uil-telegram-alt text-2xl transition-colors"></div>
+            <div class="i-uil:telegram-alt text-2xl transition-colors"></div>
             <div class="text-lg ml-2">{{ t('user-notification.notification.title') }}</div>
           </div>
-          <div class="i-uil-times text-2xl transition-colors" @click="noteDrawerOpen = false"></div>
+          <div class="i-uil:times text-2xl transition-colors" @click="noteDrawerOpen = false"></div>
         </div>
         <div class="mt-4 space-y-2">
           <div
@@ -45,7 +45,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
+            <div class="i-uil:comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
@@ -61,7 +61,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <div class="i-uil-at inline align-middle text-xl text-center"></div>
+            <div class="i-uil:at inline align-middle text-xl text-center"></div>
             <div>{{ t('user-notification.notification.at') }}</div>
           </div>
           <div
@@ -69,7 +69,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
+            <div class="i-uil:volume inline align-middle text-xl text-center"></div>
             <div>
               {{ t('user-notification.notification.system') }}
               <label v-if="listNoteCountTypesSystemMessage" class="bg-red-500 text-white text-sm rounded-full px-2">{{
@@ -98,7 +98,7 @@
       <!-- Nav Left -->
       <div class="p-1 overflow-auto rounded-md shadow bg-white w-1/4 xl:w-1/5 dark:bg-gray-900">
         <div class="w-full border-b p-1 pb-1.5 flex items-center flex-nowrap">
-          <div class="i-uil-telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
+          <div class="i-uil:telegram-alt text-2xl transition-colors hover:bg-gray-200 dark:hover:bg-gray-700"></div>
           <div class="text-lg ml-2">{{ t('user-notification.notification.title') }}</div>
         </div>
         <div class="mt-4 space-y-2">
@@ -107,7 +107,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
             @click="changeNoteType('comment_reply')"
           >
-            <div class="i-uil-comment-alt-dots inline align-middle text-xl text-center"></div>
+            <div class="i-uil:comment-alt-dots inline align-middle text-xl text-center"></div>
             <div>
               {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
@@ -123,7 +123,7 @@
             class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
           >
-            <div class="i-uil-at inline align-middle text-xl text-center"></div>
+            <div class="i-uil:at inline align-middle text-xl text-center"></div>
             <div>{{ t('user-notification.notification.at') }}</div>
           </div>
           <div
@@ -131,7 +131,7 @@
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
             @click="changeNoteType('system_message')"
           >
-            <div class="i-uil-volume inline align-middle text-xl text-center"></div>
+            <div class="i-uil:volume inline align-middle text-xl text-center"></div>
             <div>
               {{ t('user-notification.notification.system') }}
               <label v-if="listNoteCountTypesSystemMessage" class="bg-red-500 text-white text-sm rounded-full px-2">{{

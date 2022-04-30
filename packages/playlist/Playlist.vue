@@ -59,7 +59,7 @@
               class="w-full rounded text-sm text-gray-800 py-0.5 px-1 transition-colors duration-150 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-blue-600"
               @click="expandDesc = !expandDesc"
             >
-              <div class="i-uil-arrow-down inline transform" :class="{ 'rotate-180': expandDesc }" />
+              <div class="i-uil:arrow-down inline transform" :class="{ 'rotate-180': expandDesc }" />
               {{ !expandDesc ? t('playlist.playlist.expand') : t('playlist.playlist.collapse') }}
             </div>
           </div>
@@ -77,12 +77,12 @@
             >
               <div
                 v-if="playlist.editable"
-                class="i-uil-arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
+                class="i-uil:arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
               ></div>
               <div class="lt-md:text-xs" v-text="offset + index + 1"></div>
               <div
                 v-if="playlist.editable"
-                class="i-uil-arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
+                class="i-uil:arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
               ></div>
             </div>
             <div class="flex-shrink-0 flex-grow-0 w-28 md:w-60">
@@ -113,7 +113,7 @@
             </div>
           </RouterLink>
           <div v-if="fetchingMore" class="flex justify-center pt-4">
-            <div class="i-uil-spinner-alt text-2xl animate-spin"></div>
+            <div class="i-uil:spinner-alt text-2xl animate-spin"></div>
           </div>
         </div>
       </template>

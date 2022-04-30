@@ -37,7 +37,7 @@
       发表
     </button>
     <button type="reset" class="px-4 py-1 rounded-md border-2 border-gray-300 dark:border-gray-600">清空</button>
-    <div v-if="postingComment"><i class="i-uil-spinner-alt animate-spin"></i>正在发表评论……</div>
+    <div v-if="postingComment"><i class="i-uil:spinner-alt animate-spin"></i>正在发表评论……</div>
     <div v-if="postingCommentError">评论发表失败：{{ postingCommentError }}</div>
   </form>
 </template>

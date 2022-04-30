@@ -14,7 +14,7 @@
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b border-black dark:border-white">
-            <div class="i-uil-padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"
@@ -26,7 +26,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black dark:border-white">
-            <div class="i-uil-padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl"></div>
             <input
               v-model="password2"
               type="password"
@@ -68,7 +68,7 @@
       <div class="w-full space-y-3">
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil-padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl"></div>
             <input
               v-model="password"
               type="password"
@@ -80,7 +80,7 @@
         </div>
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil-padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl"></div>
             <input
               v-model="password2"
               type="password"

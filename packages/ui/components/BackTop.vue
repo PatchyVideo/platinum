@@ -5,7 +5,7 @@
     :title="t('ui.back-top.back-top')"
     @click="backUp()"
   >
-    <div class="i-uil-top-arrow-to-top text-3xl"></div>
+    <div class="i-uil:top-arrow-to-top text-3xl"></div>
   </div>
 </template>
 

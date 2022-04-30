@@ -18,7 +18,7 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'system',
         }"
       >
-        <div class="i-uil-desktop mr-1 text-lg"></div>
+        <div class="i-uil:desktop mr-1 text-lg"></div>
         <div class="inline-block align-middle">
           {{ t('darkmode.system') }} ({{ isPreferredDark ? t('darkmode.dark') : t('darkmode.light') }})
         </div>
@@ -40,7 +40,7 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'light',
         }"
       >
-        <div class="i-uil-sun mr-1 text-lg"></div>
+        <div class="i-uil:sun mr-1 text-lg"></div>
         <div class="inline-block align-middle" v-text="t('darkmode.light')"></div>
       </div>
     </div>
@@ -60,7 +60,7 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'dark',
         }"
       >
-        <div class="i-uil-moon mr-1 text-lg"></div>
+        <div class="i-uil:moon mr-1 text-lg"></div>
         <div class="inline-block align-middle" v-text="t('darkmode.dark')"></div>
       </div>
     </div>

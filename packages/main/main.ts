@@ -139,12 +139,6 @@ const router = createRouter({
       component: () => import('@/video/EditVideo.vue'),
       meta: { holdLoading: true },
     },
-    {
-      name: 'video-edit-tag',
-      path: '/tag-editor/:vid',
-      component: () => import('@/video/EditVideoTag.vue'),
-      meta: { holdLoading: true },
-    },
 
     // Playlist
     {

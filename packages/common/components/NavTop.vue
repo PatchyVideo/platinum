@@ -8,11 +8,11 @@
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex-1 inline-flex items-center flex-nowrap mr-auto">
         <div
-          class="p-0.5 rounded-full transition-colors border-2 border-transparent hover:border-purple-200 dark:hover:border-purple-900"
+          class="p-0.5 rounded-full transition-colors border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700"
         >
           <div
             class="text-3xl cursor-pointer rounded-full"
-            :class="drawerOpen ? 'i-uil-times' : 'i-uil-list-ul'"
+            :class="drawerOpen ? 'i-uil:times' : 'i-uil:list-ul'"
             @click="drawerOpen = !drawerOpen"
           />
         </div>
@@ -30,7 +30,7 @@
         ></AutoComplete>
         <div
           v-if="hidePage === true"
-          class="i-uil-corner-up-left ml-2 text-2xl cursor-pointer select-none whitespace-nowrap transform rotate-90"
+          class="i-uil:corner-up-left ml-2 text-2xl cursor-pointer select-none whitespace-nowrap transform rotate-90"
           @click="hidePage = false"
         ></div>
       </div>
@@ -44,10 +44,10 @@
             <div
               v-if="!screenSizes['<sm'] && props.fetchNote"
               ref="noteBoxBtn"
-              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors hover:bg-purple-200 dark:hover:bg-purple-700"
+              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700"
               @click="noteBoxOpen = true"
             >
-              <div class="inline-block i-uil-envelope"></div>
+              <div class="inline-block i-uil:envelope"></div>
               <label
                 v-if="listNoteCountUnread"
                 class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
@@ -84,7 +84,7 @@
             <div
               v-show="userListOpen"
               ref="userList"
-              class="z-50 absolute -top-6 -right-2 w-40 p-2 mt-10 rounded bg-white border border-purple-400 shadow overflow-visible dark:bg-gray-900 dark:border-black"
+              class="z-50 absolute -top-6 -right-2 p-2 mt-10 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-gray-700"
             >
               <UserAvatar
                 :title="user.name"
@@ -92,8 +92,8 @@
                 :email="user.email"
                 class="absolute -top-5 right-0 w-14 h-14 rounded-full border border-white cursor-pointer"
               ></UserAvatar>
-              <div class="space-y-3">
-                <div class="text-lg font-800 truncate w-25">{{ user.name }}</div>
+              <div class="flex flex-col gap-2">
+                <div class="text-lg align-middle font-medium mr-14 max-w-25 truncate">{{ user.name }}</div>
                 <RouterLink
                   v-if="screenSizes['<sm'] && props.fetchNote"
                   class="block text-center"
@@ -105,18 +105,20 @@
                   }}</label></RouterLink
                 >
                 <RouterLink :to="'/user/' + user.uid"
-                  ><div class="block text-center transition-colors hover:bg-purple-100 dark:hover:bg-purple-500">
+                  ><div
+                    class="block py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors"
+                  >
                     {{ t('common.nav-top.user.userprofile') }}
                   </div>
                 </RouterLink>
                 <div
-                  class="text-center cursor-pointer transition-colors hover:bg-purple-100 dark:hover:bg-purple-500"
+                  class="py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors cursor-pointer"
                   @click="logout"
                 >
                   {{ t('common.nav-top.user.logout') }}
                   <div
                     v-show="loggingOut"
-                    class="i-uil-spinner-alt inline-block text-2xl align-middle animate-spin"
+                    class="i-uil:spinner-alt inline-block text-2xl align-middle animate-spin"
                   ></div>
                 </div>
               </div>
@@ -356,42 +358,42 @@ const links = computed(() => {
     {
       key: 'home',
       type: 'router',
-      icon: 'i-uil-home-alt',
+      icon: 'i-uil:home-alt',
       text: t('common.nav-top.main-menu.home'),
       path: '/',
     },
     {
       key: 'video-list',
       type: 'router',
-      icon: 'i-uil-play-circle',
+      icon: 'i-uil:play-circle',
       text: t('common.nav-top.main-menu.video'),
       path: '/video-list',
     },
     {
       key: 'playlist-list',
       type: 'router',
-      icon: 'i-uil-folder',
+      icon: 'i-uil:folder',
       text: t('common.nav-top.main-menu.list'),
       path: '/playlist-list',
     },
     {
       key: 'discuss-board',
       type: 'click',
-      icon: 'i-uil-chat',
+      icon: 'i-uil:chat',
       text: t('common.nav-top.main-menu.discuss-board'),
       onClick: () => progressing(t('common.nav-top.main-menu.discuss-board')),
     },
     {
       key: 'leaderboard',
       type: 'router',
-      icon: 'i-uil-list-ol-alt',
+      icon: 'i-uil:list-ol-alt',
       text: t('common.nav-top.main-menu.leaderboard'),
       path: '/leaderboard',
     },
     {
       key: 'wiki',
       type: 'a',
-      icon: 'i-carbon-wikis',
+      icon: 'i-carbon:wikis',
       text: t('common.nav-top.main-menu.wiki'),
       href: 'https://patchyvideo.wiki/',
     },
@@ -407,14 +409,14 @@ const links = computed(() => {
       {
         key: 'postvideo',
         type: 'click',
-        icon: 'i-uil-upload',
+        icon: 'i-uil:upload',
         text: t('common.nav-top.user-operation.postvideo'),
         onClick: () => progressing(t('common.nav-top.user-operation.postvideo')),
       },
       {
         key: 'edittag',
         type: 'click',
-        icon: 'i-uil-tag-alt',
+        icon: 'i-uil:tag-alt',
         text: t('common.nav-top.user-operation.tag'),
         onClick: () => progressing(t('common.nav-top.user-operation.tag')),
       }
@@ -459,7 +461,7 @@ const links = computed(() => {
       key: 'settings-other',
       type: 'router',
       text: '更改其它设置',
-      icon: 'i-uil-cog',
+      icon: 'i-uil:cog',
       path: '/settings',
     },
     {

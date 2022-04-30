@@ -35,7 +35,7 @@
           :class="{ 'ml-2': !item.title.startsWith('【') }"
           v-text="item.title"
         ></div>
-        <div @click="showSettings = true"><div class="i-uil-setting text-white text-2xl"></div></div>
+        <div @click="showSettings = true"><div class="i-uil:setting text-white text-2xl"></div></div>
       </div>
     </div>
     <!-- bottom -->
@@ -83,9 +83,9 @@
       <div class="flex flex-row justify-between flex-nowrap h-8 mx-4 my-1 text-white overflow-hidden">
         <div class="flex-grow-0 flex flex-row items-center">
           <div class="flex" @click="onPlayPause">
-            <div v-if="!streamsReady" class="i-uil-spinner-alt text-2xl animate-spin"></div>
-            <div v-else-if="playing" class="i-uil-pause text-2xl"></div>
-            <div v-else class="i-uil-play text-2xl"></div>
+            <div v-if="!streamsReady" class="i-uil:spinner-alt text-2xl animate-spin"></div>
+            <div v-else-if="playing" class="i-uil:pause text-2xl"></div>
+            <div v-else class="i-uil:play text-2xl"></div>
           </div>
           <div class="px-1"></div>
           <div class="flex flex-row items-center gap-2">
@@ -97,8 +97,8 @@
                 }
               "
             >
-              <div v-if="volume > 0" class="i-uil-volume"></div>
-              <div v-else class="i-uil-volume-mute"></div>
+              <div v-if="volume > 0" class="i-uil:volume"></div>
+              <div v-else class="i-uil:volume-mute"></div>
             </div>
             <div class="lt-sm:hidden h-full m-0">
               <div ref="volumebar" class="w-16 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
@@ -114,8 +114,8 @@
         </div>
         <div class="flex-grow-0 flex items-center">
           <span v-if="!disableFullscreen" class="flex" @click="onFullscreen"
-            ><div v-if="!isFullscreen" class="i-uil-expand-arrows-alt text-2xl"></div>
-            <div v-else class="i-uil-compress-arrows text-2xl"></div></span
+            ><div v-if="!isFullscreen" class="i-uil:expand-arrows-alt text-2xl"></div>
+            <div v-else class="i-uil:compress-arrows text-2xl"></div></span
           ><span class="px-1"></span>
         </div>
       </div>
@@ -149,7 +149,7 @@
           <div class="px-2 pt-3 pb-2 font-medium">
             <div
               v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
-              class="i-uil-arrow-left absolute text-2xl align-middle"
+              class="i-uil:arrow-left absolute text-2xl align-middle"
               @click="toSettingsParent"
             ></div>
             <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
@@ -176,7 +176,7 @@
               <div class="inline-block" v-text="settingsItem.text"></div>
               <div class="inline-block float-right">
                 <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span>
-                <div class="i-uil-arrow-right inline-block text-2xl align-middle"></div>
+                <div class="i-uil:arrow-right inline-block text-2xl align-middle"></div>
               </div>
             </div>
             <div
