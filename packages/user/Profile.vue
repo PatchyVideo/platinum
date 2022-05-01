@@ -5,20 +5,22 @@
       <div class="w-full aspect-ratio-6/1 bg-gray-200 dark:bg-gray-600" />
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
-        <div
-          class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-gray-300 dark:border-gray-800 transform transition-all ease duration-300"
-          :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
-          @mouseenter="() => (isHoveringAvatar = true)"
-          @mouseleave="() => (isHoveringAvatar = false)"
-        >
-          <UserAvatar
-            class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 cursor-pointer"
-            openable
-            hide-title
-            :alt="user.username"
-            :image="user.image"
-            :gravatar="user.gravatar"
-          />
+        <div class="aspect-ratio-1/1 flex-shrink-0 flex-grow-0 sm:-mt-16">
+          <div
+            class="overflow-hidden border-2 border-gray-300 dark:border-gray-800 transform transition-all ease duration-300"
+            :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
+            @mouseenter="() => isHoveringAvatar = true"
+            @mouseleave="() => isHoveringAvatar = false"
+          >
+            <UserAvatar
+              class="w-20 h-20 md:w-56 md:h-56 cursor-pointer"
+              openable
+              hide-title
+              :alt="user.username"
+              :image="user.image"
+              :gravatar="user.gravatar"
+            />
+          </div>
         </div>
         <div class="mt-1 sm:mt-2 ml-2 sm:ml-6">
           <!-- username -->

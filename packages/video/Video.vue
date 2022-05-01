@@ -70,7 +70,7 @@
           <!-- Edit Tag View -->
           <div v-if="editTagOpened" class="flex flex-col mt-2 gap-1">
             <!-- Banner -->
-            <button class="flex items-center text-blue-500" @click="() => (editTagOpened = false)">
+            <button class="flex items-center text-blue-500" @click="() => editTagOpened = false">
               <div class="i-uil:arrow-left text-xl" />
               返回详情
             </button>
@@ -334,7 +334,7 @@ const { isLogin, isAdmin } = useUserData()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)
-const pid = computed(() => (Array.isArray(route.query.list) ? route.query.list[0] : route.query.list))
+const pid = computed(() => Array.isArray(route.query.list) ? route.query.list[0] : route.query.list)
 const { result, loading, refetch } = useQuery<Query>(
   gql`
     query ($vid: String!, $fetchPlaylist: Boolean!, $pid: String = "") {

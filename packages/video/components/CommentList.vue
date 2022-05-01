@@ -48,7 +48,11 @@
         <div>
           <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
             <span class="text-sm font-medium" v-text="comment.meta.createdBy.username" />
-          </RouterLink><span class="text-xs text-gray-500 dark:text-gray-300"><Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense><span v-if="comment.edited" class="ml-1.5">edited</span></span>
+          </RouterLink>
+          <span class="text-xs text-gray-500 dark:text-gray-300">
+            <Suspense><RelativeDate class="ml-1.5" :date="comment.meta.createdAt" /></Suspense>
+            <span v-if="comment.edited" class="ml-1.5">edited</span>
+          </span>
         </div>
         <div
           v-if="commentHiddenOverrides[comment.id.toHexString()] ?? comment.hidden"
@@ -57,7 +61,7 @@
           此评论已被折叠
           <span
             class="text-blue-500 dark:text-blue-600 cursor-pointer"
-            @click="() => (commentHiddenOverrides[comment.id.toHexString()] = false)"
+            @click="() => commentHiddenOverrides[comment.id.toHexString()] = false"
           >显示评论</span>
         </div>
         <MarkdownCommentBlock v-else class="min-h-6" :text="comment.content" size="md" />
@@ -120,7 +124,7 @@
           此评论已被折叠
           <span
             class="text-blue-500 dark:text-blue-600 cursor-pointer"
-            @click="() => (commentHiddenOverrides[comment.id.toHexString()] = false)"
+            @click="() => commentHiddenOverrides[comment.id.toHexString()] = false"
           >显示评论</span>
         </div>
         <MarkdownCommentBlock v-else class="min-h-6" :text="child.content" size="sm" />

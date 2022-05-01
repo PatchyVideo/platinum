@@ -8,8 +8,8 @@
         <div
           class="sm:-mt-16 flex-shrink-0 flex-grow-0 overflow-hidden border-2 border-purple-300 dark:border-purple-800 transform transition-all ease duration-300"
           :style="{ borderRadius: isHoveringAvatar ? '0.25rem' : screenSizes.md ? '14rem' : '5rem' }"
-          @mouseenter="() => (isHoveringAvatar = true)"
-          @mouseleave="() => (isHoveringAvatar = false)"
+          @mouseenter="() => isHoveringAvatar = true"
+          @mouseleave="() => isHoveringAvatar = false"
         >
           <UserAvatar
             class="w-20 h-20 md:w-56 md:h-56 flex-shrink-0 flex-grow-0 cursor-pointer"
