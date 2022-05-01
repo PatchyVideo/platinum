@@ -137,7 +137,7 @@
       :class="{ '-translate-x-full': !drawerOpen }"
     >
       <!-- Menu -->
-      <div class="flex flex-col gap-1 mt-2 px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <div class="flex flex-col gap-1 pt-2 px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
           <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-2" />
