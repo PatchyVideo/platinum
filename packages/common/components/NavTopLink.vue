@@ -37,7 +37,8 @@ watch(drawerOpen, (n, o) => {
         type: 'tween',
       },
     })
-  } else {
+  }
+  else {
     motion.apply('enter')
   }
 })

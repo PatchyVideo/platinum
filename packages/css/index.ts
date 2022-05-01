@@ -7,10 +7,10 @@ import type { Ref } from 'vue'
 import { computed, reactive } from 'vue'
 
 export const screens = {
-  sm: '576px',
-  md: '720px',
-  lg: '992px',
-  xl: '1200px',
+  'sm': '576px',
+  'md': '720px',
+  'lg': '992px',
+  'xl': '1200px',
   '2xl': '1400px',
   '3xl': '1540px',
   '4xl': '1860px',
@@ -24,8 +24,8 @@ const queries: [string, Ref<boolean>][] = Object.entries(screens).map(([k, v]) =
 
 export const screenSizes = reactive({
   ...Object.fromEntries(queries),
-  ...Object.fromEntries(queries.map(([k, v]) => ['<' + k, computed(() => !v.value)])),
+  ...Object.fromEntries(queries.map(([k, v]) => [`<${k}`, computed(() => !v.value)])),
   ...Object.fromEntries(
-    queries.map(([k, v], i) => ['@' + k, computed(() => v.value && !(queries[i + 1] ?? [])[1].value)])
+    queries.map(([k, v], i) => [`@${k}`, computed(() => v.value && !(queries[i + 1] ?? [])[1].value)]),
   ),
 })

@@ -16,7 +16,7 @@
             @click="drawerOpen = !drawerOpen"
           />
         </div>
-        <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer" @click="toHome()"></Logo>
+        <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer" @click="toHome()" />
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar" class="flex-1 inline-flex flex-auto flex-nowrap items-center justify-center mx-2">
@@ -27,17 +27,17 @@
           :show-recommendations="true"
           @search="searchResult"
           @click="() => screenSizes['<sm'] && (hidePage = true)"
-        ></AutoComplete>
+        />
         <div
           v-if="hidePage === true"
           class="i-uil:corner-up-left ml-2 text-2xl cursor-pointer select-none whitespace-nowrap transform rotate-90"
           @click="hidePage = false"
-        ></div>
+        />
       </div>
       <!-- User Box -->
       <div v-show="!hidePage" class="flex-1 inline-flex justify-end ml-auto mr-2 min-w-9">
-        <div v-if="isLogin === IsLogin.no" class="whitespace-nowrap">
-          <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')"></RouterLink>
+        <div v-if="!isLogin" class="whitespace-nowrap">
+          <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')" />
         </div>
         <div v-else class="relative">
           <div class="flex items-center space-x-3">
@@ -47,12 +47,11 @@
               class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700"
               @click="noteBoxOpen = true"
             >
-              <div class="inline-block i-uil:envelope"></div>
+              <div class="inline-block i-uil:envelope" />
               <label
                 v-if="listNoteCountUnread"
                 class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
-                >{{ listNoteCountUnread > 99 ? '99+' : listNoteCountUnread }}</label
-              >
+              >{{ listNoteCountUnread > 99 ? '99+' : listNoteCountUnread }}</label>
             </div>
             <div ref="userListBtn">
               <UserAvatar
@@ -61,11 +60,11 @@
                 :email="user.email"
                 class="h-9 w-9 rounded-full border border-white cursor-pointer"
                 @click="userListOpen = true"
-              ></UserAvatar>
+              />
               <label
                 v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm'] && props.fetchNote"
                 class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
-              ></label>
+              />
             </div>
           </div>
           <!-- Note Box -->
@@ -91,21 +90,22 @@
                 :image="user.avatar"
                 :email="user.email"
                 class="absolute -top-5 right-0 w-14 h-14 rounded-full border border-white cursor-pointer"
-              ></UserAvatar>
+              />
               <div class="flex flex-col gap-2">
-                <div class="text-lg align-middle font-medium mr-14 max-w-25 truncate">{{ user.name }}</div>
+                <div class="text-lg align-middle font-medium mr-14 max-w-25 truncate">
+                  {{ user.name }}
+                </div>
                 <RouterLink
                   v-if="screenSizes['<sm'] && props.fetchNote"
                   class="block text-center"
                   to="/user/notification"
                 >
-                  <label>{{ t('common.nav-top.user.my-message') }}</label
-                  ><label v-if="listNoteCountUnread" class="bg-red-500 text-white text-sm rounded-full px-2">{{
+                  <label>{{ t('common.nav-top.user.my-message') }}</label><label v-if="listNoteCountUnread" class="bg-red-500 text-white text-sm rounded-full px-2">{{
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
-                  }}</label></RouterLink
-                >
-                <RouterLink :to="'/user/' + user.uid"
-                  ><div
+                  }}</label>
+                </RouterLink>
+                <RouterLink :to="'/user/' + user.uid">
+                  <div
                     class="block py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors"
                   >
                     {{ t('common.nav-top.user.userprofile') }}
@@ -119,7 +119,7 @@
                   <div
                     v-show="loggingOut"
                     class="i-uil:spinner-alt inline-block text-2xl align-middle animate-spin"
-                  ></div>
+                  />
                 </div>
               </div>
             </div>
@@ -129,7 +129,7 @@
     </div>
 
     <!-- Padding -->
-    <div class="h-12"></div>
+    <div class="h-12" />
 
     <!-- Drawer -->
     <div
@@ -140,20 +140,20 @@
       <div class="px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
-          <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6"></div>
+          <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6" />
           <NavTopLink v-else :index="index" :drawer-open="drawerOpen" :item-length="links.length" class="mt-1.5">
-            <div v-if="link.type === 'catogory'" class="block text-gray-400 text-sm -mb-1" v-text="link.text"></div>
+            <div v-if="link.type === 'catogory'" class="block text-gray-400 text-sm -mb-1" v-text="link.text" />
             <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="block">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
-              <div class="inline-block align-middle" v-text="link.text"></div>
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
+              <div class="inline-block align-middle" v-text="link.text" />
             </RouterLink>
             <a v-else-if="link.type === 'a'" class="block" target="_blank" rel="noopener noreferrer" :href="link.href">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
-              <div class="inline-block align-middle" v-text="link.text"></div>
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
+              <div class="inline-block align-middle" v-text="link.text" />
             </a>
             <a v-else-if="link.type === 'click'" class="block" @click="link.onClick">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
-              <div class="inline-block align-middle" v-text="link.text"></div>
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
+              <div class="inline-block align-middle" v-text="link.text" />
             </a>
             <div v-else-if="link.type === 'select'" class="flex justify-between space-x-6 items-end">
               <label>
@@ -161,8 +161,8 @@
                   v-if="link.icon"
                   class="inline-block mr-1 text-xl text-center align-middle"
                   :class="link.icon"
-                ></div>
-                <div class="inline-block align-middle" v-text="link.text"></div>
+                />
+                <div class="inline-block align-middle" v-text="link.text" />
               </label>
               <!-- TODO find a better way to do this -->
               <PvSelect
@@ -177,14 +177,14 @@
                   v-if="link.icon"
                   class="inline-block mr-1 text-xl text-center align-middle"
                   :class="link.icon"
-                ></div>
-                <div class="inline-block align-middle" v-text="link.text"></div>
+                />
+                <div class="inline-block align-middle" v-text="link.text" />
               </label>
               <Component :is="link.component" />
             </div>
             <div v-else class="block">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon"></div>
-              <div class="inline-block align-middle" v-text="link.text"></div>
+              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
+              <div class="inline-block align-middle" v-text="link.text" />
             </div>
           </NavTopLink>
         </template>
@@ -192,28 +192,28 @@
     </div>
 
     <div v-show="hidePage" class="z-49 fixed flex top-12 bottom-0 w-full h-full bg-white dark:bg-gray-900">
-      <div ref="teleportTo" class="absolute w-full"></div>
+      <div ref="teleportTo" class="absolute w-full" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Logo from '@/common/components/Logo.vue'
-import AutoComplete from '@/search/components/AutoComplete.vue'
-import PvSelect from '@/ui/components/PvSelect.vue'
-import UserAvatar from '@/user/components/UserAvatar.vue'
-import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
-import NavTopLink from './NavTopLink.vue'
-import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { computed, ref, shallowRef } from 'vue'
 import type { Component, Ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useEventListener } from '@vueuse/core'
+import NavTopLink from './NavTopLink.vue'
+import Logo from '@/common/components/Logo.vue'
+import AutoComplete from '@/search/components/AutoComplete.vue'
+import PvSelect from '@/ui/components/PvSelect.vue'
+import UserAvatar from '@/user/components/UserAvatar.vue'
+import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
+import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/lib/progressing'
-import { IsLogin, clearUserDataFromLocalStorage, isLogin, user } from '@/user'
+import { useUserData } from '@/user'
 
 const props = withDefaults(
   defineProps<{
@@ -223,11 +223,12 @@ const props = withDefaults(
   {
     showSearchBar: true,
     fetchNote: true,
-  }
+  },
 )
 
 const { t } = useI18n()
 const route = useRoute()
+const { isLogin, isAdmin, user, clear: clearUserData } = useUserData()
 
 const nav = shallowRef<HTMLDivElement | null>(null)
 const navContainer = shallowRef<HTMLDivElement | null>(null)
@@ -240,12 +241,11 @@ const noteBoxOpen = ref<boolean>(false)
 const noteBoxBtn = shallowRef<HTMLDivElement | null>(null)
 const noteBox = shallowRef<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e: MouseEvent): void => {
-  if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement))) {
+  if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement)))
     userListOpen.value = false
-  }
-  if (!(noteBox.value?.contains(e.target as HTMLElement) || noteBoxBtn.value?.contains(e.target as HTMLElement))) {
+
+  if (!(noteBox.value?.contains(e.target as HTMLElement) || noteBoxBtn.value?.contains(e.target as HTMLElement)))
     noteBoxOpen.value = false
-  }
 })
 
 /* Notifications */
@@ -257,17 +257,18 @@ useEventListener(
   document,
   'click',
   (e: MouseEvent) => {
-    if (!navContainer.value) return
+    if (!navContainer.value)
+      return
     const target = e.target as HTMLElement
-    if (!navContainer.value.contains(target)) {
+    if (!navContainer.value.contains(target))
       drawerOpen.value = false
-    }
   },
-  { passive: true }
+  { passive: true },
 )
 
 /* Search */
 const router = useRouter()
+const hidePage = ref(false)
 function searchResult(searchContent: string): void {
   hidePage.value = false
   router.push({ path: '/search-result', query: { i: searchContent } })
@@ -290,12 +291,11 @@ async function logout(): Promise<void> {
     body: JSON.stringify({}),
     credentials: 'include',
   })
-  clearUserDataFromLocalStorage()
+  clearUserData()
   loggingOut.value = false
   location.reload()
 }
 
-const hidePage = ref(false)
 const keyword = ref(
   route.path === '/search-result'
     ? route.query.i
@@ -303,7 +303,7 @@ const keyword = ref(
         ? route.query.i.join(' ')
         : route.query.i
       : ''
-    : ''
+    : '',
 )
 
 const teleportTo = shallowRef<HTMLElement>()
@@ -399,7 +399,7 @@ const links = computed(() => {
     },
   ]
 
-  if (isLogin.value === IsLogin.yes)
+  if (isLogin.value) {
     links.push(
       {
         key: 'user-padding',
@@ -419,10 +419,11 @@ const links = computed(() => {
         icon: 'i-uil:tag-alt',
         text: t('common.nav-top.user-operation.tag'),
         onClick: () => progressing(t('common.nav-top.user-operation.tag')),
-      }
+      },
     )
+  }
 
-  if (isLogin.value === IsLogin.yes && user.value.isAdmin)
+  if (isLogin.value && isAdmin.value) {
     links.push(
       {
         key: 'admin-padding',
@@ -443,8 +444,9 @@ const links = computed(() => {
         key: 'super-admin',
         type: 'blank',
         text: t('common.nav-top.admin.super-admin'),
-      }
+      },
     )
+  }
 
   links.push(
     {
@@ -476,7 +478,7 @@ const links = computed(() => {
       text: t('common.nav-top.settings.lang'),
       options: languageList,
       selected: locale,
-    }
+    },
   )
 
   return links

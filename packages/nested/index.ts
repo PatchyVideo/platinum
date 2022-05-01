@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-type OpenWindowOptions = {
+interface OpenWindowOptions {
   url: string
   width?: number
   height?: number
@@ -26,21 +26,22 @@ export function openWindow(options: OpenWindowOptions): {
     '_blank',
     `toolbar=no,location=no,status=no,menubar=no,width=${width},height=${height},left=${
       (window.screen.width - width) / 2
-    },top=${(window.screen.height - height) / 2}`
+    },top=${(window.screen.height - height) / 2}`,
   )
-  if (!win) {
+  if (!win)
     throw new Error('no-window')
-  }
-  if (options.sharedObject) {
+
+  if (options.sharedObject)
     win.sharedObject = options.sharedObject
-  }
+
   return {
     window: win,
   }
 }
 
 export function provideSharedObject(): void {
-  if (window.sharedObject) provide(window.sharedObjectKey, window.sharedObject!)
+  if (window.sharedObject)
+    provide(window.sharedObjectKey, window.sharedObject!)
 }
 
 export function useSharedObject<type>(): type | undefined {

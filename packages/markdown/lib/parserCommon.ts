@@ -28,37 +28,37 @@ export function linkifyAdditionPlugin(markdownIt: MarkdownIt) {
     .add('ac', {
       validate: val(/\d+/),
       normalize(match) {
-        match.url = 'https://www.acfun.cn/v/' + match.url
+        match.url = `https://www.acfun.cn/v/${match.url}`
       },
     })
     .add('av', {
       validate: val(/\d+/),
       normalize(match) {
-        match.url = 'https://www.bilibili.com/video/' + match.url
+        match.url = `https://www.bilibili.com/video/${match.url}`
       },
     })
     .add('bv', {
       validate: val(/[a-zA-Z0-9]+/),
       normalize(match) {
-        match.url = 'https://www.bilibili.com/video/' + match.url
+        match.url = `https://www.bilibili.com/video/${match.url}`
       },
     })
     .add('sm', {
       validate: val(/\d+/),
       normalize(match) {
-        match.url = 'https://www.nicovideo.jp/watch/' + match.url
+        match.url = `https://www.nicovideo.jp/watch/${match.url}`
       },
     })
     .add('youtube-', {
       validate: val(/[-\w]+/),
       normalize(match) {
-        match.url = 'https://www.youtube.com/watch?v=' + match.url.replace(/^youtube-/, '')
+        match.url = `https://www.youtube.com/watch?v=${match.url.replace(/^youtube-/, '')}`
       },
     })
     .add('mylist/', {
       validate: val(/\d+/),
       normalize(match) {
-        match.url = 'https://www.nicovideo.jp/' + match.url
+        match.url = `https://www.nicovideo.jp/${match.url}`
       },
     })
 }
@@ -67,10 +67,13 @@ export function linkifyAdditionPlugin(markdownIt: MarkdownIt) {
 const faces: Record<string, string> = {}
 export function facePlugin(markdownIt: MarkdownIt) {
   markdownIt.inline.ruler.before('link', 'face', (state, silent) => {
-    if (silent) return false
+    if (silent)
+      return false
 
-    if (state.posMax - state.pos < 10) return false
-    if (!state.src.slice(state.pos).startsWith('[[face:')) return false
+    if (state.posMax - state.pos < 10)
+      return false
+    if (!state.src.slice(state.pos).startsWith('[[face:'))
+      return false
 
     const start = state.pos
     const max = state.posMax
@@ -78,7 +81,7 @@ export function facePlugin(markdownIt: MarkdownIt) {
 
     let found
     while (state.pos < state.posMax) {
-      if (state.src.charCodeAt(state.pos) === 0x5d /* ] */) {
+      if (state.src.charCodeAt(state.pos) === 0x5D /* ] */) {
         found = true
         break
       }
@@ -104,7 +107,8 @@ export function facePlugin(markdownIt: MarkdownIt) {
       const token = state.push('face', '', 0)
       token.attrSet('src', faces[face])
       token.content = face
-    } else {
+    }
+    else {
       const token = state.push('text', '', 0)
       token.content = `[${face}]`
     }

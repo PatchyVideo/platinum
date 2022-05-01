@@ -5,48 +5,60 @@
   >
     <div class="w-full border-b p-1 pb-1.5 flex justify-between">
       <div class="flex items-center flex-nowrap space-x-1">
-        <div class="i-uil:search text-2xl transition-colors"></div>
-        <div class="text-lg">{{ '高级搜索' }}</div>
+        <div class="i-uil:search text-2xl transition-colors" />
+        <div class="text-lg">
+          {{ '高级搜索' }}
+        </div>
       </div>
-      <div class="i-uil:times text-2xl transition-colors" @click="open = false"></div>
+      <div class="i-uil:times text-2xl transition-colors" @click="open = false" />
     </div>
     <div class="mt-4 space-y-3">
       <!-- Tag only or text and tag -->
       <div class="flex justify-between space-x-6 items-end">
-        <div class="whitespace-nowrap">{{ '搜索类型' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '搜索类型' }}
+        </div>
         <PvSelect :selected="qtype" :item-list="qtypeList" @update:selected="(v) => (qtype = v)" />
       </div>
       <!-- AND or OR -->
       <!-- TODO: add OR function -->
       <div class="flex justify-between space-x-2 items-center">
-        <div class="whitespace-nowrap">{{ '包含关键字：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '包含关键字：' }}
+        </div>
         <AutoComplete
           v-model:keyword="searchContentAndOrNot"
           default-placeholder="输入标签或文本，用空格隔开"
           class="w-full"
           :show-tag-cnt="false"
           @search="addsearchContentAndOrNot()"
-        ></AutoComplete>
+        />
       </div>
       <!-- NOT -->
       <div class="flex justify-between space-x-6 items-center">
-        <div class="whitespace-nowrap">{{ '排除标签：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '排除标签：' }}
+        </div>
         <AutoComplete
           v-model:keyword="exceptContent"
           default-placeholder="只能输入标签哦，用空格隔开"
           class="w-full"
           :show-tag-cnt="false"
           @search="addexceptContent()"
-        ></AutoComplete>
+        />
       </div>
       <!-- Order -->
       <div class="flex justify-between space-x-6 items-end">
-        <div class="whitespace-nowrap">{{ '排序方式：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '排序方式：' }}
+        </div>
         <PvSelect :selected="order" :item-list="orderList" @update:selected="(v) => (order = v)" />
       </div>
       <!-- Site -->
       <div class="flex justify-between space-x-10 items-center">
-        <div class="whitespace-nowrap">{{ '源网站：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '源网站：' }}
+        </div>
         <div class="flex flex-wrap space-x-1">
           <div
             class="px-1 py-0.5 rounded-lg text-sm border border-purple-400 cursor-pointer transition transition-colors whitespace-nowrap mb-1"
@@ -74,7 +86,9 @@
         </div> -->
       <!-- Date -->
       <div>
-        <div class="whitespace-nowrap">{{ '原视频发布时间：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '原视频发布时间：' }}
+        </div>
         <div class="flex flex-col space-y-0.5">
           <div class="flex justify-between items-center">
             <PvSelect
@@ -84,25 +98,25 @@
             />
             <div class="space-x-0.5">
               <input
+                v-model.number="year1"
                 :disabled="beforeAfterEqualDate1 === ''"
                 placeholder="年"
-                v-model.number="year1"
                 class="w-15 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
               <label>-</label>
               <input
+                v-model.number="month1"
                 :disabled="beforeAfterEqualDate1 === ''"
                 placeholder="月"
-                v-model.number="month1"
                 class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
               <label>-</label>
               <input
+                v-model.number="day1"
                 :disabled="beforeAfterEqualDate1 === ''"
                 placeholder="日"
-                v-model.number="day1"
                 class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
             </div>
           </div>
           <div class="flex justify-between items-center">
@@ -113,32 +127,34 @@
             />
             <div class="space-x-0.5">
               <input
+                v-model.number="year2"
                 :disabled="beforeAfterEqualDate2 === ''"
                 placeholder="年"
-                v-model.number="year2"
                 class="w-15 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
               <label>-</label>
               <input
+                v-model.number="month2"
                 :disabled="beforeAfterEqualDate2 === ''"
                 placeholder="月"
-                v-model.number="month2"
                 class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
               <label>-</label>
               <input
+                v-model.number="day2"
                 :disabled="beforeAfterEqualDate2 === ''"
                 placeholder="日"
-                v-model.number="day2"
                 class="w-10 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-              />
+              >
             </div>
           </div>
         </div>
       </div>
       <!-- Tags number -->
       <div class="flex justify-between items-center">
-        <div class="whitespace-nowrap">{{ '标签数量：' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '标签数量：' }}
+        </div>
         <div class="space-x-1">
           <PvSelect
             :selected="moreLessEqualTagNum"
@@ -146,10 +162,10 @@
             @update:selected="(v) => (moreLessEqualTagNum = v)"
           />
           <input
-            :disabled="moreLessEqualTagNum === ''"
             v-model.number="tagNum"
+            :disabled="moreLessEqualTagNum === ''"
             class="w-12 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
-          />
+          >
         </div>
       </div>
       <!-- Show blocked videos -->
@@ -160,13 +176,19 @@
       </div> -->
       <!-- Only show autotaged videos -->
       <div class="flex justify-between items-center">
-        <div class="whitespace-nowrap">{{ '仅展示待人工整理标签的视频' }}</div>
+        <div class="whitespace-nowrap">
+          {{ '仅展示待人工整理标签的视频' }}
+        </div>
         <PvCheckBox :check="onlyShowAutotagedVideos" />
       </div>
       <!-- Reset or search -->
       <div class="flex justify-around border-t pt-3">
-        <PvBotton @click="reset()">{{ '重置' }}</PvBotton>
-        <PvBotton @click="search()">{{ '搜索' }}</PvBotton>
+        <PvBotton @click="reset()">
+          {{ '重置' }}
+        </PvBotton>
+        <PvBotton @click="search()">
+          {{ '搜索' }}
+        </PvBotton>
       </div>
       <!-- More infomation -->
       <div>
@@ -176,8 +198,7 @@
             href="https://patchyvideo.wiki/zh/SearchSystem"
             target="_blank"
             class="text-purple-300 hover:text-purple-500 transition transition-colors"
-            >{{ '搜索系统 - PatchyVideo Wiki' }}</a
-          >
+          >{{ '搜索系统 - PatchyVideo Wiki' }}</a>
         </div>
       </div>
     </div>
@@ -189,19 +210,19 @@
     leave-active-class="transition-all duration-200"
     leave-to-class="bg-opacity-0"
   >
-    <div v-if="open" class="fixed inset-0 z-49" @click="open = false"></div>
+    <div v-if="open" class="fixed inset-0 z-49" @click="open = false" />
   </Transition>
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useVModel } from '@vueuse/core'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
-import { computed, ref, watch } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
 // import { useI18n } from 'vue-i18n'
-import { useVModel } from '@vueuse/core'
 
 // const { t } = useI18n()
 const route = useRoute()
@@ -222,7 +243,7 @@ const open = useVModel(props, 'open', emit)
 
 /* initialize additional constraint with url */
 const additionalConstraintUrl = ref(
-  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
+  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : ''),
 )
 const additionalConstraintObject = ref(
   additionalConstraintUrl.value === ''
@@ -248,12 +269,12 @@ const additionalConstraintObject = ref(
         },
         onlyShowAutotagedVideos: false,
       }
-    : JSON.parse(decodeURI(window.atob(additionalConstraintUrl.value)))
+    : JSON.parse(decodeURI(window.atob(additionalConstraintUrl.value))),
 )
 
 /* Qtype */
 const qtype = ref(
-  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag')
+  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag'),
 )
 const qtypeList = [
   {
@@ -277,8 +298,8 @@ function addexceptContent(): void {}
 /* Order */
 const order = ref(
   String(
-    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified'
-  )
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified',
+  ),
 )
 const orderList = [
   { value: 'latest', name: '索引时间正序' },
@@ -290,7 +311,7 @@ const orderList = [
 
 /* Site */
 const visibleSites = ref<('' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile')[]>(
-  additionalConstraintObject.value.visibleSites
+  additionalConstraintObject.value.visibleSites,
 )
 const siteList: {
   name: string
@@ -306,20 +327,21 @@ const siteList: {
   { name: 'IPFS', value: 'ipfs' },
 ]
 function changeVisibleSites(
-  value: '' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile' = ''
+  value: '' | 'bili' | 'nico' | 'ytb' | 'twitter' | 'acfun' | 'zcool' | 'ipfs' | 'weibo-mobile' = '',
 ): void {
-  if (value === '') visibleSites.value = ['']
+  if (value === '') { visibleSites.value = [''] }
   else {
     const indexOfSite = visibleSites.value.indexOf(value)
-    if (indexOfSite != -1) {
+    if (indexOfSite !== -1) {
       visibleSites.value.splice(indexOfSite, 1)
-      if (visibleSites.value.length === 0) visibleSites.value = ['']
-    } else {
+      if (visibleSites.value.length === 0)
+        visibleSites.value = ['']
+    }
+    else {
       visibleSites.value.push(value)
       const indexOfAll = visibleSites.value.indexOf('')
-      if (indexOfAll != -1) {
+      if (indexOfAll !== -1)
         visibleSites.value.splice(indexOfAll, 1)
-      }
     }
   }
 }
@@ -344,6 +366,9 @@ const beforeAfterEqualList = [
   { name: '等于', value: '=' },
   { name: '不计', value: '' },
 ]
+const year1 = ref(additionalConstraintObject.value.date1.year1)
+const month1 = ref(additionalConstraintObject.value.date1.month1)
+const day1 = ref(additionalConstraintObject.value.date1.day1)
 const beforeAfterEqualDate1 = ref<string>(additionalConstraintObject.value.date1.beforeAfterEqualDate1)
 watch(beforeAfterEqualDate1, (newv) => {
   if (newv === '') {
@@ -352,9 +377,9 @@ watch(beforeAfterEqualDate1, (newv) => {
     day1.value = ''
   }
 })
-const year1 = ref(additionalConstraintObject.value.date1.year1)
-const month1 = ref(additionalConstraintObject.value.date1.month1)
-const day1 = ref(additionalConstraintObject.value.date1.day1)
+const year2 = ref(additionalConstraintObject.value.date2.year2)
+const month2 = ref(additionalConstraintObject.value.date2.month2)
+const day2 = ref(additionalConstraintObject.value.date2.day2)
 const beforeAfterEqualDate2 = ref<string>(additionalConstraintObject.value.date2.beforeAfterEqualDate2)
 watch(beforeAfterEqualDate2, (newv) => {
   if (newv === '') {
@@ -363,9 +388,6 @@ watch(beforeAfterEqualDate2, (newv) => {
     day2.value = ''
   }
 })
-const year2 = ref(additionalConstraintObject.value.date2.year2)
-const month2 = ref(additionalConstraintObject.value.date2.month2)
-const day2 = ref(additionalConstraintObject.value.date2.day2)
 
 /* Tag number */
 const moreLessEqualList = [
@@ -374,11 +396,12 @@ const moreLessEqualList = [
   { name: '等于', value: '=' },
   { name: '不计', value: '' },
 ]
+const tagNum = ref(additionalConstraintObject.value.tag.tagNum)
 const moreLessEqualTagNum = ref<string>(additionalConstraintObject.value.tag.moreLessEqualTagNum)
 watch(moreLessEqualTagNum, (newv) => {
-  if (newv === '') tagNum.value = ''
+  if (newv === '')
+    tagNum.value = ''
 })
-const tagNum = ref(additionalConstraintObject.value.tag.tagNum)
 
 /* Show blocked videos */
 /* TODO: search for showing block videos is not supposed */
@@ -411,39 +434,39 @@ function reset() {
 function checkSubmitContent(): boolean {
   // Check date
   if (
-    beforeAfterEqualDate1.value != '' &&
-    (isNaN(Number(year1.value)) ||
-      !Number.isSafeInteger(year1.value) ||
-      Number(year1.value) <= 0 ||
-      isNaN(Number(month1.value)) ||
-      !Number.isSafeInteger(month1.value) ||
-      Number(month1.value) <= 0 ||
-      isNaN(Number(day1.value)) ||
-      !Number.isSafeInteger(day1.value) ||
-      Number(day1.value) <= 0)
+    beforeAfterEqualDate1.value !== ''
+    && (isNaN(Number(year1.value))
+      || !Number.isSafeInteger(year1.value)
+      || Number(year1.value) <= 0
+      || isNaN(Number(month1.value))
+      || !Number.isSafeInteger(month1.value)
+      || Number(month1.value) <= 0
+      || isNaN(Number(day1.value))
+      || !Number.isSafeInteger(day1.value)
+      || Number(day1.value) <= 0)
   ) {
     alert('请检查原视频发布时间项1的填写是否正确！')
     return false
   }
   if (
-    beforeAfterEqualDate2.value != '' &&
-    (isNaN(Number(year2.value)) ||
-      !Number.isSafeInteger(year2.value) ||
-      Number(year2.value) <= 0 ||
-      isNaN(Number(month2.value)) ||
-      !Number.isSafeInteger(month2.value) ||
-      Number(month2.value) <= 0 ||
-      isNaN(Number(day2.value)) ||
-      !Number.isSafeInteger(day2.value) ||
-      Number(day2.value) <= 0)
+    beforeAfterEqualDate2.value !== ''
+    && (isNaN(Number(year2.value))
+      || !Number.isSafeInteger(year2.value)
+      || Number(year2.value) <= 0
+      || isNaN(Number(month2.value))
+      || !Number.isSafeInteger(month2.value)
+      || Number(month2.value) <= 0
+      || isNaN(Number(day2.value))
+      || !Number.isSafeInteger(day2.value)
+      || Number(day2.value) <= 0)
   ) {
     alert('请检查原视频发布时间项2的填写是否正确！')
     return false
   }
   // Check tag
   if (
-    moreLessEqualTagNum.value != '' &&
-    (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
+    moreLessEqualTagNum.value !== ''
+    && (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
     alert('请检查标签数量项的填写是否正确！')
     return false
@@ -474,12 +497,13 @@ const additionalConstraintBase64 = computed(() => {
           tagNum: tagNum.value,
         },
         onlyShowAutotagedVideos: onlyShowAutotagedVideos.value,
-      })
-    )
+      }),
+    ),
   )
 })
 function search(): void {
-  if (!checkSubmitContent()) return
+  if (!checkSubmitContent())
+    return
   const query = { qtype: qtype.value, order: order.value, a: additionalConstraintBase64.value }
   router.push({ path: route.path, query })
   open.value = false

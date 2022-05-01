@@ -1,45 +1,47 @@
 <template>
-  <template v-if="video"
-    ><div class="mx-2">
+  <template v-if="video">
+    <div class="mx-2">
       <div class="pl-2 text-gray-600 dark:text-gray-300 border-b border-purple-200 dark:border-purple-800">
         {{ t('video.edit-video.profile.profile') }}
       </div>
       <div class="mx-2 mt-1">
         <div class="flex flex-col gap-2">
           <div class="flex">
-            <span>{{ t('video.edit-video.profile.title') }}</span
-            ><span class="ml-4 border-b border-purple-400 dark:border-purple-800" v-text="video.item.title"></span>
+            <span>{{ t('video.edit-video.profile.title') }}</span><span class="ml-4 border-b border-purple-400 dark:border-purple-800" v-text="video.item.title" />
           </div>
           <div class="flex">
-            <span>{{ t('video.edit-video.profile.ranks.rank') }}</span
-            ><template v-if="user.isAdmin"
-              ><PvSelect v-model:selected="clearence" class="ml-4" :item-list="clearences" /></template
-            ><template v-else
-              ><span
+            <span>{{ t('video.edit-video.profile.ranks.rank') }}</span>
+            <template v-if="isAdmin">
+              <PvSelect v-model:selected="clearence" class="ml-4" :item-list="clearences" />
+            </template>
+            <template v-else>
+              <span
                 class="ml-4 border-b border-purple-400 dark:border-purple-800"
                 v-text="clearences[Number(clearence)].name"
-              ></span
-            ></template>
+              />
+            </template>
           </div>
         </div>
-      </div></div
-  ></template>
+      </div>
+    </div>
+  </template>
 </template>
 
 <script lang="ts" setup>
-import PvSelect from '@/ui/components/PvSelect.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
-import NProgress from 'nprogress'
+import { useI18n } from 'vue-i18n'
+import { useTimeoutFn } from '@vueuse/core'
+import PvSelect from '@/ui/components/PvSelect.vue'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { useI18n } from 'vue-i18n'
-import { useTimeoutFn } from '@vueuse/core'
-import { user } from '@/user'
+import { useUserData } from '@/user'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
+const { isAdmin } = useUserData()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)
@@ -69,23 +71,23 @@ const { result, loading, refetch } = useQuery<Query>(
   `,
   {
     vid: vid.value,
-  }
+  },
 )
 
-/* sync process bar */
+// sync process bar
 watchEffect(() => {
-  if (loading.value) {
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
-    if (NProgress.isStarted()) NProgress.done()
-  }
+  if (loading.value)
+    startProgress()
+  else
+    stopProgress()
 })
 
 /* basic info */
-const video = useResult(result, null, (data) => data?.getVideo)
+const video = useResult(result, null, data => data?.getVideo)
 // change title
 watchEffect(() => {
-  if (video.value) setSiteTitle(t('video.edit-video.title', { videoname: video.value.item.title }))
+  if (video.value)
+    setSiteTitle(t('video.edit-video.title', { videoname: video.value.item.title }))
 })
 
 const clearence = ref('3')
@@ -108,19 +110,20 @@ const clearences = computed(() => [
   },
 ])
 watchEffect(() => {
-  if (video.value) {
+  if (video.value)
     clearence.value = video.value.clearence.toString()
-  }
 })
 
 const loadingMutateClearence = ref(false)
+const saving = computed(() => loadingMutateClearence.value)
+const savingFailed = ref(false)
 {
   const { mutate } = useMutation<Mutation>(
     gql`
       mutation ($clearence: Int!, $vid: String!) {
         setVideoClearence(para: { clearence: $clearence, vid: $vid })
       }
-    `
+    `,
   )
   watch(clearence, (v, o) => {
     if (v !== o && v !== video.value?.clearence.toString()) {
@@ -141,9 +144,6 @@ const loadingMutateClearence = ref(false)
     }
   })
 }
-
-const saving = computed(() => loadingMutateClearence.value)
-const savingFailed = ref(false)
 watchEffect(() => {
   if (saving.value && video.value) {
     setSiteTitle(t('video.edit-video.profile.edit.saving', { videoname: video.value.item.title }))
@@ -153,9 +153,11 @@ watchEffect(() => {
         if (!savingFailed.value) {
           setSiteTitle(t('video.edit-video.profile.edit.saved', { videoname: video.value.item.title }))
           useTimeoutFn(() => {
-            if (video.value) setSiteTitle(t('video.edit-video.title', { videoname: video.value.item.title }))
+            if (video.value)
+              setSiteTitle(t('video.edit-video.title', { videoname: video.value.item.title }))
           }, 3000)
-        } else {
+        }
+        else {
           setSiteTitle(t('video.edit-video.profile.edit.failed', { videoname: video.value.item.title }))
         }
         savingFailed.value = false

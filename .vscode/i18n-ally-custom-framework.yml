@@ -6,7 +6,7 @@ languageIds:
   - vue
 
 usageMatchRegex:
-  - "[^\\w\\d]t\\(['\"`]({key})['\"`]"
+  - '[^\w\d]t\([''"`]({key})[''"`]'
   - '[^\\w\\d]i18n-t keypath="({key})"'
   - '[^\\w\\d]i18n-d keypath="({key})"'
   - '[^\\w\\d]i18n-n keypath="({key})"'

@@ -12,8 +12,8 @@
       playsinline
       preload="auto"
       :crossorigin="crossorigin ? '' : undefined"
-    ></video>
-    <audio v-show="false" ref="audio" :crossorigin="crossorigin ? '' : undefined"></audio>
+    />
+    <audio v-show="false" ref="audio" :crossorigin="crossorigin ? '' : undefined" />
     <iframe
       v-if="usePlayer === 'iframe' && iframeUrl"
       title="Video Player"
@@ -21,8 +21,8 @@
       :src="iframeUrl"
       allow="fullscreen"
       sandbox="allow-scripts allow-popups-to-escape-sandbox allow-same-origin"
-    ></iframe>
-    <canvas v-show="usePlayer === 'canvas'" ref="canvas" class="absolute top-0 w-full h-full"></canvas>
+    />
+    <canvas v-show="usePlayer === 'canvas'" ref="canvas" class="absolute top-0 w-full h-full" />
     <!-- top -->
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
@@ -34,8 +34,10 @@
           class="flex-nowrap text-white whitespace-nowrap overflow-hidden"
           :class="{ 'ml-2': !item.title.startsWith('【') }"
           v-text="item.title"
-        ></div>
-        <div @click="showSettings = true"><div class="i-uil:setting text-white text-2xl"></div></div>
+        />
+        <div @click="showSettings = true">
+          <div class="i-uil:setting text-white text-2xl" />
+        </div>
       </div>
     </div>
     <!-- bottom -->
@@ -54,7 +56,7 @@
                 class="absolute h-1/2"
                 :class="{ 'bg-orange-200': l.isBuffer }"
                 :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
-              ></div>
+              />
             </div>
             <div v-if="hasAudioStream" class="h-1/2 w-full">
               <div
@@ -63,7 +65,7 @@
                 class="absolute h-1/2"
                 :class="{ 'bg-purple-400': l.isBuffer }"
                 :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
-              ></div>
+              />
             </div>
             <div v-else class="h-full w-full">
               <div
@@ -72,22 +74,22 @@
                 class="absolute h-full"
                 :class="{ 'bg-orange-200': l.isBuffer }"
                 :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
-              ></div>
+              />
             </div>
           </div>
           <div class="absolute h-full bg-purple-600" :style="{ width: progress * 100 + '%' }">
-            <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer"></span>
+            <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer" />
           </div>
         </div>
       </div>
       <div class="flex flex-row justify-between flex-nowrap h-8 mx-4 my-1 text-white overflow-hidden">
         <div class="flex-grow-0 flex flex-row items-center">
           <div class="flex" @click="onPlayPause">
-            <div v-if="!streamsReady" class="i-uil:spinner-alt text-2xl animate-spin"></div>
-            <div v-else-if="playing" class="i-uil:pause text-2xl"></div>
-            <div v-else class="i-uil:play text-2xl"></div>
+            <div v-if="!streamsReady" class="i-uil:spinner-alt text-2xl animate-spin" />
+            <div v-else-if="playing" class="i-uil:pause text-2xl" />
+            <div v-else class="i-uil:play text-2xl" />
           </div>
-          <div class="px-1"></div>
+          <div class="px-1" />
           <div class="flex flex-row items-center gap-2">
             <div
               class="flex items-center text-2xl"
@@ -97,8 +99,8 @@
                 }
               "
             >
-              <div v-if="volume > 0" class="i-uil:volume"></div>
-              <div v-else class="i-uil:volume-mute"></div>
+              <div v-if="volume > 0" class="i-uil:volume" />
+              <div v-else class="i-uil:volume-mute" />
             </div>
             <div class="lt-sm:hidden h-full m-0">
               <div ref="volumebar" class="w-16 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
@@ -106,17 +108,15 @@
                   class="relative h-full left-0 bottom-0 bg-purple-600 rounded-l-full"
                   :style="{ width: volume * 100 + '%' }"
                 >
-                  <span class="absolute -right-1.5 -top-1 w-3 h-3 bg-white rounded-full cursor-pointer"></span>
+                  <span class="absolute -right-1.5 -top-1 w-3 h-3 bg-white rounded-full cursor-pointer" />
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="flex-grow-0 flex items-center">
-          <span v-if="!disableFullscreen" class="flex" @click="onFullscreen"
-            ><div v-if="!isFullscreen" class="i-uil:expand-arrows-alt text-2xl"></div>
-            <div v-else class="i-uil:compress-arrows text-2xl"></div></span
-          ><span class="px-1"></span>
+          <span v-if="!disableFullscreen" class="flex" @click="onFullscreen"><div v-if="!isFullscreen" class="i-uil:expand-arrows-alt text-2xl" />
+            <div v-else class="i-uil:compress-arrows text-2xl" /></span><span class="px-1" />
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@
       v-show="videoElementReady && !(usePlayer === 'iframe') && showSettings"
       class="absolute top-0 bottom-0 left-0 right-0"
       @click="showSettings = false"
-    ></div>
+    />
     <div
       v-show="videoElementReady && !(usePlayer === 'iframe')"
       class="absolute top-0 bottom-0 right-0 bg-black transform transition-all duration-300 ease-in-out overflow-hidden"
@@ -151,8 +151,8 @@
               v-if="activeSettingsItem.parent && activeSettingsItem.parent in settings"
               class="i-uil:arrow-left absolute text-2xl align-middle"
               @click="toSettingsParent"
-            ></div>
-            <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName"></div>
+            />
+            <div class="text-center select-none" v-text="activeSettingsItem.name ?? activeSettingsItemName" />
           </div>
           <div
             v-for="(settingsItem, index) in activeSettingsItem.items"
@@ -168,15 +168,15 @@
               :class="settingsItem.class"
               @click="settingsItem.onClick"
               v-text="settingsItem.text"
-            ></div>
+            />
             <div
               v-else-if="settingsItem.type === 'sub' && settingsItem.to in settings"
               @click="activeSettingsItemName = settingsItem.to"
             >
-              <div class="inline-block" v-text="settingsItem.text"></div>
+              <div class="inline-block" v-text="settingsItem.text" />
               <div class="inline-block float-right">
-                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText"></span>
-                <div class="i-uil:arrow-right inline-block text-2xl align-middle"></div>
+                <span v-if="settingsItem.rightText" class="text-gray-300" v-text="settingsItem.rightText" />
+                <div class="i-uil:arrow-right inline-block text-2xl align-middle" />
               </div>
             </div>
             <div
@@ -184,7 +184,7 @@
               class="flex justify-between"
               @click="settingsItem.checked.value = !settingsItem.checked.value"
             >
-              <span v-text="settingsItem.text"></span><PvCheckBox :check="settingsItem.checked.value" size="sm" />
+              <span v-text="settingsItem.text" /><PvCheckBox :check="settingsItem.checked.value" size="sm" />
             </div>
           </div>
         </div>
@@ -194,13 +194,12 @@
       v-if="!videoElementReady && !(usePlayer === 'iframe')"
       class="absolute bottom-2 left-2 log overflow-y-scroll text-sm text-white"
     >
-      <p ref="logEl" class="whitespace-pre" v-text="logText"></p>
+      <p ref="logEl" class="whitespace-pre" v-text="logText" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 import { computed, nextTick, onMounted, onUnmounted, ref, shallowRef, watch, watchEffect } from 'vue'
 import {
   useElementBounding,
@@ -216,11 +215,12 @@ import type { Fn, GeneralEventListener } from '@vueuse/core'
 import type { Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FetchResult } from '@apollo/client/core'
-import { extensionTweaks } from '@/main/extension'
 import type FlvJs from 'flv.js'
+import { extensionTweaks } from '@/main/libs/extension'
+import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
-type BaseVideoData = {
+interface BaseVideoData {
   streams: VideoStreamData[]
 }
 type GeneralVideoData = BaseVideoData & {
@@ -236,10 +236,9 @@ type BilibiliVideoData = BaseVideoData & {
 }
 type YoutubeVideoData = BaseVideoData & {
   extractor: 'Youtube'
-  // eslint-disable-next-line @typescript-eslint/ban-types
   extra: {}
 }
-type VideoStreamData = {
+interface VideoStreamData {
   id: string
   container: string
   vcodec?: string
@@ -249,7 +248,7 @@ type VideoStreamData = {
   tbr?: number
   src: string[]
 }
-type VideoStream = {
+interface VideoStream {
   id: string
   container: string
   vcodec?: string
@@ -259,7 +258,7 @@ type VideoStream = {
   src: string[]
   audioStreams?: AudioStream[]
 }
-type AudioStream = {
+interface AudioStream {
   id: string
   container: string
   acodec?: string
@@ -268,33 +267,33 @@ type AudioStream = {
   tbr?: number
   src: string[]
 }
-type SettingMenu = {
+interface SettingMenu {
   id: string
   name?: string
   parent?: string
   items: SettingItem[]
 }
 type SettingItem = SettingText | SettingSub | SettingsCheck
-type SettingText = {
+interface SettingText {
   type: 'text'
   class?: string[]
   text: string
   rightText?: string
   onClick?: GeneralEventListener<Event>
 }
-type SettingSub = {
+interface SettingSub {
   type: 'sub'
   to: string
   text: string
   rightText?: string
   onClick?: GeneralEventListener<Event>
 }
-type SettingsCheck = {
+interface SettingsCheck {
   type: 'check'
   text: string
   checked: Ref<boolean>
 }
-type VideoItem = {
+interface VideoItem {
   title: string
   url: string
   site: string
@@ -312,21 +311,68 @@ const props = withDefaults(
   {
     fullHeight: false,
     disableFullscreen: false,
-  }
+  },
 )
 
 const { t } = useI18n()
 
 const root = shallowRef<HTMLDivElement | null>(null)
+const usePlayer = ref<'video' | 'iframe' | 'canvas'>('video')
+const video = shallowRef<HTMLVideoElement | null>(null)
 const { width } = useElementBounding(root)
 const height = computed(() =>
   video.value && video.value.videoWidth > 0 && video.value.videoHeight > 0
     ? (width.value / video.value.videoWidth) * video.value.videoHeight
-    : (width.value / 16) * 9
+    : (width.value / 16) * 9,
 )
 
-const usePlayer = ref<'video' | 'iframe' | 'canvas'>('video')
-const video = shallowRef<HTMLVideoElement | null>(null)
+// video stream
+const streamQuality = ref('')
+const streams = ref<VideoStream[]>([])
+const currentStream = ref<VideoStream | undefined>()
+const hasAudioStream = ref(false)
+
+// full screen
+const { isFullscreen, toggle: onFullscreen } = useFullscreen(root)
+
+// dedicated audio track
+const audio = shallowRef<HTMLAudioElement | null>(null)
+// video ready state
+const audioReady = ref(false)
+const videoReady = ref(false)
+const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
+let stopVideoWait: Fn | undefined
+useEventListener(video, 'waiting', () => {
+  const { stop } = useTimeoutFn(() => {
+    videoReady.value = false
+  }, 200)
+  stopVideoWait = stop
+})
+useEventListener(video, 'canplay', () => {
+  if (stopVideoWait) {
+    stopVideoWait()
+    stopVideoWait = undefined
+  }
+  videoReady.value = true
+})
+let stopAudioWait: Fn | undefined
+useEventListener(audio, 'waiting', () => {
+  const { stop } = useTimeoutFn(() => {
+    audioReady.value = false
+  }, 200)
+  stopAudioWait = stop
+})
+useEventListener(audio, 'canplay', () => {
+  if (stopAudioWait) {
+    stopAudioWait()
+    stopAudioWait = undefined
+  }
+  audioReady.value = true
+})
+useEventListener(audio, 'timeupdate', () => {
+  if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
+    audio.value!.pause()
+})
 
 const videoHasCors = ref(false)
 const crossorigin = computed(() => videoHasCors.value || extensionTweaks.value.includes('enable_cors_requests'))
@@ -335,20 +381,23 @@ const crossorigin = computed(() => videoHasCors.value || extensionTweaks.value.i
 const showControlBar = ref(true)
 let stopHideControlBar: Fn
 const delayedHideControlBar = useThrottleFn((delay = 200) => {
-  if (stopHideControlBar) stopHideControlBar()
+  if (stopHideControlBar)
+    stopHideControlBar()
   const { stop } = useTimeoutFn(
     () => {
       showControlBar.value = false
     },
     delay,
-    { immediate: true }
+    { immediate: true },
   )
   stopHideControlBar = stop
 })
 useEventListener(root, 'mousemove', () => {
-  if (stopHideControlBar) stopHideControlBar()
+  if (stopHideControlBar)
+    stopHideControlBar()
   showControlBar.value = true
-  if (isFullscreen.value) delayedHideControlBar(800)
+  if (isFullscreen.value)
+    delayedHideControlBar(800)
 })
 useEventListener(root, 'mouseleave', () => {
   delayedHideControlBar()
@@ -356,8 +405,6 @@ useEventListener(root, 'mouseleave', () => {
 
 /* video settings */
 const showSettings = ref(false)
-const activeSettingsItemName = ref('default')
-const activeSettingsItem = computed(() => settings.value[activeSettingsItemName.value])
 
 const syncAudio = useLocalStorage('player_settings_sync_audio', false)
 const useCanvas = ref(false)
@@ -417,9 +464,10 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
       ...(() => {
         const qualities: string[] = []
         streams.value.forEach((stream) => {
-          if (!qualities.includes(stream.quality)) qualities.push(stream.quality)
+          if (!qualities.includes(stream.quality))
+            qualities.push(stream.quality)
         })
-        return qualities.map((quality) => ({
+        return qualities.map(quality => ({
           type: 'text',
           text: `${streamQuality.value === quality ? '·' : ' '} ${quality}`,
           onClick: () => playStream(quality),
@@ -428,6 +476,10 @@ const settings = computed<Record<string, SettingMenu>>(() => ({
     ],
   },
 }))
+
+const activeSettingsItemName = ref('default')
+const activeSettingsItem = computed(() => settings.value[activeSettingsItemName.value])
+
 const transToParent = ref(false)
 watch(activeSettingsItemName, (n, o) => {
   transToParent.value = n === settings.value[o].parent
@@ -436,25 +488,27 @@ const toSettingsParent = () => {
   activeSettingsItemName.value = activeSettingsItem.value.parent as string
 }
 
-/* loading log */
+// loading log
 const logText = ref('')
 const logEl = shallowRef<HTMLParagraphElement | null>(null)
 const log = (_log: string) => {
-  console.log('[Player] > ' + _log)
+  console.log(`[Player] > ${_log}`)
   logText.value += _log
   nextTick(() => {
-    if (logEl.value)
+    if (logEl.value) {
       logEl.value.scrollIntoView({
         block: 'end',
       })
+    }
   })
 }
 
-/* play & pause */
+// play & pause
 const playing = ref(false)
 const userClickedPlaying = ref(false)
 const onPlayPause = () => {
-  if (!userClickedPlaying.value) userClickedPlaying.value = true
+  if (!userClickedPlaying.value)
+    userClickedPlaying.value = true
   playing.value = !playing.value
 }
 const updatePlaying = () => {
@@ -462,11 +516,15 @@ const updatePlaying = () => {
     try {
       if (video.value.currentTime === video.value.duration) {
         video.value.currentTime = 0
-        if (audio.value) audio.value.currentTime = 0
+        if (audio.value)
+          audio.value.currentTime = 0
       }
-      if (playing.value && video.value.paused) video.value.play()
-      if (!playing.value && !video.value.paused) video.value.pause()
-    } catch (_) {
+      if (playing.value && video.value.paused)
+        video.value.play()
+      if (!playing.value && !video.value.paused)
+        video.value.pause()
+    }
+    catch (_) {
       //
     }
   }
@@ -526,63 +584,19 @@ useEventListener(video, 'durationchange', () => {
 })
 const videoElementReady = ref(false)
 
-/* dedicated audio track */
-const audio = shallowRef<HTMLAudioElement | null>(null)
-useEventListener(audio, 'timeupdate', () => {
-  if (!audio.value!.paused && audioReady.value && (!video.value || !videoReady.value || video.value.paused))
-    audio.value!.pause()
-})
-
-/* video ready state */
-const audioReady = ref(false)
-const videoReady = ref(false)
-const streamsReady = computed(() => videoReady.value && (!hasAudioStream.value || audioReady.value))
-let stopVideoWait: Fn | undefined
-useEventListener(video, 'waiting', () => {
-  const { stop } = useTimeoutFn(() => {
-    videoReady.value = false
-  }, 200)
-  stopVideoWait = stop
-})
-useEventListener(video, 'canplay', () => {
-  if (stopVideoWait) {
-    stopVideoWait()
-    stopVideoWait = undefined
-  }
-  videoReady.value = true
-})
-let stopAudioWait: Fn | undefined
-useEventListener(audio, 'waiting', () => {
-  const { stop } = useTimeoutFn(() => {
-    audioReady.value = false
-  }, 200)
-  stopAudioWait = stop
-})
-useEventListener(audio, 'canplay', () => {
-  if (stopAudioWait) {
-    stopAudioWait()
-    stopAudioWait = undefined
-  }
-  audioReady.value = true
-})
-
-/* progress bar */
-const currentTime = ref(0)
-const videoLoadedAmount = ref<TimeRanges | null>(null)
-const videoLoadedRanges = computed(() => computeLoadedRanges(videoLoadedAmount.value))
-const audioLoadedAmount = ref<TimeRanges | null>(null)
-const audioLoadedRanges = computed(() => computeLoadedRanges(audioLoadedAmount.value))
+// progress bar
 const computeLoadedRanges = (amount: TimeRanges | null) => {
   if (amount) {
     const ranges = []
     let last = 0
     for (let i = 0; i < amount.length; i++) {
-      if (last < amount.start(i))
+      if (last < amount.start(i)) {
         ranges.push({
           isBuffer: false,
           start: last,
           end: amount.start(i),
         })
+      }
       ranges.push({
         isBuffer: true,
         start: amount.start(i),
@@ -597,12 +611,13 @@ const computeLoadedRanges = (amount: TimeRanges | null) => {
         end: duration.value,
       })
     }
-    return ranges.map((v) => ({
+    return ranges.map(v => ({
       isBuffer: v.isBuffer,
       start: v.start / duration.value,
       end: v.end / duration.value,
     }))
-  } else {
+  }
+  else {
     return [
       {
         isBuffer: false,
@@ -612,9 +627,20 @@ const computeLoadedRanges = (amount: TimeRanges | null) => {
     ]
   }
 }
+const currentTime = ref(0)
+const videoLoadedAmount = ref<TimeRanges | null>(null)
+const videoLoadedRanges = computed(() => computeLoadedRanges(videoLoadedAmount.value))
+const audioLoadedAmount = ref<TimeRanges | null>(null)
+const audioLoadedRanges = computed(() => computeLoadedRanges(audioLoadedAmount.value))
 // watch(videoLoadedRanges, () => console.log(videoLoadedRanges.value))
 const progress = computed(() => currentTime.value / duration.value)
 const progressbar = shallowRef<HTMLDivElement | null>(null)
+const updateCurrentTime = () => {
+  if (video.value)
+    video.value.currentTime = currentTime.value
+  if (audio.value)
+    audio.value.currentTime = currentTime.value
+}
 useEventListener(video, 'timeupdate', () => {
   currentTime.value = video.value!.currentTime
   if (hasAudioStream.value) {
@@ -629,23 +655,27 @@ useEventListener(video, 'timeupdate', () => {
         audio.value.currentTime = video.value!.currentTime + (audio.value.currentTime - currentTime.value)
         audio.value.play()
       }
-      if (audio.value && audio.value.paused && !video.value!.paused) audio.value.play()
-      if (audio.value && !audio.value.paused && video.value!.paused) audio.value.pause()
-    } else {
+      if (audio.value && audio.value.paused && !video.value!.paused)
+        audio.value.play()
+      if (audio.value && !audio.value.paused && video.value!.paused)
+        audio.value.pause()
+    }
+    else {
       video.value!.pause()
       watch(
         audioReady,
         () => {
-          if (audioReady.value && playing.value) {
+          if (audioReady.value && playing.value)
             video.value!.play()
-          }
         },
-        { flush: 'post' }
+        { flush: 'post' },
       )
     }
   }
-  if (video.value) videoLoadedAmount.value = video.value.buffered
-  if (audio.value) audioLoadedAmount.value = audio.value.buffered
+  if (video.value)
+    videoLoadedAmount.value = video.value.buffered
+  if (audio.value)
+    audioLoadedAmount.value = audio.value.buffered
 })
 // useEventListener(video, 'progress', () => {
 //   videoLoadedAmount.value = video.value.buffered
@@ -671,31 +701,32 @@ useEventListener(progressbar, 'mousedown', (e: DragEvent) => {
     updateCurrentTime()
   })
 })
-const updateCurrentTime = () => {
-  if (video.value) video.value.currentTime = currentTime.value
-  if (audio.value) audio.value.currentTime = currentTime.value
-}
 
 /* volume bar */
 const volume = useLocalStorage('player_settings_volume', 0.5, { listenToStorageChanges: false })
 const keepElementVolume = ref(false)
 watch([volume, video, audio, keepElementVolume], () => {
   let target = volume.value
-  if (keepElementVolume.value) target = 1
-  if (video.value && video.value.volume !== target) video.value.volume = target
-  if (audio.value && audio.value.volume !== target) audio.value.volume = target
+  if (keepElementVolume.value)
+    target = 1
+  if (video.value && video.value.volume !== target)
+    video.value.volume = target
+  if (audio.value && audio.value.volume !== target)
+    audio.value.volume = target
 })
 const volumebar = shallowRef<HTMLDivElement | null>(null)
 useEventListener(volumebar, 'click', (e: MouseEvent) => {
   let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
   percentage = Math.max(0, Math.min(1, percentage))
-  if (Number.isFinite(percentage)) volume.value = percentage
+  if (Number.isFinite(percentage))
+    volume.value = percentage
 })
 useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
   const stopMouseMove = useEventListener('mousemove', (e: MouseEvent) => {
     let percentage = (e.clientX - volumebar.value!.getBoundingClientRect().left) / volumebar.value!.clientWidth
     percentage = Math.max(0, Math.min(1, percentage))
-    if (Number.isFinite(percentage)) volume.value = percentage
+    if (Number.isFinite(percentage))
+      volume.value = percentage
   })
   const stopMouseUp = useEventListener('mouseup', (e: MouseEvent) => {
     stopMouseMove()
@@ -703,28 +734,31 @@ useEventListener(volumebar, 'mousedown', (e: DragEvent) => {
   })
 })
 
-/* full screen */
-const { isFullscreen, toggle: onFullscreen } = useFullscreen(root)
-
-/* iframe mode */
+// iframe mode
+const regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
+const regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
+const regU2b = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
+const regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
 const iframeUrl = ref('')
 function getIframeUrl(url: string) {
-  let regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
-  let regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
-  let regYtb = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
-  let regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
-  let r: RegExpExecArray | null
-  if ((r = regBili.exec(url))) return `//player.bilibili.com/player.html?aid=${r[2]}&page=${r[3]}`
-  if ((r = regNico.exec(url))) return `//embed.nicovideo.jp/watch/sm${r[2]}`
-  if ((r = regYtb.exec(url))) return `https://www.youtube.com/embed/${r[2]}`
-  if ((r = regAcf.exec(url))) return `https://www.acfun.cn/player/ac${r[2]}`
-  return
+  const bili = regBili.exec(url)
+  if (bili)
+    return `//player.bilibili.com/player.html?aid=${bili[2]}&page=${bili[3]}`
+  const nico = regNico.exec(url)
+  if (nico)
+    return `//embed.nicovideo.jp/watch/sm${nico[2]}`
+  const u2b = regU2b.exec(url)
+  if (u2b)
+    return `https://www.youtube.com/embed/${u2b[2]}`
+  const acf = regAcf.exec(url)
+  if (acf)
+    return `https://www.acfun.cn/player/ac${acf[2]}`
 }
 function loadIframe(url: string) {
-  log(t('video.player.iframe.enable') + '\n')
+  log(`${t('video.player.iframe.enable')}\n`)
   const iurl = getIframeUrl(url)
   if (!iurl) {
-    log(t('video.player.iframe.failed') + '\n')
+    log(`${t('video.player.iframe.failed')}\n`)
     return false
   }
   iframeUrl.value = iurl
@@ -732,53 +766,52 @@ function loadIframe(url: string) {
   return true
 }
 
-/* stream mode */
+// stream mode
+const getMIME = (container: string, codecs?: string, isAudio = false) =>
+    `${isAudio ? 'audio' : 'video'}/${container.replace(/_dash$/, '')}${codecs ? `; codecs="${codecs}"` : ''}`
 const isContainerSupported = (container: string, codecs?: string, isAudio = false) => {
-  if (['flv'].includes(container)) return true
+  if (['flv'].includes(container))
+    return true
   return window.MediaSource.isTypeSupported(getMIME(container, codecs, isAudio))
 }
-const getMIME = (container: string, codecs?: string, isAudio = false) =>
-  `${isAudio ? 'audio' : 'video'}/${container.replace(/_dash$/, '')}${codecs ? `; codecs="${codecs}"` : ''}`
-const hasAudioStream = ref(false)
-const streamQuality = ref('')
-const currentStream = ref<VideoStream | undefined>()
 let flvPlayer: FlvJs.Player | undefined
 onUnmounted(() => {
   flvPlayer?.destroy()
 })
 async function playStream(quality: string) {
-  if (!video.value || !audio.value)
-    await new Promise<void>((r) => {
+  if (!video.value || !audio.value) {
+    await new Promise<void>((resolve) => {
       watch(
-        () => {
-          video.value
-          audio.value
+        [video, audio],
+        ([video, audio]) => {
+          if (video && audio)
+            resolve()
         },
-        () => video.value && audio.value && r()
       )
     })
+  }
   streamQuality.value = quality
 
   flvPlayer?.destroy()
 
   if (video.value) {
-    log(t('video.player.play-stream.source.video.source-changing') + '\n')
-    const stream =
-      streams.value.filter((v) => v.quality === quality).find((s) => isContainerSupported(s.container, s.vcodec)) ??
-      streams.value.find((s) => isContainerSupported(s.container, s.vcodec))
+    log(`${t('video.player.play-stream.source.video.source-changing')}\n`)
+    const stream
+      = streams.value.filter(v => v.quality === quality).find(s => isContainerSupported(s.container, s.vcodec))
+      ?? streams.value.find(s => isContainerSupported(s.container, s.vcodec))
     if (!stream) {
-      log(t('video.player.play-stream.source.video.source-nothing') + '\n')
+      log(`${t('video.player.play-stream.source.video.source-nothing')}\n`)
       return false
     }
     const audioStream = stream.audioStreams
       ? stream.audioStreams
-          .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
-          .sort((a, b) => (a.tbr ?? 0) - (b.tbr ?? 0))
-          .reverse()
-          .find((s) => isContainerSupported(s.container, s.acodec, true))
+        .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
+        .sort((a, b) => (a.tbr ?? 0) - (b.tbr ?? 0))
+        .reverse()
+        .find(s => isContainerSupported(s.container, s.acodec, true))
       : undefined
     if (stream.audioStreams && !audioStream) {
-      log(t('video.player.play-stream.source.audio.source-nothing') + '\n')
+      log(`${t('video.player.play-stream.source.audio.source-nothing')}\n`)
       return false
     }
     console.log(stream, audioStream)
@@ -786,44 +819,45 @@ async function playStream(quality: string) {
     try {
       switch (stream.container) {
         case 'flv': {
-          log(t('video.player.play-stream.container.flv.player-loading') + '\n')
+          log(`${t('video.player.play-stream.container.flv.player-loading')}\n`)
           try {
             const module = await import('flv.js')
             const flvjs = module.default
-            log(t('video.player.play-stream.container.flv.parse-creating') + '\n')
+            log(`${t('video.player.play-stream.container.flv.parse-creating')}\n`)
             if ('createPlayer' in flvjs) {
               flvPlayer = flvjs.createPlayer({
                 type: 'flv',
                 url: stream.src[0].replace(/^http:/, 'https:'),
               })
               flvPlayer.attachMediaElement(video.value!)
-              log(t('video.player.play-stream.container.flv.source-loading') + '\n')
+              log(`${t('video.player.play-stream.container.flv.source-loading')}\n`)
               flvPlayer.load()
               flvPlayer.on('metadata_arrived', () => {
-                log(t('video.player.play-stream.container.flv.player-loaded') + '\n')
+                log(`${t('video.player.play-stream.container.flv.player-loaded')}\n`)
                 videoElementReady.value = true
               })
               hasAudioStream.value = false
             }
-          } catch (e) {
-            log(t('video.player.play-stream.container.flv.player-failed') + '\n' + e + '\n')
+          }
+          catch (e) {
+            log(`${t('video.player.play-stream.container.flv.player-failed')}\n${e}\n`)
             return false
           }
           return true
         }
         case 'webm_dash':
         case 'mp4_dash': {
-          log(t('video.player.play-stream.container.mp4_dash.source-loading') + '\n')
+          log(`${t('video.player.play-stream.container.mp4_dash.source-loading')}\n`)
           video.value.src = stream.src[0]
           useEventListener(
             video,
             'canplay',
             () => {
-              log(t('video.player.play-stream.container.mp4_dash.player-loaded') + '\n')
+              log(`${t('video.player.play-stream.container.mp4_dash.player-loaded')}\n`)
               currentStream.value = stream
               videoElementReady.value = true
             },
-            { once: true }
+            { once: true },
           )
           if (stream.audioStreams) {
             audio.value!.src = stream.audioStreams[0].src[0]
@@ -835,15 +869,16 @@ async function playStream(quality: string) {
           return true
         }
       }
-    } catch (e) {
-      log(t('video.player.play-stream.container.failed') + '\n' + e + '\n')
+    }
+    catch (e) {
+      log(`${t('video.player.play-stream.container.failed')}\n${e}\n`)
       return false
     }
   }
 }
 async function loadStream(url: string) {
   try {
-    log(t('video.player.video.address-parsing') + '\n')
+    log(`${t('video.player.video.address-parsing')}\n`)
     const res = await fetch('https://patchyvideo.com/be/helper/get_video_stream', {
       method: 'POST',
       credentials: 'include',
@@ -851,52 +886,54 @@ async function loadStream(url: string) {
         'Content-Type': 'application/json',
       }),
       body: JSON.stringify({
-        url: url,
+        url,
       }),
     })
     const result = (await res.json()) as FetchResult<VideoData>
-    if (!result.data) return false
+    if (!result.data)
+      return false
     console.log(result.data)
     switch (result.data.extractor) {
       case 'BiliBili': {
         streams.value = result.data.streams as VideoStream[]
         const stream = streams.value[0]
         log(
-          t('video.player.video.profile.known-source', {
+          `${t('video.player.video.profile.known-source', {
             source: 'BiliBili',
             format: stream.container,
             quality: stream.quality,
-          }) + '\n'
+          })}\n`,
         )
         videoHasCors.value = true
-        if (await playStream(stream.quality)) return true
+        if (await playStream(stream.quality))
+          return true
         break
       }
       case 'Youtube': {
         let videoStreams: VideoStream[] = []
         const audioStreams: AudioStream[] = []
         result.data.streams.forEach((s) => {
-          if (s.quality === 'tiny') {
+          if (s.quality === 'tiny')
             audioStreams.push(s as AudioStream)
-          } else {
+          else
             videoStreams.push(s as VideoStream)
-          }
         })
         videoStreams = videoStreams
-          .map((v) => ({ ...v, audioStreams: audioStreams }))
+          .map(v => ({ ...v, audioStreams }))
           .sort((a, b) => formats.indexOf(a.container) - formats.indexOf(b.container))
           .sort((a, b) => qualities.indexOf(a.quality) - qualities.indexOf(b.quality))
         streams.value = videoStreams
         const stream = streams.value[0]
         log(
-          t('video.player.video.profile.known-source', {
+          `${t('video.player.video.profile.known-source', {
             source: 'Youtube',
             format: stream.container,
             quality: stream.quality,
-          }) + '\n'
+          })}\n`,
         )
         console.log(streams)
-        if (await playStream(stream.quality)) return true
+        if (await playStream(stream.quality))
+          return true
         break
       }
       default: {
@@ -905,7 +942,8 @@ async function loadStream(url: string) {
       }
     }
     return false
-  } catch (_) {
+  }
+  catch (_) {
     return false
   }
 }
@@ -918,9 +956,12 @@ const sitesWithStream = [
 ]
 async function loadVideo(item: VideoItem) {
   if (sitesWithStream.includes(item.site)) {
-    if (await loadStream(item.url)) return true
+    if (await loadStream(item.url))
+      return true
   }
-  if (loadIframe(item.url)) return true
+
+  if (loadIframe(item.url))
+    return true
   return false
 }
 
@@ -928,30 +969,30 @@ const url = ref('')
 watch(
   () => props.item.url,
   async () => {
-    if (!props.item.url) return
-    log(t('video.player.video.info-fetching') + '\n')
+    if (!props.item.url)
+      return
+    log(`${t('video.player.video.info-fetching')}\n`)
     url.value = props.item.url
-    log(t('video.player.video.URL', { url: url.value }) + '\n')
+    log(`${t('video.player.video.URL', { url: url.value })}\n`)
     loadVideo(props.item)
   },
   {
     immediate: true,
-  }
+  },
 )
-
-const streams = ref<VideoStream[]>([])
 
 const canvas = shallowRef<HTMLCanvasElement | null>(null)
 {
   watchEffect(() => {
-    if (!crossorigin.value && usePlayer.value === 'canvas') usePlayer.value = 'iframe'
+    if (!crossorigin.value && usePlayer.value === 'canvas')
+      usePlayer.value = 'iframe'
   })
   watchEffect(() => {
-    if (useCanvas.value) {
+    if (useCanvas.value)
       usePlayer.value = 'canvas'
-    } else {
-      if (usePlayer.value === 'canvas') usePlayer.value = 'video'
-    }
+    else
+    if (usePlayer.value === 'canvas')
+      usePlayer.value = 'video'
   })
   let audioCtx: AudioContext | undefined
   let gainNode: GainNode | undefined
@@ -962,21 +1003,25 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
   let audioSourceType: 'audio' | 'video' | undefined
   let clear: (() => void) | undefined
   let watched = false
-  let frequencyBufferShift = 16
+  const frequencyBufferShift = 16
   watchEffect(() => {
     if (crossorigin.value && userClickedPlaying.value && !watched) {
       watchEffect(() => {
         if (hasAudioStream.value && audio.value && audioSourceType !== 'audio') {
-          if (clear) clear()
+          if (clear)
+            clear()
           audioCtx = new AudioContext()
           source = audioCtx.createMediaElementSource(audio.value)
           audioSourceType = 'audio'
-        } else if (!hasAudioStream.value && video.value && audioSourceType !== 'video') {
-          if (clear) clear()
+        }
+        else if (!hasAudioStream.value && video.value && audioSourceType !== 'video') {
+          if (clear)
+            clear()
           audioCtx = new AudioContext()
           source = audioCtx.createMediaElementSource(video.value)
           audioSourceType = 'video'
-        } else {
+        }
+        else {
           return
         }
         gainNode = audioCtx.createGain()
@@ -989,7 +1034,8 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
         frequencyBufferLength = analyser.frequencyBinCount / 16 + frequencyBufferShift
         frequencyBuffer = new Uint8Array(frequencyBufferLength)
 
-        if (audioCtx.state === 'suspended') audioCtx.resume()
+        if (audioCtx.state === 'suspended')
+          audioCtx.resume()
         source.connect(gainNode)
         source.connect(analyser)
         gainNode.connect(audioCtx.destination)
@@ -1005,16 +1051,18 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
         }
       })
       watchEffect(() => {
-        if (gainNode) gainNode.gain.value = volume.value
+        if (gainNode)
+          gainNode.gain.value = volume.value
       })
       watched = true
     }
   })
   onUnmounted(() => {
-    if (clear) clear()
+    if (clear)
+      clear()
   })
   let frame = 0
-  let ltrds: number[] = []
+  const ltrds: number[] = []
   const { pause: pauseCanvasRender, resume: resumeCanvasRender } = useRafFn(
     () => {
       const cvs = canvas.value
@@ -1023,74 +1071,76 @@ const canvas = shallowRef<HTMLCanvasElement | null>(null)
         const width = (cvs.width = cvs.clientWidth)
         const height = (cvs.height = cvs.clientHeight)
         const ctx = cvs.getContext('2d')
-        if (!ctx) return
+        if (!ctx)
+          return
 
-        {
-          if (canvasTransparent.value) {
-            ctx.clearRect(0, 0, width, height)
-          } else {
-            ctx.fillStyle = 'rgb(0,0,0)'
-            ctx.fillRect(0, 0, width, height)
+        // clear canvas
+        if (canvasTransparent.value) {
+          ctx.clearRect(0, 0, width, height)
+        }
+        else {
+          ctx.fillStyle = 'rgb(0,0,0)'
+          ctx.fillRect(0, 0, width, height)
+        }
+
+        // draw shapes
+        if (analyser && frequencyBufferLength && frequencyBuffer) {
+          analyser.getByteFrequencyData(frequencyBuffer)
+          const deg = Math.PI / 12
+          const l = width + height * Math.tan(deg)
+          const w = l / (frequencyBufferLength - frequencyBufferShift) - 1
+          let x = 0
+          for (const frequency of frequencyBuffer.slice(frequencyBufferShift)) {
+            const c = frequency / 255
+            ctx.fillStyle = `rgba(255,255,255,${c / 2 + 0.2})`
+            ctx.beginPath()
+            const bx = x - (1 - c) * height * Math.tan(deg)
+            const by = (1 - c) * height
+            ctx.moveTo(bx, by)
+            ctx.lineTo(bx + w, by + w * Math.tan(deg))
+            const lx = x - height * Math.tan(deg)
+            ctx.lineTo(lx + w / Math.cos(deg) ** 2, height)
+            ctx.lineTo(lx, height)
+            ctx.fill()
+            x += w + 1
           }
         }
 
-        {
-          if (analyser && frequencyBufferLength && frequencyBuffer) {
-            analyser.getByteFrequencyData(frequencyBuffer)
-            const deg = Math.PI / 12
-            const l = width + height * Math.tan(deg)
-            const w = l / (frequencyBufferLength - frequencyBufferShift) - 1
-            let x = 0
-            for (const frequency of frequencyBuffer.slice(frequencyBufferShift)) {
-              const c = frequency / 255
-              ctx.fillStyle = `rgba(255,255,255,${c / 2 + 0.2})`
-              ctx.beginPath()
-              const bx = x - (1 - c) * height * Math.tan(deg)
-              const by = (1 - c) * height
-              ctx.moveTo(bx, by)
-              ctx.lineTo(bx + w, by + w * Math.tan(deg))
-              const lx = x - height * Math.tan(deg)
-              ctx.lineTo(lx + w / Math.cos(deg) ** 2, height)
-              ctx.lineTo(lx, height)
-              ctx.fill()
-              x += w + 1
-            }
-          }
-        }
-
+        // status
         {
           ltrds.push(performance.now())
-          if (ltrds.length > 50) ltrds.shift()
+          if (ltrds.length > 50)
+            ltrds.shift()
           ctx.fillStyle = 'rgb(255,255,255)'
           const text = `Frame: ${frame++} Width: ${width} Height: ${height} FPS: ${Math.floor(
-            1000 / ((ltrds[ltrds.length - 1] - ltrds[0]) / ltrds.length)
+            1000 / ((ltrds[ltrds.length - 1] - ltrds[0]) / ltrds.length),
           )}`
           const w = (width - ctx.measureText(text).width) / 2
           ctx.fillText(text, w, 20)
         }
       }
     },
-    { immediate: false }
+    { immediate: false },
   )
   watch(
     [usePlayer, playing, videoReady, audioReady],
     () => {
       if (
-        usePlayer.value === 'canvas' &&
-        playing.value &&
-        videoReady.value &&
-        (!hasAudioStream.value || audioReady.value)
+        usePlayer.value === 'canvas'
+        && playing.value
+        && videoReady.value
+        && (!hasAudioStream.value || audioReady.value)
       )
         resumeCanvasRender()
       if (
-        usePlayer.value !== 'canvas' ||
-        !playing.value ||
-        !videoReady.value ||
-        (hasAudioStream.value && !audioReady.value)
+        usePlayer.value !== 'canvas'
+        || !playing.value
+        || !videoReady.value
+        || (hasAudioStream.value && !audioReady.value)
       )
         pauseCanvasRender()
     },
-    { immediate: true }
+    { immediate: true },
   )
 }
 </script>

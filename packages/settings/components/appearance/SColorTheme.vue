@@ -1,5 +1,5 @@
 <template>
-  <h3 class="font-medium mb-1" v-text="t('settings.appearance.theme.color.name')"></h3>
+  <h3 class="font-medium mb-1" v-text="t('settings.appearance.theme.color.name')" />
   <div class="flex flex-row flex-wrap gap-4">
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
@@ -18,7 +18,7 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'system',
         }"
       >
-        <div class="i-uil:desktop mr-1 text-lg"></div>
+        <div class="i-uil:desktop mr-1 text-lg" />
         <div class="inline-block align-middle">
           {{ t('darkmode.system') }} ({{ isPreferredDark ? t('darkmode.dark') : t('darkmode.light') }})
         </div>
@@ -40,8 +40,8 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'light',
         }"
       >
-        <div class="i-uil:sun mr-1 text-lg"></div>
-        <div class="inline-block align-middle" v-text="t('darkmode.light')"></div>
+        <div class="i-uil:sun mr-1 text-lg" />
+        <div class="inline-block align-middle" v-text="t('darkmode.light')" />
       </div>
     </div>
     <div
@@ -60,20 +60,20 @@
           'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'dark',
         }"
       >
-        <div class="i-uil:moon mr-1 text-lg"></div>
-        <div class="inline-block align-middle" v-text="t('darkmode.dark')"></div>
+        <div class="i-uil:moon mr-1 text-lg" />
+        <div class="inline-block align-middle" v-text="t('darkmode.dark')" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { usePreferredDark } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import PreviewLight from '@/darkmode/components/PreviewLight.vue'
 import PreviewDark from '@/darkmode/components/PreviewDark.vue'
-import { usePreferredDark } from '@vueuse/core'
 import { themePreference } from '@/darkmode'
 import type { Themes } from '@/darkmode'
-import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 

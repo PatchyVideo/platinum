@@ -20,7 +20,7 @@
     </div>
     <div class="w-full px-0 py-4 md:p-4">
       <!--box-border border-purple-300 border-l border-b border-r-->
-      <slot :name="value"></slot>
+      <slot :name="value" />
     </div>
   </div>
 </template>

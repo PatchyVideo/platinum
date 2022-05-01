@@ -3,7 +3,9 @@
     <div>
       {{ t('user.redirect.log', { fromWord: fromWord, count: count }) }}
     </div>
-    <RouterLink class="underline" to="/user/login">{{ t('user.redirect.jump') }}</RouterLink>
+    <RouterLink class="underline" to="/user/login">
+      {{ t('user.redirect.jump') }}
+    </RouterLink>
   </div>
 </template>
 
@@ -21,19 +23,17 @@ setSiteTitle(t('user.redirect.title'))
 const From: Record<string, string> = {
   'sign-up': t('user.redirect.from.sign-up'),
   'reset-password': t('user.redirect.from.reset-password'),
-  default: '?',
+  'default': '?',
 }
 const from = computed<string>(() => route.query.from as string)
 
 let catchFrom = false
-for (let key in From) {
-  if (key === from.value) {
+for (const key in From) {
+  if (key === from.value)
     catchFrom = true
-  }
 }
-if (!catchFrom) {
+if (!catchFrom)
   router.push('/404')
-}
 
 const fromWord = computed(() => From[from.value])
 
@@ -42,6 +42,7 @@ onMounted(() => {
   setInterval(() => count.value--, 1000)
 })
 watch(count, () => {
-  if (!count.value) router.push('/user/login')
+  if (!count.value)
+    router.push('/user/login')
 })
 </script>

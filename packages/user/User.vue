@@ -1,15 +1,19 @@
 <template>
   <LayoutDefault :show-search-bar="false">
     <!--个人中心-->
-    <div v-if="isLoginStateYes" class="w-full h-full flex justify-start flex-col md:flex-row">
+    <div v-if="isVerifiedLogin" class="w-full h-full flex justify-start flex-col md:flex-row">
       <div class="half-container justify-center items-center">
         <UserAvatar
           :title="username"
           :image="avatar"
           class="w-3/5 md:w-1/2 mt-10 rounded-full transition duration-300 overflow-hidden transform"
         />
-        <p class="mt-5">{{ t('user.user-page.avatar.current') }}</p>
-        <p class="mt-8 px-4">{{ t('user.user-page.avatar.requirement') }}</p>
+        <p class="mt-5">
+          {{ t('user.user-page.avatar.current') }}
+        </p>
+        <p class="mt-8 px-4">
+          {{ t('user.user-page.avatar.requirement') }}
+        </p>
         <div class="w-full mt-20 flex flex-col justify-start items-center">
           <input
             ref="chooseAvatarInput"
@@ -17,7 +21,7 @@
             type="file"
             accept=".jpg,.jpeg,.png,.bmp,.gif"
             @input="onGetChosenAvatar"
-          />
+          >
           <button class="w-1/2 md:w-1/4 btn btn-primary" @click="onChooseAvatar">
             {{ t('user.user-page.avatar.choose-image') }}
           </button>
@@ -38,7 +42,7 @@
               @update:value="tempUsername = $event"
             >
               <template #prepend>
-                <div class="i-uil:user"></div>
+                <div class="i-uil:user" />
               </template>
             </UserInput>
             <div class="w-full lg:w-2/5 flex justify-evenly mt-5 lg:mt-0">
@@ -46,7 +50,7 @@
                 class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5 flex justify-evenly items-center"
                 @click="onUpdateUsername"
               >
-                <div class="i-uil:edit-alt"></div>
+                <div class="i-uil:edit-alt" />
                 {{ t('user.user-page.username.modify') }}
               </button>
               <button class="btn btn-default w-3/7 sm:w-1/3 lg:w-2/5" @click="isEditingUsername = false">
@@ -59,7 +63,7 @@
             <div
               class="i-uil:edit-alt ml-2 cursor-pointer hover:text-blue-400 transition duration-300"
               @click="onOpenUsernameEditor"
-            ></div>
+            />
           </div>
         </div>
         <!--description input-->
@@ -78,7 +82,9 @@
           <p>{{ t('user.user-page.password.title') }}</p>
           <div class="w-full mt-4 flex flex-col justify-start items-start">
             <div class="password-row">
-              <p class="password-row-label">{{ t('user.user-page.password.old') }}</p>
+              <p class="password-row-label">
+                {{ t('user.user-page.password.old') }}
+              </p>
               <UserInput
                 v-model:value="oldPassword"
                 type="password"
@@ -87,7 +93,9 @@
               />
             </div>
             <div class="password-row mt-6">
-              <p class="password-row-label">{{ t('user.user-page.password.new') }}</p>
+              <p class="password-row-label">
+                {{ t('user.user-page.password.new') }}
+              </p>
               <UserInput
                 v-model:value="newPassword"
                 type="password"
@@ -96,7 +104,9 @@
               />
             </div>
             <div class="password-row mt-6">
-              <p class="password-row-label">{{ t('user.user-page.password.confirmNew') }}</p>
+              <p class="password-row-label">
+                {{ t('user.user-page.password.confirmNew') }}
+              </p>
               <UserInput
                 v-model:value="newConfirmedPassword"
                 type="password"
@@ -146,38 +156,41 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive, ref, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { templateRef } from '@vueuse/core'
+import { useUserData } from '.'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
-import { computed, reactive, ref, watch } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { gql, injectClient } from '@/graphql'
-import { IsLogin, isLogin, user } from '@/user/index'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { templateRef } from '@vueuse/core'
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
 }
 
 const { t } = useI18n()
-setSiteTitle(t('user.user-page.title') + ' - PatchyVideo')
-const isLoginStateYes = computed(() => isLogin.value == IsLogin.yes)
-let isEditingUsername = ref(false)
-let avatar = ref('')
+const { isVerifiedLogin, user } = useUserData()
+
+setSiteTitle(`${t('user.user-page.title')} - PatchyVideo`)
+
+const isEditingUsername = ref(false)
+const avatar = ref('')
 const chooseAvatarInput = templateRef<HTMLInputElement | null>('chooseAvatarInput')
-let username = ref('')
-let tempUsername = ref('')
-let oldPassword = ref('')
-let newPassword = ref('')
-let newConfirmedPassword = ref('')
-let email = ref('')
-let newEmail = ref('')
-let description = ref('')
+const username = ref('')
+const tempUsername = ref('')
+const oldPassword = ref('')
+const newPassword = ref('')
+const newConfirmedPassword = ref('')
+const email = ref('')
+const newEmail = ref('')
+const description = ref('')
 const client = injectClient()
 watch(
-  isLoginStateYes,
+  isVerifiedLogin,
   async (isLoginState) => {
-    if (!isLoginState) return
+    if (!isLoginState)
+      return
     // TODO: useQuery
     const res = await client.query({
       query: gql`
@@ -202,20 +215,20 @@ watch(
     email.value = userInfo.email || ''
     description.value = userInfo.desc
   },
-  { immediate: true }
+  { immediate: true },
 )
 const onGetChosenAvatar = (e: HTMLInputEvent) => {
   const files = e.target.files
-  if (files == null || files?.length == 0) {
+  if (!files?.length) {
     alert('请选择头像文件！')
     return
   }
-  let fr = new FileReader()
+  const fr = new FileReader()
   fr.readAsDataURL(files[0])
   fr.onload = (e) => {
     avatar.value = e?.target?.result?.toString() ?? ''
   }
-  //fr.onloadend = () => {}
+  // fr.onloadend = () => {}
 }
 const onChooseAvatar = () => {
   chooseAvatarInput.value?.click()

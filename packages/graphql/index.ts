@@ -41,7 +41,8 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
   ])
   const childOffsetLimitPara = (tagName: string) => ({
     read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
-      if (!args) throw new Error('')
+      if (!args)
+        throw new Error('childOffsetLimitPara: args is undefined')
       return (
         existing && {
           ...existing,
@@ -52,7 +53,7 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
     merge(
       existing: SafeReadonly<any> | undefined,
       incoming: SafeReadonly<any>,
-      { args, mergeObjects }: FieldFunctionOptions
+      { args, mergeObjects }: FieldFunctionOptions,
     ): any {
       return {
         ...mergeObjects(existing, incoming),
@@ -61,32 +62,31 @@ export function createApollo(): ApolloClient<NormalizedCacheObject> {
           if (args) {
             // Assume an offset of 0 if args.offset omitted.
             const { offset = 0 } = args.para
-            for (let i = 0; i < incoming[tagName].length; ++i) {
+            for (let i = 0; i < incoming[tagName].length; ++i)
               merged[offset + i] = incoming[tagName][i]
-            }
           }
           return merged
         })(),
       }
     },
   })
-  const selfOffsetLimitPara = () => ({
-    read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
-      if (!args) throw new Error('')
-      return existing && existing.slice(args.para.offset, args.para.offset + args.para.limit)
-    },
-    merge(existing: SafeReadonly<any> | undefined, incoming: SafeReadonly<any>, { args }: FieldFunctionOptions): any {
-      const merged = existing ? existing.slice(0) : []
-      if (args) {
-        // Assume an offset of 0 if args.offset omitted.
-        const { offset = 0 } = args.para
-        for (let i = 0; i < incoming.length; ++i) {
-          merged[offset + i] = incoming[i]
-        }
-      }
-      return merged
-    },
-  })
+  // const selfOffsetLimitPara = () => ({
+  //   read(existing: SafeReadonly<any> | undefined, { args }: FieldFunctionOptions): any {
+  //     if (!args)
+  //       throw new Error('selfOffsetLimitPara: args is undefined')
+  //     return existing && existing.slice(args.para.offset, args.para.offset + args.para.limit)
+  //   },
+  //   merge(existing: SafeReadonly<any> | undefined, incoming: SafeReadonly<any>, { args }: FieldFunctionOptions): any {
+  //     const merged = existing ? existing.slice(0) : []
+  //     if (args) {
+  //       // Assume an offset of 0 if args.offset omitted.
+  //       const { offset = 0 } = args.para
+  //       for (let i = 0; i < incoming.length; ++i)
+  //         merged[offset + i] = incoming[i]
+  //     }
+  //     return merged
+  //   },
+  // })
   const cache = new InMemoryCache({
     possibleTypes: generatedIntrospection.possibleTypes,
     typePolicies: mergeDeep(scalarTypePolicies, {

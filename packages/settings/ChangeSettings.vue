@@ -4,13 +4,13 @@
       <!-- Left Sidebar -->
       <div class="flex-shrink-0 w-full sm:w-48">
         <div class="flex flex-row flex-nowrap justify-between items-center">
-          <h1 class="text-2xl" v-text="t('settings.settings')"></h1>
+          <h1 class="text-2xl" v-text="t('settings.settings')" />
           <!-- Mobile Collapse -->
           <div
             class="sm:hidden text-3xl"
             :class="{ 'i-uil:arrow-from-top': collapsed, 'i-uil:arrow-to-bottom transform rotate-180': !collapsed }"
             @click="onCollapse"
-          ></div>
+          />
         </div>
         <div class="overflow-hidden" :class="{ 'lt-sm:h-0': collapsed }">
           <div class="flex mt-3 flex-col gap-y-1">
@@ -25,8 +25,8 @@
               }"
               @click="() => active !== catogory.name && router.push('/settings/' + catogory.name)"
             >
-              <div class="inline-block mr-2 text-4xl text-center align-middle" :class="catogory.icon"></div>
-              <div class="inline-block text-lg align-middle" v-text="catogory.text"></div>
+              <div class="inline-block mr-2 text-4xl text-center align-middle" :class="catogory.icon" />
+              <div class="inline-block text-lg align-middle" v-text="catogory.text" />
             </div>
           </div>
         </div>
@@ -35,12 +35,12 @@
       <div class="flex-1 flex-shrink-0">
         <Suspense timeout="150">
           <template #default>
-            <Component :is="activeCatogory?.component"></Component>
+            <Component :is="activeCatogory?.component" />
           </template>
           <template #fallback>
             <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
-              <div class="inline-block align-middle" v-text="t('settings.loading')"></div>
-              <div class="i-uil:spinner-alt text-2xl animate-spin"></div>
+              <div class="inline-block align-middle" v-text="t('settings.loading')" />
+              <div class="i-uil:spinner-alt text-2xl animate-spin" />
             </div>
           </template>
         </Suspense>
@@ -53,18 +53,19 @@
 import { computed, defineAsyncComponent, ref, watchEffect } from 'vue'
 import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { IsLogin, isLogin } from '@/user'
 import { useI18n } from 'vue-i18n'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useThrottleFn } from '@vueuse/core'
+import { useUserData } from '@/user'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
+const { isLogin } = useUserData()
 
 const active = computed(() => route.params.catogory as string)
 
-type SettingsCategory = {
+interface SettingsCategory {
   name: string
   text: string
   icon: string
@@ -86,26 +87,25 @@ const catogories = computed(() => {
     },
   ]
 
-  if (isLogin.value === IsLogin.yes)
+  if (isLogin.value) {
     catogories.push({
       name: 'account',
       text: t('settings.account.name'),
       icon: 'i-ph:user-circle-light',
       component: defineAsyncComponent(() => import('./components/SettingsAccount.vue')),
     })
+  }
 
   return catogories
 })
-const activeCatogory = computed(() => catogories.value.find((catogory) => catogory.name === active.value))
+const activeCatogory = computed(() => catogories.value.find(catogory => catogory.name === active.value))
 watchEffect(() => {
-  if (!activeCatogory.value && active.value) {
+  if (!activeCatogory.value && active.value)
     router.push('/settings/general')
-  }
 })
 watchEffect(() => {
-  if (activeCatogory.value) {
+  if (activeCatogory.value)
     setSiteTitle(`${activeCatogory.value.text} - ${t('settings.settings')} - PatchyVideo`)
-  }
 })
 
 const collapsed = ref(true)
@@ -114,6 +114,6 @@ const onCollapse = useThrottleFn(
     collapsed.value = !collapsed.value
   },
   100,
-  false
+  false,
 )
 </script>

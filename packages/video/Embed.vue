@@ -8,9 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-import Player from './components/Player.vue'
 import { computed, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
+import Player from './components/Player.vue'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
@@ -32,13 +32,14 @@ const { result } = useQuery<Query>(
   `,
   {
     vid: vid.value,
-  }
+  },
 )
 
 /* basic info */
-const video = useResult(result, null, (data) => data?.getVideo)
+const video = useResult(result, null, data => data?.getVideo)
 // change title
 watchEffect(() => {
-  if (video.value) setSiteTitle(video.value.item.title)
+  if (video.value)
+    setSiteTitle(video.value.item.title)
 })
 </script>

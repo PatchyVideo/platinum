@@ -3,13 +3,13 @@
     class="inline-block tag pr-1 mr-1 text-sm text-white whitespace-nowrap"
     :class="'tag-' + tag.category.toLowerCase()"
     v-text="tag.name"
-  ></div>
+  />
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import type { schema } from '@/graphql'
 import { behMostMatch } from '@/locales'
-import { computed } from 'vue'
 
 const props = defineProps<{
   tag: schema.TagObject

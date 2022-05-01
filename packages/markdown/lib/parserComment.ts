@@ -16,7 +16,8 @@ export function render(src: string): string {
     res = markdownIt.render(src.replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' /* escape unocss */ + ':$1]]'), {
       last: [],
     })
-  } catch (e) {
+  }
+  catch (e) {
     console.error(e)
     res = `<div class="font-mono">Error throwed from Markdown parser: ${e}<br />${
       e instanceof Error && e.stack ? e.stack.replaceAll('\n', '<br />') : String(e)

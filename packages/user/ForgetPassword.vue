@@ -8,21 +8,25 @@
       class="flex-wrap content-between w-full h-full p-5 shadow text-white flex filter drop-shadow-md backdrop-filter backdrop-blur-sm"
     >
       <div class="w-full text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg">{{ t('user.forget-password.title') }}</div>
+        <Logo :larger="20" />
+        <div class="text-lg">
+          {{ t('user.forget-password.title') }}
+        </div>
       </div>
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-white">
-            <div class="i-uil:envelope align-middle text-2xl"></div>
+            <div class="i-uil:envelope align-middle text-2xl" />
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-white"
               :placeholder="t('user.forget-password.email.placeholder')"
               @keydown.enter="sendEmail"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
+          <div class="text-red-500 text-sm h-4">
+            {{ emailStatus }}
+          </div>
         </div>
         <div class="space-y-1">
           <button
@@ -36,14 +40,18 @@
                 : t('user.forget-password.send-status.ready')
             }}
           </button>
-          <div v-if="sendStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-right text-blue-600" to="/user/login">{{
-            '←' + t('user.forget-password.login')
-          }}</RouterLink>
+          <div v-if="sendStatus === 'error'" class="text-red-500">
+            {{ errmsg }}
+          </div>
+          <RouterLink class="block text-right text-blue-600" to="/user/login">
+            {{
+              '←' + t('user.forget-password.login')
+            }}
+          </RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
+      <div class="h-20 w-full" />
       <div>© VoileLabs 2019-2022</div>
     </div>
     <!-- Desktop view -->
@@ -52,21 +60,25 @@
       class="flex mr-50 p-5 w-80 h-full flex-wrap content-between text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm"
     >
       <div class="w-full">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg text-center">{{ t('user.forget-password.title') }}</div>
+        <Logo :larger="20" />
+        <div class="text-lg text-center">
+          {{ t('user.forget-password.title') }}
+        </div>
       </div>
       <div class="w-full space-y-2">
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil:envelope align-middle text-2xl"></div>
+            <div class="i-uil:envelope align-middle text-2xl" />
             <input
               v-model="email"
               class="outline-none w-full bg-transparent placeholder-gray-700 text-gray-700"
               :placeholder="t('user.forget-password.email.placeholder')"
               @keydown.enter="sendEmail"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4">{{ emailStatus }}</div>
+          <div class="text-red-500 text-sm h-4">
+            {{ emailStatus }}
+          </div>
         </div>
         <div class="space-y-1">
           <button
@@ -80,14 +92,18 @@
                 : t('user.forget-password.send-status.ready')
             }}
           </button>
-          <div v-if="sendStatus === 'error'" class="text-red-500">{{ errmsg }}</div>
-          <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">{{
-            '←' + t('user.forget-password.login')
-          }}</RouterLink>
+          <div v-if="sendStatus === 'error'" class="text-red-500">
+            {{ errmsg }}
+          </div>
+          <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">
+            {{
+              '←' + t('user.forget-password.login')
+            }}
+          </RouterLink>
         </div>
       </div>
       <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
+      <div class="h-20 w-full" />
       <div>© VoileLabs 2019-2022</div>
     </div>
   </div>
@@ -95,19 +111,19 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useI18n } from 'vue-i18n'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { locale } from '@/locales'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 import { screenSizes } from '@/css'
 
 const { t } = useI18n()
-setSiteTitle(t('user.forget-password.title') + ' - PatchyVideo')
+setSiteTitle(`${t('user.forget-password.title')} - PatchyVideo`)
 
 const sendStatus = ref<'ready' | 'loading' | 'error'>('ready')
-const emailFormat =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const emailFormat
+  = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 const EmailStatus = {
   fine: t('user.forget-password.email.email-status.fine'),
   tip: t('user.forget-password.email.email-status.tip'),
@@ -119,7 +135,8 @@ const email = ref<string>('')
 const errmsg = ref<string>(' ')
 
 async function sendEmail(): Promise<void> {
-  if (sendStatus.value === 'loading') return
+  if (sendStatus.value === 'loading')
+    return
   sendStatus.value = 'loading'
 
   /* Form validation  */
@@ -127,10 +144,12 @@ async function sendEmail(): Promise<void> {
   if (!email.value) {
     valid = false
     emailStatus.value = EmailStatus.tip
-  } else if (!emailFormat.test(email.value)) {
+  }
+  else if (!emailFormat.test(email.value)) {
     valid = false
     emailStatus.value = EmailStatus.msg
-  } else {
+  }
+  else {
     emailStatus.value = EmailStatus.fine
   }
   if (!valid) {
@@ -148,16 +167,18 @@ async function sendEmail(): Promise<void> {
     }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         sendStatus.value = 'ready'
         alert(t('user.forget-password.send-status.successful'))
-      } else if (res.status === resDataStatus.FAILED) {
+      }
+      else if (res.status === resDataStatus.FAILED) {
         sendStatus.value = 'error'
         errmsg.value = t('user.forget-password.send-status.failed')
-      } else {
+      }
+      else {
         sendStatus.value = 'error'
         errmsg.value = t('user.forget-password.send-status.error')
       }

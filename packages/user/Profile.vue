@@ -2,7 +2,7 @@
   <LayoutDefault>
     <div v-if="user" class="max-w-screen-xl mx-auto">
       <!-- padding for profile background -->
-      <div class="w-full aspect-ratio-6/1 bg-gray-200 dark:bg-gray-600"></div>
+      <div class="w-full aspect-ratio-6/1 bg-gray-200 dark:bg-gray-600" />
       <!-- basic info -->
       <div class="flex flex-row lt-sm:mt-2 ml-4 md:ml-16">
         <div
@@ -22,38 +22,41 @@
         </div>
         <div class="mt-1 sm:mt-2 ml-2 sm:ml-6">
           <!-- username -->
-          <h1 class="inline-block text-lg sm:text-2xl font-medium" v-text="user.username"></h1>
+          <h1 class="inline-block text-lg sm:text-2xl font-medium" v-text="user.username" />
           <RouterLink
             v-if="isMe"
             class="i-uil:edit-alt ml-1 text-2xl align-text-bottom text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200 transition-colors duration-100"
             to="/settings/account"
-          ></RouterLink>
+          />
           <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-300">
             {{ t('user.profile.info.created-at', { date: user.meta.createdAt.toLocaleDateString() }) }}
           </div>
           <!-- bio -->
-          <p class="whitespace-pre break-normal line-clamp-4" v-text="user.desc"></p>
+          <p class="whitespace-pre break-normal line-clamp-4" v-text="user.desc" />
         </div>
       </div>
-      <div class="mt-4 ml-8">{{ t('user.profile.nothing') }}</div>
+      <div class="mt-4 ml-8">
+        {{ t('user.profile.nothing') }}
+      </div>
     </div>
   </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from './components/UserAvatar.vue'
 import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import NProgress from 'nprogress'
+import UserAvatar from './components/UserAvatar.vue'
+import { useUserData } from '.'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { user as localUser } from '@/user'
 import { screenSizes } from '@/css'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
+const { user: localUser } = useUserData()
 
 const uid = computed(() => route.params.uid as string)
 const isMe = computed(() => uid.value === localUser.value.uid)
@@ -74,23 +77,23 @@ const { result, loading } = useQuery<Query>(
   `,
   {
     uid,
-  }
+  },
 )
 
-/* sync process bar */
+// sync process bar
 watchEffect(() => {
-  if (loading.value) {
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
-    if (NProgress.isStarted()) NProgress.done()
-  }
+  if (loading.value)
+    startProgress()
+  else
+    stopProgress()
 })
 
-/* basic info */
-const user = useResult(result, null, (data) => data?.getUser)
+// basic info
+const user = useResult(result, null, data => data?.getUser)
 // change title
 watchEffect(() => {
-  if (user.value) setSiteTitle(t('user.profile.title', { username: user.value.username }))
+  if (user.value)
+    setSiteTitle(t('user.profile.title', { username: user.value.username }))
 })
 
 const isHoveringAvatar = ref(false)

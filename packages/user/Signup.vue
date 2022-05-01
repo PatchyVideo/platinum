@@ -6,13 +6,13 @@
       class="flex flex-wrap content-between w-full md:w-80 h-full p-5 text-white lt-md:dark:text-white md:text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm lt-md:shadow md:mr-50"
     >
       <div class="w-full lt-md:text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg text-center" v-text="t('user.signup.title')"></div>
+        <Logo :larger="20" />
+        <div class="text-lg text-center" v-text="t('user.signup.title')" />
       </div>
       <form class="w-full space-y-2" autocomplete="on" @submit.prevent="signup">
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <div class="i-uil:user align-middle text-2xl"></div>
+            <div class="i-uil:user align-middle text-2xl" />
             <input
               v-model="userName"
               type="text"
@@ -20,13 +20,13 @@
               autocomplete="username"
               class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.username.placeholder')"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
+          <div class="text-red-500 text-sm h-4" v-text="usernameStatus" />
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <div class="i-uil:lock-open-alt align-middle text-2xl"></div>
+            <div class="i-uil:lock-open-alt align-middle text-2xl" />
             <input
               v-model="password"
               type="password"
@@ -34,13 +34,13 @@
               autocomplete="new-password"
               class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.password.placeholder')"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
+          <div class="text-red-500 text-sm h-4" v-text="passwordStatus" />
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <div class="i-uil:padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl" />
             <input
               v-model="password2"
               type="password"
@@ -48,13 +48,13 @@
               autocomplete="new-password"
               class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.password2.placeholder')"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="password2Status"></div>
+          <div class="text-red-500 text-sm h-4" v-text="password2Status" />
         </div>
         <div>
           <div class="flex w-full border-b border-black lt-md:dark:border-white">
-            <div class="i-uil:envelope align-middle text-2xl"></div>
+            <div class="i-uil:envelope align-middle text-2xl" />
             <input
               v-model="email"
               type="email"
@@ -63,9 +63,9 @@
               class="autofill outline-none w-full bg-transparent placeholder-gray-700 text-gray-700 lt-md:dark:placeholder-white lt-md:dark:text-white"
               :placeholder="t('user.signup.email.placeholder')"
               @keydown.enter="signup"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="emailStatus"></div>
+          <div class="text-red-500 text-sm h-4" v-text="emailStatus" />
         </div>
         <div class="space-y-1">
           <button
@@ -75,17 +75,17 @@
             v-text="
               signupStatus === 'loading' ? t('user.signup.signup-status.loading') : t('user.signup.signup-status.ready')
             "
-          ></button>
-          <div v-if="signupStatus === 'error'" class="text-red-500" v-text="errmsg"></div>
+          />
+          <div v-if="signupStatus === 'error'" class="text-red-500" v-text="errmsg" />
           <RouterLink
             class="block text-blue-600 text-right hover:text-blue-800"
             to="/user/login"
             v-text="'←' + t('user.signup.login')"
-          ></RouterLink>
+          />
         </div>
       </form>
       <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
+      <div class="h-20 w-full" />
       <div>© VoileLabs 2019-2022</div>
     </div>
   </div>
@@ -93,15 +93,15 @@
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { resDataStatus } from '@/common/lib/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 
 const { t } = useI18n()
 const router = useRouter()
-setSiteTitle(t('user.signup.title') + ' - PatchyVideo')
+setSiteTitle(`${t('user.signup.title')} - PatchyVideo`)
 
 const signupStatus = ref<'ready' | 'loading' | 'error'>('ready')
 const UsernameStatus = computed(() => ({
@@ -124,8 +124,8 @@ const Password2Status = computed(() => ({
   msg: t('user.signup.password2.password2-status.msg'),
 }))
 const password2Status = ref<string>(Password2Status.value.fine)
-const emailFormat =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
+const emailFormat
+  = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 const EmailStatus = computed(() => ({
   fine: t('user.signup.email.email-status.fine'),
   tip: t('user.signup.email.email-status.tip'),
@@ -142,7 +142,8 @@ const email = ref<string>('')
 const errmsg = ref<string>('')
 
 async function signup(): Promise<void> {
-  if (signupStatus.value === 'loading') return
+  if (signupStatus.value === 'loading')
+    return
   signupStatus.value = 'loading'
 
   /* Form validation  */
@@ -150,37 +151,45 @@ async function signup(): Promise<void> {
   if (!userName.value) {
     valid = false
     usernameStatus.value = UsernameStatus.value.tip
-  } else if (userName.value.length < 2 || userName.value.length > 32) {
+  }
+  else if (userName.value.length < 2 || userName.value.length > 32) {
     valid = false
     usernameStatus.value = UsernameStatus.value.msg
-  } else {
+  }
+  else {
     usernameStatus.value = UsernameStatus.value.fine
   }
   if (!password.value) {
     valid = false
     passwordStatus.value = PasswordStatus.value.tip
-  } else if (password.value.length < 6 || password.value.length > 64) {
+  }
+  else if (password.value.length < 6 || password.value.length > 64) {
     valid = false
     passwordStatus.value = PasswordStatus.value.msg
-  } else {
+  }
+  else {
     passwordStatus.value = PasswordStatus.value.fine
   }
   if (!password2.value) {
     valid = false
     password2Status.value = Password2Status.value.tip
-  } else if (password2.value != password.value) {
+  }
+  else if (password2.value !== password.value) {
     valid = false
     password2Status.value = Password2Status.value.msg
-  } else {
+  }
+  else {
     password2Status.value = Password2Status.value.fine
   }
   if (!email.value) {
     valid = false
     emailStatus.value = EmailStatus.value.tip
-  } else if (!emailFormat.test(email.value)) {
+  }
+  else if (!emailFormat.test(email.value)) {
     valid = false
     emailStatus.value = EmailStatus.value.msg
-  } else {
+  }
+  else {
     emailStatus.value = EmailStatus.value.fine
   }
   if (valid) {
@@ -194,10 +203,10 @@ async function signup(): Promise<void> {
       }),
       credentials: 'include',
     })
-      .then((data) => data.json())
+      .then(data => data.json())
       .then((res) => {
         // console.log(res)
-        if (res.status != resDataStatus.SUCCEED) {
+        if (res.status !== resDataStatus.SUCCEED) {
           usernameStatus.value = UsernameStatus.value.err
           valid = false
         }
@@ -207,7 +216,7 @@ async function signup(): Promise<void> {
           valid = false
         }
       })
-      .catch((err) => {
+      .catch(() => {
         // console.log(err)
         usernameStatus.value = UsernameStatus.value.err
         valid = false
@@ -222,10 +231,10 @@ async function signup(): Promise<void> {
       }),
       credentials: 'include',
     })
-      .then((data) => data.json())
+      .then(data => data.json())
       .then((res) => {
         // console.log(res)
-        if (res.status != resDataStatus.SUCCEED) {
+        if (res.status !== resDataStatus.SUCCEED) {
           emailStatus.value = EmailStatus.value.err
           valid = false
         }
@@ -235,7 +244,7 @@ async function signup(): Promise<void> {
           valid = false
         }
       })
-      .catch((err) => {
+      .catch(() => {
         // console.log(err)
         emailStatus.value = EmailStatus.value.err
         valid = false
@@ -258,10 +267,10 @@ async function signup(): Promise<void> {
     body: JSON.stringify({ type: 'SIGNUP' }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
-      if (res.status === resDataStatus.SUCCEED) session = res.data
+      if (res.status === resDataStatus.SUCCEED) { session = res.data }
       else {
         signupStatus.value = 'error'
         errmsg.value = t('user.signup.signup-status.error')
@@ -282,16 +291,17 @@ async function signup(): Promise<void> {
       username: userName.value,
       password: password.value,
       email: email.value,
-      session: session,
+      session,
     }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         router.push({ path: '/user/redirect', query: { from: 'sign-up' } })
-      } else {
+      }
+      else {
         signupStatus.value = 'error'
         errmsg.value = res.dataerr.reason
       }

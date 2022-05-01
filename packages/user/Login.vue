@@ -4,13 +4,13 @@
       class="flex flex-wrap content-between w-full md:w-80 h-full p-5 text-white md:text-black bg-white bg-opacity-50 filter drop-shadow-md backdrop-filter backdrop-blur-sm lt-md:shadow md:ml-48"
     >
       <div class="w-full lt-md:text-center">
-        <Logo :larger="20"></Logo>
-        <div class="text-lg md:text-center" v-text="t('user.login.title')"></div>
+        <Logo :larger="20" />
+        <div class="text-lg md:text-center" v-text="t('user.login.title')" />
       </div>
       <form class="w-full space-y-3" autocomplete="on" @submit.prevent="login">
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil:user align-middle text-2xl"></div>
+            <div class="i-uil:user align-middle text-2xl" />
             <input
               v-model="userName"
               type="text"
@@ -18,13 +18,13 @@
               autocomplete="username"
               class="autofill outline-none w-full bg-transparent placeholder-white md:placeholder-gray-700 md:text-gray-700"
               :placeholder="t('user.login.username.placeholder')"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="usernameStatus"></div>
+          <div class="text-red-500 text-sm h-4" v-text="usernameStatus" />
         </div>
         <div>
           <div class="flex w-full border-b border-black">
-            <div class="i-uil:padlock align-middle text-2xl"></div>
+            <div class="i-uil:padlock align-middle text-2xl" />
             <input
               v-model="password"
               type="password"
@@ -33,14 +33,14 @@
               class="autofill outline-none w-full bg-transparent placeholder-white md:placeholder-gray-700 md:text-gray-700"
               :placeholder="t('user.login.password.placeholder')"
               @keydown.enter="login"
-            />
+            >
           </div>
-          <div class="text-red-500 text-sm h-4" v-text="passwordStatus"></div>
+          <div class="text-red-500 text-sm h-4" v-text="passwordStatus" />
           <RouterLink
             class="block text-right text-xs text-blue-600"
             to="/user/forget-password"
             v-text="t('user.login.forget-password')"
-          ></RouterLink>
+          />
         </div>
         <div class="space-y-1">
           <button
@@ -50,17 +50,17 @@
             v-text="
               loginStatus === 'loading' ? t('user.login.login-status.loading') : t('user.login.login-status.ready')
             "
-          ></button>
-          <div v-if="loginStatus === 'error'" class="text-red-500" v-text="errmsg"></div>
+          />
+          <div v-if="loginStatus === 'error'" class="text-red-500" v-text="errmsg" />
           <RouterLink
             class="block text-blue-600 hover:text-blue-800"
             to="/user/signup"
             v-text="t('user.login.signup') + '→'"
-          ></RouterLink>
+          />
         </div>
       </form>
       <!-- This div is only for placeholder  -->
-      <div class="h-20 w-full"></div>
+      <div class="h-20 w-full" />
       <div>© VoileLabs 2019-2022</div>
     </div>
   </div>
@@ -70,14 +70,16 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import { useUserData } from '.'
 import { resDataStatus } from '@/common/lib/resDataStatus'
-import { getUserDataFromLocalStorage, setUserDataToLocalStorage } from '@/user'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
 const { t } = useI18n()
 const router = useRouter()
-setSiteTitle(t('user.login.title') + ' - PatchyVideo')
+const { set: setUserData } = useUserData()
+
+setSiteTitle(`${t('user.login.title')} - PatchyVideo`)
 
 const loginStatus = ref<'ready' | 'loading' | 'error'>('ready')
 const UsernameStatus = {
@@ -98,7 +100,8 @@ const password = ref<string>('')
 const errmsg = ref<string>('')
 
 async function login(): Promise<void> {
-  if (loginStatus.value === 'loading') return
+  if (loginStatus.value === 'loading')
+    return
   loginStatus.value = 'loading'
 
   /* Form validation  */
@@ -106,19 +109,23 @@ async function login(): Promise<void> {
   if (!userName.value) {
     valid = false
     usernameStatus.value = UsernameStatus.tip
-  } else if (userName.value.length < 2 || userName.value.length > 32) {
+  }
+  else if (userName.value.length < 2 || userName.value.length > 32) {
     valid = false
     usernameStatus.value = UsernameStatus.msg
-  } else {
+  }
+  else {
     usernameStatus.value = UsernameStatus.fine
   }
   if (!password.value) {
     valid = false
     passwordStatus.value = PasswordStatus.tip
-  } else if (password.value.length < 6 || password.value.length > 64) {
+  }
+  else if (password.value.length < 6 || password.value.length > 64) {
     valid = false
     passwordStatus.value = PasswordStatus.msg
-  } else {
+  }
+  else {
     passwordStatus.value = PasswordStatus.fine
   }
   if (!valid) {
@@ -136,10 +143,10 @@ async function login(): Promise<void> {
     body: JSON.stringify({ type: 'LOGIN' }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
-      if (res.status === resDataStatus.SUCCEED) session = res.data
+      if (res.status === resDataStatus.SUCCEED) { session = res.data }
       else {
         loginStatus.value = 'error'
         errmsg.value = t('user.login.login-status.error')
@@ -158,29 +165,29 @@ async function login(): Promise<void> {
     body: JSON.stringify({
       username: userName.value,
       password: password.value,
-      session: session,
+      session,
     }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         loginStatus.value = 'ready'
-        setUserDataToLocalStorage({
+        setUserData({
           name: res.data.username,
           avatar: res.data.image,
-          isAdmin: res.data.access_control_status === 'admin' ? true : false,
+          isAdmin: res.data.access_control_status === 'admin',
           uid: res.data.uid,
           email: res.data.email,
         })
-        getUserDataFromLocalStorage()
         router.push({ path: '/' })
-        return
-      } else if (res.status === resDataStatus.FAILED) {
+      }
+      else if (res.status === resDataStatus.FAILED) {
         loginStatus.value = 'error'
         errmsg.value = t('user.login.login-status.failed')
-      } else {
+      }
+      else {
         loginStatus.value = 'error'
         errmsg.value = res.dataerr.reason
       }

@@ -3,24 +3,22 @@ import { ObjectID } from '.'
 
 export const dateTypePolicy: FieldPolicy = {
   merge: (_, incoming) => {
-    if (incoming == undefined || incoming == null) {
+    if (incoming === undefined || incoming === null)
       return incoming
-    } else if (incoming instanceof Date) {
+    else if (incoming instanceof Date)
       return incoming
-    } else {
+    else
       return new Date(incoming as string)
-    }
   },
 }
 
 export const objectIdTypePolicy: FieldPolicy = {
   merge: (_, incoming) => {
-    if (incoming == undefined || incoming == null) {
+    if (incoming === undefined || incoming === null)
       return incoming
-    } else if (incoming instanceof ObjectID) {
+    else if (incoming instanceof ObjectID)
       return incoming
-    } else {
+    else
       return new ObjectID(incoming as string)
-    }
   },
 }

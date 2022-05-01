@@ -11,9 +11,9 @@ const plugin = async (schema, _, config) => {
 
   function isScalarWithTypePolicy(f) {
     let type = f.type
-    if (isNonNullType(type)) {
+    if (isNonNullType(type))
       type = type.ofType
-    }
+
     return isScalarType(type) && scalarTypePolicies[type.name] !== undefined
   }
 
@@ -21,18 +21,18 @@ const plugin = async (schema, _, config) => {
     export default {
       ${Object.values(schema.getTypeMap())
         .filter(isObjectType)
-        .filter((t) => !t.name.startsWith('__'))
-        .filter((t) => Object.values(t.getFields()).some(isScalarWithTypePolicy))
+        .filter(t => !t.name.startsWith('__'))
+        .filter(t => Object.values(t.getFields()).some(isScalarWithTypePolicy))
         .map((type) => {
           return code`${type.name}: { fields: { ${Object.values(type.getFields())
             .filter(isScalarWithTypePolicy)
             .map((field) => {
               let type = field.type
-              if (isNonNullType(type)) {
+              if (isNonNullType(type))
                 type = type.ofType
-              }
+
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
+              // @ts-expect-error
               return code`${field.name}: ${toImp(scalarTypePolicies[type.name])},`
             })} } },`
         })}
@@ -43,9 +43,9 @@ const plugin = async (schema, _, config) => {
 
 // Maps the graphql-code-generation convention of `@src/context#Context` to ts-poet's `Context@@src/context`.
 function toImp(spec) {
-  if (!spec) {
+  if (!spec)
     return undefined
-  }
+
   const [path, symbol] = spec.split('#')
   return imp(`${symbol}@${path}`)
 }

@@ -34,13 +34,16 @@ export default i18n
 
 function getBrowserLang(): string {
   const userLangs = [...navigator.languages]
-  if (lslang.value && lslang.value !== 'undefined' && lslang.value !== 'null') userLangs.unshift(lslang.value)
+  if (lslang.value && lslang.value !== 'undefined' && lslang.value !== 'null')
+    userLangs.unshift(lslang.value)
   let result
   try {
     result = match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
-  } catch (e) {
+  }
+  catch (e) {
     result = 'zh-Hans-CN'
-    if (!(e instanceof RangeError)) throw e
+    if (!(e instanceof RangeError))
+      throw e
   }
   return result
 }
@@ -50,9 +53,11 @@ export function getBrowserPreferredLang(): string {
   let result
   try {
     result = match(userLangs, langs, 'zh-Hans-CN', { algorithm: 'best fit' })
-  } catch (e) {
+  }
+  catch (e) {
     result = 'zh-Hans-CN'
-    if (!(e instanceof RangeError)) throw e
+    if (!(e instanceof RangeError))
+      throw e
   }
   return result
 }
@@ -80,7 +85,8 @@ export const locale = computed({
     return i18n.global.locale.value
   },
   set: async (x: string) => {
-    if (!langs.includes(x)) return false
+    if (!langs.includes(x))
+      return false
     setBrowserLang(x)
     await loadLocaleMessages(x)
     setI18nLang(x)
@@ -145,7 +151,8 @@ export function BCP47ToISO639(code: string): string {
         return 'VIM'
     }
     return 'CHS'
-  } catch (e) {
+  }
+  catch (e) {
     return 'CHS'
   }
 }
@@ -173,7 +180,7 @@ export const beLanguagesList = [
   { id: 18, value: 'VIN', label: 'Tiếng Việt' },
 ]
 function IDToISO639(id: number): string {
-  return beLanguagesList.find((item) => item.id === id)?.value || 'NAL'
+  return beLanguagesList.find(item => item.id === id)?.value || 'NAL'
 }
 
 interface LangItemWithName {
@@ -187,16 +194,20 @@ interface LangItemWithID {
 export function behMostMatch(valueWithLang: LangItemWithName[]): string {
   const lang = iso639locale.value
   for (const value of valueWithLang) {
-    if (value.lang === lang) return value.value
+    if (value.lang === lang)
+      return value.value
   }
+
   return valueWithLang[0].value || 'undifined'
 }
 export function langBestMatchName(valueWithLang: LangItemWithName[]): string {
   const siteLang = iso639locale.value
   const browserlang = iso639nav.value
   for (const value of valueWithLang) {
-    if (value.lang === siteLang) return value.value
-    else if (value.lang === browserlang) return value.value
+    if (value.lang === siteLang)
+      return value.value
+    else if (value.lang === browserlang)
+      return value.value
   }
   return valueWithLang[0].value || 'undifined'
 }
@@ -204,8 +215,10 @@ export function langBestMatchID(valueWithLang: LangItemWithID[]): string {
   const siteLang = iso639locale.value
   const browserlang = iso639nav.value
   for (const value of valueWithLang) {
-    if (IDToISO639(value.l) === siteLang) return value.w
-    else if (IDToISO639(value.l) === browserlang) return value.w
+    if (IDToISO639(value.l) === siteLang)
+      return value.w
+    else if (IDToISO639(value.l) === browserlang)
+      return value.w
   }
   return valueWithLang[0].w || 'undifined'
 }

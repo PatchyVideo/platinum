@@ -10,7 +10,7 @@ export default defineConfig({
     presetTypography(),
     presetIcons({
       extraProperties: {
-        display: 'inline-block',
+        'display': 'inline-block',
         'vertical-align': 'middle',
       },
     }),
@@ -34,10 +34,10 @@ export default defineConfig({
       // soundtrack: '#803C49',
     },
     breakpoints: {
-      sm: '576px',
-      md: '720px',
-      lg: '992px',
-      xl: '1200px',
+      'sm': '576px',
+      'md': '720px',
+      'lg': '992px',
+      'xl': '1200px',
       '2xl': '1400px',
       '3xl': '1540px',
       '4xl': '1860px',

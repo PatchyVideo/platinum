@@ -3,21 +3,27 @@
     <!-- Current -->
     <div>
       <div class="flex justify-between">
-        <div class="ml-1 font-light">现有标签</div>
+        <div class="ml-1 font-light">
+          现有标签
+        </div>
         <div class="flex flex-row gap-1 items-center">
-          <div v-if="submitting" class="text-gray-800 dark:text-gray-200">正在提交<div class="inline-block i-uil:spinner-alt animate-spin"></div></div>
-          <button v-else-if="isEdited" class="text-blue-500" @click="submit">提交修改</button>
+          <div v-if="submitting" class="text-gray-800 dark:text-gray-200">
+            正在提交<div class="inline-block i-uil:spinner-alt animate-spin" />
+          </div>
+          <button v-else-if="isEdited" class="text-blue-500" @click="submit">
+            提交修改
+          </button>
           <!-- Undo / Redo -->
           <button
             class="inline i-uil:redo text-lg -scale-x-full"
             :class="{ 'text-gray-400 dark:text-gray-600': !editStack.length }"
             @click="undo"
-          ></button>
+          />
           <button
             class="inline i-uil:redo text-lg"
             :class="{ 'text-gray-400 dark:text-gray-600': !redoStack.length }"
             @click="redo"
-          ></button>
+          />
         </div>
       </div>
       <div class="flex gap-1 flex-row flex-wrap">
@@ -46,22 +52,25 @@
     </div>
     <!-- Adding -->
     <div>
-      <div class="ml-1 font-light">加入标签</div>
+      <div class="ml-1 font-light">
+        加入标签
+      </div>
       <AutoComplete
         v-model:keyword="editTagSearchKeyword"
         :teleport-result="editTagSearchResult"
         @suggestion-click="onSuggestionClick"
       />
-      <div ref="editTagSearchResult"></div>
+      <div ref="editTagSearchResult" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import RoundTag from '@/tag/components/RoundTag.vue'
-import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
-import { gql, Query, schema, TagCategoryEnum, useApolloClient, useMutation } from '@/graphql'
+import type { Query, schema } from '@/graphql'
+import { TagCategoryEnum, gql, useApolloClient, useMutation } from '@/graphql'
 
 const props = defineProps<{
   vid: string
@@ -79,13 +88,15 @@ watchEffect(() => {
   editTags.value = [...props.tags]
 })
 const isEdited = computed(() => {
-  if (editTags.value.length !== props.tags.length) return true
-  const originalIds = props.tags.map((tag) => tag.tagid).sort((a, b) => a - b)
-  const editedIds = editTags.value.map((tag) => tag.tagid).sort((a, b) => a - b)
+  if (editTags.value.length !== props.tags.length)
+    return true
+  const originalIds = props.tags.map(tag => tag.tagid).sort((a, b) => a - b)
+  const editedIds = editTags.value.map(tag => tag.tagid).sort((a, b) => a - b)
   return originalIds.some((id, i) => id !== editedIds[i])
 })
 const addTag = async (tagid: number): Promise<boolean> => {
-  if (editTags.value.find((tag) => tag.tagid === tagid) || pendingTags.value.includes(tagid)) return false
+  if (editTags.value.find(tag => tag.tagid === tagid) || pendingTags.value.includes(tagid))
+    return false
   pendingTags.value.push(tagid)
   const client = resolveClient()
   const res = await client
@@ -111,13 +122,15 @@ const addTag = async (tagid: number): Promise<boolean> => {
     .catch(() => null)
   pendingTags.value.splice(pendingTags.value.indexOf(tagid), 1)
   const tag = res?.data?.getTagObjects[0]
-  if (!tag) return false
+  if (!tag)
+    return false
   editTags.value.push(tag)
   return true
 }
 const removeTag = (tagid: number): boolean => {
-  const index = editTags.value.findIndex((tag) => tag.tagid === tagid)
-  if (index === -1) return false
+  const index = editTags.value.findIndex(tag => tag.tagid === tagid)
+  if (index === -1)
+    return false
   editTags.value.splice(index, 1)
   return true
 }
@@ -138,22 +151,20 @@ const undo = () => {
   if (editStack.length > 0) {
     const item = editStack.pop()!
     redoStack.push(item)
-    if (item.type === 'add') {
+    if (item.type === 'add')
       removeTag(item.tagid)
-    } else {
+    else
       addTag(item.tagid)
-    }
   }
 }
 const redo = () => {
   if (redoStack.length > 0) {
     const item = redoStack.pop()!
     editStack.push(item)
-    if (item.type === 'add') {
+    if (item.type === 'add')
       addTag(item.tagid)
-    } else {
+    else
       removeTag(item.tagid)
-    }
   }
 }
 const pushEdit = (item: EditItem) => {
@@ -165,7 +176,8 @@ const editTagSearchKeyword = ref('')
 const editTagSearchResult = shallowRef<HTMLDivElement>()
 
 const onTagRemove = (tagid: number) => {
-  if (removeTag(tagid)) pushEdit({ type: 'remove', tagid })
+  if (removeTag(tagid))
+    pushEdit({ type: 'remove', tagid })
 }
 const onSuggestionClick = async (tag: string) => {
   const client = resolveClient()
@@ -187,8 +199,10 @@ const onSuggestionClick = async (tag: string) => {
     .catch(() => null)
   const tagid = res?.data?.listTagObjects.tags[0]?.tagid
   editTagSearchKeyword.value = ''
-  if (typeof tagid !== 'number') return
-  if (await addTag(tagid)) pushEdit({ type: 'add', tagid })
+  if (typeof tagid !== 'number')
+    return
+  if (await addTag(tagid))
+    pushEdit({ type: 'add', tagid })
 }
 
 const { mutate } = useMutation(gql`
@@ -201,11 +215,12 @@ const { mutate } = useMutation(gql`
 const submitting = ref(false)
 const submissionError = ref('')
 const submit = async () => {
-  if (!isEdited.value) return
+  if (!isEdited.value)
+    return
   submitting.value = true
   await mutate({
     vid: props.vid,
-    tags: editTags.value.map((tag) => tag.tagid),
+    tags: editTags.value.map(tag => tag.tagid),
   }).catch((e) => {
     submissionError.value = e.message
   })

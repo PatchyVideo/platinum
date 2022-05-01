@@ -9,9 +9,13 @@
       {{ t('user-notification.notification-system.mark-all-as-read') }}
     </div>
   </div>
-  <div v-if="listNoteStatus === 'loading'">{{ t('user-notification.notification-system.loading') }}</div>
-  <div v-else-if="listNoteStatus === 'error'"></div>
-  <div v-else-if="listNoteCountAll == 0">{{ t('user-notification.notification-system.no-message') }}</div>
+  <div v-if="listNoteStatus === 'loading'">
+    {{ t('user-notification.notification-system.loading') }}
+  </div>
+  <div v-else-if="listNoteStatus === 'error'" />
+  <div v-else-if="listNoteCountAll == 0">
+    {{ t('user-notification.notification-system.no-message') }}
+  </div>
   <div v-else class="space-y-2">
     <div v-for="(note, index) in listNote" :key="note.id.toHexString()">
       <div
@@ -47,15 +51,15 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch, watchEffect } from 'vue'
+import { useVModels } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
 import { listNoteCountTypes } from '@/user-notification/lib/listNoteCountTypes'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
-import { ref, watch, watchEffect } from 'vue'
-import { useVModels } from '@vueuse/core'
 import type { Mutation, Query, schema } from '@/graphql'
-import NProgress from 'nprogress'
-import { useI18n } from 'vue-i18n'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 
@@ -75,33 +79,14 @@ const listAll = ref(true)
 const { limit, offset, pageCount } = useVModels(props, emit)
 const listNoteStatus = ref<'loading' | 'result' | 'error'>()
 const listNote = ref<
-  (schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
->([])
+(schema.ReplyNotificationObject | schema.BaseNotificationObject | schema.SystemNotificationObject)[]
+  >([])
 // Unknown bug: listNote.value canoot be changed, so use listNoteRead to present wether the note is read or not
 const listNoteRead = ref<boolean[]>([])
 const listNoteOpenID = ref<string>()
 const listNoteCountAll = ref(0)
 const listNoteCountUnread = ref(0)
 
-/* Refresh query result for URL query change */
-watch(
-  props,
-  () => {
-    fetchMore({
-      variables: {
-        offset: offset.value * limit.value,
-        limit: limit.value,
-        listAll: listAll.value,
-        noteType: noteType.value,
-      },
-      updateQuery(previousQueryResult, { fetchMoreResult }) {
-        if (!fetchMoreResult) return previousQueryResult
-        return fetchMoreResult
-      },
-    })
-  },
-  { deep: true }
-)
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
     query ($offset: Int, $limit: Int, $listAll: Boolean, $noteType: String) {
@@ -130,32 +115,57 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   },
   {
     notifyOnNetworkStatusChange: true,
-  }
+  },
 )
 watchEffect(() => {
   if (loading.value) {
     listNoteStatus.value = 'loading'
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
+    startProgress()
+  }
+  else {
     listNoteStatus.value = 'result'
-    if (NProgress.isStarted()) NProgress.done()
+    stopProgress()
   }
 })
-const listNotifications = useResult(result, null, (data) => data?.listNotifications)
+
+const listNotifications = useResult(result, null, data => data?.listNotifications)
 watchEffect(() => {
   if (listNotifications.value) {
-    listNoteRead.value = listNotifications.value.notes.map((item) => item.read)
+    listNoteRead.value = listNotifications.value.notes.map(item => item.read)
     listNote.value = listNotifications.value.notes
     listNoteCountAll.value = listNotifications.value.countAll
     listNoteCountUnread.value = listNotifications.value.countUnread
     pageCount.value = listNotifications.value.pageCount
-  } else listNoteStatus.value = 'error'
+  }
+  else { listNoteStatus.value = 'error' }
 })
+
 const errMsg = ref('')
 onError((err) => {
   errMsg.value = err.message
   listNoteStatus.value = 'error'
 })
+
+// Refresh query result for URL query change
+watch(
+  props,
+  () => {
+    fetchMore({
+      variables: {
+        offset: offset.value * limit.value,
+        limit: limit.value,
+        listAll: listAll.value,
+        noteType: noteType.value,
+      },
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult)
+          return previousQueryResult
+        return fetchMoreResult
+      },
+    })
+  },
+  { deep: true },
+)
 
 const {
   mutate,
@@ -169,26 +179,30 @@ const {
         empty
       }
     }
-  `
+  `,
 )
 watchEffect(() => {
-  if (markAsReadLoading.value) markAsReadMutationCount.value++
+  if (markAsReadLoading.value)
+    markAsReadMutationCount.value++
 })
+let isMarkAll = false
 onDone(() => {
   markAsReadMutationCount.value--
-  if (isMarkAll) location.reload()
+  if (isMarkAll)
+    location.reload()
   listNoteCountTypes.value.systemMessage--
 })
-markAsReadError((error) => {
+markAsReadError(() => {
   // console.log(error)
   markAsReadMutationCount.value--
 })
-let isMarkAll = false
 function markAsRead(markAll = false, noteType2 = noteType.value, noteId: string[], noteIsRead = false): void {
   listNoteOpenID.value === noteId[0] ? (listNoteOpenID.value = undefined) : (listNoteOpenID.value = noteId[0])
-  if (!listNoteCountUnread.value || noteIsRead) return
-  if (noteId[0]) listNoteRead.value[listNote.value.findIndex((note) => note.id.toHexString() === noteId[0])] = true
+  if (!listNoteCountUnread.value || noteIsRead)
+    return
+  if (noteId[0])
+    listNoteRead.value[listNote.value.findIndex(note => note.id.toHexString() === noteId[0])] = true
   isMarkAll = markAll
-  mutate({ markAll: markAll, noteType: noteType2, noteIds: noteId })
+  mutate({ markAll, noteType: noteType2, noteIds: noteId })
 }
 </script>

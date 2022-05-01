@@ -1,7 +1,9 @@
 <template>
   <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-4/5">
-      <div v-if="loading">{{ t('leaderboard.loading') }}</div>
+      <div v-if="loading">
+        {{ t('leaderboard.loading') }}
+      </div>
       <div v-else-if="error">
         {{ error.message }}
       </div>
@@ -26,7 +28,7 @@
                         class="w-1/3 md:w-14 text-3xl text-center md:text-left text-gray-600 font-bold hover:opacity-70 transition-all duration-300 cursor-pointer"
                         :class="rankNumberTextIndexToClasses[i]"
                         v-text="i + 1"
-                      ></div>
+                      />
                       <RouterLink
                         :to="'/user/' + rankItem.user.id"
                         class="relative lt-md:w-2/3 md:min-w-max md:h-24 hover:opacity-70 transition-all duration-300 cursor-pointer"
@@ -47,17 +49,17 @@
                           class="text-xl text-gray-600 font-bold hover:opacity-70 whitespace-nowrap overflow-hidden transition-all duration-300 cursor-pointer"
                           :class="rankNumberTextIndexToClasses[i]"
                           v-text="rankItem.user.username"
-                        ></div>
+                        />
                       </RouterLink>
                       <div
                         class="w-full md:w-1/3 lt-md:h-6 md:max-h-28 md:overflow-auto md:ml-4 lt-md:my-2 text-gray-500 text-ellipsis overflow-hidden md:overflow-clip whitespace-nowrap md:whitespace-normal box-border"
                         v-text="rankItem.user.desc"
-                      ></div>
+                      />
                       <div
                         class="flex-grow w-full md:w-5/12 md:ml-8 text-left md:text-right text-xl font-bold text-gray-600 hover:opacity-70 whitespace-normal md:whitespace-nowrap transition-all duration-300 cursor-pointer"
                         :class="rankNumberTextIndexToClasses[i]"
                         v-text="t('leaderboard.tag-contributions.edit-time', rankItem.count)"
-                      ></div>
+                      />
                     </div>
                   </div>
                   <div class="w-full h-px my-4 md:my-8 bg-gray-400" />
@@ -65,7 +67,9 @@
               </div>
             </div>
           </template>
-          <template #others>其他排行榜列表</template>
+          <template #others>
+            其他排行榜列表
+          </template>
         </PvTabs>
       </div>
     </div>
@@ -75,14 +79,14 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref, watchEffect } from 'vue'
-import NProgress from 'nprogress'
 import { useI18n } from 'vue-i18n'
 import BackTop from '@/ui/components/BackTop.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import PvTabs from '@/ui/components/PvTabs.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
-import { Query, useResult } from '@/graphql'
-import { gql, useQuery } from '@/graphql'
+import type { Query } from '@/graphql'
+import { gql, useQuery, useResult } from '@/graphql'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 
@@ -120,15 +124,14 @@ const { result, loading, error } = useQuery<Query>(
   },
   {
     fetchPolicy: 'network-only',
-  }
+  },
 )
 watchEffect(() => {
-  if (loading.value) {
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
-    if (NProgress.isStarted()) NProgress.done()
-  }
+  if (loading.value)
+    startProgress()
+  else
+    stopProgress()
 })
 
-const rankList = useResult(result, [], (data) => data.getLeaderboard.items)
+const rankList = useResult(result, [], data => data.getLeaderboard.items)
 </script>

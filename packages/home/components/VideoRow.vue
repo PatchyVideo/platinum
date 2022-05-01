@@ -1,12 +1,13 @@
 <template>
-  <RouterLink v-if="titleLinksTo" :to="titleLinksTo"
-    ><h4 class="title inline-block text-xl">
-      <span class="title-text" v-text="name"></span>
+  <RouterLink v-if="titleLinksTo" :to="titleLinksTo">
+    <h4 class="title inline-block text-xl">
+      <span class="title-text" v-text="name" />
       <div
         class="title-arrow i-uil:arrow-right inline-block w-8 h-8 align-top text-gray-600 dark:text-gray-300 transform -translate-x-1 opacity-25 transition-all duration-200"
-      /></h4
-  ></RouterLink>
-  <h4 v-else class="inline-block text-xl" v-text="name"></h4>
+      />
+    </h4>
+  </RouterLink>
+  <h4 v-else class="inline-block text-xl" v-text="name" />
   <div
     class="grid mt-2 grid-flow-row gap-4"
     :style="{ gridTemplateColumns: 'repeat(' + count / (rows ?? 1) + ', minmax(0, 1fr))' }"
@@ -21,12 +22,12 @@
         :title="video.item.title"
         :cover-image="video.item.coverImage"
         class="rounded-md border border-gray-200 dark:border-gray-800"
-      ></Cover>
+      />
       <a
         v-if="videoShowTitle"
         class="w-full overflow-hidden line-clamp-2 overflow-ellipsis"
         v-text="video.item.title"
-      ></a>
+      />
       <div v-if="videoShowDate" class="w-full text-sm truncate text-gray-600 dark:text-gray-300 font-light">
         <Suspense><RelativeDate :date="video.meta.createdAt" /></Suspense>&nbsp;
       </div>
@@ -35,10 +36,10 @@
 </template>
 
 <script lang="ts" setup>
+import type { RouteLocationRaw } from 'vue-router'
 import Cover from '@/video/components/Cover.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import type { schema } from '@/graphql'
-import type { RouteLocationRaw } from 'vue-router'
 
 defineProps<{
   name: string

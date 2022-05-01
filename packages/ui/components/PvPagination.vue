@@ -6,13 +6,13 @@
         class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-purple-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('previous')"
         v-text="t('ui.pv-pagination.page-previous')"
-      ></a>
+      />
       <a
         v-else
         disabled
         class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-purple-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-previous')"
-      ></a>
+      />
       <i18n-t keypath="ui.pv-pagination.page-number" tag="div" :places="{ count: pageCount }">
         <template #count>
           <input
@@ -20,7 +20,7 @@
             class="w-12 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
             @keydown.enter="change"
             @blur="change"
-          />
+          >
         </template>
         <template #total>
           <span>{{ pageCount }}</span>
@@ -31,13 +31,13 @@
         class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-purple-900 dark:hover:bg-black md:px-4 md:py-2"
         @click="$emit('next')"
         v-text="t('ui.pv-pagination.page-next')"
-      ></a>
+      />
       <a
         v-else
         disabled
         class="inline-flex items-center px-2 py-1 border border-purple-300 text-sm font-medium rounded-lg dark:bg-gray-600 dark:border-purple-900 md:px-4 md:py-2"
         v-text="t('ui.pv-pagination.page-next')"
-      ></a>
+      />
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ const props = withDefaults(
   {
     page: 1,
     pageCount: 1,
-  }
+  },
 )
 const emit = defineEmits<{
   (event: 'previous'): void
@@ -70,13 +70,13 @@ const currentPage = ref(page.value)
 function change(): void {
   if (
     // page must not be NaN-like
-    isNaN(currentPage.value) ||
+    isNaN(currentPage.value)
     // page must be a integer
-    !Number.isSafeInteger(currentPage.value) ||
+    || !Number.isSafeInteger(currentPage.value)
     // page must be greater than 0
-    currentPage.value <= 0 ||
+    || currentPage.value <= 0
     // page must be lesser than page count
-    currentPage.value > props.pageCount
+    || currentPage.value > props.pageCount
   ) {
     alert(t('ui.pv-pagination.alert'))
     return

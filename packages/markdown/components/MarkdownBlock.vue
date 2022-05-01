@@ -7,7 +7,7 @@
         class="prose dark:prose-invert break-all my-24"
         :class="{ 'text-sm': size === 'sm', 'text-lg': size === 'lg', 'text-xl': size === 'xl' }"
         v-html="html"
-      ></article>
+      />
     </div>
   </div>
 </template>
@@ -24,7 +24,7 @@ const props = withDefaults(
   }>(),
   {
     size: '',
-  }
+  },
 )
 const emit = defineEmits<{
   (event: 'htmlChanged'): void
@@ -33,7 +33,8 @@ const emit = defineEmits<{
 const html = ref('')
 const waitingForRender = ref(true)
 watch(props, (p, op) => {
-  if (p.text !== op.text) waitingForRender.value = true
+  if (p.text !== op.text)
+    waitingForRender.value = true
 })
 const root = shallowRef<HTMLElement | null>(null)
 useIntersectionObserver(
@@ -45,7 +46,7 @@ useIntersectionObserver(
       waitingForRender.value = false
     }
   },
-  { rootMargin: '400px 400px 400px 400px' }
+  { rootMargin: '400px 400px 400px 400px' },
 )
 </script>
 

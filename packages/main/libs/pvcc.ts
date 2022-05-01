@@ -28,11 +28,11 @@ const PatchyVideo = {
     /**
      * list of registered extension data
      */
-    extensions: extensions,
+    extensions,
     /**
      * list of tweaks that extensions applied
      */
-    extensionTweaks: extensionTweaks,
+    extensionTweaks,
     /**
      * clear cached extension data
      * can also be done by clear SesstionStorage and a reload
@@ -71,5 +71,5 @@ console.log(
   'color:#9c71b2;font-size:2rem;font-family: Arial,Helvetica,sans-serif;font-weight: 700;',
   'color:#ffb458;font-size:2rem;font-family: Arial,Helvetica,sans-serif;font-weight: 700;',
   'color:#6a8935;font-size:0.9rem;font-family: Arial,Helvetica,sans-serif;padding: 0px 5px;',
-  'color:#c586c0;font-size:1rem;font-family: Arial,Helvetica,sans-serif;'
+  'color:#c586c0;font-size:1rem;font-family: Arial,Helvetica,sans-serif;',
 )

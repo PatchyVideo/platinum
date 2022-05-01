@@ -1,9 +1,9 @@
 <template><NavTop v-bind="navtopProps" /><slot /><Footer v-bind="footerProps" /></template>
 
 <script lang="ts" setup>
+import { reactivePick } from '@vueuse/core'
 import NavTop from '@/common/components/NavTop.vue'
 import Footer from '@/common/components/Footer.vue'
-import { reactivePick } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -15,7 +15,7 @@ const props = withDefaults(
     showSearchBar: true,
     fetchNote: true,
     small: false,
-  }
+  },
 )
 
 const navtopProps = reactivePick(props, 'showSearchBar', 'fetchNote')

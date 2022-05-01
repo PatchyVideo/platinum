@@ -1,6 +1,6 @@
 import { reactive } from 'vue'
 
-type VNotification = {
+interface VNotification {
   type: 'info' | 'warn' | 'error'
   message: string
   timeout?: number
@@ -16,7 +16,8 @@ export function notify(type: 'info' | 'warn' | 'error', message: string, timeout
       type,
       message,
     }
-  } else {
+  }
+  else {
     notis[id] = {
       type,
       message,
@@ -34,10 +35,11 @@ export function updateNotification(
   newInfo: {
     message?: string
     timeout?: number
-  }
+  },
 ): void {
   if (notis[id]) {
-    if (newInfo.message) notis[id].message = newInfo.message
+    if (newInfo.message)
+      notis[id].message = newInfo.message
     if (newInfo.timeout) {
       if (notis[id].timeout) {
         clearTimeout(notis[id].timeout)
@@ -56,7 +58,8 @@ export function updateNotification(
 
 export function deleteNotification(id: number): void {
   if (notis[id]) {
-    if (notis[id].timeout) clearTimeout(notis[id].timeout)
+    if (notis[id].timeout)
+      clearTimeout(notis[id].timeout)
     delete notis[id]
   }
 }

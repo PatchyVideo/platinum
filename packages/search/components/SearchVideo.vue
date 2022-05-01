@@ -1,17 +1,17 @@
 <template>
   <div v-if="status === 'loading'">
-    <div v-text="t('search.search-result.video.main-body.loading.searching')"></div>
+    <div v-text="t('search.search-result.video.main-body.loading.searching')" />
     <!-- Mobile View -->
     <div v-if="screenSizes['<md']">
       <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
         <div class="w-2/5 mr-0.5">
-          <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
+          <CoverPlaceholder class="rounded-md" />
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
           <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md w-full bg-gray-400 dark:bg-gray-600">
             &nbsp;
           </div>
-          <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600"></div>
+          <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600" />
         </div>
       </div>
     </div>
@@ -22,27 +22,27 @@
         :key="index"
         class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
       >
-        <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
+        <CoverPlaceholder class="rounded-md" />
         <div class="p-3 text-left text-sm lg:text-base">
           <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-300 dark:bg-gray-600">
             &nbsp;
           </div>
-          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600"></div>
+          <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600" />
         </div>
       </div>
     </div>
   </div>
   <div v-else-if="status === 'error'">
-    <div v-text="t('search.search-result.video.main-body.failed.search-failed')"></div>
-    <div v-text="t('search.search-result.video.main-body.failed.search-failed-reason') + errMsg"></div>
+    <div v-text="t('search.search-result.video.main-body.failed.search-failed')" />
+    <div v-text="t('search.search-result.video.main-body.failed.search-failed-reason') + errMsg" />
   </div>
   <div v-else-if="status === 'result'">
     <div class="flex flex-wrap-reverse justify-between items-end border-b pb-1">
-      <div v-if="count === 0" v-text="t('search.search-result.video.main-body.successful.search-no-result')"></div>
+      <div v-if="count === 0" v-text="t('search.search-result.video.main-body.successful.search-no-result')" />
       <div
         v-else
         v-text="t('search.search-result.video.main-body.successful.search-result-count', { count: count })"
-      ></div>
+      />
       <div class="flex self-center space-x-2">
         <label
           v-for="sites in VisibleSites"
@@ -53,7 +53,7 @@
           }"
           @click="changeVisibleSites(sites.value)"
           v-text="sites.name"
-        ></label>
+        />
       </div>
     </div>
     <!-- Mobile View -->
@@ -65,27 +65,28 @@
         :to="'/video/' + video.id.toHexString()"
       >
         <div class="relative w-2/5 mr-0.5">
-          <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
+          <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm" />
           <div
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
-            <div class="i-uil:eye-slash text-4xl"></div>
-            <div class="text-lg">{{ t('search.search-result.video.video.hidden') }}</div>
+            <div class="i-uil:eye-slash text-4xl" />
+            <div class="text-lg">
+              {{ t('search.search-result.video.video.hidden') }}
+            </div>
           </div>
         </div>
         <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
           <div v-if="video.item.partName" class="overflow-hidden w-full">
             <a class="inline-block w-full truncate">{{ video.item.title }}</a>
             <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
-              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-              >{{ video.item.partName }}
+              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label>{{ video.item.partName }}
             </div>
           </div>
           <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
-            <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+            <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site">
           </div>
         </div>
       </RouterLink>
@@ -99,13 +100,15 @@
         :to="'/video/' + video.id.toHexString()"
       >
         <div class="relative">
-          <Cover :title="video.item.title" :cover-image="video.item.coverImage"></Cover>
+          <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
           <div
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
           >
-            <div class="i-uil:eye-slash text-8xl"></div>
-            <div class="text-2xl">{{ t('search.search-result.video.video.hidden') }}</div>
+            <div class="i-uil:eye-slash text-8xl" />
+            <div class="text-2xl">
+              {{ t('search.search-result.video.video.hidden') }}
+            </div>
           </div>
         </div>
         <div class="p-3 text-left text-sm lg:text-base">
@@ -115,8 +118,7 @@
               class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
               :title="video.item.partName"
             >
-              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ': ' }}</label
-              >{{ video.item.partName }}
+              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ': ' }}</label>{{ video.item.partName }}
             </div>
           </div>
           <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
@@ -124,7 +126,7 @@
           }}</a>
           <div class="flex text-xs h-4 align-middle" :title="video.item.site">
             <div>{{ t('search.search-result.video.video.source-site') }}</div>
-            <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+            <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site">
           </div>
         </div>
       </RouterLink>
@@ -133,19 +135,19 @@
 </template>
 
 <script lang="ts" setup>
-import Cover from '@/video/components/Cover.vue'
-import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { ref, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { useVModels } from '@vueuse/core'
-import NProgress from 'nprogress'
+import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
+import Cover from '@/video/components/Cover.vue'
 import { getSiteImage } from '@/common/lib/imageUrl'
 import { backTop } from '@/ui/lib/backTop'
 import { pageOfVideo } from '@/video/lib/biliHelper'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
 import { screenSizes } from '@/css'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const props = defineProps<{
   query: string
@@ -188,27 +190,6 @@ const VisibleSites = [
   },
 ]
 
-/* Refresh query result for props change */
-watch(
-  props,
-  () => {
-    backTop()
-    fetchMore({
-      variables: {
-        offset: offset.value * limit.value,
-        limit: limit.value,
-        query: query.value,
-        order: order.value,
-        additionalConstraint: visibleSite.value,
-      },
-      updateQuery(previousQueryResult, { fetchMoreResult }) {
-        if (!fetchMoreResult) return previousQueryResult
-        return fetchMoreResult
-      },
-    })
-  },
-  { deep: true }
-)
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
     query ($offset: Int!, $limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
@@ -248,18 +229,20 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   },
   {
     notifyOnNetworkStatusChange: true,
-  }
+  },
 )
 watchEffect(() => {
   if (loading.value) {
     status.value = 'loading'
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
+    startProgress()
+  }
+  else {
     status.value = 'result'
-    if (NProgress.isStarted()) NProgress.done()
+    stopProgress()
   }
 })
-const resultData = useResult(result, null, (data) => data?.listVideo)
+
+const resultData = useResult(result, null, data => data?.listVideo)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count
@@ -271,6 +254,29 @@ onError((err) => {
   errMsg.value = err.message
   status.value = 'error'
 })
+
+// Refresh query result for props change
+watch(
+  props,
+  () => {
+    backTop()
+    fetchMore({
+      variables: {
+        offset: offset.value * limit.value,
+        limit: limit.value,
+        query: query.value,
+        order: order.value,
+        additionalConstraint: visibleSite.value,
+      },
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult)
+          return previousQueryResult
+        return fetchMoreResult
+      },
+    })
+  },
+  { deep: true },
+)
 
 /* Change the router query to trigger the search function */
 function changeVisibleSites(value: string): void {

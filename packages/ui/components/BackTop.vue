@@ -5,7 +5,7 @@
     :title="t('ui.back-top.back-top')"
     @click="backUp()"
   >
-    <div class="i-uil:top-arrow-to-top text-3xl"></div>
+    <div class="i-uil:top-arrow-to-top text-3xl" />
   </div>
 </template>
 
@@ -22,7 +22,7 @@ useEventListener(
   'scroll',
   useThrottleFn(() => {
     top.value = document.body.scrollTop || document.documentElement.scrollTop
-  }, 10)
+  }, 10),
 )
 
 function backUp(): void {

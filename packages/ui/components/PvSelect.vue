@@ -5,7 +5,7 @@
     :class="{ 'outline-none ring ring-purple-300': !listHidden }"
     @click="listHidden = !listHidden"
   >
-    <div class="inline-block truncate align-top select-none" v-text="getItemNameByValue(selected)"></div>
+    <div class="inline-block truncate align-top select-none" v-text="getItemNameByValue(selected)" />
     <div
       class="shadow rounded bg-white absolute top-5/4 left-0 z-2 box-border border-purple-400 min-w-full overflow-hidden dark:bg-gray-800"
     >
@@ -58,14 +58,13 @@ const listHidden = ref<boolean>(true)
 
 // Get Item Name By Value
 function getItemNameByValue(value: string): string {
-  return props.itemList.find((item) => item.value === value)?.name || t('ui.pv-select.select')
+  return props.itemList.find(item => item.value === value)?.name || t('ui.pv-select.select')
 }
 
 // Click to hide the list
 const pvSelectRoot = shallowRef<HTMLDivElement | null>(null)
 useEventListener(document, 'click', (e) => {
-  if (!pvSelectRoot.value?.contains(e.target as HTMLElement)) {
+  if (!pvSelectRoot.value?.contains(e.target as HTMLElement))
     listHidden.value = true
-  }
 })
 </script>

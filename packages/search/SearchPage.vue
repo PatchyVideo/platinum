@@ -4,19 +4,19 @@
       <h3 class="text-lg font-semibold p-4 px-auto">
         {{ 'PatchyVideo | ' + t('search.search-page.search') }}
       </h3>
-      <AutoComplete class="inline-block w-4/5" @search="searchResult"></AutoComplete>
+      <AutoComplete class="inline-block w-4/5" @search="searchResult" />
     </div>
   </LayoutDefault>
 </template>
 
 <script lang="ts" setup>
-import AutoComplete from '@/search/components/AutoComplete.vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import AutoComplete from '@/search/components/AutoComplete.vue'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 
 const { t } = useI18n()
-setSiteTitle(t('search.search-page.title') + ' - PatchyVideo')
+setSiteTitle(`${t('search.search-page.title')} - PatchyVideo`)
 
 // Search
 const router = useRouter()

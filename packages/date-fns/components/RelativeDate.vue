@@ -1,5 +1,5 @@
 <template>
-  <span :title="date.toString()" v-text="relativeDate"></span>
+  <span :title="date.toString()" v-text="relativeDate" />
 </template>
 
 <script lang="ts" setup>

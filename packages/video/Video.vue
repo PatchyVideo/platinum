@@ -10,25 +10,25 @@
             <h1
               class="mt-1 sm:text-lg lg:text-xl font-semibold sm:font-medium lg:font-normal"
               v-text="video.item.title"
-            ></h1>
+            />
             <div class="flex flex-row items-center gap-2 text-gray-600 dark:text-gray-300">
-              <div v-text="t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)"></div>
-              <div v-if="clearence !== 3" v-text="t('video.video.ranks.' + clearence)"></div>
+              <div v-text="t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)" />
+              <div v-if="clearence !== 3" v-text="t('video.video.ranks.' + clearence)" />
               <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
-              <template v-if="user.isAdmin">
+              <template v-if="isAdmin">
                 <div
                   :title="t('video.video.edit.hide-video.title')"
                   class="i-uil:eye-slash text-lg cursor-pointer select-none"
                   @click="hideVideo"
-                ></div>
-                <div v-if="hideVideoResult" v-text="hideVideoResult"></div>
+                />
+                <div v-if="hideVideoResult" v-text="hideVideoResult" />
               </template>
               <div
-                v-if="isLogin === IsLogin.yes"
+                v-if="isLogin"
                 :title="t('video.video.edit.edit-video')"
                 class="i-uil:pen text-lg cursor-pointer select-none"
                 @click="popEditVideoWindow"
-              ></div>
+              />
             </div>
           </div>
           <!-- Video Player -->
@@ -36,33 +36,31 @@
             <Player :item="video.item" />
           </Suspense>
           <!-- <div class="ltxl:hidden w-full border-t border-purple-300 my-2"></div> -->
-          <div class="my-1"></div>
-          <div ref="mobilePlaylistTarget"></div>
-          <div ref="mobileAuthorTarget"></div>
+          <div class="my-1" />
+          <div ref="mobilePlaylistTarget" />
+          <div ref="mobileAuthorTarget" />
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
             <div class="flex mb-1 gap-1 items-center flex-wrap">
-              <span :title="isLogin === IsLogin.yes ? t('video.video.edit.edit-tags') : undefined">
+              <span :title="isLogin ? t('video.video.edit.edit-tags') : undefined">
                 <div
                   class="i-uil:tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300"
-                  :class="{ 'cursor-pointer': isLogin === IsLogin.yes }"
-                  @click="() => isLogin === IsLogin.yes && (editTagOpened = true)"
-                ></div>
+                  :class="{ 'cursor-pointer': isLogin }"
+                  @click="() => isLogin && (editTagOpened = true)"
+                />
               </span>
 
-              <template v-if="!renderTagAsPlainText"
-                ><RoundTag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag"
-              /></template>
+              <template v-if="!renderTagAsPlainText">
+                <RoundTag v-for="tag in regularTags" :key="tag.id.toHexString()" :tag="tag" />
+              </template>
               <div v-else>
-                <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="mr-2 text-blue-600"
-                  >#{{ behMostMatch(tag.languages) }}</span
-                >
+                <span v-for="tag in regularTags" :key="tag.id.toHexString()" class="mr-2 text-blue-600">#{{ behMostMatch(tag.languages) }}</span>
               </div>
             </div>
             <!-- Video Description -->
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
-          <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2"></div>
+          <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2" />
           <!-- Comments -->
           <div><CommentList :comment-thread-id="video.commentThread?.id.toHexString()" :video-id="vid" /></div>
         </div>
@@ -73,7 +71,7 @@
           <div v-if="editTagOpened" class="flex flex-col mt-2 gap-1">
             <!-- Banner -->
             <button class="flex items-center text-blue-500" @click="() => (editTagOpened = false)">
-              <div class="i-uil:arrow-left text-xl"></div>
+              <div class="i-uil:arrow-left text-xl" />
               返回详情
             </button>
             <EditTags :key="vid" :vid="vid" :tags="video.tags" @refetch="refetch" />
@@ -90,22 +88,25 @@
                 >
                   <!-- Avatar -->
                   <div class="flex-shrink-0">
-                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
-                      ><UserAvatarPopper :uid="author.id.toHexString()"
-                        ><UserAvatar
+                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
+                      <UserAvatarPopper :uid="author.id.toHexString()">
+                        <UserAvatar
                           class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                           :image="author.avatar"
                           :gravatar="author.gravatar"
                           :alt="author.name"
-                          hide-title /></UserAvatarPopper
-                    ></RouterLink>
-                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
-                      ><UserAvatar
+                          hide-title
+                        />
+                      </UserAvatarPopper>
+                    </RouterLink>
+                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
+                      <UserAvatar
                         class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                         :image="author.avatar"
                         :gravatar="author.gravatar"
                         :alt="author.name"
-                    /></RouterLink>
+                      />
+                    </RouterLink>
                     <UserAvatar
                       v-else
                       class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
@@ -115,26 +116,23 @@
                     />
                   </div>
                   <div class="hidden sm:block ml-1.5 overflow-hidden">
-                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()"
-                      ><span
+                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
+                      <span
                         class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
-                      ></span
-                      >{{ author.name }}</RouterLink
-                    ><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid"
-                      ><span
+                      />{{ author.name }}
+                    </RouterLink><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
+                      <span
                         class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
-                      ></span
-                      >{{ author.name }}</RouterLink
-                    ><template v-else
-                      ><span
+                      />{{ author.name }}
+                    </RouterLink><template v-else>
+                      <span
                         class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
-                      ></span
-                      >{{ author.name }}</template
-                    >
-                    <br />
+                      />{{ author.name }}
+                    </template>
+                    <br>
                     <div
                       class="overflow-hidden whitespace-nowrap overflow-ellipsis text-sm text-gray-600 dark:text-gray-300"
                     >
@@ -151,12 +149,12 @@
               >
                 <div class="mx-2 my-1 flex justify-between">
                   <div>
-                    <RouterLink class="" :to="'/playlist/' + pid"
-                      ><div
+                    <RouterLink class="" :to="'/playlist/' + pid">
+                      <div
                         class="i-uil:list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
-                      ></div>
-                      {{ playlist.item.title }}</RouterLink
-                    >
+                      />
+                      {{ playlist.item.title }}
+                    </RouterLink>
                     <div class="text-sm text-gray-900 dark:text-gray-200">
                       {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
                       }}{{ playlistIndex + ' / ' + playlist.item.count }}
@@ -167,7 +165,7 @@
                       class="i-uil:angle-up text-2xl transform transition-transform duration-200 select-none cursor-pointer"
                       :class="{ 'rotate-180': playlistCollaped }"
                       @click="playlistCollaped = !playlistCollaped"
-                    ></div>
+                    />
                   </div>
                 </div>
                 <div v-show="!playlistCollaped" class="h-full overflow-y-auto">
@@ -181,8 +179,11 @@
                     <div
                       class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
                     >
-                      <template v-if="plIndex + 1 === playlistIndex"><div class="i-uil:play mx-auto"></div></template
-                      ><template v-else>{{ plVideo.rank + 1 }}</template>
+                      <template v-if="plIndex + 1 === playlistIndex">
+                        <div class="i-uil:play mx-auto" />
+                      </template><template v-else>
+                        {{ plVideo.rank + 1 }}
+                      </template>
                     </div>
                     <div class="flex-shrink-0 flex-grow-0 w-24">
                       <div class="aspect-ratio-8/5">
@@ -191,16 +192,16 @@
                           width="96"
                           height="54"
                           :src="getCoverImage({ image: plVideo.video.item.coverImage })"
-                        />
+                        >
                       </div>
                     </div>
                     <div class="flex flex-col justify-between">
-                      <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title"></h2>
+                      <h2 class="text-sm line-clamp-2" v-text="plVideo.video.item.title" />
                       <div
                         v-if="plVideo.video.meta.createdBy"
                         class="text-xs text-gray-900 dark:text-gray-200"
                         v-text="plVideo.video.meta.createdBy.username"
-                      ></div>
+                      />
                     </div>
                   </RouterLink>
                 </div>
@@ -221,14 +222,14 @@
                       :title="rlVideo.item.title"
                       :cover-image="rlVideo.item.coverImage"
                       class="rounded-md"
-                    ></Cover>
+                    />
                   </div>
                   <div class="col-span-3 flex mt-0.5 flex-wrap content-start text-sm">
-                    <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title"></a>
+                    <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-full" v-text="rlVideo.item.title" />
                     <div
                       class="text-sm inline-block w-full mt-1 truncate font-light"
                       v-text="rlVideo.meta.createdBy?.username"
-                    ></div>
+                    />
                   </div>
                 </RouterLink>
               </div>
@@ -243,7 +244,9 @@
         <div class="col-span-full xl:col-span-9">
           <!-- Video Title -->
           <div>
-            <h1 class="mt-1 sm:text-lg lg:text-xl w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</h1>
+            <h1 class="mt-1 sm:text-lg lg:text-xl w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">
+&nbsp;
+            </h1>
             <div class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600">
               &nbsp;
             </div>
@@ -251,7 +254,7 @@
           <!-- Video Player -->
           <div class="w-full mt-1">
             <div class="aspect-ratio-16/9">
-              <div class="w-full h-full bg-gray-400 dark:bg-gray-600"></div>
+              <div class="w-full h-full bg-gray-400 dark:bg-gray-600" />
             </div>
           </div>
         </div>
@@ -266,8 +269,10 @@
                 </div>
               </div>
               <div class="hidden sm:block w-full ml-3 overflow-hidden">
-                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</div>
-                <br />
+                <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">
+&nbsp;
+                </div>
+                <br>
                 <div
                   class="inline-block overflow-hidden whitespace-nowrap overflow-ellipsis text-sm w-2/5 mt-1 rounded-md bg-gray-400 dark:bg-gray-600"
                 >
@@ -280,12 +285,10 @@
           <div class="flex flex-col space-y-1 mt-2">
             <div v-for="i in 20" :key="i" class="grid grid-cols-5 space-x-1 hover:bg-purple-50 dark:hover:bg-gray-800">
               <div class="col-span-2">
-                <CoverPlaceholder class="rounded-sm"></CoverPlaceholder>
+                <CoverPlaceholder class="rounded-sm" />
               </div>
               <div class="col-span-3 flex flex-wrap content-start text-sm">
-                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600"
-                  >&nbsp;</a
-                >
+                <a class="line-clamp-2 overflow-ellipsis overflow-hidden w-4/5 rounded-md bg-gray-400 dark:bg-gray-600">&nbsp;</a>
                 <div class="text-sm mt-1 inline-block w-2/5 truncate rounded-md bg-gray-300 dark:bg-gray-600">
                   &nbsp;
                 </div>
@@ -299,32 +302,33 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, shallowRef, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useLocalStorage } from '@vueuse/core'
 import Player from './components/Player.vue'
+import Cover from './components/Cover.vue'
+import CoverPlaceholder from './components/CoverPlaceholder.vue'
+import CommentList from './components/CommentList.vue'
+import EditTags from './components/EditTags.vue'
 import RoundTag from '@/tag/components/RoundTag.vue'
 import MarkdownCommentBlock from '@/markdown/components/MarkdownCommentBlock.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
-import Cover from './components/Cover.vue'
-import CoverPlaceholder from './components/CoverPlaceholder.vue'
-import CommentList from './components/CommentList.vue'
-import EditTags from './components/EditTags.vue'
-import { computed, ref, shallowRef, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
-import { useI18n } from 'vue-i18n'
-import NProgress from 'nprogress'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { ObjectID, Query, schema } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { behMostMatch } from '@/locales'
-import { useLocalStorage } from '@vueuse/core'
-import { IsLogin, isLogin, user } from '@/user/index'
 import { openWindow } from '@/nested'
+import { useUserData } from '@/user'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
+const { isLogin, isAdmin } = useUserData()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)
@@ -418,27 +422,27 @@ const { result, loading, refetch } = useQuery<Query>(
     vid: vid.value,
     fetchPlaylist: !!pid.value,
     pid: pid.value,
-  }
+  },
 )
 
-/* sync process bar */
+// sync process bar
 watchEffect(() => {
-  if (loading.value) {
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
-    if (NProgress.isStarted()) NProgress.done()
-  }
+  if (loading.value)
+    startProgress()
+  else
+    stopProgress()
 })
 
 /* basic info */
-const video = useResult(result, null, (data) => data?.getVideo)
+const video = useResult(result, null, data => data?.getVideo)
 // change title
 watchEffect(() => {
-  if (video.value) setSiteTitle(video.value.item.title + ' - PatchyVideo')
+  if (video.value)
+    setSiteTitle(`${video.value.item.title} - PatchyVideo`)
 })
 
 /* tags */
-type Author = {
+interface Author {
   type: 'AuthorTag' | 'User'
   position: string
   id: ObjectID
@@ -450,11 +454,11 @@ type Author = {
 }
 const authors = computed(() =>
   video.value
-    ? ((video.value.tags.filter((v) => v.__typename === 'AuthorTagObject') as schema.AuthorTagObject[])
+    ? ((video.value.tags.filter(v => v.__typename === 'AuthorTagObject') as schema.AuthorTagObject[])
         .map(
-          (tag) =>
-            tag.author &&
-            ({
+          tag =>
+            tag.author
+            && ({
               type: 'AuthorTag',
               id: tag.author.id,
               tagid: tag.tagid,
@@ -462,7 +466,7 @@ const authors = computed(() =>
               desc: tag.author.desc,
               avatar: tag.author.avatar,
               position: tag.authorRole,
-            } as Author)
+            } as Author),
         )
         .concat([
           video.value.meta.createdBy && {
@@ -475,11 +479,11 @@ const authors = computed(() =>
             position: t('video.video.uploader'),
           },
         ])
-        .filter((v) => !!v) as Author[])
-    : []
+        .filter(v => !!v) as Author[])
+    : [],
 )
 const regularTags = computed(() =>
-  video.value ? (video.value.tags.filter((v) => v.__typename === 'RegularTagObject') as schema.RegularTagObject[]) : []
+  video.value ? (video.value.tags.filter(v => v.__typename === 'RegularTagObject') as schema.RegularTagObject[]) : [],
 )
 
 /* mobile teleport targets */
@@ -488,14 +492,14 @@ const mobilePlaylistTarget = shallowRef<HTMLDivElement | null>(null)
 
 /* video playlist, ?list=[PID] */
 // raw playlist
-const playlist = useResult(result, null, (data) => data?.getPlaylist)
+const playlist = useResult(result, null, data => data?.getPlaylist)
 // videos in playlist
-const playlistVideos = useResult(result, null, (data) => data?.listAdjacentVideos)
+const playlistVideos = useResult(result, null, data => data?.listAdjacentVideos)
 // the index that current video at
 const playlistIndex = computed(() =>
   video.value && playlistVideos.value
-    ? (playlistVideos.value.find((v) => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
-    : -1
+    ? (playlistVideos.value.find(v => v.video.id.toHexString() === vid.value)?.rank ?? -2) + 1
+    : -1,
 )
 // whither playlist is collaped
 const playlistCollaped = ref(!screenSizes.xl)
@@ -507,12 +511,12 @@ const renderTagAsPlainText = useLocalStorage('video_tag_render_as_plain_text', f
 const editVideoWindow = shallowRef<Window | null>(null)
 const popEditVideoWindow = () => {
   // check if there is already a window opened
-  if (editVideoWindow.value && !editVideoWindow.value.closed) {
+  if (editVideoWindow.value && !editVideoWindow.value.closed)
     editVideoWindow.value.focus()
-  }
+
   // create a new window
   const { window: win } = openWindow({
-    url: '/edit-video/' + vid.value,
+    url: `/edit-video/${vid.value}`,
   })
   editVideoWindow.value = win
 }
@@ -534,14 +538,13 @@ const hideVideo = () => {
     }),
     credentials: 'include',
   })
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
-      if (res.status === 'SUCCEED') {
+      if (res.status === 'SUCCEED')
         hideVideoResult.value = t('video.video.edit.hide-video.succeed')
-      } else {
-        throw 'failed'
-      }
+      else
+        throw new Error(res)
     })
     .catch((e) => {
       console.error(e)

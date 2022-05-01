@@ -1,5 +1,7 @@
 <template>
-  <div ref="el"><slot /></div>
+  <div ref="el">
+    <slot />
+  </div>
   <div
     v-show="popperShowing && user"
     ref="popper"
@@ -16,21 +18,21 @@
           />
         </div>
         <div class="min-w-0 mt-1">
-          <div class="truncate font-medium" :title="user.username" v-text="user.username"></div>
-          <div class="line-clamp-2 text-sm text-gray-800 dark:text-gray-300" :title="user.desc" v-text="user.desc"></div>
+          <div class="truncate font-medium" :title="user.username" v-text="user.username" />
+          <div class="line-clamp-2 text-sm text-gray-800 dark:text-gray-300" :title="user.desc" v-text="user.desc" />
         </div>
       </div>
     </RouterLink>
-    <div class="popper-arrow" data-popper-arrow></div>
+    <div class="popper-arrow" data-popper-arrow />
   </div>
 </template>
 
 <script lang="ts" setup>
-import UserAvatar from './UserAvatar.vue'
 import { onMounted, onUnmounted, ref, shallowRef, watchEffect } from 'vue'
 import { until, useEventListener, watchDebounced } from '@vueuse/core'
 import { createPopper } from '@popperjs/core'
 import type { Instance as PopperInstance } from '@popperjs/core'
+import UserAvatar from './UserAvatar.vue'
 import { gql, useLazyQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 
@@ -54,10 +56,10 @@ const { result, load } = useLazyQuery<Query>(
   `,
   {
     uid: props.uid,
-  }
+  },
 )
 
-const user = useResult(result, null, (data) => data?.getUser)
+const user = useResult(result, null, data => data?.getUser)
 
 const popperShowing = ref(false)
 const popperHovering = ref(false)
@@ -81,11 +83,12 @@ onMounted(() => {
   })
 
   const showPopper = () => {
-    if (popperShowing.value) return
+    if (popperShowing.value)
+      return
 
     popper.value!.setAttribute('data-show', '')
 
-    popperInstance.setOptions((options) => ({
+    popperInstance.setOptions(options => ({
       ...options,
       modifiers: [...(options.modifiers ?? []), { name: 'eventListeners', enabled: true }],
     }))
@@ -95,11 +98,12 @@ onMounted(() => {
     popperShowing.value = true
   }
   const hidePopper = () => {
-    if (!popperShowing.value) return
+    if (!popperShowing.value)
+      return
 
     popper.value!.removeAttribute('data-show')
 
-    popperInstance.setOptions((options) => ({
+    popperInstance.setOptions(options => ({
       ...options,
       modifiers: [...(options.modifiers ?? []), { name: 'eventListeners', enabled: false }],
     }))
@@ -123,18 +127,21 @@ onMounted(() => {
   watchDebounced(
     popperHovering,
     (v) => {
-      if (v) showPopper()
+      if (v)
+        showPopper()
       else hidePopper()
     },
-    { debounce: 500 }
+    { debounce: 500 },
   )
 
   watchEffect(() => {
-    if (user) popperInstance.update()
+    if (user)
+      popperInstance.update()
   })
 })
 onUnmounted(() => {
-  if (popperInstance) popperInstance.destroy()
+  if (popperInstance)
+    popperInstance.destroy()
 })
 until(popperHovering)
   .toBeTruthy()

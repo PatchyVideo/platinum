@@ -4,7 +4,7 @@
     <div
       class="flex h-9 justify-start items-center rounded-lg border border-purple-200 dark:border-gray-700 bg-white dark:bg-gray-800"
     >
-      <div class="flex-shrink-0 inline i-uil:search text-lg ml-2 mr-1" @click="onSearchContentChange()"></div>
+      <div class="flex-shrink-0 inline i-uil:search text-lg ml-2 mr-1" @click="onSearchContentChange()" />
       <input
         ref="autoComplete"
         v-model="searchContent"
@@ -14,18 +14,18 @@
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
         @click="onSearchContentChange()"
-      />
+      >
       <div
         v-show="searchContent"
         class="i-uil:times-circle flex-shrink-0 inline-block ml-1 mr-2"
         @click="searchContent = ''"
-      ></div>
+      />
       <button
         v-if="width > 500"
         class="flex-shrink-0 text-purple-900 dark:text-white h-full px-3 rounded-r-lg border-l-1 border-l-purple-200 dark:border-l-gray-700 bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 focus:outline-none focus:ring focus:ring-purple-300 transition-colors"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
-      ></button>
+      />
     </div>
     <div
       class="absolute z-11 top-full left-0 w-full overflow-hidden"
@@ -95,30 +95,32 @@
                       'text-soundtrack': item.cat === 6,
                     }"
                     v-text="item.tag"
-                  ></div>
-                  <template v-if="item.sub"
-                    ><div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub"></div
-                  ></template>
+                  />
+                  <template v-if="item.sub">
+                    <div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub" />
+                  </template>
                 </div>
-                <div v-if="showTagCnt" class="text-gray-400">{{ item.cnt || '' }}</div>
+                <div v-if="showTagCnt" class="text-gray-400">
+                  {{ item.cnt || '' }}
+                </div>
               </div>
             </div>
             <div
               v-else-if="!listHidden"
               class="p-3 w-full text-center"
               v-text="t('search.auto-complete.loading-nothing')"
-            ></div>
+            />
             <div
               v-else-if="loading"
               class="p-3 w-full text-center"
               v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
-            ></div>
+            />
             <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full">
               <div>
                 <h4 class="mx-2 font-light">
-                  <div class="i-uil:tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300"></div>
+                  <div class="i-uil:tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300" />
                   {{ t('search.auto-complete.hot-tags') }}
-                  <div v-if="popularTags.length === 0" class="i-uil:spinner-alt inline animate-spin"></div>
+                  <div v-if="popularTags.length === 0" class="i-uil:spinner-alt inline animate-spin" />
                 </h4>
                 <div v-if="popularTags" class="mx-0.5 line-clamp-4 text-gray-800 dark:text-gray-300">
                   <div
@@ -139,10 +141,11 @@
                       }
                     "
                     v-text="tag.replaceAll(/_/g, ' ')"
-                  ></div>
+                  />
                 </div>
-              </div></div
-          ></Teleport>
+              </div>
+            </div>
+          </Teleport>
         </div>
       </Transition>
     </div>
@@ -153,10 +156,10 @@
 import { nextTick, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { until, useElementSize, useEventListener, useVModel, watchDebounced } from '@vueuse/core'
+import { useMotion } from '@vueuse/motion'
 import { behMostMatch, iso639locale } from '@/locales'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
-import { useMotion } from '@vueuse/motion'
 
 const props = withDefaults(
   defineProps<{
@@ -172,7 +175,7 @@ const props = withDefaults(
     teleportResult: undefined,
     showRecommendations: false,
     showTagCnt: true,
-  }
+  },
 )
 const emit = defineEmits<{
   (event: 'update:keyword', value: string): void
@@ -204,7 +207,7 @@ let cutHeadSearchContent: string
 let cutTailSearchContent: string
 const searchResult = ref<AutoCompleteResult[]>([])
 const activeSearchResult = ref(-1)
-let sitesAndKeywords: AutoCompleteResult[] = reactive([
+const sitesAndKeywords: AutoCompleteResult[] = reactive([
   { tag: 'site:acfun', cat: 6, cnt: null, active: false },
   { tag: 'site:bilibili', cat: 6, cnt: null, active: false },
   { tag: 'site:nicovideo', cat: 6, cnt: null, active: false },
@@ -219,6 +222,23 @@ let sitesAndKeywords: AutoCompleteResult[] = reactive([
   { tag: 'tags:', cat: 6, cnt: null, active: false },
 ])
 
+const motionel = shallowRef<HTMLElement | null>(null)
+const motion = useMotion(motionel)
+const transitionStatus = ref<'enter' | 'leave'>('leave')
+
+// Click to hide the list
+const autoCompleteRoot = shallowRef<HTMLDivElement | null>()
+const hideContainer = ref(true)
+useEventListener(document, 'click', async (e: MouseEvent): Promise<void> => {
+  activeSearchResult.value = -1
+  if (!autoCompleteRoot.value?.contains(e.target as HTMLElement)) {
+    hideContainer.value = true
+    await until(transitionStatus).toBe('leave')
+    listHidden.value = true
+    loading.value = false
+  }
+})
+
 // Send query and show the list
 const onSearchContentChange = () => {
   if (!searchContent.value || !getSearchKeyword()) {
@@ -228,24 +248,25 @@ const onSearchContentChange = () => {
     return
   }
   const searchKeyword = getSearchKeyword() || ''
-  if (searchKeyword) {
+  if (searchKeyword)
     getSearchList(searchKeyword)
-  } else {
+  else
     hideContainer.value = false
-  }
 }
 watchDebounced(searchContent, () => nextTick(onSearchContentChange), { debounce: 500 })
 
 // Slice the search key word
 const autoComplete = shallowRef<HTMLInputElement | null>(null)
+const isEmptyString = (str: string): boolean => !str.trim()
 function getSearchKeyword(): string | null {
-  let endlocation = autoComplete.value?.selectionStart || 0
+  const endlocation = autoComplete.value?.selectionStart || 0
   let query = searchContent.value?.slice(0, endlocation) || ''
-  let startlocation = matchSearchKeywordStart(query)
+  const startlocation = matchSearchKeywordStart(query)
   cutHeadSearchContent = searchContent.value?.slice(0, startlocation) || ''
   cutTailSearchContent = searchContent.value?.slice(endlocation, searchContent.value.length) || ''
   query = query.slice(startlocation, endlocation)
-  if (isEmptyString(query)) return null
+  if (isEmptyString(query))
+    return null
   return query
 }
 function matchSearchKeywordStart(text: string): number {
@@ -261,17 +282,15 @@ function matchSearchKeywordStart(text: string): number {
       case ')':
         return i + 1
       case '(': {
-        if (i > 0 && text.charAt(i - 1) === '_') {
+        if (i > 0 && text.charAt(i - 1) === '_')
           continue
-        } else {
+        else
           return i + 1
-        }
       }
     }
   }
   return 0
 }
-const isEmptyString = (str: string): boolean => !str.trim()
 
 // Search for Search list
 async function getSearchList(searchKeyword: string): Promise<void> {
@@ -280,7 +299,7 @@ async function getSearchList(searchKeyword: string): Promise<void> {
   loading.value = true
   let listData: AutoCompleteResult[] = sitesAndKeywords.filter(siteOrKeywordFilter(searchKeyword))
   await fetch(`https://patchyvideo.com/be/autocomplete/ql?q=${searchKeyword}`)
-    .then((data) => data.json())
+    .then(data => data.json())
     .then((res) => {
       // console.log(res)
       listData = listData.concat(res)
@@ -307,9 +326,10 @@ function convertLangRes(langs: AutoCompleteLangs[], keyword = ''): { main: strin
   let SubLangWord = null
   for (let i = 0; i < level.length; i++) {
     SubLangWord = langs.find((x) => {
-      return x.l == level[i]
+      return x.l === level[i]
     })
-    if (SubLangWord) break
+    if (SubLangWord)
+      break
   }
   const subLang = SubLangWord ? SubLangWord.w : keyword
 
@@ -320,39 +340,26 @@ function convertLangRes(langs: AutoCompleteLangs[], keyword = ''): { main: strin
   }
 }
 
-// Click to hide the list
-const autoCompleteRoot = shallowRef<HTMLDivElement | null>()
-const hideContainer = ref(true)
-useEventListener(document, 'click', async (e: MouseEvent): Promise<void> => {
-  activeSearchResult.value = -1
-  if (!autoCompleteRoot.value?.contains(e.target as HTMLElement)) {
-    hideContainer.value = true
-    await until(transitionStatus).toBe('leave')
-    listHidden.value = true
-    loading.value = false
-  }
-})
-
 // Select the keyword from the search list with keyboard
 function selectAutocompleteKeyword(up: boolean): void {
-  if (!searchResult.value.length) return
+  if (!searchResult.value.length)
+    return
   if (up) {
-    if (activeSearchResult.value === 0) {
+    if (activeSearchResult.value === 0)
       activeSearchResult.value = searchResult.value.length - 1
-    } else {
+    else
       activeSearchResult.value--
-    }
-  } else {
-    if (activeSearchResult.value === searchResult.value.length - 1) {
+  }
+  else {
+    if (activeSearchResult.value === searchResult.value.length - 1)
       activeSearchResult.value = 0
-    } else {
+    else
       activeSearchResult.value++
-    }
   }
 }
 // Select the keyword from the search list with mouse
 function clickAutocompleteKeyword(tag: string): void {
-  searchContent.value = formatSearchContent(cutHeadSearchContent + tag.replace(/ /g, '_') + ' ' + cutTailSearchContent)
+  searchContent.value = formatSearchContent(`${cutHeadSearchContent + tag.replace(/ /g, '_')} ${cutTailSearchContent}`)
   activeSearchResult.value = -1
   listHidden.value = true
   autoComplete.value?.focus()
@@ -360,16 +367,21 @@ function clickAutocompleteKeyword(tag: string): void {
 }
 
 //  Select the keyword from the search list with keyboard or search
+const lang2tag = (item: AutoCompleteResult) => {
+  const l = convertLangRes(item.langs || [], item.keyword)
+  return { ...item, tag: item.tag || l.main, sub: l.sub }
+}
 function completeKeywordOrSearch(usingSearchButton = false): void {
   loading.value = false
   if (usingSearchButton || activeSearchResult.value === -1) {
-    if (searchContent.value) emit('search', searchContent.value)
-    return
-  } else {
+    if (searchContent.value)
+      emit('search', searchContent.value)
+  }
+  else {
     const item = searchResult.value[activeSearchResult.value]
     const tag = lang2tag(item).tag
     searchContent.value = formatSearchContent(
-      cutHeadSearchContent + tag.replace(/ /g, '_') + ' ' + cutTailSearchContent
+      `${cutHeadSearchContent + tag.replace(/ /g, '_')} ${cutTailSearchContent}`,
     )
     searchResult.value = []
     emit('suggestionClick', tag)
@@ -380,11 +392,6 @@ function completeKeywordOrSearch(usingSearchButton = false): void {
 function formatSearchContent(content: string): string {
   content = content.replace(/\s+/g, ' ')
   return content
-}
-
-const lang2tag = (item: AutoCompleteResult) => {
-  const l = convertLangRes(item.langs || [], item.keyword)
-  return { ...item, tag: item.tag || l.main, sub: l.sub }
 }
 
 /**
@@ -419,20 +426,16 @@ const { result } = useQuery<Query>(
   `,
   {
     lang: iso639locale.value,
-  }
+  },
 )
 const popularTags = useResult(
   result,
   [],
-  (data) =>
+  data =>
     [...(data?.getPopularTags.popularTags ?? [])]
       .sort((a, b) => b.popluarity - a.popluarity)
-      .map((v) => behMostMatch(v.tag.languages)) ?? []
+      .map(v => behMostMatch(v.tag.languages)) ?? [],
 )
-
-const motionel = shallowRef<HTMLElement | null>(null)
-const motion = useMotion(motionel)
-const transitionStatus = ref<'enter' | 'leave'>('leave')
 
 defineExpose({
   focus,

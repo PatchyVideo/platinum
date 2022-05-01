@@ -8,11 +8,12 @@ const markdownIt = new MarkdownIt({
   html: true,
   breaks: true,
   linkify: true,
-  highlight: function (str, language) {
+  highlight(str, language) {
     if (language && hljs.getLanguage(language)) {
       try {
         return hljs.highlight(str, { language }).value
-      } catch (__) {
+      }
+      catch (__) {
         // if error, just run as not renderd.
       }
     }
@@ -29,25 +30,26 @@ interface MarkdownItEnv {
   }[]
 }
 
-const DRlink_open =
-  markdownIt.renderer.rules.link_open ||
-  function (tokens, idx, options, env, self) {
+const DRlink_open
+  = markdownIt.renderer.rules.link_open
+  || function (tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options)
   }
 
 markdownIt.renderer.rules.link_open = function (tokens, idx, options, env: MarkdownItEnv, self) {
   const link = tokens[idx].attrGet('href')
-  if (link && !(tokens[idx + 1].type === 'text' && tokens[idx + 1].content.trim() === link))
+  if (link && !(tokens[idx + 1].type === 'text' && tokens[idx + 1].content.trim() === link)) {
     env.last.push({
       level: tokens[idx].level,
       url: new URL(link),
     })
+  }
   return DRlink_open(tokens, idx, options, env, self)
 }
 
-const DRlink_close =
-  markdownIt.renderer.rules.link_close ||
-  function (tokens, idx, options, env, self) {
+const DRlink_close
+  = markdownIt.renderer.rules.link_close
+  || function (tokens, idx, options, env, self) {
     return self.renderToken(tokens, idx, options)
   }
 
@@ -57,7 +59,7 @@ markdownIt.renderer.rules.link_close = function (tokens, idx, options, env: Mark
       if (tokens[idx].level === cv.level) {
         const str = `<span class="text-xs text-gray-600 dark:text-gray-300">[${cv.url.hostname.replace(
           /^www./,
-          ''
+          '',
         )}]</span>`
         env.last.splice(index, 1)
         return DRlink_close(tokens, idx, options, env, self) + str
@@ -235,19 +237,19 @@ function sanitizeHTML(src: string) {
     onopentag(tagName, attribs) {
       if (/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) && Object.keys(attribs).length === 1) {
         result += `<${tagName}//${Object.keys(attribs).join(' ')}>`
-        return
-      } else if (!allowedTags.includes(tagName.toLowerCase())) {
+      }
+      else if (!allowedTags.includes(tagName.toLowerCase())) {
         result += encodeHTML(
-          '<' +
-            tagName +
-            Object.entries(attribs)
+          `<${
+            tagName
+            }${Object.entries(attribs)
               .map(([k, v]) => ` ${k}="${v.replaceAll(/"/g, '&quot;')}"`)
-              .join('') +
-            '>'
+              .join('')
+            }>`,
         )
-        return
-      } else {
-        result += '<' + tagName
+      }
+      else {
+        result += `<${tagName}`
         Object.entries(attribs).forEach(([attrName, attrValue]) => {
           const addAttr = (encode = false) => {
             const v = encode ? attrValue.replaceAll(/"/g, '&quot;') : attrValue
@@ -258,7 +260,8 @@ function sanitizeHTML(src: string) {
               case 'a': {
                 switch (attrName) {
                   case 'href':
-                    if (new URL(attrValue).protocol.match(/^(https?|ftps?|mailto|xmpp|ircs?):$/)) addAttr(true)
+                    if (new URL(attrValue).protocol.match(/^(https?|ftps?|mailto|xmpp|ircs?):$/))
+                      addAttr(true)
                     break
                 }
                 break
@@ -267,7 +270,8 @@ function sanitizeHTML(src: string) {
                 switch (attrName) {
                   case 'src':
                   case 'longdesc':
-                    if (new URL(attrValue).protocol.match(/^(https?):$/)) addAttr(true)
+                    if (new URL(attrValue).protocol.match(/^(https?):$/))
+                      addAttr(true)
                     break
                 }
                 break
@@ -286,20 +290,24 @@ function sanitizeHTML(src: string) {
               case 'q': {
                 switch (attrName) {
                   case 'cite':
-                    if (new URL(attrValue).protocol.match(/^(https?):$/)) addAttr(true)
+                    if (new URL(attrValue).protocol.match(/^(https?):$/))
+                      addAttr(true)
                     break
                 }
                 break
               }
             }
-            if (allowedAttributes.includes(attrName.toLowerCase())) addAttr(true)
-          } catch (e) {
+            if (allowedAttributes.includes(attrName.toLowerCase()))
+              addAttr(true)
+          }
+          catch (e) {
             // do nothing
           }
         })
         if (voidElements.includes(tagName.toLowerCase())) {
           result += ' />'
-        } else {
+        }
+        else {
           result += '>'
           stack.push(tagName)
         }
@@ -314,9 +322,10 @@ function sanitizeHTML(src: string) {
       if (tagName === last) {
         result += `</${tagName}>`
         stack.pop()
-      } else if (
-        !/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName) &&
-        !voidElements.includes(tagName.toLowerCase())
+      }
+      else if (
+        !/^(https?|ftps?|mailto|xmpp|ircs?):$/.test(tagName)
+        && !voidElements.includes(tagName.toLowerCase())
       ) {
         result += encodeHTML(`</${tagName}>`)
       }
@@ -332,9 +341,10 @@ export function render(src: string): string {
   try {
     res = markdownIt.render(
       sanitizeHTML(src).replace(/\[\[表情:(\p{L}+)\]\]/gu, '[[face' /* escape unocss */ + ':$1]]'),
-      { last: [] }
+      { last: [] },
     )
-  } catch (e) {
+  }
+  catch (e) {
     console.error(e)
     res = `<div class="font-mono">Error throwed from Markdown parser: ${e}<br />${
       e instanceof Error && e.stack ? e.stack.replaceAll('\n', '<br />') : String(e)

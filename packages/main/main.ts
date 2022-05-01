@@ -1,83 +1,51 @@
-import { createApp, defineComponent, h, nextTick } from 'vue'
-
-const appPromises: Promise<unknown>[] = []
-
-/* CSS */
-import '@/css'
-
-/* Dark Mode */
-import '@/darkmode'
-
-/* GraphQL */
-import { createApollo, provideClient as provideGraphQLClient } from '@/graphql'
-const client = createApollo()
-
-/* NProgress */
-import NProgress from 'nprogress'
-import 'nprogress/css/nprogress.css'
-function incProcess() {
-  if (NProgress.isStarted()) NProgress.inc()
-}
-NProgress.start()
-
-/* Vue App */
-import Notification from '@/notification/components/Notification.vue'
-import PvMessage from '@/ui/components/PvMessage.vue'
+/* eslint-disable vue/one-component-per-file */
+import { Suspense, createApp, defineComponent, h, nextTick } from 'vue'
+import { createRouter, createWebHistory, useRouter } from 'vue-router'
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import { MotionPlugin } from '@vueuse/motion'
+import { until } from '@vueuse/core'
+import BackendDown from './components/BackendDown.vue'
 import ReloadPrompt from './components/ReloadPrompt.vue'
 import AppRouterView from './components/AppRouterView.vue'
-import { provideSharedObject } from '@/nested'
-const app = createApp(
-  defineComponent({
-    render: () => [h(AppRouterView), h(Notification), h(PvMessage), h(ReloadPrompt)],
-    setup() {
-      provideGraphQLClient(client)
-      provideSharedObject()
-    },
-  })
-)
-
-/* Check if backend is alive */
-import BackendDown from './components/BackendDown.vue'
 import BrowserOffline from './components/BrowserOffline.vue'
-async function loadBackendDown() {
-  let errorPageApp
-  if (window.navigator.onLine) {
-    errorPageApp = createApp(
-      defineComponent({
-        render: () => h(BackendDown),
-      })
-    )
-  } else {
-    errorPageApp = createApp(
-      defineComponent({
-        render: () => h(BrowserOffline),
-      })
-    )
-  }
-  await appPromisesFinish
-  await router.isReady()
-  await nextTick()
-  app.unmount()
-  errorPageApp.mount('#app')
-}
-const checkIfBackendDown = () =>
-  fetch('https://patchyvideo.com/be/alive.txt')
-    .then((res) => {
-      if (!res.ok) throw ''
-    })
-    .catch(() => {
-      loadBackendDown()
-    })
-appPromises.push(checkIfBackendDown())
+import { createBackendStatus, provideBackendStatus } from './libs/backendStatus'
+import Notification from '@/notification/components/Notification.vue'
+import PvMessage from '@/ui/components/PvMessage.vue'
+import { createApollo, provideClient as provideGraphQLClient } from '@/graphql'
+import { provideSharedObject } from '@/nested'
+import { createUserData, provideUserData } from '@/user'
+import i18n, { loadI18nPromise } from '@/locales'
+import { incProcess, startProgress, stopProgress } from '@/nprogress'
+import 'nprogress/nprogress.css'
+import '@/css'
+import '@/darkmode'
+import './libs/extension'
+import './libs/pvcc'
 
-/* Login authentication & user data filling */
-import { IsLogin, checkLoginStatus, isLogin } from '@/user'
-const checkLoginStatusPromise = checkLoginStatus(true)
-appPromises.push(checkLoginStatusPromise)
+startProgress()
 
-/* Vue Router */
-import { createRouter, createWebHistory } from 'vue-router'
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
+const client = createApollo()
+const userData = createUserData()
+const backendStatus = createBackendStatus()
+const rootComponent = defineComponent({
+  setup() {
+    provideGraphQLClient(client)
+    provideSharedObject()
+    provideUserData(userData)
+    provideBackendStatus(backendStatus)
+
+    return () => backendStatus.alive.value === 'no'
+      ? window.navigator.onLine ? h(BackendDown) : h(BrowserOffline)
+      : [
+          h(Suspense, {}, h(AppRouterView)),
+          h(Notification),
+          h(PvMessage),
+          h(ReloadPrompt),
+        ]
+  },
+})
+const app = createApp(rootComponent)
+
 declare module 'vue-router' {
   interface RouteMeta {
     holdLoading?: boolean
@@ -226,19 +194,38 @@ const router = createRouter({
       component: () => import('@/settings/ChangeSettings.vue'),
     },
 
-    // Test
+    // Debug
     {
-      name: 'test',
-      path: '/test',
-      component: () => import('@/common/test.vue'),
-    },
+      name: 'debug-user-force-logout',
+      path: '/debug/user/force-logout',
+      component: defineComponent({
+        async setup() {
+          const router = useRouter()
+          try {
+            await fetch('https://patchyvideo.com/be/logout.do', {
+              method: 'POST',
+              headers: new Headers({
+                'Content-Type': 'application/json',
+              }),
+              body: JSON.stringify({}),
+              credentials: 'include',
+            })
+          }
+          finally {
+            router.push('/')
+          }
 
-    // Error
+          return () => []
+        },
+      }),
+    },
     {
-      name: '404',
+      name: 'debug-error-pages-404',
       path: '/debug/error-pages/404',
       component: () => import('@/error-pages/components/404.vue'),
     },
+
+    // Error
     {
       name: '404',
       path: '/:url+',
@@ -246,52 +233,34 @@ const router = createRouter({
     },
   ],
 })
-let pendingNProgress: number | undefined
 router.beforeEach(async (to, from, next) => {
-  // start progress bar if page took a bit of time to load
-  if (pendingNProgress === undefined)
-    pendingNProgress = setTimeout(() => {
-      if (!NProgress.isStarted()) NProgress.start()
-      pendingNProgress = undefined
-    }, 150)
+  startProgress()
 
-  await checkLoginStatusPromise
+  backendStatus.refetch()
 
-  if (to.meta.requireLogin && isLogin.value !== IsLogin.yes) next({ path: '/' })
+  if (to.meta.requireLogin) {
+    const { verifiedLogin } = userData
+    await until(verifiedLogin.value).not.toBe('loading')
+    if (verifiedLogin.value !== 'yes')
+      next({ path: '/' })
+  }
 
   next()
 })
-router.afterEach((guard) => {
+router.afterEach((to) => {
   incProcess()
-  checkIfBackendDown()
-  appPromisesFinish.then(() => {
-    if (pendingNProgress) {
-      clearTimeout(pendingNProgress)
-      pendingNProgress = undefined
-    }
-    if (!guard.meta.holdLoading) {
-      if (NProgress.isStarted()) NProgress.done()
-    }
-  })
+
+  if (!to.meta.holdLoading) {
+    // wait for dom update
+    nextTick(() => {
+      stopProgress()
+    })
+  }
 })
 app.use(router)
 
-/* Vue I18n */
-import i18n, { loadI18nPromise } from '@/locales'
 app.use(i18n)
-appPromises.push(loadI18nPromise)
 
-/* Vue Motion */
-import { MotionPlugin } from '@vueuse/motion'
 app.use(MotionPlugin)
 
-const appPromisesFinish = Promise.allSettled(appPromises.map((v) => v.then(incProcess))).then(() => {
-  app.mount('#app')
-  incProcess()
-})
-
-/* Extension */
-import './extension'
-
-/* PatchyVideo Console Controls */
-import './pvcc'
+loadI18nPromise.then(() => app.mount('#app'))

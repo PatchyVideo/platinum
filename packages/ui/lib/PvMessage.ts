@@ -48,6 +48,21 @@ const OptionsDefaultValue: Options = {
 const allMessageOptions = reactive<Array<Options>>([])
 export const fullMessageOptions = shallowReactive<Array<FullOptions>>([])
 
+export const handleCloseMessage = (options: FullOptions): void => {
+  const { id, onClose } = options
+  for (let i = 0, l = fullMessageOptions.length; i < l; i++) {
+    if (fullMessageOptions[i].id === id) {
+      allMessageOptions.splice(i, 1)
+      fullMessageOptions.splice(i, 1)
+      break
+    }
+  }
+  setTimeout(() => {
+    if (onClose)
+      onClose()
+  }, PvMessageTransitionDuration.value)
+}
+
 export const PvMessage = (options: string | Options): void => {
   if (typeof options === 'string') {
     options = {
@@ -72,19 +87,6 @@ export const PvMessage = (options: string | Options): void => {
       handleCloseMessage(fullOptions)
     }, duration)
   }
-}
-export const handleCloseMessage = (options: FullOptions): void => {
-  const { id, onClose } = options
-  for (let i = 0, l = fullMessageOptions.length; i < l; i++) {
-    if (fullMessageOptions[i].id === id) {
-      allMessageOptions.splice(i, 1)
-      fullMessageOptions.splice(i, 1)
-      break
-    }
-  }
-  setTimeout(() => {
-    if (onClose) onClose()
-  }, PvMessageTransitionDuration.value)
 }
 
 /**

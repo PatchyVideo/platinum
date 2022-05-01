@@ -2,12 +2,12 @@
   <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === 'loading'">
-        <div v-text="t('video.video-list.main-body.loading.searching')"></div>
+        <div v-text="t('video.video-list.main-body.loading.searching')" />
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
             <div class="w-2/5 mr-0.5">
-              <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
+              <CoverPlaceholder class="rounded-md" />
             </div>
             <div class="w-3/5 text-sm pb-1 flex flex-wrap content-between">
               <div
@@ -15,7 +15,7 @@
               >
                 &nbsp;
               </div>
-              <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600"></div>
+              <div class="flex text-xs h-4 align-middle rounded-md w-2/5 bg-gray-400 dark:bg-gray-600" />
             </div>
           </div>
         </div>
@@ -26,12 +26,12 @@
             :key="index"
             class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
           >
-            <CoverPlaceholder class="rounded-md"></CoverPlaceholder>
+            <CoverPlaceholder class="rounded-md" />
             <div class="p-3 text-left text-sm lg:text-base">
               <div class="line-clamp-2 overflow-ellipsis overflow-hidden rounded-md bg-gray-400 dark:bg-gray-600">
                 &nbsp;
               </div>
-              <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600"></div>
+              <div class="flex text-xs h-4 mt-1 align-middle rounded-md bg-gray-300 dark:bg-gray-600" />
             </div>
           </div>
         </div>
@@ -44,8 +44,10 @@
         <div
           class="border-b pb-1"
           v-text="t('video.video-list.main-body.successful.search-result-count', { count })"
-        ></div>
-        <div class="p-1 text-xs text-right md:text-sm">{{ t('video.video-list.main-body.tips') }}</div>
+        />
+        <div class="p-1 text-xs text-right md:text-sm">
+          {{ t('video.video-list.main-body.tips') }}
+        </div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <RouterLink
@@ -55,27 +57,28 @@
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="relative w-2/5 mr-0.5">
-              <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm"></Cover>
+              <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm" />
               <div
                 v-if="video.clearence === 0"
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
-                <div class="i-uil:eye-slash text-4xl"></div>
-                <div class="text-lg">{{ t('video.video-list.video.hidden') }}</div>
+                <div class="i-uil:eye-slash text-4xl" />
+                <div class="text-lg">
+                  {{ t('video.video-list.video.hidden') }}
+                </div>
               </div>
             </div>
             <div class="flex flex-wrap content-between w-3/5 pb-1 text-sm">
               <div v-if="video.item.partName" class="overflow-hidden w-full">
                 <a class="inline-block w-full truncate">{{ video.item.title }}</a>
                 <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
-                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                  >{{ video.item.partName }}
+                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label>{{ video.item.partName }}
                 </div>
               </div>
               <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+                <img class="cover h-full" :src="getSiteImage(video.item.site)" :alt="video.item.site">
               </div>
             </div>
           </RouterLink>
@@ -89,13 +92,15 @@
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="relative">
-              <Cover :title="video.item.title" :cover-image="video.item.coverImage"></Cover>
+              <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
               <div
                 v-if="video.clearence === 0"
                 class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
               >
-                <div class="i-uil:eye-slash text-8xl"></div>
-                <div class="text-2xl">{{ t('video.video-list.video.hidden') }}</div>
+                <div class="i-uil:eye-slash text-8xl" />
+                <div class="text-2xl">
+                  {{ t('video.video-list.video.hidden') }}
+                </div>
               </div>
             </div>
             <div class="p-3 text-left text-sm lg:text-base">
@@ -105,8 +110,7 @@
                   class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
                   :title="video.item.partName"
                 >
-                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label
-                  >{{ video.item.partName }}
+                  <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label>{{ video.item.partName }}
                 </div>
               </div>
               <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
@@ -114,7 +118,7 @@
               }}</a>
               <div class="flex text-xs h-4 align-middle" :title="video.item.site">
                 <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site" />
+                <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site">
               </div>
             </div>
           </RouterLink>
@@ -125,7 +129,7 @@
           @previous="jumpToPreviousPage"
           @next="jumpToNextPage"
           @change="jumpToSelectedPage"
-        ></PvPagination>
+        />
       </div>
     </div>
     <!-- Advanced Search -->
@@ -134,7 +138,7 @@
       :title="t('video.video-list.advanced-search.name')"
       @click="openAdvancedSearch()"
     >
-      <div class="i-uil:file-search-alt text-2xl"></div>
+      <div class="i-uil:file-search-alt text-2xl" />
     </div>
     <AdvancedSearch v-model:open="advancedSearch" />
     <BackTop />
@@ -142,15 +146,14 @@
 </template>
 
 <script lang="ts" setup>
-import BackTop from '@/ui/components/BackTop.vue'
-import AdvancedSearch from '@/video/components/AdvancedSearch.vue'
-import PvPagination from '@/ui/components/PvPagination.vue'
-import Cover from './components/Cover.vue'
-import CoverPlaceholder from './components/CoverPlaceholder.vue'
 import { computed, ref, watch, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import NProgress from 'nprogress'
+import CoverPlaceholder from './components/CoverPlaceholder.vue'
+import Cover from './components/Cover.vue'
+import PvPagination from '@/ui/components/PvPagination.vue'
+import AdvancedSearch from '@/video/components/AdvancedSearch.vue'
+import BackTop from '@/ui/components/BackTop.vue'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
@@ -159,9 +162,10 @@ import { backTop } from '@/ui/lib/backTop'
 import { getSiteImage } from '@/common/lib/imageUrl'
 import { screenSizes } from '@/css'
 import { getAdditionalConstraintString } from '@/video/lib/decodeAdditionalConstraint'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
-setSiteTitle(t('video.video-list.title') + ' - PatchyVideo')
+setSiteTitle(`${t('video.video-list.title')} - PatchyVideo`)
 const route = useRoute()
 const router = useRouter()
 const status = ref<'loading' | 'result' | 'error'>()
@@ -175,39 +179,20 @@ const limit = computed(() => {
   return Number(route.query.limit ? (Array.isArray(route.query.limit) ? route.query.limit[0] : route.query.limit) : 20)
 })
 const offset = computed(() =>
-  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0)
+  Number(route.query.page ? (Array.isArray(route.query.page) ? route.query.page[0] : route.query.page) : 0),
 )
 const page = computed(() => offset.value + 1)
 const qtype = computed(() =>
-  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag')
+  String(route.query.qtype ? (Array.isArray(route.query.qtype) ? route.query.qtype[0] : route.query.qtype) : 'tag'),
 )
 const order = computed(() =>
   String(
-    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified'
-  )
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : 'last_modified',
+  ),
 )
 const additionalConstraint = computed(() =>
-  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : '')
+  String(route.query.a ? (Array.isArray(route.query.a) ? route.query.a[0] : route.query.a) : ''),
 )
-
-/* Refresh query result for URL query change */
-const URLQuery = computed(() => route.query)
-watch(URLQuery, () => {
-  backTop()
-  fetchMore({
-    variables: {
-      offset: offset.value * limit.value,
-      limit: limit.value,
-      query: getAdditionalConstraintString(additionalConstraint.value),
-      qtype: qtype.value,
-      order: order.value,
-    },
-    updateQuery(previousQueryResult, { fetchMoreResult }) {
-      if (!fetchMoreResult) return previousQueryResult
-      return fetchMoreResult
-    },
-  })
-})
 
 const { result, loading, onError, fetchMore } = useQuery<Query>(
   gql`
@@ -241,19 +226,20 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
   },
   {
     notifyOnNetworkStatusChange: true,
-  }
+  },
 )
 watchEffect(() => {
   if (loading.value) {
     status.value = 'loading'
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
+    startProgress()
+  }
+  else {
     status.value = 'result'
-    if (NProgress.isStarted()) NProgress.done()
+    stopProgress()
   }
 })
 
-const resultData = useResult(result, null, (data) => data?.listVideo)
+const resultData = useResult(result, null, data => data?.listVideo)
 watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count
@@ -264,6 +250,26 @@ watchEffect(() => {
 onError((err) => {
   errMsg.value = err.message
   status.value = 'error'
+})
+
+// Refresh query result for URL query change
+const URLQuery = computed(() => route.query)
+watch(URLQuery, () => {
+  backTop()
+  fetchMore({
+    variables: {
+      offset: offset.value * limit.value,
+      limit: limit.value,
+      query: getAdditionalConstraintString(additionalConstraint.value),
+      qtype: qtype.value,
+      order: order.value,
+    },
+    updateQuery(previousQueryResult, { fetchMoreResult }) {
+      if (!fetchMoreResult)
+        return previousQueryResult
+      return fetchMoreResult
+    },
+  })
 })
 
 /* Show advanced search */

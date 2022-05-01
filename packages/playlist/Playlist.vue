@@ -10,35 +10,32 @@
                 width="320"
                 height="200"
                 :src="getCoverImage({ image: playlist.item.cover })"
-              />
+              >
             </div>
           </div>
           <div class="mt-2">
-            <h1 class="text-2xl font-semibold" v-text="playlist.item.title"></h1>
+            <h1 class="text-2xl font-semibold" v-text="playlist.item.title" />
             <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-200">
               {{
                 t('playlist.playlist.info.video-count', {
                   count: playlist.item.count,
                 })
               }}<span v-if="playlist.rating">
-                · {{ t('playlist.playlist.info.rating', { rating: playlist.rating.totalRating }) }}</span
-              ><span v-if="playlist.meta.modifiedAt || playlist.meta.createdAt">
+                · {{ t('playlist.playlist.info.rating', { rating: playlist.rating.totalRating }) }}</span><span v-if="playlist.meta.modifiedAt || playlist.meta.createdAt">
                 ·
-                <i18n-t keypath="playlist.playlist.info.edit-date" tag="span"
-                  ><template #date
-                    ><RelativeDate :date="playlist.meta.modifiedAt ?? playlist.meta.createdAt" /></template></i18n-t
-              ></span>
+                <i18n-t keypath="playlist.playlist.info.edit-date" tag="span"><template #date><RelativeDate :date="playlist.meta.modifiedAt ?? playlist.meta.createdAt" /></template></i18n-t></span>
             </div>
             <div v-if="playlist.meta.createdBy" class="mt-2">
               <RouterLink class="flex flex-row items-center" :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
-                <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()"
-                  ><UserAvatar
+                <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()">
+                  <UserAvatar
                     class="inline-block w-8 rounded-full"
                     :image="playlist.meta.createdBy.image"
                     :gravatar="playlist.meta.createdBy.gravatar ?? undefined"
                     hide-title
-                /></UserAvatarPopper>
-                <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username"></div>
+                  />
+                </UserAvatarPopper>
+                <div class="inline-block align-middle pl-2" v-text="playlist.meta.createdBy.username" />
               </RouterLink>
             </div>
             <div class="py-2">
@@ -78,12 +75,12 @@
               <div
                 v-if="playlist.editable"
                 class="i-uil:arrow-up md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
-              ></div>
-              <div class="lt-md:text-xs" v-text="offset + index + 1"></div>
+              />
+              <div class="lt-md:text-xs" v-text="offset + index + 1" />
               <div
                 v-if="playlist.editable"
                 class="i-uil:arrow-down md:text-3xl text-gray-400 dark:text-gray-600 transition-colors duration-100 hover:text-blue-600"
-              ></div>
+              />
             </div>
             <div class="flex-shrink-0 flex-grow-0 w-28 md:w-60">
               <div class="aspect-ratio-8/5">
@@ -92,28 +89,28 @@
                   width="240"
                   height="150"
                   :src="getCoverImage({ image: video.item.coverImage })"
-                />
+                >
               </div>
             </div>
             <div class="overflow-hidden">
               <h1
                 class="text-sm md:text-lg font-semibold lt-md:line-clamp-2 md:truncate"
                 v-text="video.item.title"
-              ></h1>
+              />
               <h2
                 v-if="video.item.partName"
                 class="-mt-1 text-sm text-gray-800 truncate dark:text-gray-200"
                 v-text="`P${pageOfVideo(video.item.url)}: ${video.item.partName}`"
-              ></h2>
+              />
               <div
                 v-if="screenSizes.md"
                 class="mt-1 line-clamp-3 text-sm whitespace-normal"
                 v-text="video.item.desc"
-              ></div>
+              />
             </div>
           </RouterLink>
           <div v-if="fetchingMore" class="flex justify-center pt-4">
-            <div class="i-uil:spinner-alt text-2xl animate-spin"></div>
+            <div class="i-uil:spinner-alt text-2xl animate-spin" />
           </div>
         </div>
       </template>
@@ -122,58 +119,25 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, nextTick, ref, shallowRef, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
+import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import MarkdownBlock from '@/markdown/components/MarkdownBlock.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
-import { computed, nextTick, ref, shallowRef, watchEffect } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
-import NProgress from 'nprogress'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { getCoverImage } from '@/common/lib/imageUrl'
 import { pageOfVideo } from '@/video/lib/biliHelper'
-import { useElementBounding, useIntersectionObserver } from '@vueuse/core'
 import { screenSizes } from '@/css'
+import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 
 const observerTarget = shallowRef<HTMLLinkElement | null>(null)
-watchEffect(() => {
-  console.log(observerTarget.value)
-})
-const fetchingMore = ref(false)
-const { stop: stopObserver } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
-  if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
-    stopObserver()
-    return
-  }
-  if (isIntersecting && !fetchingMore.value && playlist.value) {
-    fetchingMore.value = true
-    fetchMore({
-      variables: {
-        offset: playlist.value.videos.length,
-      },
-      // TODO remove it
-      updateQuery(previousQueryResult, { fetchMoreResult }) {
-        if (!fetchMoreResult) return previousQueryResult
-        return {
-          ...previousQueryResult,
-          getPlaylist: {
-            ...previousQueryResult.getPlaylist,
-            videos: [...previousQueryResult.getPlaylist.videos, ...fetchMoreResult.getPlaylist.videos],
-          },
-        }
-      },
-    })?.then((v) => {
-      nextTick(() => {
-        fetchingMore.value = false
-      })
-    })
-  }
-})
 
 /* submit query */
 const route = useRoute()
@@ -220,30 +184,62 @@ const { result, loading, fetchMore } = useQuery<Query>(
     pid: pid.value,
     offset: offset.value,
     limit: 20,
-  }
+  },
 )
 
 /* basic info */
-const playlist = useResult(result, null, (data) => data?.getPlaylist)
+const playlist = useResult(result, null, data => data?.getPlaylist)
 // change title
 watchEffect(() => {
-  if (playlist.value) setSiteTitle(playlist.value.item.title)
+  if (playlist.value)
+    setSiteTitle(playlist.value.item.title)
 })
 watchEffect(() => {
-  if (loading.value) {
-    if (!NProgress.isStarted()) NProgress.start()
-  } else {
-    if (NProgress.isStarted()) NProgress.done()
+  if (loading.value)
+    startProgress()
+  else
+    stopProgress()
+})
+
+const fetchingMore = ref(false)
+const { stop: stopObserver } = useIntersectionObserver(observerTarget, ([{ isIntersecting }]) => {
+  if (playlist.value && playlist.value.videos.length >= playlist.value.item.count) {
+    stopObserver()
+    return
+  }
+  if (isIntersecting && !fetchingMore.value && playlist.value) {
+    fetchingMore.value = true
+    fetchMore({
+      variables: {
+        offset: playlist.value.videos.length,
+      },
+      // TODO remove it
+      updateQuery(previousQueryResult, { fetchMoreResult }) {
+        if (!fetchMoreResult)
+          return previousQueryResult
+        return {
+          ...previousQueryResult,
+          getPlaylist: {
+            ...previousQueryResult.getPlaylist,
+            videos: [...previousQueryResult.getPlaylist.videos, ...fetchMoreResult.getPlaylist.videos],
+          },
+        }
+      },
+    })?.then((v) => {
+      nextTick(() => {
+        fetchingMore.value = false
+      })
+    })
   }
 })
 
 const descText = shallowRef<HTMLDivElement | null>(null)
 const descBlock = shallowRef<HTMLDivElement | null>(null)
 const { height: descBoundingHeight } = useElementBounding(descText)
-const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
-const expandDesc = ref(false)
 const descScrollHeight = ref(0)
 const updateScrollHeight = () => {
   descScrollHeight.value = descBlock.value?.scrollHeight || 0
 }
+const expandDesc = ref(false)
+const shouldClampDesc = computed(() => descScrollHeight.value > descBoundingHeight.value)
 </script>

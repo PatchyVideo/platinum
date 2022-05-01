@@ -4,7 +4,7 @@
       <div v-for="linkGroup in links" :key="linkGroup.key">
         <ul class="px-2 md:px-4 lg:px-8">
           <li>
-            <h1 class="font-semibold tracking-wide text-gray-900 dark:text-white py-1" v-text="linkGroup.key"></h1>
+            <h1 class="font-semibold tracking-wide text-gray-900 dark:text-white py-1" v-text="linkGroup.key" />
           </li>
           <li v-for="link in linkGroup.links" :key="link.key">
             <a
@@ -14,41 +14,32 @@
               target="_blank"
               rel="noopener noreferrer"
               v-text="link.key"
-            ></a>
+            />
           </li>
         </ul>
       </div>
     </div>
     <div v-if="!small" class="text-center text-sm font-light font-sans whitespace-nowrap overflow-hidden">
-      <span ref="typedEl"></span>
+      <span ref="typedEl" />
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-300">
-      <span>{{ t('common.footer.user-number', { users: users }) }}</span
-      ><br />
-      <span
-        ><span>Platinum v{{ version }}</span
-        >(<a
-          :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
-          :title="commitHash"
-          target="_blank"
-          rel="noopener noreferrer"
-          v-text="commitHash.slice(0, 7)"
-        ></a
-        >, {{ isDev ? 'dev' : 'prod' }})<template v-if="hasExtension"
-          >&nbsp;<span
-            :title="
-              'List: ' +
-              Object.values(extensions)
-                .map(({ name, extVersion }) => name + '(' + extVersion + ')')
-                .join(', ')
-            "
-            >({{ Object.values(extensions).length }} ext installed)</span
-          ></template
-        >. </span
-      ><span>
+      <span>{{ t('common.footer.user-number', { users: users }) }}</span><br>
+      <span><span>Platinum v{{ version }}</span>(<a
+        :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
+        :title="commitHash"
+        target="_blank"
+        rel="noopener noreferrer"
+        v-text="commitHash.slice(0, 7)"
+      />, {{ isDev ? 'dev' : 'prod' }})<template v-if="hasExtension">&nbsp;<span
+        :title="
+          'List: ' +
+            Object.values(extensions)
+              .map(({ name, extVersion }) => name + '(' + extVersion + ')')
+              .join(', ')
+        "
+      >({{ Object.values(extensions).length }} ext installed)</span></template>. </span><span>
         © 2019-2022 VoileLabs. Released under the
-        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</span
-      >
+        <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>.</span>
     </div>
   </div>
 </template>
@@ -56,9 +47,9 @@
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, shallowRef } from 'vue'
 import Typed from 'typed.js'
-import { getYiyanArray } from '@/yiyan'
 import { useI18n } from 'vue-i18n'
-import { extensions } from '@/main/extension'
+import { getYiyanArray } from '@/yiyan'
+import { extensions } from '@/main/libs/extension'
 import type { Query } from '@/graphql'
 import { gql, useQuery, useResult } from '@/graphql'
 
@@ -70,7 +61,7 @@ const props = withDefaults(
   }>(),
   {
     small: false,
-  }
+  },
 )
 
 const { t } = useI18n()
@@ -127,7 +118,7 @@ const links = computed<
 const typedEl = shallowRef<HTMLSpanElement | null>(null)
 let typed: Typed | undefined
 onMounted(() => {
-  if (!props.small && typedEl.value)
+  if (!props.small && typedEl.value) {
     typed = new Typed(typedEl.value, {
       strings: getYiyanArray(true, true),
       typeSpeed: 30,
@@ -136,9 +127,11 @@ onMounted(() => {
       loop: true,
       smartBackspace: false,
     })
+  }
 })
 onUnmounted(() => {
-  if (typed?.destroy) typed.destroy()
+  if (typed?.destroy)
+    typed.destroy()
 })
 
 const version = import.meta.env.VITE_APP_VERSION
@@ -153,5 +146,5 @@ const { result } = useQuery<Query>(gql`
     }
   }
 `)
-const users = useResult(result, 0, (data) => data.getStats.users)
+const users = useResult(result, 0, data => data.getStats.users)
 </script>

@@ -8,9 +8,9 @@ import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import unocss from 'unocss/vite'
 import { defineConfig } from 'vite'
-import { version } from './package.json'
 import template from 'lodash.template'
 import simpleGit from 'simple-git'
+import { version } from './package.json'
 
 /**
  * Vite Configuration File
@@ -43,8 +43,8 @@ export default defineConfig(async ({ mode }) => {
      * @type string[]
      */
     const list = []
-    for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, 'packages', dir, `__generated__`)))
-    promises.push(fsp.mkdir(path.resolve(__dirname, `__generated__`)))
+    for (const dir of list) promises.push(fsp.mkdir(path.resolve(__dirname, 'packages', dir, '__generated__')))
+    promises.push(fsp.mkdir(path.resolve(__dirname, '__generated__')))
   }
 
   /* copy license */
@@ -60,15 +60,15 @@ export default defineConfig(async ({ mode }) => {
       ],
     },
     define: {
-      __DEV__: JSON.stringify(mode !== 'production'),
+      '__DEV__': JSON.stringify(mode !== 'production'),
       'import.meta.env.VITE_APP_VERSION': JSON.stringify(version),
       'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
       'import.meta.env.VITE_DATE_FNS_LOCALE': JSON.stringify(
         fs
           .readdirSync(path.resolve(__dirname, './node_modules/date-fns/esm/locale'), { withFileTypes: true })
-          .filter((file) => file.isDirectory() && !file.name.startsWith('_'))
-          .map((file) => file.name)
+          .filter(file => file.isDirectory() && !file.name.startsWith('_'))
+          .map(file => file.name),
       ),
     },
     optimizeDeps: {
@@ -76,8 +76,6 @@ export default defineConfig(async ({ mode }) => {
       exclude: ['@apollo/client'],
     },
     plugins: [
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       yaml(),
       vue(),
       components({
@@ -115,8 +113,6 @@ export default defineConfig(async ({ mode }) => {
           background_color: '#ffffff',
         },
       }),
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       {
         ...visualizer({
           filename: 'dist/stats.html',

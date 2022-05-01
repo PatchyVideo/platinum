@@ -9,22 +9,22 @@
         :rows="config.video_rows"
         :video-show-title="config.video_show_title"
         :video-show-date="config.video_show_date"
-      ></VideoRow>
+      />
     </div>
     <div v-else>
-      <VideoRowPlaceholder :count="count" :rows="config.video_rows"></VideoRowPlaceholder>
+      <VideoRowPlaceholder :count="count" :rows="config.video_rows" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useElementSize, useIntersectionObserver } from '@vueuse/core'
 import VideoRow from './VideoRow.vue'
 import VideoRowPlaceholder from './VideoRowPlaceholder.vue'
 import { gql, useLazyQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
-import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useElementSize, useIntersectionObserver } from '@vueuse/core'
 
 const props = withDefaults(
   defineProps<{
@@ -32,7 +32,7 @@ const props = withDefaults(
   }>(),
   {
     data: '{}',
-  }
+  },
 )
 
 const { t } = useI18n()
@@ -83,7 +83,7 @@ const { result, load, fetchMore, forceDisabled } = useLazyQuery<Query>(
   {},
   {
     notifyOnNetworkStatusChange: true,
-  }
+  },
 )
 
 const el = shallowRef<HTMLElement | null>(null)
@@ -96,24 +96,28 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     isInc.value = isIntersecting
   },
-  { rootMargin: '200px 200px 200px 200px' }
+  { rootMargin: '200px 200px 200px 200px' },
 )
 watchEffect(() => {
-  if (shownCount === count.value || !isInc.value) return
+  if (shownCount === count.value || !isInc.value)
+    return
   shownCount = count.value
-  if (result.value && shownCount <= result.value.getPlaylist.videos.length) return
+  if (result.value && shownCount <= result.value.getPlaylist.videos.length)
+    return
   if (forceDisabled.value) {
     load(undefined, { pid: config.playlist_id, limit: count.value })
-  } else {
+  }
+  else {
     fetchMore({
       variables: { pid: config.playlist_id, limit: count.value },
       updateQuery(previousQueryResult, { fetchMoreResult }) {
-        if (!fetchMoreResult) return previousQueryResult
+        if (!fetchMoreResult)
+          return previousQueryResult
         return fetchMoreResult
       },
     })
   }
 })
 
-const playlist = useResult(result, null, (data) => data.getPlaylist)
+const playlist = useResult(result, null, data => data.getPlaylist)
 </script>

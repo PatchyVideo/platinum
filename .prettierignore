@@ -1,0 +1,9 @@
+*.js
+*.jsx
+*.ts
+*.tsx
+*.vue
+*.json
+*.json5
+*.yml
+*.yaml

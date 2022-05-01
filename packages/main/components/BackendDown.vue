@@ -2,22 +2,21 @@
   <div class="background absolute w-full h-full grid place-content-center bg-gray-800">
     <div class="my-auto text-white text-center">
       <div class="relative">
-        <h1 class="sm:text-xl lg:text-3xl" v-text="codeHint"></h1>
-        <span class="text-xs lg:text-base text-gray-200"
-          ><template v-if="fetching"
-            >Fetching
-            <div class="i-uil:spinner inline animate-spin" /></template
-          ><template v-else>Last fetched at {{ last.toLocaleTimeString('en-US') }}</template></span
-        >
+        <h1 class="sm:text-xl lg:text-3xl" v-text="codeHint" />
+        <span class="text-xs lg:text-base text-gray-200"><template v-if="fetching">Fetching
+          <div class="i-uil:spinner inline animate-spin" /></template><template v-else>Last fetched at {{ last.toLocaleTimeString('en-US') }}</template></span>
       </div>
-      <p class="mt-2 text-xs lg:text-sm text-left whitespace-pre text-gray-400" v-text="text"></p>
+      <p class="mt-2 text-xs lg:text-sm text-left whitespace-pre text-gray-400" v-text="text" />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useIntervalFn, useThrottleFn } from '@vueuse/core'
 import { computed, ref } from 'vue'
+import { useIntervalFn, useThrottleFn } from '@vueuse/core'
+import { stopProgress } from '@/nprogress'
+
+stopProgress()
 
 const code = ref(0)
 const text = ref('')
@@ -54,10 +53,12 @@ const refetch = async () => {
     }
     code.value = res.status
     text.value = res.statusText
-  } catch (e) {
+  }
+  catch (e) {
     code.value = 502
     text.value = e instanceof Error ? e.stack ?? e.message : String(e)
-  } finally {
+  }
+  finally {
     setFetching(false)
   }
 }

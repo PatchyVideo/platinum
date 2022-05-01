@@ -22,7 +22,7 @@
             :class="{ 'text-black border-purple-300 dark:text-white': tabs.value === tab }"
             @click="changeTab(tabs.value)"
             v-text="tabs.name"
-          ></div>
+          />
         </div>
         <div v-if="tab === 'video' || tab === 'playlist'" class="flex self-center">
           <label
@@ -32,7 +32,7 @@
             :class="{ 'text-black rounded-full bg-gray-100 dark:text-white dark:bg-gray-500': orders.value === order }"
             @click="changeOrder(orders.value)"
             v-text="orders.name"
-          ></label>
+          />
         </div>
       </div>
 
@@ -69,14 +69,14 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import BackTop from '@/ui/components/BackTop.vue'
 import SearchVideo from '@/search/components/SearchVideo.vue'
 import SearchPlaylist from '@/search/components/SearchPlaylist.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useI18n } from 'vue-i18n'
 import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/css'
 
@@ -88,9 +88,9 @@ const pageCount = ref(0)
 /* Precess URL query */
 const queryWord = computed(() => {
   const query = String(route.query.i ? (Array.isArray(route.query.i) ? route.query.i.join(' ') : route.query.i) : '')
-  if (query) {
+  if (query)
     setSiteTitle(t('search.search-result.title') + query)
-  }
+
   return query
 })
 const limit = computed(() => {
@@ -106,8 +106,8 @@ const Orders = [
 ]
 const order = computed(() =>
   String(
-    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value
-  )
+    route.query.order ? (Array.isArray(route.query.order) ? route.query.order[0] : route.query.order) : Orders[0].value,
+  ),
 )
 const visibleSite = computed(() =>
   String(
@@ -115,8 +115,8 @@ const visibleSite = computed(() =>
       ? Array.isArray(route.query.visible_site)
         ? route.query.visible_site[0]
         : route.query.visible_site
-      : localStorage.getItem('VisibleSite') || ''
-  )
+      : localStorage.getItem('VisibleSite') || '',
+  ),
 )
 const Tabs = [
   {
@@ -129,7 +129,7 @@ const Tabs = [
   },
 ]
 const tab = computed(() =>
-  String(route.query.tab ? (Array.isArray(route.query.tab) ? route.query.tab[0] : route.query.tab) : Tabs[0].value)
+  String(route.query.tab ? (Array.isArray(route.query.tab) ? route.query.tab[0] : route.query.tab) : Tabs[0].value),
 )
 
 /* Change the router query to trigger the search function */

@@ -19,20 +19,23 @@ export const themePreference = useLocalStorage<Themes>('themePreference', 'syste
   },
 })
 export const isDark = computed(() =>
-  themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark'
+  themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark',
 )
 
 watchEffect(
   () => {
     if (isDark.value) {
-      if (!html.classList.contains('dark')) html.classList.add('dark')
+      if (!html.classList.contains('dark'))
+        html.classList.add('dark')
       metaTag.setAttribute('content', '#1f2937')
-    } else {
-      if (html.classList.contains('dark')) html.classList.remove('dark')
+    }
+    else {
+      if (html.classList.contains('dark'))
+        html.classList.remove('dark')
       metaTag.setAttribute('content', '#ffffff')
     }
   },
   {
     flush: 'post',
-  }
+  },
 )

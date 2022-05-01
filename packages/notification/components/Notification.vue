@@ -28,6 +28,7 @@ onMounted(() => {
   }, 100)
 })
 onUnmounted(() => {
-  if (interval) clearInterval(interval)
+  if (interval)
+    clearInterval(interval)
 })
 </script>

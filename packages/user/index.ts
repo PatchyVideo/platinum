@@ -1,5 +1,6 @@
-import { ref } from 'vue'
-import { resDataStatus } from '@/common/lib/resDataStatus'
+import type { Ref } from 'vue'
+import { inject, provide, watch } from 'vue'
+import { computedAsync, computedEager, useLocalStorage } from '@vueuse/core'
 
 interface User {
   name: string
@@ -15,71 +16,89 @@ const userDefault: User = {
   uid: '',
   email: '',
 }
-export const user = ref<User>(userDefault)
 
-export enum IsLogin {
-  'yes' = 'yes',
-  'no' = 'no',
-  'loading' = 'loading',
-}
-export const isLogin = ref<IsLogin>(IsLogin.no)
+const defaultUserDataKey = Symbol('userData')
 
-export async function checkLoginStatus(needGetUserDataFromLocalStorage = false): Promise<void> {
-  isLogin.value = IsLogin.loading
-  await fetch('https://patchyvideo.com/be/user/whoami', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({}),
-    credentials: 'include',
-  })
-    .then((data) => data.json())
-    .then((res) => {
-      // console.log(res)
-      if (res.status === resDataStatus.SUCCEED) {
-        isLogin.value = IsLogin.yes
-        if (needGetUserDataFromLocalStorage) getUserDataFromLocalStorage()
-      } else {
-        isLogin.value = IsLogin.no
-        clearUserDataFromLocalStorage()
-      }
-    })
-    .catch((err) => {
-      // console.log(err)
-      isLogin.value = IsLogin.no
-      // clearUserDataFromLocalStorage()
-    })
-}
-
-export function setUserDataToLocalStorage({ name, avatar, isAdmin, uid, email }: User): void {
-  const userData = JSON.parse(localStorage.getItem('userData') || '{}')
-  userData.name = name
-  userData.avatar = avatar
-  userData.isAdmin = isAdmin
-  userData.uid = uid
-  userData.email = email
-  localStorage.setItem('userData', JSON.stringify(userData))
-}
-
-export function getUserDataFromLocalStorage(): void {
-  isLogin.value = IsLogin.loading
-  const userData = JSON.parse(localStorage.getItem('userData') || '{}')
-  if (JSON.stringify(userData) === '{}') {
-    isLogin.value = IsLogin.no
-  } else {
-    isLogin.value = IsLogin.yes
-    user.value = {
-      name: userData.name,
-      avatar: userData.avatar,
-      isAdmin: userData.isAdmin,
-      uid: userData.uid,
-      email: userData.email,
-    }
+export async function verifyLogin(): Promise<'yes' | 'no' | 'networkError'> {
+  try {
+    const res = await fetch('https://patchyvideo.com/be/user/whoami', {
+      method: 'POST',
+      headers: new Headers({
+        'Content-Type': 'application/json',
+      }),
+      body: '{}',
+      credentials: 'include',
+    }).catch(() => 'networkError' as const)
+    if (res === 'networkError')
+      return 'networkError'
+    const data = await res.json()
+    return data.status === 'SUCCEED' ? 'yes' : 'no'
+  }
+  catch (e) {
+    return 'no'
   }
 }
 
-export function clearUserDataFromLocalStorage(): void {
-  localStorage.removeItem('userData')
-  user.value = userDefault
+interface ProvidedUserData {
+  userData: Ref<Partial<User>>
+  user: Ref<User>
+  verifiedLogin: Ref<'yes' | 'no' | 'networkError' | 'loading'>
+  isLogin: Ref<boolean>
+  isVerifiedLogin: Ref<boolean>
+  isAdmin: Ref<boolean>
+  clear: () => void
+  set: (user: User) => void
+}
+
+export const createUserData = () => {
+  const userData = useLocalStorage<Partial<User>>('userData', {}, { listenToStorageChanges: true, deep: true })
+  const user = computedEager(() => ({
+    ...userDefault,
+    ...userData.value,
+  }))
+
+  const verifiedLogin = computedAsync(
+    async () => {
+      return await verifyLogin()
+    }, 'loading',
+  )
+  watch(verifiedLogin, (v) => {
+    if (v === 'no')
+      userData.value = {}
+  })
+
+  const isLogin = computedEager(() => !!userData.value.uid)
+  const isVerifiedLogin = computedEager(() => verifiedLogin.value === 'yes')
+  const isAdmin = computedEager(() => isVerifiedLogin.value && user.value.isAdmin)
+
+  const data = {
+    userData,
+    user,
+    verifiedLogin,
+    isLogin,
+    isVerifiedLogin,
+    isAdmin,
+    clear: () => {
+      userData.value = {}
+    },
+    set: (user: User) => {
+      userData.value.name = user.name
+      userData.value.avatar = user.avatar
+      userData.value.isAdmin = user.isAdmin
+      userData.value.uid = user.uid
+      userData.value.email = user.email
+    },
+  }
+
+  return data
+}
+
+export const provideUserData = (data: ProvidedUserData) =>
+  provide<ProvidedUserData>(defaultUserDataKey, data)
+
+export const useUserData = () => {
+  const data = inject<ProvidedUserData>(defaultUserDataKey)
+  if (!data)
+    throw new Error('useUserData: There is no user data provided in the current vue instance.')
+  return data
 }

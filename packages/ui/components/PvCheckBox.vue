@@ -9,7 +9,7 @@
       }"
       type="checkbox"
       @change="check = !check"
-    />
+    >
   </div>
 </template>
 
@@ -23,7 +23,7 @@ const props = withDefaults(
   }>(),
   {
     size: 'md',
-  }
+  },
 )
 
 const emit = defineEmits<{

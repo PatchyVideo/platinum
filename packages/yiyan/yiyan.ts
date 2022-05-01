@@ -42,7 +42,7 @@ const yiyan: string[] = [
   '$ curl https://patchyvideo.com/',
   '$ gh repo clone PatchyVideo/platinum',
   '$ gh repo clone PatchyVideo/PatchyVideo',
-  "> console.log('TOUHOU GUICHU YINMAD');",
+  '> console.log(\'TOUHOU GUICHU YINMAD\');',
 
   /**
    * 一点听了之后 DNA 会起反应的音乐歌词
@@ -55,7 +55,7 @@ const yiyan: string[] = [
   '上海 上海 上海 上海 蓬莱 蓬莱 蓬莱 蓬莱 フランス オランダ チベット 京都 ロンドン ロシアン オルレアン',
   '「叡智」　が、ありますように。「志操」　と、ありますように。「希望」　で、ありますように。やがて　「世界」になりますように。',
   '芽生え終えた生命よ 彷徨いの冥で逢おう',
-  "Humpty Dumpty sat on a wall. Humpty Dumpty had a great fall. All the king's horses and king's men. Couldn't put Humpty together again.",
+  'Humpty Dumpty sat on a wall. Humpty Dumpty had a great fall. All the king\'s horses and king\'s men. Couldn\'t put Humpty together again.',
   '一句不经意平凡话语，剪断最后的一根神经，我的天空开始崩坏离析。',
   '回首 切切低語向苍茫，客星擦過天際夜朦朧，昏暗黎明前悠悠昤唱傳誦之歌 破長空。',
   '彷徨う森の外れに ひとひらの灯 酔いの様に揺らめいて 私を誘っている',
@@ -98,7 +98,7 @@ const yiyan: string[] = [
   // cinemage
   '千年尽葬妖西行，风华绝代墨染樱',
   '"Sanae is a good girl"',
-  "it's a moriya shrine conspiracy!",
+  'it\'s a moriya shrine conspiracy!',
   '因为患有密集恐惧症，上白泽慧音拒绝召开校庆大会',
   '“春天来了喔！”莉莉白话音未落，当场使出一套咏春拳与红师傅打的难解难分',
   '世道不公啊，藤原妹红被赶出加油站',

@@ -6,7 +6,7 @@
         <div>
           <div class="font-semibold md:text-lg">
             {{ t('home.home.intro') }}
-            <br />
+            <br>
             {{ t('home.home.intro2') }}
           </div>
           <i18n-t keypath="home.home.progress" tag="div">
@@ -15,8 +15,7 @@
               href="https://github.com/PatchyVideo/PatchyVideo-docs/blob/main/%E7%AC%AC%E4%B8%89%E8%BD%AE%E5%AD%90-%E6%B5%8B%E8%AF%95%E7%89%88%E5%86%85%E5%AE%B9.md"
               target="_blank"
               rel="noopener noreferrer"
-              >{{ t('home.home.progress2') }}</a
-            >
+            >{{ t('home.home.progress2') }}</a>
           </i18n-t>
           <i18n-t keypath="home.home.old-page" tag="div">
             <a class="underline" href="https://patchyvideo.com/" target="_blank" rel="noopener noreferrer">{{
@@ -31,14 +30,13 @@
         </div>
         <div class="font-semibold md:text-lg">
           {{ t('home.home.join') }}
-          <br />
+          <br>
           <a
             class="underline text-lg"
             :href="locale == 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
             target="_blank"
             rel="noopener noreferrer"
-            >{{ t('home.home.join2') }}</a
-          >
+          >{{ t('home.home.join2') }}</a>
         </div>
       </div>
     </div>
@@ -46,11 +44,11 @@
     <!-- Main Components -->
     <div v-if="screenSizes.md">
       <div v-for="(comp, index) in ucompList" :key="index">
-        <div class="w-full mb-12"></div>
+        <div class="w-full mb-12" />
         <div class="mx-2">
-          <Component :is="homeComponents[comp.name] ?? homeComponents.fallback" :data="comp.data"></Component>
+          <Component :is="homeComponents[comp.name] ?? homeComponents.fallback" :data="comp.data" />
         </div>
-        <div class="w-full mt-12"></div>
+        <div class="w-full mt-12" />
       </div>
     </div>
   </LayoutDefault>
@@ -58,10 +56,10 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue'
-import { locale } from '@/locales'
 import { useI18n } from 'vue-i18n'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { homeComponents } from '.'
+import { locale } from '@/locales'
+import { setSiteTitle } from '@/common/lib/setSiteTitle'
 import { screenSizes } from '@/css'
 
 const { t } = useI18n()
