@@ -8,7 +8,7 @@
       <!-- Logo & Slide Button -->
       <div v-show="!hidePage" class="flex-1 inline-flex items-center flex-nowrap mr-auto">
         <div
-          class="p-0.5 rounded-full transition-colors border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700"
+          class="p-0.5 rounded-full border-2 border-transparent transition-colors duration-100 hover:border-gray-200 dark:hover:border-gray-700"
         >
           <div
             class="text-3xl cursor-pointer rounded-full"
@@ -44,7 +44,7 @@
             <div
               v-if="!screenSizes['<sm'] && props.fetchNote"
               ref="noteBoxBtn"
-              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full transition-colors border-2 border-transparent hover:border-gray-200 dark:hover:border-gray-700"
+              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full border-2 border-transparent transition-colors duration-100 hover:border-gray-200 dark:hover:border-gray-700"
               @click="noteBoxOpen = true"
             >
               <div class="inline-block i-uil:envelope" />
@@ -137,53 +137,52 @@
       :class="{ '-translate-x-full': !drawerOpen }"
     >
       <!-- Menu -->
-      <div class="px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <div class="flex flex-col gap-1 mt-2 px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
-          <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-6" />
-          <NavTopLink v-else :index="index" :drawer-open="drawerOpen" :item-length="links.length" class="mt-1.5">
-            <div v-if="link.type === 'catogory'" class="block text-gray-400 text-sm -mb-1" v-text="link.text" />
-            <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="block">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
-              <div class="inline-block align-middle" v-text="link.text" />
+          <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-2" />
+          <NavTopLink v-else :index="index" :drawer-open="drawerOpen" :item-length="links.length">
+            <div v-if="link.type === 'catogory'" class="text-gray-400 text-sm" v-text="link.text" />
+            <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="inline-flex flex-row items-center gap-x-1">
+              <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
+              <div v-text="link.text" />
             </RouterLink>
-            <a v-else-if="link.type === 'a'" class="block" target="_blank" rel="noopener noreferrer" :href="link.href">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
-              <div class="inline-block align-middle" v-text="link.text" />
+            <a v-else-if="link.type === 'a'" class="inline-flex flex-row items-center gap-x-1" target="_blank" rel="noopener noreferrer" :href="link.href">
+              <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
+              <div v-text="link.text" />
             </a>
-            <a v-else-if="link.type === 'click'" class="block" @click="link.onClick">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
-              <div class="inline-block align-middle" v-text="link.text" />
+            <a v-else-if="link.type === 'click'" class="inline-flex flex-row items-center gap-x-1" @click="link.onClick">
+              <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
+              <div v-text="link.text" />
             </a>
-            <div v-else-if="link.type === 'select'" class="flex justify-between space-x-6 items-end">
-              <label>
+            <div v-else-if="link.type === 'select'" class="flex justify-between gap-x-6 items-center">
+              <div class="inline-flex flex-row items-center gap-1">
                 <div
                   v-if="link.icon"
-                  class="inline-block mr-1 text-xl text-center align-middle"
+                  class="text-xl text-center"
                   :class="link.icon"
                 />
-                <div class="inline-block align-middle" v-text="link.text" />
-              </label>
-              <!-- TODO find a better way to do this -->
+                <div v-text="link.text" />
+              </div>
               <PvSelect
                 v-model="link.selected.value"
                 :item-list="link.options"
               />
             </div>
-            <div v-else-if="link.type === 'component'" class="flex justify-between space-x-6 items-end">
-              <label>
+            <div v-else-if="link.type === 'component'" class="flex justify-between gap-x-6 items-center">
+              <div>
                 <div
                   v-if="link.icon"
                   class="inline-block mr-1 text-xl text-center align-middle"
                   :class="link.icon"
                 />
                 <div class="inline-block align-middle" v-text="link.text" />
-              </label>
+              </div>
               <Component :is="link.component" />
             </div>
-            <div v-else class="block">
-              <div v-if="link.icon" class="inline-block mr-1 text-xl text-center align-middle" :class="link.icon" />
-              <div class="inline-block align-middle" v-text="link.text" />
+            <div v-else class="inline-flex flex-row items-center gap-1">
+              <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
+              <div v-text="link.text" />
             </div>
           </NavTopLink>
         </template>

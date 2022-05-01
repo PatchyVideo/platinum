@@ -1,6 +1,6 @@
 <template>
   <Listbox v-slot="{ open }" v-model="modelValue">
-    <div class="relative" :class="props.class">
+    <div class="relative mt-1" :class="props.class">
       <ListboxButton
         class="focus:outline-none relative w-full py-0.5 pl-4 pr-8 rounded-full text-left shadow-sm ring-1 ring-purple-300 ring-opacity-75 dark:ring-gray-700 focus-visible:ring-offset-1 focus-visible:ring-offset-purple-400 dark:focus-visible:ring-offset-gray-500"
       >

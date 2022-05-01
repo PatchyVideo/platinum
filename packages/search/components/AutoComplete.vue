@@ -71,7 +71,7 @@
         <div
           v-show="!hideContainer && !teleportResult"
           ref="motionel"
-          class="w-full rounded bg-white dark:bg-gray-900 shadow-lg border-purple-300 dark:border-gray-700"
+          class="w-full py-1 rounded bg-white dark:bg-gray-900 shadow-lg border-purple-200 dark:border-gray-700"
           :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
