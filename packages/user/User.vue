@@ -163,7 +163,7 @@ import { useUserData } from '.'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
 import { gql, injectClient } from '@/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget

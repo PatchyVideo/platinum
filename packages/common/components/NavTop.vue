@@ -212,7 +212,7 @@ import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
-import { progressing } from '@/common/lib/progressing'
+import { progressing } from '@/common/libs/progressing'
 import { useUserData } from '@/user'
 
 const props = withDefaults(

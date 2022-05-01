@@ -175,7 +175,7 @@ import { useRoute, useRouter } from 'vue-router'
 import NoteBoxReplyComment from './components/NoteBoxReplyComment.vue'
 import NoteBoxSystemMessage from './components/NoteBoxSystemMessage.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
 import { screenSizes } from '@/css'
@@ -183,7 +183,7 @@ import {
   listNoteCountTypes,
   listNoteCountTypesCommentReply,
   listNoteCountTypesSystemMessage,
-} from '@/user-notification/lib/listNoteCountTypes'
+} from '@/user-notification/libs/listNoteCountTypes'
 import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()

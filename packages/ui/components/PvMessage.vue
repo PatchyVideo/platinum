@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PvMessageTransitionDuration, fullMessageOptions, handleCloseMessage } from '@/ui/lib/PvMessage'
+import { PvMessageTransitionDuration, fullMessageOptions, handleCloseMessage } from '@/ui/libs/PvMessage'
 </script>
 
 <style lang="postcss" scoped>

@@ -56,7 +56,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useThrottleFn } from '@vueuse/core'
 import { useUserData } from '@/user'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 
 const route = useRoute()
 const router = useRouter()

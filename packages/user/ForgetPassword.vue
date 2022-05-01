@@ -112,9 +112,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import { locale } from '@/locales'
-import { resDataStatus } from '@/common/lib/resDataStatus'
+import { resDataStatus } from '@/common/libs/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 import { screenSizes } from '@/css'
 

@@ -156,10 +156,10 @@ import PvPagination from '@/ui/components/PvPagination.vue'
 import CoverPlaceholder from '@/video/components/CoverPlaceholder.vue'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
-import { backTop } from '@/ui/lib/backTop'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
+import { backTop } from '@/ui/libs/backTop'
 import { screenSizes } from '@/css'
-import { getAdditionalConstraintString } from '@/video/lib/decodeAdditionalConstraint'
+import { getAdditionalConstraintString } from '@/video/libs/decodeAdditionalConstraint'
 import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()

@@ -13,7 +13,7 @@
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import AutoComplete from '@/search/components/AutoComplete.vue'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 
 const { t } = useI18n()
 setSiteTitle(`${t('search.search-page.title')} - PatchyVideo`)

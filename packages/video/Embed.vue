@@ -13,7 +13,7 @@ import { useRoute } from 'vue-router'
 import Player from './components/Player.vue'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 
 /* submit query */
 const route = useRoute()

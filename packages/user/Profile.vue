@@ -50,7 +50,7 @@ import UserAvatar from './components/UserAvatar.vue'
 import { useUserData } from '.'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import { screenSizes } from '@/css'
 import { startProgress, stopProgress } from '@/nprogress'
 

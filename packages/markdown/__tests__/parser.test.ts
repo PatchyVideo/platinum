@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { render } from '../lib/parser'
+import { render } from '../libs/parser'
 
 describe('Markdown Parser', () => {
   it('can render plain text', () => {

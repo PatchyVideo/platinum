@@ -15,7 +15,7 @@
 <script lang="ts" setup>
 import { nextTick, ref, shallowRef, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
-import { render } from '../lib/parserComment'
+import { render } from '../libs/parserComment'
 
 const props = withDefaults(
   defineProps<{

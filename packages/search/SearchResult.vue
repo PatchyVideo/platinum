@@ -77,7 +77,7 @@ import BackTop from '@/ui/components/BackTop.vue'
 import SearchVideo from '@/search/components/SearchVideo.vue'
 import SearchPlaylist from '@/search/components/SearchPlaylist.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import { screenSizes } from '@/css'
 
 const { t } = useI18n()

@@ -78,10 +78,10 @@ import { useVModels } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import RelativeDate from '@/date-fns/components/RelativeDate.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
-import { markAsReadMutationCount } from '@/user-notification/lib/markAsRead'
+import { markAsReadMutationCount } from '@/user-notification/libs/markAsRead'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query, schema } from '@/graphql'
-import { openInNewTab } from '@/common/lib/link'
+import { openInNewTab } from '@/common/libs/link'
 import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()

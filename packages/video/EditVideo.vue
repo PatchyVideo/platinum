@@ -35,7 +35,7 @@ import { useTimeoutFn } from '@vueuse/core'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query } from '@/graphql'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import { useUserData } from '@/user'
 import { startProgress, stopProgress } from '@/nprogress'
 

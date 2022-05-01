@@ -134,8 +134,8 @@ import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { screenSizes } from '@/css'
-import { resDataStatus } from '@/common/lib/resDataStatus'
-import { setSiteTitle } from '@/common/lib/setSiteTitle'
+import { resDataStatus } from '@/common/libs/resDataStatus'
+import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
 const { t } = useI18n()

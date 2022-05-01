@@ -5,7 +5,7 @@ const fs = require('fs')
 const gql = require('fake-tag')
 const { encode } = require('html-entities')
 const { Readable } = require('stream')
-const { compressStream } = require('../lib/common')
+const { compressStream } = require('../libs/common')
 
 const html = fs.readFileSync(path.join(__dirname, '../index.html')).toString()
 
