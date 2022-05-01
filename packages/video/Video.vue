@@ -60,7 +60,7 @@
             <!-- Video Description -->
             <MarkdownCommentBlock :text="video.item.desc" size="sm" />
           </div>
-          <div class="w-full border-t border-purple-300 dark:border-purple-800 my-2" />
+          <div class="w-full border-t border-purple-300 dark:border-indigo-800 my-2" />
           <!-- Comments -->
           <div><CommentList :comment-thread-id="video.commentThread?.id.toHexString()" :video-id="vid" /></div>
         </div>
@@ -118,17 +118,19 @@
                   <div class="hidden sm:block ml-1.5 overflow-hidden">
                     <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
                       <span
-                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-violet-800 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
                       />{{ author.name }}
-                    </RouterLink><RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
+                    </RouterLink>
+                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
                       <span
-                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-violet-800 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
                       />{{ author.name }}
-                    </RouterLink><template v-else>
+                    </RouterLink>
+                    <template v-else>
                       <span
-                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-purple-600 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
+                        class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-violet-800 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
                       />{{ author.name }}
                     </template>

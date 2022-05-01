@@ -2,7 +2,14 @@
   <LayoutDefault>
     <div class="p-2 md:p-10 md:m-auto xl:w-9/10 2xl:w-8/10">
       <div v-if="status === 'loading'">
-        <div v-text="t('video.video-list.main-body.loading.searching')" />
+        <div
+          class="border-b pb-1"
+        >
+          <span class="inline-block w-36 rounded-md bg-gray-300 dark:bg-gray-600">&nbsp;</span>
+        </div>
+        <div class="p-1 text-xs text-right md:text-sm">
+          {{ t('video.video-list.main-body.tips') }}
+        </div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
           <div v-for="index in limit" :key="index" class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800">
@@ -88,7 +95,7 @@
           <RouterLink
             v-for="video in videos"
             :key="video.item.title"
-            class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
+            class="w-12/50 my-2 border border-purple-300 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-gray-700 dark:bg-gray-900"
             :to="'/video/' + video.id.toHexString()"
           >
             <div class="relative">

@@ -25,12 +25,14 @@
           <div
             v-for="index in limit"
             :key="index"
-            class="w-12/25 my-5 p-2 border border-purple-300 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
+            class="w-12/25 my-5 p-2 border border-purple-300 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-gray-700 dark:bg-gray-900"
           >
             <div
-              class="block border-b py-3 text-center text-xl truncate font-semibold lg:text-2xl rounded-md bg-gray-400 dark:bg-gray-600"
+              class="flex justify-center items-center gap-x-1 border-b border-purple-300 dark:border-gray-500 py-3"
             >
-              &nbsp;
+              <div class="flex-1 rounded-md text-xl truncate font-semibold lg:text-2xl bg-gray-400 dark:bg-gray-600">
+                &nbsp;
+              </div>
             </div>
             <div class="flex p-2 pt-3">
               <div class="w-1/2 mr-5">
@@ -39,12 +41,12 @@
               <div class="w-1/2 py-2 flex flex-wrap content-between">
                 <div class="line-clamp-3 w-full overflow-ellipsis overflow-hidden">
                   <div v-for="i in 3" :key="i" class="mb-1 w-full rounded-md bg-gray-300 dark:bg-gray-600">
-&nbsp;
+                    &nbsp;
                   </div>
                 </div>
                 <div class="w-full text-right text-sm text-gray-600 dark:text-gray-300">
                   <div class="w-2/5 float-right rounded-md bg-gray-300 dark:bg-gray-600">
-&nbsp;
+                    &nbsp;
                   </div>
                 </div>
               </div>
@@ -74,7 +76,7 @@
             <div class="w-3/5 flex flex-wrap content-between">
               <div class="w-full">
                 <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full flex items-center">
-                  <label v-if="playlist.item.private" class="bg-purple-400 text-white text-xs rounded px-1">Private</label>
+                  <span v-if="playlist.item.private" class="bg-purple-400 text-white text-xs rounded px-1">Private</span>
                   {{ playlist.item.title }}
                 </div>
                 <div class="line-clamp-2 overflow-ellipsis overflow-hidden w-full text-xs text-gray-500">
@@ -92,13 +94,13 @@
           <div
             v-for="playlist in playlists"
             :key="playlist.item.title"
-            class="w-12/25 my-5 p-2 border border-purple-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
+            class="w-12/25 my-5 p-2 border border-purple-300 shadow rounded-lg bg-white bg-opacity-50 dark:border-gray-700 dark:bg-gray-900"
           >
             <RouterLink
               :to="'/playlist/' + playlist.id"
-              class="flex justify-center items-center space-x-1 border-b py-3"
+              class="flex justify-center items-center gap-x-1 border-b border-purple-300 dark:border-gray-500 py-3"
             >
-              <label v-if="playlist.item.private" class="bg-purple-400 text-white text-xs rounded px-1 py-0.5">Private</label>
+              <span v-if="playlist.item.private" class="bg-purple-400 dark:bg-violet-800 text-white text-xs rounded px-1 py-0.5">Private</span>
               <div class="text-xl truncate font-semibold lg:text-2xl">
                 {{ playlist.item.title }}
               </div>
@@ -108,7 +110,7 @@
                 <Cover
                   :title="playlist.item.title"
                   :cover-image="playlist.item.cover"
-                  class="rounded-md border border-purple-200 dark:border-purple-800"
+                  class="rounded-md border border-purple-200 dark:border-gray-700"
                 />
               </div>
               <div class="w-1/2 py-2 flex flex-wrap content-between">

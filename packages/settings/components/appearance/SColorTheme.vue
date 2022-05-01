@@ -1,11 +1,14 @@
 <template>
-  <h3 class="font-medium mb-1" v-text="t('settings.appearance.theme.color.name')" />
+  <div class="mb-1">
+    <h3 class="font-medium" v-text="t('settings.appearance.theme.color.name')" />
+    <div class="text-sm text-gray-600 dark:text-gray-300" v-text="t('settings.general.theme.color.desc')" />
+  </div>
   <div class="flex flex-row flex-wrap gap-4">
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-800': themePreference !== 'system',
-        'border-purple-300 dark:border-purple-400': themePreference === 'system',
+        'border-purple-400 dark:border-gray-800': themePreference !== 'system',
+        'border-purple-300 dark:border-gray-400': themePreference === 'system',
       }"
       @click="changeTheme('system')"
     >
@@ -14,8 +17,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
-          'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'system',
+          'border-purple-400 dark:border-gray-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'system',
+          'border-purple-300 dark:border-gray-400 bg-purple-50 dark:bg-gray-800': themePreference === 'system',
         }"
       >
         <div class="i-uil:desktop mr-1 text-lg" />
@@ -27,8 +30,8 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-800': themePreference !== 'light',
-        'border-purple-300 dark:border-purple-400': themePreference === 'light',
+        'border-purple-400 dark:border-gray-800': themePreference !== 'light',
+        'border-purple-300 dark:border-gray-400': themePreference === 'light',
       }"
       @click="changeTheme('light')"
     >
@@ -36,8 +39,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
-          'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'light',
+          'border-purple-400 dark:border-gray-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'light',
+          'border-purple-300 dark:border-gray-400 bg-purple-50 dark:bg-gray-800': themePreference === 'light',
         }"
       >
         <div class="i-uil:sun mr-1 text-lg" />
@@ -47,8 +50,8 @@
     <div
       class="w-full max-w-64 rounded-lg cursor-pointer select-none overflow-hidden border"
       :class="{
-        'border-purple-400 dark:border-purple-800': themePreference !== 'dark',
-        'border-purple-300 dark:border-purple-400': themePreference === 'dark',
+        'border-purple-400 dark:border-gray-800': themePreference !== 'dark',
+        'border-purple-300 dark:border-gray-400': themePreference === 'dark',
       }"
       @click="changeTheme('dark')"
     >
@@ -56,8 +59,8 @@
       <div
         class="px-2 pb-1 border-t"
         :class="{
-          'border-purple-400 dark:border-purple-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
-          'border-purple-300 dark:border-purple-400 bg-purple-50 dark:bg-gray-800': themePreference === 'dark',
+          'border-purple-400 dark:border-gray-800 bg-gray-100 dark:bg-gray-800': themePreference !== 'dark',
+          'border-purple-300 dark:border-gray-400 bg-purple-50 dark:bg-gray-800': themePreference === 'dark',
         }"
       >
         <div class="i-uil:moon mr-1 text-lg" />

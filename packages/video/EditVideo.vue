@@ -1,18 +1,18 @@
 <template>
   <template v-if="video">
     <div class="mx-2">
-      <div class="pl-2 text-gray-600 dark:text-gray-300 border-b border-purple-200 dark:border-purple-800">
+      <div class="pl-2 text-gray-700 dark:text-gray-200 border-b border-purple-200 dark:border-gray-700">
         {{ t('video.edit-video.profile.profile') }}
       </div>
       <div class="mx-2 mt-1">
         <div class="flex flex-col gap-2">
           <div class="flex">
-            <span>{{ t('video.edit-video.profile.title') }}</span><span class="ml-4 border-b border-purple-400 dark:border-purple-800" v-text="video.item.title" />
+            <span>{{ t('video.edit-video.profile.title') }}</span><span class="ml-4 border-b border-purple-300 dark:border-gray-600" v-text="video.item.title" />
           </div>
           <div class="flex">
             <span>{{ t('video.edit-video.profile.ranks.rank') }}</span>
             <template v-if="isAdmin">
-              <PvSelect v-model:selected="clearence" class="ml-4" :item-list="clearences" />
+              <PvSelect v-model="clearence" class="ml-4 w-52" :item-list="clearences" />
             </template>
             <template v-else>
               <span

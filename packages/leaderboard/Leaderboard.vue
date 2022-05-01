@@ -17,7 +17,7 @@
         >
           <template #tag-contributions>
             <div class="flex flex-col flex-nowrap justify-start items-center px-0 md:px-2">
-              <PvSelect v-model:selected="selectedDateRange" class="md:w-1/4" :item-list="dateRangeList" />
+              <PvSelect v-model="selectedDateRange" class="md:w-1/4" :item-list="dateRangeList" />
               <div class="rank-list w-full">
                 <div v-for="(rankItem, i) in rankList" :key="i" class="rank-item w-full">
                   <div

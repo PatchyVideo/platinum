@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed max-h-full z-50 transform transition-transform duration-300 inset-x-0 bottom-0 overflow-auto p-3 bg-white dark:bg-gray-900 shadow rounded-t border-t border-purple-400 sm:rounded sm:border sm:right-0 sm:inset-y-0 sm:left-auto sm:p-2 sm:w-95"
+    class="fixed max-h-full z-50 transform transition-transform duration-300 inset-x-0 bottom-0 overflow-auto p-3 bg-white dark:bg-gray-900 shadow border-purple-200 dark:border-gray-600 <sm:rounded-t <sm:border-t sm:rounded-l sm:border-l sm:right-0 sm:inset-y-0 sm:left-auto sm:p-2 sm:w-95"
     :class="{ 'sm:translate-x-full translate-y-full sm:translate-y-0': !open }"
   >
     <div class="w-full border-b p-1 pb-1.5 flex justify-between">
@@ -41,27 +41,26 @@
         />
       </div>
       <!-- Order -->
-      <div class="flex justify-between space-x-6 items-end">
+      <div class="flex justify-between space-x-6 items-center">
         <div class="whitespace-nowrap">
           {{ '排序方式：' }}
         </div>
-        <PvSelect :selected="order" :item-list="orderList" @update:selected="(v) => (order = v)" />
+        <PvSelect v-model="order" class="flex-1 max-w-64" :item-list="orderList" />
       </div>
       <!-- Tags number -->
       <div class="flex justify-between items-center">
         <div class="whitespace-nowrap">
           {{ '标签数量：' }}
         </div>
-        <div class="space-x-1">
+        <div class="flex flex-row items-center gap-1">
           <PvSelect
-            :selected="moreLessEqualTagNum"
+            v-model="moreLessEqualTagNum"
             :item-list="moreLessEqualList"
-            @update:selected="(v) => (moreLessEqualTagNum = v)"
           />
           <input
             v-model.number="tagNum"
             :disabled="moreLessEqualTagNum === ''"
-            class="w-12 border rounded-md border-purple-400 p-1 shadow-inner dark:bg-gray-500"
+            class="w-12 border rounded-md border-purple-300 p-1 shadow-inner dark:border-gray-700 dark:bg-gray-500"
           >
         </div>
       </div>

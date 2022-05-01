@@ -78,7 +78,7 @@ playlist:
     collapse: 收起
     expand: 展开
     info:
-      video-count: '{count}个视频'
+      video-count: '{count} 个视频'
       rating: 评分{rating}
       edit-date: 更新于 {date}
   playlist-list:
@@ -90,9 +90,9 @@ playlist:
         load-failed: 加载失败了QAQ
         load-failed-reason: 错误原因：
       successful:
-        load-result-count: 共{count}个播放列表
+        load-result-count: 共 {count} 个播放列表
     playlist:
-      playlist-count: 共{count}个视频
+      playlist-count: 共 {count} 个视频
     advanced-search:
       name: 高级搜索
 leaderboard:
@@ -126,7 +126,7 @@ search:
           search-failed-reason: 错误原因：
         successful:
           search-no-result: 没有搜索到视频QAQ
-          search-result-count: 共搜索到{count}个视频
+          search-result-count: 共搜索到 {count} 个视频
       video:
         source-site: 源网站：
         hidden: 已隐藏
@@ -144,9 +144,9 @@ search:
           search-failed-reason: 错误原因：
         successful:
           search-no-result: 没有搜索到播放列表QAQ
-          search-result-count: 共搜索到{count}个播放列表
+          search-result-count: 共搜索到 {count} 个播放列表
       playlist:
-        playlist-count: 共{count}个视频
+        playlist-count: 共 {count} 个视频
   search-page:
     title: 搜索
     search: 搜索
@@ -165,7 +165,7 @@ ui:
     alert: 请输入有效的页数！
     page-next: 下一页
     page-previous: 上一页
-    page-number: 第{count}/{total}页
+    page-number: 第 {count} / {total} 页
 user:
   login:
     title: 登录
@@ -261,7 +261,7 @@ user:
     from:
       sign-up: 注册
       reset-password: 重置
-    log: '{fromWord}成功，{count}秒后跳转回登录页面'
+    log: '{fromWord}成功，{count} 秒后跳转回登录页面'
     jump: 没有反应？点击我手动跳转
   user-page:
     title: 个人中心
@@ -419,7 +419,7 @@ video:
         search-failed-reason: 错误原因：
       successful:
         search-no-result: 没有搜索到视频QAQ
-        search-result-count: 共{count}个视频
+        search-result-count: 共 {count} 个视频
       tips: '*已屏蔽含有敏感标签的视频'
     video:
       hidden: 已隐藏
@@ -449,6 +449,9 @@ settings:
       desc: 如果你乐于帮助 PatchyVideo 的翻译工作，欢迎加入我们！
       browser-default: 浏览器建议：{preferred}
     name: 常规
+    theme:
+      color:
+        desc: 选择浏览帕琪站的颜色主题
   appearance:
     theme:
       name: 主题

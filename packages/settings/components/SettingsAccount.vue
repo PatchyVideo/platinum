@@ -1,7 +1,7 @@
 <template>
   <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')" />
   <RouterLink
-    class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-purple-800"
+    class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-gray-600"
     :to="'/user/' + user.uid"
   >
     {{ t('common.nav-top.user.userprofile') }}
@@ -18,7 +18,7 @@
         />
       </div>
       <div
-        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-purple-800 bg-white dark:bg-gray-800"
+        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-gray-600 bg-white dark:bg-gray-800"
       >
         <input v-model="name" class="inline-block px-2 py-1 w-full rounded-lg outline-none dark:bg-gray-800">
       </div>
@@ -28,7 +28,7 @@
         <h3 class="font-medium" v-text="t('settings.account.profile.description.label')" />
       </div>
       <div
-        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-purple-800 bg-white dark:bg-gray-800"
+        class="w-full max-w-112 rounded-lg border border-purple-300 dark:border-gray-600 bg-white dark:bg-gray-800"
       >
         <textarea
           v-model="desc"
@@ -39,7 +39,7 @@
     </div>
   </div>
   <div v-else class="flex">
-    <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
+    <div class="mt-30vh mx-auto text-xl text-gray-600 dark:text-gray-300">
       <div class="inline-block align-middle" v-text="t('settings.account.loading')" />
       <div class="i-uil:spinner-alt text-2xl animate-spin" />
     </div>

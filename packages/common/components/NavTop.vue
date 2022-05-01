@@ -166,9 +166,8 @@
               </label>
               <!-- TODO find a better way to do this -->
               <PvSelect
-                :selected="link.selected.value"
+                v-model="link.selected.value"
                 :item-list="link.options"
-                @update:selected="(v) => (link.selected.value = v)"
               />
             </div>
             <div v-else-if="link.type === 'component'" class="flex justify-between space-x-6 items-end">

@@ -33,7 +33,7 @@
   <form class="flex flex-row items-center gap-2 mt-1" @submit.prevent="onSubmit" @reset.prevent="onReset">
     <button
       type="submit"
-      class="px-4 py-1 rounded-md text-purple-800 dark:text-purple-300 border-2 border-purple-300 dark:border-purple-800"
+      class="px-4 py-1 rounded-md text-purple-800 dark:text-white border-2 border-purple-300 dark:border-indigo-700"
     >
       发表
     </button>

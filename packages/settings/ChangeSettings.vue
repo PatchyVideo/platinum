@@ -19,7 +19,7 @@
               :key="catogory.name"
               class="pl-2 py-1 rounded-full"
               :class="{
-                'cursor-default text-purple-800 dark:text-white bg-purple-100 dark:bg-gray-700':
+                'cursor-default text-purple-900 dark:text-white bg-purple-100 dark:bg-gray-700':
                   active === catogory.name,
                 'cursor-pointer select-none': active !== catogory.name,
               }"
@@ -32,13 +32,13 @@
         </div>
       </div>
       <!-- Settings -->
-      <div class="flex-1 flex-shrink-0">
+      <div class="flex-1 flex-shrink-0 min-h-70vh">
         <Suspense timeout="150">
           <template #default>
             <Component :is="activeCatogory?.component" />
           </template>
           <template #fallback>
-            <div class="mt-30vh mb-40vh mx-auto text-xl text-gray-600 dark:text-gray-300">
+            <div class="mt-30vh mx-auto text-xl text-gray-600 dark:text-gray-300">
               <div class="inline-block align-middle" v-text="t('settings.loading')" />
               <div class="i-uil:spinner-alt text-2xl animate-spin" />
             </div>

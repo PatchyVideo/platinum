@@ -160,7 +160,7 @@
             class="px-2 py-1 whitespace-pre transform transition-all ease-in-out duration-100"
             :class="{
               'hover:bg-gray-900 cursor-pointer':
-                'onClick' in settingsItem || 'to' in settingsItem || settingsItem.type === 'check',
+                'onClick' in settingsItem || 'to' in settingsItem,
             }"
           >
             <div
@@ -179,13 +179,14 @@
                 <div class="i-uil:arrow-right inline-block text-2xl align-middle" />
               </div>
             </div>
-            <div
-              v-else-if="settingsItem.type === 'check'"
-              class="flex justify-between"
-              @click="settingsItem.checked.value = !settingsItem.checked.value"
-            >
-              <span v-text="settingsItem.text" /><PvCheckBox :check="settingsItem.checked.value" size="sm" />
-            </div>
+            <SwitchGroup v-else-if="settingsItem.type === 'check'">
+              <div class="flex justify-between">
+                <SwitchLabel class="select-none">
+                  {{ settingsItem.text }}
+                </SwitchLabel>
+                <PvSwitch v-model="settingsItem.checked.value" size="sm" />
+              </div>
+            </SwitchGroup>
           </div>
         </div>
       </Transition>
@@ -216,8 +217,9 @@ import type { Ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import type { FetchResult } from '@apollo/client/core'
 import type FlvJs from 'flv.js'
+import { SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import PvSwitch from '@/ui/components/PvSwitch.vue'
 import { extensionTweaks } from '@/main/libs/extension'
-import PvCheckBox from '@/ui/components/PvCheckBox.vue'
 
 type VideoData = GeneralVideoData | BilibiliVideoData | YoutubeVideoData
 interface BaseVideoData {

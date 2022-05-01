@@ -1,9 +1,9 @@
 <template>
-  <a
-    class="inline-flex items-center px-3 py-1 border border-purple-300 text-sm font-medium rounded-lg hover:text-gray-500 dark:bg-gray-600 dark:border-purple-900 dark:hover:bg-black"
+  <button
+    class="inline-flex items-center px-4 py-1 border border-purple-300 font-medium rounded-lg light:hover:text-gray-700 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700"
   >
     <slot />
-  </a>
+  </button>
 </template>
 
 <script lang="ts" setup></script>
