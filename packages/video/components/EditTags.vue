@@ -67,6 +67,7 @@
 
 <script lang="ts" setup>
 import { computed, reactive, ref, shallowRef, watchEffect } from 'vue'
+import type { AutoCompleteResult } from '@/search/components/AutoComplete.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import RoundTag from '@/tag/components/RoundTag.vue'
 import type { Query, schema } from '@/graphql'
@@ -179,30 +180,11 @@ const onTagRemove = (tagid: number) => {
   if (removeTag(tagid))
     pushEdit({ type: 'remove', tagid })
 }
-const onSuggestionClick = async (tag: string) => {
-  const client = resolveClient()
-  const res = await client
-    .query<Query>({
-      query: gql`
-        query ($tag: String!) {
-          listTagObjects(para: { query: $tag, queryRegex: true, offset: 0, limit: 1 }) {
-            tags {
-              tagid
-            }
-          }
-        }
-      `,
-      variables: {
-        tag: `^${tag}$`,
-      },
-    })
-    .catch(() => null)
-  const tagid = res?.data?.listTagObjects.tags[0]?.tagid
-  editTagSearchKeyword.value = ''
-  if (typeof tagid !== 'number')
+const onSuggestionClick = async (item: AutoCompleteResult) => {
+  if (typeof item.id !== 'number')
     return
-  if (await addTag(tagid))
-    pushEdit({ type: 'add', tagid })
+  if (await addTag(item.id))
+    pushEdit({ type: 'add', tagid: item.id })
 }
 
 const { mutate } = useMutation(gql`

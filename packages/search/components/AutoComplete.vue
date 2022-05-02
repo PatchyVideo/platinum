@@ -81,7 +81,7 @@
                 :key="item.tag"
                 class="px-3 py-1 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between dark:hover:bg-gray-700"
                 :class="{ 'bg-gray-100 dark:bg-gray-700': index === activeSearchResult }"
-                @click="clickAutocompleteKeyword(item.tag)"
+                @click="clickAutocompleteKeyword(item)"
               >
                 <div class="text-left">
                   <div
@@ -181,23 +181,10 @@ const emit = defineEmits<{
   (event: 'update:keyword', value: string): void
   (event: 'search', searchContent: string): void
   (event: 'searching', searching: boolean): void
-  (event: 'suggestionClick', tag: string): void
+  (event: 'suggestionClick', item: AutoCompleteResult): void
 }>()
 
 const { t } = useI18n()
-
-interface AutoCompleteResult {
-  tag?: string
-  sub?: string
-  cat: number
-  cnt: null | string
-  langs?: AutoCompleteLangs[]
-  keyword?: string
-}
-interface AutoCompleteLangs {
-  l: number
-  w: string
-}
 
 const listHidden = ref(true)
 const loading = ref(false)
@@ -358,12 +345,14 @@ function selectAutocompleteKeyword(up: boolean): void {
   }
 }
 // Select the keyword from the search list with mouse
-function clickAutocompleteKeyword(tag: string): void {
-  searchContent.value = formatSearchContent(`${cutHeadSearchContent + tag.replace(/ /g, '_')} ${cutTailSearchContent}`)
+function clickAutocompleteKeyword(item: AutoCompleteResult): void {
+  if (!item.tag)
+    return
+  searchContent.value = formatSearchContent(`${cutHeadSearchContent + item.tag.replace(/ /g, '_')} ${cutTailSearchContent}`)
   activeSearchResult.value = -1
   listHidden.value = true
   autoComplete.value?.focus()
-  emit('suggestionClick', tag)
+  emit('suggestionClick', item)
 }
 
 //  Select the keyword from the search list with keyboard or search
@@ -384,7 +373,7 @@ function completeKeywordOrSearch(usingSearchButton = false): void {
       `${cutHeadSearchContent + tag.replace(/ /g, '_')} ${cutTailSearchContent}`,
     )
     searchResult.value = []
-    emit('suggestionClick', tag)
+    emit('suggestionClick', item)
   }
 }
 
@@ -440,4 +429,20 @@ const popularTags = useResult(
 defineExpose({
   focus,
 })
+</script>
+
+<script lang="ts">
+export interface AutoCompleteResult {
+  tag?: string
+  sub?: string
+  cat: number
+  cnt: null | string
+  id?: number
+  langs?: AutoCompleteLangs[]
+  keyword?: string
+}
+export interface AutoCompleteLangs {
+  l: number
+  w: string
+}
 </script>
