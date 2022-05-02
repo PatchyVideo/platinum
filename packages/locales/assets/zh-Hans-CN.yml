@@ -457,6 +457,9 @@ settings:
       name: 主题
       color:
         name: 主题颜色
+      dark-cover-filter:
+        name: 在深色模式时降低封面亮度
+        desc: 开启后，视频/播放列表封面在深色模式时会降低至 75% 亮度 (默认开启)
     name: 外观
   account:
     profile:

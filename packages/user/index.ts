@@ -51,7 +51,7 @@ interface ProvidedUserData {
 }
 
 export const createUserData = () => {
-  const userData = useLocalStorage<Partial<User>>('userData', {}, { listenToStorageChanges: true, deep: true })
+  const userData = useLocalStorage<Partial<User>>('user_data', {}, { listenToStorageChanges: true, deep: true })
   const user = computedEager(() => ({
     ...userDefault,
     ...userData.value,

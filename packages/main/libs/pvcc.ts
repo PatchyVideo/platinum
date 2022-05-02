@@ -22,7 +22,7 @@ const PatchyVideo = {
     /**
      * ISO format of the build timestamp
      */
-    buildtime: import.meta.env.VITE_APP_BUILDTIME,
+    buildTime: import.meta.env.VITE_APP_BUILDTIME,
   },
   extension: {
     /**
@@ -52,6 +52,10 @@ const PatchyVideo = {
     list: {
       // global: user preferred language
       lang: [String, undefined],
+      // theme: user preferred theme
+      theme_preference: [String, 'system'],
+      // theme: whether covers should be applied with a 75% brightness filter when in dark mode
+      theme_dark_cover_filter: [Boolean, true],
       // video: player: player volume
       player_settings_volume: [Number, 0.5],
       // video: player: sync video & audio stream
@@ -66,6 +70,7 @@ window.PatchyVideo = PatchyVideo
 
 export default PatchyVideo
 
+// eslint-disable-next-line no-console
 console.log(
   `%cPatchy%cVideo%cVer${import.meta.env.VITE_APP_VERSION}%c\nBuilt@${import.meta.env.VITE_APP_BUILDTIME}`,
   'color:#9c71b2;font-size:2rem;font-family: Arial,Helvetica,sans-serif;font-weight: 700;',

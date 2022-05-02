@@ -5,7 +5,7 @@ import { useLocalStorage } from '@vueuse/core'
 
 export const langs = ['zh-Hans-CN', 'en-US', 'yue-Hant-HK']
 
-const lslang = useLocalStorage<string | undefined>('lang', undefined)
+const lslang = useLocalStorage<string>('lang', '', { writeDefaults: false, listenToStorageChanges: true })
 
 const i18n = createI18n({
   legacy: false,

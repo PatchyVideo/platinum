@@ -6,7 +6,7 @@ const metaTag = document.querySelector('meta[name="theme-color"]')!
 
 export const themes = ['system', 'light', 'dark'] as const
 export type Themes = typeof themes[number]
-export const themePreference = useLocalStorage<Themes>('themePreference', 'system', {
+export const themePreference = useLocalStorage<Themes>('theme_preference', 'system', {
   listenToStorageChanges: true,
   flush: 'post',
   serializer: {
