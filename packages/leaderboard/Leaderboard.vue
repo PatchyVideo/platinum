@@ -9,8 +9,8 @@
       </div>
       <div v-else>
         <PvTabs
-          v-model:value="currentRankType"
-          :tab-panes="[
+          v-model="currentRankType"
+          :tabs="[
             { name: 'tag-contributions', label: t('leaderboard.tag-contributions.name') },
             { name: 'others', label: '其他排行榜' },
           ]"

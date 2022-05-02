@@ -38,7 +38,7 @@
             <Component :is="activeCatogory?.component" />
           </template>
           <template #fallback>
-            <div class="mt-30vh mx-auto text-xl text-gray-600 dark:text-gray-300">
+            <div class="mt-30vh text-center text-xl text-gray-600 dark:text-gray-300">
               <div class="inline-block align-middle" v-text="t('settings.loading')" />
               <div class="i-uil:spinner-alt text-2xl animate-spin" />
             </div>
