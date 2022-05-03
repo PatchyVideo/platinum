@@ -8,29 +8,20 @@
       <div v-else-if="noteType === 'system_message'">
         <NoteBoxSystemMessage v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
       </div>
-      <PvPagination
-        :page-count="Number(pageCount)"
-        :page="page"
-        @previous="jumpToPreviousPage"
-        @next="jumpToNextPage"
-        @change="jumpToSelectedPage"
-      />
+      <PvPagination :page-count="Number(pageCount)" :page="page" @previous="jumpToPreviousPage" @next="jumpToNextPage"
+        @change="jumpToSelectedPage" />
       <!-- DrawerLayout -->
-      <div
-        class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-800"
-        :title="t('user-notification.notification.slide-open')"
-        @click="noteDrawerOpen = true"
-      >
+      <div class="shadow fixed bottom-20 right-5 bg-gray-50 select-none p-2 rounded-full dark:bg-gray-800"
+        :title="t('user-notification.notification.slide-open')" @click="noteDrawerOpen = true">
         <div class="i-uil:chat text-2xl" />
-        <label
-          v-if="listNoteCountUnread"
-          class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1"
-        >{{ listNoteCountUnread > 99 ? '99+' : listNoteCountUnread }}</label>
+        <label v-if="listNoteCountUnread"
+          class="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full px-1">{{ listNoteCountUnread > 99 ?
+              '99+' : listNoteCountUnread
+          }}</label>
       </div>
       <div
         class="fixed inset-x-0 border-t rounded-t border-purple-400 p-1 z-50 bottom-0 overflow-auto bg-white transform transition-transform duration-300 dark:bg-gray-900"
-        :class="{ 'translate-y-full': !noteDrawerOpen }"
-      >
+        :class="{ 'translate-y-full': !noteDrawerOpen }">
         <div class="w-full border-b p-1 pb-1.5 flex justify-between">
           <div class="flex items-center flex-nowrap">
             <div class="i-uil:telegram-alt text-2xl transition-colors" />
@@ -41,56 +32,40 @@
           <div class="i-uil:times text-2xl transition-colors" @click="noteDrawerOpen = false" />
         </div>
         <div class="mt-4 space-y-2">
-          <div
-            class="flex align-middle p-2 rounded-md cursor-pointer"
+          <div class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
-            @click="changeNoteType('comment_reply')"
-          >
+            @click="changeNoteType('comment_reply')">
             <div class="i-uil:comment-alt-dots inline align-middle text-xl text-center" />
             <div>
               {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                listNoteCountTypesCommentReply
-                  ? listNoteCountTypesCommentReply
-                  : 0 > 99
-                    ? '99+'
-                    : listNoteCountTypesCommentReply
+                  (listNoteCountTypesCommentReply ? listNoteCountTypesCommentReply : 0)
+                    > 99 ? '99+' : listNoteCountTypesCommentReply
               }}</label>
             </div>
           </div>
-          <div
-            class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
-            :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
-          >
+          <div class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
+            :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }">
             <div class="i-uil:at inline align-middle text-xl text-center" />
             <div>{{ t('user-notification.notification.at') }}</div>
           </div>
-          <div
-            class="flex align-middle p-2 rounded-md cursor-pointer"
+          <div class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
-            @click="changeNoteType('system_message')"
-          >
+            @click="changeNoteType('system_message')">
             <div class="i-uil:volume inline align-middle text-xl text-center" />
             <div>
               {{ t('user-notification.notification.system') }}
-              <label v-if="listNoteCountTypesSystemMessage" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                listNoteCountTypesSystemMessage
-                  ? listNoteCountTypesSystemMessage
-                  : 0 > 99
-                    ? '99+'
-                    : listNoteCountTypesSystemMessage
+              <label v-if="listNoteCountTypesSystemMessage" class="bg-red-500 text-white text-sm rounded-full px-2">{{  
+                  (listNoteCountTypesSystemMessage ? listNoteCountTypesSystemMessage : 0)
+                    > 99 ? '99+' : listNoteCountTypesSystemMessage
               }}</label>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
       <!-- Mask -->
-      <Transition
-        enter-active-class="transition-all duration-200"
-        enter-from-class="bg-opacity-0"
-        leave-active-class="transition-all duration-200"
-        leave-to-class="bg-opacity-0"
-      >
+      <Transition enter-active-class="transition-all duration-200" enter-from-class="bg-opacity-0"
+        leave-active-class="transition-all duration-200" leave-to-class="bg-opacity-0">
         <div v-if="noteDrawerOpen" class="fixed inset-0 z-49" @click="noteDrawerOpen = false" />
       </Transition>
     </div>
@@ -105,44 +80,32 @@
           </div>
         </div>
         <div class="mt-4 space-y-2">
-          <div
-            class="flex align-middle p-2 rounded-md cursor-pointer"
+          <div class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'comment_reply' }"
-            @click="changeNoteType('comment_reply')"
-          >
+            @click="changeNoteType('comment_reply')">
             <div class="i-uil:comment-alt-dots inline align-middle text-xl text-center" />
             <div>
               {{ t('user-notification.notification.reply') }}
               <label v-if="listNoteCountTypesCommentReply" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                listNoteCountTypesCommentReply
-                  ? listNoteCountTypesCommentReply
-                  : 0 > 99
-                    ? '99+'
-                    : listNoteCountTypesCommentReply
+                  (listNoteCountTypesCommentReply ? listNoteCountTypesCommentReply : 0)
+                    > 99 ? '99+' : listNoteCountTypesCommentReply
               }}</label>
             </div>
           </div>
-          <div
-            class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
-            :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }"
-          >
+          <div class="flex align-middle p-2 rounded-md text-gray-500 cursor-pointer"
+            :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'at' }">
             <div class="i-uil:at inline align-middle text-xl text-center" />
             <div>{{ t('user-notification.notification.at') }}</div>
           </div>
-          <div
-            class="flex align-middle p-2 rounded-md cursor-pointer"
+          <div class="flex align-middle p-2 rounded-md cursor-pointer"
             :class="{ 'bg-gray-50 shadow-inner dark:bg-gray-500': noteType === 'system_message' }"
-            @click="changeNoteType('system_message')"
-          >
+            @click="changeNoteType('system_message')">
             <div class="i-uil:volume inline align-middle text-xl text-center" />
             <div>
               {{ t('user-notification.notification.system') }}
               <label v-if="listNoteCountTypesSystemMessage" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                listNoteCountTypesSystemMessage
-                  ? listNoteCountTypesSystemMessage
-                  : 0 > 99
-                    ? '99+'
-                    : listNoteCountTypesSystemMessage
+                  (listNoteCountTypesSystemMessage ? listNoteCountTypesSystemMessage : 0)
+                    > 99 ? '99+' : listNoteCountTypesSystemMessage
               }}</label>
             </div>
           </div>
@@ -155,14 +118,8 @@
         <div v-else-if="noteType === 'system_message'">
           <NoteBoxSystemMessage v-model:limit="limit" v-model:offset="offset" v-model:pageCount="pageCount" />
         </div>
-        <PvPagination
-          v-if="!loading"
-          :page-count="Number(pageCount)"
-          :page="page"
-          @previous="jumpToPreviousPage"
-          @next="jumpToNextPage"
-          @change="jumpToSelectedPage"
-        />
+        <PvPagination v-if="!loading" :page-count="Number(pageCount)" :page="page" @previous="jumpToPreviousPage"
+          @next="jumpToNextPage" @change="jumpToSelectedPage" />
       </div>
     </div>
   </LayoutDefault>
