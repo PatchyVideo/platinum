@@ -13,7 +13,7 @@
             />
             <div class="flex flex-row items-center gap-2 text-gray-600 dark:text-gray-300">
               <div v-text="t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)" />
-              <div v-if="clearence !== 3" v-text="t('video.video.ranks.' + clearence)" />
+              <div v-if="clearence !== 3" v-text="t(`video.video.ranks.${clearence}`)" />
               <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
               <template v-if="isAdmin">
                 <div
@@ -88,7 +88,7 @@
                 >
                   <!-- Avatar -->
                   <div class="flex-shrink-0">
-                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
+                    <RouterLink v-if="author.type === 'User'" :to="`/user/${author.id.toHexString()}`">
                       <UserAvatarPopper :uid="author.id.toHexString()">
                         <UserAvatar
                           class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
@@ -99,7 +99,7 @@
                         />
                       </UserAvatarPopper>
                     </RouterLink>
-                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
+                    <RouterLink v-else-if="author.tagid" :to="`/tag/author/${author.tagid}`">
                       <UserAvatar
                         class="inline-block w-10 lg:w-14 h-10 lg:h-14 rounded-full bg-gray-500 object-cover"
                         :image="author.avatar"
@@ -116,13 +116,13 @@
                     />
                   </div>
                   <div class="hidden sm:block ml-1.5 overflow-hidden">
-                    <RouterLink v-if="author.type === 'User'" :to="'/user/' + author.id.toHexString()">
+                    <RouterLink v-if="author.type === 'User'" :to="`/user/${author.id.toHexString()}`">
                       <span
                         class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-violet-800 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
                       />{{ author.name }}
                     </RouterLink>
-                    <RouterLink v-else-if="author.tagid" :to="'/tag/author/' + author.tagid">
+                    <RouterLink v-else-if="author.tagid" :to="`/tag/author/${author.tagid}`">
                       <span
                         class="inline-block align-text-bottom px-0.75 mr-0.5 rounded bg-purple-400 dark:bg-violet-800 text-xs lg:text-sm text-white whitespace-nowrap overflow-hidden"
                         v-text="author.position"
@@ -151,15 +151,15 @@
               >
                 <div class="mx-2 my-1 flex justify-between">
                   <div>
-                    <RouterLink class="" :to="'/playlist/' + pid">
+                    <RouterLink class="" :to="`/playlist/${pid}`">
                       <div
                         class="i-uil:list-ui-alt inline-block text-lg align-middle text-gray-800 dark:text-gray-100"
                       />
                       {{ playlist.item.title }}
                     </RouterLink>
                     <div class="text-sm text-gray-900 dark:text-gray-200">
-                      {{ playlist.meta.createdBy ? playlist.meta.createdBy.username + ' - ' : ''
-                      }}{{ playlistIndex + ' / ' + playlist.item.count }}
+                      {{ playlist.meta.createdBy ? `${playlist.meta.createdBy.username} - ` : ''
+                      }}{{ `${playlistIndex} / ${playlist.item.count}` }}
                     </div>
                   </div>
                   <div class="flex flex-col justify-around">
@@ -176,7 +176,7 @@
                     :key="plVideo.video.id.toHexString()"
                     class="flex justify-start space-x-1 py-1 hover:bg-purple-50 dark:hover:bg-gray-800"
                     :class="{ 'bg-purple-50 dark:bg-gray-800': plVideo.video.id.toHexString() === vid }"
-                    :to="'/video/' + plVideo.video.id + '?list=' + pid"
+                    :to="`/video/${plVideo.video.id}?list=${pid}`"
                   >
                     <div
                       class="flex flex-col flex-shrink-0 flex-grow-0 justify-around text-xs w-6 self-center text-center overflow-hidden"
@@ -216,7 +216,7 @@
                 <RouterLink
                   v-for="rlVideo in video.relatedVideos"
                   :key="rlVideo.id.toHexString()"
-                  :to="'/video/' + rlVideo.id.toHexString()"
+                  :to="`/video/${rlVideo.id.toHexString()}`"
                   class="grid grid-cols-5 space-x-1.5 py-0.5 rounded-md hover:bg-purple-50 dark:hover:bg-gray-800 transition-colors duration-100"
                 >
                   <div class="col-span-2">

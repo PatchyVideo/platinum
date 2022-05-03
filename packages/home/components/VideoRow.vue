@@ -10,12 +10,12 @@
   <h4 v-else class="inline-block text-xl" v-text="name" />
   <div
     class="grid mt-2 grid-flow-row gap-4"
-    :style="{ gridTemplateColumns: 'repeat(' + count / (rows ?? 1) + ', minmax(0, 1fr))' }"
+    :style="{ gridTemplateColumns: `repeat(${count / (rows ?? 1)}, minmax(0, 1fr))` }"
   >
     <RouterLink
       v-for="video in videos.slice(0, count)"
       :key="video.id.toHexString()"
-      :to="'/video/' + video.id.toHexString()"
+      :to="`/video/${video.id.toHexString()}`"
       class="rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-100"
     >
       <Cover

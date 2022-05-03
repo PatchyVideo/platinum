@@ -1,7 +1,7 @@
 <template>
   <div class="text-center h-full w-full p-6">
     <div>
-      {{ t('user.redirect.log', { fromWord: fromWord, count: count }) }}
+      {{ t('user.redirect.log', { fromWord, count }) }}
     </div>
     <RouterLink class="underline" to="/user/login">
       {{ t('user.redirect.jump') }}

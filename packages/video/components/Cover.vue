@@ -4,7 +4,7 @@
       class="object-cover h-full w-full bg-gray-300 dark:bg-gray-600"
       :class="{ 'dark:filter dark:brightness-75': filter }"
       :alt="t('image.cover.alt', { title: title.slice(0, 40) })"
-      :src="'https://patchyvideo.com/images/covers/' + coverImage"
+      :src="`https://patchyvideo.com/images/covers/${coverImage}`"
     >
   </div>
 </template>

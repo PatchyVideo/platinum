@@ -62,7 +62,7 @@
         <div class="flex max-w-72 flex-wrap gap-x-1">
           <div
             class="px-2 py-0.5 rounded-lg text-sm border border-purple-300 cursor-pointer transition transition-colors whitespace-nowrap mb-1 dark:border-gray-600"
-            :class="{ 'bg-purple-400 dark:bg-indigo-800 text-white': visibleSites.findIndex((item) => item === '') != -1 }"
+            :class="{ 'bg-purple-400 dark:bg-indigo-800 text-white': visibleSites.findIndex((item) => item === '') !== -1 }"
             @click="changeVisibleSites()"
           >
             {{ '全部' }}
@@ -71,7 +71,7 @@
             v-for="site in siteList"
             :key="site.value"
             class="px-2 py-0.5 rounded-lg text-sm border border-purple-300 cursor-pointer transition transition-colors whitespace-nowrap mb-1 dark:border-gray-600"
-            :class="{ 'bg-purple-400 dark:bg-indigo-800 text-white': visibleSites.findIndex((item) => item === site.value) != -1 }"
+            :class="{ 'bg-purple-400 dark:bg-indigo-800 text-white': visibleSites.findIndex((item) => item === site.value) !== -1 }"
             @click="changeVisibleSites(site.value)"
           >
             {{ site.name }}
@@ -214,16 +214,12 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+// import { useI18n } from 'vue-i18n'
 import { useVModel } from '@vueuse/core'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import PvSwitch from '@/ui/components/PvSwitch.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
-// import { useI18n } from 'vue-i18n'
-
-// const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
 
 const props = defineProps({
   open: {
@@ -235,6 +231,10 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
 }>()
+
+// const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 
 const open = useVModel(props, 'open', emit)
 

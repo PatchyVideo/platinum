@@ -25,8 +25,6 @@ import { useVModel } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 
-const { t } = useI18n()
-
 const props = withDefaults(
   defineProps<{
     value: string
@@ -37,9 +35,12 @@ const props = withDefaults(
     type: 'singleLine',
   },
 )
+
 const emit = defineEmits<{
   (event: 'update:value', value: string): void
 }>()
+
+const { t } = useI18n()
 
 const value = useVModel(props, 'value', emit)
 

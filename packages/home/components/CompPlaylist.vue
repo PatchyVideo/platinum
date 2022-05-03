@@ -3,7 +3,7 @@
     <div v-if="playlist">
       <VideoRow
         :name="config.title ?? playlist.item.title"
-        :title-links-to="'/playlist/' + config.playlist_id"
+        :title-links-to="`/playlist/${config.playlist_id}`"
         :videos="playlist.videos"
         :count="count"
         :rows="config.video_rows"

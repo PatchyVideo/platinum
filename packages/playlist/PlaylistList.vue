@@ -60,7 +60,7 @@
       </div>
       <div v-else-if="status === 'result'">
         <div class="border-b pb-1">
-          {{ t('playlist.playlist-list.main-body.successful.load-result-count', { count: count }) }}
+          {{ t('playlist.playlist-list.main-body.successful.load-result-count', { count }) }}
         </div>
         <!-- Mobile View -->
         <div v-if="screenSizes['<md']">
@@ -68,7 +68,7 @@
             v-for="playlist in playlists"
             :key="playlist.item.title"
             class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
-            :to="'/playlist/' + playlist.id.toHexString()"
+            :to="`/playlist/${playlist.id.toHexString()}`"
           >
             <div class="w-2/5 mr-0.5">
               <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm" />
@@ -97,7 +97,7 @@
             class="w-12/25 my-5 p-2 border border-purple-300 shadow rounded-lg bg-white bg-opacity-50 dark:border-gray-700 dark:bg-gray-900"
           >
             <RouterLink
-              :to="'/playlist/' + playlist.id"
+              :to="`/playlist/${playlist.id}`"
               class="flex justify-center items-center gap-x-1 border-b border-purple-300 dark:border-gray-500 py-3"
             >
               <span v-if="playlist.item.private" class="bg-purple-400 dark:bg-violet-800 text-white text-xs rounded px-1 py-0.5">Private</span>

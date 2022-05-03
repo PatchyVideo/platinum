@@ -104,12 +104,6 @@ import { useVModel } from '@vueuse/core'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
-// import { useI18n } from 'vue-i18n'
-
-// const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-
 const props = defineProps({
   open: {
     type: Boolean,
@@ -120,6 +114,11 @@ const props = defineProps({
 const emit = defineEmits<{
   (event: 'update:open', value: boolean): void
 }>()
+// import { useI18n } from 'vue-i18n'
+
+// const { t } = useI18n()
+const route = useRoute()
+const router = useRouter()
 
 const open = useVModel(props, 'open', emit)
 

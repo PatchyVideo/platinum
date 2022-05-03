@@ -7,12 +7,12 @@
         class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-purple-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
         :style="{
           'transition-timing-function': 'ease',
-          'transition-duration': PvMessageTransitionDuration.toString() + 'ms',
+          'transition-duration': `${PvMessageTransitionDuration.toString()}ms`,
           'background-color': options.bgColor,
           'border-color': options.borderColor,
-          color: options.color,
+          'color': options.color,
           'min-width': '320px',
-          top: `${options.offset ?? 0 + 110 * i}px`,
+          'top': `${options.offset ?? 0 + 110 * i}px`,
         }"
       >
         <div class="relative flex flex-row justify-start items-center" :class="{ 'mr-6': options.showClose }">

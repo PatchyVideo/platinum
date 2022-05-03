@@ -41,7 +41,7 @@
       <div v-if="count === 0" v-text="t('search.search-result.video.main-body.successful.search-no-result')" />
       <div
         v-else
-        v-text="t('search.search-result.video.main-body.successful.search-result-count', { count: count })"
+        v-text="t('search.search-result.video.main-body.successful.search-result-count', { count })"
       />
       <div class="flex self-center space-x-2">
         <label
@@ -62,7 +62,7 @@
         v-for="video in videos"
         :key="video.item.title"
         class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
-        :to="'/video/' + video.id.toHexString()"
+        :to="`/video/${video.id.toHexString()}`"
       >
         <div class="relative w-2/5 mr-0.5">
           <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm" />
@@ -80,7 +80,7 @@
           <div v-if="video.item.partName" class="overflow-hidden w-full">
             <a class="inline-block w-full truncate">{{ video.item.title }}</a>
             <div class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300">
-              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ':' }}</label>{{ video.item.partName }}
+              <label class="font-semibold">{{ `P${pageOfVideo(video.item.url)}:` }}</label>{{ video.item.partName }}
             </div>
           </div>
           <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden w-full">{{ video.item.title }}</a>
@@ -97,7 +97,7 @@
         v-for="video in videos"
         :key="video.item.title"
         class="w-12/50 my-2 border border-purple-400 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
-        :to="'/video/' + video.id.toHexString()"
+        :to="`/video/${video.id.toHexString()}`"
       >
         <div class="relative">
           <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
@@ -118,7 +118,7 @@
               class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
               :title="video.item.partName"
             >
-              <label class="font-semibold">{{ 'P' + pageOfVideo(video.item.url) + ': ' }}</label>{{ video.item.partName }}
+              <label class="font-semibold">{{ `P${pageOfVideo(video.item.url)}: ` }}</label>{{ video.item.partName }}
             </div>
           </div>
           <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{

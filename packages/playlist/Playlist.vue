@@ -26,7 +26,7 @@
                 <i18n-t keypath="playlist.playlist.info.edit-date" tag="span"><template #date><RelativeDate :date="playlist.meta.modifiedAt ?? playlist.meta.createdAt" /></template></i18n-t></span>
             </div>
             <div v-if="playlist.meta.createdBy" class="mt-2">
-              <RouterLink class="flex flex-row items-center" :to="'/user/' + playlist.meta.createdBy.id.toHexString()">
+              <RouterLink class="flex flex-row items-center" :to="`/user/${playlist.meta.createdBy.id.toHexString()}`">
                 <UserAvatarPopper :uid="playlist.meta.createdBy.id.toHexString()">
                   <UserAvatar
                     class="inline-block w-8 rounded-full"
@@ -43,7 +43,7 @@
                 ref="descText"
                 class="overflow-hidden transform transition-all duration-600 ease-in-out"
                 :style="{
-                  height: expandDesc && descScrollHeight > 0 ? descScrollHeight + 'px' : '96px',
+                  height: expandDesc && descScrollHeight > 0 ? `${descScrollHeight}px` : '96px',
                 }"
               >
                 <div ref="descBlock">
@@ -67,7 +67,7 @@
             :key="video.id.toHexString()"
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
             class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-colors duration-150 odd:bg-gray-50 dark:odd:bg-gray-800 hover:bg-purple-50 dark:hover:bg-gray-700 hover:odd:bg-purple-50 dark:hover:odd:bg-gray-700"
-            :to="'/video/' + video.id.toHexString() + '?list=' + pid"
+            :to="`/video/${video.id.toHexString()}?list=${pid}`"
           >
             <div
               class="flex flex-col flex-shrink-0 flex-grow-0 justify-around w-8 self-center items-center text-center md:space-y-1"

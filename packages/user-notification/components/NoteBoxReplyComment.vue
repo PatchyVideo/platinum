@@ -13,7 +13,7 @@
     {{ t('user-notification.notification-reply.loading') }}
   </div>
   <div v-else-if="listNoteStatus === 'error'" />
-  <div v-else-if="listNoteCountAll == 0">
+  <div v-else-if="listNoteCountAll === 0">
     {{ t('user-notification.notification-reply.no-message') }}
   </div>
   <div v-else>
@@ -23,7 +23,7 @@
         class="flex items-center m-1 p-2 shadow rounded-md"
         :class="{ 'bg-gray-100 dark:bg-gray-500': !note.read }"
       >
-        <router-link class="w-1/6 md:w-1/15 mr-2 cursor-pointer" :to="'/user/' + note.repliedBy.id.toHexString()">
+        <router-link class="w-1/6 md:w-1/15 mr-2 cursor-pointer" :to="`/user/${note.repliedBy.id.toHexString()}`">
           <UserAvatar
             :title="note.repliedBy.username"
             :image="note.repliedBy.image"
@@ -34,10 +34,10 @@
         <router-link
           v-slot="{ href, navigate }"
           :to="
-            (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
-              note.repliedObj +
-              '#' +
-              note.cid
+            `${(note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/')
+              + note.repliedObj
+            }#${
+              note.cid}`
           "
           custom
         >
@@ -84,18 +84,19 @@ import type { Mutation, Query, schema } from '@/graphql'
 import { openInNewTab } from '@/common/libs/link'
 import { startProgress, stopProgress } from '@/nprogress'
 
-const { t } = useI18n()
-
 const props = defineProps<{
   limit: number
   offset: number
   pageCount: schema.Maybe<number> | undefined
 }>()
+
 const emit = defineEmits<{
   (event: 'update:limit', value: number): void
   (event: 'update:offset', value: number): void
   (event: 'update:pageCount', value: number): void
 }>()
+
+const { t } = useI18n()
 
 const noteType = ref('comment_reply')
 const listAll = ref(true)

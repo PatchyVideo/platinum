@@ -1,6 +1,6 @@
 <template>
   <LayoutDefault :show-search-bar="false">
-    <!--个人中心-->
+    <!-- 个人中心 -->
     <div v-if="isVerifiedLogin" class="w-full h-full flex justify-start flex-col md:flex-row">
       <div class="half-container justify-center items-center">
         <UserAvatar
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="half-container p-8 md:p-16 justify-start items-start">
-        <!--username input-->
+        <!-- username input -->
         <div class="w-full">
           <div v-if="isEditingUsername" class="flex flex-col justify-between items-start lg:flex-row">
             <UserInput
@@ -66,7 +66,7 @@
             />
           </div>
         </div>
-        <!--description input-->
+        <!-- description input -->
         <div class="w-full lg:w-4/5 mt-4">
           <UserInput
             v-model:value="description"
@@ -77,7 +77,7 @@
             {{ t('user.user-page.description.save') }}
           </button>
         </div>
-        <!--password modify-->
+        <!-- password modify -->
         <div class="w-full mt-4 flex flex-col justify-start items-start">
           <p>{{ t('user.user-page.password.title') }}</p>
           <div class="w-full mt-4 flex flex-col justify-start items-start">
@@ -129,7 +129,7 @@
             </div>
           </div>
         </div>
-        <!--email bind-->
+        <!-- email bind -->
         <div class="w-full lg:w-4/5 mt-4 flex flex-col justify-start">
           <p>{{ t('user.user-page.email.title') }}</p>
           <UserInput

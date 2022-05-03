@@ -13,7 +13,7 @@
     {{ t('user-notification.notification-system.loading') }}
   </div>
   <div v-else-if="listNoteStatus === 'error'" />
-  <div v-else-if="listNoteCountAll == 0">
+  <div v-else-if="listNoteCountAll === 0">
     {{ t('user-notification.notification-system.no-message') }}
   </div>
   <div v-else class="space-y-2">
@@ -61,18 +61,19 @@ import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query, schema } from '@/graphql'
 import { startProgress, stopProgress } from '@/nprogress'
 
-const { t } = useI18n()
-
 const props = defineProps<{
   limit: number
   offset: number
   pageCount: schema.Maybe<number> | undefined
 }>()
+
 const emit = defineEmits<{
   (event: 'update:limit', value: number): void
   (event: 'update:offset', value: number): void
   (event: 'update:pageCount', value: number): void
 }>()
+
+const { t } = useI18n()
 
 const noteType = ref('system_message')
 const listAll = ref(true)

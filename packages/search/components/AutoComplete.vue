@@ -41,7 +41,8 @@
               motion
                 .apply({ y: 0, opacity: 1, transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } } })
                 ?.then(() => done())
-            } else done()
+            }
+            else done()
           }
         "
         @after-enter="
@@ -59,7 +60,8 @@
                   transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } },
                 })
                 ?.then(() => done())
-            } else done()
+            }
+            else done()
           }
         "
         @after-leave="
@@ -130,13 +132,13 @@
                     @click="
                       () => {
                         if (
-                          searchContent.length > 0 &&
-                          [' ', '\t', '\n', '\v', '\f', '\r'].indexOf(
-                            searchContent.charAt(searchContent.length - 1)
+                          searchContent.length > 0
+                          && [' ', '\t', '\n', '\v', '\f', '\r'].indexOf(
+                            searchContent.charAt(searchContent.length - 1),
                           ) === -1
                         )
                           searchContent += ' '
-                        searchContent += tag + ' '
+                        searchContent += `${tag} `
                         if (autoComplete) autoComplete.focus()
                       }
                     "

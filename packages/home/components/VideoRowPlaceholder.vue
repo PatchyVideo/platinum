@@ -4,7 +4,7 @@
   </h4>
   <div
     class="grid mt-2 grid-flow-row gap-4"
-    :style="{ gridTemplateColumns: 'repeat(' + count / (rows ?? 1) + ', minmax(0, 1fr))' }"
+    :style="{ gridTemplateColumns: `repeat(${count / (rows ?? 1)}, minmax(0, 1fr))` }"
   >
     <div v-for="index in count" :key="index" class="rounded-md">
       <CoverPlaceholder class="rounded-md" />

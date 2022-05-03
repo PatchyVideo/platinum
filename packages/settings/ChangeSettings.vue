@@ -23,7 +23,7 @@
                   active === catogory.name,
                 'cursor-pointer select-none': active !== catogory.name,
               }"
-              @click="() => active !== catogory.name && router.push('/settings/' + catogory.name)"
+              @click="() => active !== catogory.name && router.push(`/settings/${catogory.name}`)"
             >
               <div class="inline-block mr-2 text-4xl text-center align-middle" :class="catogory.icon" />
               <div class="inline-block text-lg align-middle" v-text="catogory.text" />

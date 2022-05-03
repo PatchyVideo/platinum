@@ -3,8 +3,7 @@
     <div
       v-for="(noti, index) of notis"
       :key="index"
-      :class="{
-        'w-72 h-16 border rounded-lg p-1 m-2': true,
+      class="w-72 h-16 border rounded-lg p-1 m-2" :class="{
         'border-blue-600 bg-blue-50': noti.type === 'info',
         'border-yellow-600 bg-yellow-50': noti.type === 'warn',
         'border-red-600 bg-red-50': noti.type === 'error',

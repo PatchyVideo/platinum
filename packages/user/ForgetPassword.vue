@@ -45,7 +45,7 @@
           </div>
           <RouterLink class="block text-right text-blue-600" to="/user/login">
             {{
-              '←' + t('user.forget-password.login')
+              `←${t('user.forget-password.login')}`
             }}
           </RouterLink>
         </div>
@@ -97,7 +97,7 @@
           </div>
           <RouterLink class="block text-blue-600 text-right hover:text-blue-800" to="/user/login">
             {{
-              '←' + t('user.forget-password.login')
+              `←${t('user.forget-password.login')}`
             }}
           </RouterLink>
         </div>

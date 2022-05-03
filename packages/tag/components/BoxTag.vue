@@ -1,7 +1,7 @@
 <template>
   <div
     class="inline-block tag pr-1 mr-1 text-sm text-white whitespace-nowrap"
-    :class="'tag-' + tag.category.toLowerCase()"
+    :class="`tag-${tag.category.toLowerCase()}`"
     v-text="tag.name"
   />
 </template>

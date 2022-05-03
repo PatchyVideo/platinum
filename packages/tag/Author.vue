@@ -25,7 +25,7 @@
           <!-- username -->
           <h1 class="text-lg sm:text-2xl font-bold" v-text="author.tagname" />
           <div class="text-md sm:text-base text-gray-800 dark:text-gray-300">
-            {{ t('tag.author.type.' + author.type)
+            {{ t(`tag.author.type.${author.type}`)
             }}<template v-if="author.urls.length > 0">
               &dot;
               <div class="inline-flex align-middle flex-row space-x-1 flex-nowrap">
@@ -67,7 +67,7 @@
                 <RouterLink
                   v-for="video in authorVideos.videos"
                   :key="video.id.toHexString()"
-                  :to="'/video/' + video.id.toHexString()"
+                  :to="`/video/${video.id.toHexString()}`"
                   class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-100"
                 >
                   <Cover

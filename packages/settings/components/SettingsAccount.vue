@@ -2,7 +2,7 @@
   <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')" />
   <RouterLink
     class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-gray-600"
-    :to="'/user/' + user.uid"
+    :to="`/user/${user.uid}`"
   >
     {{ t('common.nav-top.user.userprofile') }}
     <div class="i-uil:external-link-alt text-lg" />

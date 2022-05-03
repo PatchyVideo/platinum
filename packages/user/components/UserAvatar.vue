@@ -17,8 +17,6 @@ import { useI18n } from 'vue-i18n'
 import { hash as md5 } from 'spark-md5'
 import defaultAvatar from '../assets/DefaultAvatar.jpg?url'
 
-const { t } = useI18n()
-
 const props = defineProps<{
   current?: string
   image?: string | null
@@ -28,6 +26,8 @@ const props = defineProps<{
   openable?: boolean
   hideTitle?: boolean
 }>()
+
+const { t } = useI18n()
 
 const el = shallowRef<HTMLImageElement | null>(null)
 

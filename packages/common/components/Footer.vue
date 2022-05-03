@@ -23,19 +23,19 @@
       <span ref="typedEl" />
     </div>
     <div class="text-center my-2 text-sm text-gray-600 dark:text-gray-300">
-      <span>{{ t('common.footer.user-number', { users: users }) }}</span><br>
+      <span>{{ t('common.footer.user-number', { users }) }}</span><br>
       <span><span>Platinum v{{ version }}</span>(<a
-        :href="'https://github.com/PatchyVideo/platinum/commit/' + commitHash"
+        :href="`https://github.com/PatchyVideo/platinum/commit/${commitHash}`"
         :title="commitHash"
         target="_blank"
         rel="noopener noreferrer"
         v-text="commitHash.slice(0, 7)"
       />, {{ isDev ? 'dev' : 'prod' }})<template v-if="hasExtension">&nbsp;<span
         :title="
-          'List: ' +
+          `List: ${
             Object.values(extensions)
-              .map(({ name, extVersion }) => name + '(' + extVersion + ')')
-              .join(', ')
+              .map(({ name, extVersion }) => `${name}(${extVersion})`)
+              .join(', ')}`
         "
       >({{ Object.values(extensions).length }} ext installed)</span></template>. </span><span>
         © 2019-2022 VoileLabs. Released under the
@@ -53,8 +53,6 @@ import { extensions } from '@/main/libs/extension'
 import type { Query } from '@/graphql'
 import { gql, useQuery, useResult } from '@/graphql'
 
-const isDev = import.meta.env.DEV
-
 const props = withDefaults(
   defineProps<{
     small?: boolean
@@ -63,6 +61,8 @@ const props = withDefaults(
     small: false,
   },
 )
+
+const isDev = import.meta.env.DEV
 
 const { t } = useI18n()
 

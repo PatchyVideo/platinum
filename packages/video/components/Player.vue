@@ -3,7 +3,7 @@
     ref="root"
     class="root relative w-full bg-black overflow-hidden"
     :class="{ 'h-full': fullHeight }"
-    :style="{ height: fullHeight ? undefined : height + 'px' }"
+    :style="{ height: fullHeight ? undefined : `${height}px` }"
   >
     <video
       v-show="videoElementReady && (usePlayer === 'video' || (usePlayer === 'canvas' && canvasTransparent))"
@@ -13,7 +13,7 @@
       preload="auto"
       :crossorigin="crossorigin ? '' : undefined"
     />
-    <audio v-show="false" ref="audio" :crossorigin="crossorigin ? '' : undefined" />
+    <audio ref="audio" class="hidden" :crossorigin="crossorigin ? '' : undefined" />
     <iframe
       v-if="usePlayer === 'iframe' && iframeUrl"
       title="Video Player"
@@ -55,7 +55,7 @@
                 :key="i"
                 class="absolute h-1/2"
                 :class="{ 'bg-orange-200': l.isBuffer }"
-                :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
+                :style="{ width: `${(l.end - l.start) * 100}%`, left: `${l.start * 100}%` }"
               />
             </div>
             <div v-if="hasAudioStream" class="h-1/2 w-full">
@@ -64,7 +64,7 @@
                 :key="i"
                 class="absolute h-1/2"
                 :class="{ 'bg-purple-400': l.isBuffer }"
-                :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
+                :style="{ width: `${(l.end - l.start) * 100}%`, left: `${l.start * 100}%` }"
               />
             </div>
             <div v-else class="h-full w-full">
@@ -73,11 +73,11 @@
                 :key="i"
                 class="absolute h-full"
                 :class="{ 'bg-orange-200': l.isBuffer }"
-                :style="{ width: (l.end - l.start) * 100 + '%', left: l.start * 100 + '%' }"
+                :style="{ width: `${(l.end - l.start) * 100}%`, left: `${l.start * 100}%` }"
               />
             </div>
           </div>
-          <div class="absolute h-full bg-purple-600" :style="{ width: progress * 100 + '%' }">
+          <div class="absolute h-full bg-purple-600" :style="{ width: `${progress * 100}%` }">
             <span class="absolute right-0 top-0 w-3 h-3 -mt-1 -mr-1.5 bg-white rounded-full cursor-pointer" />
           </div>
         </div>
@@ -106,7 +106,7 @@
               <div ref="volumebar" class="w-16 h-1 bg-gray-600 rounded-full transition-all ease-in-out">
                 <div
                   class="relative h-full left-0 bottom-0 bg-purple-600 rounded-l-full"
-                  :style="{ width: volume * 100 + '%' }"
+                  :style="{ width: `${volume * 100}%` }"
                 >
                   <span class="absolute -right-1.5 -top-1 w-3 h-3 bg-white rounded-full cursor-pointer" />
                 </div>
@@ -301,9 +301,6 @@ interface VideoItem {
   site: string
 }
 
-const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
-const formats = ['webm_dash', 'mp4_dash', 'flv']
-
 const props = withDefaults(
   defineProps<{
     item: VideoItem
@@ -315,6 +312,9 @@ const props = withDefaults(
     disableFullscreen: false,
   },
 )
+
+const qualities = ['144p', '240p', '360p', '480p', '720p', '1080p', '1440p', '2160p', '2880p', '4320p'].reverse()
+const formats = ['webm_dash', 'mp4_dash', 'flv']
 
 const { t } = useI18n()
 

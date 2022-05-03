@@ -80,8 +80,9 @@
           <RouterLink
             class="block text-blue-600 text-right hover:text-blue-800"
             to="/user/login"
-            v-text="'←' + t('user.signup.login')"
-          />
+          >
+            {{ `←${t('user.signup.login')}` }}
+          </RouterLink>
         </div>
       </form>
       <!-- This div is only for placeholder  -->

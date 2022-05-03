@@ -30,7 +30,7 @@
                         v-text="i + 1"
                       />
                       <RouterLink
-                        :to="'/user/' + rankItem.user.id"
+                        :to="`/user/${rankItem.user.id}`"
                         class="relative lt-md:w-2/3 md:min-w-max md:h-24 hover:opacity-70 transition-all duration-300 cursor-pointer"
                       >
                         <!-- TODO add UserAvatarPopper here -->
@@ -44,7 +44,7 @@
                     <div
                       class="flex flex-col md:flex-row justify-between md:items-center w-1/2 sm:w-2/3 md:w-4/5 h-full lt-md:ml-2"
                     >
-                      <RouterLink :to="'/users/' + rankItem.user.id" class="w-full md:w-1/4 md:ml-8">
+                      <RouterLink :to="`/users/${rankItem.user.id}`" class="w-full md:w-1/4 md:ml-8">
                         <div
                           class="text-xl text-gray-600 font-bold hover:opacity-70 whitespace-nowrap overflow-hidden transition-all duration-300 cursor-pointer"
                           :class="rankNumberTextIndexToClasses[i]"

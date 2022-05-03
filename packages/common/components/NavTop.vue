@@ -37,7 +37,9 @@
       <!-- User Box -->
       <div v-show="!hidePage" class="flex-1 inline-flex justify-end ml-auto mr-2 min-w-9">
         <div v-if="!isLogin" class="whitespace-nowrap">
-          <RouterLink to="/user/login" v-text="t('common.nav-top.user.login')" />
+          <RouterLink to="/user/login">
+            {{ t('common.nav-top.user.login') }}
+          </RouterLink>
         </div>
         <div v-else class="relative">
           <div class="flex items-center space-x-3">
@@ -104,7 +106,7 @@
                     listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
                   }}</label>
                 </RouterLink>
-                <RouterLink :to="'/user/' + user.uid">
+                <RouterLink :to="`/user/${user.uid}`">
                   <div
                     class="block py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors"
                   >

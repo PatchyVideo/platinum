@@ -28,7 +28,7 @@
           class="hover:bg-gray-100 transition cursor-pointer dark:hover:bg-gray-500"
         >
           <div v-if="note.__typename === 'ReplyNotificationObject'" class="flex items-center space-x-2 p-2">
-            <RouterLink class="w-1/6 cursor-pointer" :to="'/user/' + note.repliedBy.id.toHexString()">
+            <RouterLink class="w-1/6 cursor-pointer" :to="`/user/${note.repliedBy.id.toHexString()}`">
               <UserAvatar
                 :title="note.repliedBy.username"
                 :image="note.repliedBy.image"
@@ -39,8 +39,8 @@
             <RouterLink
               v-slot="{ navigate }"
               :to="
-                (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/') +
-                  note.repliedObj
+                (note.repliedType === 'forum' ? '' : note.repliedType === 'video' ? '/video/' : '/playlist/')
+                  + note.repliedObj
               "
               custom
             >
@@ -109,9 +109,6 @@ import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query, schema } from '@/graphql'
 import { useUserData } from '@/user'
 
-const { t } = useI18n()
-const { isLogin } = useUserData()
-
 const props = withDefaults(
   defineProps<{
     listNoteCountUnread?: number
@@ -120,9 +117,13 @@ const props = withDefaults(
     listNoteCountUnread: 0,
   },
 )
+
 const emit = defineEmits<{
   (event: 'update:listNoteCountUnread', value: number): void
 }>()
+
+const { t } = useI18n()
+const { isLogin } = useUserData()
 
 const listNoteCountUnread = useVModel(props, 'listNoteCountUnread', emit)
 

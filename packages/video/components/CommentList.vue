@@ -28,7 +28,7 @@
   <div v-for="comment in comments" :key="comment.id.toHexString()" class="py-2">
     <div class="flex flex-row flex-nowrap">
       <div class="flex-none mx-2">
-        <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
+        <RouterLink :to="`/user/${comment.meta.createdBy.id.toHexString()}`">
           <UserAvatarPopper :uid="comment.meta.createdBy.id.toHexString()">
             <UserAvatar
               class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
@@ -46,7 +46,7 @@
       </div>
       <div>
         <div>
-          <RouterLink :to="'/user/' + comment.meta.createdBy.id.toHexString()">
+          <RouterLink :to="`/user/${comment.meta.createdBy.id.toHexString()}`">
             <span class="text-sm font-medium" v-text="comment.meta.createdBy.username" />
           </RouterLink>
           <span class="text-xs text-gray-500 dark:text-gray-300">
@@ -92,7 +92,7 @@
         </div>
       </div>
       <div v-if="!isCommentChildrenCollapsed(comment)" class="flex-none mt-1 mr-2">
-        <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
+        <RouterLink :to="`/user/${child.meta.createdBy.id.toHexString()}`">
           <UserAvatarPopper :uid="child.meta.createdBy.id.toHexString()">
             <UserAvatar
               class="inline-block w-8 h-8 rounded-full object-cover"
@@ -106,12 +106,12 @@
       </div>
       <div class="flex" :class="{ 'flex-col': !isCommentChildrenCollapsed(comment) }">
         <div v-if="isCommentChildrenCollapsed(comment)" class="mr-1">
-          <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
+          <RouterLink :to="`/user/${child.meta.createdBy.id.toHexString()}`">
             <span class="text-sm font-medium" v-text="child.meta.createdBy.username" />
           </RouterLink>:
         </div>
         <div v-else>
-          <RouterLink :to="'/user/' + child.meta.createdBy.id.toHexString()">
+          <RouterLink :to="`/user/${child.meta.createdBy.id.toHexString()}`">
             <span class="text-sm font-medium" v-text="child.meta.createdBy.username" />
           </RouterLink><Suspense>
             <RelativeDate class="text-xs text-gray-500 dark:text-gray-300 ml-2" :date="child.meta.createdAt" />

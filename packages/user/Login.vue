@@ -39,8 +39,9 @@
           <RouterLink
             class="block text-right text-xs text-blue-600"
             to="/user/forget-password"
-            v-text="t('user.login.forget-password')"
-          />
+          >
+            {{ t('user.login.forget-password') }}
+          </RouterLink>
         </div>
         <div class="space-y-1">
           <button
@@ -55,8 +56,9 @@
           <RouterLink
             class="block text-blue-600 hover:text-blue-800"
             to="/user/signup"
-            v-text="t('user.login.signup') + '→'"
-          />
+          >
+            {{ `${t('user.login.signup')}→` }}
+          </RouterLink>
         </div>
       </form>
       <!-- This div is only for placeholder  -->

@@ -1,4 +1,6 @@
-<template><NavTop v-bind="navtopProps" /><slot /><Footer v-bind="footerProps" /></template>
+<template>
+  <NavTop v-bind="navtopProps" /><slot /><Footer v-bind="footerProps" />
+</template>
 
 <script lang="ts" setup>
 import { reactivePick } from '@vueuse/core'
