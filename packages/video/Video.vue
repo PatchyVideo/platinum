@@ -247,7 +247,7 @@
           <!-- Video Title -->
           <div>
             <h1 class="mt-1 sm:text-lg lg:text-xl w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">
-&nbsp;
+              &nbsp;
             </h1>
             <div class="mt-1 text-gray-600 dark:text-gray-300 w-2/5 rounded-md bg-gray-300 dark:bg-gray-600">
               &nbsp;
@@ -272,7 +272,7 @@
               </div>
               <div class="hidden sm:block w-full ml-3 overflow-hidden">
                 <div class="inline-block w-4/5 rounded-md bg-gray-300 dark:bg-gray-600">
-&nbsp;
+                  &nbsp;
                 </div>
                 <br>
                 <div
