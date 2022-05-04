@@ -315,7 +315,7 @@ function sanitizeHTML(src: string) {
     },
     ontext(data: string) {
       result += data
-      console.log(data)
+      // console.log(data)
     },
     onclosetag(tagName) {
       const last = stack[stack.length - 1]

@@ -494,7 +494,7 @@ const toSettingsParent = () => {
 const logText = ref('')
 const logEl = shallowRef<HTMLParagraphElement | null>(null)
 const log = (_log: string) => {
-  console.log(`[Player] > ${_log}`)
+  // console.log(`[Player] > ${_log}`)
   logText.value += _log
   nextTick(() => {
     if (logEl.value) {
@@ -816,7 +816,7 @@ async function playStream(quality: string) {
       log(`${t('video.player.play-stream.source.audio.source-nothing')}\n`)
       return false
     }
-    console.log(stream, audioStream)
+    // console.log(stream, audioStream)
 
     try {
       switch (stream.container) {
@@ -894,7 +894,7 @@ async function loadStream(url: string) {
     const result = (await res.json()) as FetchResult<VideoData>
     if (!result.data)
       return false
-    console.log(result.data)
+    // console.log(result.data)
     switch (result.data.extractor) {
       case 'BiliBili': {
         streams.value = result.data.streams as VideoStream[]
@@ -933,7 +933,7 @@ async function loadStream(url: string) {
             quality: stream.quality,
           })}\n`,
         )
-        console.log(streams)
+        // console.log(streams)
         if (await playStream(stream.quality))
           return true
         break

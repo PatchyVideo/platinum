@@ -21,7 +21,7 @@ function loadExtension(ext: extData) {
     if (ext.tweaks)
       extensionTweaks.value.push(...ext.tweaks.filter(v => !extensionTweaks.value.includes(v)))
 
-    console.log(`Extension installed: ${ext.name} (${ext.extVersion})`, ext)
+    // console.log(`Extension installed: ${ext.name} (${ext.extVersion})`, ext)
     installed.push(ext.name)
   }
   catch (e) {
