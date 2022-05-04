@@ -164,6 +164,8 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
 import { gql, injectClient } from '@/graphql'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
+import { MessageType, PvMessage } from '@/ui/libs/PvMessage'
+import { progressing } from '@/common/libs/progressing'
 
 interface HTMLInputEvent extends Event {
   target: HTMLInputElement & EventTarget
@@ -220,7 +222,7 @@ watch(
 const onGetChosenAvatar = (e: HTMLInputEvent) => {
   const files = e.target.files
   if (!files?.length) {
-    alert('请选择头像文件！')
+    PvMessage({ message: '请选择头像文件！', type: MessageType.error })
     return
   }
   const fr = new FileReader()
@@ -234,26 +236,26 @@ const onChooseAvatar = () => {
   chooseAvatarInput.value?.click()
 }
 const onUploadAvatar = () => {
-  alert('功能开发中，敬请期待！')
+  progressing()
 }
 const onOpenUsernameEditor = () => {
   isEditingUsername.value = true
   tempUsername.value = username.value
 }
 const onUpdateUsername = () => {
-  alert('功能开发中，敬请期待！')
+  progressing()
 }
 const onSaveDescription = () => {
-  alert('功能开发中，敬请期待！')
+  progressing()
 }
 const onCommitNewPassword = () => {
-  alert('功能开发中，敬请期待！')
+  progressing()
 }
 const onResetPassword = () => {
   oldPassword.value = newPassword.value = newConfirmedPassword.value = ''
 }
 const onBindEmail = () => {
-  alert('功能开发中，敬请期待！')
+  progressing()
 }
 </script>
 

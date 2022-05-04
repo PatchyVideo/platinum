@@ -46,7 +46,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
-import { notify } from '@/notification'
+import { MessageType, PvMessage } from '../libs/PvMessage'
 
 const props = withDefaults(
   defineProps<{
@@ -79,7 +79,7 @@ function change(): void {
     // page must be lesser than page count
     || currentPage.value > props.pageCount
   ) {
-    notify('warn', t('ui.pv-pagination.alert'), 1000)
+    PvMessage({ message: t('ui.pv-pagination.alert'), type: MessageType.warning })
     return
   }
   // change page only if currentPage really changed

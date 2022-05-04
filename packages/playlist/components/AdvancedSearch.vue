@@ -104,7 +104,8 @@ import { useVModel } from '@vueuse/core'
 import PvSelect from '@/ui/components/PvSelect.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
-import { notify } from '@/notification'
+import { MessageType, PvMessage } from '@/ui/libs/PvMessage'
+
 const props = defineProps({
   open: {
     type: Boolean,
@@ -190,7 +191,7 @@ function checkSubmitContent(): boolean {
     moreLessEqualTagNum.value !== ''
     && (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
-    notify('warn', '请检查标签数量项的填写是否正确！', 1000)
+    PvMessage({ message: '请检查标签数量项的填写是否正确！', type: MessageType.warning })
     return false
   }
   return true

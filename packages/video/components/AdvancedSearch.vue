@@ -220,6 +220,7 @@ import PvSelect from '@/ui/components/PvSelect.vue'
 import PvSwitch from '@/ui/components/PvSwitch.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvBotton from '@/ui/components/PvBotton.vue'
+import { MessageType, PvMessage } from '@/ui/libs/PvMessage'
 
 const props = defineProps({
   open: {
@@ -442,7 +443,7 @@ function checkSubmitContent(): boolean {
       || !Number.isSafeInteger(day1.value)
       || Number(day1.value) <= 0)
   ) {
-    alert('请检查原视频发布时间项1的填写是否正确！')
+    PvMessage({ message: '请检查原视频发布时间项1的填写是否正确！', type: MessageType.warning })
     return false
   }
   if (
@@ -457,7 +458,7 @@ function checkSubmitContent(): boolean {
       || !Number.isSafeInteger(day2.value)
       || Number(day2.value) <= 0)
   ) {
-    alert('请检查原视频发布时间项2的填写是否正确！')
+    PvMessage({ message: '请检查原视频发布时间项2的填写是否正确！', type: MessageType.warning })
     return false
   }
   // Check tag
@@ -465,7 +466,7 @@ function checkSubmitContent(): boolean {
     moreLessEqualTagNum.value !== ''
     && (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
-    alert('请检查标签数量项的填写是否正确！')
+    PvMessage({ message: '请检查标签数量项的填写是否正确！', type: MessageType.warning })
     return false
   }
   return true

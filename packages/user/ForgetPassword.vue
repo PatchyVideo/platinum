@@ -117,6 +117,7 @@ import { locale } from '@/locales'
 import { resDataStatus } from '@/common/libs/resDataStatus'
 import Logo from '@/common/components/Logo.vue'
 import { screenSizes } from '@/css'
+import { MessageType, PvMessage } from '@/ui/libs/PvMessage'
 
 const { t } = useI18n()
 setSiteTitle(`${t('user.forget-password.title')} - PatchyVideo`)
@@ -172,7 +173,7 @@ async function sendEmail(): Promise<void> {
       // console.log(res)
       if (res.status === resDataStatus.SUCCEED) {
         sendStatus.value = 'ready'
-        alert(t('user.forget-password.send-status.successful'))
+        PvMessage({ message: t('user.forget-password.send-status.successful'), type: MessageType.warning })
       }
       else if (res.status === resDataStatus.FAILED) {
         sendStatus.value = 'error'
