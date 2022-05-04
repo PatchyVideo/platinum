@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute top-0 right-0 z-10000">
+  <div class="fixed text-center min-w-70 md:min-w-100 top-0 right-0 z-10000">
     <transition-group name="notiList" tag="div">
       <div
         v-for="(noti, index) of notis"
