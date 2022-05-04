@@ -1,16 +1,19 @@
 <template>
   <div class="absolute top-0 right-0 z-10000">
-    <div
-      v-for="(noti, index) of notis"
-      :key="index"
-      class="w-72 h-16 border rounded-lg p-1 m-2" :class="{
-        'border-blue-600 bg-blue-50': noti.type === 'info',
-        'border-yellow-600 bg-yellow-50': noti.type === 'warn',
-        'border-red-600 bg-red-50': noti.type === 'error',
-      }"
-    >
-      {{ noti.message }}<span v-if="noti.endtime">({{ Math.round((+noti.endtime - now) / 100) / 10 }}s)</span>
-    </div>
+    <transition-group name="notiList" tag="div">
+      <div
+        v-for="(noti, index) of notis"
+        :key="index"
+        class="border rounded-lg p-5 m-2 transition transition-all duration-200 " :class="{
+          'border-blue-600 bg-blue-50': noti.type === 'info',
+          'border-yellow-600 bg-yellow-50': noti.type === 'warn',
+          'border-red-600 bg-red-50': noti.type === 'error',
+        }"
+      >
+        {{ noti.message }}
+      <!-- <span v-if="noti.endtime">({{ Math.round((+noti.endtime - now) / 100) / 10 }}s)</span> -->
+      </div>
+    </transition-group>
   </div>
 </template>
 
@@ -31,3 +34,10 @@ onUnmounted(() => {
     clearInterval(interval)
 })
 </script>
+
+<style  lang="postcss" scoped>
+.notiList-enter,
+.notiList-leave-to {
+  @apply opacity-0  -translate-x-2;
+}
+</style>
