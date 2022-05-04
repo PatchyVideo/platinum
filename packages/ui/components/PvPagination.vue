@@ -46,6 +46,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref, watchEffect } from 'vue'
 import { useVModel } from '@vueuse/core'
+import { notify } from '@/notification'
 
 const props = withDefaults(
   defineProps<{
@@ -78,7 +79,7 @@ function change(): void {
     // page must be lesser than page count
     || currentPage.value > props.pageCount
   ) {
-    alert(t('ui.pv-pagination.alert'))
+    notify('warn', t('ui.pv-pagination.alert'), 1000)
     return
   }
   // change page only if currentPage really changed
