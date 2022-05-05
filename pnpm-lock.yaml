@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.23.0
   '@apollo/client': ^3.6.2
+  '@cloudflare/workers-types': ^3.9.0
   '@formatjs/intl-localematcher': ^0.2.25
   '@graphql-codegen/cli': ^2.6.2
   '@graphql-codegen/fragment-matcher': ^3.2.1
@@ -38,6 +39,7 @@ specifiers:
   date-fns: ^2.28.0
   eslint: ^8.14.0
   events: ^3.3.0
+  fake-tag: ^4.0.0
   flv.js: ^1.6.2
   graphql: ^16.4.0
   happy-dom: ^3.1.0
@@ -99,6 +101,7 @@ dependencies:
 
 devDependencies:
   '@antfu/eslint-config': 0.23.0_t725usgvqspm5woeqpaxbfp2qu
+  '@cloudflare/workers-types': 3.9.0
   '@graphql-codegen/cli': 2.6.2_m2dznojqqahupmjub2zujhp3mu
   '@graphql-codegen/fragment-matcher': 3.2.1_graphql@16.4.0
   '@graphql-codegen/schema-ast': 2.4.1_graphql@16.4.0
@@ -123,6 +126,7 @@ devDependencies:
   conventional-changelog-cli: 2.2.2
   cross-fetch: 3.1.5
   eslint: 8.14.0
+  fake-tag: 4.0.0
   happy-dom: 3.1.0
   lodash.template: 4.5.0
   postcss: 8.4.13
@@ -1934,6 +1938,10 @@ packages:
     dependencies:
       '@babel/helper-validator-identifier': 7.16.7
       to-fast-properties: 2.0.0
+    dev: true
+
+  /@cloudflare/workers-types/3.9.0:
+    resolution: {integrity: sha512-juyc/T+0QlwB4p7mTPoxS87RlHjceXJdCWwbGAQ5l3dO5xSDymW41wYx6f6LYe51fLccpjibj56UvqKeec2SSw==}
     dev: true
 
   /@endemolshinegroup/cosmiconfig-typescript-loader/3.0.2_eqevhppa7sa2qvpxws2sflyfju:
@@ -5404,6 +5412,11 @@ packages:
   /extract-files/9.0.0:
     resolution: {integrity: sha512-CvdFfHkC95B4bBBk36hcEmvdR2awOdhhVUYH6S/zrVj3477zven/fJMYg7121h4T1xHZC+tetUpubpAhxwI7hQ==}
     engines: {node: ^10.17.0 || ^12.0.0 || >= 13.7.0}
+    dev: true
+
+  /fake-tag/4.0.0:
+    resolution: {integrity: sha512-U5CdULb/cv/2dvmQxLIXWzQnJG7H7PBL4/n3gPJJ/jjd961caW/DeI6ROtw6eriiWiGjaBeDtvluRCKPnkb2UA==}
+    engines: {node: ^12.22.0 || ^14.17.0 || >= 16.0.0}
     dev: true
 
   /fast-deep-equal/3.1.3:

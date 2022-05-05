@@ -1,0 +1,5 @@
+/manifest.webmanifest
+  Content-Type: application/manifest+json
+
+/LICENSE
+  Content-Type: text/plain
