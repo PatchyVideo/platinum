@@ -37,6 +37,7 @@ common:
     feedback-issue: 提交反馈
     contact: 联系我们
     license: 开源许可
+    sponsor: 赞助我哋
 darkmode:
   system: 跟随系统
   light: 浅色
@@ -403,6 +404,7 @@ video:
         '1': 登录用户可见
         '2': 发布者和管理员可见
         '3': 所有人可见
+        rank: 视频可见性
       edit:
         saving: 保存中 - 编辑视频 - {videoname}
         saved: 已保存! - 编辑视频 - {videoname}
@@ -447,11 +449,17 @@ settings:
       desc: 如果你肯帮助 PatchyVideo 嘅翻译工作，欢迎加入我哋！
       browser-default: 浏览器嘅建议：{preferred}
     name: 常规
+    theme:
+      color:
+        desc: 选择浏览PatchyVideo嘅主题
   appearance:
     theme:
       name: 主题
       color:
         name: 主题嘅颜色
+      dark-cover-filter:
+        desc: 开咗之后，视频/播放列表嘅封面睇深色模式下会降到 75% 嘅亮度（默认打开）
+        name: 睇深色模式下降低封面嘅亮度
     name: 外观
   account:
     profile:
