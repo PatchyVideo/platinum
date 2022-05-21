@@ -139,21 +139,21 @@
       :class="{ '-translate-x-full': !drawerOpen }"
     >
       <!-- Menu -->
-      <div class="flex flex-col gap-1 pt-2 px-2 rounded-r overflow-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+      <div class="flex flex-col gap-1 pt-2 px-2 rounded-r overflow-y-auto border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
         <!-- Nav Items -->
         <template v-for="(link, index) in links" :key="link.key">
           <div v-if="link.type === 'blank' && link.text === ''" class="w-full mt-2" />
           <NavTopLink v-else :index="index" :drawer-open="drawerOpen" :item-length="links.length">
-            <div v-if="link.type === 'catogory'" class="text-gray-400 text-sm" v-text="link.text" />
-            <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="inline-flex flex-row items-center gap-x-1">
+            <div v-if="link.type === 'catogory'" class="text-gray-500 text-sm dark:text-gray-400" v-text="link.text" />
+            <RouterLink v-else-if="link.type === 'router'" :to="link.path" class="flex flex-row items-center gap-x-1">
               <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
               <div v-text="link.text" />
             </RouterLink>
-            <a v-else-if="link.type === 'a'" class="inline-flex flex-row items-center gap-x-1" target="_blank" rel="noopener noreferrer" :href="link.href">
+            <a v-else-if="link.type === 'a'" class="flex flex-row items-center gap-x-1" target="_blank" rel="noopener noreferrer" :href="link.href">
               <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
               <div v-text="link.text" />
             </a>
-            <a v-else-if="link.type === 'click'" class="inline-flex flex-row items-center gap-x-1" @click="link.onClick">
+            <a v-else-if="link.type === 'click'" class="flex flex-row items-center gap-x-1" @click="link.onClick">
               <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
               <div v-text="link.text" />
             </a>
@@ -172,7 +172,7 @@
               />
             </div>
             <div v-else-if="link.type === 'component'" class="flex justify-between gap-x-6 items-center">
-              <div>
+              <div class="inline-flex flex-row items-center gap-1">
                 <div
                   v-if="link.icon"
                   class="inline-block mr-1 text-xl text-center align-middle"
@@ -182,7 +182,7 @@
               </div>
               <Component :is="link.component" />
             </div>
-            <div v-else class="inline-flex flex-row items-center gap-1">
+            <div v-else class="flex flex-row items-center gap-1">
               <div v-if="link.icon" class="text-xl text-center" :class="link.icon" />
               <div v-text="link.text" />
             </div>
@@ -460,13 +460,6 @@ const links = computed(() => {
       text: t('common.nav-top.settings.settings'),
     },
     {
-      key: 'settings-other',
-      type: 'router',
-      text: '更改其它设置',
-      icon: 'i-uil:cog',
-      path: '/settings',
-    },
-    {
       key: 'settings-darkmode',
       type: 'component',
       text: t('common.nav-top.settings.darkmode'),
@@ -478,6 +471,13 @@ const links = computed(() => {
       text: t('common.nav-top.settings.lang'),
       options: languageList,
       selected: locale,
+    },
+    {
+      key: 'settings-other',
+      type: 'router',
+      text: '更改其它设置',
+      icon: 'i-uil:cog',
+      path: '/settings',
     },
   )
 
