@@ -49,19 +49,6 @@ home:
   home:
     title: PatchyVideo
     hello: Hello world
-    intro: New page under construction(/ω＼)
-    intro2: You can try searching for videos using the top nav bar
-    progress: '*You can find our progress {0}'
-    progress2: here
-    old-page: '*You can view the old version of the site {0}'
-    old-page2: here
-    offical-account: >-
-      Go to our official bilibili account, hit the subscribe button, and get our
-      latest updates at the earliest time!
-    join: >-
-      Of course, we need help from the touhou community to make PatchyVideo
-      better, which means you can be of help:
-    join2: Join Us - PatchyVideo Wiki
     components:
       query-video:
         default-title: Latest Uploads

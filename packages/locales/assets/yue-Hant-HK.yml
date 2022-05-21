@@ -49,15 +49,6 @@ home:
   home:
     title: PatchyVideo - Platinum(WIP)
     hello: 你好世界！
-    intro: 新页面净睇度建设紧哦(/ω＼)
-    intro2: 先试下用顶部导航栏嘅的搜索功能搜索一个自己中意嘅视频吧！
-    progress: '*项目嘅功能进度可以参考 {0}'
-    progress2: 呢度
-    old-page: 旧嘅页面可以点击 {0}
-    old-page2: 呢度
-    offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
-    join: '梗系，新页面都意味着帕琪站需要更多热爱东方的大家来一起帮手建设，如果大家有兴趣嘅话，可以先参考下呢个:'
-    join2: 招募祈望 - PatchyVideo Wiki
     components:
       query-video:
         default-title: 最新嘅上传

@@ -19,7 +19,7 @@
         <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer" @click="toHome()" />
       </div>
       <!-- Search Bar -->
-      <div v-if="showSearchBar" class="flex-1 inline-flex flex-auto flex-nowrap items-center justify-center mx-2">
+      <div v-if="showSearchBar" class="flex-auto inline-flex flex-nowrap items-center justify-center mx-2">
         <AutoComplete
           v-model:keyword="keyword"
           class="w-full max-w-2xl"

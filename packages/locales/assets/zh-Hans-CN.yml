@@ -49,15 +49,12 @@ home:
   home:
     title: PatchyVideo
     hello: 你好世界！
-    intro: 新页面还在建设中哦(/ω＼)
-    intro2: 先尝试使用顶部导航栏的搜索功能搜索一个自己喜欢的视频吧！
-    progress: '*项目的功能进度可以参考 {0}'
-    progress2: 这里
-    old-page: '*旧页面可以点击 {0}'
-    old-page2: 这里
-    offical-account: 点击关注帕琪站B站官方账号，可以看到新页面最新进度！
-    join: '当然了，新页面也意味着帕琪站需要更多热爱东方的大家来一起帮忙建设，如果大家有兴趣的话，可以先参考一下介个:'
-    join2: 招募祈望 - PatchyVideo Wiki
+    intro:
+      template: '{medium} 你可以{old}来获得完整的体验，{follow}获取最新进度，或是{joinus}来帮助我们推进！'
+      medium: 这是一个还在建设的新界面！
+      old: 返回旧界面
+      follow: 关注帕琪站官方B站帐号
+      joinus: 加入我们
     components:
       query-video:
         default-title: 最新上传

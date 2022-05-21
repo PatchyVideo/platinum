@@ -1,54 +1,48 @@
 <template>
   <LayoutDefault>
     <!-- Introduction -->
-    <div class="border-b border-purple-300 dark:border-gray-700 md:text-center">
-      <div class="p-4 py-10 space-y-4">
-        <div>
-          <div class="font-semibold md:text-lg">
-            {{ t('home.home.intro') }}
-            <br>
-            {{ t('home.home.intro2') }}
-          </div>
-          <i18n-t keypath="home.home.progress" tag="div">
-            <a
-              class="underline"
-              href="https://github.com/PatchyVideo/PatchyVideo-docs/blob/main/%E7%AC%AC%E4%B8%89%E8%BD%AE%E5%AD%90-%E6%B5%8B%E8%AF%95%E7%89%88%E5%86%85%E5%AE%B9.md"
-              target="_blank"
-              rel="noopener noreferrer"
-            >{{ t('home.home.progress2') }}</a>
-          </i18n-t>
-          <i18n-t keypath="home.home.old-page" tag="div">
-            <a class="underline" href="https://patchyvideo.com/" target="_blank" rel="noopener noreferrer">{{
-              t('home.home.old-page2')
-            }}</a>
-          </i18n-t>
-        </div>
-        <div class="underline text-lg">
-          <a href="https://space.bilibili.com/515657675" target="_blank" rel="noopener noreferrer">{{
-            t('home.home.offical-account')
-          }}</a>
-        </div>
-        <div class="font-semibold md:text-lg">
-          {{ t('home.home.join') }}
-          <br>
-          <a
-            class="underline text-lg"
-            :href="locale === 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
-            target="_blank"
-            rel="noopener noreferrer"
-          >{{ t('home.home.join2') }}</a>
-        </div>
-      </div>
-    </div>
+    <i18n-t
+      class="mx-4 my-3 p-2 rounded-lg text-center bg-purple-50 ring-2 ring-purple-300 dark:bg-gray-800 dark:ring-gray-600"
+      keypath="home.home.intro.template"
+      tag="div"
+    >
+      <template #medium>
+        <span class="font-medium">{{ t('home.home.intro.medium') }}</span>
+      </template>
+      <template #old>
+        <a
+          class="text-purple-800 dark:text-purple-300"
+          href="https://patchyvideo.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('home.home.intro.old') }}</a>
+      </template>
+      <template #follow>
+        <a
+          class="text-purple-800 dark:text-purple-300"
+          href="https://space.bilibili.com/515657675"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('home.home.intro.follow') }}</a>
+      </template>
+      <template #joinus>
+        <a
+          class="text-purple-800 dark:text-purple-300"
+          :href="locale === 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
+          target="_blank"
+          rel="noopener noreferrer"
+        >{{ t('home.home.intro.joinus') }}</a>
+      </template>
+    </i18n-t>
 
     <!-- Main Components -->
     <div v-if="screenSizes.md">
       <div v-for="(comp, index) in ucompList" :key="index">
-        <div class="w-full mb-12" />
+        <div class="w-full mb-8" />
         <div class="mx-2">
           <Component :is="homeComponents[comp.name] ?? homeComponents.fallback" :data="comp.data" />
         </div>
-        <div class="w-full mt-12" />
+        <div class="w-full mt-8" />
       </div>
     </div>
   </LayoutDefault>

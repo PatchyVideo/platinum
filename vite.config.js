@@ -65,8 +65,7 @@ export default defineConfig(async ({ mode }) => {
       'import.meta.env.VITE_COMMIT_HASH': JSON.stringify(data.gitLatest.hash),
       'import.meta.env.VITE_APP_BUILDTIME': JSON.stringify(data.date.toISOString()),
       'import.meta.env.VITE_DATE_FNS_LOCALE': JSON.stringify(
-        fs
-          .readdirSync(path.resolve(__dirname, './node_modules/date-fns/esm/locale'), { withFileTypes: true })
+        fs.readdirSync(path.resolve(__dirname, './node_modules/date-fns/esm/locale'), { withFileTypes: true })
           .filter(file => file.isDirectory() && !file.name.startsWith('_'))
           .map(file => file.name),
       ),
