@@ -142,5 +142,49 @@ export default defineConfig(async ({ mode }) => {
       // to reduce code size (~50KiB decrease, what??)
       charset: 'utf8',
     },
+    server: {
+      proxy: {
+        '/proxy/bili/x/player/videoshot': {
+          target: 'https://api.bilibili.com/x/player/videoshot',
+          changeOrigin: true,
+          headers: {
+            host: 'api.bilibili.com',
+            origin: 'https://t.bilibili.com',
+            referer: 'https://t.bilibili.com/',
+          },
+          rewrite: path => path.replace(/^\/proxy\/bili\/x\/player\/videoshot/, ''),
+        },
+        '/proxy/bili/cover/bfs/videoshot/': {
+          target: 'http://i0.hdslb.com/bfs/videoshot/',
+          changeOrigin: true,
+          headers: {
+            host: 'i0.hdslb.com',
+            origin: 'https://t.bilibili.com',
+            referer: 'https://t.bilibili.com/',
+          },
+          rewrite: path => path.replace(/^\/proxy\/bili\/cover\/bfs\/videoshot\//, ''),
+        },
+        '/proxy/bili/x/player/': {
+          target: 'https://api.bilibili.com/x/player/',
+          changeOrigin: true,
+          headers: {
+            host: 'api.bilibili.com',
+            origin: 'https://www.bilibili.com',
+            referer: 'https://www.bilibili.com',
+          },
+          rewrite: path => path.replace(/^\/proxy\/bili\/x\/player\//, ''),
+        },
+        '/proxy/u2b/watch': {
+          target: 'https://www.youtube.com/watch',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/proxy\/u2b\/watch/, ''),
+        },
+        '/proxy/u2b/iytimg/sb/': {
+          target: 'https://i.ytimg.com/sb/',
+          changeOrigin: true,
+          rewrite: path => path.replace(/^\/proxy\/u2b\/iytimg\/sb\//, ''),
+        },
+      },
+    },
   })
 })
