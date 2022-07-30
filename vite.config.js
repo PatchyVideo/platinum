@@ -174,6 +174,15 @@ export default defineConfig(async ({ mode }) => {
           },
           rewrite: path => path.replace(/^\/proxy\/bili\/x\/player\//, ''),
         },
+        '/proxy/bili/boss/': {
+          target: 'https://boss.hdslb.com/',
+          changeOrigin: true,
+          headers: {
+            origin: 'https://www.bilibili.com',
+            referer: 'https://www.bilibili.com',
+          },
+          rewrite: path => path.replace(/^\/proxy\/bili\/boss\//, ''),
+        },
         '/proxy/u2b/watch': {
           target: 'https://www.youtube.com/watch',
           changeOrigin: true,

@@ -223,6 +223,10 @@
                     <Cover
                       :title="rlVideo.item.title"
                       :cover-image="rlVideo.item.coverImage"
+                      :v="rlVideo.item.v"
+                      :aid="rlVideo.item.aid"
+                      :cid="rlVideo.item.cid"
+                      :unique-id="rlVideo.item.uniqueId"
                       class="rounded-md"
                     />
                   </div>
@@ -383,6 +387,7 @@ const { result, loading, refetch } = useQuery<Query>(
           item {
             title
             coverImage
+            uniqueId
           }
           meta {
             createdBy {

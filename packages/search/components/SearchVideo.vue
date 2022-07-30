@@ -65,7 +65,15 @@
         :to="`/video/${video.id.toHexString()}`"
       >
         <div class="relative w-2/5 mr-0.5">
-          <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm" />
+          <Cover
+            :title="video.item.title"
+            :cover-image="video.item.coverImage"
+            :v="video.item.v"
+            :aid="video.item.aid"
+            :cid="video.item.cid"
+            :unique-id="video.item.uniqueId"
+            class="rounded-sm"
+          />
           <div
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
@@ -100,7 +108,14 @@
         :to="`/video/${video.id.toHexString()}`"
       >
         <div class="relative">
-          <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
+          <Cover
+            :title="video.item.title"
+            :cover-image="video.item.coverImage"
+            :v="video.item.v"
+            :aid="video.item.aid"
+            :cid="video.item.cid"
+            :unique-id="video.item.uniqueId"
+          />
           <div
             v-if="video.clearence === 0"
             class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
@@ -214,6 +229,7 @@ const { result, loading, onError, fetchMore } = useQuery<Query>(
             cid
             partName
             url
+            uniqueId
           }
           clearence
         }

@@ -21,6 +21,10 @@
       <Cover
         :title="video.item.title"
         :cover-image="video.item.coverImage"
+        :v="video.item.v"
+        :aid="video.item.aid"
+        :cid="video.item.cid"
+        :unique-id="video.item.uniqueId"
         class="rounded-md border border-gray-200 dark:border-gray-800"
       />
       <a

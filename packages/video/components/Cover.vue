@@ -32,8 +32,8 @@
           v-else
           class="bilibili-cover"
           :style="
-            `background-image: url(/proxy/bili/cover/bfs/videoshot/${
-              data.image[pn].replace('//i0.hdslb.com/bfs/videoshot/', '')
+            `background-image: url(${
+              data.image[0]
             });background-position: ${
               x
             }px ${
@@ -68,9 +68,10 @@ const props = defineProps<{
   title: string
   coverImage: string
   /* v为undefined时表示当前为bilibiliCover，采用aid和cid。如aid和cid同时也为undefined，则用coverImage */
-  v: string | undefined
-  aid: number | undefined
-  cid: number | undefined
+  v?: string
+  aid?: number
+  cid?: number
+  uniqueId?: string
 }>()
 
 const { t } = useI18n()
@@ -93,10 +94,18 @@ const pn = ref(0)
 const tBiliBili: Ref<Array<number>> = ref([])
 
 const isYtbCover = computed(() => props.v !== undefined)
-const isPureCoverImage = computed(() => props.v === undefined && props.aid === undefined && props.cid === undefined)
+const isPureCoverImage = computed(() => props.v === undefined && props.aid === undefined && props.cid === undefined && props.uniqueId === undefined)
 const prh = computed(() =>
   (width.value / 8) * 5 - (width.value / 16) * 9,
 )
+const avNumber = computed(() => {
+  if (typeof props.uniqueId !== 'string')
+    return ''
+  const result = props.uniqueId.match(/av(\d+)-\d+/i)
+  if (!result)
+    return ''
+  return result[1]
+})
 const updateCoverImageYoutube = async () => {
   const result = await fetch(`/proxy/u2b/watch?v=${props.v}`).catch((e) => {
     error.value = e.message
@@ -113,12 +122,15 @@ const updateCoverImageYoutube = async () => {
 }
 const updateCoverImageBilibili = async () => {
   if (props.cid) {
-    const result = await fetch(`/proxy/bili/x/player/videoshot?cid=${props.cid}&aid=${props.aid}&jsonp=jsonp`).then(res => res.json())
+    const result = await fetch(`/proxy/bili/x/player/videoshot?cid=${props.cid ?? ''}&aid=${props.aid ?? avNumber.value}&jsonp=jsonp&index=1`).then(res => res.json())
     if (result === undefined)
       return
-    if (result.data.code === 0 && result.data.data) {
-      data.value = result.data.data
-      const result2 = await fetch(`/proxy/bili/cover/bfs/videoshot/${result.data.data.pvdata.replace('//i0.hdslb.com/bfs/videoshot/', '')}`, {
+    if (result.code === 0 && result.data) {
+      data.value = result.data as ResponseData
+      for (let i = 0, l = data.value.image.length; i < l; i++)
+        data.value.image[i] = data.value.image[i].replace('//boss.hdslb.com', '/proxy/bili/boss')
+      data.value.pvdata = data.value.pvdata.replace('//boss.hdslb.com', '/proxy/bili/boss')
+      /* const result2 = await fetch(`/proxy/bili/cover/bfs/videoshot/${result.data.pvdata.replace('//i0.hdslb.com/bfs/videoshot/', '')}`, {
         method: 'GET',
       }).catch((e) => {
         error.value = e.message
@@ -127,20 +139,21 @@ const updateCoverImageBilibili = async () => {
       if (result2 === undefined)
         return
       // eslint-disable-next-line no-console
-      console.log(123123, result2.json())
       const i = (await result2.json()).data
       const r = new DataView(i)
       const n = new Uint8Array(i.byteLength)
       for (let l = 0; l < n.length; l += 2) {
         const o = (r.getUint8(l) << 8) | r.getUint8(l + 1)
         tBiliBili.value.push(o)
-      }
+      } */
+      for (const o of data.value.index)
+        tBiliBili.value.push(o)
       loadStatus.value = true
     }
     else { error.value = result.data.message }
   }
   else {
-    const result = await fetch(`/proxy/bili/x/player/videoshot?aid=${props.aid}&index=1`).then(res => res.json()).catch((e) => {
+    const result = await fetch(`/proxy/bili/x/player/videoshot?aid=${props.aid ?? avNumber.value}&index=1`).then(res => res.json()).catch((e) => {
       error.value = e.message
       loadStatus.value = true
     })
@@ -192,6 +205,10 @@ interface ResponseData {
   img_x_size: number
   img_y_size: number
   img_x_len: number
+  img_y_len: number
+  image: string[]
+  index: number[]
+  pvdata: string
 }
 </script>
 

@@ -67,6 +67,7 @@ const { result, load, fetchMore, forceDisabled } = useLazyQuery<Query>(
           id
           item {
             title
+            uniqueId
             coverImage
           }
           meta {
