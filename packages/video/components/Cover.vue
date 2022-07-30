@@ -150,7 +150,7 @@ const updateCoverImageBilibili = async () => {
         tBiliBili.value.push(o)
       loadStatus.value = true
     }
-    else { error.value = result.data.message }
+    else { error.value = result.message }
   }
   else {
     const result = await fetch(`/proxy/bili/x/player/videoshot?aid=${props.aid ?? avNumber.value}&index=1`).then(res => res.json()).catch((e) => {
