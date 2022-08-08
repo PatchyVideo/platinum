@@ -393,7 +393,7 @@ const delayedHideControlBar = useThrottleFn((delay = 200) => {
     { immediate: true },
   )
   stopHideControlBar = stop
-})
+}, 200, true)
 useEventListener(root, 'mousemove', () => {
   if (stopHideControlBar)
     stopHideControlBar()

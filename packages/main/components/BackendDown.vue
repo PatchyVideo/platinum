@@ -40,7 +40,7 @@ const fetching = ref(true)
 const last = ref(new Date())
 const setFetching = useThrottleFn((v: boolean) => {
   fetching.value = v
-}, 600)
+}, 600, true)
 
 const refetch = async () => {
   last.value = new Date()

@@ -22,7 +22,7 @@ useEventListener(
   'scroll',
   useThrottleFn(() => {
     top.value = document.body.scrollTop || document.documentElement.scrollTop
-  }, 10),
+  }, 10, true),
 )
 
 function backUp(): void {

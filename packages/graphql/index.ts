@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, provide } from 'vue'
 import type { FieldFunctionOptions, NormalizedCacheObject } from '@apollo/client/core'
 import { ApolloClient, HttpLink, InMemoryCache, disableFragmentWarnings, from } from '@apollo/client/core'
