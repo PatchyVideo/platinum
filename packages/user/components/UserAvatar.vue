@@ -6,8 +6,8 @@
     :title="hideTitle ? undefined : t('user.avatar.alt', { alt })"
     :src="currUrl"
     @error="onError"
-    @click.prevent="onClick"
-    @auxclick.prevent="onAuxClick"
+    @click="onClick"
+    @auxclick="onAuxClick"
   >
 </template>
 

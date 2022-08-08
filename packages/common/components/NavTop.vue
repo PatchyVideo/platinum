@@ -41,91 +41,17 @@
             {{ t('common.nav-top.user.login') }}
           </RouterLink>
         </div>
-        <div v-else class="relative">
-          <div class="flex items-center space-x-3">
-            <div
-              v-if="!screenSizes['<sm'] && props.fetchNote"
-              ref="noteBoxBtn"
-              class="flex items-center justify-center w-9 h-9 text-xl cursor-pointer rounded-full border-2 border-transparent transition-colors duration-100 hover:border-gray-200 dark:hover:border-gray-700"
-              @click="noteBoxOpen = true"
-            >
-              <div class="inline-block i-uil:envelope" />
-              <label
-                v-if="listNoteCountUnread"
-                class="absolute top-1 right-12 bg-red-500 text-white text-xs rounded-full px-1"
-              >{{ listNoteCountUnread > 99 ? '99+' : listNoteCountUnread }}</label>
-            </div>
-            <div ref="userListBtn">
-              <UserAvatar
-                :title="user.name"
-                :image="user.avatar"
-                :email="user.email"
-                class="h-9 w-9 rounded-full border border-white cursor-pointer"
-                @click="userListOpen = true"
-              />
-              <label
-                v-if="listNoteCountUnread && !userListOpen && screenSizes['<sm'] && props.fetchNote"
-                class="absolute -top-0.3 -right-0.5 bg-red-500 rounded-full p-1.5"
-              />
-            </div>
-          </div>
-          <!-- Note Box -->
-          <Transition name="noteBox">
-            <div v-show="noteBoxOpen" ref="noteBox">
-              <NoteBoxNavTop v-model:list-note-count-unread="listNoteCountUnread" />
-            </div>
-          </Transition>
-          <!-- User List -->
-          <Transition
-            enter-active-class="transition-all duration-200"
-            enter-from-class="opacity-0"
-            leave-active-class="transition-all duration-200"
-            leave-to-class="opacity-0"
-          >
-            <div
-              v-show="userListOpen"
-              ref="userList"
-              class="z-50 absolute -top-6 -right-2 p-2 mt-10 rounded bg-white border border-gray-400 shadow overflow-visible dark:bg-gray-900 dark:border-gray-700"
-            >
-              <UserAvatar
-                :title="user.name"
-                :image="user.avatar"
-                :email="user.email"
-                class="absolute -top-5 right-0 w-14 h-14 rounded-full border border-white cursor-pointer"
-              />
-              <div class="flex flex-col gap-2">
-                <div class="text-lg align-middle font-medium mr-14 max-w-25 truncate">
-                  {{ user.name }}
-                </div>
-                <RouterLink
-                  v-if="screenSizes['<sm'] && props.fetchNote"
-                  class="block text-center"
-                  to="/user/notification"
-                >
-                  <label>{{ t('common.nav-top.user.my-message') }}</label><label v-if="listNoteCountUnread" class="bg-red-500 text-white text-sm rounded-full px-2">{{
-                    listNoteCountUnread > 99 ? '99+' : listNoteCountUnread
-                  }}</label>
-                </RouterLink>
-                <RouterLink :to="`/user/${user.uid}`">
-                  <div
-                    class="block py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors"
-                  >
-                    {{ t('common.nav-top.user.userprofile') }}
-                  </div>
-                </RouterLink>
-                <div
-                  class="py-px text-center underline underline-transparent hover:underline-gray-400 transition-colors cursor-pointer"
-                  @click="logout"
-                >
-                  {{ t('common.nav-top.user.logout') }}
-                  <div
-                    v-show="loggingOut"
-                    class="i-uil:spinner-alt inline-block text-2xl align-middle animate-spin"
-                  />
-                </div>
-              </div>
-            </div>
-          </Transition>
+
+        <div v-else class="flex items-center space-x-3">
+          <NoteBoxNavTop
+            v-if="screenSizes.sm && fetchNote"
+            v-model:list-note-count-unread="listNoteCountUnread"
+          />
+
+          <UserBoxNavTop
+            :fetch-note="fetchNote"
+            :list-note-count-unread="listNoteCountUnread"
+          />
         </div>
       </div>
     </div>
@@ -207,15 +133,15 @@ import NavTopLink from './NavTopLink.vue'
 import Logo from '@/common/components/Logo.vue'
 import AutoComplete from '@/search/components/AutoComplete.vue'
 import PvSelect from '@/ui/components/PvSelect.vue'
-import UserAvatar from '@/user/components/UserAvatar.vue'
 import DarkModeSwitch from '@/darkmode/components/DarkModeSwitch.vue'
 import NoteBoxNavTop from '@/user-notification/components/NoteBoxNavTop.vue'
+import UserBoxNavTop from '@/user/components/UserBoxNavTop.vue'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/libs/progressing'
 import { useUserData } from '@/user'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     showSearchBar?: boolean
     fetchNote?: boolean
@@ -228,25 +154,10 @@ const props = withDefaults(
 
 const { t } = useI18n()
 const route = useRoute()
-const { isLogin, isAdmin, user, clear: clearUserData } = useUserData()
+const { isLogin, isAdmin } = useUserData()
 
 const nav = shallowRef<HTMLDivElement | null>(null)
 const navContainer = shallowRef<HTMLDivElement | null>(null)
-
-/* User lists Operation */
-const userListOpen = ref<boolean>(false)
-const userListBtn = shallowRef<HTMLDivElement | null>(null)
-const userList = shallowRef<HTMLDivElement | null>(null)
-const noteBoxOpen = ref<boolean>(false)
-const noteBoxBtn = shallowRef<HTMLDivElement | null>(null)
-const noteBox = shallowRef<HTMLDivElement | null>(null)
-useEventListener(document, 'click', (e: MouseEvent): void => {
-  if (!(userList.value?.contains(e.target as HTMLElement) || userListBtn.value?.contains(e.target as HTMLElement)))
-    userListOpen.value = false
-
-  if (!(noteBox.value?.contains(e.target as HTMLElement) || noteBoxBtn.value?.contains(e.target as HTMLElement)))
-    noteBoxOpen.value = false
-})
 
 /* Notifications */
 const listNoteCountUnread = ref(0)
@@ -277,23 +188,6 @@ function searchResult(searchContent: string): void {
 /* Back to home page */
 function toHome(): void {
   router.push({ path: '/' })
-}
-
-/* Log out */
-const loggingOut = ref(false)
-async function logout(): Promise<void> {
-  loggingOut.value = true
-  await fetch('https://patchyvideo.com/be/logout.do', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({}),
-    credentials: 'include',
-  })
-  clearUserData()
-  loggingOut.value = false
-  location.reload()
 }
 
 const keyword = ref(
