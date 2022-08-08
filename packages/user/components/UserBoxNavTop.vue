@@ -35,7 +35,10 @@
 
       <div class="w-full border-b-1 border-purple-300 dark:border-gray-600" />
 
-      <RouterLink class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-sky-50" :to="`/user/${user.uid}`">
+      <RouterLink
+        class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-purple-50 dark:hover:bg-indigo-800"
+        :to="`/user/${user.uid}`"
+      >
         <div class="i-uil:user text-lg" />
         个人中心
       </RouterLink>
@@ -43,7 +46,10 @@
       <template v-if="fetchNote">
         <div class="w-full border-b-1 border-purple-200 border-dashed dark:border-gray-700" />
 
-        <RouterLink class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-sky-50" to="/user/notification">
+        <RouterLink
+          class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-purple-50 dark:hover:bg-indigo-800"
+          to="/user/notification"
+        >
           <div class="i-uil:envelope text-lg" />
           {{ t('common.nav-top.user.my-message') }}
           <span v-if="listNoteCountUnread" class="px-2 rounded-full text-white text-sm bg-red-500">
@@ -54,7 +60,10 @@
 
       <div class="w-full border-b-1 border-purple-300 dark:border-gray-600" />
 
-      <button class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-sky-50" @click="() => logout()">
+      <button
+        class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-purple-50 dark:hover:bg-indigo-800"
+        @click="() => logout()"
+      >
         <div class="i-uil:exit text-lg" />
         退出登录
         <div
