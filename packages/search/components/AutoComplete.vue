@@ -2,7 +2,7 @@
 <template>
   <div ref="autoCompleteRoot" class="relative inline-block">
     <div
-      class="flex h-9 justify-start items-center rounded-lg border border-purple-200 dark:border-gray-700 bg-white dark:bg-gray-800"
+      class="flex h-9 justify-start items-center rounded-lg border border-purple-300 dark:border-gray-700 bg-white dark:bg-gray-800"
     >
       <div class="flex-shrink-0 inline i-uil:search text-lg ml-2 mr-1" @click="onSearchContentChange()" />
       <input
@@ -22,58 +22,27 @@
       />
       <button
         v-if="width > 500"
-        class="flex-shrink-0 text-purple-900 dark:text-white h-full px-3 rounded-r-lg border-l-1 border-l-purple-200 dark:border-l-gray-700 bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 focus:outline-none focus:ring focus:ring-purple-300 transition-colors"
+        class="flex-shrink-0 h-full px-3 text-purple-900 dark:text-white rounded-r-lg border-l-1 border-l-purple-200 dark:border-l-gray-700 bg-purple-100 dark:bg-gray-700 hover:bg-purple-200 focus:outline-none focus:ring focus:ring-purple-300 transition-colors"
         @click="completeKeywordOrSearch(true)"
         v-text="t('search.auto-complete.search')"
       />
     </div>
+
     <div
       class="absolute z-11 top-full left-0 w-full overflow-hidden"
       :class="{ 'pt-1': !hideContainer && !teleportResult && listHidden }"
     >
       <Transition
-        :css="false"
-        :persisted="true"
-        @enter="
-          (_, done) => {
-            if (motionel) {
-              motion.set({ y: -motionel.clientHeight - 20, opacity: 0.5 })
-              motion
-                .apply({ y: 0, opacity: 1, transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } } })
-                ?.then(() => done())
-            }
-            else done()
-          }
-        "
-        @after-enter="
-          () => {
-            transitionStatus = 'enter'
-          }
-        "
-        @leave="
-          (_, done) => {
-            if (motionel) {
-              motion
-                .apply({
-                  y: -motionel.clientHeight - 20,
-                  opacity: 0.5,
-                  transition: { y: { type: 'keyframes', ease: 'out', duration: 200 } },
-                })
-                ?.then(() => done())
-            }
-            else done()
-          }
-        "
-        @after-leave="
-          () => {
-            transitionStatus = 'leave'
-          }
-        "
+        enter-active-class="transform transition duration-100 ease-out"
+        enter-from-class="scale-95 -translate-y-1/20 opacity-0"
+        enter-to-class="scale-100 opacity-100"
+        leave-active-class="transform transition duration-75 ease-out"
+        leave-from-class="scale-100 opacity-100"
+        leave-to-class="scale-95 -translate-y-1/20 opacity-0"
       >
         <div
           v-show="!hideContainer && !teleportResult"
-          ref="motionel"
-          class="w-full py-1 rounded bg-white dark:bg-gray-900 shadow-lg border-purple-200 dark:border-gray-700"
+          class="w-full py-1 rounded-md bg-white dark:bg-gray-900 shadow-lg border-1 border-purple-300 dark:border-gray-700"
           :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
@@ -107,16 +76,19 @@
                 </div>
               </div>
             </div>
+
             <div
               v-else-if="!listHidden"
               class="p-3 w-full text-center"
               v-text="t('search.auto-complete.loading-nothing')"
             />
+
             <div
               v-else-if="loading"
               class="p-3 w-full text-center"
               v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
             />
+
             <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full">
               <div>
                 <h4 class="mx-2 font-light">
@@ -157,8 +129,7 @@
 <script lang="ts" setup>
 import { nextTick, reactive, ref, shallowRef, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { until, useElementSize, useEventListener, useVModel, watchDebounced } from '@vueuse/core'
-import { useMotion } from '@vueuse/motion'
+import { useElementSize, useEventListener, useVModel, watchDebounced } from '@vueuse/core'
 import { behMostMatch, iso639locale } from '@/locales'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
@@ -211,10 +182,6 @@ const sitesAndKeywords: AutoCompleteResult[] = reactive([
   { tag: 'tags:', cat: 6, cnt: null, active: false },
 ])
 
-const motionel = shallowRef<HTMLElement | null>(null)
-const motion = useMotion(motionel)
-const transitionStatus = ref<'enter' | 'leave'>('leave')
-
 // Click to hide the list
 const autoCompleteRoot = shallowRef<HTMLDivElement | null>()
 const hideContainer = ref(true)
@@ -222,7 +189,7 @@ useEventListener(document, 'click', async (e: MouseEvent): Promise<void> => {
   activeSearchResult.value = -1
   if (!autoCompleteRoot.value?.contains(e.target as HTMLElement)) {
     hideContainer.value = true
-    await until(transitionStatus).toBe('leave')
+    await nextTick()
     listHidden.value = true
     loading.value = false
   }
