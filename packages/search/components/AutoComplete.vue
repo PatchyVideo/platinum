@@ -42,8 +42,8 @@
       >
         <div
           v-show="!hideContainer && !teleportResult"
-          class="w-full py-1 rounded-md bg-white dark:bg-gray-900 shadow-lg border-1 border-purple-300 dark:border-gray-700"
-          :class="{ border: !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
+          class="w-full py-1 rounded-md bg-white dark:bg-gray-900 shadow-lg border-purple-300 dark:border-gray-700"
+          :class="{ 'border-1': !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
             <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">
