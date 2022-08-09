@@ -10,13 +10,15 @@
         <div
           class="p-0.5 rounded-full border-2 border-transparent transition-colors duration-100 hover:border-gray-200 dark:hover:border-gray-700"
         >
-          <div
-            class="text-3xl cursor-pointer rounded-full"
+          <button
+            class="text-3xl rounded-full"
             :class="drawerOpen ? 'i-uil:times' : 'i-uil:list-ul'"
             @click="drawerOpen = !drawerOpen"
           />
         </div>
-        <Logo v-if="screenSizes.md" class="ml-2 cursor-pointer" @click="toHome()" />
+        <RouterLink v-if="screenSizes.md" to="/">
+          <Logo class="ml-2" />
+        </RouterLink>
       </div>
       <!-- Search Bar -->
       <div v-if="showSearchBar" class="flex-auto inline-flex flex-nowrap items-center justify-center mx-2">
@@ -183,11 +185,6 @@ const hidePage = ref(false)
 function searchResult(searchContent: string): void {
   hidePage.value = false
   router.push({ path: '/search-result', query: { i: searchContent } })
-}
-
-/* Back to home page */
-function toHome(): void {
-  router.push({ path: '/' })
 }
 
 const keyword = ref(
