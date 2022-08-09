@@ -50,14 +50,14 @@
               <li
                 v-for="(item, index) in searchResult.map(lang2tag)"
                 :key="item.tag"
-                class="flex px-3 py-1 justify-between transition-colors cursor-pointer hover:bg-purple-50 dark:hover:bg-gray-700"
+                class="flex px-3 py-1 gap-2 justify-between transition-colors cursor-pointer hover:bg-purple-50 dark:hover:bg-gray-700"
                 :class="{ 'bg-purple-50 dark:bg-gray-700': index === activeSearchResult }"
                 @click="clickAutocompleteKeyword(item)"
               >
-                <div class="flex flex-col">
+                <div class="flex min-w-0 flex-col">
                   <div class="flex gap-px items-center">
                     <div
-                      class="i-uil:tag-alt"
+                      class="i-uil:tag-alt flex-shrink-0"
                       :class="{
                         'text-copyright': item.cat === 2,
                         'text-language': item.cat === 5,
@@ -68,13 +68,13 @@
                         'text-soundtrack': item.cat === 6,
                       }"
                     />
-                    <div :class="{ 'text-purple-900 dark:text-purple-50': index === activeSearchResult }">
+                    <div class="truncate" :class="{ 'text-purple-900 dark:text-purple-50': index === activeSearchResult }">
                       {{ item.tag }}
                     </div>
                   </div>
                   <div
                     v-if="item.sub"
-                    class="text-xs text-gray-700 dark:text-gray-200"
+                    class="text-xs text-gray-700 dark:text-gray-200 truncate"
                   >
                     {{ item.sub }}
                   </div>
