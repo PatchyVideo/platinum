@@ -9,7 +9,7 @@
         ref="autoComplete"
         v-model="searchContent"
         class="inline-block h-full outline-none dark:bg-gray-800 w-full rounded-lg"
-        :placeholder="defaultPlaceholder"
+        :placeholder="placeholder"
         @keydown.arrow-up.prevent="selectAutocompleteKeyword(true)"
         @keydown.arrow-down.prevent="selectAutocompleteKeyword(false)"
         @keydown.enter="completeKeywordOrSearch()"
@@ -30,7 +30,7 @@
 
     <div
       class="absolute z-11 top-full left-0 w-full overflow-hidden"
-      :class="{ 'pt-1': !hideContainer && !teleportResult && listHidden }"
+      :class="{ 'pt-1': !hideContainer && !teleportResult }"
     >
       <Transition
         enter-active-class="transform transition duration-100 ease-out"
@@ -42,54 +42,70 @@
       >
         <div
           v-show="!hideContainer && !teleportResult"
-          class="w-full py-1 rounded-md bg-white dark:bg-gray-900 shadow-lg border-purple-300 dark:border-gray-700"
+          class="w-full rounded-md border-purple-300 shadow-lg bg-white dark:border-gray-700 dark:bg-gray-900"
           :class="{ 'border-1': !listHidden || loading || ((!teleportResult || !hideContainer) && showRecommendations) }"
         >
           <Teleport :disabled="!teleportResult" :to="teleportResult">
-            <div v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full">
-              <div
+            <ul v-if="!listHidden && searchResult.length > 0" role="listbox" class="w-full rounded-md divide-y-1 divide-purple-200 divide-dashed overflow-hidden dark:divide-gray-600">
+              <li
                 v-for="(item, index) in searchResult.map(lang2tag)"
                 :key="item.tag"
-                class="px-3 py-1 transition-colors cursor-pointer hover:bg-gray-100 flex justify-between dark:hover:bg-gray-700"
-                :class="{ 'bg-gray-100 dark:bg-gray-700': index === activeSearchResult }"
+                class="flex px-3 py-1 justify-between transition-colors cursor-pointer hover:bg-purple-50 dark:hover:bg-gray-700"
+                :class="{ 'bg-purple-50 dark:bg-gray-700': index === activeSearchResult }"
                 @click="clickAutocompleteKeyword(item)"
               >
-                <div class="text-left">
+                <div class="flex flex-col">
+                  <div class="flex gap-px items-center">
+                    <div
+                      class="i-uil:tag-alt"
+                      :class="{
+                        'text-copyright': item.cat === 2,
+                        'text-language': item.cat === 5,
+                        'text-character': item.cat === 1,
+                        'text-author': item.cat === 3,
+                        'text-general': item.cat === 0,
+                        'text-meta': item.cat === 4,
+                        'text-soundtrack': item.cat === 6,
+                      }"
+                    />
+                    <div :class="{ 'text-purple-900 dark:text-purple-50': index === activeSearchResult }">
+                      {{ item.tag }}
+                    </div>
+                  </div>
                   <div
-                    :class="{
-                      'text-copyright': item.cat === 2,
-                      'text-language': item.cat === 5,
-                      'text-character': item.cat === 1,
-                      'text-author': item.cat === 3,
-                      'text-general': item.cat === 0,
-                      'text-meta': item.cat === 4,
-                      'text-soundtrack': item.cat === 6,
-                    }"
-                    v-text="item.tag"
-                  />
-                  <template v-if="item.sub">
-                    <div class="text-xs text-gray-600 dark:text-gray-300" v-text="item.sub" />
-                  </template>
+                    v-if="item.sub"
+                    class="text-xs text-gray-700 dark:text-gray-200"
+                  >
+                    {{ item.sub }}
+                  </div>
                 </div>
                 <div v-if="showTagCnt" class="text-gray-400">
                   {{ item.cnt || '' }}
                 </div>
-              </div>
-            </div>
+              </li>
+            </ul>
 
             <div
               v-else-if="!listHidden"
-              class="p-3 w-full text-center"
-              v-text="t('search.auto-complete.loading-nothing')"
-            />
+              class="flex w-full py-5 justify-center items-center gap-1 text-2xl text-gray-600 font-light"
+            >
+              {{ t('search.auto-complete.loading-nothing') }}
+            </div>
 
             <div
               v-else-if="loading"
-              class="p-3 w-full text-center"
-              v-text="searchSuccess ? t('search.auto-complete.loading') : t('search.auto-complete.loading-failed')"
-            />
+              class="flex w-full py-5 justify-center items-center gap-1 text-2xl text-gray-300 font-light"
+            >
+              <template v-if="searchSuccess">
+                <div class="i-uil:spinner-alt text-3xl animate-spin" />
+                {{ t('search.auto-complete.loading') }}
+              </template>
+              <template v-else>
+                {{ t('search.auto-complete.loading-failed') }}
+              </template>
+            </div>
 
-            <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full">
+            <div v-else-if="(!teleportResult || !hideContainer) && showRecommendations" class="w-full py-1">
               <div>
                 <h4 class="mx-2 font-light">
                   <div class="i-uil:tag-alt inline-block text-lg align-middle text-gray-600 dark:text-gray-300" />
@@ -137,14 +153,14 @@ import type { Query } from '@/graphql'
 const props = withDefaults(
   defineProps<{
     keyword?: string
-    defaultPlaceholder?: string
+    placeholder?: string
     teleportResult?: HTMLElement
     showRecommendations?: boolean
     showTagCnt?: boolean
   }>(),
   {
     keyword: '',
-    defaultPlaceholder: 'search!',
+    placeholder: 'search!',
     teleportResult: undefined,
     showRecommendations: false,
     showTagCnt: true,
