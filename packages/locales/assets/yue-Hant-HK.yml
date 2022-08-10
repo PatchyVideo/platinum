@@ -52,6 +52,12 @@ home:
     components:
       query-video:
         default-title: 最新嘅上传
+    intro:
+      follow: 关注帕琪站嘅官方B站帐号
+      joinus: 加入我哋
+      medium: 呢系一个静睇度建设嘅新页面
+      old: 番去旧页面
+      template: '{medium} 你可以{old}来获得完整的体验，{follow}获取最新进度，或者{joinus}来帮助我哋推进！'
   list:
     favorites: 收藏夹
 locales:
