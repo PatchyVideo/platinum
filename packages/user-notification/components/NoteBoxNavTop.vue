@@ -103,7 +103,7 @@
             </div>
           </div>
         </div>
-        <RouterLink to="/user/notification" class="pt-1 text-center block">
+        <RouterLink to="/user/notification" class="pt-1 border-t border-gray-300 text-center block">
           {{ t('user-notification.notification-navtop.show-all') }}
         </RouterLink>
       </div>
