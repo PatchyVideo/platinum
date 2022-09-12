@@ -35,7 +35,7 @@
       </div>
 
       <div v-else>
-        <div class="divide-y-2 max-h-110 overflow-auto">
+        <div class="divide-y-1 divide-gray-300 max-h-110 overflow-auto">
           <div
             v-for="note in listNote"
             :key="note.id.id"
@@ -103,7 +103,7 @@
             </div>
           </div>
         </div>
-        <RouterLink to="/user/notification" class="pt-1 border-t border-gray-300 text-center block">
+        <RouterLink to="/user/notification" class="pt-1 border-t border-gray-600 text-center block">
           {{ t('user-notification.notification-navtop.show-all') }}
         </RouterLink>
       </div>
