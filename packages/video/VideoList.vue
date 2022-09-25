@@ -92,43 +92,63 @@
         </div>
         <!-- Desktop View -->
         <div v-else class="justify-evenly flex-wrap flex">
-          <RouterLink
+          <div
             v-for="video in videos"
             :key="video.item.title"
             class="w-12/50 my-2 border border-purple-300 shadow-sm rounded-lg overflow-hidden bg-white bg-opacity-50 dark:border-gray-700 dark:bg-gray-900"
-            :to="`/video/${video.id.toHexString()}`"
           >
-            <div class="relative">
-              <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
-              <div
-                v-if="video.clearence === 0"
-                class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
-              >
-                <div class="i-uil:eye-slash text-8xl" />
-                <div class="text-2xl">
-                  {{ t('video.video-list.video.hidden') }}
-                </div>
-              </div>
-            </div>
-            <div class="p-3 text-left text-sm lg:text-base">
-              <div v-if="video.item.partName">
-                <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
+            <RouterLink
+              :to="`/video/${video.id.toHexString()}`"
+            >
+              <div class="relative">
+                <Cover :title="video.item.title" :cover-image="video.item.coverImage" />
                 <div
-                  class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
-                  :title="video.item.partName"
+                  v-if="video.clearence === 0"
+                  class="absolute flex flex-col justify-center items-center top-0 bottom-0 w-full bg-gray-200 bg-opacity-80 hover:bg-opacity-20 transition-background-color"
                 >
-                  <label class="font-semibold">{{ `P${pageOfVideo(video.item.url)}:` }}</label>{{ video.item.partName }}
+                  <div class="i-uil:eye-slash text-8xl" />
+                  <div class="text-2xl">
+                    {{ t('video.video-list.video.hidden') }}
+                  </div>
                 </div>
               </div>
-              <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
-                video.item.title
-              }}</a>
-              <div class="flex text-xs h-4 align-middle" :title="video.item.site">
-                <div>{{ t('video.video-list.video.source-site') }}</div>
-                <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site">
+              <div class="p-3 text-left text-sm lg:text-base">
+                <div v-if="video.item.partName">
+                  <a class="inline-block w-full truncate" :title="video.item.title">{{ video.item.title }}</a>
+                  <div
+                    class="text-xs inline-block w-full truncate text-gray-600 dark:text-gray-300"
+                    :title="video.item.partName"
+                  >
+                    <label class="font-semibold">{{ `P${pageOfVideo(video.item.url)}:` }}</label>{{ video.item.partName }}
+                  </div>
+                </div>
+                <a v-else class="line-clamp-2 overflow-ellipsis overflow-hidden" :title="video.item.title">{{
+                  video.item.title
+                }}</a>
+                <div class="flex text-xs h-4 align-middle" :title="video.item.site">
+                  <div>{{ t('video.video-list.video.source-site') }}</div>
+                  <img class="cover" :src="getSiteImage(video.item.site)" :alt="video.item.site">
+                </div>
+              </div>
+            </RouterLink>
+            <!-- Hide Video Button (Admin Only) -->
+            <div v-if="isAdmin" class="text-right px-2 pb-1 cursor-pointer">
+              <div v-if="hideVideoLoading.find(item => item === video.id.toHexString())">
+                请求中...
+              </div>
+              <div
+                v-else-if="hideVideoFailed.find(item => item === video.id.toHexString())" class="text-red transition-color hover:text-purple-600" @click="hideVideo(video.id.toHexString())"
+              >
+                隐藏失败！请点击重试
+              </div>
+              <div v-else-if="video.clearence === 0">
+                已隐藏
+              </div>
+              <div v-else class="transition-color hover:text-purple-600" @click="hideVideo(video.id.toHexString())">
+                隐藏
               </div>
             </div>
-          </RouterLink>
+          </div>
         </div>
         <PvPagination
           :page-count="pageCount"
@@ -161,6 +181,7 @@ import Cover from './components/Cover.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import AdvancedSearch from '@/video/components/AdvancedSearch.vue'
 import BackTop from '@/ui/components/BackTop.vue'
+import { useUserData } from '@/user'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
@@ -170,16 +191,19 @@ import { getSiteImage } from '@/common/libs/imageUrl'
 import { screenSizes } from '@/css'
 import { getAdditionalConstraintString } from '@/video/libs/decodeAdditionalConstraint'
 import { startProgress, stopProgress } from '@/nprogress'
+import { MessageType, PvMessage } from '@/ui/libs/PvMessage'
 
 const { t } = useI18n()
 setSiteTitle(`${t('video.video-list.title')} - PatchyVideo`)
 const route = useRoute()
 const router = useRouter()
+const { isAdmin } = useUserData()
+
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')
 const count = ref(0)
 const pageCount = ref(0)
-const videos = ref<schema.Video[]>()
+const videos = ref<schema.Video[]>([])
 
 /* Precess URL query */
 const limit = computed(() => {
@@ -251,7 +275,7 @@ watchEffect(() => {
   if (resultData.value) {
     count.value = resultData.value.count
     pageCount.value = resultData.value.pageCount
-    videos.value = resultData.value.videos
+    videos.value = resultData.value.videos.map((item) => { return { ...item } })
   }
 })
 onError((err) => {
@@ -278,6 +302,44 @@ watch(URLQuery, () => {
     },
   })
 })
+
+/* Hide Video */
+const hideVideoLoading = ref<string[]>([])
+const hideVideoFailed = ref<string[]>([])
+const hideVideo = async (vid: string) => {
+  if (hideVideoFailed.value.find(item => item === vid))
+    hideVideoFailed.value.splice(hideVideoFailed.value.findIndex(item => item === vid), 1)
+  hideVideoLoading.value.push(vid)
+  await fetch('https://patchyvideo.com/be/videos/condemn_video.do', {
+    method: 'POST',
+    headers: new Headers({
+      'Content-Type': 'application/json',
+    }),
+    body: JSON.stringify({
+      vid,
+    }),
+    credentials: 'include',
+  })
+    .then(data => data.json())
+    .then((res) => {
+      // console.log(res)
+      if (res.status === 'SUCCEED' && videos.value.find(item => item.id.toHexString() === vid)) {
+        videos.value[videos.value.findIndex(item => item.id.toHexString() === vid)].clearence = 0
+      }
+      else {
+        PvMessage({ message: `vid为 ${vid} 的视频隐藏失败，请注意！`, type: MessageType.error })
+        hideVideoFailed.value.push(vid)
+        throw new Error(res)
+      }
+    })
+    .catch((e) => {
+      console.error(e)
+      PvMessage({ message: `vid为 ${vid} 的视频隐藏失败，请注意！`, type: MessageType.error })
+      hideVideoFailed.value.push(vid)
+    })
+  if (hideVideoLoading.value.find(item => item === vid))
+    hideVideoLoading.value.splice(hideVideoLoading.value.findIndex(item => item === vid), 1)
+}
 
 /* Show advanced search */
 const advancedSearch = ref(false)
