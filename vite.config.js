@@ -4,7 +4,6 @@ import path from 'path'
 import vue from '@vitejs/plugin-vue'
 import { VitePWA as pwa } from 'vite-plugin-pwa'
 import components from 'unplugin-vue-components/vite'
-import { visualizer } from 'rollup-plugin-visualizer'
 import yaml from '@rollup/plugin-yaml'
 import unocss from 'unocss/vite'
 import { defineConfig } from 'vite'
@@ -112,14 +111,6 @@ export default defineConfig(async ({ mode }) => {
           background_color: '#ffffff',
         },
       }),
-      {
-        ...visualizer({
-          filename: 'dist/stats.html',
-          gzipSize: true,
-          brotliSize: true,
-        }),
-        apply: 'build',
-      },
       {
         name: 'html-template',
         transformIndexHtml: {
