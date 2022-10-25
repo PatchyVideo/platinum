@@ -1,104 +1,86 @@
-import type { Ref } from 'vue'
-import { inject, provide, watch } from 'vue'
-import { computedAsync, computedEager, useLocalStorage } from '@vueuse/core'
+import { computed, ref } from 'vue'
+import { $fetch } from 'ohmyfetch'
+import { acceptHMRUpdate, defineStore } from 'pinia'
 
-interface User {
-  name: string
-  avatar: string
-  isAdmin: boolean
-  uid: string
-  email: string
+interface Auth {
+  profile: {
+    uid: string
+    username: string
+    image: string
+    desc: string
+    email: string
+    bind_qq: boolean
+    access_control_status: string
+  }
+  access_control: {
+    status: string
+    access_mode: string
+    allowed_ops: string[]
+    denied_ops: string[]
+  }
+  settings: {
+    blacklist: string[]
+  }
 }
-const userDefault: User = {
-  name: '',
-  avatar: 'default',
-  isAdmin: false,
-  uid: '',
-  email: '',
-}
 
-const defaultUserDataKey = Symbol('userData')
+export const useAuth = defineStore('auth', () => {
+  const status = ref<'yes' | 'no' | 'networkError' | 'loading'>('loading')
+  const auth = ref<Auth>()
+  async function refetch() {
+    status.value = 'loading'
 
-export async function verifyLogin(): Promise<'yes' | 'no' | 'networkError'> {
-  try {
-    const res = await fetch('https://patchyvideo.com/be/user/whoami', {
+    const data = await $fetch<{
+      status: 'SUCCEED' | 'FAILED' | 'ERROR'
+      data?: Auth
+    }>('https://patchyvideo.com/be/user/myprofile.do', {
       method: 'POST',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      body: '{}',
       credentials: 'include',
-    }).catch(() => 'networkError' as const)
-    if (res === 'networkError')
-      return 'networkError'
-    const data = await res.json()
-    return data.status === 'SUCCEED' ? 'yes' : 'no'
+      body: {},
+      onRequestError: () => {
+        status.value = 'networkError'
+      },
+      onResponseError: () => {
+        status.value = 'no'
+      },
+    }).catch(() => {
+      status.value = 'no'
+      return undefined
+    })
+
+    if (data?.status === 'SUCCEED') {
+      auth.value = data?.data
+      status.value = 'yes'
+    }
+    else {
+      auth.value = undefined
+    }
   }
-  catch (e) {
-    return 'no'
-  }
-}
+  refetch()
 
-interface ProvidedUserData {
-  userData: Ref<Partial<User>>
-  user: Ref<User>
-  verifiedLogin: Ref<'yes' | 'no' | 'networkError' | 'loading'>
-  isLogin: Ref<boolean>
-  isVerifiedLogin: Ref<boolean>
-  isAdmin: Ref<boolean>
-  clear: () => void
-  set: (user: User) => void
-}
+  const uid = computed(() => auth.value?.profile.uid)
+  const username = computed(() => auth.value?.profile.username)
+  const image = computed(() => auth.value?.profile.image)
+  const desc = computed(() => auth.value?.profile.desc)
+  const email = computed(() => auth.value?.profile.email)
 
-export const createUserData = () => {
-  const userData = useLocalStorage<Partial<User>>('user_data', {}, { listenToStorageChanges: true, deep: true })
-  const user = computedEager(() => ({
-    ...userDefault,
-    ...userData.value,
-  }))
+  const isLogin = computed(() => auth.value !== undefined)
+  const isAdmin = computed(() => auth.value?.profile.access_control_status === 'admin')
 
-  const verifiedLogin = computedAsync(
-    async () => {
-      return await verifyLogin()
-    }, 'loading',
-  )
-  watch(verifiedLogin, (v) => {
-    if (v === 'no')
-      userData.value = {}
-  })
+  return {
+    status,
 
-  const isLogin = computedEager(() => !!userData.value.uid)
-  const isVerifiedLogin = computedEager(() => verifiedLogin.value === 'yes')
-  const isAdmin = computedEager(() => isVerifiedLogin.value && user.value.isAdmin)
+    uid,
+    username,
+    image,
+    desc,
+    email,
 
-  const data = {
-    userData,
-    user,
-    verifiedLogin,
     isLogin,
-    isVerifiedLogin,
     isAdmin,
-    clear: () => {
-      userData.value = {}
-    },
-    set: (user: User) => {
-      userData.value.name = user.name
-      userData.value.avatar = user.avatar
-      userData.value.isAdmin = user.isAdmin
-      userData.value.uid = user.uid
-      userData.value.email = user.email
-    },
+
+    refetch,
   }
+})
 
-  return data
-}
-
-export const provideUserData = (data: ProvidedUserData) =>
-  provide<ProvidedUserData>(defaultUserDataKey, data)
-
-export const useUserData = () => {
-  const data = inject<ProvidedUserData>(defaultUserDataKey)
-  if (!data)
-    throw new Error('useUserData: There is no user data provided in the current vue instance.')
-  return data
-}
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(useAuth, import.meta.hot))

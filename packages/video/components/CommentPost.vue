@@ -55,7 +55,7 @@ import MarkdownCommentBlock from '@/markdown/components/MarkdownCommentBlock.vue
 import type { Mutation } from '@/graphql'
 import { gql, useMutation } from '@/graphql'
 import { CommentType } from '@/graphql/__generated__/graphql'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 
 const props = defineProps<{
   videoId?: string
@@ -65,7 +65,7 @@ const emit = defineEmits<{
   (event: 'refetchThread', tid: string): void
 }>()
 
-const { isVerifiedLogin } = useUserData()
+const auth = useAuth()
 
 // submit mutation
 const commentParentType = computed(() =>
@@ -103,7 +103,7 @@ const postingComment = ref(false)
 const postingCommentError = ref('')
 const onSubmit = async () => {
   // reject if not login
-  if (!isVerifiedLogin.value)
+  if (!auth.isLogin)
     return
   // reject if no content provided
   if (!inputContent.value)

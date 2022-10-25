@@ -55,13 +55,13 @@ import type { Component } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useThrottleFn } from '@vueuse/core'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
 
 const route = useRoute()
 const router = useRouter()
 const { t } = useI18n()
-const { isLogin } = useUserData()
+const auth = useAuth()
 
 const active = computed(() => route.params.catogory as string)
 
@@ -87,7 +87,7 @@ const catogories = computed(() => {
     },
   ]
 
-  if (isLogin.value) {
+  if (auth.isLogin) {
     catogories.push({
       name: 'account',
       text: t('settings.account.name'),

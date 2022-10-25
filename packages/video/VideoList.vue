@@ -132,7 +132,7 @@
               </div>
             </RouterLink>
             <!-- Hide Video Button (Admin Only) -->
-            <div v-if="isAdmin" class="text-right px-2 pb-1 cursor-pointer">
+            <div v-if="auth.isAdmin" class="text-right px-2 pb-1 cursor-pointer">
               <div v-if="hideVideoLoading.find(item => item === video.id.toHexString())">
                 请求中...
               </div>
@@ -181,7 +181,7 @@ import Cover from './components/Cover.vue'
 import PvPagination from '@/ui/components/PvPagination.vue'
 import AdvancedSearch from '@/video/components/AdvancedSearch.vue'
 import BackTop from '@/ui/components/BackTop.vue'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query, schema } from '@/graphql'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
@@ -197,7 +197,7 @@ const { t } = useI18n()
 setSiteTitle(`${t('video.video-list.title')} - PatchyVideo`)
 const route = useRoute()
 const router = useRouter()
-const { isAdmin } = useUserData()
+const auth = useAuth()
 
 const status = ref<'loading' | 'result' | 'error'>()
 const errMsg = ref('')

@@ -15,7 +15,7 @@
               <div v-text="t(`video.video.repost-type.${video.item.repostType}`, video.item.repostType)" />
               <div v-if="clearence !== 3" v-text="t(`video.video.ranks.${clearence}`)" />
               <Suspense><RelativeDate :date="video.item.uploadTime" /></Suspense>
-              <template v-if="isAdmin">
+              <template v-if="auth.isAdmin">
                 <div
                   :title="t('video.video.edit.hide-video.title')"
                   class="i-uil:eye-slash text-lg cursor-pointer select-none"
@@ -24,7 +24,7 @@
                 <div v-if="hideVideoResult" v-text="hideVideoResult" />
               </template>
               <div
-                v-if="isLogin"
+                v-if="auth.isLogin"
                 :title="t('video.video.edit.edit-video')"
                 class="i-uil:pen text-lg cursor-pointer select-none"
                 @click="popEditVideoWindow"
@@ -42,11 +42,11 @@
           <div class="mx-1 md:mx-2 lg:mx-4">
             <!-- Video Tag -->
             <div class="flex mb-1 gap-1 items-center flex-wrap">
-              <span :title="isLogin ? t('video.video.edit.edit-tags') : undefined">
+              <span :title="auth.isLogin ? t('video.video.edit.edit-tags') : undefined">
                 <div
                   class="i-uil:tag-alt inline-block text-2xl align-middle text-gray-600 dark:text-gray-300"
-                  :class="{ 'cursor-pointer': isLogin }"
-                  @click="() => isLogin && (editTagOpened = true)"
+                  :class="{ 'cursor-pointer': auth.isLogin }"
+                  @click="() => auth.isLogin && (editTagOpened = true)"
                 />
               </span>
 
@@ -325,12 +325,12 @@ import { screenSizes } from '@/css'
 import { getCoverImage } from '@/common/libs/imageUrl'
 import { behMostMatch } from '@/locales'
 import { openWindow } from '@/nested'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
-const { isLogin, isAdmin } = useUserData()
+const auth = useAuth()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)

@@ -5,9 +5,9 @@
     <template #button="{ open }">
       <UserAvatar
         class="w-9 h-9 rounded-full ring ring-transparent hover:ring-gray-200 dark:hover:ring-gray-700"
-        :title="user.name"
-        :image="user.avatar"
-        :email="user.email"
+        :title="auth.username"
+        :image="auth.image"
+        :email="auth.email"
       />
       <div
         v-if="!open && fetchNote && listNoteCountUnread"
@@ -19,16 +19,16 @@
       <div class="flex my-2 px-4 gap-3 items-center">
         <UserAvatar
           class="w-12 h-12 rounded-full border border-white"
-          :title="user.name"
-          :image="user.avatar"
-          :email="user.email"
+          :title="auth.username"
+          :image="auth.image"
+          :email="auth.email"
         />
         <div>
           <div class="font-medium">
-            {{ user.name }}
+            {{ auth.username }}
           </div>
           <div class="text-sm text-gray-600 dark:text-gray-200">
-            {{ user.email }}
+            {{ auth.email }}
           </div>
         </div>
       </div>
@@ -37,7 +37,7 @@
 
       <RouterLink
         class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-purple-50 dark:hover:bg-indigo-800"
-        :to="`/user/${user.uid}`"
+        :to="`/user/${auth.uid}`"
       >
         <div class="i-uil:user text-lg" />
         个人中心
@@ -78,7 +78,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useUserData } from '..'
+import { $fetch } from 'ohmyfetch'
+import { useAuth } from '..'
 import PvNavPopover from '@/ui/components/PvNavPopover.vue'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 
@@ -88,22 +89,18 @@ defineProps<{
 }>()
 
 const { t } = useI18n()
-const { user, clear: clearUserData } = useUserData()
+const auth = useAuth()
 
 // log out
 const loggingOut = ref(false)
 async function logout(): Promise<void> {
   loggingOut.value = true
-  await fetch('https://patchyvideo.com/be/logout.do', {
+  await $fetch('https://patchyvideo.com/be/logout.do', {
     method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({}),
     credentials: 'include',
+    body: {},
   })
-  clearUserData()
+  auth.refetch()
   loggingOut.value = false
-  location.reload()
 }
 </script>

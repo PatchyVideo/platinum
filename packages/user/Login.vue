@@ -12,7 +12,7 @@
           <div class="flex w-full border-b border-black">
             <div class="i-uil:user align-middle text-2xl" />
             <input
-              v-model="userName"
+              v-model="username"
               type="text"
               name="username"
               autocomplete="username"
@@ -72,14 +72,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
-import { useUserData } from '.'
-import { resDataStatus } from '@/common/libs/resDataStatus'
+import { $fetch } from 'ohmyfetch'
+import { useAuth } from '.'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
 import Logo from '@/common/components/Logo.vue'
 
 const { t } = useI18n()
 const router = useRouter()
-const { set: setUserData } = useUserData()
+const auth = useAuth()
 
 setSiteTitle(`${t('user.login.title')} - PatchyVideo`)
 
@@ -97,7 +97,7 @@ const PasswordStatus = {
 }
 const passwordStatus = ref<string>(PasswordStatus.fine)
 
-const userName = ref<string>('')
+const username = ref<string>('')
 const password = ref<string>('')
 const errmsg = ref<string>('')
 
@@ -108,11 +108,11 @@ async function login(): Promise<void> {
 
   /* Form validation  */
   let valid = true
-  if (!userName.value) {
+  if (!username.value) {
     valid = false
     usernameStatus.value = UsernameStatus.tip
   }
-  else if (userName.value.length < 2 || userName.value.length > 32) {
+  else if (username.value.length < 2 || username.value.length > 32) {
     valid = false
     usernameStatus.value = UsernameStatus.msg
   }
@@ -137,68 +137,64 @@ async function login(): Promise<void> {
 
   /* Login */
   let session = ''
-  await fetch('https://patchyvideo.com/be/auth/get_session.do', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({ type: 'LOGIN' }),
-    credentials: 'include',
-  })
-    .then(data => data.json())
-    .then((res) => {
-      // console.log(res)
-      if (res.status === resDataStatus.SUCCEED) { session = res.data }
-      else {
-        loginStatus.value = 'error'
-        errmsg.value = t('user.login.login-status.error')
-      }
+  try {
+    const data = await $fetch<{
+      status: 'SUCCEED' | 'FAILED' | 'ERROR'
+      data?: string
+    }>('https://patchyvideo.com/be/auth/get_session.do', {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        type: 'LOGIN',
+      },
     })
-    .catch((err) => {
-      // console.log(err)
+    if (data.status === 'SUCCEED') {
+      session = data.data!
+    }
+    else {
       loginStatus.value = 'error'
-      errmsg.value = err
+      errmsg.value = t('user.login.login-status.error')
+      return
+    }
+  }
+  catch (err) {
+    errmsg.value = String(err)
+    loginStatus.value = 'error'
+    return
+  }
+
+  try {
+    const data = await $fetch<{
+      status: 'SUCCEED' | 'FAILED' | 'ERROR'
+    }>('https://patchyvideo.com/be/login.do', {
+      method: 'POST',
+      credentials: 'include',
+      body: {
+        username: username.value,
+        password: password.value,
+        session,
+      },
     })
-  await fetch('https://patchyvideo.com/be/login.do', {
-    method: 'POST',
-    headers: new Headers({
-      'Content-Type': 'application/json',
-    }),
-    body: JSON.stringify({
-      username: userName.value,
-      password: password.value,
-      session,
-    }),
-    credentials: 'include',
-  })
-    .then(data => data.json())
-    .then((res) => {
-      // console.log(res)
-      if (res.status === resDataStatus.SUCCEED) {
-        loginStatus.value = 'ready'
-        setUserData({
-          name: res.data.username,
-          avatar: res.data.image,
-          isAdmin: res.data.access_control_status === 'admin',
-          uid: res.data.uid,
-          email: res.data.email,
-        })
-        router.push({ path: '/' })
-      }
-      else if (res.status === resDataStatus.FAILED) {
-        loginStatus.value = 'error'
-        errmsg.value = t('user.login.login-status.failed')
-      }
-      else {
-        loginStatus.value = 'error'
-        errmsg.value = res.dataerr.reason
-      }
-    })
-    .catch((err) => {
-      // console.log(err)
+
+    if (data.status === 'SUCCEED') {
+      loginStatus.value = 'ready'
+      await auth.refetch()
+      router.push('/')
+    }
+    else if (data.status === 'FAILED') {
       loginStatus.value = 'error'
-      errmsg.value = err
-    })
+      errmsg.value = t('user.login.login-status.failed')
+    }
+    else {
+      loginStatus.value = 'error'
+      // TODO
+      errmsg.value = data.dataerr.reason
+    }
+  }
+  catch (err) {
+    loginStatus.value = 'error'
+    errmsg.value = String(err)
+  }
 }
 </script>
 

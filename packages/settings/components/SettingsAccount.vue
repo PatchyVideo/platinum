@@ -2,13 +2,13 @@
   <h2 class="inline-block text-2xl font-light" v-text="t('settings.account.profile.name')" />
   <RouterLink
     class="ml-2 px-1 pb-0.5 rounded-lg border border-purple-400 dark:border-gray-600"
-    :to="`/user/${user.uid}`"
+    :to="`/user/${auth.uid}`"
   >
     {{ t('common.nav-top.user.userprofile') }}
     <div class="i-uil:external-link-alt text-lg" />
   </RouterLink>
   <div class="w-full h-px my-2 bg-gray-300" />
-  <div v-if="!loading" class="flex flex-col">
+  <div v-if="auth.isLogin" class="flex flex-col">
     <div>
       <div class="mb-1">
         <h3 class="font-medium" v-text="t('settings.account.profile.username.label')" />
@@ -49,41 +49,16 @@
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { gql, useQuery, useResult } from '@/graphql'
-import type { Query } from '@/graphql'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 
 const { t } = useI18n()
-const { user } = useUserData()
+const auth = useAuth()
 
 const name = ref('')
 const desc = ref('')
 
-const { result, loading } = useQuery<Query>(
-  gql`
-    query ($uid: String!) {
-      getUser(para: { uid: $uid }) {
-        id
-        desc
-        username
-        image
-        email
-        gravatar
-      }
-    }
-  `,
-  {
-    uid: user.value.uid,
-  },
-  {
-    fetchPolicy: 'network-only',
-  },
-)
-const userData = useResult(result, null, data => data.getUser)
 watchEffect(() => {
-  if (userData.value) {
-    name.value = userData.value.username
-    desc.value = userData.value.desc
-  }
+  name.value = auth.username || ''
+  desc.value = auth.desc || ''
 })
 </script>

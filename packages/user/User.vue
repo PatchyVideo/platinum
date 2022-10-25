@@ -1,7 +1,7 @@
 <template>
   <LayoutDefault :show-search-bar="false">
     <!-- 个人中心 -->
-    <div v-if="isVerifiedLogin" class="w-full h-full flex justify-start flex-col md:flex-row">
+    <div v-if="user.isLogin" class="w-full h-full flex justify-start flex-col md:flex-row">
       <div class="half-container justify-center items-center">
         <UserAvatar
           :title="username"
@@ -159,7 +159,7 @@
 import { reactive, ref, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { templateRef } from '@vueuse/core'
-import { useUserData } from '.'
+import { useAuth } from '.'
 import UserAvatar from '@/user/components/UserAvatar.vue'
 import UserInput from '@/user/components/UserInput.vue'
 import { gql, injectClient } from '@/graphql'
@@ -172,7 +172,7 @@ interface HTMLInputEvent extends Event {
 }
 
 const { t } = useI18n()
-const { isVerifiedLogin, user } = useUserData()
+const user = useAuth()
 
 setSiteTitle(`${t('user.user-page.title')} - PatchyVideo`)
 
@@ -189,7 +189,7 @@ const newEmail = ref('')
 const description = ref('')
 const client = injectClient()
 watch(
-  isVerifiedLogin,
+  () => user.isLogin,
   async (isLoginState) => {
     if (!isLoginState)
       return
@@ -208,7 +208,7 @@ watch(
         }
       `,
       variables: {
-        uid: user.value.uid,
+        uid: user.uid,
       },
     })
     const userInfo = reactive(res.data.getUser)

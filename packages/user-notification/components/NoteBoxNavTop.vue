@@ -121,7 +121,7 @@ import UserAvatar from '@/user/components/UserAvatar.vue'
 import { markAsReadMutationCount, markAsReadStatus } from '@/user-notification/libs/markAsRead'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query, schema } from '@/graphql'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 
 const props = withDefaults(
   defineProps<{
@@ -137,7 +137,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
-const { isLogin } = useUserData()
+const auth = useAuth()
 
 const listNoteCountUnread = useVModel(props, 'listNoteCountUnread', emit)
 
@@ -189,7 +189,7 @@ const { result, loading, onError } = useQuery<Query>(
     noteType: noteType.value,
   },
   () => ({
-    enabled: isLogin.value && markAsReadStatus.value !== 'loading',
+    enabled: auth.isLogin && markAsReadStatus.value !== 'loading',
     fetchPolicy: 'network-only',
   }),
 )

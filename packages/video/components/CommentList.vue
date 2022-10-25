@@ -8,19 +8,19 @@
       共 {{ commentThread?.count || 0 }} 条评论
     </template>
   </div>
-  <div v-if="isLogin && screenSizes.md" class="flex flex-row flex-nowrap py-2">
+  <div v-if="auth.isLogin && screenSizes.md" class="flex flex-row flex-nowrap py-2">
     <div class="flex-none mx-2">
       <UserAvatar
         class="inline-block w-8 md:w-12 h-8 md:h-12 rounded-full object-cover"
-        :image="user.avatar"
-        :email="user.email"
-        :alt="user.name"
+        :image="auth.image"
+        :email="auth.email"
+        :alt="auth.username"
         hide-title
       />
     </div>
     <div class="flex-1">
       <div>
-        <span class="text-sm font-medium" v-text="user.name" /><span class="text-xs text-gray-500 dark:text-gray-400"><span class="ml-1.5">发表一条友善的评论</span></span>
+        <span class="text-sm font-medium" v-text="auth.username" /><span class="text-xs text-gray-500 dark:text-gray-400"><span class="ml-1.5">发表一条友善的评论</span></span>
       </div>
       <CommentPost :video-id="videoId" :playlist-id="playlistId" @refetch-thread="onRefetchThread" />
     </div>
@@ -170,7 +170,7 @@ import UserAvatarPopper from '@/user/components/UserAvatarPopper.vue'
 import type { Query, schema } from '@/graphql'
 import { gql, useQuery, useResult } from '@/graphql'
 import { screenSizes } from '@/css'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 
 const props = defineProps<{
   commentThreadId: string
@@ -178,7 +178,7 @@ const props = defineProps<{
   playlistId?: string
 }>()
 
-const { isLogin, user } = useUserData()
+const auth = useAuth()
 
 const threadDisabled = computed(() => !props.commentThreadId)
 const threadIdOverride = ref<string | null>(null)

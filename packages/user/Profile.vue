@@ -49,7 +49,7 @@ import { computed, ref, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import UserAvatar from './components/UserAvatar.vue'
-import { useUserData } from '.'
+import { useAuth } from '.'
 import { gql, useQuery, useResult } from '@/graphql'
 import type { Query } from '@/graphql'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
@@ -58,10 +58,10 @@ import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
-const { user: localUser } = useUserData()
+const auth = useAuth()
 
 const uid = computed(() => route.params.uid as string)
-const isMe = computed(() => uid.value === localUser.value.uid)
+const isMe = computed(() => uid.value === auth.uid)
 const { result, loading } = useQuery<Query>(
   gql`
     query ($uid: String!) {

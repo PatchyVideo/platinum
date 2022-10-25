@@ -1,9 +1,9 @@
 /* eslint-disable vue/one-component-per-file */
 import { Suspense, createApp, defineComponent, h, nextTick } from 'vue'
 import { createRouter, createWebHistory, useRouter } from 'vue-router'
-import type { RouteLocationNormalizedLoaded } from 'vue-router'
 import { MotionPlugin } from '@vueuse/motion'
 import { until } from '@vueuse/core'
+import { createPinia } from 'pinia'
 import BackendDown from './components/BackendDown.vue'
 import ReloadPrompt from './components/ReloadPrompt.vue'
 import AppRouterView from './components/AppRouterView.vue'
@@ -13,9 +13,9 @@ import Notification from '@/notification/components/Notification.vue'
 import PvMessage from '@/ui/components/PvMessage.vue'
 import { createApollo, provideClient as provideGraphQLClient } from '@/graphql'
 import { provideSharedObject } from '@/nested'
-import { createUserData, provideUserData } from '@/user'
 import i18n, { loadI18nPromise } from '@/locales'
 import { incProcess, startProgress, stopProgress } from '@/nprogress'
+import { useAuth } from '@/user'
 import 'nprogress/nprogress.css'
 import '@/css'
 import '@/darkmode'
@@ -25,13 +25,11 @@ import './libs/pvcc'
 startProgress()
 
 const client = createApollo()
-const userData = createUserData()
 const backendStatus = createBackendStatus()
 const rootComponent = defineComponent({
   setup() {
     provideGraphQLClient(client)
     provideSharedObject()
-    provideUserData(userData)
     provideBackendStatus(backendStatus)
 
     return () => backendStatus.alive.value === 'no'
@@ -44,8 +42,17 @@ const rootComponent = defineComponent({
         ]
   },
 })
+
 const app = createApp(rootComponent)
 
+// pinia
+const pinia = createPinia()
+app.use(pinia)
+
+// router
+// @ts-expect-error idk
+// eslint-disable-next-line import/first, import/order
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
 declare module 'vue-router' {
   interface RouteMeta {
     holdLoading?: boolean
@@ -239,9 +246,9 @@ router.beforeEach(async (to, from, next) => {
   backendStatus.refetch()
 
   if (to.meta.requireLogin) {
-    const { verifiedLogin } = userData
-    await until(verifiedLogin.value).not.toBe('loading')
-    if (verifiedLogin.value !== 'yes')
+    const user = useAuth()
+    await until(() => user.status).not.toBe('loading')
+    if (!user.isLogin)
       next({ path: '/' })
   }
 
@@ -259,8 +266,10 @@ router.afterEach((to) => {
 })
 app.use(router)
 
+// i18n
 app.use(i18n)
 
+// motion
 app.use(MotionPlugin)
 
 loadI18nPromise.then(() => app.mount('#app'))

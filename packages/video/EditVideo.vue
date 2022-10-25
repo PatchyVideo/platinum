@@ -11,7 +11,7 @@
           </div>
           <div class="flex">
             <span>{{ t('video.edit-video.profile.ranks.rank') }}</span>
-            <template v-if="isAdmin">
+            <template v-if="auth.isAdmin">
               <PvSelect v-model="clearence" class="ml-4 w-52" :item-list="clearences" />
             </template>
             <template v-else>
@@ -36,12 +36,12 @@ import PvSelect from '@/ui/components/PvSelect.vue'
 import { gql, useMutation, useQuery, useResult } from '@/graphql'
 import type { Mutation, Query } from '@/graphql'
 import { setSiteTitle } from '@/common/libs/setSiteTitle'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 import { startProgress, stopProgress } from '@/nprogress'
 
 const { t } = useI18n()
 const route = useRoute()
-const { isAdmin } = useUserData()
+const auth = useAuth()
 
 /* submit query */
 const vid = computed(() => route.params.vid as string)

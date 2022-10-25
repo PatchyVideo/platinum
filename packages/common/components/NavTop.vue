@@ -38,7 +38,7 @@
       </div>
       <!-- User Box -->
       <div v-show="!hidePage" class="flex-1 inline-flex justify-end ml-auto mr-2 min-w-9">
-        <div v-if="!isLogin" class="whitespace-nowrap">
+        <div v-if="!auth.isLogin" class="whitespace-nowrap">
           <RouterLink to="/user/login">
             {{ t('common.nav-top.user.login') }}
           </RouterLink>
@@ -141,7 +141,7 @@ import UserBoxNavTop from '@/user/components/UserBoxNavTop.vue'
 import { languageList, locale } from '@/locales'
 import { screenSizes } from '@/css'
 import { progressing } from '@/common/libs/progressing'
-import { useUserData } from '@/user'
+import { useAuth } from '@/user'
 
 withDefaults(
   defineProps<{
@@ -156,7 +156,7 @@ withDefaults(
 
 const { t } = useI18n()
 const route = useRoute()
-const { isLogin, isAdmin } = useUserData()
+const auth = useAuth()
 
 const nav = shallowRef<HTMLDivElement | null>(null)
 const navContainer = shallowRef<HTMLDivElement | null>(null)
@@ -290,7 +290,7 @@ const links = computed(() => {
     },
   ]
 
-  if (isLogin.value) {
+  if (auth.isLogin) {
     links.push(
       {
         key: 'user-padding',
@@ -314,7 +314,7 @@ const links = computed(() => {
     )
   }
 
-  if (isLogin.value && isAdmin.value) {
+  if (auth.isLogin && auth.isAdmin) {
     links.push(
       {
         key: 'admin-padding',
