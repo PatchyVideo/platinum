@@ -3,9 +3,14 @@ import { Repository } from '@napi-rs/simple-git'
 import { transformerDirectives } from 'unocss'
 import { version } from './package.json'
 
-const time = new Date()
+const buildTime = new Date()
 
-const repo = new Repository(fileURLToPath(new URL('.', import.meta.url)))
+let commitHash = process.env.NUXT_ENV_VERCEL_GIT_COMMIT_SHA || '?'
+try {
+  const repo = new Repository(fileURLToPath(new URL('.', import.meta.url)))
+  commitHash = repo.head().target() || commitHash
+}
+catch (e) {}
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -36,8 +41,8 @@ export default defineNuxtConfig({
   appConfig: {
     info: {
       version,
-      commitHash: repo.head().target() || '?',
-      buildTime: time.toISOString(),
+      commitHash,
+      buildTime: buildTime.toISOString(),
     },
   },
 
