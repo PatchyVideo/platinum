@@ -70,6 +70,13 @@ export default defineNuxtConfig({
     },
   },
 
+  vite: {
+    define: {
+      __VUE_I18N_LEGACY_API__: false,
+      __INTLIFY_PROD_DEVTOOLS__: false,
+    },
+  },
+
   nitro: {
     preset: 'vercel-edge',
   },
