@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import formatRelative from 'date-fns/formatRelative'
+import formatRelative from 'date-fns/esm/formatRelative'
 import { useLocale } from '@/composables/date/locale'
 
 const props = defineProps<{
