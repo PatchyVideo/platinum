@@ -18,9 +18,7 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "prepare": "nuxt prepare",
-    "gql": "graphql-codegen --config ./composables/graphql/codegen.yml",
-    "postinstall": "run-p prepare gql",
+    "postinstall": "nuxt prepare && graphql-codegen --config ./composables/graphql/codegen.yml",
     "lint": "nuxt typecheck && eslint --fix ."
   },
   "devDependencies": {
@@ -45,7 +43,6 @@
     "date-fns": "^2.29.3",
     "eslint": "^8.26.0",
     "graphql": "^16.6.0",
-    "npm-run-all": "^4.1.5",
     "nuxt": "3.0.0-rc.12",
     "nuxt-headlessui": "^1.0.1",
     "postcss-nested": "^6.0.0",
