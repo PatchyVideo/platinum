@@ -9,11 +9,9 @@ jobs:
     name: Build and Deploy to Vercel
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+      - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
           check-latest: true
@@ -26,19 +24,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-
 
-      - uses: pnpm/action-setup@v2.2.1
+      - uses: pnpm/action-setup@v2.2.4
         with:
           run_install: |
             args: [--frozen-lockfile, --strict-peer-dependencies]
         timeout-minutes: 10
-
-      - name: Codegen
-        run: pnpm codegen
-        timeout-minutes: 5
-
-      - name: Test
-        run: pnpm test
-        timeout-minutes: 15
 
       - name: Build
         run: pnpm build
@@ -46,23 +36,23 @@ jobs:
 
       - name: Deploy to Vercel (Staging)
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: amondnet/vercel-action@v20
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./dist
+          working-directory: ./
           github-comment: false
         timeout-minutes: 5
 
       - name: Deploy to Vercel (Production)
         if: ${{ github.ref == 'refs/heads/main' }}
-        uses: amondnet/vercel-action@v20
+        uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: --prod
-          working-directory: ./dist
+          working-directory: ./
           github-comment: false
         timeout-minutes: 5

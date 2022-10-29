@@ -1,7 +1,7 @@
 {
-  "i18n-ally.localesPaths": "./packages/locales/assets",
+  "i18n-ally.localesPaths": "./locales",
   "i18n-ally.keystyle": "nested",
-  "i18n-ally.sourceLanguage": "zh-Hans-CN",
+  "i18n-ally.sourceLanguage": "zh-Hans",
   "typescript.tsdk": "./node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
