@@ -16,6 +16,7 @@ catch (e) {}
 export default defineNuxtConfig({
   experimental: {
     reactivityTransform: true,
+    inlineSSRStyles: false,
   },
 
   modules: [
