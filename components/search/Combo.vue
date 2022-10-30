@@ -3,24 +3,22 @@ import type { Query } from '@/composables/graphql'
 
 const { locale } = useI18n()
 
-interface ComboItemTag {
+const inputEl = $shallowRef<HTMLInputElement>()
+
+const setCursorPos = (pos: number) => {
+  if (!inputEl)
+    return
+
+  inputEl.focus()
+  inputEl.setSelectionRange(pos, pos)
+}
+
+interface ComboTag {
   type: 'tag'
   id: string
   tag: string
   sub?: string
   cnt?: number
-}
-type ComboItem = ComboItemTag
-
-const encodeItem = (item: ComboItem | undefined) => {
-  if (item === undefined)
-    return undefined
-  return JSON.stringify(item)
-}
-const decodeItem = (item: unknown): ComboItem | undefined => {
-  if (typeof item !== 'string')
-    return undefined
-  return JSON.parse(item)
 }
 
 const findLangMatch = (langs: Record<string, string>, lang: string) => {
@@ -62,7 +60,7 @@ const { data: popularTagsData } = await useAsyncQuery<Query>(
     lang: locale.value,
   },
 )
-const popularTags = $computed<ComboItemTag[]>(() =>
+const popularTags = $computed<ComboTag[]>(() =>
   popularTagsData.value?.getPopularTags.popularTags
     ?.sort((a, b) => b.popluarity - a.popluarity)
     .map((item) => {
@@ -83,11 +81,12 @@ const popularTags = $computed<ComboItemTag[]>(() =>
       }
     }) || [])
 
-const query = $ref('')
+let query = $ref('')
+const cursor = $ref(0)
 
-const queryKeywordIndex = $computed(() => {
+const queryKeywordStart = $computed(() => {
   const text = query
-  let i: number = text.length
+  let i: number = cursor
   while (i--) {
     switch (text.charAt(i)) {
       case ' ':
@@ -108,9 +107,14 @@ const queryKeywordIndex = $computed(() => {
   }
   return 0
 })
+const queryKeywordEnd = $computed(() => {
+  const keywordEnd = query.slice(queryKeywordStart).search(/[\s\(\)]/)
+  return keywordEnd === -1 ? query.length : queryKeywordStart + keywordEnd
+})
 
-const queryKeyword = $computed(() => query.slice(queryKeywordIndex))
-const queryPrefix = $computed(() => query.slice(0, queryKeywordIndex))
+const queryKeyword = $computed(() => query.slice(queryKeywordStart, queryKeywordEnd))
+const queryPrefix = $computed(() => query.slice(0, queryKeywordStart))
+const querySuffix = $computed(() => query.slice(queryKeywordEnd))
 
 interface QueryResult {
   cat: number
@@ -132,12 +136,13 @@ const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
 watchThrottled($$(queryKeyword), (value) => {
   if (value)
     refresh()
-  else queryData.value = null
 }, { throttle: 500, leading: false, trailing: true })
 
-const completes = $computed<ComboItem[]>(() => {
+const completes = $computed<ComboTag[]>(() => {
+  if (queryKeyword === '')
+    return popularTags
   if (!queryData.value?.length)
-    return queryKeyword ? [] : popularTags
+    return []
 
   return queryData.value
     .map((item) => {
@@ -159,29 +164,97 @@ const completes = $computed<ComboItem[]>(() => {
     })
 })
 
-const displayValue = (encodedItem: unknown) => {
-  const item = decodeItem(encodedItem)
-  if (item === undefined)
-    return query
+let inFocus = $ref(false)
+let active = $ref(-1)
+const activeCombo = $computed(() => completes[active])
 
-  if (item.type === 'tag')
-    return `${queryPrefix}${item.tag} `
+const search = () => {}
 
-  return query
+const onKeyDown = (e: KeyboardEvent) => {
+  inFocus = true
+
+  switch (e.key) {
+    case 'ArrowDown':
+      e.preventDefault()
+      e.stopPropagation()
+      if (active < completes.length - 1)
+        active++
+      else active = 0
+      break
+
+    case 'PageDown':
+      e.preventDefault()
+      e.stopPropagation()
+      active = completes.length - 1
+      break
+
+    case 'ArrowUp':
+      e.preventDefault()
+      e.stopPropagation()
+      if (active >= 0)
+        active--
+      else active = completes.length - 1
+      break
+
+    case 'PageUp':
+      e.preventDefault()
+      e.stopPropagation()
+      active = 0
+      break
+
+    case 'Escape':
+      e.preventDefault()
+      e.stopPropagation()
+      active = -1
+      inFocus = false
+      break
+
+    case 'Tab':
+      e.preventDefault()
+      e.stopPropagation()
+      if (activeCombo) {
+        query = `${queryPrefix}${activeCombo.tag}${querySuffix || ' '}`
+        const pos = queryPrefix.length + activeCombo.tag.length + 1
+        nextTick(() => setCursorPos(pos))
+        active = -1
+      }
+      break
+
+    case 'Enter':
+      e.preventDefault()
+      e.stopPropagation()
+      if (activeCombo) {
+        query = `${queryPrefix}${activeCombo.tag}${querySuffix || ' '}`
+        active = -1
+      }
+      inFocus = false
+      search()
+      break
+  }
+}
+
+const onComboClick = (combo: ComboTag) => {
+  query = `${queryPrefix}${combo.tag}${querySuffix || ' '}`
+  const pos = queryPrefix.length + combo.tag.length + 1
+  nextTick(() => setCursorPos(pos))
+  active = -1
 }
 </script>
 
 <template>
-  <HCombobox as="div" class="relative">
+  <div class="relative">
     <div class="flex items-center rounded-full border-2 border-purple-300">
-      <HComboboxInput
+      <input
+        ref="inputEl"
+        v-model="query"
         class="focus:outline-none w-full ml-4 py-1"
         placeholder="搜索你想看的内容"
-        nullable
-        :display-value="displayValue"
-        @change="query = $event.target.value"
-      />
-      <div class="px-2 py-1">
+        @focus="() => inFocus = true"
+        @blur="() => inFocus = false"
+        @keydown="onKeyDown"
+        @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
+      >
+      <div class="px-2 py-1" @click="search">
         <div class="i-fluent:search-20-regular w-6 h-6" />
       </div>
     </div>
@@ -194,7 +267,11 @@ const displayValue = (encodedItem: unknown) => {
       leave-from-class="scale-100 opacity-100"
       leave-to-class="scale-95 -translate-y-1/20 opacity-0"
     >
-      <HComboboxOptions class="absolute w-[calc(100%-1rem)] mt-2 ml-2 rounded-lg ring-2 ring-purple-300 bg-white overflow-hidden">
+      <div
+        v-show="inFocus"
+        static
+        class="absolute w-[calc(100%-1rem)] mt-2 ml-2 rounded-lg ring-2 ring-purple-300 bg-white overflow-hidden"
+      >
         <div
           v-if="completes.length === 0"
           class="px-2 py-8 w-full text-lg text-center text-gray-400"
@@ -202,32 +279,27 @@ const displayValue = (encodedItem: unknown) => {
           {{ pending ? '正在努力搜索' : '没什么可做的' }}
         </div>
 
-        <HComboboxOption
-          v-for="complete in completes"
-          :key="complete.id"
-          v-slot="{ active }"
-          as="template"
-          :value="encodeItem(complete)"
+        <li
+          v-for="(combo, index) in completes"
+          :key="combo.id"
+          class="px-2 py-1 w-full border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
+          :class="{ 'bg-purple-200 bg-opacity-10': active === index }"
+          @click="onComboClick(combo)"
         >
-          <li
-            class="px-2 py-1 w-full border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
-            :class="{ 'bg-purple-200 bg-opacity-10': active }"
-          >
-            <div v-if="complete.type === 'tag'" class="flex items-center">
-              <div class="i-fluent:tag-20-regular my-1 mr-1 text-xl text-purple-600" />
-              <div
-                class="min-w-0 transition-colors duration-75"
-                :class="{ 'text-purple-500': active }"
-              >
-                {{ complete.tag.replace(/_/g, ' ') }}
-              </div>
-              <div v-if="complete.sub" class="min-w-0 ml-1 truncate text-gray-600 dark:text-gray-300 text-sm font-light">
-                {{ complete.sub.replace(/_/g, ' ') }}
-              </div>
+          <div v-if="combo.type === 'tag'" class="flex items-center">
+            <div class="i-fluent:tag-20-regular my-1 mr-1 text-xl text-purple-600" />
+            <div
+              class="min-w-0 transition-colors duration-75"
+              :class="{ 'text-purple-500': active === index }"
+            >
+              {{ combo.tag.replace(/_/g, ' ') }}
             </div>
-          </li>
-        </HComboboxOption>
-      </HComboboxOptions>
+            <div v-if="combo.sub" class="min-w-0 ml-1 truncate text-gray-600 dark:text-gray-300 text-sm font-light">
+              {{ combo.sub.replace(/_/g, ' ') }}
+            </div>
+          </div>
+        </li>
+      </div>
     </Transition>
-  </HCombobox>
+  </div>
 </template>

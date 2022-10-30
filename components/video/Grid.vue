@@ -4,7 +4,6 @@ import type { schema } from '@/composables/graphql'
 
 defineProps<{
   rows: number
-  cols: number
   name?: string
   titleLinksTo?: RouteLocationRaw
   videos: schema.Video[]
@@ -27,15 +26,16 @@ defineProps<{
       {{ name }}
     </h4>
 
-    <div
-      class="grid grid-flow-row gap-4"
-      :style="{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }"
-    >
+    <div class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 justify-center gap-2 xl:gap-4">
       <NuxtLink
-        v-for="video in videos"
+        v-for="(video, index) in videos"
         :key="video.id"
         :to="`/video/${video.id}`"
         class="rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-100"
+        :class="{
+          'hidden md:block lg:hidden 2xl:block': index >= rows * 4 && index < rows * 5,
+          'hidden md:block lg:hidden 3xl:block': index >= rows * 5,
+        }"
       >
         <VideoCover
           :title="video.item.title"

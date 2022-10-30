@@ -14,7 +14,6 @@ const { t } = useI18n()
 
 interface Data {
   rows: number
-  cols: number
   query: string
   order: string
   additionalConstraint: string
@@ -26,7 +25,6 @@ interface Data {
 
 const config = $computed<Data>(() => ({
   rows: 1,
-  cols: 5,
   query: '',
   order: 'latest',
   additionalConstraint: '',
@@ -67,7 +65,7 @@ const { data } = await useAsyncQuery<Query>(
     query: config.query,
     order: config.order,
     additionalConstraint: config.additionalConstraint,
-    limit: config.rows * config.cols,
+    limit: config.rows * 6,
   },
 )
 const listVideo = $computed(() => data.value?.listVideo)
@@ -84,13 +82,12 @@ const listVideo = $computed(() => data.value?.listVideo)
         }"
         :videos="listVideo.videos"
         :rows="config.rows"
-        :cols="config.cols"
         :video-show-title="config.video_show_title"
         :video-show-date="config.video_show_date"
       />
     </div>
     <div v-else>
-      <VideoGridPlaceholder :rows="config.rows" :cols="config.cols" />
+      <VideoGridPlaceholder :rows="config.rows" />
     </div>
   </div>
 </template>

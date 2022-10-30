@@ -115,6 +115,11 @@ export default defineNuxtConfig({
       },
     },
     transformers: [transformerDirectives()],
+    theme: {
+      breakpoints: {
+        '3xl': '1920px',
+      },
+    },
   },
 
   postcss: {

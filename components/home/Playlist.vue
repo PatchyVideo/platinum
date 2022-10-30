@@ -11,13 +11,12 @@ const props = withDefaults(
 )
 
 interface Data {
+  rows: number
   playlist_id: string
   title?: string
   title_pos: 'tl' | 'tr' | 'bl' | 'br'
   video_show_title: boolean
   video_show_date: boolean
-  video_rows: number
-  video_cols: number
 }
 
 const config = $computed(() => ({
@@ -25,8 +24,7 @@ const config = $computed(() => ({
   title_pos: 'tl',
   video_show_title: true,
   video_show_date: true,
-  video_rows: 1,
-  video_cols: 5,
+  rows: 1,
   ...props.data,
 }))
 
@@ -57,7 +55,7 @@ const { data } = await useAsyncQuery<Query>(
   `,
   {
     pid: config.playlist_id,
-    limit: config.video_rows * config.video_cols,
+    limit: config.rows * 6,
   },
 )
 const playlist = $computed(() => data.value?.getPlaylist)
@@ -70,14 +68,13 @@ const playlist = $computed(() => data.value?.getPlaylist)
         :name="config.title ?? playlist.item.title"
         :title-links-to="`/playlist/${config.playlist_id}`"
         :videos="playlist.videos"
-        :rows="config.video_rows"
-        :cols="config.video_cols"
+        :rows="config.rows"
         :video-show-title="config.video_show_title"
         :video-show-date="config.video_show_date"
       />
     </div>
     <div v-else>
-      <VideoGridPlaceholder :rows="config.video_rows" :cols="config.video_cols" />
+      <VideoGridPlaceholder :rows="config.rows" />
     </div>
   </div>
 </template>
