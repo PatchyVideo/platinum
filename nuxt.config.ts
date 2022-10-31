@@ -14,6 +14,8 @@ catch (e) {}
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
+  // ssr: false,
+
   experimental: {
     reactivityTransform: true,
     inlineSSRStyles: false,
@@ -36,6 +38,7 @@ export default defineNuxtConfig({
     dirs: [
       'composables',
       'composables/*/index.{ts,js,mjs,mts}',
+      'stores',
     ],
   },
 
@@ -79,9 +82,6 @@ export default defineNuxtConfig({
     clients: {
       default: {
         httpEndpoint: 'https://patchyvideo.com/be/gql/graphql',
-        httpLinkOptions: {
-          credentials: 'include',
-        },
       },
     },
   },

@@ -17,9 +17,7 @@ defineProps<{
     <NuxtLink v-if="titleLinksTo" :to="titleLinksTo">
       <h4 class="title inline-block mb-2 text-xl">
         <span class="title-text">{{ name }}</span>
-        <div
-          class="title-arrow i-fluent:arrow-right-16-regular w-7 h-7 text-gray-600 dark:text-gray-300 transform opacity-25 transition-all duration-200"
-        />
+        <div class="title-arrow i-uil:arrow-up-right w-6 h-6 text-gray-600 dark:text-gray-300 transform opacity-25 transition-all duration-200" />
       </h4>
     </NuxtLink>
     <h4 v-else-if="name" class="inline-block mb-2 text-xl">
@@ -77,6 +75,7 @@ defineProps<{
   .title-arrow {
     /* TODO find a better way to do this */
     --un-translate-x: 0.25rem;
+    --un-translate-y: -0.25rem;
     opacity: 40%;
   }
 }

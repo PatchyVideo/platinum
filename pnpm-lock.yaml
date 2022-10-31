@@ -7,7 +7,7 @@ specifiers:
   '@graphql-codegen/fragment-matcher': ^3.3.1
   '@graphql-codegen/schema-ast': ^2.5.1
   '@graphql-codegen/typescript': ^2.8.0
-  '@iconify/json': ^2.1.130
+  '@iconify/json': ^2.1.131
   '@napi-rs/simple-git': ^0.1.8
   '@nuxtjs/apollo': 5.0.0-alpha.3
   '@nuxtjs/i18n': 8.0.0-beta.2
@@ -38,7 +38,7 @@ devDependencies:
   '@graphql-codegen/fragment-matcher': 3.3.1_graphql@16.6.0
   '@graphql-codegen/schema-ast': 2.5.1_graphql@16.6.0
   '@graphql-codegen/typescript': 2.8.0_graphql@16.6.0
-  '@iconify/json': 2.1.130
+  '@iconify/json': 2.1.131
   '@napi-rs/simple-git': 0.1.8
   '@nuxtjs/apollo': 5.0.0-alpha.3_typescript@4.8.4
   '@nuxtjs/i18n': 8.0.0-beta.2
@@ -1413,8 +1413,8 @@ packages:
     resolution: {integrity: sha512-trnsAYxU3xnS1gPHPyU961coFyLkh4gAD/0zQ5mymY4yOZ+CYvsPqUbOFSw0aDM4y0tV7tiFxL/1XfXPNC6IPg==}
     dev: true
 
-  /@iconify/json/2.1.130:
-    resolution: {integrity: sha512-5KwFLPgbrbztwZtCCnOMe95L3CU2UBFHY0uf5Hevz40eCizLjTHbQG/9HhV8rFdpjGsUn+05OoU3up+G1A36xA==}
+  /@iconify/json/2.1.131:
+    resolution: {integrity: sha512-VUQLJ2IHEcB0Is9K/grtLEC0OuLV3Fj0h3t04fKMN9hXwJkn2SKounQr44w7LzcBlu2RRYA7/npGlovtWV0iXQ==}
     dependencies:
       '@iconify/types': 2.0.0
       pathe: 0.3.9

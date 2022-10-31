@@ -28,7 +28,7 @@
     "@graphql-codegen/fragment-matcher": "^3.3.1",
     "@graphql-codegen/schema-ast": "^2.5.1",
     "@graphql-codegen/typescript": "^2.8.0",
-    "@iconify/json": "^2.1.130",
+    "@iconify/json": "^2.1.131",
     "@napi-rs/simple-git": "^0.1.8",
     "@nuxtjs/apollo": "5.0.0-alpha.3",
     "@nuxtjs/i18n": "8.0.0-beta.2",

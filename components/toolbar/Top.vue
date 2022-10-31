@@ -7,7 +7,7 @@
       <!-- Start -->
       <div class="flex-1 flex mr-auto items-center gap-4">
         <div class="p-2">
-          <div class="i-fluent:list-28-regular w-6 h-6" />
+          <div class="i-fluent:list-16-regular w-6 h-6" />
         </div>
 
         <div class="hidden lg:block">
@@ -21,7 +21,7 @@
       </div>
 
       <!-- End -->
-      <div class="flex-1 flex ml-auto justify-end items-center">
+      <div class="flex-1 flex ml-auto pl-2 justify-end items-center">
         <ToolbarUser class="mr-2" />
       </div>
     </div>

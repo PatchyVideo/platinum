@@ -15,8 +15,6 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const el = $shallowRef<HTMLImageElement | null>(null)
-
 const imgs = $ref<Set<string>>(new Set())
 const originalImgs = $ref<Set<string>>(new Set())
 
@@ -29,9 +27,6 @@ const onError = (e: Event) => {
 }
 
 const setImgs = () => {
-  const width = el?.clientWidth
-  const s = width && width > 10 ? width : 48
-
   const pushImg = (url: string, ori?: string) => {
     if (ori) {
       imgs.add(url)
@@ -49,25 +44,25 @@ const setImgs = () => {
     pushImg(`https://patchyvideo.com/be/images/userphotos/${props.image}`)
   if (props.gravatar && props.gravatar.length === 32) {
     pushImg(
-      `https://gravatar.loli.net/avatar/${props.gravatar}?s=${s}&d=404`,
+      `https://gravatar.loli.net/avatar/${props.gravatar}?d=404`,
       `https://gravatar.loli.net/avatar/${props.gravatar}?s=512&d=404`,
     )
   }
   if (props.email) {
     pushImg(
-      `https://gravatar.loli.net/avatar/${md5(props.email)}?s=${s}&d=404`,
+      `https://gravatar.loli.net/avatar/${md5(props.email)}?d=404`,
       `https://gravatar.loli.net/avatar/${md5(props.email)}?s=512&d=404`,
     )
   }
   if (props.gravatar && props.gravatar.length === 32) {
     pushImg(
-      `https://gravatar.com/avatar/${props.gravatar}?s=${s}&d=404`,
+      `https://gravatar.com/avatar/${props.gravatar}?d=404`,
       `https://gravatar.com/avatar/${props.gravatar}?s=512&d=404`,
     )
   }
   if (props.email) {
     pushImg(
-      `https://gravatar.com/avatar/${md5(props.email)}?s=${s}&d=404`,
+      `https://gravatar.com/avatar/${md5(props.email)}?d=404`,
       `https://gravatar.com/avatar/${md5(props.email)}?s=512&d=404`,
     )
   }
@@ -95,7 +90,6 @@ const onAuxClick = (e: MouseEvent) => {
 
 <template>
   <img
-    ref="el"
     class="max-w-none aspect-square overflow-hidden dark:filter dark:brightness-90 bg-gray-300 dark:bg-gray-600"
     :alt="t('user.avatar.alt', { alt })"
     :title="hideTitle ? undefined : t('user.avatar.alt', { alt })"

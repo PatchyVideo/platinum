@@ -82,7 +82,7 @@ playlist:
     title: 播放列表
     main-body:
       loading:
-        searching: 少女祈祷中......
+        searching: 少女祈祷中...
       failed:
         load-failed: 加载失败了QAQ
         load-failed-reason: 错误原因：
@@ -94,7 +94,7 @@ playlist:
       name: 高级搜索
 leaderboard:
   title: 用户排行榜
-  loading: 少女祈祷中......
+  loading: 少女祈祷中...
   failed:
     load-failed: 加载失败了QAQ
     load-failed-reason: 错误原因：
@@ -117,7 +117,7 @@ search:
       tab: 视频
       main-body:
         loading:
-          searching: 少女祈祷中......
+          searching: 少女祈祷中...
         failed:
           search-failed: 加载失败了QAQ
           search-failed-reason: 错误原因：
@@ -135,7 +135,7 @@ search:
       tab: 播放列表
       main-body:
         loading:
-          searching: 少女祈祷中......
+          searching: 少女祈祷中...
         failed:
           search-failed: 加载失败了QAQ
           search-failed-reason: 错误原因：
@@ -149,7 +149,7 @@ search:
     search: 搜索
   auto-complete:
     search: 搜索
-    loading: 少女祈祷中......
+    loading: 少女祈祷中...
     loading-nothing: 没有搜索建议
     loading-failed: 加载失败了QAQ
     hot-tags: 热门标签
@@ -183,6 +183,7 @@ user:
       loading: 登录中...
       failed: 用户名或密码错误！
       error: 未知错误
+      refreshing: 正在刷新数据...
     signup: 注册
     forget-password: 忘记密码？
   signup:
@@ -410,7 +411,7 @@ video:
     title: 视频列表
     main-body:
       loading:
-        searching: 少女祈祷中......
+        searching: 少女祈祷中...
       failed:
         search-failed: 加载失败了QAQ
         search-failed-reason: 错误原因：

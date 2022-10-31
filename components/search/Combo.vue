@@ -255,7 +255,7 @@ const onComboClick = (combo: ComboTag) => {
         @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
       >
       <div class="px-2 py-1" @click="search">
-        <div class="i-fluent:search-20-regular w-6 h-6" />
+        <div class="i-uil:search w-6 h-6" />
       </div>
     </div>
 
@@ -287,7 +287,7 @@ const onComboClick = (combo: ComboTag) => {
           @click="onComboClick(combo)"
         >
           <div v-if="combo.type === 'tag'" class="flex items-center">
-            <div class="i-fluent:tag-20-regular my-1 mr-1 text-xl text-purple-600" />
+            <div class="i-uil:tag-alt my-1 mr-1 text-xl text-purple-600" />
             <div
               class="min-w-0 transition-colors duration-75"
               :class="{ 'text-purple-500': active === index }"
