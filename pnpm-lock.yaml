@@ -10,7 +10,7 @@ specifiers:
   '@iconify/json': ^2.1.132
   '@napi-rs/simple-git': ^0.1.8
   '@nuxtjs/apollo': 5.0.0-alpha.3
-  '@nuxtjs/i18n': 8.0.0-beta.2
+  '@nuxtjs/i18n': 8.0.0-beta.3
   '@pinia/nuxt': ^0.4.3
   '@types/spark-md5': ^3.0.2
   '@unocss/nuxt': ^0.46.3
@@ -41,7 +41,7 @@ devDependencies:
   '@iconify/json': 2.1.132
   '@napi-rs/simple-git': 0.1.8
   '@nuxtjs/apollo': 5.0.0-alpha.3_typescript@4.8.4
-  '@nuxtjs/i18n': 8.0.0-beta.2
+  '@nuxtjs/i18n': 8.0.0-beta.3
   '@pinia/nuxt': 0.4.3_typescript@4.8.4
   '@types/spark-md5': 3.0.2
   '@unocss/nuxt': 0.46.3
@@ -1985,8 +1985,8 @@ packages:
       - vue
     dev: true
 
-  /@nuxtjs/i18n/8.0.0-beta.2:
-    resolution: {integrity: sha512-T6c+43T0Afcu4Vn17nS4w6nIFviAwLsSgYXD82PCvG/AWuMqC1I013ZBMrioV60O8vZ0L6BiWIxqYVuy54Wujg==}
+  /@nuxtjs/i18n/8.0.0-beta.3:
+    resolution: {integrity: sha512-W109n/O9bxM/kX0PGlmVOdYnCROs8oKo+/Nuayat+FCyOBtOON8wnbBWHo3Q7B9mMrICr6LyDYxAJWRYReXVZA==}
     engines: {node: ^14.16.0 || ^16.11.0 || ^17.0.0 || ^18.0.0 || ^19.0.0}
     dependencies:
       '@intlify/bundle-utils': 3.2.1_vue-i18n@9.3.0-beta.6

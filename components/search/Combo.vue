@@ -289,12 +289,17 @@ const onComboClick = (combo: ComboTag) => {
           <div v-if="combo.type === 'tag'" class="flex items-center">
             <div class="i-uil:tag-alt my-1 mr-1 text-xl text-purple-600" />
             <div
-              class="min-w-0 transition-colors duration-75"
+              class="min-w-0 truncate transition-colors duration-75"
               :class="{ 'text-purple-500': active === index }"
+              :title="combo.tag"
             >
               {{ combo.tag.replace(/_/g, ' ') }}
             </div>
-            <div v-if="combo.sub" class="min-w-0 ml-1 truncate text-gray-600 dark:text-gray-300 text-sm font-light">
+            <div
+              v-if="combo.sub"
+              class="min-w-0 ml-1 truncate text-gray-600 dark:text-gray-300 text-sm font-light"
+              :title="combo.sub"
+            >
               {{ combo.sub.replace(/_/g, ' ') }}
             </div>
           </div>

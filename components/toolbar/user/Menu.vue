@@ -17,7 +17,7 @@ async function logout(): Promise<void> {
 </script>
 
 <template>
-  <PNavPopover button-class="relative flex items-center">
+  <PPopoverDown button-class="relative flex items-center">
     <template #button="{ open }">
       <UserAvatar
         class="w-10 h-10 rounded-full ring ring-transparent hover:ring-gray-200 dark:hover:ring-gray-700"
@@ -87,5 +87,5 @@ async function logout(): Promise<void> {
         />
       </button>
     </div>
-  </PNavPopover>
+  </PPopoverDown>
 </template>

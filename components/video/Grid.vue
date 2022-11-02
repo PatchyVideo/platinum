@@ -2,7 +2,7 @@
 import type { RouteLocationRaw } from 'vue-router'
 import type { schema } from '@/composables/graphql'
 
-defineProps<{
+const props = defineProps<{
   rows: number
   name?: string
   titleLinksTo?: RouteLocationRaw
@@ -25,31 +25,14 @@ defineProps<{
     </h4>
 
     <div class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 justify-center gap-2 xl:gap-4">
-      <NuxtLink
-        v-for="(video, index) in videos"
-        :key="video.id"
-        :to="`/video/${video.id}`"
-        class="rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-100"
+      <VideoCard
+        v-for="(video, index) in videos" :key="video.id"
+        :video="video"
         :class="{
           'hidden md:block lg:hidden 2xl:block': index >= rows * 4 && index < rows * 5,
           'hidden md:block lg:hidden 3xl:block': index >= rows * 5,
         }"
-      >
-        <VideoCover
-          :title="video.item.title"
-          :cover-image="video.item.coverImage"
-          class="rounded-md border border-gray-200 dark:border-gray-800"
-        />
-        <div
-          v-if="videoShowTitle"
-          class="w-full h-12 overflow-hidden line-clamp-2 overflow-ellipsis"
-        >
-          {{ video.item.title }}
-        </div>
-        <div v-if="videoShowDate" class="w-full text-sm truncate text-gray-600 dark:text-gray-300 font-light">
-          <DateRelative :date="video.meta.createdAt" />&nbsp;
-        </div>
-      </NuxtLink>
+      />
     </div>
   </div>
 </template>

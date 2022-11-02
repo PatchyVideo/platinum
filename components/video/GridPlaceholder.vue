@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   rows: number
 }>()
 </script>
@@ -8,15 +8,13 @@ defineProps<{
   <h4 class="text-xl w-64 rounded-md bg-gray-300 dark:bg-gray-700">
     &nbsp;
   </h4>
-  <div class="grid mt-2 grid-flow-row grid-cols-6 gap-4">
-    <div v-for="index in rows * 6" :key="index" class="rounded-md">
-      <VideoCoverPlaceholder class="rounded-md" />
-      <div class="w-4/5 h-10 my-1 rounded-md bg-gray-300 dark:bg-gray-700">
-        &nbsp;
-      </div>
-      <div class="w-3/5 text-sm rounded-md bg-gray-300 dark:bg-gray-700">
-        &nbsp;
-      </div>
-    </div>
+  <div class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 justify-center gap-2 xl:gap-4">
+    <VideoCardPlaceholder
+      v-for="index in rows * 6" :key="index"
+      :class="{
+        'hidden md:block lg:hidden 2xl:block': index >= rows * 4 && index < rows * 5,
+        'hidden md:block lg:hidden 3xl:block': index >= rows * 5,
+      }"
+    />
   </div>
 </template>

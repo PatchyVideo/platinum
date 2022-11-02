@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { GlobalComponents } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   buttonClass?: string
   panelClass?: string
 }>()
@@ -11,16 +11,23 @@ const buttonEl = computed<HTMLButtonElement | null>(() => buttonComp.value?.$el)
 const panelEl = shallowRef<HTMLDivElement | null>(null)
 
 const { width: windowWidth } = useWindowSize()
-const { x: buttonX, width: buttonWidth } = useElementBounding(buttonEl)
+const { x: buttonX, right: buttonRight, width: buttonWidth } = useElementBounding(buttonEl)
 const { width: panelWidth } = useElementSize(panelEl)
 
-const buttonCenterRight = computed(() => windowWidth.value - buttonX.value - buttonWidth.value / 2)
-const panelRight = computed(() => Math.max(buttonCenterRight.value - panelWidth.value / 2, 6))
-const arrowRight = computed(() => buttonCenterRight.value - panelRight.value - 4)
+const buttonFromRight = computed(() => windowWidth.value - buttonRight.value)
+const panelRight = computed(() =>
+  Math.min(
+    Math.max(
+      buttonWidth.value / 2 - panelWidth.value / 2,
+      6 - buttonFromRight.value,
+    ),
+    buttonX.value - panelWidth.value - 6,
+  ))
+const arrowRight = computed(() => buttonWidth.value / 2 - panelRight.value - 4)
 </script>
 
 <template>
-  <HPopover v-slot="{ open }">
+  <HPopover v-slot="{ open }" class="relative">
     <HPopoverButton ref="buttonComp" class="focus:outline-none" :class="buttonClass">
       <slot name="button" :open="open" />
     </HPopoverButton>
@@ -33,9 +40,12 @@ const arrowRight = computed(() => buttonCenterRight.value - panelRight.value - 4
       leave-from-class="scale-100 opacity-100"
       leave-to-class="scale-95 -translate-y-1/20 opacity-0"
     >
-      <div v-show="open" ref="panelEl" class="panel z-50 absolute" :style="{ right: `${panelRight}px` }">
+      <div v-show="open" ref="panelEl" class="panel z-50 absolute w-max" :style="{ right: `${panelRight}px` }">
         <HPopoverPanel static>
-          <div class="mt-1.5 rounded-lg border-2 border-purple-300 shadow-md bg-white dark:bg-gray-900 dark:border-gray-600" :class="panelClass">
+          <div
+            class="mt-1.5 rounded-lg border-2 border-purple-300 shadow-md bg-white overflow-hidden dark:bg-gray-900 dark:border-gray-600"
+            :class="panelClass"
+          >
             <slot :open="open" />
           </div>
         </HPopoverPanel>

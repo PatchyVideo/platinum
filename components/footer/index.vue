@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-withDefaults(
+const props = withDefaults(
   defineProps<{
     small?: boolean
   }>(),

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps<{
+const props = defineProps<{
   title: string
   coverImage: string
 }>()

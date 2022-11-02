@@ -41,6 +41,7 @@ const { data } = await useAsyncQuery<Query>(
           item {
             title
             coverImage
+            url
           }
           meta {
             createdAt
