@@ -15,7 +15,7 @@ const props = defineProps<{
         class="rounded-md border border-gray-200 dark:border-gray-800"
       />
 
-      <div class="flex justify-between">
+      <div class="flex justify-between items-end">
         <div>
           <div class="h-12 overflow-hidden line-clamp-2 overflow-ellipsis">
             {{ video.item.title }}
@@ -25,7 +25,7 @@ const props = defineProps<{
           </div>
         </div>
 
-        <div class="flex-none w-7 h-7" />
+        <div class="flex-none w-7 h-9" />
       </div>
     </NuxtLink>
 
