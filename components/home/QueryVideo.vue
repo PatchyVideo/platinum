@@ -35,7 +35,7 @@ const config = $computed<Data>(() => ({
   ...props.data,
 }))
 
-const { data } = await useAsyncQuery<Query>(
+const { data, refresh } = await useAsyncQuery<Query>(
   gql`
     query ($limit: Int!, $query: String!, $order: String!, $additionalConstraint: String) {
       listVideo(
@@ -55,6 +55,7 @@ const { data } = await useAsyncQuery<Query>(
             coverImage
             url
           }
+          clearence
           meta {
             createdAt
           }
@@ -85,6 +86,7 @@ const listVideo = $computed(() => data.value?.listVideo)
         :rows="config.rows"
         :video-show-title="config.video_show_title"
         :video-show-date="config.video_show_date"
+        @refresh="refresh"
       />
     </div>
     <div v-else>

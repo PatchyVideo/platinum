@@ -10,6 +10,9 @@ const props = defineProps<{
   videoShowTitle?: boolean
   videoShowDate?: boolean
 }>()
+const emit = defineEmits<{
+  (event: 'refresh'): void
+}>()
 </script>
 
 <template>
@@ -32,6 +35,7 @@ const props = defineProps<{
           'hidden md:block lg:hidden 2xl:block': index >= rows * 4 && index < rows * 5,
           'hidden md:block lg:hidden 3xl:block': index >= rows * 5,
         }"
+        @refresh="() => emit('refresh')"
       />
     </div>
   </div>

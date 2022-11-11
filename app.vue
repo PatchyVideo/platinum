@@ -2,7 +2,7 @@
 import { cache } from './composables/graphql/cache'
 
 useHead({
-  titleTemplate: title => (title ? `${title} - PatchyVideo` : 'PatchyVideo'),
+  titleTemplate: title => (title && title !== 'PatchyVideo') ? `${title} - PatchyVideo` : 'PatchyVideo',
 })
 
 // TODO: Hack to change cache config
