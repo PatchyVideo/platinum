@@ -410,7 +410,7 @@ video:
         search-failed-reason: 'Reason:'
       successful:
         search-no-result: No playlist found
-        search-result-count: '{count}  playlists found'
+        search-result-count: '{count} videos found'
       tips: '*Videos with sensitive tags are hidden'
     video:
       hidden: Hidden
