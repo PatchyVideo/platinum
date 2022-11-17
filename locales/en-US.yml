@@ -152,9 +152,9 @@ ui:
     select: Choose
   pv-pagination:
     alert: Please enter a valid number of page
-    page-next: Next page
-    page-previous: Previous page
-    page-number: Page{count}/{total}
+    page-next: Next
+    page-previous: Previous
+    page-number: Page {count} / {total}
 user:
   login:
     title: Login

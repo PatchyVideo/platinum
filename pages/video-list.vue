@@ -2,13 +2,21 @@
 import type { LocationQueryValue } from 'vue-router'
 import type { Query } from '@/composables/graphql'
 
+definePageMeta({
+  key: route => JSON.stringify([
+    route.query.page,
+    route.query.limit,
+    route.query.order,
+  ]),
+})
+
 const route = useRoute()
 const { t } = useI18n()
 
 const pickFirst = (query: LocationQueryValue | LocationQueryValue[] | undefined) =>
   Array.isArray(query) ? query[0] : query
 
-const page = $computed(() => Number(pickFirst(route.query.page)) || 0)
+const page = $computed(() => Number(pickFirst(route.query.page)) || 1)
 const limit = $computed(() => Number(pickFirst(route.query.limit)) || 20)
 const order = $computed(() => pickFirst(route.query.order) || 'last_modified')
 
@@ -44,7 +52,7 @@ const { data, refresh } = await useAsyncQuery<Query>(
     }
   `,
   {
-    offset: page * limit,
+    offset: (page - 1) * limit,
     limit,
     query: '',
     qtype: '',
@@ -52,6 +60,11 @@ const { data, refresh } = await useAsyncQuery<Query>(
   },
 )
 const listVideo = $computed(() => data.value!.listVideo)
+
+const updatePage = (page: number) => {
+  window.scrollTo(0, 0)
+  navigateTo({ query: { ...route.query, page } })
+}
 </script>
 
 <template>
@@ -64,6 +77,13 @@ const listVideo = $computed(() => data.value!.listVideo)
       :videos="listVideo.videos"
       :count="limit"
       @refresh="refresh"
+    />
+
+    <PPagination
+      class="mt-4"
+      :page="page"
+      :total="Math.ceil(listVideo.count / limit)"
+      @update:page="updatePage"
     />
   </div>
 </template>
