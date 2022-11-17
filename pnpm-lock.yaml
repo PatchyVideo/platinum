@@ -22,7 +22,7 @@ specifiers:
   date-fns: ^2.29.3
   eslint: ^8.27.0
   graphql: ^16.6.0
-  nuxt: 3.0.0
+  nuxt: ^3.0.0
   nuxt-headlessui: ^1.0.1
   postcss-nested: ^6.0.0
   spark-md5: ^3.0.2
