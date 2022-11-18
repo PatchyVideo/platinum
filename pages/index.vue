@@ -29,6 +29,7 @@ const ucompList = reactive<HomeCompData[]>([
       <template #medium>
         <span class="font-medium">{{ t('home.home.intro.medium') }}</span>
       </template>
+
       <template #old>
         <a
           class="text-purple-800 dark:text-purple-300"
@@ -37,6 +38,7 @@ const ucompList = reactive<HomeCompData[]>([
           rel="noopener noreferrer"
         >{{ t('home.home.intro.old') }}</a>
       </template>
+
       <template #follow>
         <a
           class="text-purple-800 dark:text-purple-300"
@@ -45,6 +47,7 @@ const ucompList = reactive<HomeCompData[]>([
           rel="noopener noreferrer"
         >{{ t('home.home.intro.follow') }}</a>
       </template>
+
       <template #joinus>
         <a
           class="text-purple-800 dark:text-purple-300"
