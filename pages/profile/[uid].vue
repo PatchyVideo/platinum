@@ -3,12 +3,10 @@ import type { Query } from '@/composables/graphql'
 
 const { t } = useI18n()
 const route = useRoute()
+const auth = await useAuth()
 
 const uid = $computed(() => route.params.uid as string)
-
-const auth = await useAuth()
 const isMe = $computed(() => uid === auth.uid)
-
 const { data } = await useAsyncQuery<Query>(
   gql`
     query ($uid: String!) {
@@ -30,11 +28,7 @@ const { data } = await useAsyncQuery<Query>(
 )
 const user = $computed(() => data.value!.getUser)
 
-// change title
-watchEffect(() => {
-  if (user)
-    useHead({ title: t('user.profile.title', { username: user.username }) })
-})
+useHead({ title: () => t('user.profile.title', { username: user.username }) })
 
 const isHoveringAvatar = ref(false)
 </script>
@@ -71,8 +65,9 @@ const isHoveringAvatar = ref(false)
           <!-- username -->
           <h1
             class="inline-block text-lg sm:text-2xl font-medium"
-            v-text="user.username"
-          />
+          >
+            {{ user.username }}
+          </h1>
           <NuxtLink
             v-if="isMe"
             class="i-uil:edit-alt ml-1 text-2xl align-text-bottom text-gray-600 hover:text-gray-700 dark:text-gray-300 dark:hover:text-gray-200 transition-colors duration-100"
@@ -88,8 +83,9 @@ const isHoveringAvatar = ref(false)
           <!-- bio -->
           <p
             class="whitespace-pre break-normal line-clamp-4"
-            v-text="user.desc"
-          />
+          >
+            {{ user.desc }}
+          </p>
         </div>
       </div>
       <div class="mt-4 ml-8">
