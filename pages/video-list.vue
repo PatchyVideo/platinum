@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type { LocationQueryValue } from 'vue-router'
 import type { Query } from '@/composables/graphql'
 
 definePageMeta({
@@ -13,12 +12,9 @@ definePageMeta({
 const route = useRoute()
 const { t } = useI18n()
 
-const pickFirst = (query: LocationQueryValue | LocationQueryValue[] | undefined) =>
-  Array.isArray(query) ? query[0] : query
-
-const page = $computed(() => Number(pickFirst(route.query.page)) || 1)
-const limit = $computed(() => Number(pickFirst(route.query.limit)) || 20)
-const order = $computed(() => pickFirst(route.query.order) || 'last_modified')
+const page = $computed(() => Number(pickFirstQuery(route.query.page)) || 1)
+const limit = $computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
+const order = $computed(() => pickFirstQuery(route.query.order) || 'last_modified')
 
 const { data, refresh } = await useAsyncQuery<Query>(
   gql`
