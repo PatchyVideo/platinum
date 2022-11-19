@@ -5,7 +5,8 @@ const { t } = useI18n()
 const route = useRoute()
 const auth = await useAuth()
 
-const uid = $computed(() => pickFirstQuery(route.query.uid))
+// default value of uid is admin
+const uid = $computed(() => pickFirstQuery(route.params.uid) || '5d39bccc10f25ebf56fd0f62')
 const isMe = $computed(() => uid === auth.uid)
 const { data } = await useAsyncQuery<Query>(
   gql`
