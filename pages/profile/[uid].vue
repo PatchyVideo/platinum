@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Query } from '@/composables/graphql'
+import { timeFormatter } from '@/composables/date/timeFormatter'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -77,7 +78,7 @@ const hoveringAvatar = $ref(false)
         />
 
         <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-300">
-          {{ t("user.profile.info.created-at", { date: user.meta.createdAt }) }}
+          {{ t("user.profile.info.created-at", { date: timeFormatter(user.meta.createdAt) }) }}
         </div>
 
         <!-- bio -->
