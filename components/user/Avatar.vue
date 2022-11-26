@@ -44,25 +44,25 @@ const setImgs = () => {
     pushImg(`https://patchyvideo.com/be/images/userphotos/${props.image}`)
   if (props.gravatar && props.gravatar.length === 32) {
     pushImg(
-      `https://gravatar.loli.net/avatar/${props.gravatar}?d=404`,
+      `https://gravatar.loli.net/avatar/${props.gravatar}?s=256&d=404`,
       `https://gravatar.loli.net/avatar/${props.gravatar}?s=512&d=404`,
     )
   }
   if (props.email) {
     pushImg(
-      `https://gravatar.loli.net/avatar/${md5(props.email)}?d=404`,
+      `https://gravatar.loli.net/avatar/${md5(props.email)}?s=256&d=404`,
       `https://gravatar.loli.net/avatar/${md5(props.email)}?s=512&d=404`,
     )
   }
   if (props.gravatar && props.gravatar.length === 32) {
     pushImg(
-      `https://gravatar.com/avatar/${props.gravatar}?d=404`,
+      `https://gravatar.com/avatar/${props.gravatar}?s=256&d=404`,
       `https://gravatar.com/avatar/${props.gravatar}?s=512&d=404`,
     )
   }
   if (props.email) {
     pushImg(
-      `https://gravatar.com/avatar/${md5(props.email)}?d=404`,
+      `https://gravatar.com/avatar/${md5(props.email)}?s=256&d=404`,
       `https://gravatar.com/avatar/${md5(props.email)}?s=512&d=404`,
     )
   }

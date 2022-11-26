@@ -7,7 +7,7 @@ export const locales: Record<string, () => Promise<Locale>> = {
   CHT: () => import('date-fns/esm/locale/zh-HK').then(m => m.default),
 }
 
-export const useLocale = createSharedComposable(async () => {
+export const useLocale = async () => {
   const { locale } = useI18n()
   const dateLocale = ref<Locale>(enUS)
   const update = async () => {
@@ -16,4 +16,4 @@ export const useLocale = createSharedComposable(async () => {
   watch(locale, update)
   await update()
   return dateLocale
-})
+}

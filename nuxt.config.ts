@@ -101,6 +101,10 @@ export default defineNuxtConfig({
     },
   },
 
+  vueuse: {
+    ssrHandlers: true,
+  },
+
   unocss: {
     preflight: true,
     uno: {
