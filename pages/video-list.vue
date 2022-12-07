@@ -64,7 +64,7 @@ const updatePage = (page: number) => {
 </script>
 
 <template>
-  <div class="w-full max-w-screen-lg mx-auto">
+  <div class="w-full max-w-screen-xl mx-auto">
     <div class="border-b border-gray-200 pb-1 mb-2">
       <span>{{ t('video.video-list.main-body.successful.search-result-count', { count: listVideo.count }) }}</span>
     </div>

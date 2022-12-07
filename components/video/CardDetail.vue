@@ -18,16 +18,16 @@ const biliVideoPart = $computed(() => {
 </script>
 
 <template>
-  <div class="relative">
-    <NuxtLink :to="`/video/${video.id}`" class="flex gap-2 rounded-md">
-      <VideoCover class="flex-none basis-1/3 w-full max-w-64 rounded-md border border-gray-200 dark:border-gray-800" :video="video" />
+  <div class="relative rounded-md md:border md:border-purple-300 md:max-w-70">
+    <NuxtLink :to="`/video/${video.id}`" class="flex gap-2 md:flex-col">
+      <VideoCover
+        class="flex-none basis-1/3 w-full max-w-70 rounded-md border border-gray-200 dark:border-gray-800"
+        :video="video"
+      />
 
-      <div class="flex flex-1 min-w-0 justify-between items-start">
+      <div class="flex flex-1 min-w-0 justify-between items-start md:px-3 md:pb-3">
         <div class="h-full min-w-0">
-          <div
-            class="sm:text-lg font-medium truncate"
-            :class="{ '-ml-2': video.item.title.startsWith('【') }"
-          >
+          <div class="sm:text-lg font-medium truncate" :class="{ '-ml-2': video.item.title.startsWith('【') }">
             {{ video.item.title }}
           </div>
 
@@ -47,20 +47,17 @@ const biliVideoPart = $computed(() => {
             </div>
           </div>
 
-          <div class="mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-2 sm:line-clamp-3">
+          <div class="mt-2 text-sm text-gray-700 dark:text-gray-200 line-clamp-2 sm:line-clamp-3 md:mr-7">
             {{ video.item.desc.replace(/\s+/g, ' ') }}
           </div>
         </div>
 
-        <div class="flex-none w-7 h-9" />
+        <div class="flex-none w-7 h-9 md:hidden" />
       </div>
     </NuxtLink>
 
-    <div class="absolute top-0 right-0">
-      <VideoCardOps
-        :video="video"
-        @refresh="() => emit('refresh')"
-      />
+    <div class="absolute top-0 md:top-auto md:bottom-0 right-0 md:right-2">
+      <VideoCardOps :video="video" @refresh="() => emit('refresh')" />
     </div>
   </div>
 </template>

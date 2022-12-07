@@ -17,7 +17,7 @@ const emit = defineEmits<{
   <div>
     <VideoGridTitle :name="name" :title-links-to="titleLinksTo" />
 
-    <div class="flex flex-col gap-2 xl:gap-4">
+    <div class="flex flex-col md:flex-row md:justify-between md:flex-wrap gap-2 md:gap-4">
       <VideoCardDetail
         v-for="video in videos" :key="video.id"
         :video="video"
