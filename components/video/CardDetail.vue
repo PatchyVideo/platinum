@@ -18,10 +18,10 @@ const biliVideoPart = $computed(() => {
 </script>
 
 <template>
-  <div class="relative rounded-md md:border md:border-purple-300 md:max-w-70">
+  <div class="md:p-3 relative rounded-md md:max-w-64">
     <NuxtLink :to="`/video/${video.id}`" class="flex gap-2 md:flex-col">
       <VideoCover
-        class="flex-none basis-1/3 w-full max-w-70 rounded-md border border-gray-200 dark:border-gray-800"
+        class="flex-none basis-1/3 w-full max-w-64 rounded-md border border-gray-200 dark:border-gray-800"
         :video="video"
       />
 
@@ -56,7 +56,7 @@ const biliVideoPart = $computed(() => {
       </div>
     </NuxtLink>
 
-    <div class="absolute top-0 md:top-auto md:bottom-0 right-0 md:right-2">
+    <div class="absolute top-0 md:top-auto md:bottom-5 right-0 md:right-3">
       <VideoCardOps :video="video" @refresh="() => emit('refresh')" />
     </div>
   </div>
