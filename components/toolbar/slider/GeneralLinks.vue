@@ -47,14 +47,14 @@ const links = $computed<any>(() => {
       href: 'https://patchyvideo.wiki/',
     },
   ]
-  const placeholder = (text: string = '') => {
+  const placeholder = (text = '') => {
     return {
       key: 'placeholder',
       type: 'blank',
-      text: text,
+      text,
     }
   }
-  if (auth.isLogin)
+  if (auth.isLogin) {
     links.push(
       placeholder(),
       {
@@ -62,26 +62,28 @@ const links = $computed<any>(() => {
         type: 'router',
         icon: 'i-uil:upload',
         text: t('common.nav-top.user-operation.postvideo'),
-        path: '/post-video'
+        path: '/post-video',
       },
       {
         key: 'edittag',
         type: 'router',
         icon: 'i-uil:tag-alt',
         text: t('common.nav-top.user-operation.tag'),
-        path: '/edit-tag'
-      }
+        path: '/edit-tag',
+      },
     )
-  if (auth.isAdmin)
+  }
+  if (auth.isAdmin) {
     links.push(
       placeholder('管理员'),
       {
         key: 'super-admin',
         type: 'router',
         text: t('common.nav-top.admin.super-admin'),
-        path: '/superadmin'
+        path: '/superadmin',
       },
     )
+  }
   return links
 })
 </script>
