@@ -6,6 +6,13 @@ const emit = defineEmits<{
   (event: 'update:show', value: boolean): void
 }>()
 const show = useVModel(props, 'show', emit)
+
+const route = useRoute()
+
+watchEffect(() => {
+  if (route.path)
+    show.value = false
+})
 </script>
 
 <template>
