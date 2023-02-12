@@ -65,7 +65,7 @@ interface HomeCompData {
 }
 
 const ucompList: HomeCompData[] = reactive([
-  { name: 'playlist', data: '{"playlist_id":"63cf704629516959d2f876a9 "}' },
+  { name: 'playlist', data: '{"playlist_id":"63cf704629516959d2f876a9"}' },
   { name: 'query_video', data: '{"video_rows":2}' },
   { name: 'playlist', data: '{"playlist_id":"5dbd93c6de383eb9a3aa089e"}' },
   { name: 'playlist', data: '{"playlist_id":"5f5871aef1017bad0f7f5165"}' },
