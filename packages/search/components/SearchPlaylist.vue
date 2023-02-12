@@ -67,6 +67,7 @@
         :key="playlist.item.title"
         class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
         :to="`/playlist/${playlist.id.toHexString()}`"
+        target="_blank"
       >
         <div class="w-2/5 mr-0.5">
           <div class="aspect-ratio-16/10 overflow-hidden rounded-sm">
@@ -100,7 +101,7 @@
         :key="playlist.item.title"
         class="w-12/25 my-5 p-2 border border-purple-400 shadow-md rounded-lg bg-white bg-opacity-50 dark:border-purple-800 dark:bg-gray-900"
       >
-        <RouterLink :to="`/playlist/${playlist.id}`" class="flex justify-center items-center space-x-1 border-b py-3">
+        <RouterLink :to="`/playlist/${playlist.id}`" target="_blank" class="flex justify-center items-center space-x-1 border-b py-3">
           <label v-if="playlist.item.private" class="bg-purple-400 text-white text-xs rounded px-1 py-0.5">Private</label>
           <div class="text-xl truncate font-semibold lg:text-2xl">
             {{ playlist.item.title }}

@@ -62,6 +62,7 @@
             :key="video.item.title"
             class="py-1 flex hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="`/video/${video.id.toHexString()}`"
+            target="_blank"
           >
             <div class="relative w-2/5 mr-0.5">
               <Cover :title="video.item.title" :cover-image="video.item.coverImage" class="rounded-sm" />
@@ -99,6 +100,7 @@
           >
             <RouterLink
               :to="`/video/${video.id.toHexString()}`"
+              target="_blank"
             >
               <div class="relative">
                 <Cover :title="video.item.title" :cover-image="video.item.coverImage" />

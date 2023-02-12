@@ -68,6 +68,7 @@
             :ref="index === playlist.videos.length - 4 ? 'observerTarget' : undefined"
             class="flex justify-start space-x-1 md:space-x-2 xl:space-x-3 py-2 xl:py-3 md:px-2 transition-colors duration-150 odd:bg-gray-50 dark:odd:bg-gray-800 hover:bg-purple-50 dark:hover:bg-gray-700 hover:odd:bg-purple-50 dark:hover:odd:bg-gray-700"
             :to="`/video/${video.id.toHexString()}?list=${pid}`"
+            target="_blank"
           >
             <div
               class="flex flex-col flex-shrink-0 flex-grow-0 justify-around w-8 self-center items-center text-center md:space-y-1"

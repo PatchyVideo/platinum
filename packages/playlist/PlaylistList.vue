@@ -69,6 +69,7 @@
             :key="playlist.item.title"
             class="py-1 flex text-sm hover:bg-gray-50 dark:hover:bg-gray-800"
             :to="`/playlist/${playlist.id.toHexString()}`"
+            target="_blank"
           >
             <div class="w-2/5 mr-0.5">
               <Cover :title="playlist.item.title" :cover-image="playlist.item.cover" class="rounded-sm" />
@@ -98,6 +99,7 @@
           >
             <RouterLink
               :to="`/playlist/${playlist.id}`"
+              target="_blank"
               class="flex justify-center items-center gap-x-1 border-b border-purple-300 dark:border-gray-500 py-3"
             >
               <span v-if="playlist.item.private" class="bg-purple-400 dark:bg-violet-800 text-white text-xs rounded px-1 py-0.5">Private</span>

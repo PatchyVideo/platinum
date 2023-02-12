@@ -1,5 +1,5 @@
 <template>
-  <RouterLink v-if="titleLinksTo" :to="titleLinksTo">
+  <RouterLink v-if="titleLinksTo" :to="titleLinksTo" target="_blank">
     <h4 class="title inline-block text-xl">
       <span class="title-text" v-text="name" />
       <div
@@ -16,6 +16,7 @@
       v-for="video in videos.slice(0, count)"
       :key="video.id.toHexString()"
       :to="`/video/${video.id.toHexString()}`"
+      target="_blank"
       class="rounded-md hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-100"
     >
       <Cover
