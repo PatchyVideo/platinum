@@ -10,12 +10,12 @@ const props = defineProps<{
 <template>
   <div>
     <NuxtLink v-if="titleLinksTo" :to="titleLinksTo">
-      <h4 class="title inline-block mb-2 text-xl">
-        <span class="title-text">{{ name }}</span>
-        <div class="title-arrow i-uil:arrow-up-right w-6 h-6 text-gray-600 dark:text-gray-300 transform opacity-25 transition-all duration-200" />
+      <h4 class="title inline-block text-xl transition transition-colors hover:text-purple-600">
+        <span class="title-text truncate w-90vw md:w-auto">{{ name }}</span>
+        <div class="title-arrow i-uil:arrow-up-right w-6 h-6 text-purple-600 dark:bg-purple-300 transform opacity-25 transition-all duration-200 hidden md:inline-block" />
       </h4>
     </NuxtLink>
-    <h4 v-else-if="name" class="inline-block mb-2 text-xl">
+    <h4 v-else-if="name" class="inline-block text-xl truncate">
       {{ name }}
     </h4>
   </div>
@@ -26,7 +26,7 @@ const props = defineProps<{
   .title-text {
     display: inline-block;
     padding-bottom: 1px;
-    background-image: linear-gradient(theme('colors.gray.300'), theme('colors.gray.300'));
+    background-image: linear-gradient(theme('colors.purple.300'), theme('colors.purple.300'));
     background-position: bottom left;
     background-size: 0% 1px;
     background-repeat: no-repeat;

@@ -1,3 +1,4 @@
+<!-- Video Card with full information -->
 <script setup lang="ts">
 import type { schema } from '@/composables/graphql'
 

@@ -1,3 +1,4 @@
+<!-- Drop-down menu for video card -->
 <script setup lang="ts">
 import type { schema } from '@/composables/graphql'
 
@@ -45,7 +46,7 @@ const hideVideo = async () => {
 </script>
 
 <template>
-  <PPopoverDown class="ml-1 my-1 -mr-1">
+  <PPopoverDown>
     <template #button>
       <div class="p-1 text-sm rounded-full text-gray-400 hover:text-gray-600 border border-transparent hover:border-gray-200 transition-color duration-75">
         <div class="i-uil:ellipsis-v w-5 h-5" />
