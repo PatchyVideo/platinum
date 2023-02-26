@@ -39,11 +39,13 @@ const { data } = await useAsyncQuery<Query>(
           }
           meta {
             createdBy {
-              username
               id
+              username
+              image
+              gravatar
             }
           }
-          videos(offset: 0, limit: 6) {
+          videos(offset: 0, limit: 5) {
             id
             meta {
               createdAt
@@ -76,21 +78,20 @@ const updatePage = (page: number) => {
 </script>
 
 <template>
-  <div class="w-full max-w-screen-xl mx-auto">
+  <div>
     <div class="border-b border-gray-200 pb-1 mb-2">
       <span>{{ t('playlist.playlist-list.main-body.successful.load-result-count', { count: listPlaylist.count }) }}</span>
     </div>
 
     <div class="space-y-2">
-      <PlaylistCardDetail
+      <PlaylistVideoGrid
         v-for="playlist in listPlaylist.playlists" :key="playlist.id"
         :name="playlist.item.title"
         :title-links-to="`/playlist/${playlist.id}`"
         :private="playlist.item.private"
-        :author="playlist.meta.createdBy?.username"
-        :author-i-d="playlist.meta.createdBy?.id"
+        :author="playlist.meta.createdBy ?? undefined"
         :videos="playlist.videos"
-        :video-num="playlist.item.count"
+        :count="playlist.item.count"
         :cover="playlist.item.cover"
       />
     </div>

@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 <template>
   <div>
-    <VideoGridTitle :name="name" :title-links-to="titleLinksTo" />
+    <VideoGridTitle v-if="name" :name="name" :title-links-to="titleLinksTo" />
 
     <div class="grid grid-flow-row grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 justify-center gap-2 xl:gap-4">
       <VideoCard
