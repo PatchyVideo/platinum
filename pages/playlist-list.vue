@@ -35,6 +35,7 @@ const { data } = await useAsyncQuery<Query>(
             title
             cover
             private
+            count
           }
           meta {
             createdBy {
@@ -89,6 +90,7 @@ const updatePage = (page: number) => {
         :author="playlist.meta.createdBy?.username"
         :author-i-d="playlist.meta.createdBy?.id"
         :videos="playlist.videos"
+        :video-num="playlist.item.count"
         :cover="playlist.item.cover"
       />
     </div>

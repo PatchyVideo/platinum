@@ -11,6 +11,7 @@ const props = defineProps<{
   authorID?: string
   videos: schema.Video[]
   cover: string
+  videoNum: number
 }>()
 </script>
 
@@ -31,7 +32,7 @@ const props = defineProps<{
           :key="video.id"
           :video="video"
         />
-        <PlaylistCoverLink :title-links-to="titleLinksTo" :video-num="videos.length" :cover="cover" />
+        <PlaylistCoverLink :title-links-to="titleLinksTo" :video-num="videoNum" :cover="cover" />
       </div>
       <div class="absolute bg-gradient-to-l from-light-100 to-transparent right-0 top-0 w-30 md:w-50 h-full pointer-events-none" />
     </div>
