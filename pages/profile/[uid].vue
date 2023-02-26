@@ -24,7 +24,7 @@ const { data } = await useAsyncQuery<Query>(
     }
   `,
   {
-    uid,
+    uid: uid.value,
   },
 )
 const user = computed(() => data.value!.getUser)

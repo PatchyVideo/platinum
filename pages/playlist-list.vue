@@ -61,10 +61,10 @@ const { data } = await useAsyncQuery<Query>(
   `,
   {
     offset: (page.value - 1) * limit.value,
-    limit,
+    limit: limit.value,
     query: '',
     qtype: '',
-    order,
+    order: order.value,
   },
 )
 const listPlaylist = computed(() => data.value!.listPlaylist)

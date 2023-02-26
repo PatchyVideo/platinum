@@ -49,10 +49,10 @@ const { data, refresh } = await useAsyncQuery<Query>(
   `,
   {
     offset: (page.value - 1) * limit.value,
-    limit,
+    limit: limit.value,
     query: '',
     qtype: '',
-    order,
+    order: order.value,
   },
 )
 const listVideo = computed(() => data.value!.listVideo)
