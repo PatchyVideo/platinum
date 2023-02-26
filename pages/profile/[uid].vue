@@ -5,8 +5,8 @@ const { t } = useI18n()
 const route = useRoute()
 const auth = await useAuth()
 
-const uid = $computed(() => route.params.uid as string)
-const isMe = $computed(() => uid === auth.uid)
+const uid = computed(() => route.params.uid as string)
+const isMe = computed(() => uid.value === auth.uid)
 
 const { data } = await useAsyncQuery<Query>(
   gql`
@@ -27,10 +27,10 @@ const { data } = await useAsyncQuery<Query>(
     uid,
   },
 )
-const user = $computed(() => data.value!.getUser)
+const user = computed(() => data.value!.getUser)
 
 useHead({
-  title: () => t('user.profile.title', { username: user.username }),
+  title: () => t('user.profile.title', { username: user.value.username }),
 })
 </script>
 

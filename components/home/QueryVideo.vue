@@ -21,7 +21,7 @@ interface Data {
   title_pos: 'tl' | 'tr' | 'bl' | 'br'
 }
 
-const config = $computed<Data>(() => ({
+const config = computed<Data>(() => ({
   rows: 1,
   query: '',
   order: 'latest',
@@ -60,13 +60,13 @@ const { data, refresh } = await useAsyncQuery<Query>(
     }
   `,
   {
-    query: config.query,
-    order: config.order,
-    additionalConstraint: config.additionalConstraint,
-    limit: config.rows * 6,
+    query: config.value.query,
+    order: config.value.order,
+    additionalConstraint: config.value.additionalConstraint,
+    limit: config.value.rows * 6,
   },
 )
-const listVideo = $computed(() => data.value!.listVideo)
+const listVideo = computed(() => data.value!.listVideo)
 </script>
 
 <template>

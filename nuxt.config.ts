@@ -17,7 +17,6 @@ export default defineNuxtConfig({
   // ssr: false,
 
   experimental: {
-    reactivityTransform: true,
     inlineSSRStyles: false,
   },
 
@@ -107,9 +106,7 @@ export default defineNuxtConfig({
 
   unocss: {
     preflight: true,
-    uno: {
-      dark: 'class',
-    },
+    uno: true,
     typography: true,
     icons: {
       extraProperties: {

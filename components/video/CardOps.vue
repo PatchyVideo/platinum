@@ -13,9 +13,9 @@ const { t } = useI18n()
 const { getToken } = useApollo()
 const auth = await useAuth()
 
-let hideVideoLoading = $ref(false)
+const hideVideoLoading = ref(false)
 const hideVideo = async () => {
-  hideVideoLoading = true
+  hideVideoLoading.value = true
 
   const res = await $fetch<{
     status: 'SUCCEED' | 'FAILED' | 'ERROR'
@@ -41,7 +41,7 @@ const hideVideo = async () => {
 
   emit('refresh')
 
-  hideVideoLoading = false
+  hideVideoLoading.value = false
 }
 </script>
 

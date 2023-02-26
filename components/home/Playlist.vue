@@ -17,7 +17,7 @@ interface Data {
   title_pos: 'tl' | 'tr' | 'bl' | 'br'
 }
 
-const config = $computed(() => ({
+const config = computed(() => ({
   playlist_id: '5e057a1b31929c83a76d18a4',
   title_pos: 'tl',
   rows: 1,
@@ -52,11 +52,11 @@ const { data, refresh } = await useAsyncQuery<Query>(
     }
   `,
   {
-    pid: config.playlist_id,
-    limit: config.rows * 6,
+    pid: config.value.playlist_id,
+    limit: config.value.rows * 6,
   },
 )
-const playlist = $computed(() => data.value!.getPlaylist)
+const playlist = computed(() => data.value!.getPlaylist)
 </script>
 
 <template>

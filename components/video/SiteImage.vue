@@ -3,7 +3,7 @@ const props = defineProps<{
   url: string
 }>()
 
-const domain = $computed(() => new URL(props.url).hostname)
+const domain = computed(() => new URL(props.url).hostname)
 </script>
 
 <template>

@@ -15,26 +15,26 @@ const props = defineProps<{
 
 const { t } = useI18n()
 
-const imgs = $ref<Set<string>>(new Set())
-const originalImgs = $ref<Set<string>>(new Set())
+const imgs = ref<Set<string>>(new Set())
+const originalImgs = ref<Set<string>>(new Set())
 
-let currImg = $ref(0)
-const currUrl = $computed(() => [...imgs][currImg])
-const currOriginalUrl = $computed(() => [...originalImgs][currImg])
+const currImg = ref(0)
+const currUrl = computed(() => [...imgs.value][currImg.value])
+const currOriginalUrl = computed(() => [...originalImgs.value][currImg.value])
 const onError = (e: Event) => {
-  if (currImg < imgs.size - 1)
-    currImg++
+  if (currImg.value < imgs.value.size - 1)
+    currImg.value++
 }
 
 const setImgs = () => {
   const pushImg = (url: string, ori?: string) => {
     if (ori) {
-      imgs.add(url)
-      originalImgs.add(ori)
+      imgs.value.add(url)
+      originalImgs.value.add(ori)
     }
     else {
-      imgs.add(url)
-      originalImgs.add(url)
+      imgs.value.add(url)
+      originalImgs.value.add(url)
     }
   }
 
@@ -68,7 +68,7 @@ const setImgs = () => {
   }
   pushImg(defaultAvatar)
 
-  currImg = 0
+  currImg.value = 0
 }
 
 onMounted(() => {
@@ -80,7 +80,7 @@ onMounted(() => {
 const onClick = () => {
   // use a `window.open` to open link here since this component should expose an `img` element
   if (props.openable)
-    window.open(currOriginalUrl, '_blank')
+    window.open(currOriginalUrl.value, '_blank')
 }
 const onAuxClick = (e: MouseEvent) => {
   if (e.button === 1)

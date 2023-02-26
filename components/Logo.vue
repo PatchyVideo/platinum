@@ -10,8 +10,8 @@ const props = withDefaults(
   },
 )
 
-const h1 = $computed(() => props.larger + 30)
-const h2 = $computed(() => props.larger + 48)
+const h1 = computed(() => props.larger + 30)
+const h2 = computed(() => props.larger + 48)
 </script>
 
 <template>

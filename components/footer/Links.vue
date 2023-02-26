@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const { t } = useI18n()
 
-const links = $computed<
+const links = computed<
   {
     key: string
     links: {

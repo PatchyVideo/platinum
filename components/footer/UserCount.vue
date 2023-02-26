@@ -10,7 +10,7 @@ const { data } = await useAsyncQuery<Query>(gql`
     }
   }
 `)
-const userCount = $computed(() => data.value?.getStats.users || 0)
+const userCount = computed(() => data.value?.getStats.users || 0)
 </script>
 
 <template>

@@ -10,44 +10,44 @@ const { onLogin } = useApollo()
 const { t } = useI18n()
 const auth = await useAuth()
 
-const from = $computed(() => typeof route.query.from === 'string' ? route.query.from : '/')
+const from = computed(() => typeof route.query.from === 'string' ? route.query.from : '/')
 
-const usernameEl = $shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
-const passwordEl = $shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
+const usernameEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
+const passwordEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
 
-const username = $ref('')
-const password = $ref('')
+const username = ref('')
+const password = ref('')
 
 const usernameValidator = (value: string) => value.length >= 2 && value.length <= 32
-const usernameValid = $computed(() => usernameValidator(username))
+const usernameValid = computed(() => usernameValidator(username.value))
 const passwordValidator = (value: string) => value.length >= 6 && value.length <= 32
-const passwordValid = $computed(() => passwordValidator(password))
+const passwordValid = computed(() => passwordValidator(password.value))
 
-let loading = $ref<0 | 1 | 2>(0)
-let loginError = $ref<string>()
+const loading = ref<0 | 1 | 2>(0)
+const loginError = ref<string>()
 const login = async () => {
-  if (!username) {
-    loginError = t('user.login.username.username-status.tip')
-    usernameEl?.focus()
+  if (!username.value) {
+    loginError.value = t('user.login.username.username-status.tip')
+    usernameEl.value?.focus()
     return
   }
-  if (!usernameValid) {
-    loginError = t('user.login.username.username-status.msg')
-    usernameEl?.focus()
+  if (!usernameValid.value) {
+    loginError.value = t('user.login.username.username-status.msg')
+    usernameEl.value?.focus()
     return
   }
-  if (!password) {
-    loginError = t('user.login.password.password-status.tip')
-    passwordEl?.focus()
+  if (!password.value) {
+    loginError.value = t('user.login.password.password-status.tip')
+    passwordEl.value?.focus()
     return
   }
-  if (!passwordValid) {
-    loginError = t('user.login.password.password-status.msg')
-    passwordEl?.focus()
+  if (!passwordValid.value) {
+    loginError.value = t('user.login.password.password-status.msg')
+    passwordEl.value?.focus()
     return
   }
 
-  loading = 1
+  loading.value = 1
   try {
     let session = ''
     try {
@@ -62,14 +62,14 @@ const login = async () => {
       })
 
       if (data.status !== 'SUCCEED') {
-        loginError = t('user.login.login-status.error')
+        loginError.value = t('user.login.login-status.error')
         return
       }
 
       session = data.data!
     }
     catch (err) {
-      loginError = String(err)
+      loginError.value = String(err)
       return
     }
 
@@ -97,26 +97,26 @@ const login = async () => {
       })
 
       if (data.status === 'FAILED') {
-        loginError = t('user.login.login-status.failed')
+        loginError.value = t('user.login.login-status.failed')
         return
       }
       else if (data.status === 'ERROR') {
-      // @ts-expect-error TODO
-        loginError = data.dataerr.reason
+        // @ts-expect-error TODO
+        loginError.value = data.dataerr.reason
         return
       }
 
       token = data.data.auth_token
     }
     catch (err) {
-      loginError = String(err)
+      loginError.value = String(err)
       return
     }
 
-    loading = 2
+    loading.value = 2
 
     if (!token) {
-      loginError = t('user.login.login-status.error')
+      loginError.value = t('user.login.login-status.error')
       return
     }
 
@@ -124,10 +124,10 @@ const login = async () => {
     await auth.refresh()
     await refreshNuxtData()
 
-    navigateTo(from)
+    navigateTo(from.value)
   }
   finally {
-    loading = 0
+    loading.value = 0
   }
 }
 </script>

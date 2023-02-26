@@ -11,7 +11,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 
-const biliVideoPart = $computed(() => {
+const biliVideoPart = computed(() => {
   const url = new URL(props.video.item.url)
   const searchParams = new URLSearchParams(url.search)
   return Number(searchParams.get('p')) || 0

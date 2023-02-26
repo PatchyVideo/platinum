@@ -5,11 +5,11 @@ const props = defineProps<{
 
 const { localeProperties } = useI18n()
 
-const date = $computed(() => new Date(props.date))
-const formated = $computed(() =>
+const date = computed(() => new Date(props.date))
+const formated = computed(() =>
   new Intl.DateTimeFormat(localeProperties.value.iso, {
     dateStyle: 'medium',
-  }).format(date),
+  }).format(date.value),
 )
 </script>
 

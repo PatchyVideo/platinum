@@ -6,10 +6,10 @@ const props = defineProps<{
   date: Date | string
 }>()
 
-const date = $computed(() => new Date(props.date))
+const date = computed(() => new Date(props.date))
 
 const locale = await useLocale()
-const relativeDate = $computed(() => formatRelative(date, new Date(), { locale: locale.value }))
+const relativeDate = computed(() => formatRelative(date.value, new Date(), { locale: locale.value }))
 </script>
 
 <template>

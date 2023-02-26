@@ -12,9 +12,9 @@ definePageMeta({
 const route = useRoute()
 const { t } = useI18n()
 
-const page = $computed(() => Number(pickFirstQuery(route.query.page)) || 1)
-const limit = $computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
-const order = $computed(() => pickFirstQuery(route.query.order) || 'last_modified')
+const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
+const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
+const order = computed(() => pickFirstQuery(route.query.order) || 'last_modified')
 
 const { data, refresh } = await useAsyncQuery<Query>(
   gql`
@@ -48,14 +48,14 @@ const { data, refresh } = await useAsyncQuery<Query>(
     }
   `,
   {
-    offset: (page - 1) * limit,
+    offset: (page.value - 1) * limit.value,
     limit,
     query: '',
     qtype: '',
     order,
   },
 )
-const listVideo = $computed(() => data.value!.listVideo)
+const listVideo = computed(() => data.value!.listVideo)
 
 const updatePage = (page: number) => {
   window.scrollTo(0, 0)

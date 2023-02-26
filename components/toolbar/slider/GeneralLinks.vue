@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import type { Link } from './SliderLink.vue'
+
 const { t } = useI18n()
 const auth = await useAuth()
 
-const links = $computed<any>(() => {
-  const links: any = [
+const links = computed<Link[]>(() => {
+  const links: Link[] = [
     {
       key: 'home',
       type: 'router',
@@ -47,7 +49,7 @@ const links = $computed<any>(() => {
       href: 'https://patchyvideo.wiki/',
     },
   ]
-  const placeholder = (text = '') => {
+  const placeholder = (text = ''): Link => {
     return {
       key: 'placeholder',
       type: 'blank',

@@ -11,16 +11,16 @@ const emit = defineEmits<{
 }>()
 const modelValue = useVModel(props, 'modelValue', emit)
 
-const inputEl = $shallowRef<HTMLInputElement | null>(null)
+const inputEl = shallowRef<HTMLInputElement | null>(null)
 
-const valid = $computed(() => !!props.validator?.(modelValue.value))
+const valid = computed(() => !!props.validator?.(modelValue.value))
 
 const onEnter = () => {
   emit('enter')
 }
 
 const focus = () => {
-  inputEl?.focus()
+  inputEl.value?.focus()
 }
 
 defineExpose({ focus })

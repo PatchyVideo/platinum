@@ -3,14 +3,14 @@ import type { Query } from '@/composables/graphql'
 
 const { locale } = useI18n()
 
-const inputEl = $shallowRef<HTMLInputElement>()
+const inputEl = shallowRef<HTMLInputElement>()
 
 const setCursorPos = (pos: number) => {
-  if (!inputEl)
+  if (!inputEl.value)
     return
 
-  inputEl.focus()
-  inputEl.setSelectionRange(pos, pos)
+  inputEl.value.focus()
+  inputEl.value.setSelectionRange(pos, pos)
 }
 
 interface ComboTag {
@@ -60,7 +60,7 @@ const { data: popularTagsData } = await useAsyncQuery<Query>(
     lang: locale.value,
   },
 )
-const popularTags = $computed<ComboTag[]>(() =>
+const popularTags = computed<ComboTag[]>(() =>
   popularTagsData.value?.getPopularTags.popularTags
     ?.sort((a, b) => b.popluarity - a.popluarity)
     .map((item) => {
@@ -81,14 +81,14 @@ const popularTags = $computed<ComboTag[]>(() =>
       }
     }) || [])
 
-let query = $ref('')
-const cursor = $ref(0)
+const query = ref('')
+const cursor = ref(0)
 
-const queryKeywordStart = $computed(() => {
+const queryKeywordStart = computed(() => {
   const text = query
-  let i: number = cursor
+  let i: number = cursor.value
   while (i--) {
-    switch (text.charAt(i)) {
+    switch (text.value.charAt(i)) {
       case ' ':
       case '\t':
       case '\n':
@@ -98,7 +98,7 @@ const queryKeywordStart = $computed(() => {
       case ')':
         return i + 1
       case '(': {
-        if (i > 0 && text.charAt(i - 1) === '_')
+        if (i > 0 && text.value.charAt(i - 1) === '_')
           continue
         else
           return i + 1
@@ -107,14 +107,14 @@ const queryKeywordStart = $computed(() => {
   }
   return 0
 })
-const queryKeywordEnd = $computed(() => {
-  const keywordEnd = query.slice(queryKeywordStart).search(/[\s\(\)]/)
-  return keywordEnd === -1 ? query.length : queryKeywordStart + keywordEnd
+const queryKeywordEnd = computed(() => {
+  const keywordEnd = query.value.slice(queryKeywordStart.value).search(/[\s\(\)]/)
+  return keywordEnd === -1 ? query.value.length : queryKeywordStart.value + keywordEnd
 })
 
-const queryKeyword = $computed(() => query.slice(queryKeywordStart, queryKeywordEnd))
-const queryPrefix = $computed(() => query.slice(0, queryKeywordStart))
-const querySuffix = $computed(() => query.slice(queryKeywordEnd))
+const queryKeyword = computed(() => query.value.slice(queryKeywordStart.value, queryKeywordEnd.value))
+const queryPrefix = computed(() => query.value.slice(0, queryKeywordStart.value))
+const querySuffix = computed(() => query.value.slice(queryKeywordEnd.value))
 
 interface QueryResult {
   cat: number
@@ -133,14 +133,14 @@ const queryLangMap = ['NAL', 'CHS', 'CHT', 'CSY', 'NLD', 'ENG', 'FRA', 'DEU', 'H
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
   () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword}`,
   { immediate: false })
-watchThrottled($$(queryKeyword), (value) => {
+watchThrottled(queryKeyword, (value) => {
   if (value)
     refresh()
 }, { throttle: 500, leading: false, trailing: true })
 
-const completes = $computed<ComboTag[]>(() => {
-  if (queryKeyword === '')
-    return popularTags
+const completes = computed<ComboTag[]>(() => {
+  if (queryKeyword.value === '')
+    return popularTags.value
   if (!queryData.value?.length)
     return []
 
@@ -164,59 +164,59 @@ const completes = $computed<ComboTag[]>(() => {
     })
 })
 
-let inFocus = $ref(false)
-let active = $ref(-1)
-const activeCombo = $computed(() => completes[active])
+const inFocus = ref(false)
+const active = ref(-1)
+const activeCombo = computed(() => completes.value[active.value])
 
 const search = () => {}
 
 const onKeyDown = (e: KeyboardEvent) => {
-  inFocus = true
+  inFocus.value = true
 
   switch (e.key) {
     case 'ArrowDown':
       e.preventDefault()
       e.stopPropagation()
-      if (active < completes.length - 1)
-        active++
-      else active = 0
+      if (active.value < completes.value.length - 1)
+        active.value++
+      else active.value = 0
       break
 
     case 'PageDown':
       e.preventDefault()
       e.stopPropagation()
-      active = completes.length - 1
+      active.value = completes.value.length - 1
       break
 
     case 'ArrowUp':
       e.preventDefault()
       e.stopPropagation()
-      if (active >= 0)
-        active--
-      else active = completes.length - 1
+      if (active.value >= 0)
+        active.value--
+      else active.value = completes.value.length - 1
       break
 
     case 'PageUp':
       e.preventDefault()
       e.stopPropagation()
-      active = 0
+      active.value = 0
       break
 
     case 'Escape':
       e.preventDefault()
       e.stopPropagation()
-      active = -1
-      inFocus = false
+      active.value = -1
+      inFocus.value = false
       break
 
     case 'Tab':
       e.preventDefault()
       e.stopPropagation()
       if (activeCombo) {
-        query = `${queryPrefix}${activeCombo.tag}${querySuffix || ' '}`
-        const pos = queryPrefix.length + activeCombo.tag.length + 1
+        query.value = `${queryPrefix}${activeCombo.value.tag}${querySuffix || ' '}`
+        const pos = queryPrefix.value.length + activeCombo.value.tag.length + 1
         nextTick(() => setCursorPos(pos))
-        active = -1
+        active.value = -1
       }
       break
 
@@ -224,20 +224,20 @@ const onKeyDown = (e: KeyboardEvent) => {
       e.preventDefault()
       e.stopPropagation()
       if (activeCombo) {
-        query = `${queryPrefix}${activeCombo.tag}${querySuffix || ' '}`
-        active = -1
+        query.value = `${queryPrefix}${activeCombo.value.tag}${querySuffix || ' '}`
+        active.value = -1
       }
-      inFocus = false
+      inFocus.value = false
       search()
       break
   }
 }
 
 const onComboClick = (combo: ComboTag) => {
-  query = `${queryPrefix}${combo.tag}${querySuffix || ' '}`
-  const pos = queryPrefix.length + combo.tag.length + 1
+  query.value = `${queryPrefix}${combo.tag}${querySuffix || ' '}`
+  const pos = queryPrefix.value.length + combo.tag.length + 1
   nextTick(() => setCursorPos(pos))
-  active = -1
+  active.value = -1
 }
 </script>
 
