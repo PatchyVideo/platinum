@@ -45,7 +45,7 @@ const { data } = await useAsyncQuery<Query>(
               gravatar
             }
           }
-          videos(offset: 0, limit: 5) {
+          videos(offset: 0, limit: 6) {
             id
             meta {
               createdAt
@@ -78,7 +78,7 @@ const updatePage = (page: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="max-w-450 mx-auto">
     <div class="border-b border-gray-200 pb-1 mb-2">
       <span>{{ t('playlist.playlist-list.main-body.successful.load-result-count', { count: listPlaylist.count }) }}</span>
     </div>

@@ -11,9 +11,6 @@ const props = defineProps<{
   cover: string
   count: number
 }>()
-const emit = defineEmits<{
-  (event: 'refresh'): void
-}>()
 </script>
 
 <template>
@@ -25,24 +22,23 @@ const emit = defineEmits<{
       :author="author"
     />
 
-    <div class="grid grid-flow-row grid-cols-11 lg:grid-cols-15 2xl:grid-cols-19 3xl:grid-cols-23 justify-center gap-2 xl:gap-4">
-      <VideoCard
-        v-for="(video, index) in videos" :key="video.id"
-        :video="video"
-        class="col-span-4"
-        :class="{
-          'hidden lg:block': index === 2,
-          'hidden 2xl:block': index === 3,
-          'hidden 3xl:block': index === 4,
-        }"
-        @refresh="() => emit('refresh')"
-      />
+    <!-- This div makes mask⬇️ do not move -->
+    <div class="relative">
+      <div class="flex overflow-auto space-x-2 md:pb-5 px-2">
+        <!-- This div is used to set the width of VideoCard -->
+        <div v-for="video in videos" :key="video.id" class="flex-grow-0 flex-shrink-0 w-48 md:w-64">
+          <VideoCard
+            :video="video"
+          />
+        </div>
 
-      <div class="col-span-3 overflow-hidden">
-        <div class="w-4/3 h-full">
+        <div class="flex-grow-0 flex-shrink-0 w-48 md:w-64">
           <PlaylistCoverLink :title-links-to="titleLinksTo" :count="count" :cover="cover" />
         </div>
       </div>
+
+      <!-- Mask⬆️ for more video, "-1" position is adjusted for screen larger than 1920px, for mysterious no covering the video -->
+      <div class="absolute bg-gradient-to-l from-light-100 to-transparent -right-1 -top-1 -bottom-1 w-30 md:w-50 pointer-events-none" />
     </div>
   </div>
 </template>
