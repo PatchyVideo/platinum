@@ -20,7 +20,7 @@ const footerProps = reactivePick(props, 'small')
   <div>
     <Toolbar v-bind="navtopProps" />
 
-    <div class="max-w-screen-3xl mx-auto px-2">
+    <div class="max-w-460 mx-auto mt-2 md:mt-5 px-2">
       <slot />
     </div>
 
