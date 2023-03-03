@@ -1,8 +1,101 @@
-<script setup lang="ts">
+<!-- Playlist-list root page -->
+<script lang="ts" setup>
+import type { Query } from '@/composables/graphql'
+
+const { t } = useI18n()
+const route = useRoute()
+
+const pid = computed(() => route.params.pid as string)
+
+definePageMeta({
+  key: route => JSON.stringify([
+    route.query.page,
+    route.query.limit,
+    route.query.order,
+  ]),
+})
+
+const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
+const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
+
+const { data } = await useAsyncQuery<Query>(
+  gql`
+    query ($pid: String!, $offset: Int!, $limit: Int!) {
+      getPlaylist(para: { pid: $pid }) {
+        item {
+          title
+          cover
+          count
+          desc
+          private
+          privateEdit
+        }
+        rating {
+          userRating
+          totalUser
+        }
+        videos(offset: $offset, limit: $limit) {
+          id
+          item {
+            title
+            partName
+            desc
+            coverImage
+            url
+          }
+        }
+        meta {
+          createdBy {
+            id
+            username
+            image
+            gravatar
+            desc
+          }
+          createdAt
+          modifiedAt
+        }
+        editable
+        tags{
+          __typename
+          id
+          tagid
+          category
+          languages {
+            lang
+            value
+          }
+        }
+      }
+    }
+  `,
+  {
+    pid: pid.value,
+    offset: (page.value - 1) * limit.value,
+    limit: limit.value,
+  },
+)
+const getPlaylist = computed(() => data.value!.getPlaylist)
+
+const updatePage = (page: number) => {
+  window.scrollTo(0, 0)
+  navigateTo({ query: { ...route.query, page } })
+}
 </script>
 
 <template>
   <div>
-    <slot />
+    <PlaylistMeta
+      :pid="pid"
+      :title="getPlaylist.item.title"
+      :author="getPlaylist.meta.createdBy ?? undefined"
+      :tags="getPlaylist.tags"
+      :rating="getPlaylist.rating ?? undefined"
+      :cover="getPlaylist.item.cover"
+      :desc="getPlaylist.item.desc"
+      :private="getPlaylist.item.private"
+    />
+
+    <div class="w-full my-5 h-0.2 bg-purple-100" />
   </div>
 </template>

@@ -18,22 +18,15 @@ const props = defineProps<{
       <VideoGridTitle :name="name" :title-links-to="titleLinksTo" />
     </div>
 
-    <div v-if="author" class="hidden md:flex items-center space-x-1">
-      <UserAvatar
-        class="w-6 h-6 rounded-full cursor-pointer"
-        openable
-        hide-title
-        :alt="author.username"
+    <div class="hidden md:inline-block">
+      <UserMeta
+        v-if="author"
+        :id="author.id"
+        :username="author.username"
+        small-size
         :image="author.image"
         :gravatar="author.gravatar"
       />
-
-      <NuxtLink v-if="author.id" :to="`/profile/${author.id}`" class="text-sm">
-        {{ author.username }}
-      </NuxtLink>
-      <div v-else class="text-sm">
-        {{ author.username }}
-      </div>
     </div>
   </div>
 </template>
