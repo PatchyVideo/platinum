@@ -59,7 +59,7 @@ onMounted(() => {
       <ToolbarRank :rating="rating || null" />
 
       <div>
-        <div ref="descDiv" class="" :class="{ 'line-clamp-2 overflow-ellipsis': !descOpen }">
+        <div ref="descDiv" :class="{ 'line-clamp-2 overflow-ellipsis': !descOpen }">
           {{ desc }}
         </div>
         <div v-if="moreDesc" class="text-right md:text-left cursor-pointer underline transition transition-colors hover:text-purple-400" @click="descOpen = !descOpen">
