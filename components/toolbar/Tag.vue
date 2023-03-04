@@ -12,7 +12,9 @@ const tagComp = computed(() => {
     name: props.tag.languages.find(item => item.lang === 'CHS' || item.lang === 'JPN')?.value.replace(/_/g, ' ') || 'null',
   }
 })
-const catogoryMap = {
+const catogoryMap: {
+  [propName: string]: any
+} = {
   copyright: 'bg-copyright',
   language: 'bg-language',
   character: 'bg-character',
@@ -24,6 +26,7 @@ const catogoryMap = {
 </script>
 
 <template>
+  <!-- eslint-disable-next-line -->
   <div class="inline-block px-2 border rounded-full" :class="catogoryMap[tagComp.category]">
     {{ tagComp.name }}
   </div>
