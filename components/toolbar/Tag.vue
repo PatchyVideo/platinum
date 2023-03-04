@@ -26,7 +26,6 @@ const catogoryMap: {
 </script>
 
 <template>
-  <!-- eslint-disable-next-line -->
   <div class="inline-block px-2 border rounded-full" :class="catogoryMap[tagComp.category]">
     {{ tagComp.name }}
   </div>
