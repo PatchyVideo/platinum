@@ -118,12 +118,15 @@ export default defineNuxtConfig({
     },
     transformers: [transformerDirectives()],
     theme: {
-      extend: {
-        breakpoints: {
-          '3xl': '1920px',
-        },
+      colors: {
+        copyright: '#DFBFFF',
+        language: '#FFBFCF',
+        character: '#AAF2AA',
+        author: '#DDDDDD',
+        general: '#B2D9FF',
+        meta: '#FFDFBA',
+        soundtrack: '#AAF2EE',
       },
-
     },
   },
 
