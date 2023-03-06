@@ -243,7 +243,7 @@ const onComboClick = (combo: ComboTag) => {
 
 <template>
   <div class="relative">
-    <div class="flex items-center rounded-full border-2 border-purple-300">
+    <div class="flex items-center rounded-md border-2 border-purple-200">
       <input
         ref="inputEl"
         v-model="query"
@@ -254,7 +254,7 @@ const onComboClick = (combo: ComboTag) => {
         @keydown="onKeyDown"
         @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
       >
-      <div class="px-2 py-1" @click="search">
+      <div class="px-2 py-1 cursor-pointer" @click="search">
         <div class="i-uil:search w-6 h-6" />
       </div>
     </div>

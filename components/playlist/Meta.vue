@@ -60,7 +60,7 @@ onMounted(() => {
 
       <div>
         <div ref="descDiv" :class="{ 'line-clamp-2 overflow-ellipsis': !descOpen }">
-          {{ desc }}
+          {{ desc ? '简介：暂无简介' : desc }}
         </div>
         <div v-if="moreDesc" class="text-right md:text-left cursor-pointer underline transition transition-colors hover:text-purple-400" @click="descOpen = !descOpen">
           {{ descOpen ? '收起' : '展开' }}

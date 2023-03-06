@@ -25,7 +25,7 @@ const props = defineProps<{
     />
     <div class="flex flex-col">
       <div class="flex items-center space-x-1">
-        <div v-if="status" class="bg-purple-400 text-xs text-white rounded-sm px-1">
+        <div v-if="status" class="bg-purple-300 text-xs text-white rounded px-1">
           {{ status }}
         </div>
         <NuxtLink v-if="id" :to="`/profile/${id}`" :class="{ 'text-sm': smallSize }">
