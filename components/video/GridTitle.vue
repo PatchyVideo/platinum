@@ -9,7 +9,7 @@ const props = defineProps<{
 
 <template>
   <div>
-    <NuxtLink v-if="titleLinksTo" :to="titleLinksTo">
+    <NuxtLink v-if="titleLinksTo" :to="titleLinksTo" target="_blank">
       <h4 class="title inline-block text-xl transition transition-colors hover:text-purple-600">
         <span class="title-text truncate w-90vw md:w-auto">{{ name }}</span>
         <div class="title-arrow i-uil:arrow-up-right w-6 h-6 text-purple-600 dark:bg-purple-300 transform opacity-25 transition-all duration-200 hidden md:inline-block" />

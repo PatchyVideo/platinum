@@ -1,6 +1,7 @@
 <!-- Playlist-list root page -->
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
+import VideoGridDetail from '~~/components/playlist/VideoGridDetail.vue'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -18,7 +19,7 @@ definePageMeta({
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
 const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
 
-const { data } = await useAsyncQuery<Query>(
+const { data, refresh } = await useAsyncQuery<Query>(
   gql`
     query ($pid: String!, $offset: Int!, $limit: Int!) {
       getPlaylist(para: { pid: $pid }) {
@@ -42,6 +43,9 @@ const { data } = await useAsyncQuery<Query>(
             desc
             coverImage
             url
+          }
+          meta {
+            createdAt
           }
         }
         meta {
@@ -84,7 +88,7 @@ const updatePage = (page: number) => {
 </script>
 
 <template>
-  <div>
+  <div class="space-y-5">
     <PlaylistMeta
       :pid="pid"
       :title="getPlaylist.item.title"
@@ -96,6 +100,21 @@ const updatePage = (page: number) => {
       :private="getPlaylist.item.private"
     />
 
-    <div class="w-full my-5 h-0.2 bg-purple-100" />
+    <!-- Divide -->
+    <div class="w-full md:h-0.2 bg-purple-100" />
+
+    <VideoGridDetail
+      :videos="getPlaylist.videos"
+      :page="page"
+      :limit="limit"
+      :editable="getPlaylist.editable || false"
+      @refresh="refresh"
+    />
+
+    <PPagination
+      :page="page"
+      :total="Math.ceil(getPlaylist.item.count / limit)"
+      @update:page="updatePage"
+    />
   </div>
 </template>

@@ -1,4 +1,4 @@
-<!-- Card shows cover of playlist and number of video contented, alse as a link -->
+<!-- Card which shows cover of playlist and number of video contented, alse as a link -->
 <script lang="ts" setup>
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -19,7 +19,7 @@ const props = defineProps<{
         class="w-full h-full object-cover rounded-md bg-gray-300 dark:bg-gray-600"
         :src="`https://patchyvideo.com/images/covers/${cover}`"
       >
-      <div class="absolute inset-0 grid place-items-center text-white text-6xl font-bold outline-black">
+      <div class="absolute inset-0 grid place-items-center text-white text-6xl font-bold bg-black bg-opacity-50">
         {{ count }}
       </div>
     </div>

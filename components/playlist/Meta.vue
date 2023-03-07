@@ -38,7 +38,7 @@ onMounted(() => {
       <div class="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-light-200 to-transparent" />
     </div>
 
-    <div class="text-sm md:col-span-2 bg-light-200 p-1 md:p-5 md:pt-18 space-y-2">
+    <div class="text-sm md:col-span-2 bg-light-200 p-1 md:p-5 md:pt-18 flex flex-col gap-2">
       <UserMeta
         v-if="author"
         :id="author.id"
@@ -58,9 +58,9 @@ onMounted(() => {
 
       <ToolbarRank :rating="rating || null" />
 
-      <div>
+      <div class="order-first md:order-none">
         <div ref="descDiv" :class="{ 'line-clamp-2 overflow-ellipsis': !descOpen }">
-          {{ desc ? '简介：暂无简介' : desc }}
+          {{ desc ? desc : '简介：暂无简介' }}
         </div>
         <div v-if="moreDesc" class="text-right md:text-left cursor-pointer underline transition transition-colors hover:text-purple-400" @click="descOpen = !descOpen">
           {{ descOpen ? '收起' : '展开' }}

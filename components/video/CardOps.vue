@@ -2,9 +2,13 @@
 <script setup lang="ts">
 import type { schema } from '@/composables/graphql'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   video: schema.Video
-}>()
+  opType?: 'normal' | 'playlist' | 'playlistEditor'
+}>(),
+{
+  opType: 'normal',
+})
 const emit = defineEmits<{
   (event: 'refresh'): void
 }>()
@@ -64,7 +68,7 @@ const hideVideo = async () => {
         打开源站
       </a>
 
-      <template v-if="auth.isAdmin">
+      <template v-if="auth.isAdmin && opType !== 'playlist'">
         <div class="w-full border-b-1 border-purple-300 dark:border-gray-600" />
 
         <button
