@@ -90,8 +90,8 @@ const login = async () => {
       }>('https://patchyvideo.com/be/login.do', {
         method: 'POST',
         body: {
-          username,
-          password,
+          username: username.value,
+          password: password.value,
           session,
         },
       })
