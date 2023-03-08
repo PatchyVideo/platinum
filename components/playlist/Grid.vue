@@ -16,7 +16,7 @@ const props = defineProps<{
 
 <template>
   <div>
-    <PlaylistVideoGridTitle
+    <PlaylistGridTitle
       v-if="name" :name="name"
       :title-links-to="titleLinksTo"
       :private="private"
