@@ -17,11 +17,12 @@ const emit = defineEmits<{
   <div>
     <VideoGridTitle :name="name" :title-links-to="titleLinksTo" />
 
-    <div class="flex flex-col md:flex-row md:justify-around md:flex-wrap">
-      <VideoCardDetail
+    <div class="grid md:grid-cols-3 xl:grid-cols-5 gap-2 md:gap-5">
+      <VideoCard
         v-for="video in videos" :key="video.id"
         :video="video"
-        class="md:w-1/3 lg:w-1/4"
+        horizontal
+        op-type="video"
         @refresh="() => emit('refresh')"
       />
     </div>

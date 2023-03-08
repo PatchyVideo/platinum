@@ -13,7 +13,7 @@ const route = useRoute()
 const { t } = useI18n()
 
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
-const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
+const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 40)
 const order = computed(() => pickFirstQuery(route.query.order) || 'last_modified')
 
 const { data, refresh } = await useAsyncQuery<Query>(

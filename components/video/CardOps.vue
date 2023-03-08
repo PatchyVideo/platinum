@@ -4,7 +4,7 @@ import type { schema } from '@/composables/graphql'
 
 const props = withDefaults(defineProps<{
   video: schema.Video
-  opType?: 'normal' | 'playlist' | 'playlistEditor'
+  opType?: 'normal' | 'video' | 'playlist' | 'playlistEditor'
 }>(),
 {
   opType: 'normal',
