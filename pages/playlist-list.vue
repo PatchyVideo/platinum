@@ -84,7 +84,7 @@ const updatePage = (page: number) => {
     </div>
 
     <div class="space-y-2">
-      <PlaylistVideoGrid
+      <PlaylistGrid
         v-for="playlist in listPlaylist.playlists" :key="playlist.id"
         :name="playlist.item.title"
         :title-links-to="`/playlist/${playlist.id}`"

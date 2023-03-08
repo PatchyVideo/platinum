@@ -1,7 +1,6 @@
 <!-- Playlist-list root page -->
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
-import VideoGridDetail from '~~/components/playlist/VideoGridDetail.vue'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -103,7 +102,7 @@ const updatePage = (page: number) => {
     <!-- Divide -->
     <div class="w-full md:h-0.2 bg-purple-100" />
 
-    <VideoGridDetail
+    <PlaylistVideoList
       :videos="getPlaylist.videos"
       :page="page"
       :limit="limit"

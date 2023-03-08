@@ -1,9 +1,9 @@
+<!-- List video in video list page -->
 <script lang="ts" setup>
 import type { RouteLocationRaw } from 'vue-router'
 import type { schema } from '@/composables/graphql'
 
 const props = defineProps<{
-  count: number
   name?: string
   titleLinksTo?: RouteLocationRaw
   videos: schema.Video[]

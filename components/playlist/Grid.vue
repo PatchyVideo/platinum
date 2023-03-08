@@ -1,3 +1,4 @@
+<!-- Single playlist display in playlist-list page -->
 <script lang="ts" setup>
 import type { RouteLocationRaw } from 'vue-router'
 import type { schema } from '@/composables/graphql'
