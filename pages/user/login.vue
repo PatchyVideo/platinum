@@ -133,75 +133,81 @@ const login = async () => {
 </script>
 
 <template>
-  <div class="login flex w-full h-screen items-center bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75">
-    <div class="flex-1 flex justify-around">
-      <form
-        class="flex px-8 py-10 w-full max-w-108 flex-col gap-6 rounded-2xl shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
-        @submit.prevent="login"
-      >
-        <div class="flex mb-2 items-center">
-          <NuxtLink to="/">
-            <Logo :larger="10" />
-          </NuxtLink>
+  <div class="relative login w-full h-screen bg-center md:bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75">
+    <!-- Top mask in mobile view -->
+    <div class="md:hidden absolute w-full h-15 bg-gradient-to-b from-white" />
 
-          <span class="ml-2 pl-4 text-lg border-l-2 border-gray-400">登录</span>
-        </div>
+    <!-- White Mask -->
+    <div class="w-full h-full bg-white bg-opacity-50 md:bg-opacity-40 flex items-center">
+      <div class="flex-1 flex justify-around">
+        <form
+          class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
+          @submit.prevent="login"
+        >
+          <div class="flex mb-2 mx-auto items-center">
+            <NuxtLink to="/">
+              <Logo :larger="8" />
+            </NuxtLink>
 
-        <div v-if="loginError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
-          <p class="text-center">
-            {{ loginError }}
-          </p>
-        </div>
+            <span class="ml-2 pl-4 text-lg border-l-2 border-gray-400">登录</span>
+          </div>
 
-        <div class="flex flex-nowrap gap-1 items-end">
-          <PFormInput
-            ref="usernameEl"
-            v-model="username"
-            label="用户名/邮箱"
-            type="text"
-            :validator="usernameValidator"
-            @enter="() => passwordEl?.focus()"
-          />
-        </div>
+          <div v-if="loginError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
+            <p class="text-center">
+              {{ loginError }}
+            </p>
+          </div>
 
-        <div class="flex flex-nowrap gap-1 items-end">
-          <PFormInput
-            ref="passwordEl"
-            v-model="password"
-            label="密码"
-            type="password"
-            :validator="passwordValidator"
-            @enter="login"
-          />
-        </div>
+          <div class="flex flex-nowrap gap-1 items-end">
+            <PFormInput
+              ref="usernameEl"
+              v-model="username"
+              label="用户名/邮箱"
+              type="text"
+              :validator="usernameValidator"
+              @enter="() => passwordEl?.focus()"
+            />
+          </div>
 
-        <div class="mt-2">
-          <button
-            class="focus:outline-none w-full py-2 text-white font-bold rounded-lg bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
-            type="submit"
-            :disabled="loading > 0"
-          >
-            {{ loading === 2
-              ? t('user.login.login-status.refreshing')
-              : loading === 1
-                ? t('user.login.login-status.loading')
-                : t('user.login.login-status.ready') }}
-          </button>
-        </div>
+          <div class="flex flex-nowrap gap-1 items-end">
+            <PFormInput
+              ref="passwordEl"
+              v-model="password"
+              label="密码"
+              type="password"
+              :validator="passwordValidator"
+              @enter="login"
+            />
+          </div>
 
-        <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
-          <NuxtLink to="/user/reset-password">
-            忘记密码
-          </NuxtLink>
-          <span class="text-gray-400">|</span>
-          <NuxtLink to="/user/register">
-            注册新帐号
-          </NuxtLink>
-        </div>
-      </form>
+          <div class="mt-2">
+            <button
+              class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
+              type="submit"
+              :disabled="loading > 0"
+            >
+              {{ loading === 2
+                ? t('user.login.login-status.refreshing')
+                : loading === 1
+                  ? t('user.login.login-status.loading')
+                  : t('user.login.login-status.ready') }}
+            </button>
+          </div>
+
+          <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
+            <NuxtLink to="/user/reset-password">
+              忘记密码
+            </NuxtLink>
+            <span class="text-gray-400">|</span>
+            <NuxtLink to="/user/register">
+              注册新帐号
+            </NuxtLink>
+          </div>
+        </form>
+      </div>
+
+      <div class="hidden md:block flex-1 ml-auto" />
     </div>
-
-    <div class="flex-1 ml-auto" />
   </div>
 </template>
 
