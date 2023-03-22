@@ -29,7 +29,7 @@ defineExpose({ focus })
 <template>
   <label class="input relative w-full border-b-2 border-purple-400 transition-colors focus-within:border-purple-600">
     <span
-      class="label absolute text-gray-800 font-light transition-all ease-out"
+      class="label absolute px-2 text-gray-800 font-light transition-all ease-out"
       :class="[modelValue ? 'top-0 text-xs' : 'top-4']"
     >
       {{ label }}
@@ -46,7 +46,7 @@ defineExpose({ focus })
       ref="inputEl"
       v-model="modelValue"
       :type="type"
-      class="focus:outline-none pt-4 pb-px w-full"
+      class="focus:outline-none bg-transparent px-2 pt-4 pb-px w-full"
       @keydown.enter.prevent="onEnter"
     >
   </label>
