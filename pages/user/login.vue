@@ -14,7 +14,7 @@ useHead({
   title: () => `${t('user.login.title')} - PatchyVideo`,
 })
 
-const from = computed(() => typeof route.query.from === 'string' ? route.query.from : '/')
+const from = computed(() => typeof route.query.from === 'string' ? (route.query.from === 'signup' || route.query.from === 'forget-password') ? '/' : route.query.from : '/')
 
 const usernameEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
 const passwordEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)

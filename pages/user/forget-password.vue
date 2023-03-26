@@ -118,7 +118,7 @@ const forget = async () => {
       </div>
 
       <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
-        <NuxtLink to="/user/login">
+        <NuxtLink :to="{ path: '/user/login', query: { from: 'forget-password' } }">
           返回登陆
         </NuxtLink>
         <span class="text-gray-400">|</span>
