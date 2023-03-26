@@ -5,6 +5,10 @@ import type { Query } from '@/composables/graphql'
 const { t } = useI18n()
 const route = useRoute()
 
+useHead({
+  title: 'PatchyVideo',
+})
+
 const pid = computed(() => route.params.pid as string)
 
 definePageMeta({
@@ -79,6 +83,10 @@ const { data, refresh } = await useAsyncQuery<Query>(
   },
 )
 const getPlaylist = computed(() => data.value!.getPlaylist)
+
+useHead({
+  title: `${data.value!.getPlaylist.item.title} - PatchyVideo`,
+})
 
 const updatePage = (page: number) => {
   window.scrollTo(0, 0)

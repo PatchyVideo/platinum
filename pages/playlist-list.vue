@@ -13,6 +13,10 @@ definePageMeta({
 const route = useRoute()
 const { t } = useI18n()
 
+useHead({
+  title: `${t('playlist.playlist-list.title')} - PatchyVideo`,
+})
+
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
 const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
 const order = computed(() => pickFirstQuery(route.query.order) || 'last_modified')
