@@ -85,7 +85,7 @@ const { data, refresh } = await useAsyncQuery<Query>(
 const getPlaylist = computed(() => data.value!.getPlaylist)
 
 useHead({
-  title: `${data.value!.getPlaylist.item.title} - PatchyVideo`,
+  title: `${data.value!.getPlaylist.item.title}`,
 })
 
 const updatePage = (page: number) => {

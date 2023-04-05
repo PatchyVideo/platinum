@@ -11,7 +11,7 @@ const { t } = useI18n()
 const auth = await useAuth()
 
 useHead({
-  title: () => `${t('user.login.title')} - PatchyVideo`,
+  title: () => `${t('user.login.title')}`,
 })
 
 const from = computed(() => typeof route.query.from === 'string' ? (route.query.from === 'signup' || route.query.from === 'forget-password') ? '/' : route.query.from : '/')

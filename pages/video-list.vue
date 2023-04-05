@@ -13,7 +13,7 @@ const route = useRoute()
 const { t } = useI18n()
 
 useHead({
-  title: `${t('video.video-list.title')} - PatchyVideo`,
+  title: `${t('video.video-list.title')}`,
 })
 
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)

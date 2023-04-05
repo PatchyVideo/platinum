@@ -8,7 +8,7 @@ definePageMeta({
 const { t, locale } = useI18n()
 
 useHead({
-  title: () => `${t('user.forget-password.title')} - PatchyVideo`,
+  title: () => `${t('user.forget-password.title')}`,
 })
 
 const emailEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)

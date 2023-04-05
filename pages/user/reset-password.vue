@@ -10,7 +10,7 @@ const router = useRouter()
 const { t } = useI18n()
 
 useHead({
-  title: () => `${t('user.reset-password.title')} - PatchyVideo`,
+  title: () => `${t('user.reset-password.title')}`,
 })
 
 const resetKey = computed(() => typeof route.query.from === 'string' ? route.query.key : '')

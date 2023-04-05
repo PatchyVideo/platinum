@@ -9,7 +9,7 @@ const router = useRouter()
 const { t } = useI18n()
 
 useHead({
-  title: () => `${t('user.signup.title')} - PatchyVideo`,
+  title: () => `${t('user.signup.title')}`,
 })
 
 const usernameEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(null)
