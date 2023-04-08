@@ -27,11 +27,7 @@ const { data } = await useAsyncQuery<Query>(
     dateRangeNumber: props.dateRangeNumber,
   },
 )
-const getLeaderboard = computed(() => {
-  if (props.showAutoPost)
-    return data.value!.getLeaderboard.items
-  else return data.value!.getLeaderboard.items.slice((data.value!.getLeaderboard.items.findIndex(item => item.user.id === '5e82074a0ff53a3a1acee0c0') + 1) || 0)
-})
+const getLeaderboard = computed(() => data.value!.getLeaderboard.items)
 </script>
 
 <template>

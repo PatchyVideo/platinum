@@ -25,7 +25,7 @@ const colors = [
 </script>
 
 <template>
-  <div class="inline-block w-full min-w-20 relative">
+  <div class="inline-block w-full relative">
     <svg preserveAspectRatio="xMidYMid meet" viewBox="0 0 157 164" fill="none" xmlns="http://www.w3.org/2000/svg" class="absolute inset-0">
       <rect x="46" width="65" height="86" fill="#D5A6FF" />
       <rect x="57" width="43" height="86" fill="#F3E8FF" />

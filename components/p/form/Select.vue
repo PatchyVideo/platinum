@@ -6,6 +6,7 @@ interface Option {
 const props = defineProps<{
   selectedOp: Option
   ops: Option[]
+  ring?: boolean
 }>()
 const emit = defineEmits<{
   (event: 'update:selectedOp', value: Option): void
@@ -21,9 +22,9 @@ const optionsLeft = computed(() => rootPos.left.value)
 </script>
 
 <template>
-  <div ref="rootEl" class="inline-block text-inherit">
+  <div ref="rootEl" class="inline-block">
     <HListbox v-slot="{ open }" v-model="selectedOp">
-      <HListboxButton class="px-4 py-2 rounded-md flex items-center space-x-4 ring ring-purple-100 bg-white">
+      <HListboxButton class="px-2 py-0.5 rounded-md flex items-center space-x-4 bg-white" :class="{ 'ring ring-purple-100': ring }">
         <div>{{ selectedOp.name }}</div>
         <div
           class="i-uil:angle-down w-5 h-5 transition-transform" :class="{ 'rotate-180': open }"
