@@ -15,7 +15,7 @@ clients.default.resetStore()
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout class="text-sm md:text-base">
     <NuxtLoadingIndicator />
     <NuxtPage />
   </NuxtLayout>

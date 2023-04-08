@@ -40,7 +40,7 @@ const biliVideoPartNeeded = computed(() => props.video.item.partName && props.vi
 
       <div class="flex justify-between" :class="{ 'col-span-2 md:col-auto': horizontal }">
         <div>
-          <div class="overflow-ellipsis transition transition-colors hover:text-purple-600" :class="biliVideoPart && biliVideoPartNeeded ? 'h-6 line-clamp-1' : 'h-12 line-clamp-2'">
+          <div class="overflow-ellipsis transition transition-colors hover:text-purple-600" :class="biliVideoPart && biliVideoPartNeeded ? 'h-5 md:h-6 line-clamp-1' : 'h-10 md:h-12 line-clamp-2'">
             {{ video.item.title }}
           </div>
 
