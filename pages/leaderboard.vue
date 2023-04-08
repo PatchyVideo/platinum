@@ -13,7 +13,7 @@ const route = useRoute()
 const { t } = useI18n()
 
 useHead({
-  title: '用户排行榜',
+  title: '历史与贡献',
 })
 
 const activeTab = computed(() => Number(pickFirstQuery(route.query.activeTab)) || 0)
@@ -43,16 +43,16 @@ function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): vo
   <div>
     <div class="w-full flex space-x-2 text-purple-600">
       <div class="flex-grow flex bg-purple-100 p-1.5 rounded-md">
-        <div class="px-6 py-2 rounded-md cursor-pointer" :class="activeTab || activeTabClass" @click="updatePage('activeTab', 0)">
-          标签编辑历史
+        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab || activeTabClass" @click="updatePage('activeTab', 0)">
+          <span class="hidden md:inline">标签贡献</span>排行榜
         </div>
-        <div class="px-6 py-2 rounded-md cursor-pointer" :class="activeTab && activeTabClass" @click="updatePage('activeTab', 1)">
-          标签贡献排行榜
+        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab && activeTabClass" @click="updatePage('activeTab', 1)">
+          <span class="hidden md:inline">标签</span>编辑历史
         </div>
       </div>
       <div class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
-        <PFormSelect v-if="activeTab" v-model:selected-op="selectedDateRange" :ops="dateRangeList" />
-        <div class="flex items-center space-x-2 px-4 py-2 rounded-md cursor-pointer bg-white" @click="updatePage('showAutoPost', !showAutoPost)">
+        <PFormSelect v-if="!activeTab" v-model:selected-op="selectedDateRange" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="dateRangeList" />
+        <div v-else class="flex items-center space-x-2 px-2 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer bg-white" @click="updatePage('showAutoPost', !showAutoPost)">
           <PFormCheckBox v-model:check="showAutoPost" read-only />
           <div>显示自动发布</div>
         </div>
@@ -60,8 +60,9 @@ function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): vo
     </div>
 
     <!-- Divider -->
-    <div class="w-full h-0.5 my-4 rounded-full bg-purple-300" />
+    <div class="w-full h-0 md:h-0.5 my-4 rounded-full bg-purple-300" />
 
-    <LeaderboardContributorRank :show-auto-post="showAutoPost" :date-range-number="parseInt(selectedDateRange.value)" />
+    <LeaderboardContributorRank v-if="!activeTab" :show-auto-post="showAutoPost" :date-range-number="parseInt(selectedDateRange.value)" />
+    <LeaderboardEditHistory v-else :show-auto-post="showAutoPost" :page="page" :limit="limit" />
   </div>
 </template>
