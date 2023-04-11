@@ -1,7 +1,7 @@
 <!-- User's name, avatar, status and desc -->
 <script lang="ts" setup>
 const props = defineProps<{
-  id: string
+  id?: string
   username: string
   smallSize?: boolean
   image?: string | null
