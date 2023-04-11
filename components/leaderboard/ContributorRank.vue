@@ -1,9 +1,7 @@
-<!-- Playlist-list root page -->
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
 const props = defineProps<{
-  showAutoPost: boolean
   dateRangeNumber: number
 }>()
 

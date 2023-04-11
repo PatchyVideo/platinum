@@ -20,7 +20,7 @@ const activeTab = computed(() => Number(pickFirstQuery(route.query.activeTab)) |
 const showAutoPost = computed(() => pickFirstQuery(route.query.showAutoPost) === 'true')
 const date = computed(() => Number(pickFirstQuery(route.query.date)) || 0)
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
-const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 20)
+const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 40)
 
 const activeTabClass = 'bg-white'
 const dateRangeList = computed(() => [
@@ -62,7 +62,7 @@ function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): vo
     <!-- Divider -->
     <div class="w-full h-0 md:h-0.5 my-4 rounded-full bg-purple-300" />
 
-    <LeaderboardContributorRank v-if="!activeTab" :show-auto-post="showAutoPost" :date-range-number="parseInt(selectedDateRange.value)" />
+    <LeaderboardContributorRank v-if="!activeTab" :date-range-number="parseInt(selectedDateRange.value)" />
     <LeaderboardEditHistory v-else :show-auto-post="showAutoPost" :page="page" :limit="limit" />
   </div>
 </template>

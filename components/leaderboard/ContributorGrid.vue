@@ -1,4 +1,3 @@
-<!-- Playlist-list root page -->
 <script lang="ts" setup>
 import type { schema } from '@/composables/graphql'
 
