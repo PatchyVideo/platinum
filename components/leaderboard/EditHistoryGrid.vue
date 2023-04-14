@@ -23,7 +23,7 @@ function openTagList(type: 'add' | 'remove') {
   <div class="flex space-x-2 md:px-5 pb-4 md:mb-4 md:border-b-1 border-purple-200">
     <VideoCover :video="item.video" class="rounded-md w-1/3 md:w-1/8" />
 
-    <div class="w-2/3 flex flex-col space-y-1">
+    <div class="w-2/3 md:w-7/8 flex flex-col space-y-1">
       <div class="flex items-center space-x-2">
         <VideoSiteImage :url="item.video.item.url" class="w-5 h-5 flex-shrink-0" />
         <NuxtLink :to="`/video/${item.video.id}`" class="truncate font-bold">
@@ -33,7 +33,7 @@ function openTagList(type: 'add' | 'remove') {
 
       <div class="flex flex-wrap items-center space-x-2 text-xs md:text-sm text-gray-300">
         <div class="flex items-center space-x-1">
-          <div>上传者:</div>
+          <div>编辑者:</div>
           <UserAvatar :gravatar="item.user.gravatar" :image="item.user.image" class="hidden md:inline-block w-6 h-6 rounded-full" />
           <NuxtLink v-if="item.user.id" :to="`/profile/${item.user.id}`" class="md:ml-1">
             {{ item.user.username }}
@@ -68,19 +68,19 @@ function openTagList(type: 'add' | 'remove') {
       <div class="relative md:space-y-1">
         <div
           v-if="item.addedTags.length"
-          class="absolute z-51 top-0 md:static md:flex flex-wrap p-1 md:p-0 space-x-1 md:space-x-2 items-center text-gray-300 text-xs md:text-sm bg-white md:bg-opacity-0 rounded-md shadow md:shadow-none"
+          class="absolute z-51 top-0 md:static md:flex md:items-center md:flex-wrap p-1 md:p-0 md:space-x-2 text-gray-300 text-xs md:text-sm bg-white md:bg-opacity-0 rounded-md shadow md:shadow-none"
           :class="{ hidden: !addedTagsOpen }"
         >
           <div>添加标签:</div>
-          <ToolbarTag v-for="addedTag in item.addedTags" :key="addedTag.id" :tag="addedTag" />
+          <ToolbarTag v-for="addedTag in item.addedTags" :key="addedTag.id" :tag="addedTag" class="mr-1 mt-1 md:m-0" />
         </div>
         <div
           v-if="item.removedTags.length"
-          class="absolute z-51 top-0 md:static md:flex flex-wrap p-1 md:p-0 space-x-1 md:space-x-2 items-center text-gray-300 text-xs md:text-sm bg-white md:bg-opacity-0 rounded-md shadow md:shadow-none"
+          class="absolute z-51 top-0 md:static md:flex md:items-center md:flex-wrap p-1 md:p-0 md:space-x-2 text-gray-300 text-xs md:text-sm bg-white md:bg-opacity-0 rounded-md shadow md:shadow-none"
           :class="{ hidden: !removedTagsOpen }"
         >
           <div>删除标签:</div>
-          <ToolbarTag v-for="removedTag in item.removedTags" :key="removedTag.id" :tag="removedTag" />
+          <ToolbarTag v-for="removedTag in item.removedTags" :key="removedTag.id" :tag="removedTag" class="mr-1 mt-1 md:m-0" />
         </div>
       </div>
     </div>
