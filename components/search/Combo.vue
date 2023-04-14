@@ -131,12 +131,15 @@ interface QueryResultLangs {
 const queryLangMap = ['NAL', 'CHS', 'CHT', 'CSY', 'NLD', 'ENG', 'FRA', 'DEU', 'HUN', 'ITA', 'JPN', 'KOR', 'PLK', 'PTB', 'ROM', 'RUS', 'ESP', 'TRK', 'VIN']
 
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
-  () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword}`,
-  { immediate: false })
-watchThrottled(queryKeyword, (value) => {
-  if (value)
+  () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword.value}`,
+  { immediate: false },
+)
+watchThrottled(queryKeyword, (newv, oldv) => {
+  if (newv && (newv !== oldv))
     refresh()
-}, { throttle: 500, leading: false, trailing: true })
+},
+{ throttle: 500, leading: false, trailing: true },
+)
 
 const completes = computed<ComboTag[]>(() => {
   if (queryKeyword.value === '')
@@ -213,7 +216,7 @@ const onKeyDown = (e: KeyboardEvent) => {
       e.preventDefault()
       e.stopPropagation()
       if (activeCombo) {
-        query.value = `${queryPrefix}${activeCombo.value.tag}${querySuffix || ' '}`
+        query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
         const pos = queryPrefix.value.length + activeCombo.value.tag.length + 1
         nextTick(() => setCursorPos(pos))
         active.value = -1
@@ -224,7 +227,7 @@ const onKeyDown = (e: KeyboardEvent) => {
       e.preventDefault()
       e.stopPropagation()
       if (activeCombo) {
-        query.value = `${queryPrefix}${activeCombo.value.tag}${querySuffix || ' '}`
+        query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
         active.value = -1
       }
       inFocus.value = false
@@ -234,7 +237,7 @@ const onKeyDown = (e: KeyboardEvent) => {
 }
 
 const onComboClick = (combo: ComboTag) => {
-  query.value = `${queryPrefix}${combo.tag}${querySuffix || ' '}`
+  query.value = `${queryPrefix.value}${combo.tag}${querySuffix.value || ' '}`
   const pos = queryPrefix.value.length + combo.tag.length + 1
   nextTick(() => setCursorPos(pos))
   active.value = -1
@@ -282,25 +285,27 @@ const onComboClick = (combo: ComboTag) => {
         <li
           v-for="(combo, index) in completes"
           :key="combo.id"
-          class="px-2 py-1 w-full border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
+          class="px-2 py-1 w-full list-none border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
           :class="{ 'bg-purple-200 bg-opacity-10': active === index }"
           @click="onComboClick(combo)"
         >
           <div v-if="combo.type === 'tag'" class="flex items-center">
-            <div class="i-uil:tag-alt my-1 mr-1 text-xl text-purple-600" />
-            <div
-              class="min-w-0 truncate transition-colors duration-75"
-              :class="{ 'text-purple-500': active === index }"
-              :title="combo.tag"
-            >
-              {{ combo.tag.replace(/_/g, ' ') }}
-            </div>
-            <div
-              v-if="combo.sub"
-              class="min-w-0 ml-1 truncate text-gray-600 dark:text-gray-300 text-sm font-light"
-              :title="combo.sub"
-            >
-              {{ combo.sub.replace(/_/g, ' ') }}
+            <div class="i-uil:tag-alt flex-shrink-0 my-1 mr-1 text-xl text-purple-600" />
+            <div class="truncate md:flex md:items-center md:space-x-2">
+              <div
+                class="truncate transition-colors duration-75"
+                :class="{ 'text-purple-500': active === index }"
+                :title="combo.tag"
+              >
+                {{ combo.tag.replace(/_/g, ' ') }}
+              </div>
+              <div
+                v-if="combo.sub"
+                class="truncate text-gray-600 dark:text-gray-300 text-xs md:text-sm font-light"
+                :title="combo.sub"
+              >
+                {{ combo.sub.replace(/_/g, ' ') }}
+              </div>
             </div>
           </div>
         </li>
