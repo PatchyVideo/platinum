@@ -132,10 +132,10 @@ const queryLangMap = ['NAL', 'CHS', 'CHT', 'CSY', 'NLD', 'ENG', 'FRA', 'DEU', 'H
 
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
   () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword.value}`,
-  { immediate: false },
+  { immediate: false, watch: false },
 )
-watchThrottled(queryKeyword, (newv, oldv) => {
-  if (newv && (newv !== oldv))
+watchThrottled(queryKeyword, (value) => {
+  if (value)
     refresh()
 },
 { throttle: 500, leading: false, trailing: true },
