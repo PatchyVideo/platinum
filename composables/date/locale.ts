@@ -7,7 +7,7 @@ export const locales: Record<string, () => Promise<Locale>> = {
   CHT: () => import('date-fns/esm/locale/zh-HK').then(m => m.default),
 }
 
-export const useLocale = async () => {
+export async function useLocale() {
   const { locale } = useI18n()
   const dateLocale = ref<Locale>(enUS)
   const update = async () => {

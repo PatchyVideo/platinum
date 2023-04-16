@@ -15,11 +15,11 @@ const inputEl = shallowRef<HTMLInputElement | null>(null)
 
 const valid = computed(() => !!props.validator?.(modelValue.value))
 
-const onEnter = () => {
+function onEnter() {
   emit('enter')
 }
 
-const focus = () => {
+function focus() {
   inputEl.value?.focus()
 }
 

@@ -75,7 +75,7 @@ const { data } = await useAsyncQuery<Query>(
 )
 const listPlaylist = computed(() => data.value!.listPlaylist)
 
-const updatePage = (page: number) => {
+function updatePage(page: number) {
   window.scrollTo(0, 0)
   navigateTo({ query: { ...route.query, page } })
 }

@@ -21,14 +21,18 @@ const passwordRepEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | 
 const password = ref('')
 const passwordRep = ref('')
 
-const passwordValidator = (value: string) => value.length >= 6 && value.length <= 32
+function passwordValidator(value: string) {
+  return value.length >= 6 && value.length <= 32
+}
 const passwordValid = computed(() => passwordValidator(password.value))
-const passwordRepValidator = (value: string) => value === password.value
+function passwordRepValidator(value: string) {
+  return value === password.value
+}
 const passwordRepValid = computed(() => passwordRepValidator(passwordRep.value))
 
 const loading = ref<0 | 1 | 2>(0)
 const resetError = ref<string>()
-const reset = async () => {
+async function reset() {
   if (!resetKey.value) {
     resetError.value = '无效的key！'
     return

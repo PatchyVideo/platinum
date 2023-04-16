@@ -1,4 +1,4 @@
-import { fileURLToPath } from 'url'
+import { fileURLToPath } from 'node:url'
 import { Repository } from '@napi-rs/simple-git'
 import { transformerDirectives } from 'unocss'
 import { version } from './package.json'

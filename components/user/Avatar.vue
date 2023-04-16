@@ -21,12 +21,12 @@ const originalImgs = ref<Set<string>>(new Set())
 const currImg = ref(0)
 const currUrl = computed(() => [...imgs.value][currImg.value])
 const currOriginalUrl = computed(() => [...originalImgs.value][currImg.value])
-const onError = (e: Event) => {
+function onError(e: Event) {
   if (currImg.value < imgs.value.size - 1)
     currImg.value++
 }
 
-const setImgs = () => {
+function setImgs() {
   const pushImg = (url: string, ori?: string) => {
     if (ori) {
       imgs.value.add(url)
@@ -77,12 +77,12 @@ onMounted(() => {
   })
 })
 
-const onClick = () => {
+function onClick() {
   // use a `window.open` to open link here since this component should expose an `img` element
   if (props.openable)
     window.open(currOriginalUrl.value, '_blank')
 }
-const onAuxClick = (e: MouseEvent) => {
+function onAuxClick(e: MouseEvent) {
   if (e.button === 1)
     onClick()
 }

@@ -18,7 +18,7 @@ const { getToken } = useApollo()
 const auth = await useAuth()
 
 const hideVideoLoading = ref(false)
-const hideVideo = async () => {
+async function hideVideo() {
   hideVideoLoading.value = true
 
   const res = await $fetch<{

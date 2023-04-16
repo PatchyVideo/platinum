@@ -19,7 +19,7 @@ interface Auth {
   }
 }
 
-export const useAuth = async () => {
+export async function useAuth() {
   const { getToken } = useApollo()
 
   const { data, refresh } = await useAsyncData('auth', async () => {

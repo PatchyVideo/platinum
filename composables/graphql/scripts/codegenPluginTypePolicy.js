@@ -12,7 +12,7 @@ const { code, imp } = require('ts-poet')
  *     scalarTypePolicies: Record<string, string>;
  *   }>}
  */
-const plugin = async (schema, _, config) => {
+async function plugin(schema, _, config) {
   const { scalarTypePolicies = {} } = config || {}
 
   /**

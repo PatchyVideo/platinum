@@ -16,12 +16,14 @@ const emailEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | null>(
 const email = ref('')
 const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-const emailRepValidator = (value: string) => emailFormat.test(value)
+function emailRepValidator(value: string) {
+  return emailFormat.test(value)
+}
 const emailValid = computed(() => emailRepValidator(email.value))
 
 const loading = ref<0 | 1 | 2>(0)
 const forgetError = ref<string>()
-const forget = async () => {
+async function forget() {
   if (!email.value) {
     forgetError.value = t('user.forget-password.email.email-status.tip')
     emailEl.value?.focus()

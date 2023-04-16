@@ -22,9 +22,13 @@ const passwordEl = shallowRef<InstanceType<GlobalComponents['PFormInput']> | nul
 const username = ref('')
 const password = ref('')
 
-const usernameValidator = (value: string) => value.length >= 2 && value.length <= 32
+function usernameValidator(value: string) {
+  return value.length >= 2 && value.length <= 32
+}
 const usernameValid = computed(() => usernameValidator(username.value))
-const passwordValidator = (value: string) => value.length >= 6 && value.length <= 32
+function passwordValidator(value: string) {
+  return value.length >= 6 && value.length <= 32
+}
 const passwordValid = computed(() => passwordValidator(password.value))
 
 // When "user name exists!" or "email is already been used!" appears for seveal times,
@@ -33,7 +37,7 @@ const errorCount = ref(0)
 
 const loading = ref<0 | 1 | 2>(0)
 const loginError = ref<string>()
-const login = async () => {
+async function login() {
   if (!username.value) {
     loginError.value = t('user.login.username.username-status.tip')
     usernameEl.value?.focus()

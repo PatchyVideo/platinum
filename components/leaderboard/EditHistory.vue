@@ -59,7 +59,7 @@ const { data } = await useAsyncQuery<Query>(
 )
 const getRawTagHistory = computed(() => data.value!.getRawTagHistory.items)
 
-const updatePage = (page: number) => {
+function updatePage(page: number) {
   window.scrollTo(0, 0)
   navigateTo({ query: { ...route.query, page } })
 }

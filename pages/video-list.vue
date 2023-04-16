@@ -61,7 +61,7 @@ const { data, refresh } = await useAsyncQuery<Query>(
 )
 const listVideo = computed(() => data.value!.listVideo)
 
-const updatePage = (page: number) => {
+function updatePage(page: number) {
   window.scrollTo(0, 0)
   navigateTo({ query: { ...route.query, page } })
 }

@@ -5,7 +5,7 @@ const { locale } = useI18n()
 
 const inputEl = shallowRef<HTMLInputElement>()
 
-const setCursorPos = (pos: number) => {
+function setCursorPos(pos: number) {
   if (!inputEl.value)
     return
 
@@ -21,7 +21,7 @@ interface ComboTag {
   cnt?: number
 }
 
-const findLangMatch = (langs: Record<string, string>, lang: string) => {
+function findLangMatch(langs: Record<string, string>, lang: string) {
   if (lang in langs)
     return langs[lang]
 
@@ -171,9 +171,9 @@ const inFocus = ref(false)
 const active = ref(-1)
 const activeCombo = computed(() => completes.value[active.value])
 
-const search = () => {}
+function search() {}
 
-const onKeyDown = (e: KeyboardEvent) => {
+function onKeyDown(e: KeyboardEvent) {
   inFocus.value = true
 
   switch (e.key) {
@@ -236,7 +236,7 @@ const onKeyDown = (e: KeyboardEvent) => {
   }
 }
 
-const onComboClick = (combo: ComboTag) => {
+function onComboClick(combo: ComboTag) {
   query.value = `${queryPrefix.value}${combo.tag}${querySuffix.value || ' '}`
   const pos = queryPrefix.value.length + combo.tag.length + 1
   nextTick(() => setCursorPos(pos))

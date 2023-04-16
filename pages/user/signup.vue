@@ -23,13 +23,21 @@ const passwordRep = ref('')
 const email = ref('')
 const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
-const usernameValidator = (value: string) => value.length >= 2 && value.length <= 32
+function usernameValidator(value: string) {
+  return value.length >= 2 && value.length <= 32
+}
 const usernameValid = computed(() => usernameValidator(username.value))
-const passwordValidator = (value: string) => value.length >= 6 && value.length <= 32
+function passwordValidator(value: string) {
+  return value.length >= 6 && value.length <= 32
+}
 const passwordValid = computed(() => passwordValidator(password.value))
-const passwordRepValidator = (value: string) => value === password.value
+function passwordRepValidator(value: string) {
+  return value === password.value
+}
 const passwordRepValid = computed(() => passwordRepValidator(passwordRep.value))
-const emailRepValidator = (value: string) => emailFormat.test(value)
+function emailRepValidator(value: string) {
+  return emailFormat.test(value)
+}
 const emailValid = computed(() => emailRepValidator(email.value))
 
 // When "user name exists!" or "email is already been used!" appears for seveal times,
@@ -38,7 +46,7 @@ const errorCount = ref(0)
 
 const loading = ref<0 | 1 | 2>(0)
 const signupError = ref<string>()
-const signup = async () => {
+async function signup() {
   if (!username.value) {
     signupError.value = t('user.signup.username.username-status.tip')
     usernameEl.value?.focus()

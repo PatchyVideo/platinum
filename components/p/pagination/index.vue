@@ -15,7 +15,7 @@ watchEffect(() => {
   input.value = page.value
 })
 
-const commit = () => {
+function commit() {
   if (
     !Number.isSafeInteger(input.value)
     || input.value < 1
