@@ -1,6 +1,9 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
+const route = useRoute()
+const router = useRouter()
+
 const { locale } = useI18n()
 
 const inputEl = shallowRef<HTMLInputElement>()
@@ -14,7 +17,7 @@ function setCursorPos(pos: number) {
 }
 
 interface ComboTag {
-  type: 'tag'
+  type: 'tag' | 'keyword'
   id: string
   tag: string
   sub?: string
@@ -81,8 +84,11 @@ const popularTags = computed<ComboTag[]>(() =>
       }
     }) || [])
 
-const query = ref('')
-const cursor = ref(0)
+const query = ref(pickFirstQuery(route.query.q) || '')
+const cursor = ref(query.value.length)
+function updateCursor(e: KeyboardEvent | MouseEvent | ClipboardEvent) {
+  cursor.value = (e.target as HTMLInputElement).selectionStart || 0
+}
 
 const queryKeywordStart = computed(() => {
   const text = query
@@ -128,11 +134,33 @@ interface QueryResultLangs {
   l: number
   w: string
 }
+interface QueryKeyword {
+  cat: number
+  cnt: number
+  keyword: string
+}
 const queryLangMap = ['NAL', 'CHS', 'CHT', 'CSY', 'NLD', 'ENG', 'FRA', 'DEU', 'HUN', 'ITA', 'JPN', 'KOR', 'PLK', 'PTB', 'ROM', 'RUS', 'ESP', 'TRK', 'VIN']
+const SearchKeywords: QueryKeyword[] = [
+  { keyword: 'site:acfun', cat: 6, cnt: 0 },
+  { keyword: 'site:bilibili', cat: 6, cnt: 0 },
+  { keyword: 'site:nicovideo', cat: 6, cnt: 0 },
+  { keyword: 'site:twitter', cat: 6, cnt: 0 },
+  { keyword: 'site:youtube', cat: 6, cnt: 0 },
+  { keyword: 'site:zcool', cat: 6, cnt: 0 },
+  { keyword: 'site:ipfs', cat: 6, cnt: 0 },
+  { keyword: 'AND', cat: 6, cnt: 0 },
+  { keyword: 'OR', cat: 6, cnt: 0 },
+  { keyword: 'NOT', cat: 6, cnt: 0 },
+  { keyword: 'date:', cat: 6, cnt: 0 },
+  { keyword: 'tags:', cat: 6, cnt: 0 },
+]
+function siteOrKeywordFilter(query: string) {
+  return (siteOrKeyword: QueryKeyword): boolean => !(query === '') && (siteOrKeyword.keyword?.toLowerCase().indexOf(query.toLowerCase()) === 0)
+}
 
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
   () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword.value}`,
-  { immediate: false, watch: false },
+  { immediate: queryKeyword.value !== '', watch: false },
 )
 watchThrottled(queryKeyword, (value) => {
   if (value)
@@ -166,12 +194,30 @@ const completes = computed<ComboTag[]>(() => {
       }
     })
 })
+const completesWithKeyword = computed<ComboTag[]>(
+  () => {
+    const a: ComboTag[] = SearchKeywords
+      .filter(siteOrKeywordFilter(queryKeyword.value))
+      .map((item) => {
+        return {
+          type: 'keyword',
+          id: `keyword:${item.keyword}`,
+          tag: item.keyword,
+          cnt: item.cnt,
+        }
+      })
+    return a.concat(completes.value)
+  },
+)
 
 const inFocus = ref(false)
 const active = ref(-1)
-const activeCombo = computed(() => completes.value[active.value])
+const activeCombo = computed(() => completesWithKeyword.value[active.value])
 
-function search() {}
+function search() {
+  query.value = query.value.trim()
+  router.push({ path: '/search', query: { q: query.value } })
+}
 
 function onKeyDown(e: KeyboardEvent) {
   inFocus.value = true
@@ -180,7 +226,7 @@ function onKeyDown(e: KeyboardEvent) {
     case 'ArrowDown':
       e.preventDefault()
       e.stopPropagation()
-      if (active.value < completes.value.length - 1)
+      if (active.value < completesWithKeyword.value.length - 1)
         active.value++
       else active.value = 0
       break
@@ -188,7 +234,7 @@ function onKeyDown(e: KeyboardEvent) {
     case 'PageDown':
       e.preventDefault()
       e.stopPropagation()
-      active.value = completes.value.length - 1
+      active.value = completesWithKeyword.value.length - 1
       break
 
     case 'ArrowUp':
@@ -196,7 +242,7 @@ function onKeyDown(e: KeyboardEvent) {
       e.stopPropagation()
       if (active.value >= 0)
         active.value--
-      else active.value = completes.value.length - 1
+      else active.value = completesWithKeyword.value.length - 1
       break
 
     case 'PageUp':
@@ -213,25 +259,18 @@ function onKeyDown(e: KeyboardEvent) {
       break
 
     case 'Tab':
+    case 'Enter':
       e.preventDefault()
       e.stopPropagation()
-      if (activeCombo) {
+      if (activeCombo.value) {
         query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
         const pos = queryPrefix.value.length + activeCombo.value.tag.length + 1
         nextTick(() => setCursorPos(pos))
         active.value = -1
       }
-      break
-
-    case 'Enter':
-      e.preventDefault()
-      e.stopPropagation()
-      if (activeCombo) {
-        query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
-        active.value = -1
+      else {
+        search()
       }
-      inFocus.value = false
-      search()
       break
   }
 }
@@ -255,7 +294,9 @@ function onComboClick(combo: ComboTag) {
         @focus="() => inFocus = true"
         @blur="() => inFocus = false"
         @keydown="onKeyDown"
-        @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
+        @keyup="updateCursor"
+        @mouseup="updateCursor"
+        @paste="updateCursor"
       >
       <div class="px-2 py-1 cursor-pointer" @click="search">
         <div class="i-uil:search w-6 h-6" />
@@ -273,23 +314,33 @@ function onComboClick(combo: ComboTag) {
       <div
         v-show="inFocus"
         static
-        class="absolute w-[calc(100%-1rem)] mt-2 ml-2 rounded-lg ring-2 ring-purple-300 bg-white overflow-hidden"
+        class="absolute w-[calc(100%-1rem)] max-h-80vh mt-2 ml-2 rounded-lg ring-2 ring-purple-300 bg-white overflow-auto"
       >
         <div
-          v-if="completes.length === 0"
+          v-if="completesWithKeyword.length === 0"
           class="px-2 py-8 w-full text-lg text-center text-gray-400"
         >
-          {{ pending ? '正在努力搜索' : '没什么可做的' }}
+          {{ pending ? '少女祈祷中...' : '没什么可做的' }}
         </div>
 
         <li
-          v-for="(combo, index) in completes"
+          v-for="(combo, index) in completesWithKeyword"
           :key="combo.id"
           class="px-2 py-1 w-full list-none border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
           :class="{ 'bg-purple-200 bg-opacity-10': active === index }"
           @click="onComboClick(combo)"
         >
-          <div v-if="combo.type === 'tag'" class="flex items-center">
+          <div v-if="combo.type === 'keyword'" class="flex items-center">
+            <div class="i-uil:tag-alt flex-shrink-0 my-1 mr-1 text-xl text-purple-600" />
+            <div
+              class="truncate transition-colors duration-75"
+              :class="{ 'text-purple-500': active === index }"
+              :title="combo.tag"
+            >
+              {{ combo.tag }}
+            </div>
+          </div>
+          <div v-else-if="combo.type === 'tag'" class="flex items-center">
             <div class="i-uil:tag-alt flex-shrink-0 my-1 mr-1 text-xl text-purple-600" />
             <div class="truncate md:flex md:items-center md:space-x-2">
               <div
