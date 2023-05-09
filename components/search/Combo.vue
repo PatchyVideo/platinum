@@ -84,11 +84,8 @@ const popularTags = computed<ComboTag[]>(() =>
       }
     }) || [])
 
-const query = ref(pickFirstQuery(route.query.q) || '')
-const cursor = ref(query.value.length)
-function updateCursor(e: KeyboardEvent | MouseEvent | ClipboardEvent) {
-  cursor.value = (e.target as HTMLInputElement).selectionStart || 0
-}
+const query = ref('')
+const cursor = ref(0)
 
 const queryKeywordStart = computed(() => {
   const text = query
@@ -160,7 +157,7 @@ function siteOrKeywordFilter(query: string) {
 
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
   () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword.value}`,
-  { immediate: queryKeyword.value !== '', watch: false },
+  { immediate: false, watch: false },
 )
 watchThrottled(queryKeyword, (value) => {
   if (value)
@@ -294,9 +291,7 @@ function onComboClick(combo: ComboTag) {
         @focus="() => inFocus = true"
         @blur="() => inFocus = false"
         @keydown="onKeyDown"
-        @keyup="updateCursor"
-        @mouseup="updateCursor"
-        @paste="updateCursor"
+        @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
       >
       <div class="px-2 py-1 cursor-pointer" @click="search">
         <div class="i-uil:search w-6 h-6" />
