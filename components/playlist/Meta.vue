@@ -12,16 +12,6 @@ const props = defineProps<{
   cover: string
   desc: string
 }>()
-
-const descOpen = ref(false)
-
-// Hide "Hide/Show" button when desc doesn't need to
-// TODO: make it responsive
-const descDiv = shallowRef<HTMLDivElement | null>(null)
-const moreDesc = ref(true)
-onMounted(() => {
-  moreDesc.value = descDiv.value!.clientHeight !== descDiv.value!.scrollHeight
-})
 </script>
 
 <template>
@@ -58,14 +48,7 @@ onMounted(() => {
 
       <ToolbarRank :rating="rating || null" />
 
-      <div class="order-first md:order-none">
-        <div ref="descDiv" :class="{ 'line-clamp-2 overflow-ellipsis': !descOpen }">
-          {{ desc ? desc : '简介：暂无简介' }}
-        </div>
-        <div v-if="moreDesc" class="text-right md:text-left cursor-pointer underline transition transition-colors hover:text-purple-400" @click="descOpen = !descOpen">
-          {{ descOpen ? '收起' : '展开' }}
-        </div>
-      </div>
+      <MarkdownCommentBlock :text="desc" size="sm" class="order-first md:order-none" />
     </div>
   </div>
 </template>
