@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { hash as md5 } from 'spark-md5'
-// @ts-expect-error TODO: why
 import defaultAvatar from '@/assets/images/DefaultAvatar.jpg?url'
 
 const props = defineProps<{
