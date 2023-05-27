@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ObjectID, Query, schema } from '@/composables/graphql'
+import type { Query, schema } from '@/composables/graphql'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -124,7 +124,7 @@ useHead({
 interface Author {
   type: 'AuthorTag' | 'User'
   position: string
-  id: ObjectID
+  id: string
   tagid?: number
   name: string
   desc: string
@@ -148,16 +148,15 @@ const authors = computed(() =>
             } as Author),
         )
         .concat([
-          getVideo.value.meta.createdBy
-           && {
-             type: 'User',
-             id: getVideo.value.meta.createdBy.id,
-             name: getVideo.value.meta.createdBy.username,
-             desc: getVideo.value.meta.createdBy.desc,
-             avatar: getVideo.value.meta.createdBy.image,
-             gravatar: getVideo.value.meta.createdBy.gravatar || undefined,
-             position: t('video.video.uploader'),
-           },
+          getVideo.value.meta.createdBy && {
+            type: 'User',
+            id: getVideo.value.meta.createdBy.id,
+            name: getVideo.value.meta.createdBy.username,
+            desc: getVideo.value.meta.createdBy.desc,
+            avatar: getVideo.value.meta.createdBy.image,
+            gravatar: getVideo.value.meta.createdBy.gravatar || undefined,
+            position: t('video.video.uploader'),
+          },
         ])
         .filter(v => !!v) as Author[])
     : [],
@@ -179,7 +178,7 @@ const authors = computed(() =>
         <VideoPlayer :item="getVideo.item" />
       </Suspense> -->
       <div class="space-y-2 flex flex-wrap md:space-x-2">
-        <UserMeta v-for="author in authors" :key="author.id.toHexString" :status="author.type === 'AuthorTag' ? '原作者' : '上传者'" :username="author.name" :desc="author.desc" show-desc :image="author.avatar" :gravatar="author.gravatar" show-img :small-size="false" />
+        <UserMeta v-for="author in authors" :key="author.id" :status="author.type === 'AuthorTag' ? '原作者' : '上传者'" :username="author.name" :desc="author.desc" show-desc :image="author.avatar" :gravatar="author.gravatar" show-img :small-size="false" />
       </div>
       <div>
         <ToolbarTag v-for="item in getVideo.tags" :key="item.id" :tag="item" class="mr-1 mt-1" />
