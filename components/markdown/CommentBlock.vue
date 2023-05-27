@@ -4,15 +4,10 @@ import { nextTick, ref, shallowRef, watch } from 'vue'
 import { useIntersectionObserver } from '@vueuse/core'
 import { render } from '@/composables/markdown/parserComment'
 
-const props = withDefaults(
-  defineProps<{
-    text: string
-    size?: string
-  }>(),
-  {
-    size: '',
-  },
-)
+const props = defineProps<{
+  text: string
+}>()
+
 const emit = defineEmits<{
   (event: 'htmlChanged'): void
 }>()
@@ -43,7 +38,6 @@ useIntersectionObserver(
       <article
         ref="root"
         class="prose dark:prose-invert break-all my-24"
-        :class="{ 'text-sm': size === 'sm', 'text-lg': size === 'lg', 'text-xl': size === 'xl' }"
         v-html="html"
       />
     </div>

@@ -8,10 +8,12 @@ const props = withDefaults(defineProps<{
   opType?: 'none' | 'video' | 'playlist' | 'playlistEditor'
   // Become horizontal to fit mobile view
   horizontal?: boolean
+  responsive?: boolean
 }>(), {
   videoIndex: 0,
   opType: 'none',
   horizontal: false,
+  responsive: true,
 })
 const emit = defineEmits<{
   (event: 'refresh'): void
@@ -31,14 +33,14 @@ const biliVideoPartNeeded = computed(() => props.video.item.partName && props.vi
 
 <template>
   <div class="rounded-md relative min-w-48">
-    <NuxtLink :to="`/video/${video.id}`" :class="{ 'grid grid-cols-3 gap-2 md:grid-cols-none': horizontal }">
+    <NuxtLink :to="`/video/${video.id}`" :class="{ 'grid grid-cols-3 gap-2': horizontal, 'md:grid-cols-none': responsive }">
       <div v-if="videoIndex" class="absolute left-0 top-0 z-1 h-7 w-7 md:w-10 md:h-10 grid place-items-center bg-black bg-opacity-50 text-lg text-white rounded-rb-md rounded-lt-md">
         {{ videoIndex }}
       </div>
 
       <VideoCover class="w-full rounded-md border border-gray-200 dark:border-gray-800" :video="video" />
 
-      <div class="flex justify-between" :class="{ 'col-span-2 md:col-auto': horizontal }">
+      <div class="flex justify-between" :class="{ 'col-span-2': horizontal, 'md:col-auto': responsive }">
         <div>
           <div class="overflow-ellipsis transition transition-colors hover:text-purple-600" :class="biliVideoPart && biliVideoPartNeeded ? 'h-5 md:h-6 line-clamp-1' : 'h-10 md:h-12 line-clamp-2'">
             {{ video.item.title }}
