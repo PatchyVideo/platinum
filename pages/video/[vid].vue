@@ -174,11 +174,23 @@ const authors = computed(() =>
         <div v-text="t(`video.video.repost-type.${getVideo.item.repostType}`, getVideo.item.repostType)" />
         <DateRelative :date="getVideo.item.uploadTime" />
       </div>
-      <!-- <Suspense>
-        <VideoPlayer :item="getVideo.item" />
-      </Suspense> -->
+      <Suspense>
+        <VideoPlayer :item="getVideo.item" class="shadow" />
+      </Suspense>
       <div class="space-y-2 flex flex-wrap md:space-x-2">
-        <UserMeta v-for="author in authors" :key="author.id" :status="author.type === 'AuthorTag' ? '原作者' : '上传者'" :username="author.name" :desc="author.desc" show-desc :image="author.avatar" :gravatar="author.gravatar" show-img :small-size="false" />
+        <UserMeta
+          v-for="author in authors"
+          :id="author.id"
+          :key="author.id"
+          :status="author.type === 'AuthorTag' ? '原作者' : '上传者'"
+          :username="author.name"
+          :desc="author.desc"
+          show-desc
+          :image="author.avatar"
+          :gravatar="author.gravatar"
+          show-img
+          :small-size="false"
+        />
       </div>
       <div>
         <ToolbarTag v-for="item in getVideo.tags" :key="item.id" :tag="item" class="mr-1 mt-1" />
