@@ -38,6 +38,9 @@ const { data, refresh } = await useAsyncQuery<Query>(
           userRating
           totalUser
         }
+        commentThread {
+          id
+        }
         videos(offset: $offset, limit: $limit) {
           id
           item {
@@ -123,5 +126,7 @@ function updatePage(page: number) {
       :total="Math.ceil(getPlaylist.item.count / limit)"
       @update:page="updatePage"
     />
+
+    <CommentList v-if="getPlaylist.commentThread" :tid="getPlaylist.commentThread?.id" />
   </div>
 </template>
