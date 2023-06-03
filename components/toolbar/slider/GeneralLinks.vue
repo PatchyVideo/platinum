@@ -92,8 +92,6 @@ const links = computed<Link[]>(() => {
 
 <template>
   <div class="flex flex-col gap-0.5">
-    <div v-for="link in links" :key="link.key">
-      <ToolbarSliderLink :link="link" />
-    </div>
+    <ToolbarSliderLink v-for="link in links" :key="link.key" :link="link" />
   </div>
 </template>
