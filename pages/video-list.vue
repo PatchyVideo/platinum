@@ -1,11 +1,14 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
+import { getAdditionalConstraintString } from '@/composables/search'
 
 definePageMeta({
   key: route => JSON.stringify([
     route.query.page,
     route.query.limit,
     route.query.order,
+    route.query.qtype,
+    route.query.a,
   ]),
 })
 
@@ -19,6 +22,12 @@ useHead({
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
 const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 40)
 const order = computed(() => pickFirstQuery(route.query.order) || 'last_modified')
+const qtype = computed(() =>
+  String(pickFirstQuery(route.query.qtype) || 'tag'),
+)
+const additionalConstraintUrl = ref(
+  String(pickFirstQuery(route.query.a) || ''),
+)
 
 const { data, refresh } = await useAsyncQuery<Query>(
   gql`
@@ -54,8 +63,8 @@ const { data, refresh } = await useAsyncQuery<Query>(
   {
     offset: (page.value - 1) * limit.value,
     limit: limit.value,
-    query: '',
-    qtype: '',
+    query: getAdditionalConstraintString(additionalConstraintUrl.value),
+    qtype: qtype.value,
     order: order.value,
   },
 )
@@ -85,5 +94,7 @@ function updatePage(page: number) {
       :total="Math.ceil(listVideo.count / limit)"
       @update:page="updatePage"
     />
+
+    <SearchAdvance type="video" />
   </div>
 </template>
