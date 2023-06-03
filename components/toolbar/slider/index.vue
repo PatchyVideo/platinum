@@ -24,6 +24,7 @@ watchEffect(() => {
       <ToolbarLogo v-model:show-slider="show" class="flex-grow-0" />
 
       <ToolbarSliderGeneralLinks />
-    </div>    <PMask v-model:show="show" />
+    </div>
+    <PMask v-model:show="show" />
   </div>
 </template>
