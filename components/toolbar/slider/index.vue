@@ -18,8 +18,8 @@ watchEffect(() => {
 <template>
   <div>
     <div
-      class="fixed flex flex-col gap-4 max-w-100vw h-100vh z-50 pl-4 pr-10 py-1 bg-white rounded-r-lg transition duration-500 transition-all overflow-auto"
-      :class="show ? 'left-0' : '-left-100'"
+      class="fixed left-0 inset-y-0 max-w-100vw overflow-auto z-50 pl-4 pr-10 py-1 bg-white shadow border-r border-purple-200 rounded-r-lg transform transition-transform duration-300 flex flex-col gap-4"
+      :class=" { '-translate-x-full translate-y-0': !show }"
     >
       <ToolbarLogo v-model:show-slider="show" class="flex-grow-0" />
 

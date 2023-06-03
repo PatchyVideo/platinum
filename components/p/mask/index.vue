@@ -19,7 +19,7 @@ function closeMask() {
 
 <template>
   <TransitionGroup name="mask">
-    <div v-if="show" class="fixed w-100vw h-100vh z-49 transition duration-500 transition-opacity opacity-10" :class="{ 'bg-black': props.gray }" @click="closeMask()" />
+    <div v-if="show" class="fixed top-0 left-0 w-100vw h-100vh z-49 transition duration-500 transition-opacity opacity-10" :class="{ 'bg-black': props.gray }" @click="closeMask()" />
   </TransitionGroup>
 </template>
 
