@@ -24,7 +24,7 @@ const optionsLeft = computed(() => rootPos.left.value)
 <template>
   <div ref="rootEl" class="inline-block">
     <HListbox v-slot="{ open }" v-model="selectedOp">
-      <HListboxButton class="px-2 py-0.5 rounded-md flex items-center space-x-4 bg-white" :class="{ 'ring ring-purple-100': ring }">
+      <HListboxButton class="w-full px-2 py-0.5 rounded-md flex justify-between items-center space-x-4 bg-white whitespace-nowrap" :class="{ 'ring ring-purple-100': ring }">
         <div>{{ selectedOp.name }}</div>
         <div
           class="i-uil:angle-down w-5 h-5 transition-transform" :class="{ 'rotate-180': open }"

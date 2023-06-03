@@ -21,7 +21,7 @@ function commit() {
     || input.value < 1
     || input.value > props.total
   ) {
-    // PvMessage({ message: t('ui.pv-pagination.alert'), type: MessageType.warning })
+    PvMessage({ message: t('ui.pv-pagination.alert'), type: MessageType.warning })
     return
   }
 
@@ -32,12 +32,12 @@ function commit() {
 
 <template>
   <div class="flex justify-center items-center gap-2">
-    <PPaginationButton
+    <PFormButton
       :disabled="page === 1"
       @click="() => page > 1 && page--"
     >
       {{ t('ui.pv-pagination.page-previous') }}
-    </PPaginationButton>
+    </PFormButton>
 
     <input
       v-model.number="input"
@@ -48,11 +48,11 @@ function commit() {
     /
     <span>{{ total }}</span>
 
-    <PPaginationButton
+    <PFormButton
       :disabled="page === total"
       @click="() => page < total && page++"
     >
       {{ t('ui.pv-pagination.page-next') }}
-    </PPaginationButton>
+    </PFormButton>
   </div>
 </template>

@@ -1,10 +1,13 @@
 <script lang="ts" setup>
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   label: string
   type: string
   modelValue: string
+  disabled?: boolean
   validator?: (value: string) => boolean
-}>()
+}>(), {
+  disabled: false,
+})
 const emit = defineEmits<{
   (event: 'update:modelValue', value: string): void
   (event: 'enter'): void
@@ -29,8 +32,8 @@ defineExpose({ focus })
 <template>
   <label class="input relative w-full border-b-2 border-purple-400 transition-colors focus-within:border-purple-600">
     <span
-      class="label absolute px-2 text-gray-800 font-light transition-all ease-out"
-      :class="[modelValue ? 'top-0 text-xs' : 'top-4']"
+      class="label absolute px-2 transition-all ease-out"
+      :class="[modelValue ? 'top-0 text-xs' : 'top-4', disabled ? 'text-gray-400' : 'text-gray-600']"
     >
       {{ label }}
       <span
@@ -46,6 +49,7 @@ defineExpose({ focus })
       ref="inputEl"
       v-model="modelValue"
       :type="type"
+      :disabled="disabled"
       class="focus:outline-none bg-transparent px-2 pt-4 pb-px w-full"
       @keydown.enter.prevent="onEnter"
     >
