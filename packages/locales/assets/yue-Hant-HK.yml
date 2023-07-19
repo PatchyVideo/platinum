@@ -21,13 +21,13 @@ common:
       darkmode: 深色模式
       lang: 显示语言
     user:
-      my-message: 我的消息
+      my-message: 我嘅讯息
       login: 登录
       logout: 退出登录
       userprofile: 个人中心
       confirming: 系度验证登录紧...
   footer:
-    user-number: PatchyVideo 正在为 {users} 个像你一样的用户提供服务！
+    user-number: PatchyVideo 正在为 {users} 个似你一样嘅用户提供紧服务！
     wiki: 网站嘅维基
     status: 网站嘅状态
     bl-account: B站嘅官方帐户
@@ -35,7 +35,7 @@ common:
     code: 同代码相关嘅啲嘢
     repositories: 项目嘅仓库
     feedback-issue: 提交反馈
-    contact: 联系我们
+    contact: 联系我哋
     license: 开源许可
     sponsor: 赞助我哋
 darkmode:
@@ -44,10 +44,10 @@ darkmode:
   dark: 深色
 error-pages:
   N404:
-    title: 巴瓦鲁魔法服务器并冇这个界面
+    title: 巴瓦鲁魔法服务器并冇呢个界面
 home:
   home:
-    title: PatchyVideo - Platinum(WIP)
+    title: PatchyVideo
     hello: 你好世界！
     components:
       query-video:
@@ -65,9 +65,9 @@ locales:
     部分嘅语言修改需要刷新下页面先至生效
     想宜家刷新页面吗？
 main:
-  browser-offline: 网络连接不可用，请检查网络设置
+  browser-offline: 网络好似用唔到，检查下你嘅网络设置
   reload-prompt:
-    tips: 有新内容更新，重新加载以应用更新
+    tips: 有新内容更新咗，重新加载嚟应用更新
     reload: 重新加载
     dismiss: 忽略
 playlist:
@@ -150,7 +150,7 @@ search:
   auto-complete:
     search: 搜索
     loading: 加载中...
-    loading-nothing: 没有搜索建议
+    loading-nothing: 冇搜索建议
     loading-failed: 加载失败咗QAQ
     hot-tags: 热门标签
 ui:
@@ -193,7 +193,7 @@ user:
         fine: ' '
         tip: 请输入用户名！
         msg: 长度睇 2 到 32 个字符!
-        res: 呢个用户名已被注册！
+        res: 呢个用户名被注册咗！
         err: 网络错误！
     password:
       placeholder: 请输入密码
@@ -205,8 +205,8 @@ user:
       placeholder: 请重复密码
       password2-status:
         fine: ' '
-        tip: 请再次输入密码!
-        msg: 两次密码输入不一致！
+        tip: 请再次输入一次密码!
+        msg: 两次嘅密码输入不一样！
     email:
       placeholder: 请绑定邮箱
       email-status:
@@ -264,8 +264,8 @@ user:
     title: 个人中心
     not-logged-in: 你净未登陆，点我登陆
     avatar:
-      current: 当前嘅图片
-      requirement: 选择一张图片上传：大小系256 * 256像素
+      current: 当前嘅头像
+      requirement: 选择一张图片上传：大小256 * 256像素
       choose-image: 选择图片
       upload: 上传
     username:
@@ -292,10 +292,10 @@ user:
       boundEmail: 已经绑定咗嘅邮箱
       none: 暂时冇有
   profile:
-    title: '{username} 的个人中心 - PatchyVideo'
-    nothing: 这里还什么都没有哦……
+    title: '{username} 嘅个人中心 - PatchyVideo'
+    nothing: 这里还乜嘢都冇哦……
     info:
-      created-at: 注册于 {date}
+      created-at: '睇 {date} 注册 '
   avatar:
     alt: '{alt}嘅头像'
   input:
@@ -304,29 +304,29 @@ user-notification:
   notification:
     title: 消息中心
     slide-open: 打开消息侧栏
-    reply: 回复我的
-    at: 艾特我的（建设中）
+    reply: 回复我嘅
+    at: at我嘅（建设中）
     system: 系统通知
   notification-system:
     title: 系统通知
     mark-all-as-read: 全部标为已读
-    loading: 加载中
-    no-message: 您还没有收到过系统通知哦
+    loading: 加载紧
+    no-message: 您仲未收到过系统通知哦
     fold: 折叠
     unfold: 展开
   notification-reply:
-    title: 回复我的
+    title: 回复我嘅
     mark-all-as-read: 全部标为已读
-    loading: 加载中
-    no-message: 您还没有收到过回复消息哦
-    reply: '{username}回复了你：'
+    loading: 加载紧
+    no-message: 您仲未收到过回复消息哦
+    reply: '{username}回复咗你：'
   notification-navtop:
-    title: 消息和通知
-    loading: 加载中
-    error: 加载出错了QAQ，错误原因：{error}
+    title: 消息同通知
+    loading: 加载紧
+    error: 加载出错咗QAQ，错误嘅原因：{error}
     no-message: 没有新消息哦
-    show-all: 查看全部回复
-    reply: '{username} 回复了你：'
+    show-all: 睇全部回复
+    reply: '{username} 回复咗你：'
     system: 系统通知：{title}
 video:
   video:
@@ -343,7 +343,7 @@ video:
     edit:
       hide-video:
         title: 隐藏视频
-        saving: 保存中
+        saving: 保存紧
         succeed: 保存成功！
         failed: 保存失败：{error}
       edit-video: 编辑视频
@@ -394,13 +394,13 @@ video:
   edit-video:
     title: 编辑视频 - {videoname}
     profile:
-      profile: 基本信息
+      profile: 基本嘅信息
       title: 视频标题
       ranks:
-        '0': 仅管理员可见
-        '1': 登录用户可见
-        '2': 发布者和管理员可见
-        '3': 所有人可见
+        '0': 就得管理员可以睇得到
+        '1': 登录咗嘅用户可睇得到
+        '2': 就发布嘅人同管理员可以睇得到
+        '3': 全部嘅人可以睇得到
         rank: 视频可见性
       edit:
         saving: 保存中 - 编辑视频 - {videoname}
@@ -417,7 +417,7 @@ video:
       successful:
         search-no-result: 冇揾到视频QAQ
         search-result-count: 一共{count}个视频
-      tips: '*已屏蔽含有敏感标签的视频'
+      tips: '*已屏蔽含有敏感标签嘅视频'
     video:
       hidden: 已隐藏
       source-site: 源网站：
@@ -455,7 +455,7 @@ settings:
       color:
         name: 主题嘅颜色
       dark-cover-filter:
-        desc: 开咗之后，视频/播放列表嘅封面睇深色模式下会降到 75% 嘅亮度（默认打开）
+        desc: 开咗之后，视频/播放列表嘅封面睇深色模式下会降到 75% 嘅亮度（默认就打开）
         name: 睇深色模式下降低封面嘅亮度
     name: 外观
   account:
@@ -463,9 +463,9 @@ settings:
       name: 个人嘅信息
       username:
         label: 用户名
-        desc: 呢个用户名全站唯一一个，你可以随时修改你嘅用户名。
+        desc: 呢个用户名全站就得唯一一个，你可以随时修改你嘅用户名。
       description:
         label: 简介
-    loading: 睇度拉取个人嘅信息
+    loading: 睇度拉紧个人嘅信息
     name: 账户
   loading: 睇度加载紧设置
