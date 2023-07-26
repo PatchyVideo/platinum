@@ -67,15 +67,25 @@ const exceptContent = ref(additionalConstraintObject.value.exceptContent)
 function addexceptContent(): void {}
 
 /* Order */
-const orderList = [
+const orderListVideo = [
   { value: 'latest', name: '索引时间正序' },
   { value: 'oldest', name: '索引时间倒序' },
   { value: 'video_latest', name: '原视频发布正序' },
   { value: 'video_oldest', name: '原视频发布倒序' },
   { value: 'last_modified', name: '最近修改顺序' },
 ]
+const orderListPlaylist = [
+  { value: 'latest', name: '创建时间正序' },
+  { value: 'oldest', name: '创建时间倒序' },
+  { value: 'last_modified', name: '最近修改顺序' },
+]
 const order = ref(
-  orderList.find(item => item.value === String(pickFirstQuery(route.query.order))) || orderList[4],
+  (() => {
+    if (props.type === 'video')
+      return orderListVideo.find(item => item.value === String(pickFirstQuery(route.query.order))) || orderListVideo[4]
+    else
+      return orderListPlaylist.find(item => item.value === String(pickFirstQuery(route.query.order))) || orderListPlaylist[2]
+  })(),
 )
 
 /* Site */
@@ -184,7 +194,12 @@ function reset() {
   qtype.value = qtypeList[0]
   searchContentAndOrNot.value = ''
   exceptContent.value = ''
-  order.value = orderList[4]
+  order.value = (() => {
+    if (props.type === 'video')
+      return orderListVideo[4]
+    else
+      return orderListPlaylist[2]
+  })()
   visibleSites.value = ['']
   beforeAfterEqualDate1.value = beforeAfterEqualList[3]
   year1.value = ''
@@ -300,13 +315,15 @@ function search(): void {
         </div>
         <div class="i-uil:times text-2xl transition-colors" @click="showAdvancedSearch = false" />
       </div>
+
       <div class="mt-4 space-y-3">
-        <div class="flex justify-between space-x-6 items-center">
+        <div v-if="props.type === 'video'" class="flex justify-between space-x-6 items-center">
           <div class="whitespace-nowrap">
             {{ '搜索类型：' }}
           </div>
           <PFormSelect v-model:selected-op="qtype" class="flex-1 max-w-64" :ops="qtypeList" ring />
         </div>
+
         <!-- TODO: add OR function -->
         <div class="flex justify-between space-x-2 items-center">
           <!-- <div class="whitespace-nowrap">
@@ -315,6 +332,7 @@ function search(): void {
           <!-- TODO: Use autocomplete -->
           <PFormInput v-model="searchContentAndOrNot" type="text" label="包含关键字：" />
         </div>
+
         <div class="flex justify-between space-x-6 items-center">
           <!-- <div class="whitespace-nowrap">
             {{ '排除标签：' }}
@@ -322,13 +340,16 @@ function search(): void {
           <!-- TODO: Use autocomplete -->
           <PFormInput v-model="exceptContent" type="text" label="排除标签：" />
         </div>
+
         <div class="flex justify-between space-x-6 items-center">
           <div class="whitespace-nowrap">
             {{ '排序方式：' }}
           </div>
-          <PFormSelect v-model:selected-op="order" class="flex-1 max-w-64" :ops="orderList" ring />
+          <PFormSelect v-if="props.type === 'video'" v-model:selected-op="order" class="flex-1 max-w-64" :ops="orderListVideo" ring />
+          <PFormSelect v-else-if="props.type === 'playlist'" v-model:selected-op="order" class="flex-1 max-w-64" :ops="orderListPlaylist" ring />
         </div>
-        <div class="flex justify-between items-center">
+
+        <div v-if="props.type === 'video'" class="flex justify-between items-center">
           <div class="whitespace-nowrap">
             {{ '源网站：' }}
           </div>
@@ -351,7 +372,8 @@ function search(): void {
             </div>
           </div>
         </div>
-        <div>
+
+        <div v-if="props.type === 'video'">
           <div class="mb-1 whitespace-nowrap">
             {{ '原视频发布时间：' }}
           </div>
@@ -384,6 +406,7 @@ function search(): void {
             </div>
           </div>
         </div>
+
         <div class="flex justify-between items-end">
           <div class="whitespace-nowrap pb-0.5">
             {{ '标签：' }}
@@ -393,12 +416,14 @@ function search(): void {
             <PFormInput v-model="tagNum" type="text" label="数量" :disabled="ignoreTagNum" />
           </div>
         </div>
-        <div class="flex justify-between items-center">
+
+        <div v-if="props.type === 'video'" class="flex justify-between items-center">
           <div class="whitespace-nowrap">
             {{ '仅展示待人工整理标签的视频' }}
           </div>
           <PFormCheckBox v-model:check="onlyShowAutotagedVideos" />
         </div>
+
         <div class="flex justify-around border-t pt-3">
           <PFormButton @click="reset()">
             {{ '重置' }}
@@ -407,6 +432,7 @@ function search(): void {
             {{ '搜索' }}
           </PFormButton>
         </div>
+
         <div>
           <div class="text-xs italic">
             <div>{{ '#更多高级筛选功能请参考：' }}</div>
