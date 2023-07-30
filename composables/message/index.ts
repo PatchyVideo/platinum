@@ -1,3 +1,4 @@
+// @unocss-include
 import type { VNode } from 'vue'
 
 export enum MessageType {
