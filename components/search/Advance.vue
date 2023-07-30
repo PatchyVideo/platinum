@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string'
-import { MessageType, PvMessage } from '@/composables/message'
+import { Message, MessageType } from '@/composables/message'
 
 const props = defineProps<{
   type: 'video' | 'playlist'
@@ -229,7 +229,7 @@ function checkSubmitContent(): boolean {
       || !Number.isSafeInteger(day1.value)
       || Number(day1.value) <= 0)
   ) {
-    PvMessage({ message: '请检查原视频发布时间项1的填写是否正确！', type: MessageType.warning })
+    Message({ message: '请检查原视频发布时间项1的填写是否正确！', type: MessageType.warning })
     return false
   }
   if (
@@ -244,7 +244,7 @@ function checkSubmitContent(): boolean {
       || !Number.isSafeInteger(day2.value)
       || Number(day2.value) <= 0)
   ) {
-    PvMessage({ message: '请检查原视频发布时间项2的填写是否正确！', type: MessageType.warning })
+    Message({ message: '请检查原视频发布时间项2的填写是否正确！', type: MessageType.warning })
     return false
   }
   // Check tag
@@ -252,7 +252,7 @@ function checkSubmitContent(): boolean {
     moreLessEqualTagNum.value.value !== ''
     && (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
-    PvMessage({ message: '请检查标签数量项的填写是否正确！', type: MessageType.warning })
+    Message({ message: '请检查标签数量项的填写是否正确！', type: MessageType.warning })
     return false
   }
   return true

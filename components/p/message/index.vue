@@ -1,27 +1,26 @@
 <script lang="ts" setup>
-import { PvMessageTransitionDuration, fullMessageOptions, handleCloseMessage } from '@/composables/message'
+import { MessageTransitionDuration, fullMessageOptions, handleCloseMessage } from '@/composables/message'
 </script>
 
 <template>
   <div>
-    <TransitionGroup name="pv-message-transition">
+    <TransitionGroup name="message-transition">
       <div
         v-for="(options, i) in fullMessageOptions"
         :key="options.id"
-        class="pv-message fixed left-1/2 -translate-x-1/2 p-4 pl-5 border border-purple-400 rounded-md border-solid flex flex-row justify-between items-center z-50 overflow-hidden transition-all h-20"
+        class="message min-w-90 max-w-100vw min-h-7 fixed left-1/2 -translate-x-1/2 py-2 px-5 rounded-md flex justify-center items-center z-51 transition-all"
         :style="{
           'transition-timing-function': 'ease',
-          'transition-duration': `${PvMessageTransitionDuration.toString()}ms`,
+          'transition-duration': `${MessageTransitionDuration.toString()}ms`,
           'background-color': options.bgColor,
           'border-color': options.borderColor,
           'color': options.color,
-          'min-width': '320px',
-          'top': `${options.offset ?? 0 + 110 * i}px`,
+          'top': `${options.offset && 20 + 50 * i}px`,
         }"
       >
-        <div class="relative flex flex-row justify-start items-center" :class="{ 'mr-6': options.showClose }">
-          <div class="absolute top-1/2 -translate-y-1/2 left-0" :class="options.icon" />
-          <div class="ml-6 w-auto inline-block" :style="{ textAlign: options.center ? 'center' : 'inherit' }">
+        <div class="flex justify-center items-center space-x-2">
+          <div :class="options.icon" />
+          <div :style="{ textAlign: options.center ? 'center' : 'inherit' }">
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div v-if="options.dangerouslyUseHTMLString" v-html="options.message" />
             <div v-else>
@@ -31,26 +30,32 @@ import { PvMessageTransitionDuration, fullMessageOptions, handleCloseMessage } f
         </div>
         <div
           v-if="options.showClose"
-          class="i-uil:times absolute top-1/2 -translate-y-1/2 right-4 hover:cursor-pointer hover:text-gray-600 text-gray-400 transition-all duration-300"
+          class="absolute -right-2.5 -top-2 z-53 rounded-full hover:cursor-pointer hover:text-gray-600 text-gray-400 border"
+          :style="{
+            'background-color': options.bgColor,
+            'border-color': options.color,
+          }"
           @click="handleCloseMessage(options)"
-        />
+        >
+          <div class="w-5 h-4 i-uil:times" />
+        </div>
       </div>
     </TransitionGroup>
   </div>
 </template>
 
 <style lang="postcss" scoped>
-.pv-message-transition-enter-from,
-.pv-message-transition-leave-to {
+.message-transition-enter-from,
+.message-transition-leave-to {
   opacity: 0;
   transform: translate(-50%, -75%);
 }
-.pv-message-transition-enter-active,
-.pv-message-transition-leave-active {
+.message-transition-enter-active,
+.message-transition-leave-active {
   transition: all 300ms;
 }
-.pv-message-transition-enter-to,
-.pv-message-transition-leave-from {
+.message-transition-enter-to,
+.message-transition-leave-from {
   opacity: 1;
   transform: translate(-50%, 0);
 }

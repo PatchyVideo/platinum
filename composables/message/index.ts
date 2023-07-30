@@ -1,5 +1,4 @@
 import type { VNode } from 'vue'
-import { reactive, ref, shallowReactive } from 'vue'
 
 export enum MessageType {
   success = 'success',
@@ -7,33 +6,48 @@ export enum MessageType {
   info = 'info',
   error = 'error',
 }
-
-export const PvMessageTransitionDuration = ref(400)
-const typeToStyle: Record<MessageType, OtherOptions> = {
+export interface UIOptions {
+  color: string
+  bgColor: string
+  borderColor: string
+  icon: string
+}
+const typeToStyle: Record<MessageType, UIOptions> = {
   [MessageType.success]: {
-    color: '#67C23A',
-    bgColor: '#f0f9eb',
-    borderColor: '#e1f3d8',
+    color: '#9333EA',
+    bgColor: '#F3E8FF',
+    borderColor: '#F3E8FF',
     icon: 'i-uil:check-circle',
   },
   [MessageType.warning]: {
-    color: '#e6a23c',
-    bgColor: '#fdf6ec',
-    borderColor: '#faecd8',
-    icon: 'i-uil:exclamation-triangle',
+    color: '#EACD33',
+    bgColor: '#FFFBE8',
+    borderColor: '#FFFBE8',
+    icon: 'i-uil:exclamation-circle',
   },
   [MessageType.info]: {
-    color: '#909399',
-    bgColor: '#edf2fc',
-    borderColor: '#ebeef5',
+    color: '#9333EA',
+    bgColor: '#F3E8FF',
+    borderColor: '#F3E8FF',
     icon: 'i-uil:info-circle',
   },
   [MessageType.error]: {
-    color: '#f56c6c',
-    bgColor: '#fef0f0',
-    borderColor: '#fde2e2',
+    color: '#EA3333',
+    bgColor: '#FFE8E8',
+    borderColor: '#FFE8E8',
     icon: 'i-uil:times-circle',
   },
+}
+
+export interface Options {
+  message: string | VNode
+  type?: MessageType
+  dangerouslyUseHTMLString?: boolean
+  duration?: number
+  showClose?: boolean
+  center?: boolean
+  onClose?: () => void
+  offset?: number
 }
 const OptionsDefaultValue: Options = {
   message: '',
@@ -44,9 +58,14 @@ const OptionsDefaultValue: Options = {
   offset: 20,
   center: false,
 }
+const allMessageOptions = reactive<Options[]>([])
 
-const allMessageOptions = reactive<Array<Options>>([])
-export const fullMessageOptions = shallowReactive<Array<FullOptions>>([])
+export interface FullOptions extends Options, UIOptions {
+  id: number
+}
+export const fullMessageOptions = shallowReactive<FullOptions[]>([])
+
+export const MessageTransitionDuration = ref(400)
 
 export function handleCloseMessage(options: FullOptions): void {
   const { id, onClose } = options
@@ -60,58 +79,34 @@ export function handleCloseMessage(options: FullOptions): void {
   setTimeout(() => {
     if (onClose)
       onClose()
-  }, PvMessageTransitionDuration.value)
+  }, MessageTransitionDuration.value)
 }
 
-export function PvMessage(options: string | Options): void {
+/* Main function */
+export function Message(options: string | Options): void {
   if (typeof options === 'string') {
     options = {
       message: options,
     }
   }
-  /* 默认值赋值 */
   options = {
     ...OptionsDefaultValue,
     ...options,
   }
+  // Message which shows close will not close automatically
+  if (options.showClose)
+    options.duration = -1
+
   allMessageOptions.push(options)
   const fullOptions = Object.assign({}, options, typeToStyle[options.type as MessageType], {
     id: Math.round(Math.random() * 10000000),
   })
   fullMessageOptions.push(fullOptions)
 
-  /* 设置延时关闭 */
   const { duration } = fullOptions
   if ((duration as number) > 0) {
     setTimeout(() => {
       handleCloseMessage(fullOptions)
     }, duration)
   }
-}
-
-/**
- * Options
- * @选项参考：https://element.eleme.cn/#/zh-CN/component/message#options
- * */
-export interface Options {
-  message: string | VNode
-  type?: MessageType
-  dangerouslyUseHTMLString?: boolean
-  duration?: number
-  showClose?: boolean
-  center?: boolean
-  /**
-   * 回调无参数！
-   * */
-  onClose?: () => void
-  offset?: number
-}
-export interface OtherOptions {
-  color: string
-  bgColor: string
-  borderColor: string
-  icon: string
-}
-export interface FullOptions extends Options, OtherOptions {
-  id: number
 }
