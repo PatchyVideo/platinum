@@ -21,7 +21,7 @@ function commit() {
     || input.value < 1
     || input.value > props.total
   ) {
-    PvMessage({ message: t('ui.pv-pagination.alert'), type: MessageType.warning })
+    Message({ message: t('ui.pv-pagination.alert'), type: MessageType.warning })
     return
   }
 
