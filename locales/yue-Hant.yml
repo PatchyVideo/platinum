@@ -183,6 +183,7 @@ user:
       loading: 登录紧..
       failed: 用户名或者密码错咗！
       error: 未知嘅错误
+      refreshing: 睇度刷新紧数据...
     signup: 注册
     forget-password: 忘记咗密码?
   signup:
