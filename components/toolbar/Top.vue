@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+const props = defineProps<{
+  fetchNote: boolean
+}>()
+
 const showSlider = ref(false)
 </script>
 
@@ -15,7 +19,7 @@ const showSlider = ref(false)
 
       <!-- End -->
       <div class="flex-1 flex ml-auto pl-2 justify-end items-center">
-        <ToolbarUser class="mr-2" />
+        <ToolbarUser :fetch-note="props.fetchNote" class="mr-2" />
       </div>
     </div>
   </div>
