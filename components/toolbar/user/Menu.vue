@@ -1,7 +1,25 @@
 <script lang="ts" setup>
+import type { Query } from '@/composables/graphql'
+
+const props = defineProps<{
+  fetchNote: boolean
+}>()
+
 const { t } = useI18n()
 const { onLogout } = useApollo()
 const auth = await useAuth()
+
+// fetch unread messages
+const { data } = await useAsyncQuery<Query>(
+  gql`
+    query {
+      listNotifications (para: {}) {
+        countUnread
+      }
+    }
+  `,
+)
+const listNoteCountUnread = computed(() => data.value!.listNotifications.countUnread)
 
 // log out
 const loggingOut = ref(false)
@@ -18,7 +36,7 @@ async function logout(): Promise<void> {
 
 <template>
   <PPopoverDown button-class="relative flex items-center">
-    <template #button="{ open }">
+    <template #button>
       <UserAvatar
         class="w-10 h-10 rounded-full ring ring-transparent hover:ring-gray-200 dark:hover:ring-gray-700"
         :alt="auth.username"
@@ -26,9 +44,9 @@ async function logout(): Promise<void> {
         :email="auth.email"
       />
 
-      <template v-if="!open">
-        <div class="sm:hidden absolute w-2 h-2 top-px right-px bg-rose-500 rounded-full animate-ping" />
-        <div class="sm:hidden absolute w-2 h-2 top-px right-px bg-rose-500 rounded-full" />
+      <template v-if="(listNoteCountUnread > 0) && props.fetchNote">
+        <div class="absolute w-2 h-2 top-px right-px bg-rose-500 rounded-full animate-ping" />
+        <div class="absolute w-2 h-2 top-px right-px bg-rose-500 rounded-full" />
       </template>
     </template>
 
@@ -60,18 +78,22 @@ async function logout(): Promise<void> {
         个人中心
       </NuxtLink>
 
-      <!-- <div class="w-full border-b-1 border-purple-200 border-dashed dark:border-gray-700" /> -->
+      <div
+        v-if="props.fetchNote"
+        class="w-full border-b-1 border-purple-200 border-dashed dark:border-gray-700"
+      />
 
-      <!-- <NuxtLink
+      <NuxtLink
+        v-if="props.fetchNote"
         class="flex px-4 py-1.5 w-full items-center gap-2 hover:bg-purple-50 dark:hover:bg-indigo-800"
-        to="/user/notification"
+        to="/notification"
       >
         <div class="i-uil:envelope text-lg" />
         {{ t('common.nav-top.user.my-message') }}
         <span v-if="listNoteCountUnread" class="px-2 rounded-full text-white text-sm bg-red-500">
           {{ listNoteCountUnread > 99 ? '99+' : listNoteCountUnread }}
         </span>
-      </NuxtLink> -->
+      </NuxtLink>
 
       <div class="w-full border-b-1 border-purple-300 dark:border-gray-600" />
 
