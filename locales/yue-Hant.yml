@@ -8,7 +8,7 @@ common:
       list: 播放列表
       discuss-board: 讨论板
       leaderboard: 用户排行榜
-      wiki: 网站嘅维基
+      wiki: 网站嘅Wiki
     user-operation:
       postvideo: 发布视频
       tag: 编辑标签
@@ -25,37 +25,37 @@ common:
       login: 登录
       logout: 退出登录
       userprofile: 个人中心
-      confirming: 系度验证登录紧...
+      confirming: 睇度验证登录紧...
   footer:
-    user-number: PatchyVideo 正在为 {users} 个像你一样的用户提供服务！
-    wiki: 网站嘅维基
+    user-number: PatchyVideo 睇度为 {users} 个似你一样嘅用户提供紧服务！
+    wiki: 网站嘅Wiki
     status: 网站嘅状态
-    bl-account: B站嘅官方帐户
+    bl-account: Bilibili
     joinus: 招募祈愿
     code: 同代码相关嘅啲嘢
     repositories: 项目嘅仓库
     feedback-issue: 提交反馈
-    contact: 联系我们
+    contact: 联系我哋
     license: 开源许可
     sponsor: 赞助我哋
 darkmode:
-  system: 跟随系统
+  system: 跟随系统嘅设置
   light: 浅色
   dark: 深色
 error-pages:
   N404:
-    title: 巴瓦鲁魔法服务器并冇这个界面
+    title: 巴瓦鲁魔法服务器冇这个界面
 home:
   home:
-    title: PatchyVideo - Platinum(WIP)
+    title: PatchyVideo
     hello: 你好世界！
     components:
       query-video:
         default-title: 最新嘅上传
     intro:
-      follow: 关注帕琪站嘅官方B站帐号
+      follow: 关注帕琪站嘅官方Bilibili账号
       joinus: 加入我哋
-      medium: 呢系一个静睇度建设嘅新页面
+      medium: 呢静系一个睇度建设嘅新页面
       old: 番去旧页面
       template: '{medium} 你可以{old}来获得完整的体验，{follow}获取最新进度，或者{joinus}来帮助我哋推进！'
   list:
@@ -67,7 +67,7 @@ locales:
 main:
   browser-offline: 网络连接不可用，请检查网络设置
   reload-prompt:
-    tips: 有新内容更新，重新加载以应用更新
+    tips: 有新嘅内容更新咗，重新加载来睇下更新
     reload: 重新加载
     dismiss: 忽略
 playlist:
@@ -82,7 +82,7 @@ playlist:
     title: 播放列表
     main-body:
       loading:
-        searching: 少女祈祷中......
+        searching: 少女搜索中......
       failed:
         load-failed: 加载失败了QAQ
         load-failed-reason: 错误嘅原因：
@@ -117,7 +117,7 @@ search:
       tab: 视频
       main-body:
         loading:
-          searching: 揾紧......
+          searching: 少女搜索中...
         failed:
           search-failed: 加载失败咗QAQ
           search-failed-reason: 错误嘅原因：
@@ -135,7 +135,7 @@ search:
       tab: 播放列表
       main-body:
         loading:
-          searching: 少女祈祷中......
+          searching: 少女搜索中......
         failed:
           search-failed: 加载失败了QAQ
           search-failed-reason: 错误嘅原因：
@@ -149,8 +149,8 @@ search:
     search: 搜索
   auto-complete:
     search: 搜索
-    loading: 加载中...
-    loading-nothing: 没有搜索建议
+    loading: 少女祈祷中...
+    loading-nothing: 冇搜索建议
     loading-failed: 加载失败咗QAQ
     hot-tags: 热门标签
 ui:
@@ -171,13 +171,13 @@ user:
       username-status:
         fine: ' '
         tip: 请输入用户名或邮箱！
-        msg: 长度睇 2 到 32 个字符！
+        msg: 长度睇 2 到 32 个字符之间！
     password:
       placeholder: 请输入密码
       password-status:
         fine: ' '
         tip: 请输入密码！
-        msg: 长度睇 6 到 64 个字符！
+        msg: 长度睇 6 到 64 个字符之间！
     login-status:
       ready: 登录
       loading: 登录紧..
@@ -193,15 +193,15 @@ user:
       username-status:
         fine: ' '
         tip: 请输入用户名！
-        msg: 长度睇 2 到 32 个字符!
-        res: 呢个用户名已被注册！
+        msg: 长度睇 2 到 32 个字符之间!
+        res: 呢个用户名已经被注册咗！
         err: 网络错误！
     password:
       placeholder: 请输入密码
       password-status:
         fine: ' '
         tip: 请输入密码!
-        msg: 长度睇 6 到 64 个字符!
+        msg: 长度睇 6 到 64 个字符之间!
     password2:
       placeholder: 请重复密码
       password2-status:
@@ -231,19 +231,19 @@ user:
         msg: 请输入正确嘅邮箱格式！
     send-status:
       ready: 发送
-      loading: 发送紧...
+      loading: 发送紧重置密码嘅邮件...
       successful: 邮件发送成功，请查收！
       failed: 呢个邮箱未绑定账号！
       error: 未知错误
-    login: 返回登录
+    login: 翻去登录页
   reset-password:
-    title: 重置密码
+    title: 重置你嘅密码
     password:
       placeholder: 请设定新密码
       password-status:
         fine: ' '
         tip: 请输入密码！
-        msg: 长度睇4到64个字符！
+        msg: 长度睇4到64个字符之间！
     password2:
       placeholder: 请重复新密码
       password2-status:
@@ -252,7 +252,7 @@ user:
         msg: 两次密码输入不一致！
     reset-status:
       ready: 重置
-      loading: 重置紧...
+      loading: 重置紧你嘅密码...
       error: 无效嘅key
   redirect:
     title: 跳转紧...
@@ -260,10 +260,10 @@ user:
       sign-up: 注册
       reset-password: 重置
     log: '{fromWord}成功，{count}秒后跳番登录页面'
-    jump: 冇反应？点我手动跳转
+    jump: 冇反应？按我手动跳转
   user-page:
     title: 个人中心
-    not-logged-in: 你净未登陆，点我登陆
+    not-logged-in: 你净未登陆，按我登陆
     avatar:
       current: 当前嘅图片
       requirement: 选择一张图片上传：大小系256 * 256像素
@@ -290,7 +290,7 @@ user:
       title: 绑定邮箱
       placeholder: 请输入邮箱
       bind: 绑定
-      boundEmail: 已经绑定咗嘅邮箱
+      boundEmail: 已经绑定咗嘅邮箱到呢个账号
       none: 暂时冇有
   profile:
     title: '{username} 的个人中心 - PatchyVideo'
@@ -305,29 +305,29 @@ user-notification:
   notification:
     title: 消息中心
     slide-open: 打开消息侧栏
-    reply: 回复我的
-    at: 艾特我的（建设中）
+    reply: 回复咗我嘅
+    at: at我的（建设中）
     system: 系统通知
   notification-system:
     title: 系统通知
     mark-all-as-read: 全部标为已读
     loading: 加载中
-    no-message: 您还没有收到过系统通知哦
+    no-message: 您静没收到过系统通知
     fold: 折叠
     unfold: 展开
   notification-reply:
-    title: 回复我的
+    title: 回复咗我嘅
     mark-all-as-read: 全部标为已读
     loading: 加载中
-    no-message: 您还没有收到过回复消息哦
-    reply: '{username}回复了你：'
+    no-message: 你静没有收到过回复消息哦
+    reply: '{username}回复咗你：'
   notification-navtop:
     title: 消息和通知
     loading: 加载中
-    error: 加载出错了QAQ，错误原因：{error}
-    no-message: 没有新消息哦
+    error: 加载出错咗QAQ，错误嘅原因：{error}
+    no-message: 冇有新消息
     show-all: 查看全部回复
-    reply: '{username} 回复了你：'
+    reply: '{username} 回复咗你：'
     system: 系统通知：{title}
 video:
   video:
@@ -369,16 +369,16 @@ video:
     play-stream:
       source:
         video:
-          source-changing: 睇度切换视频源紧
+          source-changing: 睇度切换紧视频源
           source-nothing: 冇有可以支持嘅视频源
         audio:
           source-nothing: 冇有可以支持嘅音频源
       container:
         flv:
-          player-loading: 睇度载入flv.js
+          player-loading: 睇度加载flv.js
           player-loaded: 播放器加载完毕
           player-failed: flv解析器创建失败
-          parse-creating: 睇度创建紧flv解析器
+          parse-creating: 睇度整紧flv解析器
           source-loading: 睇度加载紧视频源
         webm_dash: {}
         mp4_dash:
@@ -411,7 +411,7 @@ video:
     title: 视频嘅列表
     main-body:
       loading:
-        searching: 少女祈祷中......
+        searching: 少女搜索中......
       failed:
         search-failed: 加载失败咗QAQ
         search-failed-reason: 错误嘅原因：
@@ -449,7 +449,7 @@ settings:
     name: 常规
     theme:
       color:
-        desc: 选择浏览PatchyVideo嘅主题
+        desc: 选择浏览PatchyVideo嘅颜色主题
   appearance:
     theme:
       name: 主题
@@ -457,16 +457,16 @@ settings:
         name: 主题嘅颜色
       dark-cover-filter:
         desc: 开咗之后，视频/播放列表嘅封面睇深色模式下会降到 75% 嘅亮度（默认打开）
-        name: 睇深色模式下降低封面嘅亮度
+        name: 深色模式下降低封面嘅亮度
     name: 外观
   account:
     profile:
       name: 个人嘅信息
       username:
         label: 用户名
-        desc: 呢个用户名全站唯一一个，你可以随时修改你嘅用户名。
+        desc: 呢个用户名系全站唯一一个，你可以随时修改你嘅用户名。
       description:
         label: 简介
-    loading: 睇度拉取个人嘅信息
+    loading: 睇度拉取个人嘅信息落本地
     name: 账户
   loading: 睇度加载紧设置
