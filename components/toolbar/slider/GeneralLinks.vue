@@ -2,7 +2,7 @@
 import type { Link } from './SliderLink.vue'
 
 const { t } = useI18n()
-const auth = await useAuth()
+// const auth = await useAuth()
 
 const links = computed<Link[]>(() => {
   const links: Link[] = [
@@ -49,43 +49,43 @@ const links = computed<Link[]>(() => {
       href: 'https://patchyvideo.wiki/',
     },
   ]
-  const placeholder = (text = ''): Link => {
-    return {
-      key: 'placeholder',
-      type: 'blank',
-      text,
-    }
-  }
-  if (auth.isLogin) {
-    links.push(
-      placeholder(),
-      {
-        key: 'postvideo',
-        type: 'router',
-        icon: 'i-uil:upload',
-        text: t('common.nav-top.user-operation.postvideo'),
-        path: '/post-video',
-      },
-      {
-        key: 'edittag',
-        type: 'router',
-        icon: 'i-uil:tag-alt',
-        text: t('common.nav-top.user-operation.tag'),
-        path: '/edit-tag',
-      },
-    )
-  }
-  if (auth.isAdmin) {
-    links.push(
-      placeholder('管理员'),
-      {
-        key: 'super-admin',
-        type: 'router',
-        text: t('common.nav-top.admin.super-admin'),
-        path: '/superadmin',
-      },
-    )
-  }
+  // const placeholder = (text = ''): Link => {
+  //   return {
+  //     key: 'placeholder',
+  //     type: 'blank',
+  //     text,
+  //   }
+  // }
+  // if (auth.isLogin) {
+  //   links.push(
+  //     placeholder(),
+  //     {
+  //       key: 'postvideo',
+  //       type: 'router',
+  //       icon: 'i-uil:upload',
+  //       text: t('common.nav-top.user-operation.postvideo'),
+  //       path: '/post-video',
+  //     },
+  //     {
+  //       key: 'edittag',
+  //       type: 'router',
+  //       icon: 'i-uil:tag-alt',
+  //       text: t('common.nav-top.user-operation.tag'),
+  //       path: '/edit-tag',
+  //     },
+  //   )
+  // }
+  // if (auth.isAdmin) {
+  //   links.push(
+  //     placeholder('管理员'),
+  //     {
+  //       key: 'super-admin',
+  //       type: 'router',
+  //       text: t('common.nav-top.admin.super-admin'),
+  //       path: '/superadmin',
+  //     },
+  //   )
+  // }
   return links
 })
 </script>
