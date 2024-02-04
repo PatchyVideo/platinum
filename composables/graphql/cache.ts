@@ -75,10 +75,10 @@ export const cache = new InMemoryCache({
           ...childOffsetLimitPara('tags'),
           keyArgs: ['para', ['query', 'queryRegex', 'category', 'order']],
         },
-        listNotifications: {
-          ...childOffsetLimitPara('notes'),
-          keyArgs: ['para', ['listAll', 'noteType']],
-        },
+        // listNotifications: {
+        //   ...childOffsetLimitPara('notes'),
+        //   keyArgs: ['para', ['listAll', 'noteType']],
+        // },
         listSubscriptionVideos: {
           ...childOffsetLimitPara('videos'),
           keyArgs: ['para', ['query', 'queryRegex', 'category', 'order']],

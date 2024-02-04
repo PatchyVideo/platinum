@@ -6,7 +6,8 @@ module.exports = {
     },
     includes: ['./**/*.{graphql,js,ts,jsx,tsx,vue}'],
     excludes: ['./composables/graphql/dist/*'],
-    validationRules: [], // disable validation for now, most of the validations are incompatible with the current graphql plugin.
+    // disable validation for now, most of the validations are incompatible with the current graphql plugin.
+    validationRules: [],
     tagName: 'gql',
   },
 }

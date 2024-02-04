@@ -16,8 +16,8 @@ catch (e) {}
 export default defineNuxtConfig({
   // ssr: false,
 
-  experimental: {
-    inlineSSRStyles: false,
+  features: {
+    inlineStyles: false,
   },
 
   modules: [
@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   ],
 
   typescript: {
+    // typeCheck: true,
     strict: true,
   },
 
@@ -94,10 +95,7 @@ export default defineNuxtConfig({
       { code: 'CHT', name: '粵語中文', iso: 'yue-Hant', file: 'yue-Hant.yml' },
     ],
     defaultLocale: 'CHS',
-    vueI18n: {
-      legacy: false,
-      fallbackLocale: 'CHS',
-    },
+    vueI18n: './nuxt-i18n.ts',
   },
 
   vueuse: {
