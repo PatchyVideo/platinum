@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
-const route = useRoute()
 const router = useRouter()
 
 const { locale } = useI18n()
@@ -63,9 +62,10 @@ const { data: popularTagsData } = await useAsyncQuery<Query>(
     lang: locale.value,
   },
 )
+const getPopularTags = computed(() => popularTagsData.value!.getPopularTags)
 const popularTags = computed<ComboTag[]>(() =>
-  popularTagsData.value?.getPopularTags.popularTags
-    ?.sort((a, b) => b.popluarity - a.popluarity)
+  [...getPopularTags.value.popularTags || []]
+    .sort((a, b) => b.popluarity - a.popluarity)
     .map((item) => {
       const langs = Object.fromEntries(item.tag.languages.map(lang => [lang.lang, lang.value]))
       let sub: string | undefined
@@ -162,9 +162,7 @@ const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
 watchThrottled(queryKeyword, (value) => {
   if (value)
     refresh()
-},
-{ throttle: 500, leading: false, trailing: true },
-)
+}, { throttle: 500, leading: false, trailing: true })
 
 const completes = computed<ComboTag[]>(() => {
   if (queryKeyword.value === '')
