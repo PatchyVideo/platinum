@@ -13,13 +13,21 @@ const auth = await useAuth()
 const { data } = await useAsyncQuery<Query>(
   gql`
     query {
-      listNotifications (para: {}) {
-        countUnread
+      listUnreadNotificationsCount {
+        list {
+          msgtype
+          count
+        }
       }
     }
   `,
 )
-const listNoteCountUnread = computed(() => data.value!.listNotifications.countUnread)
+const listNoteCountUnread = computed(() => {
+  let count = 0
+  for (const item of data.value.listUnreadNotificationsCount.list)
+    count += item.count
+  return count
+})
 
 // log out
 const loggingOut = ref(false)
