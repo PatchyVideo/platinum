@@ -210,92 +210,94 @@ async function signup() {
 </script>
 
 <template>
-  <NuxtLayout name="login-layout" :bg-type="2">
-    <form
-      class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
-      @submit.prevent="signup"
-    >
-      <div class="flex mb-2 mx-auto items-center">
-        <NuxtLink to="/">
-          <Logo :larger="8" />
-        </NuxtLink>
+  <div>
+    <NuxtLayout name="login-layout" :bg-type="2">
+      <form
+        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
+        @submit.prevent="signup"
+      >
+        <div class="flex mb-2 mx-auto items-center">
+          <NuxtLink to="/">
+            <Logo :larger="8" />
+          </NuxtLink>
 
-        <span class="ml-2 pl-4 text-lg border-l-2 border-gray-400">{{ t('user.signup.title') }}</span>
-      </div>
+          <span class="ml-2 pl-4 text-lg border-l-2 border-gray-400">{{ t('user.signup.title') }}</span>
+        </div>
 
-      <div v-if="signupError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
-        <p class="text-center">
-          {{ signupError }}
-        </p>
-      </div>
+        <div v-if="signupError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
+          <p class="text-center">
+            {{ signupError }}
+          </p>
+        </div>
 
-      <div class="flex flex-nowrap gap-1 items-end">
-        <PFormInput
-          ref="emailEl"
-          v-model="email"
-          label="邮箱"
-          type="text"
-          :validator="emailRepValidator"
-          @enter="() => emailEl?.focus()"
-        />
-      </div>
+        <div class="flex flex-nowrap gap-1 items-end">
+          <PFormInput
+            ref="emailEl"
+            v-model="email"
+            label="邮箱"
+            type="text"
+            :validator="emailRepValidator"
+            @enter="() => emailEl?.focus()"
+          />
+        </div>
 
-      <div class="flex flex-nowrap gap-1 items-end">
-        <PFormInput
-          ref="usernameEl"
-          v-model="username"
-          label="用户名"
-          type="text"
-          :validator="usernameValidator"
-          @enter="() => passwordEl?.focus()"
-        />
-      </div>
+        <div class="flex flex-nowrap gap-1 items-end">
+          <PFormInput
+            ref="usernameEl"
+            v-model="username"
+            label="用户名"
+            type="text"
+            :validator="usernameValidator"
+            @enter="() => passwordEl?.focus()"
+          />
+        </div>
 
-      <div class="flex flex-nowrap gap-1 items-end">
-        <PFormInput
-          ref="passwordEl"
-          v-model="password"
-          label="密码"
-          type="password"
-          :validator="passwordValidator"
-          @enter="signup"
-        />
-      </div>
+        <div class="flex flex-nowrap gap-1 items-end">
+          <PFormInput
+            ref="passwordEl"
+            v-model="password"
+            label="密码"
+            type="password"
+            :validator="passwordValidator"
+            @enter="signup"
+          />
+        </div>
 
-      <div class="flex flex-nowrap gap-1 items-end">
-        <PFormInput
-          ref="passwordRepEl"
-          v-model="passwordRep"
-          label="重复密码"
-          type="password"
-          :validator="passwordRepValidator"
-          @enter="signup"
-        />
-      </div>
+        <div class="flex flex-nowrap gap-1 items-end">
+          <PFormInput
+            ref="passwordRepEl"
+            v-model="passwordRep"
+            label="重复密码"
+            type="password"
+            :validator="passwordRepValidator"
+            @enter="signup"
+          />
+        </div>
 
-      <div class="mt-2">
-        <button
-          class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
-          type="submit"
-          :disabled="loading > 0"
-        >
-          {{ loading === 2
-            ? '注册成功！跳转登陆界面...'
-            : loading === 1
-              ? t('user.signup.signup-status.loading')
-              : t('user.signup.signup-status.ready') }}
-        </button>
-      </div>
+        <div class="mt-2">
+          <button
+            class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
+            type="submit"
+            :disabled="loading > 0"
+          >
+            {{ loading === 2
+              ? '注册成功！跳转登陆界面...'
+              : loading === 1
+                ? t('user.signup.signup-status.loading')
+                : t('user.signup.signup-status.ready') }}
+          </button>
+        </div>
 
-      <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
-        <NuxtLink :to="{ path: '/user/login', query: { from: 'signup' } }">
-          返回登陆
-        </NuxtLink>
-        <span class="text-gray-400">|</span>
-        <NuxtLink to="/user/forget-password">
-          忘记密码
-        </NuxtLink>
-      </div>
-    </form>
-  </NuxtLayout>
+        <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
+          <NuxtLink :to="{ path: '/user/login', query: { from: 'signup' } }">
+            返回登陆
+          </NuxtLink>
+          <span class="text-gray-400">|</span>
+          <NuxtLink to="/user/forget-password">
+            忘记密码
+          </NuxtLink>
+        </div>
+      </form>
+    </NuxtLayout>
+  </div>
 </template>

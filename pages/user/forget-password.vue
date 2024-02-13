@@ -75,59 +75,61 @@ async function forget() {
 </script>
 
 <template>
-  <NuxtLayout name="login-layout" :bg-type="1">
-    <form
-      class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
-      @submit.prevent="forget"
-    >
-      <div class="flex mb-2 mx-auto items-center">
-        <NuxtLink to="/">
-          <Logo :larger="8" />
-        </NuxtLink>
+  <div>
+    <NuxtLayout name="login-layout" :bg-type="1">
+      <form
+        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
+        @submit.prevent="forget"
+      >
+        <div class="flex mb-2 mx-auto items-center">
+          <NuxtLink to="/">
+            <Logo :larger="8" />
+          </NuxtLink>
 
-        <span class="ml-2 pl-4 md:text-lg border-l-2 border-gray-400">{{ t('user.forget-password.title') }}</span>
-      </div>
+          <span class="ml-2 pl-4 md:text-lg border-l-2 border-gray-400">{{ t('user.forget-password.title') }}</span>
+        </div>
 
-      <div v-if="forgetError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
-        <p class="text-center">
-          {{ forgetError }}
-        </p>
-      </div>
+        <div v-if="forgetError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
+          <p class="text-center">
+            {{ forgetError }}
+          </p>
+        </div>
 
-      <div class="flex flex-nowrap gap-1 items-end">
-        <PFormInput
-          ref="emailEl"
-          v-model="email"
-          label="请输入账号绑定的邮箱"
-          type="text"
-          :validator="emailRepValidator"
-          @enter="() => emailEl?.focus()"
-        />
-      </div>
+        <div class="flex flex-nowrap gap-1 items-end">
+          <PFormInput
+            ref="emailEl"
+            v-model="email"
+            label="请输入账号绑定的邮箱"
+            type="text"
+            :validator="emailRepValidator"
+            @enter="() => emailEl?.focus()"
+          />
+        </div>
 
-      <div class="mt-2">
-        <button
-          class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
-          type="submit"
-          :disabled="loading > 0"
-        >
-          {{ loading === 2
-            ? t('user.forget-password.send-status.successful')
-            : loading === 1
-              ? t('user.forget-password.send-status.loading')
-              : t('user.forget-password.send-status.ready') }}
-        </button>
-      </div>
+        <div class="mt-2">
+          <button
+            class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
+            type="submit"
+            :disabled="loading > 0"
+          >
+            {{ loading === 2
+              ? t('user.forget-password.send-status.successful')
+              : loading === 1
+                ? t('user.forget-password.send-status.loading')
+                : t('user.forget-password.send-status.ready') }}
+          </button>
+        </div>
 
-      <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
-        <NuxtLink :to="{ path: '/user/login', query: { from: 'forget-password' } }">
-          返回登陆
-        </NuxtLink>
-        <span class="text-gray-400">|</span>
-        <NuxtLink to="/user/signup">
-          注册账号
-        </NuxtLink>
-      </div>
-    </form>
-  </NuxtLayout>
+        <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
+          <NuxtLink :to="{ path: '/user/login', query: { from: 'forget-password' } }">
+            返回登陆
+          </NuxtLink>
+          <span class="text-gray-400">|</span>
+          <NuxtLink to="/user/signup">
+            注册账号
+          </NuxtLink>
+        </div>
+      </form>
+    </NuxtLayout>
+  </div>
 </template>

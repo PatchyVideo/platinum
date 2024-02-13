@@ -14,13 +14,13 @@ const bgType = computed(() => `type${props.bgType}`)
 </script>
 
 <template>
-  <div class="relative w-full h-screen bg-center md:bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75" :class="bgType">
+  <div class="w-full h-100vh bg-center md:bg-bottom bg-no-repeat bg-cover dark:filter dark:brightness-75" :class="bgType">
     <!-- Top mask in mobile view -->
     <div class="md:hidden absolute w-full h-15 bg-gradient-to-b from-white" />
 
     <!-- White Mask -->
     <div class="w-full h-full bg-white bg-opacity-50 md:bg-opacity-40 flex items-center">
-      <div class="flex-1 flex justify-around">
+      <div class="flex-1 flex justify-center">
         <slot />
       </div>
       <div class="hidden md:block flex-1 ml-auto" />
