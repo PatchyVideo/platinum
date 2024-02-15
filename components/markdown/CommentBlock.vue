@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 const html = ref('')
 const waitingForRender = ref(true)
-watch(props, (p, op) => {
+watch(() => props, (p, op) => {
   if (p.text !== op.text)
     waitingForRender.value = true
 })
