@@ -3,7 +3,7 @@
   "i18n-ally.keystyle": "nested",
   "i18n-ally.sourceLanguage": "zh-Hans",
   "typescript.tsdk": "./node_modules/typescript/lib",
-  
+
   /* https://github.com/antfu/eslint-config */
   // Enable the ESlint flat config support
   "eslint.experimental.useFlatConfig": true,

@@ -1,4 +1,4 @@
 export default {
-    legacy: false,
-    fallbackLocale: 'CHS',
+  legacy: false,
+  fallbackLocale: 'CHS',
 }

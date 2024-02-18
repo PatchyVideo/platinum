@@ -67,8 +67,8 @@ playlist:
     collapse: Collapse
     expand: Expand
     info:
-      video-count: "{count} videos"
-      rating: "Rate: {rating}"
+      video-count: '{count} videos'
+      rating: 'Rate: {rating}'
       edit-date: Last edited on {date}
   playlist-list:
     title: Playlist
@@ -77,11 +77,11 @@ playlist:
         searching: Searching...
       failed:
         load-failed: Failure
-        load-failed-reason: "Reason:"
+        load-failed-reason: 'Reason:'
       successful:
-        load-result-count: "{count} playlists found"
+        load-result-count: '{count} playlists found'
     playlist:
-      playlist-count: "{count} videos"
+      playlist-count: '{count} videos'
     advanced-search:
       name: Advanced search
 leaderboard:
@@ -89,7 +89,7 @@ leaderboard:
   loading: Loading......
   failed:
     load-failed: Failure
-    load-failed-reason: "Reason:"
+    load-failed-reason: 'Reason:'
   tag-contributions:
     name: Tag contributions
     edit-time: Total {count} edits
@@ -100,8 +100,8 @@ leaderboard:
       last-day: Last day
 search:
   search-result:
-    title: "Result - "
-    search-keywords: "Result - "
+    title: 'Result - '
+    search-keywords: 'Result - '
     order:
       last-modified: Last modified
       video-oldest: Oldest
@@ -112,13 +112,13 @@ search:
           searching: Searching......
         failed:
           search-failed: Search failed
-          search-failed-reason: "Reason:"
+          search-failed-reason: 'Reason:'
         successful:
           search-no-result: No match found
           search-result-count: Total {count} video(s)
       video:
         hidden: Hidden
-        source-site: "Source:"
+        source-site: 'Source:'
       visible-sites:
         all: All
         home: Domestic site
@@ -130,12 +130,12 @@ search:
           searching: Searching...
         failed:
           search-failed: Search failed
-          search-failed-reason: "Reason:"
+          search-failed-reason: 'Reason:'
         successful:
           search-no-result: No result
-          search-result-count: "{count} video(s) found"
+          search-result-count: '{count} video(s) found'
       playlist:
-        playlist-count: "{count} playlist(s) found"
+        playlist-count: '{count} playlist(s) found'
   search-page:
     title: Search
     search: Search
@@ -161,13 +161,13 @@ user:
     username:
       placeholder: Username or email
       username-status:
-        fine: " "
+        fine: ' '
         tip: Username or email is required
         msg: Length must be between 2 to 32
     password:
       placeholder: Password
       password-status:
-        fine: " "
+        fine: ' '
         tip: Password
         msg: Length must be between 6 to 64
     login-status:
@@ -182,7 +182,7 @@ user:
     username:
       placeholder: Username
       username-status:
-        fine: " "
+        fine: ' '
         tip: Username is required
         msg: Length must be between 2 to 32
         res: Username taken
@@ -190,19 +190,19 @@ user:
     password:
       placeholder: Password
       password-status:
-        fine: " "
+        fine: ' '
         tip: Password is required
         msg: Length must be between 6 to 64
     password2:
       placeholder: Repeat password
       password2-status:
-        fine: " "
+        fine: ' '
         tip: Repeat password!
         msg: Passwords mismatch
     email:
       placeholder: Email
       email-status:
-        fine: " "
+        fine: ' '
         tip: Email is required
         msg: Not a valid email
         res: Email already in use
@@ -217,7 +217,7 @@ user:
     email:
       placeholder: Please enter the e-mail bound to your account
       email-status:
-        fine: " "
+        fine: ' '
         tip: Please enter your e-mail address
         msg: Please enter the e-mail address with the right form
     send-status:
@@ -232,13 +232,13 @@ user:
     password:
       placeholder: Set your new password
       password-status:
-        fine: " "
+        fine: ' '
         tip: The length of your new password should between 4 to 64 characters
         msg: Please enter your new password
     password2:
       placeholder: Please repeat your new password
       password2-status:
-        fine: " "
+        fine: ' '
         tip: Please enter your new password again
         msg: The password entered was not identical
     reset-status:
@@ -250,7 +250,7 @@ user:
     from:
       sign-up: Sign up
       reset-password: Reset your password
-    log: "{fromWord} succeed, {count} seconds to home page"
+    log: '{fromWord} succeed, {count} seconds to home page'
     jump: Home page
   user-page:
     title: User page
@@ -313,15 +313,15 @@ user-notification:
     mark-all-as-read: Mark all as read
     loading: Now loading
     no-message: No reply avaliable
-    reply: "{username} replied to you: "
+    reply: '{username} replied to you: '
   notification-navtop:
     title: Messages and notifications
     loading: Now loading
-    error: "Loading failed. Reason: {error}"
+    error: 'Loading failed. Reason: {error}'
     no-message: No new message
     show-all: Show all replies
-    reply: "{username} replied to you"
-    system: "System notification: {title}"
+    reply: '{username} replied to you'
+    system: 'System notification: {title}'
 video:
   video:
     repost-type:
@@ -339,7 +339,7 @@ video:
         title: Hide the video
         saving: Saving
         succeed: Successfully saved
-        failed: "Saving failed. Reason: {error}"
+        failed: 'Saving failed. Reason: {error}'
       edit-video: Edit video
       edit-tags: Edit tags
     related-video: Videos related
@@ -380,7 +380,7 @@ video:
         failed: Failed to read video source
     video:
       info-fetching: Obtaining video information
-      URL: "The URL of the video: {url}"
+      URL: 'The URL of the video: {url}'
       address-parsing: Resolving original video address
       profile:
         known-source: source：{source}，format：{format}，quality：{quality}
@@ -391,10 +391,10 @@ video:
       profile: Profile
       title: Title
       ranks:
-        "0": Only visible to administrators
-        "1": Visible to login users
-        "2": Visible to uploader and administrators
-        "3": Visible to all
+        '0': Only visible to administrators
+        '1': Visible to login users
+        '2': Visible to uploader and administrators
+        '3': Visible to all
         rank: Video visibility
       edit:
         saving: Saving - Edit video - {videoname}
@@ -407,19 +407,19 @@ video:
         searching: Searching...
       failed:
         search-failed: Failure
-        search-failed-reason: "Reason:"
+        search-failed-reason: 'Reason:'
       successful:
         search-no-result: No playlist found
-        search-result-count: "{count} videos found"
-      tips: "*Videos with sensitive tags are hidden"
+        search-result-count: '{count} videos found'
+      tips: '*Videos with sensitive tags are hidden'
     video:
       hidden: Hidden
-      source-site: "Source site:"
+      source-site: 'Source site:'
     advanced-search:
       name: Advanced search
 others:
   WIP1: The function
-  WIP2: "{WIP1} is under construction, please wait warmly"
+  WIP2: '{WIP1} is under construction, please wait warmly'
 image:
   cover:
     alt: The cover of {title}
@@ -440,7 +440,7 @@ settings:
       desc: >-
         If you wish to help translate pages of PatchyVideo, you are welcomed to
         join us!
-      browser-default: "Preferred browsers: {preferred}"
+      browser-default: 'Preferred browsers: {preferred}'
     name: General
   appearance:
     theme:
