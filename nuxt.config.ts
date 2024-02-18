@@ -16,8 +16,8 @@ catch (e) {}
 export default defineNuxtConfig({
   // ssr: false,
 
-  features: {
-    inlineStyles: false,
+  experimental: {
+    inlineSSRStyles: false,
   },
 
   modules: [
