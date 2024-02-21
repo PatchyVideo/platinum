@@ -39,6 +39,7 @@ async function logout(): Promise<void> {
   await refreshNuxtData()
 
   loggingOut.value = false
+  location.reload()
 }
 </script>
 
