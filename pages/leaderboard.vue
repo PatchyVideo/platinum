@@ -2,7 +2,6 @@
 definePageMeta({
   key: route => JSON.stringify([
     route.query.activeTab,
-    route.query.showAutoPost,
     route.query.date,
     route.query.page,
     route.query.limit,
@@ -17,7 +16,6 @@ useHead({
 })
 
 const activeTab = computed(() => Number(pickFirstQuery(route.query.activeTab)) || 0)
-const showAutoPost = computed(() => pickFirstQuery(route.query.showAutoPost) === 'true')
 const date = computed(() => Number(pickFirstQuery(route.query.date)) || 0)
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
 const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 40)
@@ -33,7 +31,7 @@ const selectedDateRange = ref(dateRangeList.value[date.value])
 watch(selectedDateRange, (newv) => {
   updatePage('date', dateRangeList.value.findIndex(item => item.value === newv.value) || 0)
 })
-function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): void {
+function updatePage(para: 'activeTab' | 'date', value: any): void {
   window.scrollTo(0, 0)
   navigateTo({ query: { ...route.query, [para]: value } })
 }
@@ -50,12 +48,8 @@ function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): vo
           <span class="hidden md:inline">标签</span>编辑历史
         </div>
       </div>
-      <div class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
-        <PFormSelect v-if="!activeTab" v-model:selected-op="selectedDateRange" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="dateRangeList" />
-        <div v-else class="flex items-center space-x-2 px-2 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer bg-white" @click="updatePage('showAutoPost', !showAutoPost)">
-          <PFormCheckBox v-model:check="showAutoPost" read-only />
-          <div>显示自动发布</div>
-        </div>
+      <div v-if="activeTab===0" class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
+        <PFormSelect  v-model:selected-op="selectedDateRange" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="dateRangeList" />
       </div>
     </div>
 
@@ -63,6 +57,6 @@ function updatePage(para: 'activeTab' | 'showAutoPost' | 'date', value: any): vo
     <div class="w-full h-0 md:h-0.5 my-4 rounded-full bg-purple-300" />
 
     <LeaderboardContributorRank v-if="!activeTab" :date-range-number="parseInt(selectedDateRange.value)" />
-    <LeaderboardEditHistory v-else :show-auto-post="showAutoPost" :page="page" :limit="limit" />
+    <LeaderboardEditHistory v-else :page="page" :limit="limit" />
   </div>
 </template>

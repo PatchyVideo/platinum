@@ -2,7 +2,6 @@
 import type { Query } from '@/composables/graphql'
 
 const props = defineProps<{
-  showAutoPost: boolean
   page: number
   limit: number
 }>()
