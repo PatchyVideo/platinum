@@ -8,7 +8,6 @@ definePageMeta({
 const route = useRoute()
 const { onLogin } = useApollo()
 const { t } = useI18n()
-const auth = await useAuth()
 
 useHead({
   title: () => `${t('user.login.title')}`,
@@ -136,7 +135,6 @@ async function login() {
     }
 
     await onLogin(token)
-    await auth.refresh()
     await refreshNuxtData()
 
     navigateTo(from.value)
