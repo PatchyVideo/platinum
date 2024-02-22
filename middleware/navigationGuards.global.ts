@@ -1,6 +1,6 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const auth = await useAuth()
 
-  if (to.path === '/notification' && !auth.isLogin)
+  if (to.meta.requiresAuth && !auth.isLogin)
     return navigateTo('/')
 })

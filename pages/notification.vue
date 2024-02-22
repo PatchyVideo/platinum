@@ -8,6 +8,7 @@ definePageMeta({
     route.query.noteType,
   ]),
   layout: false,
+  requiresAuth: true
 })
 
 const route = useRoute()
