@@ -5,6 +5,7 @@ import type { schema } from '@/composables/graphql'
 const props = withDefaults(defineProps<{
   video: schema.Video
   opType?: 'normal' | 'video' | 'playlist' | 'playlistEditor'
+  isAdmin: Boolean
 }>(),
 {
   opType: 'normal',
@@ -15,7 +16,6 @@ const emit = defineEmits<{
 
 const { t } = useI18n()
 const { getToken } = useApollo()
-const auth = await useAuth()
 
 const hideVideoLoading = ref(false)
 async function hideVideo() {
@@ -68,7 +68,7 @@ async function hideVideo() {
         打开源站
       </a>
 
-      <template v-if="auth.isAdmin && opType !== 'playlist'">
+      <template v-if="props.isAdmin && opType !== 'playlist'">
         <div class="w-full border-b-1 border-purple-300 dark:border-gray-600" />
 
         <button

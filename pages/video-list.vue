@@ -70,6 +70,8 @@ const { data, refresh } = await useAsyncQuery<Query>(
 )
 const listVideo = computed(() => data.value!.listVideo)
 
+const auth = await useAuth()
+
 function updatePage(page: number) {
   window.scrollTo(0, 0)
   navigateTo({ query: { ...route.query, page } })
@@ -85,6 +87,7 @@ function updatePage(page: number) {
     <VideoList
       :videos="listVideo.videos"
       :count="limit"
+      :is-admin="auth.isAdmin"
       @refresh="refresh"
     />
 

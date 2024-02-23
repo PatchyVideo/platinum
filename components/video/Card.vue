@@ -6,12 +6,14 @@ const props = withDefaults(defineProps<{
   video: schema.Video
   videoIndex?: number
   opType?: 'none' | 'video' | 'playlist' | 'playlistEditor'
+  isAdmin: boolean
   // Become horizontal to fit mobile view
   horizontal?: boolean
   responsive?: boolean
 }>(), {
   videoIndex: 0,
   opType: 'none',
+  isAdmin: false,
   horizontal: false,
   responsive: true,
 })
@@ -68,6 +70,7 @@ const biliVideoPartNeeded = computed(() => props.video.item.partName && props.vi
       <VideoCardOps
         :video="video"
         :op-type="opType"
+        :is-admin="props.isAdmin"
         @refresh="() => emit('refresh')"
       />
     </div>

@@ -7,6 +7,7 @@ const props = defineProps<{
   name?: string
   titleLinksTo?: RouteLocationRaw
   videos: schema.Video[]
+  isAdmin: boolean
 }>()
 const emit = defineEmits<{
   (event: 'refresh'): void
@@ -23,6 +24,7 @@ const emit = defineEmits<{
         :video="video"
         horizontal
         op-type="video"
+        :is-admin="props.isAdmin"
         @refresh="() => emit('refresh')"
       />
     </div>
