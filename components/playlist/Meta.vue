@@ -20,7 +20,7 @@ const props = defineProps<{
       {{ title }}
     </div>
 
-    <div class="relative aspect-ratio-3/1 md:aspect-ratio-16/9 md:order-last">
+    <div class="relative aspect-ratio-3/1 md:aspect-ratio-16/9 md:order-last md:h-full">
       <img
         class="w-full h-full object-cover bg-gray-300 dark:bg-gray-600"
         :src="`https://patchyvideo.com/images/covers/${cover}`"
