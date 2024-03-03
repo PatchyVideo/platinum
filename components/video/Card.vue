@@ -6,7 +6,7 @@ const props = withDefaults(defineProps<{
   video: schema.Video
   videoIndex?: number
   opType?: 'none' | 'video' | 'playlist' | 'playlistEditor'
-  isAdmin: boolean
+  isAdmin?: boolean
   // Become horizontal to fit mobile view
   horizontal?: boolean
   responsive?: boolean
