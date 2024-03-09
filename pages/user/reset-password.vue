@@ -34,7 +34,7 @@ const loading = ref<0 | 1 | 2>(0)
 const resetError = ref<string>()
 async function reset() {
   if (!resetKey.value) {
-    resetError.value = '无效的key！'
+    resetError.value = t('user.reset-password.key-status.msg')
     return
   }
   if (!password.value) {
@@ -75,7 +75,7 @@ async function reset() {
     })
 
     if (data.status !== 'SUCCEED') {
-      resetError.value = data.dataerr?.reason || '未知错误！'
+      resetError.value = data.dataerr?.reason || t('user.reset-password.reset-fail')
       return
     }
 
@@ -120,7 +120,7 @@ async function reset() {
           <PFormInput
             ref="passwordEl"
             v-model="password"
-            label="密码"
+            :label="t('user.reset-password.password.password-label')"
             type="password"
             :validator="passwordValidator"
             @enter="reset"
@@ -131,7 +131,7 @@ async function reset() {
           <PFormInput
             ref="passwordRepEl"
             v-model="passwordRep"
-            label="重复密码"
+            :label="t('user.reset-password.password2.password2-label')"
             type="password"
             :validator="passwordRepValidator"
             @enter="reset"
@@ -145,7 +145,7 @@ async function reset() {
             :disabled="loading > 0"
           >
             {{ loading === 2
-              ? '重置成功！跳转登陆界面...'
+              ? t('user.reset-password.reset-status.success')
               : loading === 1
                 ? t('user.reset-password.reset-status.loading')
                 : t('user.reset-password.reset-status.ready')

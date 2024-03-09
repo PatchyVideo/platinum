@@ -164,17 +164,20 @@ user:
         fine: ' '
         tip: Username or email is required
         msg: Length must be between 2 to 32
+      label: Username / email
     password:
       placeholder: Password
       password-status:
         fine: ' '
         tip: Password
         msg: Length must be between 6 to 64
+      label: password
     login-status:
       ready: Login
       loading: Logging in...
       failed: Check your username or password
       error: Unknown error
+      refreshing: Refreshing data...
     signup: Sign up
     forget-password: Forget Password?
   signup:
@@ -187,12 +190,15 @@ user:
         msg: Length must be between 2 to 32
         res: Username taken
         err: Unknown error
+      username-label: username
     password:
       placeholder: Password
       password-status:
         fine: ' '
         tip: Password is required
         msg: Length must be between 6 to 64
+      password-label: password
+      password-rep-label: Repeat password
     password2:
       placeholder: Repeat password
       password2-status:
@@ -207,10 +213,16 @@ user:
         msg: Not a valid email
         res: Email already in use
         err: Unknown error
+      email-label: Mail
     signup-status:
       ready: Sign up
       loading: Please wait...
       error: Unknown error
+      success: |-
+        registration success! 
+        Jump to the login interface...
+      back-login: Return to login
+      forget-password: forget the password
     login: Login
   forget-password:
     title: Reset password
@@ -220,6 +232,7 @@ user:
         fine: ' '
         tip: Please enter your e-mail address
         msg: Please enter the e-mail address with the right form
+      email-label: Please enter the email associated with your account
     send-status:
       ready: send e-mail
       loading: Sending the e-mail for resetting password...
@@ -227,6 +240,8 @@ user:
       failed: This e-mail address is not bound to an account
       error: Unknown error
     login: Return to login page
+    back-login: Return to Login
+    signup: Register an account
   reset-password:
     title: Reset your password
     password:
@@ -235,16 +250,22 @@ user:
         fine: ' '
         tip: The length of your new password should between 4 to 64 characters
         msg: Please enter your new password
+      password-label: Password
     password2:
       placeholder: Please repeat your new password
       password2-status:
         fine: ' '
         tip: Please enter your new password again
         msg: The password entered was not identical
+      password2-label: Repeat password
     reset-status:
       ready: Reset
       loading: Resetting your password...
       error: Invalid password
+      success: Reset successful! Redirecting to the login page...
+    key-status:
+      msg: Invalid key!
+    reset-fail: Unknown error!
   redirect:
     title: Redirecting...
     from:

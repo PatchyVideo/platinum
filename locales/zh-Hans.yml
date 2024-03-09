@@ -172,12 +172,14 @@ user:
         fine: ' '
         tip: 请输入用户名或邮箱！
         msg: 长度在 2 到 32 个字符！
+      label: 用户名/邮箱
     password:
       placeholder: 请输入密码
       password-status:
         fine: ' '
         tip: 请输入密码！
         msg: 长度在 6 到 64 个字符！
+      label: 密码
     login-status:
       ready: 登录
       loading: 登录中...
@@ -196,12 +198,15 @@ user:
         msg: 长度在 2 到 32 个字符!
         res: 该用户名已被注册！
         err: 网络错误！
+      username-label: 用户名
     password:
       placeholder: 请输入密码
       password-status:
         fine: ' '
         tip: 请输入密码!
         msg: 长度在 6 到 64 个字符!
+      password-label: 密码
+      password-rep-label: 重复密码
     password2:
       placeholder: 请重复密码
       password2-status:
@@ -216,10 +221,14 @@ user:
         msg: 请输入正确的邮箱格式！
         res: 该邮箱已被注册！
         err: 网络错误！
+      email-label: 邮箱
     signup-status:
       ready: 注册
       loading: 注册中...
       error: 未知错误
+      success: 注册成功！跳转登陆界面...
+      back-login: 返回登陆
+      forget-password: 忘记密码
     login: 登录
   forget-password:
     title: 找回密码
@@ -229,6 +238,7 @@ user:
         fine: ' '
         tip: 请输入邮箱！
         msg: 请输入正确的邮箱格式！
+      email-label: 请输入账号绑定的邮箱
     send-status:
       ready: 发送
       loading: 发送中...
@@ -236,24 +246,32 @@ user:
       failed: 该邮箱未绑定账号！
       error: 未知错误
     login: 返回登录
+    back-login: 返回登陆
+    signup: 注册账号
   reset-password:
     title: 重置密码
+    key-status:
+      msg: 无效的key！
     password:
       placeholder: 请设定新密码
       password-status:
         fine: ' '
         tip: 请输入密码！
         msg: 长度在4到64个字符！
+      password-label: 密码
     password2:
       placeholder: 请重复新密码
       password2-status:
         fine: ' '
         tip: 请再次输入密码！
         msg: 两次密码输入不一致！
+      password2-label: 重复密码
     reset-status:
+      success: 重置成功！跳转登陆界面...
       ready: 重置
       loading: 重置中...
       error: 无效的key
+    reset-fail: 未知错误！
   redirect:
     title: 跳转中...
     from:

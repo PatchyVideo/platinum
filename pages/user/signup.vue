@@ -234,7 +234,7 @@ async function signup() {
           <PFormInput
             ref="emailEl"
             v-model="email"
-            label="邮箱"
+            :label="t('user.signup.email.email-label')"
             type="text"
             :validator="emailRepValidator"
             @enter="() => emailEl?.focus()"
@@ -245,7 +245,7 @@ async function signup() {
           <PFormInput
             ref="usernameEl"
             v-model="username"
-            label="用户名"
+            :label="t('user.signup.username.username-label')"
             type="text"
             :validator="usernameValidator"
             @enter="() => passwordEl?.focus()"
@@ -256,7 +256,7 @@ async function signup() {
           <PFormInput
             ref="passwordEl"
             v-model="password"
-            label="密码"
+            :label="t('user.signup.password.password-label')"
             type="password"
             :validator="passwordValidator"
             @enter="signup"
@@ -267,7 +267,7 @@ async function signup() {
           <PFormInput
             ref="passwordRepEl"
             v-model="passwordRep"
-            label="重复密码"
+            :label="t('user.signup.password.password-rep-label')"
             type="password"
             :validator="passwordRepValidator"
             @enter="signup"
@@ -281,7 +281,7 @@ async function signup() {
             :disabled="loading > 0"
           >
             {{ loading === 2
-              ? '注册成功！跳转登陆界面...'
+              ? t('user.signup.signup-status.success')
               : loading === 1
                 ? t('user.signup.signup-status.loading')
                 : t('user.signup.signup-status.ready') }}
@@ -290,11 +290,11 @@ async function signup() {
 
         <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
           <NuxtLink :to="{ path: '/user/login', query: { from: 'signup' } }">
-            返回登陆
+            {{ t('user.signup.signup-status.back-login') }}
           </NuxtLink>
           <span class="text-gray-400">|</span>
           <NuxtLink to="/user/forget-password">
-            忘记密码
+            {{ t('user.signup.signup-status.forget-password') }}
           </NuxtLink>
         </div>
       </form>

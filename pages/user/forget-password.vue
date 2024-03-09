@@ -99,7 +99,7 @@ async function forget() {
           <PFormInput
             ref="emailEl"
             v-model="email"
-            label="请输入账号绑定的邮箱"
+            :label="t('user.forget-password.email.email-label')"
             type="text"
             :validator="emailRepValidator"
             @enter="() => emailEl?.focus()"
@@ -122,11 +122,11 @@ async function forget() {
 
         <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
           <NuxtLink :to="{ path: '/user/login', query: { from: 'forget-password' } }">
-            返回登陆
+            {{ t('user.forget-password.back-login') }}
           </NuxtLink>
           <span class="text-gray-400">|</span>
           <NuxtLink to="/user/signup">
-            注册账号
+            {{ t('user.forget-password.signup') }}
           </NuxtLink>
         </div>
       </form>

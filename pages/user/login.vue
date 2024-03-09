@@ -170,7 +170,7 @@ async function login() {
           <PFormInput
             ref="usernameEl"
             v-model="username"
-            label="用户名/邮箱"
+            :label="t('user.login.username.label')"
             type="text"
             :validator="usernameValidator"
             @enter="() => passwordEl?.focus()"
@@ -181,7 +181,7 @@ async function login() {
           <PFormInput
             ref="passwordEl"
             v-model="password"
-            label="密码"
+            :label="t('user.login.password.label')"
             type="password"
             :validator="passwordValidator"
             @enter="login"
@@ -204,11 +204,11 @@ async function login() {
 
         <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
           <NuxtLink to="/user/forget-password">
-            忘记密码
+            {{ t('user.login.forget-password') }}
           </NuxtLink>
           <span class="text-gray-400">|</span>
           <NuxtLink to="/user/signup">
-            注册帐号
+            {{ t('user.login.signup') }}
           </NuxtLink>
         </div>
       </form>
