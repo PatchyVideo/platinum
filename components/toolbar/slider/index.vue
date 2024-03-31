@@ -18,7 +18,7 @@ watchEffect(() => {
 <template>
   <div>
     <div
-      class="fixed left-0 inset-y-0 max-w-100vw overflow-auto z-50 pl-4 pr-10 py-1 bg-white shadow border-r border-purple-200 rounded-r-lg transform transition-transform duration-300 flex flex-col gap-4"
+      class="fixed left-0 inset-y-0 max-w-100vw overflow-auto z-50 pl-4 pr-10 py-1 bg-white shadow border-r border-purple-200 rounded-r-lg transform transition-transform duration-300 flex flex-col gap-4 dark:border-gray-700 bg-white dark:bg-gray-900"
       :class=" { '-translate-x-full translate-y-0': !show }"
     >
       <ToolbarLogo v-model:show-slider="show" class="flex-grow-0" />

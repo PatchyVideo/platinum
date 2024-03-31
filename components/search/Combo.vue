@@ -280,11 +280,11 @@ function onComboClick(combo: ComboTag) {
 
 <template>
   <div class="relative">
-    <div class="flex items-center rounded-md border-2 border-purple-200">
+    <div class="flex items-center rounded-md border-2 border-purple-200 dark:border-gray-700 dark:bg-gray-800">
       <input
         ref="inputEl"
         v-model="query"
-        class="focus:outline-none w-full ml-4 py-1"
+        class="focus:outline-none w-full ml-4 py-1 dark:bg-gray-800"
         placeholder="搜索你想看的内容"
         @focus="() => inFocus = true"
         @blur="() => inFocus = false"

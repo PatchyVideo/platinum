@@ -7,7 +7,7 @@ const showSlider = ref(false)
 </script>
 
 <template>
-  <div class="z-49 fixed top-0 left-0 right-0 bg-white dark:bg-black border border-b-2 border-gray-100">
+  <div class="z-49 fixed top-0 left-0 right-0 bg-white border border-b-2 border-gray-100 dark:border-gray-700 dark:bg-gray-900">
     <div class="flex px-2 lg:px-4 py-1 h-14 items-center">
       <!-- Start -->
       <ToolbarLogo v-model:show-slider="showSlider" />
