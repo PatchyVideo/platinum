@@ -1,25 +1,31 @@
 const themes = ['system', 'light', 'dark'] as const
 export type Themes = typeof themes[number]
 
-export const themePreference = useLocalStorage<Themes>('theme_preference', 'system', {
-  listenToStorageChanges: true,
-  serializer: {
-    read(raw): Themes {
-      return themes.includes(raw as any) ? (raw as Themes) : 'system'
-    },
-    write(value): string {
-      return value
-    },
-  },
-})
-
-export const isDark = computed(() =>
-  themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark',
-)
+export const themePreference = ref<Themes>('system')
+export const isDark = ref(false)
 
 export function applyTheme() {
   // Attention: only client has 'document' object
   if (process.client) {
+    const storedPreference = useLocalStorage<Themes>('theme_preference', 'system', {
+      listenToStorageChanges: true,
+      serializer: {
+        read(raw): Themes {
+          return themes.includes(raw as any) ? (raw as Themes) : 'system'
+        },
+        write(value): string {
+          return value
+        },
+      },
+    })
+    themePreference.value = storedPreference.value
+
+    watchEffect(() => {
+      isDark.value = computed(() =>
+        themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark',
+      ).value
+    })
+
     const html = document.documentElement
     const metaTag = document.querySelector('meta[name="theme-color"]')
     watchEffect(() => {
