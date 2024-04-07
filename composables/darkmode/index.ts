@@ -21,11 +21,8 @@ export function applyTheme() {
     themePreference.value = storedPreference.value
 
     watchEffect(() => {
-      isDark.value = computed(() =>
-        themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark',
-      ).value
+      isDark.value = themePreference.value === 'system' ? usePreferredDark().value : themePreference.value === 'dark'
     })
-
     const html = document.documentElement
     const metaTag = document.querySelector('meta[name="theme-color"]')
     watchEffect(() => {
