@@ -12,6 +12,8 @@ definePageMeta({
 const route = useRoute()
 const { t } = useI18n()
 
+const auth = await useAuth()
+
 const Types = [
   {
     value: 'video',
@@ -83,6 +85,7 @@ function updateType(type: string) {
       :query-word="queryWord"
       :order="order.value"
       :visible-site="visibleSite"
+      :is-admin="auth.isAdmin"
     />
     <PlaylistSearchResult
       v-else

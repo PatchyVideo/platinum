@@ -8,6 +8,7 @@ const props = defineProps<{
   order: string
   visibleSite: number
   total: number
+  isAdmin: boolean
 }>()
 const emit = defineEmits<{
   (event: 'update:total', value: boolean): void
@@ -105,6 +106,7 @@ function updateVisibleSite(visible_site: number) {
     <VideoList
       :videos="resultVideo.videos"
       :count="limit"
+      :is-admin="isAdmin"
       @refresh="refreshListVideo"
     />
   </div>
