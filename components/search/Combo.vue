@@ -1,10 +1,15 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
+const props = defineProps<{
+  query?: string
+}>()
+
 const router = useRouter()
 
 const { locale } = useI18n()
 
+const comboEl = shallowRef<HTMLDivElement>()
 const inputEl = shallowRef<HTMLInputElement>()
 
 function setCursorPos(pos: number) {
@@ -84,7 +89,7 @@ const popularTags = computed<ComboTag[]>(() =>
       }
     }) || [])
 
-const query = ref('')
+const query = ref(props.query || '')
 const cursor = ref(0)
 
 const queryKeywordStart = computed(() => {
@@ -157,7 +162,7 @@ function siteOrKeywordFilter(query: string) {
 
 const { data: queryData, refresh, pending } = useLazyFetch<QueryResult[]>(
   () => `https://patchyvideo.com/be/autocomplete/ql?q=${queryKeyword.value}`,
-  { immediate: false, watch: false },
+  { immediate: Boolean(props.query), watch: false },
 )
 watchThrottled(queryKeyword, (value) => {
   if (value)
@@ -206,6 +211,17 @@ const completesWithKeyword = computed<ComboTag[]>(
 )
 
 const inFocus = ref(false)
+function onBodyClick(event: MouseEvent) {
+  if (comboEl.value && !comboEl.value.contains(event.target as Node))
+    inFocus.value = false
+}
+onMounted(() => {
+  document.addEventListener('click', onBodyClick)
+})
+onUnmounted(() => {
+  document.removeEventListener('click', onBodyClick)
+})
+
 const active = ref(-1)
 const activeCombo = computed(() => completesWithKeyword.value[active.value])
 
@@ -258,8 +274,10 @@ function onKeyDown(e: KeyboardEvent) {
       e.preventDefault()
       e.stopPropagation()
       if (activeCombo.value) {
+        // activeCombo.value.tag will be undefined after setting query.value
+        const tag = activeCombo.value.tag
         query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
-        const pos = queryPrefix.value.length + activeCombo.value.tag.length + 1
+        const pos = queryPrefix.value.length + tag.length + 1
         nextTick(() => setCursorPos(pos))
         active.value = -1
       }
@@ -279,7 +297,7 @@ function onComboClick(combo: ComboTag) {
 </script>
 
 <template>
-  <div class="relative">
+  <div ref="comboEl" class="relative">
     <div class="flex items-center rounded-md border-2 border-purple-200 dark:border-gray-700 dark:bg-gray-800">
       <input
         ref="inputEl"
@@ -287,7 +305,6 @@ function onComboClick(combo: ComboTag) {
         class="focus:outline-none w-full ml-4 py-1 dark:bg-gray-800"
         placeholder="搜索你想看的内容"
         @focus="() => inFocus = true"
-        @blur="() => inFocus = false"
         @keydown="onKeyDown"
         @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
       >
@@ -307,7 +324,7 @@ function onComboClick(combo: ComboTag) {
       <div
         v-show="inFocus"
         static
-        class="absolute w-[calc(100%-1rem)] max-h-80vh mt-2 ml-2 rounded-lg ring-2 ring-purple-300 bg-white overflow-auto"
+        class="absolute w-[calc(100%-1rem)] max-h-80vh mt-2 ml-2 rounded-lg ring-2 ring-purple-300 dark:ring-gray-600 bg-white dark:bg-gray-800 overflow-auto"
       >
         <div
           v-if="completesWithKeyword.length === 0"
@@ -319,7 +336,7 @@ function onComboClick(combo: ComboTag) {
         <li
           v-for="(combo, index) in completesWithKeyword"
           :key="combo.id"
-          class="px-2 py-1 w-full list-none border-b border-purple-200 last:border-b-0 transition-colors duration-75 cursor-pointer"
+          class="px-2 py-1 w-full list-none border-b border-purple-200 dark:border-gray-600 last:border-b-0 transition-colors duration-75 cursor-pointer"
           :class="{ 'bg-purple-200 bg-opacity-10': active === index }"
           @click="onComboClick(combo)"
         >

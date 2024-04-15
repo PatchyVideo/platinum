@@ -3,7 +3,11 @@ const props = defineProps<{
   fetchNote: boolean
 }>()
 
+const route = useRoute()
+
 const showSlider = ref(false)
+
+const query = computed(() => pickFirstQuery(route.query.q) || '')
 </script>
 
 <template>
@@ -14,7 +18,7 @@ const showSlider = ref(false)
 
       <!-- Center -->
       <div class="flex-auto max-w-xl min-w-0">
-        <SearchCombo />
+        <SearchCombo :query="query" />
       </div>
 
       <!-- End -->
