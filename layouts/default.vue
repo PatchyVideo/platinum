@@ -12,13 +12,15 @@ const props = withDefaults(
   },
 )
 
+const route = useRoute()
+
 const navtopProps = reactivePick(props, 'showSearchBar', 'fetchNote')
 const footerProps = reactivePick(props, 'small')
 </script>
 
 <template>
   <div>
-    <Toolbar v-bind="navtopProps" />
+    <Toolbar v-bind="navtopProps" :key="route.path" />
 
     <div class="max-w-460 mx-auto mt-2 md:mt-5 px-2">
       <slot />

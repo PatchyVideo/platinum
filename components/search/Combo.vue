@@ -89,8 +89,8 @@ const popularTags = computed<ComboTag[]>(() =>
       }
     }) || [])
 
-const query = ref(props.query || '')
-const cursor = ref(0)
+const query = ref(`${props.query} ` || '')
+const cursor = ref(query.value.length)
 
 const queryKeywordStart = computed(() => {
   const text = query
@@ -273,26 +273,23 @@ function onKeyDown(e: KeyboardEvent) {
     case 'Enter':
       e.preventDefault()
       e.stopPropagation()
-      if (activeCombo.value) {
-        // activeCombo.value.tag will be undefined after setting query.value
-        const tag = activeCombo.value.tag
-        query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ' '}`
-        const pos = queryPrefix.value.length + tag.length + 1
-        nextTick(() => setCursorPos(pos))
-        active.value = -1
-      }
-      else {
+      if (activeCombo.value)
+        onComboClick()
+      else
         search()
-      }
+      inFocus.value = false
       break
   }
 }
 
-function onComboClick(combo: ComboTag) {
-  query.value = `${queryPrefix.value}${combo.tag}${querySuffix.value || ' '}`
-  const pos = queryPrefix.value.length + combo.tag.length + 1
-  nextTick(() => setCursorPos(pos))
+function onComboClick(index?: number) {
+  if (index !== undefined)
+    active.value = index
+  query.value = `${queryPrefix.value}${activeCombo.value.tag}${querySuffix.value || ''} `
+  const pos = query.value.length
   active.value = -1
+  setCursorPos(pos)
+  inFocus.value = false
 }
 </script>
 
@@ -338,7 +335,7 @@ function onComboClick(combo: ComboTag) {
           :key="combo.id"
           class="px-2 py-1 w-full list-none border-b border-purple-200 dark:border-gray-600 last:border-b-0 transition-colors duration-75 cursor-pointer"
           :class="{ 'bg-purple-200 bg-opacity-10': active === index }"
-          @click="onComboClick(combo)"
+          @click="onComboClick(index)"
         >
           <div v-if="combo.type === 'keyword'" class="flex items-center">
             <div class="i-uil:tag-alt flex-shrink-0 my-1 mr-1 text-xl text-purple-600" />
