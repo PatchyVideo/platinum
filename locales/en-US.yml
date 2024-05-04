@@ -52,6 +52,14 @@ home:
     components:
       query-video:
         default-title: Latest Uploads
+    intro:
+      follow: Follow the official Bilibili account of PatchyVideo
+      joinus: Join us
+      medium: This is a new interface that is still under construction!
+      old: Return to the old interface
+      template: >-
+        {medium} You can {old} to get the complete experience, {follow} to stay
+        updated with the latest progress, or {joinus} to help us move forward!
   list:
     favorites: Playlist
 locales:
@@ -463,11 +471,19 @@ settings:
         join us!
       browser-default: 'Preferred browsers: {preferred}'
     name: General
+    theme:
+      color:
+        desc: Select the color theme for browsing PatchyVideo
   appearance:
     theme:
       name: Theme
       color:
         name: Theme color
+      dark-cover-filter:
+        desc: >-
+          After activation, video/playlist covers will decrease to 75%
+          brightness in dark mode (default enabled)
+        name: Decrease cover brightness in dark mode
     name: Appearance
   account:
     profile:
