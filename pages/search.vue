@@ -24,7 +24,7 @@ const Types = [
     name: t('search.search-result.playlist.tab'),
   },
 ]
-const activeTabClass = 'bg-white'
+const activeTabClass = 'bg-white dark:bg-gray-600'
 const type = computed(() => pickFirstQuery(route.query.type) || 'video')
 const page = computed(() => Number(pickFirstQuery(route.query.page)) || 1)
 const limit = computed(() => Number(pickFirstQuery(route.query.limit)) || 40)
@@ -64,16 +64,16 @@ function updateType(type: string) {
       {{ t('search.search-result.search-keywords') + queryWord }}
     </div>
     <div class="w-full flex space-x-2 text-purple-600">
-      <div class="flex-grow flex bg-purple-100 p-1.5 rounded-md">
+      <div class="flex-grow flex bg-purple-100 p-1.5 rounded-md dark:bg-gray-800">
         <div
-          v-for="item in Types" :key="item.value" class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="item.value === type && activeTabClass"
+          v-for="item in Types" :key="item.value" class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer dark:text-white " :class="item.value === type && activeTabClass"
           @click="updateType(item.value)"
         >
           {{ item.name }}
         </div>
       </div>
-      <div class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
-        <PFormSelect v-model:selected-op="order" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="Orders" />
+      <div class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md dark:bg-gray-800">
+        <PFormSelect v-model:selected-op="order" class="rounded-md bg-white md:px-2 md:py-1.5 dark:bg-gray-600" :ops="Orders" />
       </div>
     </div>
 

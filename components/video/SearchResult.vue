@@ -95,7 +95,7 @@ function updateVisibleSite(visible_site: number) {
       </div>
       <div class="flex items-center space-x-1">
         <div
-          v-for="(item, index) in VisibleSites" :key="item.value" class="py-0.5 px-2 rounded-md cursor-pointer text-purple-600" :class="{ 'bg-purple-100': index === visibleSite }"
+          v-for="(item, index) in VisibleSites" :key="item.value" class="py-0.5 px-2 rounded-md cursor-pointer text-purple-600 dark:text-purple-200" :class="{ 'bg-purple-100 dark:bg-purple-800': index !== visibleSite, 'bg-purple-200 dark:bg-purple-900': index === visibleSite }"
           @click="updateVisibleSite(index)"
         >
           {{ item.name }}
