@@ -326,19 +326,11 @@ function search(): void {
 
         <!-- TODO: add OR function -->
         <div class="flex justify-between space-x-2 items-center">
-          <!-- <div class="whitespace-nowrap">
-            {{ '包含关键字：' }}
-          </div> -->
-          <!-- TODO: Use autocomplete -->
-          <PFormInput v-model="searchContentAndOrNot" type="text" label="包含关键字：" />
+          <SearchCombo v-model:query="searchContentAndOrNot" :search-function="addsearchContentAndOrNot" class="w-full z-52" placeholder="包含关键字：" :show-poplar-tags="false" />
         </div>
 
         <div class="flex justify-between space-x-6 items-center">
-          <!-- <div class="whitespace-nowrap">
-            {{ '排除标签：' }}
-          </div> -->
-          <!-- TODO: Use autocomplete -->
-          <PFormInput v-model="exceptContent" type="text" label="排除标签：" />
+          <SearchCombo v-model:query="exceptContent" :search-function="addexceptContent" class="w-full z-51" placeholder="排除标签：" :show-poplar-tags="false" />
         </div>
 
         <div class="flex justify-between space-x-6 items-center">

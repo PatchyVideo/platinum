@@ -7,7 +7,7 @@ const route = useRoute()
 
 const showSlider = ref(false)
 
-const query = computed(() => pickFirstQuery(route.query.q) || '')
+const query = ref(pickFirstQuery(route.query.q) || '')
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const query = computed(() => pickFirstQuery(route.query.q) || '')
 
       <!-- Center -->
       <div class="flex-auto max-w-xl min-w-0">
-        <SearchCombo :query="query" />
+        <SearchCombo v-model:query="query" />
       </div>
 
       <!-- End -->

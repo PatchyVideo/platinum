@@ -1,9 +1,23 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   query?: string
+  placeholder?: string
+  searchFunction?: Function
+  showPoplarTags?: boolean
+}>(), {
+  query: '',
+  placeholder: '搜索你想看的内容',
+  showPoplarTags: true,
+})
+const emit = defineEmits<{
+  (event: 'update:query', value: boolean): void
 }>()
+const query = useVModel(props, 'query', emit)
+if (query.value)
+  query.value += ' '
+const cursor = ref(query.value.length)
 
 const router = useRouter()
 
@@ -89,9 +103,6 @@ const popularTags = computed<ComboTag[]>(() =>
       }
     }) || [])
 
-const query = ref(`${props.query} ` || '')
-const cursor = ref(query.value.length)
-
 const queryKeywordStart = computed(() => {
   const text = query
   let i: number = cursor.value
@@ -170,8 +181,12 @@ watchThrottled(queryKeyword, (value) => {
 }, { throttle: 500, leading: false, trailing: true })
 
 const completes = computed<ComboTag[]>(() => {
-  if (queryKeyword.value === '')
-    return popularTags.value
+  if (queryKeyword.value === '') {
+    if (props.showPoplarTags)
+      return popularTags.value
+    else
+      return []
+  }
   if (!queryData.value?.length)
     return []
 
@@ -226,6 +241,10 @@ const active = ref(-1)
 const activeCombo = computed(() => completesWithKeyword.value[active.value])
 
 function search() {
+  if (props.searchFunction) {
+    props.searchFunction()
+    return
+  }
   query.value = query.value.trim()
   router.push({ path: '/search', query: { q: query.value } })
 }
@@ -300,7 +319,7 @@ function onComboClick(index?: number) {
         ref="inputEl"
         v-model="query"
         class="focus:outline-none w-full ml-4 py-1 dark:bg-gray-800"
-        placeholder="搜索你想看的内容"
+        :placeholder="props.placeholder"
         @focus="() => inFocus = true"
         @keydown="onKeyDown"
         @keyup="(e) => cursor = (e.target as HTMLInputElement).selectionStart || 0"
