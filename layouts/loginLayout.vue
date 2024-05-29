@@ -19,7 +19,7 @@ const bgType = computed(() => `type${props.bgType}`)
     <div class="md:hidden absolute w-full h-15 bg-gradient-to-b from-white" />
 
     <!-- White Mask -->
-    <div class="w-full h-full bg-white bg-opacity-50 md:bg-opacity-40 flex items-center">
+    <div class="w-full h-full bg-white bg-opacity-50 md:bg-opacity-40 dark:bg-gray-500/10 dark:bg-opacity-60 flex items-center">
       <div class="flex-1 flex justify-center">
         <slot />
       </div>

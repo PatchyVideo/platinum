@@ -33,7 +33,7 @@ defineExpose({ focus })
   <label class="input relative w-full border-b-2 border-purple-400 transition-colors focus-within:border-purple-600">
     <span
       class="label absolute px-2 transition-all ease-out"
-      :class="[modelValue ? 'top-0 text-xs' : 'top-4', disabled ? 'text-gray-400' : 'text-gray-600']"
+      :class="[modelValue ? 'top-0 text-xs' : 'top-4', disabled ? 'text-gray-400' : 'text-gray-600 dark:text-gray-100']"
     >
       {{ label }}
       <span

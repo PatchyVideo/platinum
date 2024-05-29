@@ -213,7 +213,7 @@ async function signup() {
   <div>
     <NuxtLayout name="login-layout" :bg-type="2">
       <form
-        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
+        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400 dark:bg-gray-800/70 dark:ring-gray-600 dark:text-gray-200 dark:shadow-gray-700"
         @submit.prevent="signup"
       >
         <div class="flex mb-2 mx-auto items-center">

@@ -30,8 +30,8 @@ function passwordValidator(value: string) {
 }
 const passwordValid = computed(() => passwordValidator(password.value))
 
-// When "user name exists!" or "email is already been used!" appears for seveal times,
-// user will doubts whether the page stucks, this count is used to show the page works.
+// When "user name exists!" or "email is already been used!" appears for several times,
+// user will doubt whether the page is stuck, this count is used to show the page works.
 const errorCount = ref(0)
 
 // 0: ready; 1: loading; 2: refreshing user data
@@ -149,7 +149,7 @@ async function login() {
   <div>
     <NuxtLayout name="login-layout" :bg-type="1">
       <form
-        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400"
+        class="flex m-5 md:m-auto px-8 md:px-10 pt-5 pb-8 md:py-12 w-full max-w-108 flex-col gap-3 md:gap-6 rounded-md shadow-xl shadow-purple-400/60 bg-white/80 ring-2 ring-purple-400 dark:bg-gray-800/80 dark:ring-gray-600 dark:text-gray-200 dark:shadow-gray-700"
         @submit.prevent="login"
       >
         <div class="flex mb-2 mx-auto items-center">
@@ -160,7 +160,7 @@ async function login() {
           <span class="ml-2 pl-4 text-lg border-l-2 border-gray-400">{{ t('user.login.title') }}</span>
         </div>
 
-        <div v-if="loginError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50">
+        <div v-if="loginError" class="p-2 text-rose-600 rounded-lg ring-2 ring-rose-400 bg-white/50 dark:bg-gray-700 dark:text-rose-300 dark:ring-rose-500">
           <p class="text-center">
             {{ loginError }}
           </p>
@@ -190,7 +190,7 @@ async function login() {
 
         <div class="mt-2">
           <button
-            class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300"
+            class="focus:outline-none w-full py-2 text-white font-bold rounded-md bg-purple-500 disabled:bg-purple-300 hover:bg-purple-600 disabled:hover:bg-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 disabled:dark:bg-purple-400 disabled:dark:hover:bg-purple-400"
             type="submit"
             :disabled="loading > 0"
           >
@@ -202,11 +202,11 @@ async function login() {
           </button>
         </div>
 
-        <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm">
+        <div class="flex -mt-2 justify-center gap-2 text-purple-600 text-sm dark:text-purple-300">
           <NuxtLink to="/user/forget-password">
             {{ t('user.login.forget-password') }}
           </NuxtLink>
-          <span class="text-gray-400">|</span>
+          <span class="text-gray-400 dark:text-gray-500">|</span>
           <NuxtLink to="/user/signup">
             {{ t('user.login.signup') }}
           </NuxtLink>
