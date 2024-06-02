@@ -29,20 +29,11 @@ const links = computed<
     ],
   },
   {
-    key: t('common.footer.sponsor'),
-    links: [
-      { key: 'Ko-fi', href: 'https://ko-fi.com/voilelabs' },
-      { key: 'Patreon', href: 'https://www.patreon.com/voilelabs' },
-      { key: '爱发电', href: 'https://afdian.net/@voilelabs' },
-    ],
-  },
-  {
     key: t('common.footer.contact'),
     links: [
       { key: 'Email (DMCA)', href: 'mailto:zyddnys@outlook.com' },
       { key: 'Tencent QQ', href: 'https://jq.qq.com/?k=fOJYEJt1' },
       { key: 'Telegram', href: 'https://t.me/PatchyVideo' },
-      { key: 'Discord', href: 'https://discord.gg/FtPPQqz' },
       { key: 'Twitter', href: 'https://twitter.com/PatchyVideo' },
     ],
   },
