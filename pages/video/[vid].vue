@@ -196,6 +196,7 @@ const authors = computed(() =>
         <ToolbarTag v-for="item in getVideo.tags" :key="item.id" :tag="item" class="mr-1 mt-1" />
       </div>
       <MarkdownCommentBlock :text="getVideo.item.desc ? getVideo.item.desc : '简介：暂无简介'" />
+      <VideoCommentPost :video-id="vid" />
       <CommentList v-if="getVideo.commentThread" :tid="getVideo.commentThread?.id" />
       <VideoDetailModuleTitle v-else text="暂无评论" />
     </div>
