@@ -17,6 +17,9 @@ const inputEl = ref<HTMLDivElement | null>(null)
 const auth = useAuth() // Whether logged in
 const inputContent = ref('') // Content
 const commentParentId = computed(() => props.videoId ?? props.playlistId ?? null) // id
+const isLogin = (await auth).isLogin
+const route = useRoute()
+const enablePreview = ref(false)
 
 // Comment posting status and error message status
 const postingComment = ref(false)
@@ -81,16 +84,25 @@ function onReset() {
   inputEl.value.innerHTML = ''
   inputContent.value = ''
 }
+
+function togglePreview() {
+  if (!inputEl.value)
+    return
+  enablePreview.value = !enablePreview.value
+}
 </script>
 
 <template>
-  <div class="w-full max-w-75ch rounded border border-gray-300 dark:border-gray-600 overflow-hidden">
+  <div v-if="isLogin" class="w-full max-w-75ch rounded border border-gray-300 dark:border-gray-600 overflow-hidden">
     <!-- Title section with edit state and preview toggle button -->
     <div
       class="flex flex-row flex-nowrap justify-between items-center px-1 py-0.5 w-full text-sm border-b border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
     >
       <div class="flex flex-row flex-nowrap items-center text-gray-800 dark:text-gray-300">
         富文本编辑正在制作中
+      </div>
+      <div class="flex flex-row flex-nowrap items-center">
+        <button @click="togglePreview" v-text="enablePreview ? '编辑' : '预览'" />
       </div>
     </div>
     <!-- Edit area, hidden when preview is enabled -->
@@ -101,14 +113,22 @@ function onReset() {
       />
     </div>
 
+    <MarkdownCommentBlock v-if="enablePreview && inputEl" class="p-0.5" :text="inputContent" />
+
     <div
       class="px-1 py-0.5 w-full text-xs text-gray-700 dark:text-gray-300 border-t border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800"
     >
       请遵守<a
         class="text-blue-600 dark:text-blue-500" target="_blank" rel="noopener noreferrer"
         href="https://patchyvideo.wiki/zh/Comments"
-      >评论规则</a>！评论区支持部分 Markdown 语法，发布评论前记得先登陆哦!
+      >评论规则</a>！评论区支持部分 Markdown 语法, 点击右上角的预览按钮预览渲染效果。
     </div>
+  </div>
+  <div v-else>
+    想要一起参与讨论？
+    <NuxtLink :to="{ path: '/user/login', query: { from: route.path } }">
+      点我登录
+    </NuxtLink>
   </div>
 
   <!-- Comment submission form -->
