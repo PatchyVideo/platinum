@@ -1,10 +1,10 @@
 import type { Locale } from 'date-fns'
-import enUS from 'date-fns/esm/locale/en-US'
+import { enUS } from 'date-fns/locale'
 
 export const locales: Record<string, () => Promise<Locale>> = {
   ENG: () => Promise.resolve(enUS),
-  CHS: () => import('date-fns/esm/locale/zh-CN').then(m => m.default),
-  CHT: () => import('date-fns/esm/locale/zh-HK').then(m => m.default),
+  CHS: () => import('date-fns/locale/zh-CN').then(m => m.zhCN),
+  CHT: () => import('date-fns/locale/zh-HK').then(m => m.zhHK),
 }
 
 export async function useLocale() {

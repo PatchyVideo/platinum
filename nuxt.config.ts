@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url'
+import process from 'node:process'
 import { Repository } from '@napi-rs/simple-git'
 import { transformerDirectives } from 'unocss'
 import { version } from './package.json'
@@ -10,14 +11,14 @@ try {
   const repo = new Repository(fileURLToPath(new URL('.', import.meta.url)))
   commitHash = repo.head().target() || commitHash
 }
-catch (e) {}
+catch (e) { }
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
   // ssr: false,
 
-  experimental: {
-    inlineSSRStyles: false,
+  features: {
+    inlineStyles: false,
   },
 
   modules: [
@@ -30,8 +31,12 @@ export default defineNuxtConfig({
   ],
 
   typescript: {
-    // typeCheck: true,
-    strict: true,
+    tsConfig: {
+      exclude: ['../service-worker'],
+      vueCompilerOptions: {
+        target: 3.4,
+      },
+    },
   },
 
   imports: {
