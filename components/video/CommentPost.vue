@@ -67,7 +67,7 @@ async function onSubmit() {
 
   // If the comment submission is successful, reset the input and refetch the thread
   onReset()
-  emit('refetchThread', res.data.postComment.thread.id.toHexString())
+  emit('refetchThread', res.data.postComment.thread.id)
 }
 
 // Handler for input content changes
@@ -132,7 +132,7 @@ function togglePreview() {
   </div>
 
   <!-- Comment submission form -->
-  <form class="flex flex-row items-center gap-2 mt-1" @submit.prevent="onSubmit" @reset.prevent="onReset">
+  <form v-if="isLogin" class="flex flex-row items-center gap-2 mt-1" @submit.prevent="onSubmit" @reset.prevent="onReset">
     <!-- Submit button -->
     <button
       type="submit"

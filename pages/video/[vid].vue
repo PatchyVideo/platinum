@@ -161,6 +161,11 @@ const authors = computed(() =>
         .filter(v => !!v) as Author[])
     : [],
 )
+
+const aKey = ref(0)
+function handleRefetchThread() {
+  aKey.value++
+}
 </script>
 
 <template>
@@ -196,8 +201,8 @@ const authors = computed(() =>
         <ToolbarTag v-for="item in getVideo.tags" :key="item.id" :tag="item" class="mr-1 mt-1" />
       </div>
       <MarkdownCommentBlock :text="getVideo.item.desc ? getVideo.item.desc : '简介：暂无简介'" />
-      <VideoCommentPost :video-id="vid" />
-      <CommentList v-if="getVideo.commentThread" :tid="getVideo.commentThread?.id" />
+      <VideoCommentPost :video-id="vid" @refetch-thread="handleRefetchThread" />
+      <CommentList v-if="getVideo.commentThread" :key="aKey" :tid="getVideo.commentThread?.id" />
       <VideoDetailModuleTitle v-else text="暂无评论" />
     </div>
     <div class="w-full lg:w-3/10 lg:pl-2 space-y-2">
