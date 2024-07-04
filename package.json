@@ -6,7 +6,6 @@
   "packageManager": "pnpm@8.5.1",
   "description": "An always-experimental frontend for PatchyVideo/PatchyVideo",
   "author": "VoileLabs",
-  "license": "MIT",
   "contributors": [
     "QiroNT",
     "Freesia",
@@ -14,6 +13,7 @@
     "Meatjam",
     "orangeawa"
   ],
+  "license": "MIT",
   "repository": "https://github.com/PatchyVideo/platinum",
   "scripts": {
     "build": "nuxt build",
@@ -24,7 +24,7 @@
     "lint": "nuxt typecheck && eslint --fix ."
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.1",
+    "@antfu/eslint-config": "^2.21.2",
     "@apollo/client": "^3.9.4",
     "@graphql-codegen/cli": "^5.0.2",
     "@graphql-codegen/fragment-matcher": "^5.0.2",
@@ -33,22 +33,22 @@
     "@iconify/json": "^2.2.68",
     "@napi-rs/simple-git": "^0.1.8",
     "@nuxtjs/apollo": "5.0.0-alpha.11",
-    "@nuxtjs/i18n": "8.0.1",
+    "@nuxtjs/i18n": "8.3.1",
     "@pinia/nuxt": "^0.5.1",
-    "@types/markdown-it": "^12.2.3",
+    "@types/markdown-it": "^14.1.1",
     "@types/spark-md5": "^3.0.2",
-    "@unocss/nuxt": "^0.58.4",
+    "@unocss/nuxt": "^0.61.0",
     "@vue/apollo-composable": "^4.0.0-beta.8",
     "@vue/apollo-util": "4.0.0-beta.6",
     "@vueuse/core": "^10.7.2",
     "@vueuse/nuxt": "^10.7.2",
     "bson-objectid": "^2.0.4",
-    "date-fns": "^2.30.0",
-    "eslint": "^8.41.0",
+    "date-fns": "^3.6.0",
+    "eslint": "^8.0.0",
     "graphql": "^16.8.1",
     "highlight.js": "^11.6.0",
     "lz-string": "^1.5.0",
-    "markdown-it": "^13.0.1",
+    "markdown-it": "^14.1.0",
     "nuxt": "^3.5.1",
     "nuxt-headlessui": "^1.1.4",
     "postcss-nested": "^6.0.1",
@@ -57,6 +57,6 @@
     "ts-poet": "^6.4.1",
     "typed.js": "^2.0.16",
     "typescript": "^5.3.3",
-    "vue-tsc": "^1.8.27"
+    "vue-tsc": "^2.0.24"
   }
 }
