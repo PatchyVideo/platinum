@@ -20,13 +20,17 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare && graphql-codegen --config ./composables/graphql/codegen.yml",
+    "postinstall": "nuxt prepare && graphql-codegen --config ./composables/graphql/codegen.ts",
     "lint": "nuxt typecheck && eslint --fix ."
+  },
+  "dependencies": {
+    "@graphql-typed-document-node/core": "^3.2.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.21.2",
     "@apollo/client": "^3.9.4",
     "@graphql-codegen/cli": "^5.0.2",
+    "@graphql-codegen/client-preset": "^4.3.2",
     "@graphql-codegen/fragment-matcher": "^5.0.2",
     "@graphql-codegen/schema-ast": "^4.0.2",
     "@graphql-codegen/typescript": "^4.0.4",
@@ -34,6 +38,7 @@
     "@napi-rs/simple-git": "^0.1.8",
     "@nuxtjs/apollo": "5.0.0-alpha.11",
     "@nuxtjs/i18n": "8.3.1",
+    "@parcel/watcher": "^2.4.1",
     "@pinia/nuxt": "^0.5.1",
     "@types/markdown-it": "^14.1.1",
     "@types/spark-md5": "^3.0.2",
@@ -45,7 +50,7 @@
     "bson-objectid": "^2.0.4",
     "date-fns": "^3.6.0",
     "eslint": "^8.0.0",
-    "graphql": "^16.8.1",
+    "graphql": "^16.9.0",
     "highlight.js": "^11.6.0",
     "lz-string": "^1.5.0",
     "markdown-it": "^14.1.0",
@@ -54,9 +59,10 @@
     "postcss-nested": "^6.0.1",
     "spark-md5": "^3.0.2",
     "tlds": "^1.238.0",
+    "ts-node": "^10.9.2",
     "ts-poet": "^6.4.1",
     "typed.js": "^2.0.16",
-    "typescript": "^5.3.3",
+    "typescript": "^5.5.3",
     "vue-tsc": "^2.0.24"
   }
 }
