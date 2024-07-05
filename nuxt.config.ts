@@ -32,9 +32,8 @@ export default defineNuxtConfig({
 
   typescript: {
     tsConfig: {
-      exclude: ['../service-worker'],
       vueCompilerOptions: {
-        target: 3.4,
+        target: 5.5,
       },
     },
   },
@@ -145,4 +144,6 @@ export default defineNuxtConfig({
   headlessui: {
     prefix: 'H',
   },
+
+  compatibilityDate: '2024-08-01',
 })
