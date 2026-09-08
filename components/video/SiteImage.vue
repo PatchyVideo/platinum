@@ -8,7 +8,7 @@ const domain = computed(() => new URL(props.url).hostname)
 
 <template>
   <img
-    :src="`https://icons.duckduckgo.com/ip3/${domain}.ico`"
+    :src="`https://cravatar.com/favicon/api/index.php?url=${domain}`"
     :alt="domain"
     class="inline-block object-cover overflow-hidden"
   >
