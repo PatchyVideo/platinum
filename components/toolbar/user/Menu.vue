@@ -24,7 +24,7 @@ const { data } = await useAsyncQuery<Query>(
 )
 const listNoteCountUnread = computed(() => {
   let count = 0
-  for (const item of data.value.listUnreadNotificationsCount.list)
+  for (const item of data.value!.listUnreadNotificationsCount.list)
     count += item.count
   return count
 })
