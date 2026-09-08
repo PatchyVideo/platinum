@@ -414,7 +414,7 @@ function search(): void {
           <div class="whitespace-nowrap">
             {{ '仅展示待人工整理标签的视频' }}
           </div>
-          <PFormCheckBox v-model:check="onlyShowAutotagedVideos" />
+          <PFormCheckbox v-model:check="onlyShowAutotagedVideos" />
         </div>
 
         <div class="flex justify-around border-t pt-3">

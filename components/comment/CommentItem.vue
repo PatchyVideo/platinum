@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { CommentItemType } from '@/composables/comment/comment'
+import type { CommentItemType } from '@/types/comment'
 
 const props = defineProps<{
   comment: CommentItemType

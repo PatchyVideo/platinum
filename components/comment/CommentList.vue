@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, reactive } from 'vue'
 import type { Query } from '@/composables/graphql'
-import type { CommentItemType } from '@/composables/comment/comment'
+import type { CommentItemType } from '@/types/comment'
 
 const props = defineProps<{
   tid: string

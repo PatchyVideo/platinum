@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Link } from './SliderLink.vue'
+import type { Link } from '@/components/toolbar/slider/ToolbarSliderLink.vue'
 
 const { t } = useI18n()
 // const auth = await useAuth()
