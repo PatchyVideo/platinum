@@ -5,9 +5,8 @@ import type { schema } from '@/composables/graphql'
 const props = withDefaults(defineProps<{
   video: schema.Video
   opType?: 'normal' | 'video' | 'playlist' | 'playlistEditor'
-  isAdmin: Boolean
-}>(),
-{
+  isAdmin: boolean
+}>(), {
   opType: 'normal',
 })
 const emit = defineEmits<{

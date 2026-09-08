@@ -27,7 +27,7 @@ export function useYiyan({ short }: { short: boolean }): string {
   return yy[random]
 }
 
-export function useYiyanArray({ short, random }: { short: boolean; random: boolean }): string[] {
+export function useYiyanArray({ short, random }: { short: boolean, random: boolean }): string[] {
   const yy = [...(short ? getShortYiyan() : yiyan)]
   if (random) {
     for (let i = 1; i < yy.length; i++) {

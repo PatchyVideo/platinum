@@ -219,30 +219,30 @@ function checkSubmitContent(): boolean {
   // Check date
   if (
     beforeAfterEqualDate1.value.value !== ''
-    && (isNaN(Number(year1.value))
-      || !Number.isSafeInteger(year1.value)
-      || Number(year1.value) <= 0
-      || isNaN(Number(month1.value))
-      || !Number.isSafeInteger(month1.value)
-      || Number(month1.value) <= 0
-      || isNaN(Number(day1.value))
-      || !Number.isSafeInteger(day1.value)
-      || Number(day1.value) <= 0)
+    && (Number.isNaN(Number(year1.value))
+    || !Number.isSafeInteger(year1.value)
+    || Number(year1.value) <= 0
+    || Number.isNaN(Number(month1.value))
+    || !Number.isSafeInteger(month1.value)
+    || Number(month1.value) <= 0
+    || Number.isNaN(Number(day1.value))
+    || !Number.isSafeInteger(day1.value)
+    || Number(day1.value) <= 0)
   ) {
     Message({ message: '请检查原视频发布时间项1的填写是否正确！', type: MessageType.warning })
     return false
   }
   if (
     beforeAfterEqualDate2.value.value !== ''
-    && (isNaN(Number(year2.value))
-      || !Number.isSafeInteger(year2.value)
-      || Number(year2.value) <= 0
-      || isNaN(Number(month2.value))
-      || !Number.isSafeInteger(month2.value)
-      || Number(month2.value) <= 0
-      || isNaN(Number(day2.value))
-      || !Number.isSafeInteger(day2.value)
-      || Number(day2.value) <= 0)
+    && (Number.isNaN(Number(year2.value))
+    || !Number.isSafeInteger(year2.value)
+    || Number(year2.value) <= 0
+    || Number.isNaN(Number(month2.value))
+    || !Number.isSafeInteger(month2.value)
+    || Number(month2.value) <= 0
+    || Number.isNaN(Number(day2.value))
+    || !Number.isSafeInteger(day2.value)
+    || Number(day2.value) <= 0)
   ) {
     Message({ message: '请检查原视频发布时间项2的填写是否正确！', type: MessageType.warning })
     return false
@@ -250,7 +250,7 @@ function checkSubmitContent(): boolean {
   // Check tag
   if (
     moreLessEqualTagNum.value.value !== ''
-    && (isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
+    && (Number.isNaN(Number(tagNum.value)) || !Number.isSafeInteger(tagNum.value) || Number(tagNum.value) < 0)
   ) {
     Message({ message: '请检查标签数量项的填写是否正确！', type: MessageType.warning })
     return false

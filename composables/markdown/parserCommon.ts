@@ -38,7 +38,7 @@ export function linkifyAdditionPlugin(markdownIt: MarkdownIt) {
       },
     })
     .add('bv', {
-      validate: val(/[a-zA-Z0-9]+/),
+      validate: val(/[a-z0-9]+/i),
       normalize(match) {
         match.url = `https://www.bilibili.com/video/${match.url}`
       },

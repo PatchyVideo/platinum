@@ -227,7 +227,7 @@ user:
       loading: Please wait...
       error: Unknown error
       success: |-
-        registration success! 
+        registration success!
         Jump to the login interface...
       back-login: Return to login
       forget-password: forget the password

@@ -48,8 +48,8 @@ function updatePage(para: 'activeTab' | 'date', value: any): void {
           <span class="hidden md:inline">标签</span>编辑历史
         </div>
       </div>
-      <div v-if="activeTab===0" class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
-        <PFormSelect  v-model:selected-op="selectedDateRange" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="dateRangeList" />
+      <div v-if="activeTab === 0" class="flex items-center space-x-2 bg-purple-100 p-1.5 rounded-md">
+        <PFormSelect v-model:selected-op="selectedDateRange" class="rounded-md bg-white md:px-2 md:py-1.5" :ops="dateRangeList" />
       </div>
     </div>
 

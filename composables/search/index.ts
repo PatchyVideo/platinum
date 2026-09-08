@@ -57,8 +57,9 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
     additionalConstraintObject.onlyShowAutotagedVideos
     && !additionalConstraintObject.searchContentAndOrNot.test(/Auto_tagged/)
     && !additionalConstraintObject.exceptContent.test(/Auto_tagged/)
-  )
+  ) {
     additionalConstraintString += 'Auto_tagged '
+  }
 
   return additionalConstraintString
 }

@@ -127,7 +127,7 @@ const queryKeywordStart = computed(() => {
   return 0
 })
 const queryKeywordEnd = computed(() => {
-  const keywordEnd = query.value.slice(queryKeywordStart.value).search(/[\s\(\)]/)
+  const keywordEnd = query.value.slice(queryKeywordStart.value).search(/[\s()]/)
   return keywordEnd === -1 ? query.value.length : queryKeywordStart.value + keywordEnd
 })
 
