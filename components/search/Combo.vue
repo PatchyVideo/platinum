@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { computed, ref, shallowRef } from 'vue'
 import type { Query } from '@/composables/graphql'
 
 const props = withDefaults(defineProps<{

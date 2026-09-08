@@ -7,7 +7,7 @@ const { localeProperties } = useI18n()
 
 const date = computed(() => new Date(props.date))
 const formated = computed(() =>
-  new Intl.DateTimeFormat(localeProperties.value.iso, {
+  new Intl.DateTimeFormat(localeProperties.value.language, {
     dateStyle: 'medium',
   }).format(date.value),
 )

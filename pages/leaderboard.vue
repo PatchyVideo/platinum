@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { computed, ref, watch } from 'vue'
+
 definePageMeta({
   key: route => JSON.stringify([
     route.query.activeTab,
@@ -41,10 +43,10 @@ function updatePage(para: 'activeTab' | 'date', value: any): void {
   <div>
     <div class="w-full flex space-x-2 text-purple-600">
       <div class="flex-grow flex bg-purple-100 p-1.5 rounded-md">
-        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab || activeTabClass" @click="updatePage('activeTab', 0)">
+        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab === 0 ? activeTabClass : ''" @click="updatePage('activeTab', 0)">
           <span class="hidden md:inline">标签贡献</span>排行榜
         </div>
-        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab && activeTabClass" @click="updatePage('activeTab', 1)">
+        <div class="px-4 md:px-6 py-0.5 md:py-2 rounded-md cursor-pointer" :class="activeTab === 1 ? activeTabClass : ''" @click="updatePage('activeTab', 1)">
           <span class="hidden md:inline">标签</span>编辑历史
         </div>
       </div>

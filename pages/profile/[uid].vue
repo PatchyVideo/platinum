@@ -66,7 +66,7 @@ useHead({
         />
 
         <div class="text-xs sm:text-sm text-gray-800 dark:text-gray-300">
-          <i18n-t keypath="user.profile.info.created-at">
+          <i18n-t keypath="user.profile.info.created-at" scope="global">
             <template #date>
               <DateLocaleDate :date="user.meta.createdAt" />
             </template>

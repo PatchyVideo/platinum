@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import type { Query, schema } from '@/composables/graphql'
 
 const { t } = useI18n()

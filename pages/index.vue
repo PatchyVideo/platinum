@@ -24,6 +24,7 @@ const ucompList = reactive<HomeCompData[]>([
     <i18n-t
       class="mx-4 my-3 p-2 rounded-lg text-center bg-purple-50 ring-2 ring-purple-300 dark:bg-gray-800 dark:ring-gray-600"
       keypath="home.home.intro.template"
+      scope="global"
       tag="div"
     >
       <template #medium>
@@ -51,7 +52,7 @@ const ucompList = reactive<HomeCompData[]>([
       <template #joinus>
         <a
           class="text-purple-800 dark:text-purple-300"
-          :href="locale === 'zh-Hans-CN' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
+          :href="locale === 'CHS' ? 'https://patchyvideo.wiki/zh/JoinUs' : 'https://patchyvideo.wiki/en/JoinUs'"
           target="_blank"
           rel="noopener noreferrer"
         >{{ t('home.home.intro.joinus') }}</a>

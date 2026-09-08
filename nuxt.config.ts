@@ -1,17 +1,10 @@
-import { fileURLToPath } from 'node:url'
 import process from 'node:process'
-import { Repository } from '@napi-rs/simple-git'
 import { transformerDirectives } from 'unocss'
 import { version } from './package.json'
 
 const buildTime = new Date()
 
-let commitHash = process.env.NUXT_ENV_VERCEL_GIT_COMMIT_SHA || '?'
-try {
-  const repo = new Repository(fileURLToPath(new URL('.', import.meta.url)))
-  commitHash = repo.head().target() || commitHash
-}
-catch (e) { }
+const commitHash = process.env.NUXT_ENV_VERCEL_GIT_COMMIT_SHA || '?'
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -92,14 +85,17 @@ export default defineNuxtConfig({
 
   i18n: {
     strategy: 'no_prefix',
-    langDir: 'locales',
+    langDir: '../locales',
     locales: [
-      { code: 'CHS', name: '简体中文', iso: 'zh-Hans', file: 'zh-Hans.yml' },
-      { code: 'ENG', name: 'English', iso: 'en-US', file: 'en-US.yml' },
-      { code: 'CHT', name: '粵語中文', iso: 'yue-Hant', file: 'yue-Hant.yml' },
+      { code: 'CHS', name: '简体中文', language: 'zh-Hans', file: 'zh-Hans.yml' },
+      { code: 'ENG', name: 'English', language: 'en-US', file: 'en-US.yml' },
+      { code: 'CHT', name: '粵語中文', language: 'yue-Hant', file: 'yue-Hant.yml' },
     ],
     defaultLocale: 'CHS',
-    vueI18n: './nuxt-i18n.ts',
+    vueI18n: '../nuxt-i18n.ts',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
   },
 
   vueuse: {
@@ -108,7 +104,6 @@ export default defineNuxtConfig({
 
   unocss: {
     preflight: true,
-    uno: true,
     typography: true,
     icons: {
       extraProperties: {

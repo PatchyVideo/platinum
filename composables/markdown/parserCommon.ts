@@ -1,5 +1,7 @@
 import type MarkdownIt from 'markdown-it'
-import tlds from 'tlds'
+import tldsRaw from 'tlds/index.json?raw'
+
+const tlds = JSON.parse(tldsRaw) as string[]
 
 export function linkifyAdditionPlugin(markdownIt: MarkdownIt) {
   function match(reg: RegExp, text: string): number {
