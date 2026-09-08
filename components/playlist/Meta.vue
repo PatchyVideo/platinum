@@ -2,7 +2,7 @@
 <script lang="ts" setup>
 import type { schema } from '@/composables/graphql'
 
-const props = defineProps<{
+defineProps<{
   pid: string
   title: string
   private: boolean

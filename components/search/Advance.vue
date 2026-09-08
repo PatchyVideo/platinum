@@ -221,14 +221,14 @@ function checkSubmitContent(): boolean {
   if (
     beforeAfterEqualDate1.value.value !== ''
     && (Number.isNaN(Number(year1.value))
-    || !Number.isSafeInteger(year1.value)
-    || Number(year1.value) <= 0
-    || Number.isNaN(Number(month1.value))
-    || !Number.isSafeInteger(month1.value)
-    || Number(month1.value) <= 0
-    || Number.isNaN(Number(day1.value))
-    || !Number.isSafeInteger(day1.value)
-    || Number(day1.value) <= 0)
+      || !Number.isSafeInteger(year1.value)
+      || Number(year1.value) <= 0
+      || Number.isNaN(Number(month1.value))
+      || !Number.isSafeInteger(month1.value)
+      || Number(month1.value) <= 0
+      || Number.isNaN(Number(day1.value))
+      || !Number.isSafeInteger(day1.value)
+      || Number(day1.value) <= 0)
   ) {
     Message({ message: '请检查原视频发布时间项1的填写是否正确！', type: MessageType.warning })
     return false
@@ -236,14 +236,14 @@ function checkSubmitContent(): boolean {
   if (
     beforeAfterEqualDate2.value.value !== ''
     && (Number.isNaN(Number(year2.value))
-    || !Number.isSafeInteger(year2.value)
-    || Number(year2.value) <= 0
-    || Number.isNaN(Number(month2.value))
-    || !Number.isSafeInteger(month2.value)
-    || Number(month2.value) <= 0
-    || Number.isNaN(Number(day2.value))
-    || !Number.isSafeInteger(day2.value)
-    || Number(day2.value) <= 0)
+      || !Number.isSafeInteger(year2.value)
+      || Number(year2.value) <= 0
+      || Number.isNaN(Number(month2.value))
+      || !Number.isSafeInteger(month2.value)
+      || Number(month2.value) <= 0
+      || Number.isNaN(Number(day2.value))
+      || !Number.isSafeInteger(day2.value)
+      || Number(day2.value) <= 0)
   ) {
     Message({ message: '请检查原视频发布时间项2的填写是否正确！', type: MessageType.warning })
     return false

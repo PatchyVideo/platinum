@@ -20,7 +20,7 @@ const originalImgs = ref<Set<string>>(new Set())
 const currImg = ref(0)
 const currUrl = computed(() => [...imgs.value][currImg.value])
 const currOriginalUrl = computed(() => [...originalImgs.value][currImg.value])
-function onError(e: Event) {
+function onError() {
   if (currImg.value < imgs.value.size - 1)
     currImg.value++
 }

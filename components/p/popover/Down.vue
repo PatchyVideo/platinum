@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { GlobalComponents } from 'vue'
 
-const props = defineProps<{
+defineProps<{
   buttonClass?: string
   panelClass?: string
 }>()

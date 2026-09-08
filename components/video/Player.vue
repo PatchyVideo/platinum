@@ -5,24 +5,24 @@ const props = defineProps<{
   item: schema.VideoItem
 }>()
 
-const regBili = /(https:\/\/|http:\/\/)www.bilibili.com\/video\/av(\S+)\?p=(\S+)/
-const regNico = /(https:\/\/|http:\/\/)www.nicovideo.jp\/watch\/sm(\S+)/
-const regU2b = /(https:\/\/|http:\/\/)www.youtube.com\/watch\?v=(\S+)/
-const regAcf = /(https:\/\/|http:\/\/)www.acfun.cn\/v\/ac(\S+)/
+const regBili = /https?:\/\/www\.bilibili\.com\/video\/av(\S+)\?p=(\S+)/
+const regNico = /https?:\/\/www\.nicovideo\.jp\/watch\/sm(\S+)/
+const regU2b = /https?:\/\/www\.youtube\.com\/watch\?v=(\S+)/
+const regAcf = /https?:\/\/www\.acfun\.cn\/v\/ac(\S+)/
 const iframeUrl = ref('')
 function getIframeUrl(url: string) {
   const bili = regBili.exec(url)
   if (bili)
-    return `//player.bilibili.com/player.html?aid=${bili[2]}&page=${bili[3]}`
+    return `//player.bilibili.com/player.html?aid=${bili[1]}&page=${bili[2]}`
   const nico = regNico.exec(url)
   if (nico)
-    return `//embed.nicovideo.jp/watch/sm${nico[2]}`
+    return `//embed.nicovideo.jp/watch/sm${nico[1]}`
   const u2b = regU2b.exec(url)
   if (u2b)
-    return `https://www.youtube.com/embed/${u2b[2]}`
+    return `https://www.youtube.com/embed/${u2b[1]}`
   const acf = regAcf.exec(url)
   if (acf)
-    return `https://www.acfun.cn/player/ac${acf[2]}`
+    return `https://www.acfun.cn/player/ac${acf[1]}`
 }
 function loadIframe(url: string) {
   const iurl = getIframeUrl(url)

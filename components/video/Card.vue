@@ -21,8 +21,6 @@ const emit = defineEmits<{
   (event: 'refresh'): void
 }>()
 
-const { t } = useI18n()
-
 const biliVideoPart = computed(() => {
   const url = new URL(props.video.item.url)
   const searchParams = new URLSearchParams(url.search)

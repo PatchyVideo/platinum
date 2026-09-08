@@ -2,7 +2,6 @@
 <script lang="ts" setup>
 import type { Query } from '@/composables/graphql'
 
-const { t } = useI18n()
 const route = useRoute()
 
 useHead({

@@ -27,7 +27,7 @@ const additionalConstraintUrl = ref(
   String(pickFirstQuery(route.query.a) || ''),
 )
 
-const { data, refresh } = await useAsyncQuery<Query>(
+const { data } = await useAsyncQuery<Query>(
   gql`
     query ($offset: Int!, $limit: Int!, $query: String!, $order: String!) {
       listPlaylist(

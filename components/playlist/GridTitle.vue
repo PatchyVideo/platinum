@@ -3,7 +3,7 @@
 import type { RouteLocationRaw } from 'vue-router'
 import type { schema } from '@/composables/graphql'
 
-const props = defineProps<{
+defineProps<{
   private?: boolean
   name?: string
   titleLinksTo: RouteLocationRaw

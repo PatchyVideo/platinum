@@ -5,7 +5,7 @@ import type { Query } from '@/composables/graphql'
 const props = withDefaults(defineProps<{
   query?: string
   placeholder?: string
-  searchFunction?: Function
+  searchFunction?: () => void
   showPoplarTags?: boolean
 }>(), {
   query: '',
@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   showPoplarTags: true,
 })
 const emit = defineEmits<{
-  (event: 'update:query', value: boolean): void
+  (event: 'update:query', value: string): void
 }>()
 const query = useVModel(props, 'query', emit)
 if (query.value)

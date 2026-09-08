@@ -40,7 +40,6 @@ async function plugin(schema, _, config) {
               if (isNonNullType(type))
                 type = type.ofType
 
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
               return code`${field.name}: ${toImp(scalarTypePolicies[type.name])},`
             })} } },`

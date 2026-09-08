@@ -1,3 +1,5 @@
+import process from 'node:process'
+
 const themes = ['system', 'light', 'dark'] as const
 export type Themes = typeof themes[number]
 

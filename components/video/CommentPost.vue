@@ -75,7 +75,7 @@ function onInput() {
   if (!inputEl.value)
     return
   // TODO read html
-  inputContent.value = inputEl.value.innerText
+  inputContent.value = inputEl.value.textContent
 }
 // Reset the comment input
 function onReset() {

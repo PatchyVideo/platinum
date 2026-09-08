@@ -2,7 +2,7 @@
 <script lang="ts" setup>
 import type { RouteLocationRaw } from 'vue-router'
 
-const props = defineProps<{
+defineProps<{
   titleLinksTo: RouteLocationRaw
   count: number
   cover: string

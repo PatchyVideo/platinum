@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const props = withDefaults(
+withDefaults(
   defineProps<{
     // colorType: 1 | 2 | 3
     colorType?: number

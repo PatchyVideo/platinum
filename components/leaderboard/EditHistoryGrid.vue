@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { schema } from '@/composables/graphql'
 
-const props = defineProps<{
+defineProps<{
   item: schema.RawTagHistoryItem
 }>()
 

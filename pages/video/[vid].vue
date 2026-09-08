@@ -114,8 +114,8 @@ const { data } = await useAsyncQuery<Query>(
   },
 )
 const getVideo = computed(() => data.value!.getVideo)
-const listAdjacentVideos = computed(() => data.value!.listAdjacentVideos)
-const getPlaylist = computed(() => data.value!.getPlaylist)
+// const listAdjacentVideos = computed(() => data.value!.listAdjacentVideos)
+// const getPlaylist = computed(() => data.value!.getPlaylist)
 
 useHead({
   title: `${getVideo.value.item.title}`,

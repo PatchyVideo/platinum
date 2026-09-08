@@ -27,13 +27,13 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
   ) {
     additionalConstraintString
       += `date:${
-       additionalConstraintObject.date1.beforeAfterEqualDate1
-       }${additionalConstraintObject.date1.year1
-       }-${
-       additionalConstraintObject.date1.month1
-       }-${
-       additionalConstraintObject.date1.day1
-       } `
+        additionalConstraintObject.date1.beforeAfterEqualDate1
+      }${additionalConstraintObject.date1.year1
+      }-${
+        additionalConstraintObject.date1.month1
+      }-${
+        additionalConstraintObject.date1.day1
+      } `
   }
   if (
     additionalConstraintObject.date2?.beforeAfterEqualDate2
@@ -41,13 +41,13 @@ export function getAdditionalConstraintString(additionalConstraintUrl: string): 
   ) {
     additionalConstraintString
       += `date:${
-       additionalConstraintObject.date2.beforeAfterEqualDate2
-       }${additionalConstraintObject.date2.year2
-       }-${
-       additionalConstraintObject.date2.month2
-       }-${
-       additionalConstraintObject.date2.day2
-       } `
+        additionalConstraintObject.date2.beforeAfterEqualDate2
+      }${additionalConstraintObject.date2.year2
+      }-${
+        additionalConstraintObject.date2.month2
+      }-${
+        additionalConstraintObject.date2.day2
+      } `
   }
   if (additionalConstraintObject.tag.moreLessEqualTagNum && additionalConstraintObject.tag.moreLessEqualTagNum !== '') {
     additionalConstraintString

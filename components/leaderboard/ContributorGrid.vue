@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { schema } from '@/composables/graphql'
 
-const props = defineProps<{
+defineProps<{
   index: number
   item: schema.LeaderboardResultItem
 }>()
