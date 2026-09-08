@@ -1,5 +1,3 @@
-import process from 'node:process'
-
 const themes = ['system', 'light', 'dark'] as const
 export type Themes = typeof themes[number]
 
@@ -8,7 +6,7 @@ export const isDark = ref(false)
 
 export function applyTheme() {
   // Attention: only client has 'document' object
-  if (process.client) {
+  if (import.meta.client) {
     const storedPreference = useLocalStorage<Themes>('theme_preference', 'system', {
       listenToStorageChanges: true,
       serializer: {
