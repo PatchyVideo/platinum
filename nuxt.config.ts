@@ -55,6 +55,7 @@ export default defineNuxtConfig({
         { name: 'application-name', content: 'PatchyVideo' },
         { name: 'msapplication-TileColor', content: '#9f00a7' },
         { name: 'theme-color', content: '#ffffff' },
+        { name: 'mobile-web-app-capable', content: 'yes' },
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
         { name: 'referrer', content: 'never' },
       ],
